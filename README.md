@@ -1,3 +1,9 @@
+# 提交代码
+git pull --rebase origin main   
+git add .
+git commit -m "xxx"
+git push origin main
+
 # 1. 开始工作前
 cd CardMigrator-System
 conda activate cardmig
