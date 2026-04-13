@@ -1,3 +1,5 @@
+# 本项目使用LangGraph框架
+
 # 提交代码
 git pull --rebase origin main   
 git add .

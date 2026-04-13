@@ -1,0 +1,26 @@
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 在这里测试组件 -->
+        <weather-card
+            :city="'北京'"
+            :temperature="5"
+            :weather-desc="'晴'"
+            :humidity="50"
+            :wind-speed="5"
+        />
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            components: {
+                'weather-card': httpVueLoader('../../data/datasets/components/01_simple/weather/vue/weather.vue')
+            }
+        });
+    </script>
+</body>
+</html>
