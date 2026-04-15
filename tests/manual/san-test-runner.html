@@ -1,0 +1,110 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>San Component Test Runner</title>
+    <script src="https://unpkg.com/san@3.15.3/dist/san.dev.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        // 只需修改这里即可复用测试页
+        const TEST_CONFIG = {
+            componentPath: '../../data/datasets/components/01_simple/stock/san/stock.san',
+            componentTag: 'stock-card',
+            props: {
+                name: '贵州茅台',
+                code: '600519',
+                initialPrice: 1680.50
+            }
+        };
+
+        async function loadSanSfc(filePath) {
+            const source = await fetch(filePath).then(function (res) {
+                if (!res.ok) {
+                    throw new Error('加载失败: ' + filePath);
+                }
+                return res.text();
+            });
+
+            const templateMatch = source.match(/<template>([\s\S]*?)<\/template>/);
+            const scriptMatch = source.match(/<script>([\s\S]*?)<\/script>/);
+            const styleMatch = source.match(/<style(?:\s[^>]*)?>([\s\S]*?)<\/style>/);
+
+            if (!templateMatch || !scriptMatch) {
+                throw new Error('san 组件缺少 template 或 script: ' + filePath);
+            }
+
+            if (styleMatch) {
+                const styleEl = document.createElement('style');
+                styleEl.textContent = styleMatch[1].trim();
+                document.head.appendChild(styleEl);
+            }
+
+            const scriptCode = scriptMatch[1].trim();
+            const module = {exports: {}};
+            const exports = module.exports;
+
+            const localRequire = function (name) {
+                if (name === 'san') {
+                    return window.san;
+                }
+                throw new Error('仅支持 require("san")，当前: ' + name);
+            };
+
+            // 将 SFC template 注入导出的组件配置/组件类
+            const templateText = templateMatch[1].trim();
+            const wrappedScript = scriptCode;
+            const fn = new Function('module', 'exports', 'require', wrappedScript);
+            fn(module, exports, localRequire);
+
+            if (module.exports && typeof module.exports === 'function') {
+                module.exports.template = templateText;
+                if (module.exports.prototype) {
+                    module.exports.prototype.template = templateText;
+                }
+            } else if (module.exports && typeof module.exports === 'object') {
+                module.exports.template = templateText;
+            }
+
+            return module.exports;
+        }
+
+        function buildPropBindings(props) {
+            return Object.keys(props).map(function (key) {
+                return key + '="{{ props.' + key + ' }}"';
+            }).join(' ');
+        }
+
+        (async function () {
+            const TestedComponent = await loadSanSfc(TEST_CONFIG.componentPath);
+            const appTemplate = [
+                '<div>',
+                '    <!-- 在这里测试组件 -->',
+                '    <' + TEST_CONFIG.componentTag + ' ' + buildPropBindings(TEST_CONFIG.props) + ' />',
+                '</div>'
+            ].join('');
+
+            const App = san.defineComponent({
+                template: appTemplate,
+                components: {
+                    [TEST_CONFIG.componentTag]: TestedComponent
+                },
+                initData: function () {
+                    return {
+                        props: TEST_CONFIG.props
+                    };
+                }
+            });
+
+            new App().attach(document.getElementById('app'));
+        })().catch(function (err) {
+            console.error(err);
+            document.body.insertAdjacentHTML(
+                'beforeend',
+                '<pre style="color:#d00;padding:12px;border:1px solid #f3b4b4;">' + String(err) + '</pre>'
+            );
+        });
+    </script>
+</body>
+</html>
