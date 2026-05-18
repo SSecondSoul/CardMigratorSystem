@@ -6,18 +6,24 @@
 <body>
     <div id="app">
         <!-- 在这里测试组件 -->
-
-        <stock-card
-        name="贵州茅台"
-        code="600519"
-        :initial-price="1680.50"
-      />
+        <notification-card 
+            title="系统更新"
+            message="您的应用已成功更新到最新版本"
+            :time="Date.now() - 3600000"
+            icon="🎉"
+            @read="handleRead"
+        />
     </div>
     <script>
         new Vue({
             el: '#app',
             components: {
-                'stock-card': httpVueLoader('../../data/datasets/components/01_simple/stock/vue/stock.vue'),
+                'notification-card': httpVueLoader('../../data/datasets/components/01_simple/NotificationCard/vue/NotificationCard.vue'),
+            },
+            methods: {
+                handleRead(title) {
+                    console.log(`已读通知: ${title}`);
+                }
             }
         });
     </script>

@@ -1,0 +1,225 @@
+{
+  "weather-card": {
+    "notebook": "02-migration-experiments/01_weather-card_migration.ipynb",
+    "challenges": [
+      "Vue的:class对象语法转San的三元表达式",
+      "计算属性的依赖追踪差异"
+    ],
+    "solutions": [
+      "使用class=\"{{isHot ? 'hot' : ''}}\"",
+      "computed语法基本一致，注意依赖的data需要通过this.data.get()"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "passed",
+      "visual_test": "passed"
+    }
+  },
+  "stock-card": {
+    "notebook": "",
+    "challenges": [
+      "Vue的:class动态类名绑定需要改写为San的字符串模板拼接",
+      "data()中基于props初始化状态需要拆分为initData与inited生命周期",
+      "computed和方法内部对响应式数据的访问需要从this.xxx迁移为this.data.get()/set()"
+    ],
+    "solutions": [
+      "将:class=\"changeClass\"改为class=\"stock-change {{ changeClass }}\"",
+      "在initData中声明price、lastPrice和showUpdateTip，并在inited中用initialPrice完成初始化",
+      "将价格涨跌幅计算与刷新逻辑中的状态访问统一改为this.data.get()和this.data.set()"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "not_run",
+      "visual_test": "not_run"
+    }
+  },
+  "quote-card": {
+    "notebook": "",
+    "challenges": [
+      "Vue的@click事件绑定需要转换为San的on-click语法",
+      "props中的对象默认值与data()初始化状态需要迁移到San的dataTypes/initData组合中",
+      "随机切换名言时对quote、author、quotes的实例访问需要从this.xxx迁移为this.data.get()/set()"
+    ],
+    "solutions": [
+      "将@click=\"refreshQuote\"改为on-click=\"refreshQuote\"",
+      "在San中用dataTypes声明initialQuote，并在initData中初始化quote、author和quotes，必要时在inited里同步props",
+      "将getRandomQuote和refreshQuote中的状态读写统一改为this.data.get()与this.data.set()"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "not_run",
+      "visual_test": "not_run"
+    }
+  },
+  "step-card": {
+    "notebook": "",
+    "challenges": [
+      "Vue的@click事件绑定需要转换为San的on-click语法",
+      "data()中基于props初始化步数字段需要拆分为San的initData和inited初始化流程",
+      "步数自增逻辑需要从this.steps写法迁移为this.data.get()/set()的数据访问方式"
+    ],
+    "solutions": [
+      "将@click=\"addSteps\"改为on-click=\"addSteps\"",
+      "在initData中声明initialSteps和steps默认值，并在inited中把initialSteps同步到steps",
+      "将addSteps中的this.steps += 1000改为this.data.set('steps', this.data.get('steps') + 1000)"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "not_run",
+      "visual_test": "not_run"
+    }
+  },
+  "smart-dashboard": {
+    "notebook": "",
+    "challenges": [
+      "父组件同时包含v-for、v-if、:class、:style、子组件通信、watch、生命周期和异步刷新逻辑，迁移时需要整体改写为San的数据访问与事件体系",
+      "内联子组件MetricCard与SimulatedChart依赖动态样式、计算属性、SVG循环渲染和$emit事件，不能直接照搬Vue模板语法",
+      "mounted/beforeDestroy中的定时器、副作用日志记录以及async/await数据刷新流程需要映射到San生命周期并保证状态切换一致"
+    ],
+    "solutions": [
+      "将模板中的@click、:class、:style、v-for、v-if分别迁移为San的on-click、字符串类名拼接、style字符串绑定、s-for与s-if语法，并统一使用this.data.get()/set()访问状态",
+      "把MetricCard和SimulatedChart改写为San子组件，使用dataTypes/computed/messages或自定义事件完成父子通信，保留图表点选与指标点击行为",
+      "在San组件中用inited/attached/disposed管理初始主题、自动刷新定时器和异步数据拉取流程，确保日志、刷新状态和对外事件触发顺序与Vue版一致"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "not_run",
+      "visual_test": "not_run"
+    }
+  },
+  "analytics-dashboard": {
+    "notebook": "",
+    "challenges": [
+      "Vue复杂组件包含4个内联子组件、动态类名、表单双向绑定、SVG图表交互、watch、生命周期定时器和异步数据加载，需要完整映射到San组件体系",
+      "Vue模板中的PascalCase子组件标签、v-for索引、v-model、:class对象语法和$emit事件不能直接复用，需要改写为San的短横线组件名、s-for、value双向绑定、字符串类名和this.fire",
+      "San computed中不能按Vue methods习惯直接调用this.getX()/this.getY()，图表坐标归一化逻辑需要内联或改为可被San正确访问的数据计算"
+    ],
+    "solutions": [
+      "将StatCard、TrendChart、InsightList、ActivityTable改写为San子组件，并在父组件中注册为stat-card、trend-chart、insight-list、activity-table，避免浏览器小写化导致组件识别失败",
+      "将Vue的@click、v-for、v-if、v-model、:class、:style、mounted/beforeDestroy分别迁移为San的on-click、s-for、s-if、value={= =}、字符串类名/样式、attached/disposed，并统一使用this.data.get()/set()访问状态",
+      "将父子通信从$emit改为this.fire，保留统计卡片点击、图表点选、洞察点击、活动行点击、主题切换、刷新完成和错误事件的对外行为",
+      "将TrendChart坐标计算集中到normalizedData computed中生成index、x、y字段，避免San运行时报this.getX is not a function，同时保持折线、面积、hover提示和点选逻辑一致"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "manual_fix_in_progress",
+      "visual_test": "not_run"
+    }
+  },
+  "task-manager": {
+    "notebook": "",
+    "challenges": [
+      "TaskManager 是一个包含 5 个内联子组件的大型 Vue 组件，混合了列表筛选、模态框、设置面板、消息通知、拖拽排序、本地存储和定时同步逻辑，迁移时需要整体重构为 San 的数据与事件模型",
+      "Vue 版本中依赖 PascalCase 子组件标签、v-model、:class/:style、watch、deep watch、@dragstart/@drop、$emit 以及 mounted/beforeDestroy，这些能力在 San 中都需要用不同语法或生命周期重写",
+      "任务详情、任务表单和拖拽排序都依赖父子间对象传递与局部状态同步，若直接照搬 Vue 写法，容易出现详情不可达、表单不同步、拖拽索引错乱等问题"
+    ],
+    "solutions": [
+      "将 StatCard、TaskItem、TaskDetail、TaskForm、SettingsPanel 全部改写为 San 子组件，并在父组件中注册为 stat-card、task-item、task-detail、task-form、settings-panel，避免浏览器模板环境下组件名被小写化后无法识别",
+      "把 Vue 模板中的@click、v-if、v-for、v-model、:class、:style 分别迁移为 San 的 on-click、s-if、s-for、value={= =}、字符串类名拼接和 style 字符串绑定，同时将状态读写统一改为 this.data.get()/set()",
+      "将父子通信从 $emit 迁移为 this.fire，保留任务查看、编辑、删除、评论、设置变更、拖拽排序和通知提示等交互，并在 TaskDetail 中显式提供 update 事件触发入口",
+      "在 San 主组件中用 inited/attached/disposed 管理任务列表 watch、设置变更、本地存储、自动同步与通知定时器；同时补充 refreshSelectedTask，确保 tasks 更新后详情面板中的 selectedTask 始终与最新数据保持一致",
+      "将拖拽排序改写为 onDragStart + onDropOnTask + onDropToEnd + moveTask 组合逻辑，基于 filteredTasks 与原始 tasks 的索引映射完成重排，修复原 Vue 版拖拽目标位置识别不准确的问题"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "not_run",
+      "visual_test": "not_run"
+    }
+  },
+  "monitoring-dashboard": {
+    "notebook": "",
+    "challenges": [
+      "MonitoringDashboard 同时包含 7 个内联子组件、动态主题、SVG 实时图表、请求统计、告警日志、设置弹窗、通知提示以及多个定时器，迁移时需要完整映射到 San 的组件与生命周期模型",
+      "Vue 版本依赖 PascalCase 子组件标签、v-if、v-for、v-model、:class、:style、$emit、mounted/beforeDestroy 和浏览器模板解析行为，迁移到 San 时需要统一改写为 on-click、s-if、s-for、字符串类名/样式绑定和 this.fire",
+      "实时刷新、通知超时、设置持久化与图表坐标计算都依赖副作用与响应式更新，若直接照搬 Vue 写法，容易出现重复定时器、统计数据累加、表单布尔值不同步或模板插值错误"
+    ],
+    "solutions": [
+      "将 KPICard、RealTimeChart、RequestChart、AlertList、LogList、ServiceGrid、SettingsForm 改写为 San 子组件，并在父组件中注册为 kpi-card、real-time-chart、request-chart、alert-list、log-list、service-grid、settings-form，避免浏览器环境下组件名大小写兼容问题",
+      "把 Vue 模板中的@click、v-if、v-for、v-model、:class、:style 分别迁移为 San 的 on-click、s-if、s-for、value={= =}/checked={{ }}、字符串类名拼接和 style 字符串绑定，同时将状态访问统一改为 this.data.get()/set()",
+      "在 San 主组件中用 attached/disposed 管理自动刷新、时间更新、数据模拟和通知 timeout，并保留 loadSettings、exportReport、告警确认/解决、日志筛选、主题切换等交互逻辑",
+      "针对迁移中的运行问题，修复了 KPI 模板多余插值括号、设置面板 checkbox 布尔绑定、请求统计重复初始化以及图表数据归一化计算，保证模板可解析且刷新行为与 Vue 版一致"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "manual_fix_in_progress",
+      "visual_test": "not_run"
+    }
+  },
+  "todo-list": {
+    "notebook": "",
+    "challenges": [
+      "TodoList 虽然结构中等复杂，但同时包含内联子组件、筛选统计、localStorage 持久化、深度 watch 和添加表单，在浏览器直载的 http-vue-loader 环境下比普通 Vue 工程更容易出现模板兼容问题",
+      "Vue 模板里的 PascalCase 子组件、自闭合自定义标签、对象形式的 :class 动态类名，以及 v-model 在当前运行环境下都存在兼容性风险，容易导致子组件无法渲染或添加交互看起来没有反应",
+      "添加功能不仅依赖按钮点击本身，还依赖输入值同步、列表响应式更新以及当前筛选条件，若其中任一环节异常，就会表现成任务未添加或添加后不可见"
+    ],
+    "solutions": [
+      "将模板中的 TodoItem 改为短横线组件名 todo-item，并在 components 中显式注册为 'todo-item': TodoItem，同时把自闭合标签改为显式闭合，降低浏览器模板解析差异带来的子组件识别问题",
+      "将 TodoItem 内部的 :class 对象语法改写为 itemClass 计算属性返回字符串类名，并把内联 $emit 改为 handleToggle 与 handleDelete 方法转发，避免模板表达式在运行环境下编译不稳定",
+      "将添加区域从 v-model 改为 :value + @input/@change 显式同步，按钮补充 type='button'，并把 addTodo 中的列表更新改为 this.todos = this.todos.concat(...)，确保输入值与列表更新在当前环境下稳定生效",
+      "新增任务后主动把 currentFilter 切回 all，避免用户停留在 completed 等筛选条件下时误以为点击添加没有反应",
+      "在 San 版本中将 TodoItem 改写为独立子组件，使用 this.fire 传递 toggle/delete 事件，并将主题切换、筛选统计、添加/删除/清理、本地存储初始化与示例数据逻辑统一迁移为 this.data.get()/set()"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "manual_fix_in_progress",
+      "visual_test": "not_run"
+    }
+  },
+  "expense-tracker": {
+    "notebook": "",
+    "challenges": [
+      "ExpenseTracker 同时包含收支汇总、筛选栏、分类统计图、记录列表、本地存储和表单交互，迁移时需要把多组 computed 与副作用逻辑完整映射到 San 的数据模型中",
+      "Vue 版本依赖 v-if、v-for、v-model、:class、:style、mounted/watch 以及浏览器直载环境下的组件导出兼容性，迁移为 San 时需要统一改写为 s-if、s-for、value 绑定、字符串类名/样式和 this.data.get()/set()",
+      "本地存储中的记录数据可能包含非法 type、字符串金额或缺失字段，若不先做清洗，统计汇总、分类图宽度和日期排序都会出现异常"
+    ],
+    "solutions": [
+      "将 Vue 组件导出统一改为当前运行环境兼容的 module.exports，并在 San 版本中使用 san.defineComponent 组织整页逻辑",
+      "将总收入、总支出、结余、分类列表、分类支出统计、最大支出额、筛选结果等逻辑迁移为 San computed，模板中的@click、v-if、v-for、:class、:style 分别迁移为 on-click、s-if、s-for、字符串类名与 style 字符串绑定",
+      "在 San 版本中保留添加记录、筛选、清空、主题切换、本地存储读取和示例数据初始化，并将列表更新、筛选切换和表单状态读写统一改为 this.data.get()/set()",
+      "新增 normalizeRecords 逻辑，在 Vue 与 San 中都对本地存储记录做字段校验和规范化，过滤非法数据，保证收支汇总、分类统计和日期排序稳定可用"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "not_run",
+      "visual_test": "not_run"
+    }
+  },
+  "countdown-card": {
+    "notebook": "",
+    "challenges": [
+      "CountdownCard 包含基于 props 的目标时间、实时定时器刷新和重置交互，迁移时需要同时处理 San 生命周期中的定时器管理与 props 同步问题",
+      "Vue 版本中的 beforeDestroy、watch、computed 与 $emit 事件需要迁移为 San 的 disposed、watch、computed 和 this.fire，同时确保倒计时每秒刷新行为不变",
+      "原始实现把目标值截断到日期字符串，重置时在同一天内很可能生成相同目标日，导致点击重置后视觉上没有变化，迁移时需要规避这个交互陷阱"
+    ],
+    "solutions": [
+      "在 San 版本中使用 san.defineComponent + dataTypes 定义 title 和 targetDate，并在 initData 中初始化 currentTime、timer 和 internalTargetDate，将状态访问统一改为 this.data.get()/set()",
+      "将 mounted/beforeDestroy 迁移为 attached/disposed，并在 inited 中监听 targetDate，同步外部 props 到 internalTargetDate，保证外部传参与组件内部重置逻辑都能驱动倒计时更新",
+      "将重置逻辑改为基于当前时刻生成完整 ISO 时间戳并写入 internalTargetDate，而不是只保留 YYYY-MM-DD，确保点击重置后倒计时立即发生可见变化",
+      "将 Vue 中的 $emit('reset', newTarget) 改写为 this.fire('reset', newTarget)，保留向父组件通知新目标时间的能力"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "not_run",
+      "visual_test": "not_run"
+    }
+  },
+  "notification-card": {
+    "notebook": "",
+    "challenges": [
+      "NotificationCard 结构简单，但同时涉及点击已读状态、相对时间计算和视觉未读提示，迁移时需要在 San 中保留组件内部状态与外部事件通知的一致性",
+      "Vue 模板中的@click、v-if、:class 和 computed 时间格式化逻辑需要迁移为 San 的 on-click、s-if、字符串类名拼接与 computed，同时保证只在首次点击时触发已读事件",
+      "通知组件没有外部持久化已读状态，迁移时要明确 isRead 仅属于组件内部 UI 状态，避免把读写职责错误地放到 props 上"
+    ],
+    "solutions": [
+      "在 San 版本中使用 san.defineComponent + dataTypes 定义 title、message、time、icon，并在 initData 中初始化 isRead，统一使用 this.data.get()/set() 访问状态",
+      "将模板中的@click、v-if、:class 分别迁移为 on-click、s-if 和字符串类名拼接，保留未读蓝色图标、高亮红点和点击后变已读的视觉反馈",
+      "将相对时间展示逻辑迁移为 San computed，根据当前 time 计算刚刚、分钟前、小时前、天前等文本，保持与 Vue 版本一致",
+      "将 Vue 中的 $emit('read', this.title) 改写为 this.fire('read', this.data.get('title'))，仅在首次点击时触发事件，避免重复通知父组件"
+    ],
+    "validation": {
+      "structure_score": 1.0,
+      "functional_test": "not_run",
+      "visual_test": "not_run"
+    }
+  }
+}
