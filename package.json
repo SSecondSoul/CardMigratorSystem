@@ -1,0 +1,16 @@
+{
+  "name": "card-migrator-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Vue to San component migration tooling and datasets.",
+  "scripts": {
+    "extract:ssm": "python3 -m SSM.extractors.extract",
+    "check:ssm": "python3 -m py_compile SSM/extractors/*.py SSM/schema/*.py"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.27.7",
+    "@babel/traverse": "^7.27.7",
+    "@vue/compiler-dom": "^3.5.16",
+    "@vue/compiler-sfc": "^3.5.16"
+  }
+}

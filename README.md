@@ -9,7 +9,8 @@ git push origin main
 # 1. 开始工作前
 cd CardMigrator-System
 conda activate cardmig
-
+（手动把 conda 的路径加到最前面
+export PATH="/Users/baidu-yangrunsheng/miniforge3/envs/cardmig/bin:$PATH"）
 # 2. 启动 Jupyter 写笔记本
 jupyter notebook
 
