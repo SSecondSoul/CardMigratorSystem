@@ -11,11 +11,15 @@ SSM Schema v3 — 通用 Vue 组件结构抽取 Schema
 提取工具依赖：@vue/compiler-sfc（解析 SFC 与模板 AST）、@babel/parser（解析 script AST）。
 """
 
+from copy import deepcopy
+
 SSM_SCHEMA_VERSION = "3.0"
 
+SSM_SCHEMA_NAME = "San Source Model (Generic)"
+
 SSM_SCHEMA = {
-    "schema_version": "3.0",
-    "schema_name": "San Source Model (Generic)",
+    "schema_version": SSM_SCHEMA_VERSION,
+    "schema_name": SSM_SCHEMA_NAME,
 
     "metadata": {
         "description": "组件元信息，从文件系统与 SFC descriptor 中提取。",
@@ -700,26 +704,148 @@ SSM_SCHEMA = {
             "binding_graph 中 data/props/computed 到模板节点的可见绑定",
             "event_model 中每个 DOM 事件和自定义事件的触发时机与 payload",
             "style_model 中动态类名、动态样式、scoped CSS 和关键视觉状态",
-            "script.lifecycle_hooks 中的副作用初始化与清理逻辑",
+            "script.options.lifecycle_hooks 中的副作用初始化与清理逻辑",
             "script.options.data 中所有字段的默认值和外部初始化来源"
         ],
         "san_syntax_requirements": [
+            "输出完整的 .san 单文件组件，包含 <template>、<script>、<style> 三个代码块；若无样式也保留空 style 或显式说明无样式",
+            "脚本块显式引入 san：const san = require('san')，并使用 module.exports = san.defineComponent(...) 导出组件",
+            "props 使用 san.DataTypes 声明，与 script.options.props 一一对应；优先输出 DataTypes.number / string / bool / array / object",
             "组件定义使用 san.defineComponent",
-            "props 使用 dataTypes 声明，与 script.options.props 一一对应",
-            "data 使用 initData 返回默认值，与 script.options.data 一一对应",
+            "组件名来自 metadata.component_name，并显式输出 name 字段",
+            "data 使用 initData 返回默认值，与 script.options.data 一一对应；不要在 initData 中直接依赖复杂运行时读取",
+            "当 data 字段来源于 props 或外部初始化时，优先在 inited/attached 中用 this.data.set 完成同步",
             "模板中使用 s-if、s-for、on-event、value={= =}、checked={= =} 等 San 语法",
             "状态访问统一使用 this.data.get() / this.data.set()",
-            "子组件标签使用 migration_hints 中生成的短横线命名",
+            "优先将 methods 直接定义在组件对象顶层，避免保留 Vue 风格的 methods: {} 包裹",
+            "子组件标签使用短横线命名",
             "子组件在 components 中显式注册",
+            "样式块需尽量完整输出，优先复用 styles/style_model 中已有 class 与 css_rules 信息",
             "定时器、timeout、外部监听等副作用在 attached/disposed 中管理"
         ],
         "quality_checks": [
             "template.component_refs 中每个子组件都在 script.components 或 san_registration 中有定义",
-            "binding_graph.edges 中每条 template 依赖都能在 script.options.props/data/computed 中找到来源",
-            "event_model.dom_events 中每个 handler_name 都存在于 script.options.methods 或 lifecycle_hooks",
-            "event_model.custom_events 中每个 emit_points 都对应 script.methods 中的 $emit 调用",
-            "style_model.dynamic_class_bindings 和 dynamic_style_bindings 的 dependencies 都存在于 binding_graph.nodes",
+            "binding_graph.edges 中每条 template 依赖都能在 script.options 中找到来源",
+            "event_model.dom_events 中每个 handler_name 都存在于 script.options.methods",
+            "event_model.custom_events 中每个 emit_points 都对应 method 中的 $emit 调用",
+            "style_model.dynamic_class_bindings 的 dependencies 都存在于 binding_graph.nodes",
             "script.options.watch 中的 deep watcher 在 migration_hints 中被标记并给出替代策略"
         ]
     }
 }
+
+
+def build_ssm_metadata(
+    *,
+    component_name: str,
+    source_file: str,
+    has_template: bool,
+    has_script: bool,
+    has_style: bool,
+    style_scoped: bool,
+    style_lang: str | None,
+) -> dict:
+    return {
+        "component_name": component_name,
+        "source_file": source_file,
+        "source_framework": SSM_SCHEMA["metadata"]["fields"]["source_framework"]["value"],
+        "target_framework": SSM_SCHEMA["metadata"]["fields"]["target_framework"]["value"],
+        "sfc_blocks": {
+            "has_template": has_template,
+            "has_script": has_script,
+            "has_style": has_style,
+            "style_scoped": style_scoped,
+            "style_lang": style_lang,
+        },
+    }
+
+
+def build_san_generation_contract() -> dict:
+    return deepcopy(SSM_SCHEMA["san_generation_contract"])
+
+
+def build_binding_graph(*, nodes: list | None = None, edges: list | None = None, data_fields_usage: list | None = None) -> dict:
+    return {
+        "nodes": list(nodes or []),
+        "edges": list(edges or []),
+        "data_fields_usage": list(data_fields_usage or []),
+    }
+
+
+def build_event_model(*, dom_events: list | None = None, custom_events: list | None = None) -> dict:
+    return {
+        "dom_events": list(dom_events or []),
+        "custom_events": list(custom_events or []),
+    }
+
+
+def build_style_model(
+    *,
+    scoped: bool,
+    static_classes: list | None = None,
+    dynamic_class_bindings: list | None = None,
+    dynamic_style_bindings: list | None = None,
+    css_rules_summary: list | None = None,
+    layout_features_inferred: list | None = None,
+) -> dict:
+    return {
+        "scoped": scoped,
+        "static_classes": list(static_classes or []),
+        "dynamic_class_bindings": list(dynamic_class_bindings or []),
+        "dynamic_style_bindings": list(dynamic_style_bindings or []),
+        "css_rules_summary": list(css_rules_summary or []),
+        "layout_features_inferred": list(layout_features_inferred or []),
+    }
+
+
+def build_sub_components(items: list | None = None) -> list:
+    return list(items or [])
+
+
+def build_migration_pattern(
+    *,
+    pattern_id: str,
+    pattern_name: str,
+    detected_by: str,
+    san_strategy: str,
+    risk_level: str,
+    affected_nodes: list | None = None,
+) -> dict:
+    return {
+        "pattern_id": pattern_id,
+        "pattern_name": pattern_name,
+        "detected_by": detected_by,
+        "affected_nodes": list(affected_nodes or []),
+        "san_strategy": san_strategy,
+        "risk_level": risk_level,
+    }
+
+
+def build_data_access_conversion_plan_item(*, read_plan: str, write_plan: str | None, init_plan: str | None) -> dict:
+    return {
+        "read_plan": read_plan,
+        "write_plan": write_plan,
+        "init_plan": init_plan,
+    }
+
+
+def build_migration_hints(*, detected_patterns: list | None = None, data_access_conversion_plan: dict | None = None) -> dict:
+    return {
+        "detected_patterns": list(detected_patterns or []),
+        "data_access_conversion_plan": dict(data_access_conversion_plan or {}),
+    }
+
+
+def build_ssm_shell() -> dict:
+    shell = deepcopy(SSM_SCHEMA)
+    shell["metadata"] = {}
+    shell["template"] = {}
+    shell["script"] = {}
+    shell["styles"] = {}
+    shell["binding_graph"] = {}
+    shell["event_model"] = {}
+    shell["style_model"] = {}
+    shell["sub_components"] = []
+    shell["migration_hints"] = {}
+    shell["san_generation_contract"] = {}
+    return shell

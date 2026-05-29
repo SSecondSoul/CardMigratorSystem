@@ -137,6 +137,99 @@ Python 侧 parser 入口。
 - 决定 template/script 是走 AST 结果还是 fallback 结果
 - 调用 relation builder 做跨块分析
 - 组装完整 SSM
+- 通过 `schema_module` 选择当前使用的 schema 版本
+
+### `SSM/schema/__init__.py`
+
+schema 版本统一入口。
+
+职责：
+
+- 维护 schema 版本到模块路径的映射
+- 提供默认 schema 版本
+- 提供 `resolve_schema_module()`，支持按版本名、模块路径或模块对象解析 schema
+
+---
+
+## Schema 版本切换
+
+当前默认 schema 版本定义在：
+
+- `SSM/schema/__init__.py`
+  - `DEFAULT_SCHEMA_VERSION = "v3"`
+
+版本映射定义在：
+
+- `SSM/schema/__init__.py`
+  - `SCHEMA_MODULES = { "v1": "SSM.schema.v1", "v2": "SSM.schema.v2", "v3": "SSM.schema.v3" }`
+
+### 1. 修改默认版本
+
+如果你后续新增了 `SSM/schema/v4.py`，并希望整个提取链路默认切到 `v4`，只需要：
+
+1. 在 `SCHEMA_MODULES` 中注册新版本
+2. 修改 `DEFAULT_SCHEMA_VERSION`
+
+示例：
+
+```python
+SCHEMA_MODULES = {
+    "v1": "SSM.schema.v1",
+    "v2": "SSM.schema.v2",
+    "v3": "SSM.schema.v3",
+    "v4": "SSM.schema.v4",
+}
+
+DEFAULT_SCHEMA_VERSION = "v4"
+```
+
+### 2. 单次指定 schema 版本
+
+在代码里可以直接切换：
+
+```python
+from SSM.extractors import SSMFactory
+
+factory = SSMFactory(schema_module="v3")
+ssm = factory.build_from_file("path/to/component.vue")
+```
+
+这里的 `schema_module` 支持三种形式：
+
+- 版本名：`"v3"`
+- 完整模块路径：`"SSM.schema.v3"`
+- 已导入的模块对象
+
+### 3. 使用顶层便捷函数切换版本
+
+```python
+from SSM.extractors import build_ssm
+
+ssm = build_ssm(
+    "path/to/component.vue",
+    is_path=True,
+    schema_module="v3",
+)
+```
+
+### 4. 当前默认行为
+
+如果你不显式传 `schema_module`：
+
+- `SSMFactory()` 会自动使用 `SSM/schema/__init__.py` 里的默认版本
+- `build_ssm(...)` 也会自动使用默认版本
+
+### 5. 注意事项
+
+目前 schema 切换入口已经统一，但要真正“可切换可运行”，目标 schema 模块需要提供与当前 extractor 约定一致的接口，至少包括：
+
+- `SSM_SCHEMA_VERSION`
+- `SSM_SCHEMA_NAME`
+- `build_ssm_metadata(...)`
+- `build_san_generation_contract()`
+- `build_ssm_shell()`
+
+否则 `SSM/extractors/factory.py` 会在初始化时校验失败。
 
 ---
 

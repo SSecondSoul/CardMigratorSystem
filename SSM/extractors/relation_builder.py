@@ -12,6 +12,16 @@ SSM Extractors — 跨块关联分析器
 import re
 from typing import Any, Optional, List, Dict
 
+from SSM.schema.v3 import (
+    build_binding_graph,
+    build_data_access_conversion_plan_item,
+    build_event_model,
+    build_migration_hints,
+    build_migration_pattern,
+    build_style_model,
+    build_sub_components,
+)
+
 
 def _kebab_case(name: str) -> str:
     return re.sub(r'(?<!^)(?=[A-Z])', '-', name).lower()
@@ -111,11 +121,11 @@ class RelationBuilder:
         data_usage = self._build_data_usage(
             dom_tree, script_options, edges)
 
-        return {
-            "nodes": nodes,
-            "edges": edges,
-            "data_fields_usage": data_usage,
-        }
+        return build_binding_graph(
+            nodes=nodes,
+            edges=edges,
+            data_fields_usage=data_usage,
+        )
 
     def _add_template_nodes(self, nodes: list, dom_tree: dict):
         """递归添加模板节点。"""
@@ -387,10 +397,10 @@ class RelationBuilder:
                     "state_impact": m.get("writes_inferred", []),
                 })
 
-        return {
-            "dom_events": dom_events,
-            "custom_events": custom_events,
-        }
+        return build_event_model(
+            dom_events=dom_events,
+            custom_events=custom_events,
+        )
 
     def _collect_dom_events(self, events: list, dom_node: dict,
                             script_options: dict):
@@ -449,14 +459,14 @@ class RelationBuilder:
                 "migration_keep": True,
             })
 
-        return {
-            "scoped": scoped,
-            "static_classes": static_classes,
-            "dynamic_class_bindings": dynamic_classes,
-            "dynamic_style_bindings": dynamic_styles,
-            "css_rules_summary": css_summary,
-            "layout_features_inferred": style_result.get("layout_features_inferred", []),
-        }
+        return build_style_model(
+            scoped=scoped,
+            static_classes=static_classes,
+            dynamic_class_bindings=dynamic_classes,
+            dynamic_style_bindings=dynamic_styles,
+            css_rules_summary=css_summary,
+            layout_features_inferred=style_result.get("layout_features_inferred", []),
+        )
 
     def _collect_static_classes(self, dom_node: dict) -> List[dict]:
         """递归收集静态类名。"""
@@ -588,7 +598,7 @@ class RelationBuilder:
                 "san_registration": f"components: {{ '{_kebab_case(source_name)}': {source_name} }}",
             })
 
-        return subs
+        return build_sub_components(subs)
 
     # ── Migration Hints ────────────────────────────────────
 
@@ -603,10 +613,10 @@ class RelationBuilder:
 
         data_access = self._build_data_access_plan(script_options)
 
-        return {
-            "detected_patterns": patterns,
-            "data_access_conversion_plan": data_access,
-        }
+        return build_migration_hints(
+            detected_patterns=patterns,
+            data_access_conversion_plan=data_access,
+        )
 
     def _detect_patterns(self, directives: list,
                          script_options: dict,
@@ -674,25 +684,26 @@ class RelationBuilder:
         patterns = []
         for pname, cond, note, risk in template_patterns + script_patterns:
             if cond:
-                patterns.append({
-                    "pattern_id": pname,
-                    "pattern_name": pname,
-                    "detected_by": "AST 特征自动检测",
-                    "note": note,
-                    "risk_level": risk,
-                })
+                patterns.append(build_migration_pattern(
+                    pattern_id=pname,
+                    pattern_name=pname,
+                    detected_by="AST 特征自动检测",
+                    san_strategy=note,
+                    risk_level=risk,
+                ))
 
         # 组件标签 PascalCase 检测
         comp_refs = template_result.get("component_refs", [])
         pascal_refs = [r for r in comp_refs if r.get("source_tag", "")[0].isupper()]
         if pascal_refs:
-            patterns.append({
-                "pattern_id": "pascal_component_tag",
-                "pattern_name": "pascal_component_tag",
-                "detected_by": f"模板中存在 PascalCase 组件标签: {[r['source_tag'] for r in pascal_refs]}",
-                "note": "PascalCase 组件标签需改为短横线命名并在 components 中注册",
-                "risk_level": "high",
-            })
+            patterns.append(build_migration_pattern(
+                pattern_id="pascal_component_tag",
+                pattern_name="pascal_component_tag",
+                detected_by=f"模板中存在 PascalCase 组件标签: {[r['source_tag'] for r in pascal_refs]}",
+                san_strategy="PascalCase 组件标签需改为短横线命名并在 components 中注册",
+                risk_level="high",
+                affected_nodes=[r.get("node_id", "") for r in pascal_refs],
+            ))
 
         # SVG 检测
         svg_in_template = any(
@@ -700,13 +711,13 @@ class RelationBuilder:
             for d in self._collect_all_nodes(template_result.get("dom_tree", {}))
         )
         if svg_in_template:
-            patterns.append({
-                "pattern_id": "svg_drawing",
-                "pattern_name": "svg_drawing",
-                "detected_by": "模板中存在 SVG 元素",
-                "note": "SVG 标签和属性绑定需保留，动态属性改为 San 属性绑定",
-                "risk_level": "medium",
-            })
+            patterns.append(build_migration_pattern(
+                pattern_id="svg_drawing",
+                pattern_name="svg_drawing",
+                detected_by="模板中存在 SVG 元素",
+                san_strategy="SVG 标签和属性绑定需保留，动态属性改为 San 属性绑定",
+                risk_level="medium",
+            ))
 
         return patterns
 
@@ -728,11 +739,11 @@ class RelationBuilder:
             write = f"this.data.set('{fname}', value)" if df.get("value_type_inferred") not in ("function",) else None
             init = f"initData 中声明 {fname}，默认值 {df.get('default_value_summary', 'null')}"
 
-            plan[fname] = {
-                "read_plan": read,
-                "write_plan": write,
-                "init_plan": init,
-            }
+            plan[fname] = build_data_access_conversion_plan_item(
+                read_plan=read,
+                write_plan=write,
+                init_plan=init,
+            )
 
         return plan
 
