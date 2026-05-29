@@ -1,12 +1,12 @@
 <template>
-    <div class="step-card" on-click="addSteps">
-        <div class="steps-display">
-            <span class="steps-value">{{steps}}</span>
-            <span class="steps-unit">步</span>
-        </div>
-        <div class="steps-label">今日步数</div>
-        <div class="hint">点击卡片 +1000 步</div>
+<div class="step-card" on-click="addSteps">
+    <div class="steps-display">
+        <span class="steps-value">{{steps}}</span>
+        <span class="steps-unit">步</span>
     </div>
+    <div class="steps-label">今日步数</div>
+    <div class="hint">点击卡片 +1000 步</div>
+</div>
 </template>
 
 <script>
@@ -34,7 +34,7 @@ module.exports = san.defineComponent({
     },
 
     addSteps() {
-        const current = this.data.get('steps') || 0;
+        const current = this.data.get('steps');
         this.data.set('steps', current + 1000);
     }
 });

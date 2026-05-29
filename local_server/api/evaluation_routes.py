@@ -78,13 +78,20 @@ def _save_generated_code(payload: dict[str, Any], source_name: str, ssm: dict[st
         source_name,
         ssm.get("metadata", {}).get("component_name", "generated_component"),
     )
-    output_path = Path(requested_path) if requested_path else default_path
+
+    if requested_path:
+        output_path = Path(requested_path)
+        if output_path.name == default_path.name and output_path != default_path:
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_text(code, encoding="utf-8")
+            if default_path.exists():
+                default_path.unlink()
+            return str(output_path)
+    else:
+        output_path = default_path
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(code, encoding="utf-8")
-
-    if requested_path and default_path != output_path and default_path.exists():
-        default_path.unlink()
-
     return str(output_path)
 
 
