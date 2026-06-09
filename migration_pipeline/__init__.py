@@ -11,6 +11,21 @@ from migration_pipeline.orchestrator import (
     MigrationPipelineState,
 )
 from migration_pipeline.stages.generate import GenerateStage, GenerateStageInput, GenerateStageResult, generate_san
+from migration_pipeline.stages.validate import (
+    ValidateStage,
+    ValidateStageInput,
+    ValidateStageResult,
+    ValidationCheck,
+    ValidationIssue,
+    validate_san,
+)
+from migration_pipeline.stages.visual_eval import (
+    VisualEvalIssue,
+    VisualEvalStage,
+    VisualEvalStageInput,
+    VisualEvalStageResult,
+    visual_eval,
+)
 
 __all__ = [
     "BaseGenerationClient",
@@ -25,4 +40,15 @@ __all__ = [
     "GenerateStageInput",
     "GenerateStageResult",
     "generate_san",
+    "ValidateStage",
+    "ValidateStageInput",
+    "ValidateStageResult",
+    "ValidationCheck",
+    "ValidationIssue",
+    "validate_san",
+    "VisualEvalIssue",
+    "VisualEvalStage",
+    "VisualEvalStageInput",
+    "VisualEvalStageResult",
+    "visual_eval",
 ]

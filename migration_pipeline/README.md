@@ -58,16 +58,31 @@ python3 migration_pipeline/run_generate_stage.py \
   - `run_from_state()` 是未来接 LangGraph 节点时最直接的入口。
 
 - `migration_pipeline/stages/validate.py`
-  - 预留给校验阶段。
-  - 未来可用于语法校验、结构校验、规则校验等。
+  - 当前已实现的代码级校验阶段。
+  - 负责检查生成的 San 单文件组件结构、San 必要脚本格式、San script 可执行性、Vue 语法残留、San 状态读写规则，以及与 SSM 中组件名、props、data、事件处理函数的基础一致性。
+  - 不负责渲染快照、DOM tree 对比或视觉差异；这些职责交给 `visual_eval.py`。
+  - `run_from_state()` 可直接接收 generate 阶段输出，作为未来 LangGraph 的 validate 节点入口。
 
 - `migration_pipeline/stages/visual_eval.py`
-  - 预留给视觉评估阶段。
-  - 未来可用于截图、像素差异、页面比对等工作流。
+  - 当前已实现的渲染评估阶段。
+  - 负责调用 `vue_render.py` 和 `san_render.py`，分别生成 Vue/San 的 `html_snapshot` 与 `dom_snapshot.tree`。
+  - 后续 DOM 树编辑距离、截图、像素差异、页面比对都应在这个阶段继续扩展。
 
 - `migration_pipeline/stages/repair.py`
   - 预留给修复阶段。
   - 未来可根据校验或评估结果触发二次修复生成。
+
+- `migration_pipeline/utils/san_compile.py`
+  - 提供 San script 可执行性校验工具。
+  - 通过 Python 调用 Node，在沙箱中执行 `.san` 的 `<script>` 块，检查基础语法、`require('san')`、`san.defineComponent(...)` 和组件导出结构。
+
+- `migration_pipeline/utils/vue_render.py`
+  - 提供 Vue 组件渲染快照工具。
+  - 执行 Vue Options API 样本，合并 props、data、computed 后渲染 template 插值，输出统一格式的 `html_snapshot` 与 `dom_snapshot.tree`。
+
+- `migration_pipeline/utils/san_render.py`
+  - 提供 San 组件渲染快照工具。
+  - 通过 Python 调用 Node，执行 `.san` 的 `<script>`，合并 `initData`、props 和 `inited` 后渲染 template 插值，输出 `html_snapshot` 与 `dom_snapshot.tree`，为后续 DOM 对比和视觉评估打基础。
 
 - `migration_pipeline/utils/ast_compare.py`
   - 预留给 AST 级别比对能力。
