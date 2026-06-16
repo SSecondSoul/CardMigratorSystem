@@ -64,9 +64,10 @@ python3 migration_pipeline/run_generate_stage.py \
   - `run_from_state()` 可直接接收 generate 阶段输出，作为未来 LangGraph 的 validate 节点入口。
 
 - `migration_pipeline/stages/visual_eval.py`
-  - 当前已实现的渲染评估阶段。
+  - 当前已实现的渲染与结构评估阶段。
   - 负责调用 `vue_render.py` 和 `san_render.py`，分别生成 Vue/San 的 `html_snapshot` 与 `dom_snapshot.tree`。
-  - 后续 DOM 树编辑距离、截图、像素差异、页面比对都应在这个阶段继续扩展。
+  - 负责调用 `dom_compare.py`，输出 `tree_edit_distance`、`structure_similarity`、`tag_sequence_similarity`、`text_similarity` 以及节点差异报告。
+  - 后续截图、像素差异、页面比对都应在这个阶段继续扩展。
 
 - `migration_pipeline/stages/repair.py`
   - 预留给修复阶段。
@@ -84,9 +85,13 @@ python3 migration_pipeline/run_generate_stage.py \
   - 提供 San 组件渲染快照工具。
   - 通过 Python 调用 Node，执行 `.san` 的 `<script>`，合并 `initData`、props 和 `inited` 后渲染 template 插值，输出 `html_snapshot` 与 `dom_snapshot.tree`，为后续 DOM 对比和视觉评估打基础。
 
+- `migration_pipeline/utils/dom_compare.py`
+  - 提供 Vue/San DOM tree 对比能力。
+  - 基于 `dom_snapshot.tree` 计算轻量树编辑距离、结构相似度、标签序列相似度、文本相似度，并输出缺失、新增、变化节点。
+
 - `migration_pipeline/utils/ast_compare.py`
   - 预留给 AST 级别比对能力。
-  - 未来可用于模板结构或脚本结构相似度分析。
+  - 未来可用于源码级模板结构或脚本结构相似度分析。
 
 - `migration_pipeline/utils/image_diff.py`
   - 预留给图像差异比对能力。

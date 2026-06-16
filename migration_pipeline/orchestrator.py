@@ -36,6 +36,11 @@ class MigrationPipelineState:
     visual_eval_summary: str = ""
     vue_render_result: dict[str, Any] | None = None
     san_render_result: dict[str, Any] | None = None
+    dom_compare_result: dict[str, Any] | None = None
+    tree_edit_distance: float = 0.0
+    structure_similarity: float = 0.0
+    tag_sequence_similarity: float = 0.0
+    text_similarity: float = 0.0
     visual_eval_result: dict[str, Any] | None = None
 
 
