@@ -11,6 +11,7 @@ from migration_pipeline.orchestrator import (
     MigrationPipelineState,
 )
 from migration_pipeline.stages.generate import GenerateStage, GenerateStageInput, GenerateStageResult, generate_san
+from migration_pipeline.stages.repair import RepairStage, RepairStageInput, RepairStageResult, repair_san
 from migration_pipeline.stages.validate import (
     ValidateStage,
     ValidateStageInput,
@@ -40,6 +41,10 @@ __all__ = [
     "GenerateStageInput",
     "GenerateStageResult",
     "generate_san",
+    "RepairStage",
+    "RepairStageInput",
+    "RepairStageResult",
+    "repair_san",
     "ValidateStage",
     "ValidateStageInput",
     "ValidateStageResult",

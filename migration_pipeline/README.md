@@ -70,8 +70,9 @@ python3 migration_pipeline/run_generate_stage.py \
   - 后续截图、像素差异、页面比对都应在这个阶段继续扩展。
 
 - `migration_pipeline/stages/repair.py`
-  - 预留给修复阶段。
-  - 未来可根据校验或评估结果触发二次修复生成。
+  - 当前已实现的修复阶段。
+  - 负责消费 `validate` 和 `visual_eval` 的错误/差异报告，构造修复 prompt，调用 generation client 生成修复后的 San，并保存到修复输出路径。
+  - `run_from_state()` 可直接接收 generate/validate/visual_eval 后的 state，作为未来 LangGraph 的 repair 节点入口。
 
 - `migration_pipeline/utils/san_compile.py`
   - 提供 San script 可执行性校验工具。
@@ -88,6 +89,10 @@ python3 migration_pipeline/run_generate_stage.py \
 - `migration_pipeline/utils/dom_compare.py`
   - 提供 Vue/San DOM tree 对比能力。
   - 基于 `dom_snapshot.tree` 计算轻量树编辑距离、结构相似度、标签序列相似度、文本相似度，并输出缺失、新增、变化节点。
+
+- `migration_pipeline/utils/repair_prompt.py`
+  - 提供修复 prompt 构造能力。
+  - 负责压缩 validate/visual_eval 报告、整理 DOM 差异，并生成供大模型修复 San 的提示词，避免 `repair.py` 承担过多 prompt 拼装逻辑。
 
 - `migration_pipeline/utils/ast_compare.py`
   - 预留给 AST 级别比对能力。

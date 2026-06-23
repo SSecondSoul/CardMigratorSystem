@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from migration_pipeline.stages.generate import GenerateStage, GenerateStageInput, GenerateStageResult
+from migration_pipeline.stages.repair import RepairStage
 from migration_pipeline.stages.validate import ValidateStage
 from migration_pipeline.stages.visual_eval import VisualEvalStage
 
@@ -42,6 +43,16 @@ class MigrationPipelineState:
     tag_sequence_similarity: float = 0.0
     text_similarity: float = 0.0
     visual_eval_result: dict[str, Any] | None = None
+    repaired_code: str = ""
+    repaired_file_path: str = ""
+    repair_prompt: str = ""
+    repair_attempt: int = 0
+    repair_provider: str = ""
+    repair_model: str = ""
+    repair_usage: dict[str, Any] = field(default_factory=dict)
+    repair_raw_response: dict[str, Any] = field(default_factory=dict)
+    repair_summary: str = ""
+    repair_result: dict[str, Any] | None = None
 
 
 @dataclass
@@ -50,6 +61,7 @@ class MigrationPipelineResult:
     state: dict[str, Any]
     validate: dict[str, Any] | None = None
     visual_eval: dict[str, Any] | None = None
+    repair: dict[str, Any] | None = None
 
 
 class MigrationPipelineOrchestrator:
@@ -58,10 +70,12 @@ class MigrationPipelineOrchestrator:
         generate_stage: GenerateStage | None = None,
         validate_stage: ValidateStage | None = None,
         visual_eval_stage: VisualEvalStage | None = None,
+        repair_stage: RepairStage | None = None,
     ):
         self.generate_stage = generate_stage or GenerateStage()
         self.validate_stage = validate_stage or ValidateStage()
         self.visual_eval_stage = visual_eval_stage or VisualEvalStage()
+        self.repair_stage = repair_stage or RepairStage()
 
     def run_generate_only(self, stage_input: GenerateStageInput) -> MigrationPipelineResult:
         generate_result = self.generate_stage.run(stage_input)
@@ -95,6 +109,21 @@ class MigrationPipelineOrchestrator:
             state=state,
         )
 
+    def run_generate_validate_visual_eval_and_repair(self, stage_input: GenerateStageInput) -> MigrationPipelineResult:
+        generate_result = self.generate_stage.run(stage_input)
+        state = generate_result.to_state_update()
+        state.update(self.validate_stage.run_from_state(state))
+        state.update(self.visual_eval_stage.run_from_state(state))
+        repair_update = self.repair_stage.run_from_state(state)
+        state.update(repair_update)
+        return MigrationPipelineResult(
+            generate=generate_result,
+            validate=state["validate_result"],
+            visual_eval=state["visual_eval_result"],
+            repair=state["repair_result"],
+            state=state,
+        )
+
     def run_generate_node(self, state: dict[str, Any]) -> dict[str, Any]:
         return self.generate_stage.run_from_state(state)
 
@@ -103,3 +132,6 @@ class MigrationPipelineOrchestrator:
 
     def run_visual_eval_node(self, state: dict[str, Any]) -> dict[str, Any]:
         return self.visual_eval_stage.run_from_state(state)
+
+    def run_repair_node(self, state: dict[str, Any]) -> dict[str, Any]:
+        return self.repair_stage.run_from_state(state)
