@@ -3,7 +3,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
-from migration_pipeline.generation_client import GenerationRequest, GenerationResult, create_generation_client
+from migration_pipeline.repair_client import RepairRequest, RepairResult, create_repair_client
 from migration_pipeline.utils.repair_prompt import RepairPromptInput, build_repair_prompt
 
 
@@ -53,9 +53,9 @@ class RepairStageResult:
     repair_summary: str = ""
 
     @classmethod
-    def from_generation_result(
+    def from_repair_result(
         cls,
-        result: GenerationResult,
+        result: RepairResult,
         repair_prompt: str,
         repair_attempt: int,
     ) -> "RepairStageResult":
@@ -90,8 +90,8 @@ class RepairStageResult:
 
 
 class RepairStage:
-    def __init__(self, generation_client=None):
-        self.generation_client = generation_client or create_generation_client()
+    def __init__(self, repair_client=None):
+        self.repair_client = repair_client or create_repair_client()
 
     def run(self, stage_input: RepairStageInput) -> RepairStageResult:
         current_code = stage_input.resolve_current_code()
@@ -106,21 +106,23 @@ class RepairStage:
             dom_compare_result=stage_input.dom_compare_result,
             extra_instruction=stage_input.repair_instruction,
         ))
-        request_data = GenerationRequest(
+        request_data = RepairRequest(
             ssm=stage_input.ssm,
+            repair_prompt=repair_prompt,
             source_file=stage_input.source_file,
-            instruction=repair_prompt,
+            current_code=current_code,
             output_file_path=stage_input.resolve_output_file_path(),
+            repair_report=self._build_repair_report(stage_input),
             metadata={
                 **stage_input.metadata,
                 "stage": "repair",
                 "repair_attempt": stage_input.repair_attempt,
             },
         )
-        result = self.generation_client.generate(request_data)
+        result = self.repair_client.repair(request_data)
         result.code = self._strip_code_fences(result.code)
         self._ensure_repaired_file(result.saved_file_path, result.code)
-        return RepairStageResult.from_generation_result(
+        return RepairStageResult.from_repair_result(
             result=result,
             repair_prompt=repair_prompt,
             repair_attempt=stage_input.repair_attempt,
@@ -146,6 +148,15 @@ class RepairStage:
             metadata=state.get("repair_metadata", {}),
         )
         return self.run(stage_input).to_state_update()
+
+    def _build_repair_report(self, stage_input: RepairStageInput) -> dict[str, Any]:
+        return {
+            "validation_errors": stage_input.validation_errors,
+            "validation_warnings": stage_input.validation_warnings,
+            "visual_eval_errors": stage_input.visual_eval_errors,
+            "visual_eval_warnings": stage_input.visual_eval_warnings,
+            "dom_compare_result": stage_input.dom_compare_result or {},
+        }
 
     def _strip_code_fences(self, code: str) -> str:
         text = (code or "").strip()

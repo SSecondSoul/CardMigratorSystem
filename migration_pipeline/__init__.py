@@ -5,6 +5,7 @@ from migration_pipeline.generation_client import (
     HTTPGenerationClient,
     create_generation_client,
 )
+from migration_pipeline.repair_client import BaseRepairClient, HTTPRepairClient, RepairRequest, RepairResult, create_repair_client
 from migration_pipeline.orchestrator import (
     MigrationPipelineOrchestrator,
     MigrationPipelineResult,
@@ -34,6 +35,11 @@ __all__ = [
     "GenerationResult",
     "HTTPGenerationClient",
     "create_generation_client",
+    "BaseRepairClient",
+    "HTTPRepairClient",
+    "RepairRequest",
+    "RepairResult",
+    "create_repair_client",
     "MigrationPipelineOrchestrator",
     "MigrationPipelineResult",
     "MigrationPipelineState",

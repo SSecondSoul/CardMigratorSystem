@@ -95,7 +95,7 @@
 - 接收 `visual_eval` 阶段输出的 `visual_eval_errors`、`visual_eval_warnings`、`dom_compare_result`
 - 将错误报告、DOM 差异报告、当前 San 代码和 SSM 组合成修复 prompt
 - 将 prompt 构造逻辑拆到 `migration_pipeline/utils/repair_prompt.py`，避免 `repair.py` 过重
-- 调用 generation client 生成修复后的 San
+- 通过 `migration_pipeline/repair_client.py` 调用 repair 专用接口生成修复后的 San
 - 保存修复后的 San 文件，默认输出为原文件名加 `_repaired`
 - 输出 `repaired_code`、`repaired_file_path`、`repair_prompt`、`repair_summary`、模型信息和 usage
 - 提供 `run_from_state()`，方便未来作为 LangGraph repair 节点
@@ -104,7 +104,6 @@
 
 根据开题报告要求，`repair` 阶段后续需要：
 
-- 接入真实 repair 专用接口，避免复用 generate 接口时 prompt 语义不够清晰
 - 支持修复后自动重新执行 validate / visual_eval
 - 支持多轮修复与最大修复次数控制
 - 根据不同错误类型选择不同修复策略
@@ -141,7 +140,6 @@
 
 1. 支持 repair 后自动重新执行 validate / visual_eval，形成一次修复闭环
 2. 为 repair 增加最大修复次数和失败退出条件
-3. 接入真实 repair 专用接口或调整 local_server 支持 repair prompt
-4. 继续补充 validate 的子组件、slot、dynamic style 等复杂语义校验
-5. 升级 `visual_eval.py` 到真实浏览器渲染
-6. 将 orchestrator 升级为 LangGraph `StateGraph`
+3. 继续补充 validate 的子组件、slot、dynamic style 等复杂语义校验
+4. 升级 `visual_eval.py` 到真实浏览器渲染
+5. 将 orchestrator 升级为 LangGraph `StateGraph`

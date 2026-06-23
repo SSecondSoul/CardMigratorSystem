@@ -39,11 +39,15 @@ python3 migration_pipeline/run_generate_stage.py \
   - 目前主要包含 `MIGRATION_GENERATION_API_URL` 和 `MIGRATION_GENERATION_TIMEOUT`。
 
 - `migration_pipeline/generation_client.py`
-  - 封装 pipeline 调用统一大模型生成接口的 HTTP client。
-  - `GenerationRequest` 定义请求结构，`GenerationResult` 定义响应结构。
-  - `HTTPGenerationClient` 负责向 `/api/evaluation/generate` 发送请求。
+  - 封装 migration pipeline 访问生成服务的 HTTP client。
+  - 目前提供 `GenerationRequest`、`GenerationResult`、`HTTPGenerationClient`，对上游 stage 隐藏 HTTP 细节。
+
+- `migration_pipeline/repair_client.py`
+  - 封装 migration pipeline 访问修复服务的 HTTP client。
+  - 目前提供 `RepairRequest`、`RepairResult`、`HTTPRepairClient`，默认请求 `/api/evaluation/repair`，避免 repair 阶段复用 generate 接口。
 
 - `migration_pipeline/orchestrator.py`
+
   - 放置当前的编排入口和状态结构。
   - `MigrationPipelineState` 是未来 LangGraph state 的过渡定义。
   - `MigrationPipelineOrchestrator` 目前提供 `run_generate_only()` 和 `run_generate_node()` 两个入口。

@@ -9,6 +9,11 @@ class MigrationPipelineSettings:
         "http://127.0.0.1:8787/api/evaluation/generate",
     )
     generation_timeout: int = int(os.getenv("MIGRATION_GENERATION_TIMEOUT", "300"))
+    repair_api_url: str = os.getenv(
+        "MIGRATION_REPAIR_API_URL",
+        "http://127.0.0.1:8787/api/evaluation/repair",
+    )
+    repair_timeout: int = int(os.getenv("MIGRATION_REPAIR_TIMEOUT", "300"))
 
 
 settings = MigrationPipelineSettings()

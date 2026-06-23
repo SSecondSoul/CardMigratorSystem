@@ -35,6 +35,26 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
     )
 
 
+def _build_repair_prompt(payload: dict[str, Any]) -> str:
+    repair_prompt = (payload.get("repair_prompt") or payload.get("instruction") or "").strip()
+    if repair_prompt:
+        return repair_prompt
+
+    ssm = payload.get("ssm") or {}
+    current_code = (payload.get("current_code") or payload.get("generated_code") or "").strip()
+    repair_report = payload.get("repair_report") or {}
+    return (
+        "你是一个 Vue 到 San 迁移修复专家。请根据 SSM、当前 San 代码和修复报告，输出修复后的完整 .san 文件。\n"
+        "要求：只输出代码，不要输出解释或 Markdown 代码围栏。\n\n"
+        "--- SSM ---\n"
+        f"{json.dumps(ssm, ensure_ascii=False, indent=2)}\n\n"
+        "--- Current San Code ---\n"
+        f"{current_code}\n\n"
+        "--- Repair Report ---\n"
+        f"{json.dumps(repair_report, ensure_ascii=False, indent=2)}"
+    )
+
+
 def _load_vue_source(payload: dict[str, Any]) -> tuple[str, str]:
     vue_source = (payload.get("vue_source") or "").strip()
     vue_file_path = (payload.get("vue_file_path") or "").strip()
@@ -162,3 +182,43 @@ def run_generation():
         )
     except Exception as exc:
         return jsonify({"ok": False, "error": str(exc)}), 400
+
+
+@evaluation_bp.post("/repair")
+def run_repair():
+    payload = request.get_json(silent=True) or {}
+    try:
+        source_name = payload.get("source_file") or "inline.vue"
+        ssm = payload.get("ssm") or {}
+        if not ssm:
+            raise ValueError("Repair request requires ssm")
+
+        prompt = _build_repair_prompt(payload)
+        if not prompt:
+            raise ValueError("Repair request requires repair_prompt or repair report inputs")
+
+        client = create_llm_client()
+        llm_result = client.generate(
+            prompt=prompt,
+            system_prompt="You are an expert Vue-to-San repair agent. Output only repaired San component code.",
+        )
+        repaired_code = _strip_code_fences(llm_result["content"])
+        saved_file_path = _save_generated_code(payload, source_name, ssm, repaired_code)
+
+        return jsonify(
+            {
+                "ok": True,
+                "source_file": source_name,
+                "ssm": ssm,
+                "repair": {
+                    "provider": llm_result["provider"],
+                    "model": llm_result["model"],
+                    "code": repaired_code,
+                    "saved_file_path": saved_file_path,
+                    "usage": llm_result.get("usage", {}),
+                },
+            }
+        )
+    except Exception as exc:
+        return jsonify({"ok": False, "error": str(exc)}), 400
+
