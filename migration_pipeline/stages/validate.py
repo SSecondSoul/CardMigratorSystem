@@ -86,7 +86,7 @@ class ValidateStage:
         (r"\bprops\s*:", "vue_props_option", "San 中 props 应迁移为 dataTypes。"),
         (r"\bmethods\s*:\s*\{", "vue_methods_wrapper", "San 方法应直接定义在组件对象顶层。"),
         (r"\bthis\.\$emit\s*\(", "vue_emit", "Vue 的 this.$emit 应迁移为 San 的 this.fire。"),
-        (r"\bthis\.(?!data\b|fire\b|watch\b|ref\b|nextTick\b)[A-Za-z_$][\w$]*", "vue_this_state", "San 状态读写应使用 this.data.get()/this.data.set()。"),
+        (r"\bthis\.(?!data\b|fire\b|watch\b|ref\b|nextTick\b)([A-Za-z_$][\w$]*)\b(?!\s*\()", "vue_this_state", "San 状态读写应使用 this.data.get()/this.data.set()。"),
     )
 
     def run(self, stage_input: ValidateStageInput) -> ValidateStageResult:
@@ -103,6 +103,11 @@ class ValidateStage:
         self._validate_style_rules(blocks.get("style", ""), issues, checks, strict=stage_input.strict)
         san_compile_result = self._validate_san_compile(code, stage_input, issues, checks)
         self._validate_ssm_consistency(code, blocks, ssm, issues, checks)
+        self._validate_datatypes_accuracy(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_lifecycle_mapping(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_event_binding_completeness(blocks.get("template", ""), ssm, issues, checks)
+        self._validate_computed_watch_migration(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_migration_hints_landing(blocks, ssm, issues, checks)
 
         errors = [issue.to_dict() for issue in issues if issue.severity == "error"]
         warnings = [issue.to_dict() for issue in issues if issue.severity == "warning"]
@@ -379,6 +384,205 @@ class ValidateStage:
                     suggestion="补齐事件处理方法，并在模板中通过 on-event 绑定。",
                 ))
 
+    def _validate_datatypes_accuracy(
+        self,
+        script: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        expected = self._expected_prop_types(ssm)
+        if not expected:
+            return
+
+        mismatches = []
+        for prop_name, vue_type in expected.items():
+            san_type = self._vue_type_to_datatype(vue_type)
+            if not san_type:
+                continue
+            pattern = rf"\b{re.escape(prop_name)}\s*:\s*DataTypes\.{re.escape(san_type)}\b"
+            if not re.search(pattern, script):
+                mismatches.append(f"{prop_name}: {vue_type} -> DataTypes.{san_type}")
+
+        passed = not mismatches
+        checks.append(ValidationCheck(
+            name="datatypes_accuracy",
+            passed=passed,
+            message="San dataTypes 类型与 SSM props 类型一致",
+        ))
+        if mismatches:
+            issues.append(ValidationIssue(
+                code="datatypes_type_mismatch",
+                message=f"以下 props 的 dataTypes 类型不匹配：{', '.join(mismatches)}。",
+                location="script",
+                suggestion="根据 Vue props type 修正 San dataTypes 类型声明。",
+            ))
+
+    def _validate_lifecycle_mapping(
+        self,
+        script: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        hooks = self._expected_lifecycle_hooks(ssm)
+        if not hooks:
+            return
+
+        expected_mapping = {
+            "mounted": "attached",
+            "beforeDestroy": "disposed",
+            "destroyed": "disposed",
+        }
+        missing = []
+        for source_hook in hooks:
+            target_hook = expected_mapping.get(source_hook)
+            if target_hook and not re.search(rf"\b{target_hook}\s*\(", script):
+                missing.append(f"{source_hook} -> {target_hook}")
+
+        passed = not missing
+        checks.append(ValidationCheck(
+            name="lifecycle_mapping_consistency",
+            passed=passed,
+            message="Vue 生命周期已映射到 San 生命周期",
+            severity="warning",
+        ))
+        if missing:
+            issues.append(ValidationIssue(
+                code="missing_lifecycle_mapping",
+                message=f"以下生命周期映射未在 San 中找到：{', '.join(missing)}。",
+                severity="warning",
+                location="script",
+                suggestion="将 Vue 生命周期迁移到对应 San 生命周期，或确认逻辑已合并到其他生命周期中。",
+            ))
+
+    def _validate_event_binding_completeness(
+        self,
+        template: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        handlers = self._expected_event_handlers(ssm)
+        if not handlers:
+            return
+
+        missing = [handler for handler in handlers if not re.search(rf"\bon-[\w:-]+\s*=\s*['\"]{re.escape(handler)}(?:\([^'\"]*\))?['\"]", template)]
+        passed = not missing
+        checks.append(ValidationCheck(
+            name="event_binding_completeness",
+            passed=passed,
+            message="SSM 事件 handler 已在 San template 中绑定",
+        ))
+        if missing:
+            issues.append(ValidationIssue(
+                code="missing_event_bindings",
+                message=f"以下事件 handler 在 San template 中没有找到对应 on-* 绑定：{', '.join(missing)}。",
+                location="template",
+                suggestion="在模板中补充对应 on-click/on-input 等 San 事件绑定。",
+            ))
+
+    def _validate_computed_watch_migration(
+        self,
+        script: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        computed_names = self._expected_computed_names(ssm)
+        watch_expressions = self._expected_watch_expressions(ssm)
+
+        if computed_names:
+            missing_computed = [name for name in computed_names if not re.search(rf"\b{name}\s*\(", script)]
+            checks.append(ValidationCheck(
+                name="computed_migration_consistency",
+                passed=not missing_computed,
+                message="SSM computed 字段已在 San 中保留",
+                severity="warning",
+            ))
+            if missing_computed:
+                issues.append(ValidationIssue(
+                    code="missing_computed_migration",
+                    message=f"以下 computed 未在 San script 中找到明显对应：{', '.join(missing_computed)}。",
+                    severity="warning",
+                    location="script",
+                    suggestion="将 Vue computed 迁移为 San computed 方法，或确认其逻辑已等价内联。",
+                ))
+
+        if watch_expressions:
+            missing_watch = [expr for expr in watch_expressions if not re.search(rf"this\.watch\s*\(\s*['\"]{re.escape(expr)}['\"]", script)]
+            checks.append(ValidationCheck(
+                name="watch_migration_consistency",
+                passed=not missing_watch,
+                message="SSM watch 字段已在 San 中保留",
+                severity="warning",
+            ))
+            if missing_watch:
+                issues.append(ValidationIssue(
+                    code="missing_watch_migration",
+                    message=f"以下 watch 未在 San script 中找到 this.watch 对应：{', '.join(missing_watch)}。",
+                    severity="warning",
+                    location="script",
+                    suggestion="在 San inited/attached 中使用 this.watch 迁移 Vue watch，或确认逻辑已等价处理。",
+                ))
+
+    def _validate_migration_hints_landing(
+        self,
+        blocks: dict[str, str],
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        hints = ssm.get("migration_hints", {}) if isinstance(ssm, dict) else {}
+        if not isinstance(hints, dict) or not hints:
+            return
+
+        script = blocks.get("script", "")
+        template = blocks.get("template", "")
+        missing = []
+
+        patterns = hints.get("detected_patterns", [])
+        pattern_text = " ".join(
+            str(pattern.get(key, ""))
+            for pattern in patterns if isinstance(pattern, dict)
+            for key in ("pattern_id", "pattern_name", "san_strategy")
+        )
+
+        if ("event" in pattern_text.lower() or "事件" in pattern_text) and self._expected_event_handlers(ssm):
+            if not re.search(r"\bon-[\w:-]+\s*=", template):
+                missing.append("事件绑定策略未落地：San template 中没有 on-* 绑定")
+
+        if ("emit" in pattern_text.lower() or "$emit" in pattern_text or "自定义事件" in pattern_text) and self._expected_emits(ssm):
+            if "this.fire" not in script:
+                missing.append("自定义事件策略未落地：San script 中没有 this.fire")
+
+        data_plan = hints.get("data_access_conversion_plan", {})
+        if isinstance(data_plan, dict) and data_plan:
+            for field_name, plan in data_plan.items():
+                if not isinstance(plan, dict):
+                    continue
+                read_plan = plan.get("read_plan")
+                write_plan = plan.get("write_plan")
+                if read_plan and re.search(rf"\b{re.escape(field_name)}\b", script) and f"this.data.get('{field_name}')" not in script:
+                    missing.append(f"data 读取策略未落地：{field_name} 应使用 this.data.get('{field_name}')")
+                if write_plan and re.search(rf"\b{re.escape(field_name)}\b", script) and f"this.data.set('{field_name}'" not in script:
+                    missing.append(f"data 写入策略未落地：{field_name} 应使用 this.data.set('{field_name}', ...)")
+
+        checks.append(ValidationCheck(
+            name="migration_hints_landing",
+            passed=not missing,
+            message="SSM migration_hints 已在 San 中落地",
+            severity="warning",
+        ))
+        if missing:
+            issues.append(ValidationIssue(
+                code="migration_hints_not_landed",
+                message="；".join(missing),
+                severity="warning",
+                location="script/template",
+                suggestion="根据 SSM migration_hints 补齐 San 迁移策略。",
+            ))
+
     def _extract_blocks(self, code: str) -> dict[str, str]:
         return {
             "template": self._extract_block(code, "template"),
@@ -446,6 +650,83 @@ class ValidateStage:
             if isinstance(value, str) and value:
                 handlers.add(value)
         return sorted(handlers)
+
+    def _expected_prop_types(self, ssm: dict[str, Any]) -> dict[str, str]:
+        options = self._script_options(ssm)
+        props = options.get("props", [])
+        result = {}
+        for prop in props if isinstance(props, list) else []:
+            if isinstance(prop, dict):
+                name = prop.get("name") or prop.get("prop_name")
+                prop_type = prop.get("type") or prop.get("value_type_inferred")
+                if name and prop_type:
+                    result[name] = str(prop_type)
+        return result
+
+    def _expected_lifecycle_hooks(self, ssm: dict[str, Any]) -> list[str]:
+        options = self._script_options(ssm)
+        hooks = options.get("lifecycle_hooks", [])
+        result = []
+        for hook in hooks if isinstance(hooks, list) else []:
+            if isinstance(hook, dict):
+                name = hook.get("name") or hook.get("hook")
+                if name:
+                    result.append(name)
+            elif isinstance(hook, str):
+                result.append(hook)
+        return result
+
+    def _expected_computed_names(self, ssm: dict[str, Any]) -> list[str]:
+        options = self._script_options(ssm)
+        computed = options.get("computed", [])
+        result = []
+        for item in computed if isinstance(computed, list) else []:
+            if isinstance(item, dict):
+                name = item.get("name")
+                if name:
+                    result.append(name)
+            elif isinstance(item, str):
+                result.append(item)
+        return result
+
+    def _expected_watch_expressions(self, ssm: dict[str, Any]) -> list[str]:
+        options = self._script_options(ssm)
+        watch = options.get("watch", [])
+        result = []
+        for item in watch if isinstance(watch, list) else []:
+            if isinstance(item, dict):
+                expr = item.get("expression") or item.get("name")
+                if expr:
+                    result.append(expr)
+            elif isinstance(item, str):
+                result.append(item)
+        return result
+
+    def _expected_emits(self, ssm: dict[str, Any]) -> list[str]:
+        options = self._script_options(ssm)
+        emits = options.get("emits", [])
+        result = []
+        for item in emits if isinstance(emits, list) else []:
+            if isinstance(item, dict):
+                name = item.get("event") or item.get("event_name") or item.get("name")
+                if name:
+                    result.append(name)
+            elif isinstance(item, str):
+                result.append(item)
+        return result
+
+    def _vue_type_to_datatype(self, vue_type: str) -> str:
+        normalized = str(vue_type).strip().lower()
+        mapping = {
+            "string": "string",
+            "number": "number",
+            "boolean": "bool",
+            "bool": "bool",
+            "array": "array",
+            "object": "object",
+            "function": "func",
+        }
+        return mapping.get(normalized, "")
 
     def _script_options(self, ssm: dict[str, Any]) -> dict[str, Any]:
         script = ssm.get("script", {}) if isinstance(ssm, dict) else {}
