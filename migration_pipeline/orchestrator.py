@@ -53,6 +53,11 @@ class MigrationPipelineState:
     repair_raw_response: dict[str, Any] = field(default_factory=dict)
     repair_summary: str = ""
     repair_result: dict[str, Any] | None = None
+    initial_validate_result: dict[str, Any] | None = None
+    initial_visual_eval_result: dict[str, Any] | None = None
+    repaired_validate_result: dict[str, Any] | None = None
+    repaired_visual_eval_result: dict[str, Any] | None = None
+    final_passed: bool = False
 
 
 @dataclass
@@ -123,6 +128,53 @@ class MigrationPipelineOrchestrator:
             repair=state["repair_result"],
             state=state,
         )
+
+    def run_generate_validate_visual_eval_repair_and_recheck(self, stage_input: GenerateStageInput) -> MigrationPipelineResult:
+        generate_result = self.generate_stage.run(stage_input)
+        state = generate_result.to_state_update()
+
+        initial_validate_update = self.validate_stage.run_from_state(state)
+        state.update(initial_validate_update)
+        state["initial_validate_result"] = state["validate_result"]
+
+        initial_visual_update = self.visual_eval_stage.run_from_state(state)
+        state.update(initial_visual_update)
+        state["initial_visual_eval_result"] = state["visual_eval_result"]
+
+        if self._stage_passed(state):
+            state["repaired_validate_result"] = None
+            state["repaired_visual_eval_result"] = None
+            state["final_passed"] = True
+            return MigrationPipelineResult(
+                generate=generate_result,
+                validate=state["initial_validate_result"],
+                visual_eval=state["initial_visual_eval_result"],
+                repair=None,
+                state=state,
+            )
+
+        repair_update = self.repair_stage.run_from_state(state)
+        state.update(repair_update)
+
+        repaired_validate_update = self.validate_stage.run_from_state(state)
+        state.update(repaired_validate_update)
+        state["repaired_validate_result"] = state["validate_result"]
+
+        repaired_visual_update = self.visual_eval_stage.run_from_state(state)
+        state.update(repaired_visual_update)
+        state["repaired_visual_eval_result"] = state["visual_eval_result"]
+        state["final_passed"] = self._stage_passed(state)
+
+        return MigrationPipelineResult(
+            generate=generate_result,
+            validate=state["repaired_validate_result"],
+            visual_eval=state["repaired_visual_eval_result"],
+            repair=state["repair_result"],
+            state=state,
+        )
+
+    def _stage_passed(self, state: dict[str, Any]) -> bool:
+        return bool(state.get("validation_passed") and state.get("visual_eval_passed"))
 
     def run_generate_node(self, state: dict[str, Any]) -> dict[str, Any]:
         return self.generate_stage.run_from_state(state)

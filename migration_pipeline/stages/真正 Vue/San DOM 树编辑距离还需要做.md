@@ -119,8 +119,16 @@
 ### 已完成
 
 - 过渡编排层：`run_generate_only()`、`run_generate_and_validate()`、`run_generate_validate_and_visual_eval()`、`run_generate_validate_visual_eval_and_repair()`
+- 一次修复闭环：`run_generate_validate_visual_eval_repair_and_recheck()`
 - 节点方法：`run_generate_node()`、`run_validate_node()`、`run_visual_eval_node()`、`run_repair_node()`
 - `MigrationPipelineState` 包含 generate、validate、visual_eval、repair 状态字段
+- state 会保留初次和修复后的结果：
+  - `initial_validate_result`
+  - `initial_visual_eval_result`
+  - `repair_result`
+  - `repaired_validate_result`
+  - `repaired_visual_eval_result`
+  - `final_passed`
 
 ### 待完成
 
@@ -128,7 +136,7 @@
 
 - 定义 `StateGraph`
 - 注册节点与条件边
-- 实现 validate/visual_eval 失败后进入 repair 分支
+- 将当前一次修复闭环升级为 LangGraph 条件分支
 - 支持最大循环次数
 - 每轮状态记录与实验日志导出
 
@@ -138,8 +146,7 @@
 
 根据开题报告的“生成-校验-反馈-修复”闭环要求，建议优先顺序：
 
-1. 支持 repair 后自动重新执行 validate / visual_eval，形成一次修复闭环
-2. 为 repair 增加最大修复次数和失败退出条件
-3. 继续补充 validate 的子组件、slot、dynamic style 等复杂语义校验
-4. 升级 `visual_eval.py` 到真实浏览器渲染
-5. 将 orchestrator 升级为 LangGraph `StateGraph`
+1. 为 repair 增加最大修复次数和失败退出条件，形成多轮修复闭环
+2. 继续补充 validate 的子组件、slot、dynamic style 等复杂语义校验
+3. 升级 `visual_eval.py` 到真实浏览器渲染
+4. 将 orchestrator 升级为 LangGraph `StateGraph`

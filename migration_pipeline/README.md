@@ -50,7 +50,7 @@ python3 migration_pipeline/run_generate_stage.py \
 
   - 放置当前的编排入口和状态结构。
   - `MigrationPipelineState` 是未来 LangGraph state 的过渡定义。
-  - `MigrationPipelineOrchestrator` 目前提供 `run_generate_only()` 和 `run_generate_node()` 两个入口。
+  - `MigrationPipelineOrchestrator` 目前提供 generate、validate、visual_eval、repair 的节点入口，以及一次修复复检闭环 `run_generate_validate_visual_eval_repair_and_recheck()`。
 
 - `migration_pipeline/run_generate_stage.py`
   - 最小可用的终端脚本入口。
