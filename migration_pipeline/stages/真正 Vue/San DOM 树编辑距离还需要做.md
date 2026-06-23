@@ -68,7 +68,7 @@
 - 调用 `dom_compare.py` 进行 Vue/San DOM tree 对比
 - 输出 `tree_edit_distance`、`structure_similarity`、`tag_sequence_similarity`、`text_similarity`
 - 输出 `missing_nodes`、`extra_nodes`、`changed_nodes`
-- 根据阈值判断结构评估是否通过
+- 根据阈值判断结构评估是否通过，目前 `structure_similarity_threshold = 0.95`
 
 ### 待完成
 

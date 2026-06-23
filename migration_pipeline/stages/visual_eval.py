@@ -26,7 +26,7 @@ class VisualEvalStageInput:
     generated_file_path: str = ""
     source_file: str = ""
     render_props: dict[str, Any] = field(default_factory=dict)
-    structure_similarity_threshold: float = 0.85
+    structure_similarity_threshold: float = 0.95
     text_similarity_threshold: float = 0.8
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -141,7 +141,7 @@ class VisualEvalStage:
             generated_file_path=state.get("generated_file_path", state.get("saved_file_path", "")),
             source_file=state.get("source_file", ""),
             render_props=state.get("visual_eval_render_props", state.get("render_props", {})),
-            structure_similarity_threshold=state.get("structure_similarity_threshold", 0.85),
+            structure_similarity_threshold=state.get("structure_similarity_threshold", 0.95),
             text_similarity_threshold=state.get("text_similarity_threshold", 0.8),
             metadata=state.get("visual_eval_metadata", {}),
         )
