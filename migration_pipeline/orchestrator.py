@@ -1,3 +1,4 @@
+from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -57,7 +58,15 @@ class MigrationPipelineState:
     initial_visual_eval_result: dict[str, Any] | None = None
     repaired_validate_result: dict[str, Any] | None = None
     repaired_visual_eval_result: dict[str, Any] | None = None
+    repair_history: list[dict[str, Any]] = field(default_factory=list)
+    repair_rounds: int = 0
+    max_repair_rounds: int = 3
+    final_code: str = ""
+    final_file_path: str = ""
+    final_validate_result: dict[str, Any] | None = None
+    final_visual_eval_result: dict[str, Any] | None = None
     final_passed: bool = False
+    stop_reason: str = ""
 
 
 @dataclass
@@ -130,51 +139,90 @@ class MigrationPipelineOrchestrator:
         )
 
     def run_generate_validate_visual_eval_repair_and_recheck(self, stage_input: GenerateStageInput) -> MigrationPipelineResult:
+        return self.run_generate_validate_visual_eval_and_repair_loop(
+            stage_input=stage_input,
+            max_repair_rounds=1,
+        )
+
+    def run_generate_validate_visual_eval_and_repair_loop(
+        self,
+        stage_input: GenerateStageInput,
+        max_repair_rounds: int = 3,
+    ) -> MigrationPipelineResult:
         generate_result = self.generate_stage.run(stage_input)
         state = generate_result.to_state_update()
+        state["max_repair_rounds"] = max_repair_rounds
+        state["repair_history"] = []
+        state["repair_rounds"] = 0
 
-        initial_validate_update = self.validate_stage.run_from_state(state)
-        state.update(initial_validate_update)
+        validate_update = self.validate_stage.run_from_state(state)
+        state.update(validate_update)
         state["initial_validate_result"] = state["validate_result"]
 
-        initial_visual_update = self.visual_eval_stage.run_from_state(state)
-        state.update(initial_visual_update)
+        visual_update = self.visual_eval_stage.run_from_state(state)
+        state.update(visual_update)
         state["initial_visual_eval_result"] = state["visual_eval_result"]
 
-        if self._stage_passed(state):
-            state["repaired_validate_result"] = None
-            state["repaired_visual_eval_result"] = None
-            state["final_passed"] = True
-            return MigrationPipelineResult(
-                generate=generate_result,
-                validate=state["initial_validate_result"],
-                visual_eval=state["initial_visual_eval_result"],
-                repair=None,
-                state=state,
-            )
+        while self._should_continue_repair(state, max_repair_rounds):
+            repair_update = self.repair_stage.run_from_state(state)
+            state.update(repair_update)
+            state["repair_rounds"] = state.get("repair_attempt", 0)
 
-        repair_update = self.repair_stage.run_from_state(state)
-        state.update(repair_update)
+            validate_update = self.validate_stage.run_from_state(state)
+            state.update(validate_update)
+            state["repaired_validate_result"] = state["validate_result"]
 
-        repaired_validate_update = self.validate_stage.run_from_state(state)
-        state.update(repaired_validate_update)
-        state["repaired_validate_result"] = state["validate_result"]
+            visual_update = self.visual_eval_stage.run_from_state(state)
+            state.update(visual_update)
+            state["repaired_visual_eval_result"] = state["visual_eval_result"]
 
-        repaired_visual_update = self.visual_eval_stage.run_from_state(state)
-        state.update(repaired_visual_update)
-        state["repaired_visual_eval_result"] = state["visual_eval_result"]
-        state["final_passed"] = self._stage_passed(state)
+            state["repair_history"].append(self._build_repair_history_entry(state))
+
+        self._finalize_state(state, max_repair_rounds)
 
         return MigrationPipelineResult(
             generate=generate_result,
-            validate=state["repaired_validate_result"],
-            visual_eval=state["repaired_visual_eval_result"],
-            repair=state["repair_result"],
+            validate=state["final_validate_result"],
+            visual_eval=state["final_visual_eval_result"],
+            repair=state.get("repair_result"),
             state=state,
         )
 
     def _stage_passed(self, state: dict[str, Any]) -> bool:
         return bool(state.get("validation_passed") and state.get("visual_eval_passed"))
+
+    def _should_continue_repair(self, state: dict[str, Any], max_repair_rounds: int) -> bool:
+        return not self._stage_passed(state) and state.get("repair_attempt", 0) < max_repair_rounds
+
+    def _build_repair_history_entry(self, state: dict[str, Any]) -> dict[str, Any]:
+        return {
+            "repair_attempt": state.get("repair_attempt", 0),
+            "repair_result": deepcopy(state.get("repair_result")),
+            "validate_result": deepcopy(state.get("validate_result")),
+            "visual_eval_result": deepcopy(state.get("visual_eval_result")),
+            "validation_passed": state.get("validation_passed", False),
+            "visual_eval_passed": state.get("visual_eval_passed", False),
+            "tree_edit_distance": state.get("tree_edit_distance", 0.0),
+            "structure_similarity": state.get("structure_similarity", 0.0),
+            "tag_sequence_similarity": state.get("tag_sequence_similarity", 0.0),
+            "text_similarity": state.get("text_similarity", 0.0),
+            "passed": self._stage_passed(state),
+        }
+
+    def _finalize_state(self, state: dict[str, Any], max_repair_rounds: int) -> None:
+        final_passed = self._stage_passed(state)
+        state["final_passed"] = final_passed
+        state["final_code"] = state.get("generated_code", "")
+        state["final_file_path"] = state.get("generated_file_path", "")
+        state["final_validate_result"] = state.get("validate_result")
+        state["final_visual_eval_result"] = state.get("visual_eval_result")
+
+        if final_passed:
+            state["stop_reason"] = "passed"
+        elif state.get("repair_attempt", 0) >= max_repair_rounds:
+            state["stop_reason"] = "max_repair_rounds_reached"
+        else:
+            state["stop_reason"] = "repair_not_required"
 
     def run_generate_node(self, state: dict[str, Any]) -> dict[str, Any]:
         return self.generate_stage.run_from_state(state)
