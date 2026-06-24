@@ -28,6 +28,34 @@ python3 migration_pipeline/run_generate_stage.py \
   --output-file data/experiments/from_ssm.san
 ```
 
+## 多轮 repair 闭环运行示例
+
+先启动 `local_server`，再在项目根目录执行：
+
+```bash
+python3 migration_pipeline/run_pipeline.py \
+  --vue-file data/datasets/components/01_simple/step/vue/step.vue \
+  --output-file data/experiments/step.san \
+  --max-repair-rounds 3
+```
+
+运行后会输出最终 San 文件路径，并默认导出 repair 指标报告到：
+
+```text
+data/experiments/repair_reports/<source>_repair_history.json
+```
+
+如果已经有 SSM JSON，也可以直接执行：
+
+```bash
+python3 migration_pipeline/run_pipeline.py \
+  --ssm-file path/to/ssm.json \
+  --output-file data/experiments/from_ssm.san \
+  --report-file data/experiments/repair_reports/from_ssm_repair_history.json
+```
+
+报告中包含初次 validate/visual_eval 摘要、最终结果、`stop_reason`、`repair_rounds`，以及每轮 repair 后的结构相似度、树编辑距离和错误数量。
+
 ## 文件职责
 
 - `migration_pipeline/__init__.py`
@@ -55,6 +83,10 @@ python3 migration_pipeline/run_generate_stage.py \
 - `migration_pipeline/run_generate_stage.py`
   - 最小可用的终端脚本入口。
   - 支持从 Vue 文件先提取 SSM 再生成，也支持直接读取现成的 SSM JSON 进行生成。
+
+- `migration_pipeline/run_pipeline.py`
+  - 可重复运行的完整 pipeline 终端入口。
+  - 调用 generate、validate、visual_eval 和最多 3 轮 repair 闭环，并导出每轮 repair 指标报告。
 
 - `migration_pipeline/stages/generate.py`
   - 当前已实现的生成阶段。
