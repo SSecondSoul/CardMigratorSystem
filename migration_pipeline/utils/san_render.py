@@ -88,6 +88,8 @@ class SanRenderChecker:
                     check=False,
                     capture_output=True,
                     text=True,
+                    encoding="utf-8",
+                    errors="replace",
                     timeout=self.timeout,
                 )
             except subprocess.TimeoutExpired as exc:
@@ -106,6 +108,8 @@ class SanRenderChecker:
         return self._parse_result(completed.stdout, completed.stderr, completed.returncode)
 
     def _parse_result(self, stdout: str, stderr: str, return_code: int) -> SanRenderResult:
+        stdout = stdout or ""
+        stderr = stderr or ""
         lines = [line for line in stdout.splitlines() if line.strip()]
         payload = None
         if lines:

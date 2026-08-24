@@ -95,12 +95,12 @@ class MigrationPipelineOrchestrator:
         generate_result = self.generate_stage.run(stage_input)
         return MigrationPipelineResult(
             generate=generate_result,
-            state=generate_result.to_state_update(),
+            state=self._build_initial_state(stage_input, generate_result),
         )
 
     def run_generate_and_validate(self, stage_input: GenerateStageInput) -> MigrationPipelineResult:
         generate_result = self.generate_stage.run(stage_input)
-        state = generate_result.to_state_update()
+        state = self._build_initial_state(stage_input, generate_result)
         validate_result = self.validate_stage.run_from_state(state)
         state.update(validate_result)
         return MigrationPipelineResult(
@@ -111,7 +111,7 @@ class MigrationPipelineOrchestrator:
 
     def run_generate_validate_and_visual_eval(self, stage_input: GenerateStageInput) -> MigrationPipelineResult:
         generate_result = self.generate_stage.run(stage_input)
-        state = generate_result.to_state_update()
+        state = self._build_initial_state(stage_input, generate_result)
         validate_update = self.validate_stage.run_from_state(state)
         state.update(validate_update)
         visual_eval_update = self.visual_eval_stage.run_from_state(state)
@@ -125,7 +125,7 @@ class MigrationPipelineOrchestrator:
 
     def run_generate_validate_visual_eval_and_repair(self, stage_input: GenerateStageInput) -> MigrationPipelineResult:
         generate_result = self.generate_stage.run(stage_input)
-        state = generate_result.to_state_update()
+        state = self._build_initial_state(stage_input, generate_result)
         state.update(self.validate_stage.run_from_state(state))
         state.update(self.visual_eval_stage.run_from_state(state))
         repair_update = self.repair_stage.run_from_state(state)
@@ -150,7 +150,7 @@ class MigrationPipelineOrchestrator:
         max_repair_rounds: int = 3,
     ) -> MigrationPipelineResult:
         generate_result = self.generate_stage.run(stage_input)
-        state = generate_result.to_state_update()
+        state = self._build_initial_state(stage_input, generate_result)
         state["max_repair_rounds"] = max_repair_rounds
         state["repair_history"] = []
         state["repair_rounds"] = 0
@@ -190,6 +190,23 @@ class MigrationPipelineOrchestrator:
 
     def _stage_passed(self, state: dict[str, Any]) -> bool:
         return bool(state.get("validation_passed") and state.get("visual_eval_passed"))
+
+    def _build_initial_state(
+        self,
+        stage_input: GenerateStageInput,
+        generate_result: GenerateStageResult,
+    ) -> dict[str, Any]:
+        state = generate_result.to_state_update()
+        state.update({
+            "vue_file_path": stage_input.vue_file_path,
+            "vue_source": stage_input.vue_source,
+            "source_file": stage_input.source_file or generate_result.source_file,
+            "generation_instruction": stage_input.instruction,
+            "output_file_path": stage_input.output_file_path,
+            "use_node_bridge": stage_input.use_node_bridge,
+            "generation_metadata": deepcopy(stage_input.metadata),
+        })
+        return state
 
     def _should_continue_repair(self, state: dict[str, Any], max_repair_rounds: int) -> bool:
         return not self._stage_passed(state) and state.get("repair_attempt", 0) < max_repair_rounds
