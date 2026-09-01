@@ -1,0 +1,164 @@
+﻿<template>
+  <main class="operations-board">
+    <header class="board-header">
+      <div class="title-block">
+        <span class="eyebrow">{{ owner }} · 项目</span>
+        <h1>{{ title }}</h1>
+        <p>最后更新 {{ lastUpdated }}</p>
+      </div>
+      <div class="header-actions">
+        <button type="button" on-click="refreshData">{{ loading ? '刷新中' : '刷新数据' }}</button>
+        <button type="button" on-click="exportReport">导出报告</button>
+      </div>
+    </header>
+    <section class="summary-grid">
+      <article s-for="metric in summaryCards" class="summary-card">
+        <span>{{ metric.label }}</span>
+        <strong>{{ metric.value }}</strong>
+        <small>{{ metric.note }}</small>
+      </article>
+    </section>
+    <section class="toolbar">
+      <label>搜索<input value="{{ query }}" on-input="updateQuery" placeholder="输入项目名称" /></label>
+      <div class="filter-group">
+        <button s-for="option in filters" type="button" class="{{ filter === option.value ? 'active' : '' }}" on-click="setFilter(option.value)">{{ option.label }}</button>
+      </div>
+      <button type="button" on-click="changeSort">排序：{{ sortLabel }}</button>
+    </section>
+    <p s-if="errorMessage" class="error-banner">{{ errorMessage }}</p>
+    <section class="record-panel">
+      <div class="record-head"><span>项目</span><span>负责人</span><span>状态</span><span>评分</span></div>
+      <article s-for="record in visibleRecords" class="record-row {{ selectedId === record.id ? 'selected' : '' }}" on-click="selectRecord(record)">
+        <div><strong>{{ record.name }}</strong><small>更新于 {{ record.updatedAt }}</small></div>
+        <span>{{ record.owner }}</span>
+        <span class="status-badge {{ record.status }}">{{ statusText(record.status) }}</span>
+        <div class="score-cell"><strong>{{ record.value }}</strong><button s-if="record.status === 'warning'" type="button" on-click="acknowledge(record.id)">确认</button></div>
+      </article>
+      <div s-if="!visibleRecords.length" class="empty-panel"><strong>没有匹配记录</strong><p>调整搜索条件或状态筛选</p></div>
+    </section>
+    <footer class="board-footer">
+      <span>第 {{ page }} / {{ totalPages }} 页，共 {{ filteredRecords.length }} 条</span>
+      <div><button type="button" disabled="{{ page <= 1 }}" on-click="previousPage">上一页</button><button type="button" disabled="{{ page >= totalPages }}" on-click="nextPage">下一页</button></div>
+    </footer>
+  </main>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'ProjectOverview',
+  dataTypes: {
+    title: DataTypes.string,
+    owner: DataTypes.string,
+    refreshInterval: DataTypes.number,
+    initialRecords: DataTypes.array
+  },
+  initData() {
+    return {
+      title: '项目总览',
+      owner: '运营中心',
+      refreshInterval: 30000,
+      initialRecords: [],
+      records: [
+        { id: 1, name: '网站改版', status: 'active', owner: '陈晨', value: 84, updatedAt: '10:20' },
+        { id: 2, name: '移动端升级', status: 'warning', owner: '林静', value: 73, updatedAt: '10:27' },
+        { id: 3, name: '数据治理', status: 'stable', owner: '周明', value: 62, updatedAt: '10:34' }
+      ],
+      query: '',
+      filter: 'all',
+      filters: [{ value: 'all', label: '全部' }, { value: 'active', label: '进行中' }, { value: 'warning', label: '需关注' }],
+      sortKey: 'score',
+      selectedId: 0,
+      loading: false,
+      errorMessage: '',
+      lastUpdated: '10:20',
+      page: 1,
+      pageSize: 2,
+      timer: null
+    };
+  },
+  computed: {
+    filteredRecords() {
+      const query = (this.data.get('query') || '').trim().toLowerCase();
+      const filter = this.data.get('filter');
+      return (this.data.get('records') || []).filter(record => (filter === 'all' || record.status === filter) && (!query || record.name.toLowerCase().indexOf(query) >= 0));
+    },
+    visibleRecords() {
+      const records = (this.data.get('filteredRecords') || []).slice();
+      records.sort((a, b) => this.data.get('sortKey') === 'score' ? b.value - a.value : a.name.localeCompare(b.name));
+      const page = this.data.get('page');
+      const pageSize = this.data.get('pageSize');
+      return records.slice((page - 1) * pageSize, page * pageSize);
+    },
+    summaryCards() {
+      const records = this.data.get('records') || [];
+      return [
+        { key: 'total', label: '项目总数', value: records.length, note: '当前范围' },
+        { key: 'active', label: '进行中', value: records.filter(item => item.status === 'active').length, note: '持续跟进' },
+        { key: 'warning', label: '需关注', value: records.filter(item => item.status === 'warning').length, note: '优先处理' }
+      ];
+    },
+    totalPages() {
+      return Math.max(1, Math.ceil((this.data.get('filteredRecords') || []).length / this.data.get('pageSize')));
+    },
+    sortLabel() {
+      return this.data.get('sortKey') === 'score' ? '评分' : '名称';
+    }
+  },
+  inited() {
+    const initialRecords = this.data.get('initialRecords') || [];
+    if (initialRecords.length) this.data.set('records', initialRecords.slice());
+  },
+  attached() {
+    this.data.set('timer', setInterval(() => this.refreshData(), this.data.get('refreshInterval')));
+  },
+  disposed() {
+    clearInterval(this.data.get('timer'));
+  },
+  updateQuery(event) { this.data.set('query', event.target.value); this.data.set('page', 1); },
+  setFilter(value) { this.data.set('filter', value); this.data.set('page', 1); },
+  selectRecord(record) { this.data.set('selectedId', record.id); this.fire('select', record); },
+  changeSort() { this.data.set('sortKey', this.data.get('sortKey') === 'score' ? 'name' : 'score'); },
+  nextPage() { this.data.set('page', Math.min(this.data.get('totalPages'), this.data.get('page') + 1)); },
+  previousPage() { this.data.set('page', Math.max(1, this.data.get('page') - 1)); },
+  statusText(status) { return { active: '进行中', warning: '需关注', stable: '稳定' }[status] || status; },
+  acknowledge(id) {
+    this.data.set('records', (this.data.get('records') || []).map(item => item.id === id ? Object.assign({}, item, { status: 'active' }) : item));
+  },
+  exportReport() { this.fire('export', this.data.get('filteredRecords') || []); },
+  async refreshData() {
+    if (this.data.get('loading')) return;
+    this.data.set('loading', true);
+    this.data.set('errorMessage', '');
+    await Promise.resolve();
+    this.data.set('lastUpdated', new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }));
+    this.data.set('loading', false);
+  }
+});
+</script>
+
+<style>
+.operations-board { width: 760px; padding: 22px; border: 1px solid #d9dee7; border-radius: 8px; background: #f7f9fc; color: #17212b; font-family: Arial, sans-serif; }
+.board-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.title-block h1 { margin: 3px 0; font-size: 25px; }
+.eyebrow { color: #506176; font-size: 12px; }
+.header-actions { display: flex; gap: 8px; }
+.header-actions button, .board-footer button { padding: 8px 12px; border: 1px solid #aab4c2; border-radius: 5px; background: #ffffff; cursor: pointer; }
+.summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+.summary-card { padding: 14px; border-left: 3px solid #2563eb; background: #ffffff; }
+.summary-card strong { display: block; margin: 6px 0; font-size: 24px; }
+.toolbar { display: grid; grid-template-columns: 1fr auto auto; align-items: end; gap: 10px; margin-bottom: 14px; }
+.filter-group { display: flex; gap: 4px; }
+.filter-group button.active { background: #1d4ed8; color: #ffffff; }
+.error-banner { padding: 10px; background: #fee2e2; color: #991b1b; }
+.record-panel { overflow: hidden; border: 1px solid #d9dee7; background: #ffffff; }
+.record-head, .record-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; align-items: center; gap: 10px; padding: 11px 13px; }
+.record-row { border-top: 1px solid #edf0f4; cursor: pointer; }
+.record-row.selected { background: #eff6ff; }
+.status-badge.warning { color: #b45309; }
+.score-cell { display: flex; align-items: center; justify-content: space-between; }
+.empty-panel { padding: 30px; text-align: center; color: #687588; }
+.board-footer { display: flex; justify-content: space-between; margin-top: 14px; }
+</style>

@@ -1,0 +1,48 @@
+<template>
+  <article class="hydration-card" on-click="increase">
+    <header class="card-header">
+      <span class="card-title">{{ title }}</span>
+      <strong class="card-value">{{ value }} 毫升</strong>
+    </header>
+    <p class="card-message">{{ message }}</p>
+    <button class="card-action" type="button">增加 250 毫升</button>
+  </article>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'HydrationCard',
+  dataTypes: {
+    title: DataTypes.string,
+    initialValue: DataTypes.number
+  },
+  initData() {
+    return {
+      title: '今日饮水',
+      initialValue: 1200,
+      value: 1200,
+      step: 250,
+      message: '保持规律补水'
+    };
+  },
+  inited() {
+    const initialValue = this.data.get('initialValue');
+    this.data.set('value', initialValue == null ? 1200 : initialValue);
+  },
+  increase() {
+    this.data.set('value', this.data.get('value') + this.data.get('step'));
+  }
+});
+</script>
+
+<style>
+.hydration-card { width: 280px; padding: 18px; border-top: 4px solid #168aad; border-radius: 8px; background: #ffffff; box-shadow: 0 6px 18px rgba(20, 33, 43, 0.12); color: #172026; cursor: pointer; font-family: Arial, sans-serif; }
+.card-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.card-title { font-size: 14px; color: #52606d; }
+.card-value { font-size: 24px; color: #168aad; }
+.card-message { margin: 14px 0; font-size: 13px; color: #697784; }
+.card-action { width: 100%; padding: 8px 10px; border: 0; border-radius: 5px; background: #168aad; color: #ffffff; cursor: pointer; }
+</style>

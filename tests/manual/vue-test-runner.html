@@ -1,29 +1,23 @@
 <html>
 <head>
+    <meta charset="utf-8" />
+    <title>Vue Component Test Runner</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://unpkg.com/http-vue-loader"></script>
 </head>
 <body>
     <div id="app">
         <!-- 在这里测试组件 -->
-        <notification-card 
-            title="系统更新"
-            message="您的应用已成功更新到最新版本"
-            :time="Date.now() - 3600000"
-            icon="🎉"
-            @read="handleRead"
-        />
+        <hydration-card
+            title="每日补水进度"
+            :initial-value="1250"
+        ></hydration-card>
     </div>
     <script>
         new Vue({
             el: '#app',
             components: {
-                'notification-card': httpVueLoader('../../data/datasets/components/01_simple/NotificationCard/vue/NotificationCard.vue'),
-            },
-            methods: {
-                handleRead(title) {
-                    console.log(`已读通知: ${title}`);
-                }
+                'hydration-card': httpVueLoader('../../data/datasets/components/01_simple/HydrationCard/vue/HydrationCard.vue'),
             }
         });
     </script>

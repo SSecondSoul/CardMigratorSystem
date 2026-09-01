@@ -10,7 +10,7 @@
       "computed语法基本一致，注意依赖的data需要通过this.data.get()"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "passed",
       "visual_test": "passed"
     }
@@ -28,7 +28,7 @@
       "将价格涨跌幅计算与刷新逻辑中的状态访问统一改为this.data.get()和this.data.set()"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "not_run",
       "visual_test": "not_run"
     }
@@ -46,7 +46,7 @@
       "将getRandomQuote和refreshQuote中的状态读写统一改为this.data.get()与this.data.set()"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "not_run",
       "visual_test": "not_run"
     }
@@ -64,7 +64,7 @@
       "将addSteps中的this.steps += 1000改为this.data.set('steps', this.data.get('steps') + 1000)"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "not_run",
       "visual_test": "not_run"
     }
@@ -82,7 +82,7 @@
       "在San组件中用inited/attached/disposed管理初始主题、自动刷新定时器和异步数据拉取流程，确保日志、刷新状态和对外事件触发顺序与Vue版一致"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "not_run",
       "visual_test": "not_run"
     }
@@ -101,7 +101,7 @@
       "将TrendChart坐标计算集中到normalizedData computed中生成index、x、y字段，避免San运行时报this.getX is not a function，同时保持折线、面积、hover提示和点选逻辑一致"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "manual_fix_in_progress",
       "visual_test": "not_run"
     }
@@ -121,7 +121,7 @@
       "将拖拽排序改写为 onDragStart + onDropOnTask + onDropToEnd + moveTask 组合逻辑，基于 filteredTasks 与原始 tasks 的索引映射完成重排，修复原 Vue 版拖拽目标位置识别不准确的问题"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "not_run",
       "visual_test": "not_run"
     }
@@ -140,7 +140,7 @@
       "针对迁移中的运行问题，修复了 KPI 模板多余插值括号、设置面板 checkbox 布尔绑定、请求统计重复初始化以及图表数据归一化计算，保证模板可解析且刷新行为与 Vue 版一致"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "manual_fix_in_progress",
       "visual_test": "not_run"
     }
@@ -160,7 +160,7 @@
       "在 San 版本中将 TodoItem 改写为独立子组件，使用 this.fire 传递 toggle/delete 事件，并将主题切换、筛选统计、添加/删除/清理、本地存储初始化与示例数据逻辑统一迁移为 this.data.get()/set()"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "manual_fix_in_progress",
       "visual_test": "not_run"
     }
@@ -179,7 +179,7 @@
       "新增 normalizeRecords 逻辑，在 Vue 与 San 中都对本地存储记录做字段校验和规范化，过滤非法数据，保证收支汇总、分类统计和日期排序稳定可用"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "not_run",
       "visual_test": "not_run"
     }
@@ -198,7 +198,7 @@
       "将 Vue 中的 $emit('reset', newTarget) 改写为 this.fire('reset', newTarget)，保留向父组件通知新目标时间的能力"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "not_run",
       "visual_test": "not_run"
     }
@@ -217,9 +217,75 @@
       "将 Vue 中的 $emit('read', this.title) 改写为 this.fire('read', this.data.get('title'))，仅在首次点击时触发事件，避免重复通知父组件"
     ],
     "validation": {
-      "structure_score": 1.0,
+      "structure_score": 1,
       "functional_test": "not_run",
       "visual_test": "not_run"
+    }
+  },
+  "focus-card": {
+    "notebook": "",
+    "challenges": [
+      "Vue 的 :class 对象绑定需要转换为 San 模板中的条件类名字符串，保持运行状态的激活样式一致",
+      "Vue 的条件状态文案需要迁移为 San 可计算的模板插值，并保证切换时 DOM 结构对应",
+      "组件 props 和内部 isRunning 状态需要区分，San 中通过 dataTypes 声明输入并使用 this.data.get()/set() 修改内部状态"
+    ],
+    "solutions": [
+      "将 :class=\"{ active: isRunning }\" 改写为 class=\"focus-card {{ isRunning ? 'active' : '' }}\"",
+      "将状态文案改写为条件插值，保留进行中与未开始两种状态文案，同时保持 Vue/San 节点数量一致",
+      "在 San 中使用 dataTypes 声明 title、duration，在 initData 中初始化默认值，并在 toggleRunning 中通过 this.data.get/set 切换状态"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "not_run",
+      "visual_test": "not_run"
+    }
+  },
+  "hydration-card": {
+    "notebook": "",
+    "challenges": [
+      "Vue props 与 data 初始化依赖需要拆分为 San dataTypes、initData 和 inited。",
+      "点击事件和状态更新需要从 Vue 实例访问迁移为 San 数据访问。"
+    ],
+    "solutions": [
+      "使用 dataTypes 声明输入，在 inited 中同步初始值。",
+      "将 @click 改为 on-click，并使用 this.data.get/set 更新状态。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "passed"
+    }
+  },
+  "workout-planner": {
+    "notebook": "",
+    "challenges": [
+      "列表循环、条件空状态和动态类名需要迁移为 San 模板语法。",
+      "props 初始化、computed、生命周期和 change 事件需要保持行为等价。"
+    ],
+    "solutions": [
+      "将 v-for、v-if、:class 和事件绑定分别转换为 s-for、s-if、条件类名和 on-*。",
+      "使用 this.fire 保留 change 事件，并在 attached 中完成列表编号初始化。"
+    ],
+    "validation": {
+      "structure_score": null,
+      "functional_test": "static_validate_passed",
+      "visual_test": "runner_limited_s_for"
+    }
+  },
+  "project-overview": {
+    "notebook": "",
+    "challenges": [
+      "多区域模板、嵌套循环与条件节点需要保持 DOM 层级和筛选分页语义。",
+      "异步刷新、双生命周期、多个 computed 和自定义事件需要完整迁移到 San。"
+    ],
+    "solutions": [
+      "将循环、条件、筛选、排序和分页完整映射到 San computed 与模板指令。",
+      "使用 attached/disposed 管理定时器，使用 this.fire 保留 select/export 事件。"
+    ],
+    "validation": {
+      "structure_score": null,
+      "functional_test": "static_validate_passed",
+      "visual_test": "runner_limited_s_for"
     }
   }
 }
