@@ -1,0 +1,60 @@
+<template>
+  <article class="delivery-phase-card">
+    <header>
+      <span>订单 {{ orderNumber }}</span>
+      <strong>{{ currentPhase.label }}</strong>
+    </header>
+    <div class="phase-track">
+      <span s-for="phase, index in phases" class="{{ index <= phaseIndex ? 'reached' : '' }}"></span>
+    </div>
+    <p>{{ currentPhase.message }}</p>
+    <button type="button" on-click="advance">推进到下一阶段</button>
+  </article>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'DeliveryPhaseCard',
+  dataTypes: {
+    orderNumber: DataTypes.string,
+    initialPhase: DataTypes.string
+  },
+  initData() {
+    return {
+      orderNumber: 'A-1024',
+      initialPhase: 'packed',
+      phaseIndex: 0,
+      phases: [
+        { key: 'packed', label: '已打包', message: '包裹等待揽收' },
+        { key: 'transit', label: '运输中', message: '包裹正在前往目的地' },
+        { key: 'delivered', label: '已送达', message: '包裹已完成签收' }
+      ]
+    };
+  },
+  inited() {
+    const phases = this.data.get('phases');
+    const index = phases.findIndex((phase) => phase.key === this.data.get('initialPhase'));
+    this.data.set('phaseIndex', index < 0 ? 0 : index);
+  },
+  computed: {
+    currentPhase() { return this.data.get('phases')[this.data.get('phaseIndex')]; }
+  },
+  advance() {
+    this.data.set('phaseIndex', (this.data.get('phaseIndex') + 1) % this.data.get('phases').length);
+  }
+});
+</script>
+
+<style>
+.delivery-phase-card { width: 310px; padding: 18px; border: 1px solid #d4d4d8; border-radius: 6px; background: #fafafa; color: #27272a; font-family: Arial, sans-serif; }
+.delivery-phase-card header { display: flex; justify-content: space-between; gap: 16px; }
+.delivery-phase-card header span { color: #71717a; font-size: 13px; }
+.phase-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin: 18px 0; }
+.phase-track span { height: 7px; background: #d4d4d8; }
+.phase-track span.reached { background: #c2410c; }
+.delivery-phase-card p { min-height: 20px; color: #52525b; }
+.delivery-phase-card button { width: 100%; padding: 9px; border: 0; border-radius: 4px; background: #292524; color: #ffffff; cursor: pointer; }
+</style>

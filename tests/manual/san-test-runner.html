@@ -10,11 +10,24 @@
     <script>
         // 只需修改这里即可复用测试页
         const TEST_CONFIG = {
-            componentPath: '../../data/datasets/components/01_simple/HydrationCard/san/HydrationCard.san',
-            componentTag: 'hydration-card',
+            componentPath: '../../data/datasets/components/03_complex/TopologyEditor/san/TopologyEditor.san',
+            componentTag: 'topology-editor',
             props: {
-                title: '每日补水进度',
-                initialValue: 1250
+                title: 'Vue-San 迁移服务拓扑',
+                initialNodes: [
+                    { id: 501, name: '迁移入口', type: 'gateway', x: 100, y: 235, status: 'healthy' },
+                    { id: 502, name: '语法提取服务', type: 'service', x: 330, y: 105, status: 'healthy' },
+                    { id: 503, name: '代码生成服务', type: 'service', x: 330, y: 355, status: 'warning' },
+                    { id: 504, name: '评估服务', type: 'service', x: 555, y: 105, status: 'offline' },
+                    { id: 505, name: '样本数据库', type: 'database', x: 660, y: 310, status: 'healthy' }
+                ],
+                initialEdges: [
+                    { id: 5101, from: 501, to: 502, active: true },
+                    { id: 5102, from: 501, to: 503, active: true },
+                    { id: 5103, from: 502, to: 504, active: false },
+                    { id: 5104, from: 503, to: 505, active: true },
+                    { id: 5105, from: 504, to: 505, active: false }
+                ]
             }
         };
 

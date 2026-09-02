@@ -287,5 +287,245 @@
       "functional_test": "static_validate_passed",
       "visual_test": "runner_limited_s_for"
     }
+  },
+  "status-switch": {
+    "notebook": "",
+    "challenges": [
+      "布尔 props、内部启用状态和切换事件需要在 San 中保持单向输入与内部状态边界。",
+      "Vue 动态类名与按钮可访问性属性需要映射为 San 条件字符串绑定。"
+    ],
+    "solutions": [
+      "使用 dataTypes 声明初始状态，在 inited 中同步内部 enabled 字段。",
+      "将 @click、:class 和 $emit 分别迁移为 on-click、条件类名与 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "text-length-gauge": {
+    "notebook": "",
+    "challenges": [
+      "输入内容、字符计数和剩余容量需要在两个框架中保持实时同步。",
+      "Vue computed 与输入事件必须改写为 San 的数据访问和计算属性。"
+    ],
+    "solutions": [
+      "在 San 中使用 value 双向绑定维护 text，并以 computed 计算长度提示。",
+      "保留长度状态对应的动态样式，使接近上限时的视觉反馈一致。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "delivery-phase-card": {
+    "notebook": "",
+    "challenges": [
+      "阶段数组、当前索引和单步推进状态需要保持一致。",
+      "列表循环与当前阶段动态类名需要转换为 San 模板语法。"
+    ],
+    "solutions": [
+      "使用 s-for 渲染阶段并通过索引条件拼接完成态和当前态类名。",
+      "在 San 顶层方法中更新阶段索引，保持推进按钮的边界行为。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "choice-chips": {
+    "notebook": "",
+    "challenges": [
+      "选项列表与当前选项文案需要在点击后同步变化。",
+      "Vue 对象类名绑定和列表 key 不应直接复制到 San。"
+    ],
+    "solutions": [
+      "将 options 迁移为 dataTypes，并在 inited 中同步 selected 与 selectedLabel。",
+      "用 s-for 和条件类名字符串替代 v-for、:key 与对象形式 :class。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "disclosure-notice": {
+    "notebook": "",
+    "challenges": [
+      "外部标题与正文输入、内部展开状态和状态事件需要职责分离。",
+      "条件内容节点与展开类名需要在 San 中保持相同 DOM 语义。"
+    ],
+    "solutions": [
+      "使用 dataTypes 接收标题与正文，通过内部 expanded 字段控制内容显示。",
+      "将 v-if、:class 和 $emit 映射为 s-if、条件类名和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "reservation-form": {
+    "notebook": "",
+    "challenges": [
+      "多字段表单、可用时间段和校验结果需要在两个框架中保持联动。",
+      "Vue v-model、提交修饰符与自定义提交事件需要转换为 San 表单处理。"
+    ],
+    "solutions": [
+      "使用 San 双向 value 绑定同步表单字段，并在顶层方法中执行校验。",
+      "在提交方法中阻止默认行为并以 this.fire 发出结构化预约数据。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "comparison-table": {
+    "notebook": "",
+    "challenges": [
+      "二维方案与特性矩阵需要保持行列语义以及推荐方案高亮。",
+      "嵌套循环、动态列类名和选择事件需要准确迁移。"
+    ],
+    "solutions": [
+      "使用嵌套 s-for 分别渲染表头方案和特性单元格。",
+      "将推荐与选中状态组合为条件类名，并用 this.fire 保留方案选择事件。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "milestone-timeline": {
+    "notebook": "",
+    "challenges": [
+      "有序里程碑、完成状态与当前阶段的派生关系需要保持一致。",
+      "列表状态切换和外部进度事件要迁移到 San 数据模型。"
+    ],
+    "solutions": [
+      "在 San computed 中推导完成数量与当前阶段，并通过 s-for 呈现时序节点。",
+      "用 this.data.set 更新单个里程碑状态，并以 this.fire 发出进度变化。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "quiz-navigator": {
+    "notebook": "",
+    "challenges": [
+      "题目索引、答案映射、前后导航与完成状态构成多步状态机。",
+      "动态选项类名和提交结果事件需要保持交互顺序。"
+    ],
+    "solutions": [
+      "以答案对象保存各题选择，并在 San computed 中计算完成度。",
+      "将选项点击、前后移动与最终提交迁移为顶层方法和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "cart-summary": {
+    "notebook": "",
+    "challenges": [
+      "商品数量、删除行为、优惠条件和金额汇总需要响应式联动。",
+      "多项 computed 与结算事件需要从 Vue 实例访问迁移到 San 数据访问。"
+    ],
+    "solutions": [
+      "使用不可变数组更新商品数量与删除结果，确保 San 能触发视图刷新。",
+      "在 San computed 中分别计算小计、优惠与总额，并以 this.fire 发出结算数据。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "rule-builder": {
+    "notebook": "",
+    "challenges": [
+      "嵌套规则组、条件行、逻辑连接符和预览文本构成树状编辑模型。",
+      "多层循环、动态表单值和规则变更事件需要完整映射到 San。"
+    ],
+    "solutions": [
+      "以不可变方式增删规则组和条件，使用 San 数据访问替代 Vue 嵌套对象直接修改。",
+      "将多层 v-for、v-model 与 $emit 转换为 s-for、双向绑定和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "access-matrix": {
+    "notebook": "",
+    "challenges": [
+      "角色、资源与权限动作组成三维授权矩阵，并包含批量切换和继承状态。",
+      "嵌套表格、复选框状态与授权变更事件需要保持单元格级语义。"
+    ],
+    "solutions": [
+      "在 San 中通过矩阵键读写权限，并以数组更新触发表格刷新。",
+      "将表头和权限单元格的嵌套循环、动态类名与事件完整迁移。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "forecast-simulator": {
+    "notebook": "",
+    "challenges": [
+      "多项输入假设、周期预测序列和情景对比需要保持聚合计算一致。",
+      "范围输入、动态柱形样式和模拟生命周期需要改写为 San 语义。"
+    ],
+    "solutions": [
+      "在 San computed 中重建周期预测与汇总指标，统一数值规范化。",
+      "使用 attached/disposed 管理模拟计时器，并将动态 style 字符串化。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "media-review-studio": {
+    "notebook": "",
+    "challenges": [
+      "媒体资产、播放时间、时间点批注和审阅决定形成相互关联的工作流。",
+      "播放计时器、筛选批注、表单输入和嵌套数组更新需要在 San 中保持响应式。"
+    ],
+    "solutions": [
+      "使用 attached/disposed 管理播放计时器，并以 computed 提供当前资产和可见批注。",
+      "通过不可变数组更新批注与决定，将 review-decision 事件迁移为 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "topology-editor": {
+    "notebook": "",
+    "challenges": [
+      "空间节点、SVG 连线、连接起点和模拟状态共同驱动画布与检查器。",
+      "节点坐标样式、连线属性、定时状态变化和结构变更事件需要同步迁移。"
+    ],
+    "solutions": [
+      "在 San computed 中关联边的起止节点，并用字符串样式定位节点和缩放画布。",
+      "使用不可变节点与边数组处理增删、移动和模拟，以 this.fire 通知拓扑变更。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
   }
 }

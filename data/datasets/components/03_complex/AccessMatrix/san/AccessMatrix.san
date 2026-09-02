@@ -1,0 +1,212 @@
+<template>
+  <main class="access-matrix">
+    <header class="matrix-header">
+      <div><span class="eyebrow">访问治理</span><h1>{{ title }}</h1><p>按角色和资源维护最小权限集合</p></div>
+      <div class="header-actions">
+        <button type="button" class="secondary" on-click="toggleAudit">{{ showAudit ? '隐藏审计' : '查看审计' }}</button>
+        <button type="button" disabled="{{ locked || !dirty }}" on-click="save">{{ saveState === 'saving' ? '保存中' : '保存变更' }}</button>
+      </div>
+    </header>
+    <section class="matrix-stats">
+      <article><span>已授权单元</span><strong>{{ grantedCount }}</strong></article>
+      <article><span>授权覆盖率</span><strong>{{ coverage }}%</strong></article>
+      <article><span>当前角色</span><strong>{{ selectedRoleName }}</strong></article>
+    </section>
+    <section class="matrix-toolbar">
+      <label>筛选资源<input value="{{ query }}" placeholder="名称或分组" on-input="updateQuery" /></label>
+      <div class="role-tabs">
+        <button s-for="role in roles" type="button" class="{{ selectedRoleId === role.id ? 'active' : '' }}" on-click="selectRole(role.id)">{{ role.name }}</button>
+      </div>
+      <button type="button" class="secondary" disabled="{{ locked }}" on-click="setAllForRole(true)">当前角色全选</button>
+      <button type="button" class="secondary" disabled="{{ locked }}" on-click="setAllForRole(false)">当前角色清空</button>
+    </section>
+    <section class="matrix-shell">
+      <table>
+        <thead>
+          <tr><th>资源</th><th s-for="role in roles"><span>{{ role.name }}</span><button type="button" disabled="{{ locked }}" on-click="toggleColumn(role.id)">整列切换</button></th><th>批量</th></tr>
+        </thead>
+        <tbody>
+          <tr s-for="row in matrixRows">
+            <th><strong>{{ row.name }}</strong><small>{{ row.group }}</small></th>
+            <td s-for="cell in row.cells">
+              <button type="button" class="grant-cell {{ cell.granted ? 'granted' : '' }}" disabled="{{ locked }}" on-click="toggleCell(row.id, cell.roleId)">{{ cell.granted ? '允许' : '拒绝' }}</button>
+            </td>
+            <td><button type="button" class="row-toggle" disabled="{{ locked }}" on-click="toggleRow(row.id)">整行切换</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <div s-if="!matrixRows.length" class="empty-matrix">没有匹配资源</div>
+    </section>
+    <aside s-if="showAudit" class="audit-panel">
+      <div><strong>最近操作</strong><button type="button" on-click="clearAudit">清空</button></div>
+      <ol><li s-for="entry in audit"><span>{{ entry.message }}</span><small>{{ entry.time }}</small></li></ol>
+      <p s-if="!audit.length">暂无操作记录</p>
+    </aside>
+    <footer class="matrix-footer"><span>{{ locked ? '矩阵已锁定' : dirty ? '存在未保存更改' : '所有更改已保存' }}</span><span>最近保存：{{ lastSaved || '尚未保存' }}</span></footer>
+  </main>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'AccessMatrix',
+  dataTypes: {
+    title: DataTypes.string,
+    roles: DataTypes.array,
+    resources: DataTypes.array,
+    initialGrants: DataTypes.object,
+    locked: DataTypes.bool
+  },
+  initData() {
+    return {
+      title: '项目空间权限',
+      roles: [{ id: 'owner', name: '管理员' }, { id: 'editor', name: '编辑者' }, { id: 'viewer', name: '访客' }],
+      resources: [{ id: 'docs', name: '文档库', group: '内容' }, { id: 'data', name: '数据集', group: '资产' }, { id: 'runs', name: '实验任务', group: '运行' }, { id: 'reports', name: '评估报告', group: '内容' }, { id: 'settings', name: '系统设置', group: '管理' }],
+      initialGrants: { owner: ['docs', 'data', 'runs', 'reports', 'settings'], editor: ['docs', 'data', 'runs'], viewer: ['docs', 'reports'] },
+      locked: false,
+      grants: {},
+      query: '',
+      selectedRoleId: 'owner',
+      audit: [],
+      dirty: false,
+      saveState: 'idle',
+      lastSaved: '',
+      showAudit: false,
+      autosaveTimer: null,
+      nextAuditId: 1
+    };
+  },
+  inited() {
+    this.data.set('grants', JSON.parse(JSON.stringify(this.data.get('initialGrants'))));
+    this.data.set('selectedRoleId', this.data.get('roles')[0].id);
+  },
+  computed: {
+    filteredResources() {
+      const query = this.data.get('query').trim().toLowerCase();
+      return this.data.get('resources').filter((resource) => !query || resource.name.toLowerCase().includes(query) || resource.group.toLowerCase().includes(query));
+    },
+    matrixRows() {
+      const roles = this.data.get('roles');
+      const grants = this.data.get('grants');
+      return this.data.get('filteredResources').map((resource) => ({
+        id: resource.id,
+        name: resource.name,
+        group: resource.group,
+        cells: roles.map((role) => ({ roleId: role.id, granted: (grants[role.id] || []).indexOf(resource.id) >= 0 }))
+      }));
+    },
+    grantedCount() {
+      const grants = this.data.get('grants');
+      return this.data.get('roles').reduce((sum, role) => sum + (grants[role.id] || []).length, 0);
+    },
+    coverage() { return Math.round((this.data.get('grantedCount') / (this.data.get('roles').length * this.data.get('resources').length)) * 100); },
+    selectedRoleName() {
+      const role = this.data.get('roles').find((item) => item.id === this.data.get('selectedRoleId'));
+      return role ? role.name : '--';
+    }
+  },
+  attached() { this.scheduleAutosave(); },
+  disposed() { clearTimeout(this.data.get('autosaveTimer')); },
+  updateQuery(event) { this.data.set('query', event.target.value); },
+  selectRole(id) { this.data.set('selectedRoleId', id); },
+  hasGrant(roleId, resourceId) { return (this.data.get('grants')[roleId] || []).indexOf(resourceId) >= 0; },
+  setGrant(roleId, resourceId, granted) {
+    const grants = Object.assign({}, this.data.get('grants'));
+    const current = (grants[roleId] || []).slice();
+    grants[roleId] = granted ? Array.from(new Set(current.concat(resourceId))) : current.filter((id) => id !== resourceId);
+    this.data.set('grants', grants);
+  },
+  toggleCell(resourceId, roleId) {
+    const granted = !this.hasGrant(roleId, resourceId);
+    this.setGrant(roleId, resourceId, granted);
+    this.record(`${roleId} 对 ${resourceId} ${granted ? '授权' : '撤权'}`);
+    this.changed();
+  },
+  toggleRow(resourceId) {
+    const grantAll = this.data.get('roles').some((role) => !this.hasGrant(role.id, resourceId));
+    this.data.get('roles').forEach((role) => this.setGrant(role.id, resourceId, grantAll));
+    this.record(`${resourceId} 整行${grantAll ? '授权' : '清空'}`);
+    this.changed();
+  },
+  toggleColumn(roleId) {
+    const resources = this.data.get('resources');
+    const grantAll = resources.some((resource) => !this.hasGrant(roleId, resource.id));
+    const grants = Object.assign({}, this.data.get('grants'), { [roleId]: grantAll ? resources.map((resource) => resource.id) : [] });
+    this.data.set('grants', grants);
+    this.record(`${roleId} 整列${grantAll ? '授权' : '清空'}`);
+    this.changed();
+  },
+  setAllForRole(granted) {
+    const roleId = this.data.get('selectedRoleId');
+    const grants = Object.assign({}, this.data.get('grants'), { [roleId]: granted ? this.data.get('resources').map((resource) => resource.id) : [] });
+    this.data.set('grants', grants);
+    this.record(`${roleId} ${granted ? '全选' : '清空'}`);
+    this.changed();
+  },
+  record(message) {
+    const id = this.data.get('nextAuditId');
+    const entry = { id: id, message: message, time: new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) };
+    this.data.set('audit', [entry].concat(this.data.get('audit')).slice(0, 8));
+    this.data.set('nextAuditId', id + 1);
+  },
+  changed() {
+    this.data.set('dirty', true);
+    this.scheduleAutosave();
+    this.fire('change', JSON.parse(JSON.stringify(this.data.get('grants'))));
+  },
+  scheduleAutosave() {
+    clearTimeout(this.data.get('autosaveTimer'));
+    if (!this.data.get('locked') && this.data.get('dirty')) this.data.set('autosaveTimer', setTimeout(() => this.save(), 800));
+  },
+  async save() {
+    if (this.data.get('locked') || !this.data.get('dirty')) return;
+    this.data.set('saveState', 'saving');
+    await Promise.resolve();
+    this.data.set('dirty', false);
+    this.data.set('saveState', 'saved');
+    this.data.set('lastSaved', new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }));
+    this.fire('save', JSON.parse(JSON.stringify(this.data.get('grants'))));
+  },
+  toggleAudit() { this.data.set('showAudit', !this.data.get('showAudit')); },
+  clearAudit() { this.data.set('audit', []); }
+});
+</script>
+
+<style>
+.access-matrix { width: 860px; padding: 24px; border: 1px solid #cbd5e1; border-radius: 7px; background: #f8fafc; color: #172026; font-family: Arial, sans-serif; }
+.matrix-header { display: flex; justify-content: space-between; gap: 24px; }
+.matrix-header h1 { margin: 3px 0; font-size: 24px; }
+.matrix-header p, .eyebrow { color: #64748b; font-size: 12px; }
+.header-actions { display: flex; gap: 8px; }
+.access-matrix button { padding: 7px 10px; border: 1px solid #1d4ed8; border-radius: 4px; background: #1d4ed8; color: #ffffff; cursor: pointer; }
+.access-matrix button.secondary { border-color: #94a3b8; background: #ffffff; color: #334155; }
+.matrix-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px 0; }
+.matrix-stats article { padding: 12px; border-left: 3px solid #1d4ed8; background: #ffffff; }
+.matrix-stats span { display: block; color: #64748b; font-size: 12px; }
+.matrix-stats strong { font-size: 21px; }
+.matrix-toolbar { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: end; margin-bottom: 12px; }
+.matrix-toolbar label { display: grid; gap: 5px; color: #475569; font-size: 12px; }
+.matrix-toolbar input { padding: 8px; border: 1px solid #94a3b8; }
+.role-tabs { grid-column: 1 / -1; display: flex; gap: 5px; }
+.role-tabs button { background: #ffffff; color: #334155; border-color: #cbd5e1; }
+.role-tabs button.active { background: #dbeafe; border-color: #2563eb; color: #1e40af; }
+.matrix-shell { overflow-x: auto; border: 1px solid #d1d5db; background: #ffffff; }
+.matrix-shell table { width: 100%; border-collapse: collapse; }
+.matrix-shell th, .matrix-shell td { padding: 9px; border: 1px solid #e5e7eb; text-align: center; }
+.matrix-shell th:first-child { text-align: left; }
+.matrix-shell th small { display: block; color: #64748b; }
+.matrix-shell thead { background: #eff6ff; }
+.matrix-shell thead th span { display: block; margin-bottom: 6px; }
+.matrix-shell thead button, .row-toggle { padding: 4px 6px; border-color: #94a3b8; background: #ffffff; color: #475569; font-size: 11px; }
+.grant-cell { min-width: 58px; border-color: #cbd5e1 !important; background: #f8fafc !important; color: #64748b !important; }
+.grant-cell.granted { border-color: #16a34a !important; background: #dcfce7 !important; color: #166534 !important; }
+.empty-matrix { padding: 28px; text-align: center; color: #94a3b8; }
+.audit-panel { margin-top: 14px; padding: 14px; border: 1px solid #fde68a; background: #fffbeb; }
+.audit-panel > div, .audit-panel li { display: flex; justify-content: space-between; gap: 16px; }
+.audit-panel ol { padding-left: 20px; }
+.audit-panel li { margin: 6px 0; }
+.audit-panel small { color: #78716c; }
+.matrix-footer { display: flex; justify-content: space-between; margin-top: 14px; color: #64748b; font-size: 12px; }
+</style>

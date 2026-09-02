@@ -1,0 +1,106 @@
+<template>
+  <section class="milestone-timeline">
+    <header>
+      <div><span class="eyebrow">里程碑</span><h2>{{ title }}</h2></div>
+      <strong>{{ completedCount }}/{{ milestones.length }} 完成</strong>
+    </header>
+    <form s-if="!readonly" class="milestone-entry" on-submit="addMilestone">
+      <input value="{{ draft }}" placeholder="新增里程碑" on-input="updateDraft" />
+      <button type="submit">添加</button>
+    </form>
+    <ol>
+      <li s-for="milestone, index in milestones" class="{{ milestone.status }}">
+        <button type="button" class="status-dot" on-click="cycleStatus(milestone.id)">{{ index + 1 }}</button>
+        <div><strong>{{ milestone.label }}</strong><small>{{ statusText(milestone.status) }}</small></div>
+        <div s-if="!readonly" class="row-actions">
+          <button type="button" disabled="{{ index === 0 }}" on-click="moveUp(index)">上移</button>
+          <button type="button" on-click="removeMilestone(milestone.id)">删除</button>
+        </div>
+      </li>
+    </ol>
+    <p s-if="!milestones.length" class="empty-state">尚未安排里程碑</p>
+  </section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'MilestoneTimeline',
+  dataTypes: { title: DataTypes.string, initialMilestones: DataTypes.array, readonly: DataTypes.bool },
+  initData() {
+    return {
+      title: '发布计划',
+      initialMilestones: [
+        { id: 1, label: '需求冻结', status: 'done' },
+        { id: 2, label: '联调验收', status: 'active' },
+        { id: 3, label: '灰度发布', status: 'pending' }
+      ],
+      readonly: false,
+      milestones: [],
+      draft: '',
+      nextId: 4
+    };
+  },
+  inited() {
+    this.data.set('milestones', this.data.get('initialMilestones').map((item) => Object.assign({}, item)));
+  },
+  computed: {
+    completedCount() { return this.data.get('milestones').filter((item) => item.status === 'done').length; }
+  },
+  updateDraft(event) { this.data.set('draft', event.target.value); },
+  addMilestone(event) {
+    event.preventDefault();
+    const draft = this.data.get('draft').trim();
+    if (!draft) return;
+    const milestones = this.data.get('milestones').slice();
+    milestones.push({ id: this.data.get('nextId'), label: draft, status: 'pending' });
+    this.data.set('milestones', milestones);
+    this.data.set('nextId', this.data.get('nextId') + 1);
+    this.data.set('draft', '');
+    this.notify();
+  },
+  cycleStatus(id) {
+    const order = ['pending', 'active', 'done'];
+    const milestones = this.data.get('milestones').map((item) => {
+      if (item.id !== id) return item;
+      return Object.assign({}, item, { status: order[(order.indexOf(item.status) + 1) % order.length] });
+    });
+    this.data.set('milestones', milestones);
+    this.notify();
+  },
+  moveUp(index) {
+    if (index < 1) return;
+    const milestones = this.data.get('milestones').slice();
+    const item = milestones.splice(index, 1)[0];
+    milestones.splice(index - 1, 0, item);
+    this.data.set('milestones', milestones);
+    this.notify();
+  },
+  removeMilestone(id) {
+    this.data.set('milestones', this.data.get('milestones').filter((item) => item.id !== id));
+    this.notify();
+  },
+  statusText(status) { return { pending: '待开始', active: '进行中', done: '已完成' }[status]; },
+  notify() { this.fire('change', this.data.get('milestones').map((item) => Object.assign({}, item))); }
+});
+</script>
+
+<style>
+.milestone-timeline { width: 520px; padding: 22px; border: 1px solid #d1d5db; border-radius: 6px; background: #ffffff; color: #1f2937; font-family: Arial, sans-serif; }
+.milestone-timeline header { display: flex; justify-content: space-between; align-items: flex-start; }
+.milestone-timeline h2 { margin: 3px 0 0; font-size: 21px; }
+.eyebrow { color: #6b7280; font-size: 12px; }
+.milestone-entry { display: flex; gap: 8px; margin: 18px 0; }
+.milestone-entry input { flex: 1; padding: 9px; border: 1px solid #9ca3af; }
+.milestone-entry button, .row-actions button { padding: 7px 10px; border: 1px solid #6b7280; background: #ffffff; cursor: pointer; }
+.milestone-timeline ol { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.milestone-timeline li { display: grid; grid-template-columns: 34px 1fr auto; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid #e5e7eb; }
+.status-dot { width: 28px; height: 28px; border: 0; border-radius: 50%; background: #d1d5db; cursor: pointer; }
+.active .status-dot { background: #fbbf24; }
+.done .status-dot { background: #16a34a; color: #ffffff; }
+.milestone-timeline li small { display: block; margin-top: 3px; color: #6b7280; }
+.row-actions { display: flex; gap: 5px; }
+.empty-state { text-align: center; color: #9ca3af; }
+</style>
