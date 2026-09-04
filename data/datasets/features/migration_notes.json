@@ -527,5 +527,485 @@
       "functional_test": "static_validate_passed",
       "visual_test": "not_run"
     }
+  },
+  "password-strength-meter": {
+    "notebook": "",
+    "challenges": [
+      "单个密码字符串与派生强度等级需要在 Vue 与 San 中保持语义一致。",
+      "输入框、强度条与规则提示涉及输入事件、computed、动态 class/style。"
+    ],
+    "solutions": [
+      "围绕“输入密码并清空”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "volume-control": {
+    "notebook": "",
+    "challenges": [
+      "当前音量与静音前音量需要在 Vue 与 San 中保持语义一致。",
+      "数值读数、滑杆和静音按钮涉及range 输入、派生标签、emit/fire。"
+    ],
+    "solutions": [
+      "围绕“拖动音量并在静音/恢复间切换”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "inline-rename": {
+    "notebook": "",
+    "challenges": [
+      "已保存名称、编辑草稿与编辑模式需要在 Vue 与 San 中保持语义一致。",
+      "查看态与编辑态互斥区域涉及v-if/v-else、输入同步和草稿回滚。"
+    ],
+    "solutions": [
+      "围绕“进入编辑后保存或取消”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "queue-ticket": {
+    "notebook": "",
+    "challenges": [
+      "idle/waiting 三态票号数据需要在 Vue 与 San 中保持语义一致。",
+      "状态说明、票号和条件按钮涉及条件渲染和状态机文案。"
+    ],
+    "solutions": [
+      "围绕“取号后可取消排队”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "search-clear-field": {
+    "notebook": "",
+    "challenges": [
+      "单一搜索字符串需要在 Vue 与 San 中保持语义一致。",
+      "搜索输入、清空按钮与字符提示涉及输入事件与条件按钮。"
+    ],
+    "solutions": [
+      "围绕“输入关键字并一键清空”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "reaction-bar": {
+    "notebook": "",
+    "challenges": [
+      "赞同/疑问计数与当前选择需要在 Vue 与 San 中保持语义一致。",
+      "两个并列反馈按钮与总数涉及对象不可变更新与动态 class。"
+    ],
+    "solutions": [
+      "围绕“选择反馈并可切换另一种反馈”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "unit-converter": {
+    "notebook": "",
+    "challenges": [
+      "数值与公制/英制方向需要在 Vue 与 San 中保持语义一致。",
+      "输入区、方向按钮和结果输出涉及数值输入和格式化 computed。"
+    ],
+    "solutions": [
+      "围绕“输入数值并翻转换算方向”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "sort-cycle-button": {
+    "notebook": "",
+    "challenges": [
+      "none/asc/desc 三态方向需要在 Vue 与 San 中保持语义一致。",
+      "字段说明和单个状态按钮涉及三态 computed、动态类和 emit/fire。"
+    ],
+    "solutions": [
+      "围绕“连续点击循环切换排序方向”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "password-visibility-field": {
+    "notebook": "",
+    "challenges": [
+      "输入内容与可见性布尔值需要在 Vue 与 San 中保持语义一致。",
+      "标签、动态类型输入框和图标按钮涉及动态属性与输入同步。"
+    ],
+    "solutions": [
+      "围绕“输入密码并显示/隐藏”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "budget-threshold": {
+    "notebook": "",
+    "challenges": [
+      "预算上限与当前支出数值需要在 Vue 与 San 中保持语义一致。",
+      "金额输入、余额输出和状态提示涉及数值输入、条件 class 和派生金额。"
+    ],
+    "solutions": [
+      "围绕“录入支出并重置”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "transfer-list": {
+    "notebook": "",
+    "challenges": [
+      "可用项、已选项和两侧当前选择需要在 Vue 与 San 中保持语义一致。",
+      "搜索栏加左右双面板涉及多列表、条件禁用、不可变数组和 emit/fire。"
+    ],
+    "solutions": [
+      "围绕“在左右列表间移动条目并搜索”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "document-approval-flow": {
+    "notebook": "",
+    "challenges": [
+      "文档版本、审批步骤、评论线程和修订请求需要在 Vue 与 San 中保持语义一致。",
+      "文档摘要、审批轨、正文、评论和版本历史涉及多阶段审批、嵌套评论、版本重置和多事件输出。"
+    ],
+    "solutions": [
+      "围绕“逐级审批、驳回、评论、提交新版本和查看历史”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "capacity-planning-board": {
+    "notebook": "",
+    "challenges": [
+      "团队成员、周期容量、工作项分配和技能标签需要在 Vue 与 San 中保持语义一致。",
+      "周期头、待分配池、成员泳道和工作项详情涉及泳道分组、容量聚合、选中分配和过载样式。"
+    ],
+    "solutions": [
+      "围绕“筛选周期、选择工作项、分配/取消、调容量并检测过载”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "localization-workspace": {
+    "notebook": "",
+    "challenges": [
+      "源文案键、多语言译文、审核状态、术语和过滤器需要在 Vue 与 San 中保持语义一致。",
+      "语言头、键列表、翻译编辑器和术语侧栏涉及嵌套对象更新、主从视图和批量提交。"
+    ],
+    "solutions": [
+      "围绕“选语言、搜索、编辑、审核、术语插入和批量提交”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "support-ticket-console": {
+    "notebook": "",
+    "challenges": [
+      "工单队列、消息线程、标签、优先级、负责人和草稿需要在 Vue 与 San 中保持语义一致。",
+      "筛选队列、对话主区、属性侧栏和 SLA 提示涉及主从视图、消息线程、SLA 定时器和嵌套更新。"
+    ],
+    "solutions": [
+      "围绕“筛选、回复、内部备注、改状态、转派和合并”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "trip-itinerary-planner": {
+    "notebook": "",
+    "challenges": [
+      "按天分组的行程段、时间、地点、预算和冲突需要在 Vue 与 San 中保持语义一致。",
+      "日期侧栏、时间线编辑区和新增表单涉及分组数据、有序重排、时间冲突和深层更新。"
+    ],
+    "solutions": [
+      "围绕“选天、增删行程、调整顺序、预算汇总和冲突检测”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "schema-mapping-workbench": {
+    "notebook": "",
+    "challenges": [
+      "源字段、目标字段、映射规则、转换器和校验结果需要在 Vue 与 San 中保持语义一致。",
+      "源字段栏、映射画布、目标字段栏和问题面板涉及映射关系、多选状态、规则编辑和校验聚合。"
+    ],
+    "solutions": [
+      "围绕“选择字段建立映射、配置转换、校验并提交”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "experiment-rollout-console": {
+    "notebook": "",
+    "challenges": [
+      "实验变体、流量权重、指标、阶段和历史快照需要在 Vue 与 San 中保持语义一致。",
+      "状态头、流量编辑、指标表和历史快照涉及权重约束、定时模拟、历史快照和多状态控制。"
+    ],
+    "solutions": [
+      "围绕“调整流量、开始/暂停、模拟指标、判定胜出与回滚”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "inventory-batch-manager": {
+    "notebook": "",
+    "challenges": [
+      "仓库、SKU 批次、保质期、选中集合与调整记录需要在 Vue 与 San 中保持语义一致。",
+      "指标栏、批次表、调整侧栏和审计记录涉及表格多状态、批量事务、watch、生命周期和动态库存条。"
+    ],
+    "solutions": [
+      "围绕“筛选风险批次、批量调整库存并撤销”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "incident-response-board": {
+    "notebook": "",
+    "challenges": [
+      "事件阶段、响应人、检查项、时间线和严重度需要在 Vue 与 San 中保持语义一致。",
+      "事件头、阶段轨、处置区和时间线涉及状态机、定时器、检查清单和多事件通信。"
+    ],
+    "solutions": [
+      "围绕“认领、推进阶段、执行检查项、记录、升级与关闭”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "gradebook-matrix": {
+    "notebook": "",
+    "challenges": [
+      "学生、作业列、单元格成绩、权重和排序需要在 Vue 与 San 中保持语义一致。",
+      "指标栏、可编辑矩阵和学生详情涉及二维矩阵、动态字段、watch 和派生排名。"
+    ],
+    "solutions": [
+      "围绕“编辑成绩、调权重、排序、筛选并发布”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "poll-results": {
+    "notebook": "",
+    "challenges": [
+      "选项票数、当前投票与结果可见性需要在 Vue 与 San 中保持语义一致。",
+      "问题、选项列表和比例条涉及派生百分比列表、动态宽度和事件输出。"
+    ],
+    "solutions": [
+      "围绕“单选投票、查看结果并重置”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "recipe-scaler": {
+    "notebook": "",
+    "challenges": [
+      "基准份数、目标份数和原料数组需要在 Vue 与 San 中保持语义一致。",
+      "份数控制、原料表和总重量涉及数组映射 computed 与格式化方法。"
+    ],
+    "solutions": [
+      "围绕“调整份数并切换克/千克显示”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "batch-renamer": {
+    "notebook": "",
+    "challenges": [
+      "文件名列表与重命名规则需要在 Vue 与 San 中保持语义一致。",
+      "规则表单、双列预览与冲突提示涉及表单输入、预览 computed、条件告警。"
+    ],
+    "solutions": [
+      "围绕“配置前缀/起始序号、预览并应用”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "shipping-estimator": {
+    "notebook": "",
+    "challenges": [
+      "目的地区、重量、加急选项和估算结果需要在 Vue 与 San 中保持语义一致。",
+      "网格表单、错误区和报价结果涉及表单提交、select/checkbox 与结构化事件。"
+    ],
+    "solutions": [
+      "围绕“填写表单、校验后计算并重置”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "attendance-roster": {
+    "notebook": "",
+    "challenges": [
+      "学生列表及 present/late/absent 状态需要在 Vue 与 San 中保持语义一致。",
+      "汇总标签、筛选器和人员行列表涉及状态聚合、列表更新与动态 class。"
+    ],
+    "solutions": [
+      "围绕“筛选、逐人标记和全员签到”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "playback-queue": {
+    "notebook": "",
+    "challenges": [
+      "有序曲目、当前曲目和循环模式需要在 Vue 与 San 中保持语义一致。",
+      "当前播放区、队列列表和工具栏涉及有序列表重排、条件按钮与多事件输出。"
+    ],
+    "solutions": [
+      "围绕“播放、上移、删除并切换循环”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "survey-branch-form": {
+    "notebook": "",
+    "challenges": [
+      "角色选择、工具多选、补充说明与提交态需要在 Vue 与 San 中保持语义一致。",
+      "分步骤条件表单与结果摘要涉及分支条件、复选集合和表单提交。"
+    ],
+    "solutions": [
+      "围绕“角色驱动后续问题，填写后提交/重来”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "seat-booking-map": {
+    "notebook": "",
+    "challenges": [
+      "二维座位状态与当前选择集合需要在 Vue 与 San 中保持语义一致。",
+      "图例、嵌套座位网格和结算栏涉及嵌套循环、动态 class、数组选中判断。"
+    ],
+    "solutions": [
+      "围绕“按座位切换选择、清空并确认”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
+  },
+  "breadcrumb-navigator": {
+    "notebook": "",
+    "challenges": [
+      "有序路径段与新增草稿需要在 Vue 与 San 中保持语义一致。",
+      "面包屑导航、编辑表单与当前位置涉及索引截断、条件操作和多事件输出。"
+    ],
+    "solutions": [
+      "围绕“跳转上级、追加子级、删除末级和重置”使用不可变数据更新和显式状态转换。",
+      "将 Vue 指令与状态访问映射为 San 指令、dataTypes、initData、this.data.get/set 和 this.fire。"
+    ],
+    "validation": {
+      "structure_score": 1,
+      "functional_test": "static_validate_passed",
+      "visual_test": "not_run"
+    }
   }
 }
