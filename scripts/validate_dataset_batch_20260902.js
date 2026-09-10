@@ -4,7 +4,8 @@ const san = require('san');
 
 const root = path.resolve(__dirname, '..');
 const dataRoot = path.join(root, 'data', 'datasets');
-const design = JSON.parse(fs.readFileSync(path.join(dataRoot, 'features', 'design_matrix_2026-09-02_batch_30.json'), 'utf8'));
+const designName = process.argv[2] || 'design_matrix_2026-09-02_batch_30.json';
+const design = JSON.parse(fs.readFileSync(path.join(dataRoot, 'features', designName), 'utf8'));
 const manifest = JSON.parse(fs.readFileSync(path.join(dataRoot, 'dataset_manifest.json'), 'utf8'));
 const complexity = JSON.parse(fs.readFileSync(path.join(dataRoot, 'features', 'complexity_tags.json'), 'utf8'));
 const patterns = JSON.parse(fs.readFileSync(path.join(dataRoot, 'features', 'pattern_tags.json'), 'utf8'));
@@ -60,10 +61,12 @@ function jaccard(left, right) {
   return union.size ? intersection.length / union.size : 1;
 }
 
-if (design.batch_size !== 30 || design.components.length !== 30) errors.push('Design matrix must contain 30 components.');
+const expectedBatchSize = Number(process.argv[3] || design.batch_size);
+const expectedPerLevel = Number(process.argv[4] || expectedBatchSize / 3);
+if (design.batch_size !== expectedBatchSize || design.components.length !== expectedBatchSize) errors.push(`Design matrix must contain ${expectedBatchSize} components.`);
 for (const level of Object.keys(levelDirs)) {
   const count = design.components.filter(item => item.level === level).length;
-  if (count !== 10) errors.push(`${level}: expected 10 design records, found ${count}`);
+  if (count !== expectedPerLevel) errors.push(`${level}: expected ${expectedPerLevel} design records, found ${count}`);
 }
 if (manifest.total_components !== manifest.components.length) errors.push('Manifest total_components does not match record count.');
 if (new Set(manifest.components.map(item => item.id)).size !== manifest.components.length) errors.push('Manifest contains duplicate ids.');
@@ -152,6 +155,11 @@ for (const item of design.components) {
 
 for (let i = 0; i < templates.length; i += 1) {
   for (let j = i + 1; j < templates.length; j += 1) {
+    const leftFile = path.join(dataRoot, 'components', levelDirs[templates[i].level], templates[i].name, 'vue', `${templates[i].name}.vue`);
+    const rightFile = path.join(dataRoot, 'components', levelDirs[templates[j].level], templates[j].name, 'vue', `${templates[j].name}.vue`);
+    const leftSkeleton = normalizedSkeleton(extract(fs.readFileSync(leftFile, 'utf8'), 'template'));
+    const rightSkeleton = normalizedSkeleton(extract(fs.readFileSync(rightFile, 'utf8'), 'template'));
+    if (leftSkeleton === rightSkeleton) errors.push(`Normalized template duplicate: ${templates[i].name} / ${templates[j].name}`);
     const score = jaccard(templates[i].tokens, templates[j].tokens);
     if (score >= 0.96 && templates[i].level === templates[j].level) warnings.push(`High template-token similarity ${score.toFixed(2)}: ${templates[i].name} / ${templates[j].name}`);
   }

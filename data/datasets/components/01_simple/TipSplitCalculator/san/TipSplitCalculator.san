@@ -1,0 +1,59 @@
+<template>
+  <section class="tip-split-calculator"><h2>聚餐分摊</h2><label>账单<input type="number" value="{{ bill }}" on-input="updateBill"></label><button on-click="cycleTip">小费 {{ tipRate }}%</button><div class="people"><button on-click="changePeople(-1)">−</button><span>{{ people }} 人</span><button on-click="changePeople(1)">＋</button></div><output>总计 ¥{{ total }} · 每人 ¥{{ perPerson }}</output></section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'TipSplitCalculator',
+  dataTypes: {
+    initialBill: DataTypes.number
+  },
+  initData() {
+    return {
+      initialBill: 268,
+      bill: 268,
+      tipRate: 10,
+      people: 2
+    };
+  },
+  computed: {
+    perPerson() {
+      return ((this.data.get('bill') * (1 + this.data.get('tipRate') / 100)) / this.data.get('people')).toFixed(2);
+    },
+    total() {
+      return (this.data.get('bill') * (1 + this.data.get('tipRate') / 100)).toFixed(2);
+    }
+  },
+  inited() {
+    this.setValue('bill', this.data.get('initialBill'));
+  },
+  setValue(key, value) { this.data.set(key, value); },
+  emitEvent(name, payload) { this.fire(name, payload); },
+  updateBill(event) {
+    this.setValue('bill', Math.max(0, Number(event.target.value) || 0));
+  },
+  cycleTip() {
+    const rates = [0, 10, 15, 20]; const index = rates.indexOf(this.data.get('tipRate')); this.setValue('tipRate', rates[(index + 1) % rates.length]);
+  },
+  changePeople(delta) {
+    this.setValue('people', Math.max(1, this.data.get('people') + delta));
+  }
+});
+</script>
+
+<style>
+
+.tip-split-calculator{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.tip-split-calculator *{box-sizing:border-box}
+.tip-split-calculator h2,.tip-split-calculator h3,.tip-split-calculator p{margin-top:0}
+.tip-split-calculator button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.tip-split-calculator button.primary{border-color:#0891b2;background:#0891b2;color:#fff}
+.tip-split-calculator button:disabled{opacity:.45;cursor:not-allowed}
+.tip-split-calculator input,.tip-split-calculator select,.tip-split-calculator textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.tip-split-calculator .muted{color:#71808e;font-size:12px}
+.tip-split-calculator .toolbar,.tip-split-calculator .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tip-split-calculator{display:grid;grid-template-columns:1fr auto;gap:10px}.tip-split-calculator label{display:grid}.people{display:flex;align-items:center;gap:8px}.tip-split-calculator output{grid-column:1/-1;padding:14px;background:#ecfeff}
+</style>

@@ -1,0 +1,39 @@
+<template>
+  <section class="clipboard-snippet"><header><span>{{ language }}</span><button @click="copy">{{ copied ? '已复制' : '复制' }}</button></header><pre>{{ code }}</pre><small v-if="copied">内容已放入剪贴板队列</small></section>
+</template>
+
+<script>
+module.exports = {
+  name: 'ClipboardSnippet',
+  props: {
+    code: { type: String, default: "npm run validate" },
+    language: { type: String, default: "shell" }
+  },
+  data() {
+    return {
+        copied: false
+    };
+  },
+  methods: {
+    setValue(key, value) { this[key] = value; },
+    emitEvent(name, payload) { this.$emit(name, payload); },
+    copy() {
+      this.setValue('copied', true); this.emitEvent('copy', this.code); clearTimeout(this._timer); this._timer = setTimeout(() => this.setValue('copied', false), 1200);
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.clipboard-snippet{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.clipboard-snippet *{box-sizing:border-box}
+.clipboard-snippet h2,.clipboard-snippet h3,.clipboard-snippet p{margin-top:0}
+.clipboard-snippet button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.clipboard-snippet button.primary{border-color:#2563eb;background:#2563eb;color:#fff}
+.clipboard-snippet button:disabled{opacity:.45;cursor:not-allowed}
+.clipboard-snippet input,.clipboard-snippet select,.clipboard-snippet textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.clipboard-snippet .muted{color:#71808e;font-size:12px}
+.clipboard-snippet .toolbar,.clipboard-snippet .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+header{display:flex;justify-content:space-between}pre{padding:14px;background:#0f172a;color:#e2e8f0;overflow:auto}small{color:#15803d}
+</style>
