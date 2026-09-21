@@ -1,11 +1,11 @@
 <template>
 <div class="step-card" on-click="addSteps">
-  <div class="steps-display">
-    <span class="steps-value">{{steps}}</span>
-    <span class="steps-unit">步</span>
-  </div>
-  <div class="steps-label">今日步数</div>
-  <div class="hint">点击卡片 +1000 步</div>
+    <div class="steps-display">
+        <span class="steps-value">{{steps}}</span>
+        <span class="steps-unit">步</span>
+    </div>
+    <div class="steps-label">今日步数</div>
+    <div class="hint">点击卡片 +1000 步</div>
 </div>
 </template>
 
@@ -14,29 +14,33 @@ const san = require('san');
 const DataTypes = san.DataTypes;
 
 module.exports = san.defineComponent({
-  name: 'StepCard',
-  props: {
-    initialSteps: DataTypes.number
-  },
-  initData() {
-    return {
-      steps: 0
-    };
-  },
-  inited() {
-    const initial = this.data.get('initialSteps');
-    if (initial !== undefined && initial !== null) {
-      this.data.set('steps', initial);
+    name: 'StepCard',
+
+    dataTypes: {
+        initialSteps: DataTypes.number
+    },
+
+    initData() {
+        return {
+            steps: 0
+        };
+    },
+
+    inited() {
+        const initialSteps = this.data.get('initialSteps');
+        if (initialSteps != null) {
+            this.data.set('steps', initialSteps);
+        }
+    },
+
+    addSteps() {
+        const current = this.data.get('steps') || 0;
+        this.data.set('steps', current + 1000);
     }
-  },
-  addSteps() {
-    const current = this.data.get('steps');
-    this.data.set('steps', current + 1000);
-  }
 });
 </script>
 
-<style scoped>
+<style>
 .step-card {
   width: 260px;
   padding: 24px 20px;

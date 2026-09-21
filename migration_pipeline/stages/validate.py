@@ -103,6 +103,9 @@ class ValidateStage:
         self._validate_style_rules(blocks.get("style", ""), issues, checks, strict=stage_input.strict)
         san_compile_result = self._validate_san_compile(code, stage_input, issues, checks)
         self._validate_ssm_consistency(code, blocks, ssm, issues, checks)
+        self._validate_prop_defaults_landing(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_event_arguments_landing(blocks.get("template", ""), ssm, issues, checks)
+        self._validate_custom_event_migration(blocks.get("script", ""), ssm, issues, checks)
         self._validate_datatypes_accuracy(blocks.get("script", ""), ssm, issues, checks)
         self._validate_lifecycle_mapping(blocks.get("script", ""), ssm, issues, checks)
         self._validate_event_binding_completeness(blocks.get("template", ""), ssm, issues, checks)
@@ -189,11 +192,9 @@ class ValidateStage:
             message="使用 dataTypes 描述组件入参",
         ))
         if not has_datatypes:
-            severity = "warning" if has_proptypes else "error"
             issues.append(ValidationIssue(
                 code="missing_data_types",
-                message="San 组件未使用 dataTypes。" + ("当前检测到 propTypes，建议统一为 dataTypes。" if has_proptypes else ""),
-                severity=severity,
+                message="San 组件未使用 dataTypes。" + ("当前检测到 propTypes，必须改为 dataTypes。" if has_proptypes else ""),
                 location="script",
                 suggestion="将 Vue props 迁移为 San dataTypes。",
             ))
@@ -259,8 +260,7 @@ class ValidateStage:
         if scoped_style:
             issues.append(ValidationIssue(
                 code="san_style_scoped",
-                message="San 单文件组件通常不应保留 <style scoped>。",
-                severity="error" if strict else "warning",
+                message="San 单文件组件不应保留 <style scoped>。",
                 location="style",
                 suggestion="将 <style scoped> 改为 <style>，同时保留样式内容。",
             ))
@@ -383,6 +383,105 @@ class ValidateStage:
                     location="script",
                     suggestion="补齐事件处理方法，并在模板中通过 on-event 绑定。",
                 ))
+
+    def _validate_prop_defaults_landing(
+        self,
+        script: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        props = self._script_options(ssm).get("props", [])
+        defaulted_props = []
+        for prop in props if isinstance(props, list) else []:
+            if not isinstance(prop, dict) or "default" not in prop:
+                continue
+            default_value = prop.get("default")
+            if default_value is None or str(default_value).strip() in {"", "undefined"}:
+                continue
+            name = prop.get("name") or prop.get("prop_name")
+            if name:
+                defaulted_props.append(str(name))
+        if not defaulted_props:
+            return
+        init_data_body = self._extract_function_body(script, "initData")
+        missing = [
+            name for name in defaulted_props
+            if not re.search(rf"(?:^|[,{{])\s*['\"]?{re.escape(name)}['\"]?\s*:", init_data_body)
+        ]
+        checks.append(ValidationCheck(
+            name="prop_defaults_in_init_data",
+            passed=not missing,
+            message="Vue props 默认值已迁移到 San initData",
+        ))
+        if missing:
+            issues.append(ValidationIssue(
+                code="missing_prop_defaults",
+                message=f"以下带默认值的 Vue props 未在 San initData 中落地：{', '.join(missing)}。",
+                location="script",
+                suggestion="将 SSM props.default 的等价值作为同名字段加入 initData 返回对象。",
+            ))
+
+    def _validate_event_arguments_landing(
+        self,
+        template: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        expected = self._expected_event_expressions(ssm)
+        if not expected:
+            return
+        missing = []
+        for event_name, expression in expected:
+            pattern = rf"on-{re.escape(event_name)}\s*=\s*['\"]\s*{re.escape(expression)}\s*['\"]"
+            if not re.search(pattern, template):
+                missing.append(f"{event_name}:{expression}")
+        bypassed = bool(re.search(r"\bdata-args\s*=|\.getAttribute\s*\(", template))
+        checks.append(ValidationCheck(
+            name="event_arguments_consistency",
+            passed=not missing and not bypassed,
+            message="SSM 事件调用参数已在 San template 中完整保留",
+        ))
+        if missing or bypassed:
+            detail = f"缺失：{', '.join(missing)}。" if missing else ""
+            if bypassed:
+                detail += "检测到 data-args/getAttribute 绕行。"
+            issues.append(ValidationIssue(
+                code="event_arguments_not_landed",
+                message="San 事件绑定未完整保留源事件参数。" + detail,
+                location="template",
+                suggestion="直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。",
+            ))
+
+    def _validate_custom_event_migration(
+        self,
+        script: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        source_methods = self._script_options(ssm).get("methods", [])
+        source_uses_emit = any(
+            isinstance(method, dict) and "$emit" in str(method.get("body", ""))
+            for method in source_methods if isinstance(source_methods, list)
+        )
+        if not source_uses_emit:
+            return
+        has_fire = bool(re.search(r"\bthis\.fire\s*\(", script))
+        has_dispatch = bool(re.search(r"\bthis\.dispatch\s*\(", script))
+        checks.append(ValidationCheck(
+            name="custom_event_fire_consistency",
+            passed=has_fire and not has_dispatch,
+            message="Vue $emit 已迁移为 San this.fire",
+        ))
+        if not has_fire or has_dispatch:
+            issues.append(ValidationIssue(
+                code="custom_event_not_fire",
+                message="源组件使用了 Vue $emit，但 San 未正确使用 this.fire，或错误使用了 this.dispatch。",
+                location="script",
+                suggestion="将自定义事件迁移为 this.fire(eventName, payload)，不要使用 this.dispatch。",
+            ))
 
     def _validate_datatypes_accuracy(
         self,
@@ -598,6 +697,34 @@ class ValidateStage:
         match = re.search(rf"<{tag}\b[^>]*>.*?</{tag}>", code, re.DOTALL | re.IGNORECASE)
         return match.group(0) if match else ""
 
+    def _extract_function_body(self, script: str, function_name: str) -> str:
+        match = re.search(rf"\b{re.escape(function_name)}\s*\([^)]*\)\s*{{", script)
+        if not match:
+            return ""
+        start = match.end() - 1
+        depth = 0
+        quote = ""
+        escaped = False
+        for index in range(start, len(script)):
+            char = script[index]
+            if quote:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == quote:
+                    quote = ""
+                continue
+            if char in {"'", '"', "`"}:
+                quote = char
+            elif char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+                if depth == 0:
+                    return script[start + 1:index]
+        return ""
+
     def _expected_component_name(self, ssm: dict[str, Any]) -> str:
         metadata = ssm.get("metadata", {}) if isinstance(ssm, dict) else {}
         script = ssm.get("script", {}) if isinstance(ssm, dict) else {}
@@ -650,6 +777,28 @@ class ValidateStage:
             if isinstance(value, str) and value:
                 handlers.add(value)
         return sorted(handlers)
+
+    def _expected_event_expressions(self, ssm: dict[str, Any]) -> list[tuple[str, str]]:
+        result: set[tuple[str, str]] = set()
+        template = ssm.get("template", {}) if isinstance(ssm, dict) else {}
+
+        def walk(node: Any) -> None:
+            if isinstance(node, dict):
+                for binding in node.get("event_bindings", []) if isinstance(node.get("event_bindings"), list) else []:
+                    if not isinstance(binding, dict) or not binding.get("arguments"):
+                        continue
+                    event_name = binding.get("event_name") or binding.get("event")
+                    expression = binding.get("handler_expression") or binding.get("expression")
+                    if isinstance(event_name, str) and isinstance(expression, str):
+                        result.add((event_name, expression))
+                for child in node.get("children", []) if isinstance(node.get("children"), list) else []:
+                    walk(child)
+            elif isinstance(node, list):
+                for child in node:
+                    walk(child)
+
+        walk(template.get("dom_tree", template) if isinstance(template, dict) else template)
+        return sorted(result)
 
     def _expected_prop_types(self, ssm: dict[str, Any]) -> dict[str, str]:
         options = self._script_options(ssm)

@@ -328,6 +328,7 @@ function renderTemplate(template, data) {
   });
   html = html.replace(/\s+@[\w:.:-]+="[^"]*"/g, '');
   html = html.replace(/\s+v-on:[\w:.:-]+="[^"]*"/g, '');
+  html = html.replace(/\s+(?::key|v-bind:key)="[^"]*"/g, '');
   html = html.replace(/\s+:class="([^"]+)"/g, function (_, expr) {
     const value = evaluateClassBinding(expr, data);
     return value ? ` class="${escapeHtml(value)}"` : '';
@@ -361,21 +362,35 @@ function renderIfBlocks(html, data) {
 }
 
 function renderForBlocks(html, data) {
-  const pattern = /<([a-zA-Z][\w-]*)([^>]*)\s+v-for="\s*(?:\((\w+)\s*,\s*(\w+)\)|(\w+))\s+in\s+([^"]+)"([^>]*)>([\s\S]*?)<\/\1>/g;
-  return html.replace(pattern, function (full, tag, beforeAttrs, tupleItem, tupleIndex, singleItem, listExpr, afterAttrs, inner) {
-    const list = evaluateExpression(listExpr, data);
-    if (!Array.isArray(list) || !list.length) {
-      return '';
-    }
-    const itemName = tupleItem || singleItem;
-    const indexName = tupleIndex || 'index';
-    return list.map(function (item, index) {
-      const scopedData = Object.assign({}, data);
-      scopedData[itemName] = item;
-      scopedData[indexName] = index;
-      return `<${tag}${beforeAttrs}${afterAttrs}>${renderTemplate(inner, scopedData)}</${tag}>`;
-    }).join('');
-  });
+  const openingPattern = /<([a-zA-Z][\w-]*)([^>]*)\s+v-for="([^"]+)"([^>]*)>/;
+  const opening = openingPattern.exec(html);
+  if (!opening) return html;
+  const tag = opening[1];
+  const tokenPattern = new RegExp(`<\\/?${tag}\\b[^>]*>`, 'gi');
+  tokenPattern.lastIndex = opening.index + opening[0].length;
+  let depth = 1;
+  let closing = null;
+  let token;
+  while ((token = tokenPattern.exec(html)) !== null) {
+    if (token[0].startsWith('</')) depth -= 1;
+    else if (!/\/\s*>$/.test(token[0])) depth += 1;
+    if (depth === 0) { closing = token; break; }
+  }
+  if (!closing) return html;
+  const directive = opening[3].trim();
+  const match = directive.match(/^\s*(?:\((\w+)\s*,\s*(\w+)\)|(\w+))\s+in\s+(.+)$/);
+  if (!match) return html;
+  const itemName = match[1] || match[3];
+  const indexName = match[2] || 'index';
+  const list = evaluateExpression(match[4], data);
+  const inner = html.slice(opening.index + opening[0].length, closing.index);
+  const attrs = `${opening[2]}${opening[4]}`;
+  const replacement = Array.isArray(list) ? list.map(function (item, index) {
+    const scopedData = Object.assign({}, data, { [itemName]: item, [indexName]: index });
+    return renderTemplate(`<${tag}${attrs}>${inner}</${tag}>`, scopedData);
+  }).join('') : '';
+  const replaced = html.slice(0, opening.index) + replacement + html.slice(tokenPattern.lastIndex);
+  return renderForBlocks(replaced, data);
 }
 
 function evaluateClassBinding(expr, data) {
@@ -558,6 +573,10 @@ try {
 
   const props = buildProps(component, config.props || {});
   const data = buildInitialData(component, props);
+  if (component && typeof component.created === 'function') {
+    component.created.call(createVueContext(data, component));
+    applyComputed(data, component);
+  }
   const renderedTemplate = template ? renderTemplate(template, data) : '';
   const htmlSnapshot = [renderedTemplate, style ? `<style>${style}</style>` : ''].filter(Boolean).join('\n');
   const domSnapshot = buildDomSnapshot(renderedTemplate);

@@ -256,9 +256,9 @@ function evaluateComponent(script, sourceName) {
 }
 
 function buildInitialData(component, props) {
-  let data = {};
+  let data = Object.assign({}, props || {});
   if (component && typeof component.initData === 'function') {
-    const context = { data: createDataStore(props || {}) };
+    const context = { data: createDataStore(data) };
     const initResult = component.initData.call(context);
     if (initResult && typeof initResult === 'object') {
       data = Object.assign(data, initResult);
@@ -267,24 +267,118 @@ function buildInitialData(component, props) {
   return Object.assign(data, props || {});
 }
 
+function createComponentContext(component, dataStore) {
+  const context = {
+    data: dataStore,
+    watch() {},
+    fire() {}
+  };
+  Object.keys(component || {}).forEach(function (name) {
+    if (typeof component[name] === 'function' && !['initData', 'inited', 'attached', 'disposed'].includes(name)) {
+      context[name] = component[name].bind(context);
+    }
+  });
+  return context;
+}
+
+function evaluateComputed(component, dataStore) {
+  const values = {};
+  const computed = component && component.computed;
+  if (!computed || typeof computed !== 'object') {
+    return values;
+  }
+  const context = createComponentContext(component, dataStore);
+  Object.keys(computed).forEach(function (name) {
+    const getter = computed[name];
+    try {
+      if (typeof getter === 'function') {
+        values[name] = getter.call(context);
+      } else if (getter && typeof getter.get === 'function') {
+        values[name] = getter.get.call(context);
+      }
+    } catch (error) {
+      diagnostics.push({
+        code: 'san_computed_error',
+        message: `computed ${name} 执行失败：${error.message}`,
+        severity: 'warning'
+      });
+      values[name] = '';
+    }
+  });
+  return values;
+}
+
+function buildRenderData(component, dataStore) {
+  return Object.assign({}, dataStore.raw(), evaluateComputed(component, dataStore));
+}
+
 function renderTemplate(template, data) {
   let html = template;
 
+  html = renderForBlocks(html, data);
   html = html.replace(/\s+s-if="([^"]+)"/g, function (_, expr) {
     const value = evaluateExpression(expr, data);
     return value ? '' : ' data-san-hidden="true"';
   });
 
+  html = html.replace(/\s+(?:key|trackby)="[^"]*"/g, '');
   html = html.replace(/\s+on-[\w:-]+="[^"]*"/g, '');
-  html = html.replace(/\s+s-for="[^"]*"/g, '');
   html = html.replace(/\s+s-else(?:-if)?="[^"]*"/g, '');
   html = html.replace(/\s+s-else\b/g, '');
+  html = html.replace(/\s+disabled="\{\{\s*([^}]+?)\s*\}\}"/g, function (_, expr) {
+    const value = evaluateExpression(expr, data);
+    return value ? ' disabled="true"' : '';
+  });
+  html = html.replace(/\s+class="\{\{\s*([^}]+?)\s*\}\}"/g, function (_, expr) {
+    const value = evaluateExpression(expr, data);
+    return value ? ` class="${escapeHtml(stringifyValue(value))}"` : '';
+  });
+  html = html.replace(/\s+value="\{=\s*([^=]+?)\s*=\}"/g, function (_, expr) {
+    return ` value="${escapeHtml(stringifyValue(evaluateExpression(expr, data)))}"`;
+  });
+  html = html.replace(/\s+([\w:-]+)="\{\{\s*([^}]+?)\s*\}\}"/g, function (_, attr, expr) {
+    const value = evaluateExpression(expr, data);
+    if (value === false || value == null) return '';
+    return ` ${attr}="${escapeHtml(stringifyValue(value))}"`;
+  });
 
   html = html.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_, expr) {
     return escapeHtml(stringifyValue(evaluateExpression(expr, data)));
   });
 
   return html;
+}
+
+function renderForBlocks(html, data) {
+  const openingPattern = /<([a-zA-Z][\w-]*)([^>]*)\s+s-for="([^"]+)"([^>]*)>/;
+  const opening = openingPattern.exec(html);
+  if (!opening) return html;
+  const tag = opening[1];
+  const tokenPattern = new RegExp(`<\\/?${tag}\\b[^>]*>`, 'gi');
+  tokenPattern.lastIndex = opening.index + opening[0].length;
+  let depth = 1;
+  let closing = null;
+  let token;
+  while ((token = tokenPattern.exec(html)) !== null) {
+    if (token[0].startsWith('</')) depth -= 1;
+    else if (!/\/\s*>$/.test(token[0])) depth += 1;
+    if (depth === 0) { closing = token; break; }
+  }
+  if (!closing) return html;
+  const directive = opening[3].replace(/\s+trackby\s+.+$/, '').trim();
+  const match = directive.match(/^\s*(?:\((\w+)\s*,\s*(\w+)\)|([\w$]+))\s+in\s+(.+)$/);
+  if (!match) return html;
+  const itemName = match[1] || match[3];
+  const indexName = match[2] || 'index';
+  const list = evaluateExpression(match[4], data);
+  const inner = html.slice(opening.index + opening[0].length, closing.index);
+  const attrs = `${opening[2]}${opening[4]}`;
+  const replacement = Array.isArray(list) ? list.map(function (item, index) {
+    const scopedData = Object.assign({}, data, { [itemName]: item, [indexName]: index });
+    return renderTemplate(`<${tag}${attrs}>${inner}</${tag}>`, scopedData);
+  }).join('') : '';
+  const replaced = html.slice(0, opening.index) + replacement + html.slice(tokenPattern.lastIndex);
+  return renderForBlocks(replaced, data);
 }
 
 function evaluateExpression(expr, data) {
@@ -470,17 +564,17 @@ try {
   }
 
   const data = buildInitialData(component, config.props || {});
+  const dataStore = createDataStore(data);
+  const context = createComponentContext(component, dataStore);
   if (component && typeof component.inited === 'function') {
-    const dataStore = createDataStore(data);
-    component.inited.call({
-      data: dataStore,
-      watch() {},
-      fire() {}
-    });
-    Object.assign(data, dataStore.raw());
+    component.inited.call(context);
   }
+  if (component && typeof component.attached === 'function') {
+    component.attached.call(context);
+  }
+  const renderData = buildRenderData(component, dataStore);
 
-  const renderedTemplate = template ? renderTemplate(template, data) : '';
+  const renderedTemplate = template ? renderTemplate(template, renderData) : '';
   const htmlSnapshot = [renderedTemplate, style ? `<style>${style}</style>` : ''].filter(Boolean).join('\n');
   const domSnapshot = buildDomSnapshot(renderedTemplate);
   const hasErrors = diagnostics.some(item => item.severity === 'error');

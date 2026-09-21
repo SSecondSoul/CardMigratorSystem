@@ -113,11 +113,14 @@ class VueSFCParser:
                 input=source,
                 capture_output=True,
                 text=True,
+                encoding="utf-8",
+                errors="replace",
                 timeout=30,
                 env=env,
             )
-            if proc.returncode == 0 and proc.stdout.strip():
-                payload = json.loads(proc.stdout)
+            stdout = proc.stdout or ""
+            if proc.returncode == 0 and stdout.strip():
+                payload = json.loads(stdout)
                 if isinstance(payload, dict) and payload.get("error"):
                     return None
                 return payload

@@ -1,0 +1,124 @@
+<template>
+<section class="kanban-column-board">
+    <header>
+        <h2>内容制作看板</h2>
+        <div class="actions">
+            <button on-click="move(-1)" disabled="{{!selectedTask}}">← 左移</button>
+            <button on-click="move(1)" disabled="{{!selectedTask}}">右移 →</button>
+        </div>
+    </header>
+    <div class="board">
+        <article s-for="column in boardColumns" key="{{column.id}}">
+            <h3>{{column.label}} · {{column.count}}</h3>
+            <button s-for="task in column.tasks" key="{{task.id}}" class="{{task.id === selectedId ? 'selected' : ''}}" on-click="select(task.id)">{{task.title}}</button>
+        </article>
+    </div>
+    <form on-submit="add">
+        <input placeholder="新增待处理任务" value="{= draft =}" on-input="updateDraft" />
+        <button class="primary" type="submit">添加</button>
+    </form>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+    name: 'KanbanColumnBoard',
+
+    dataTypes: {
+        initialTasks: DataTypes.array,
+        columns: DataTypes.array
+    },
+
+    initData() {
+        return {
+            tasks: [],
+            selectedId: null,
+            draft: '',
+            nextId: 10
+        };
+    },
+
+    computed: {
+        boardColumns() {
+            const columns = this.data.get('columns') || [];
+            const tasks = this.data.get('tasks') || [];
+            return columns.map(column => {
+                const columnTasks = tasks.filter(item => item.status === column.id);
+                return Object.assign({}, column, { tasks: columnTasks, count: columnTasks.length });
+            });
+        },
+        selectedTask() {
+            const tasks = this.data.get('tasks') || [];
+            const selectedId = this.data.get('selectedId');
+            return tasks.find(item => item.id === selectedId) || null;
+        }
+    },
+
+    inited() {
+        const initialTasks = this.data.get('initialTasks') || [];
+        const tasks = initialTasks.map(item => Object.assign({}, item));
+        this.data.set('tasks', tasks);
+    },
+
+    setValue(key, value) {
+        this.data.set(key, value);
+    },
+
+    emitEvent(name, payload) {
+        this.fire(name, payload);
+    },
+
+    select(id) {
+        this.setValue('selectedId', id);
+    },
+
+    move(delta) {
+        const task = this.data.get('selectedTask');
+        if (!task) return;
+        const columns = this.data.get('columns') || [];
+        const index = columns.findIndex(item => item.id === task.status);
+        const target = columns[index + delta];
+        if (!target) return;
+        const tasks = this.data.get('tasks') || [];
+        const newTasks = tasks.map(item =>
+            item.id === task.id ? Object.assign({}, item, { status: target.id }) : item
+        );
+        this.setValue('tasks', newTasks);
+        this.emitEvent('move', { id: task.id, status: target.id });
+    },
+
+    updateDraft(event) {
+        this.setValue('draft', event.target.value);
+    },
+
+    add(event) {
+        event.preventDefault();
+        const draft = this.data.get('draft') || '';
+        const title = draft.trim();
+        if (!title) return;
+        const nextId = this.data.get('nextId') || 10;
+        const task = { id: nextId, title, status: 'todo' };
+        const tasks = this.data.get('tasks') || [];
+        this.setValue('tasks', tasks.concat(task));
+        this.setValue('nextId', nextId + 1);
+        this.setValue('draft', '');
+        this.emitEvent('add', task);
+    }
+});
+</script>
+
+<style>
+.kanban-column-board{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.kanban-column-board *{box-sizing:border-box}
+.kanban-column-board h2,.kanban-column-board h3,.kanban-column-board p{margin-top:0}
+.kanban-column-board button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.kanban-column-board button.primary{border-color:#7c3aed;background:#7c3aed;color:#fff}
+.kanban-column-board button:disabled{opacity:.45;cursor:not-allowed}
+.kanban-column-board input,.kanban-column-board select,.kanban-column-board textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.kanban-column-board .muted{color:#71808e;font-size:12px}
+.kanban-column-board .toolbar,.kanban-column-board .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+header{display:flex;justify-content:space-between}.board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.board article{min-height:190px;padding:10px;background:#f8fafc}.board article>button{display:block;width:100%;margin:6px 0;text-align:left}.board button.selected{background:#ede9fe;border-color:#7c3aed}form{display:flex;gap:8px;margin-top:12px}form input{flex:1}
+</style>
