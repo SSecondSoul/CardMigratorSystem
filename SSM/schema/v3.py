@@ -246,7 +246,10 @@ SSM_SCHEMA = {
                 ],
                 "item_schema": {
                     "name": "string",
-                    "default_value_summary": "string — 默认值表达式源码或类型描述",
+                    "default_value_summary": "string — 默认值表达式的前 50 个字符，仅用于紧凑展示",
+                    "default_value_expression": "string — 未截断的默认值表达式源码",
+                    "default_value": "any | null — 可静态求值时的结构化默认值",
+                    "default_value_static": "bool — default_value 是否来自可靠的静态求值",
                     "default_ast": "ASTNode — 默认值的 AST",
                     "value_type_inferred": "enum — string | number | boolean | array | object | null | function | unknown"
                 }
@@ -258,6 +261,7 @@ SSM_SCHEMA = {
                     "name": "string",
                     "has_setter": "bool",
                     "getter_body": "string — getter 函数体源码",
+                    "getter_body_full": "string — 未截断的完整 getter 函数体源码",
                     "getter_ast": "ASTNode",
                     "dependencies_inferred": ["string — 通过遍历 getter AST 的 Identifier 节点推断"],
                     "return_type_inferred": "string | null"
@@ -284,6 +288,7 @@ SSM_SCHEMA = {
                     "params": ["string — 形参名称"],
                     "params_ast": ["ASTNode"],
                     "body": "string — 函数体源码",
+                    "body_full": "string — 未截断的完整函数体源码",
                     "body_ast": "ASTNode",
                     "is_async": "bool",
                     "reads_inferred": ["string — 函数体中 this.xxx 或 this.data.get 的字段"],

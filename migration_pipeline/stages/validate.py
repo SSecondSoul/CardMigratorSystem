@@ -1,4 +1,5 @@
 import re
+import json
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
@@ -81,6 +82,19 @@ class ValidateStage:
         (r"\bv-model\s*=", "vue_v_model", "San 模板中不应保留 v-model，请迁移为 value + on-input。"),
         (r"\B:[\w:-]+\s*=", "vue_bind_shorthand", "San 模板中不应保留 Vue 属性绑定简写，请迁移为 San 表达式属性。"),
     )
+    # San's {= ... =} syntax is a two-way binding.  It is only valid for an
+    # assignable data path (for example, an input value).  Boolean/selection
+    # attributes are derived state and must use one-way {{ ... }} interpolation;
+    # otherwise the lightweight renderer treats the expression as a literal
+    # attribute and the browser can receive the wrong disabled/checked state.
+    DERIVED_ATTRIBUTE_TWO_WAY_PATTERN = re.compile(
+        r"\b(?:disabled|checked|selected)\s*=\s*(?:\"[^\"]*\{=[^\"]*=\}[^\"]*\"|'[^']*\{=[^']*=\}[^']*')",
+        re.IGNORECASE,
+    )
+    S_FOR_OPEN_TAG_PATTERN = re.compile(
+        r"<[^>]*\bs-for\s*=\s*(?:\"[^\"]*\"|'[^']*')[^>]*>",
+        re.IGNORECASE,
+    )
     VUE_SCRIPT_PATTERNS = (
         (r"export\s+default", "vue_export_default", "San 脚本应使用 module.exports = san.defineComponent(...)。"),
         (r"\bprops\s*:", "vue_props_option", "San 中 props 应迁移为 dataTypes。"),
@@ -104,6 +118,7 @@ class ValidateStage:
         san_compile_result = self._validate_san_compile(code, stage_input, issues, checks)
         self._validate_ssm_consistency(code, blocks, ssm, issues, checks)
         self._validate_prop_defaults_landing(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_data_initial_values(san_compile_result, ssm, issues, checks)
         self._validate_event_arguments_landing(blocks.get("template", ""), ssm, issues, checks)
         self._validate_custom_event_migration(blocks.get("script", ""), ssm, issues, checks)
         self._validate_datatypes_accuracy(blocks.get("script", ""), ssm, issues, checks)
@@ -220,6 +235,68 @@ class ValidateStage:
                     location="template",
                     suggestion=suggestion,
                 ))
+
+        invalid_derived_bindings = self.DERIVED_ATTRIBUTE_TWO_WAY_PATTERN.findall(template)
+        binding_count = len(invalid_derived_bindings)
+        binding_passed = binding_count == 0
+        checks.append(ValidationCheck(
+            name="derived_attributes_use_one_way_binding",
+            passed=binding_passed,
+            message="disabled/checked/selected 使用 {{ ... }} 单向插值，而不是 {= ... =} 双向绑定",
+        ))
+        if not binding_passed:
+            issues.append(ValidationIssue(
+                code="invalid_dynamic_attribute_binding",
+                message=(
+                    f"San 模板中检测到 {binding_count} 处 derived 属性使用 {{= ... =}} 双向绑定；"
+                    "disabled、checked、selected 必须使用 {{ ... }} 单向插值。"
+                ),
+                location="template",
+                suggestion="例如将 disabled=\"{= page === 1 =}\" 改为 disabled=\"{{ page === 1 }}\"。",
+            ))
+
+        s_for_tags_with_key = [
+            tag for tag in self.S_FOR_OPEN_TAG_PATTERN.findall(template)
+            if re.search(r"\bkey\s*=", tag, re.IGNORECASE)
+        ]
+        s_for_key_passed = not s_for_tags_with_key
+        checks.append(ValidationCheck(
+            name="s_for_uses_inline_trackby",
+            passed=s_for_key_passed,
+            message="Vue :key 使用 San s-for 内联 trackby 迁移，而不是独立 key 属性",
+        ))
+        if not s_for_key_passed:
+            issues.append(ValidationIssue(
+                code="invalid_s_for_key_binding",
+                message=(
+                    f"San 模板中检测到 {len(s_for_tags_with_key)} 个 s-for 节点使用独立 key 属性；"
+                    "该写法不能等价替代 San 的 trackby，可能导致循环节点状态或 class 不刷新。"
+                ),
+                location="template",
+                suggestion=(
+                    "将 s-for=\"task in tasks\" key=\"{{ task.id }}\" 改为 "
+                    "s-for=\"task in tasks trackby task.id\"，并删除独立 key 属性。"
+                ),
+            ))
+
+        interpolation_open = template.count("{{") + template.count("{=")
+        interpolation_close = template.count("}}") + template.count("=}")
+        interpolation_passed = interpolation_open == interpolation_close
+        checks.append(ValidationCheck(
+            name="template_interpolations_balanced",
+            passed=interpolation_passed,
+            message="San 模板插值分隔符完整闭合",
+        ))
+        if not interpolation_passed:
+            issues.append(ValidationIssue(
+                code="unbalanced_template_interpolation",
+                message=(
+                    f"San 模板插值分隔符不匹配：开放标记 {interpolation_open} 个，"
+                    f"闭合标记 {interpolation_close} 个。"
+                ),
+                location="template",
+                suggestion="检查 {{ expression }} 或 {= assignable.path =} 是否缺少结束分隔符。",
+            ))
 
     def _validate_script_rules(
         self,
@@ -422,6 +499,83 @@ class ValidateStage:
                 suggestion="将 SSM props.default 的等价值作为同名字段加入 initData 返回对象。",
             ))
 
+    def _validate_data_initial_values(
+        self,
+        san_compile_result: dict[str, Any] | None,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        data_fields = self._script_options(ssm).get("data", [])
+        expected = {
+            str(field.get("name") or field.get("field_name")): field.get("default_value")
+            for field in data_fields if isinstance(data_fields, list)
+            if isinstance(field, dict)
+            and (field.get("name") or field.get("field_name"))
+            and field.get("default_value_static") is True
+        }
+        if not expected:
+            return
+
+        actual = (san_compile_result or {}).get("initial_data")
+        if not isinstance(actual, dict):
+            checks.append(ValidationCheck(
+                name="data_initial_values_equivalent",
+                passed=False,
+                message="无法取得 San initData 的结构化结果",
+                severity="warning",
+            ))
+            issues.append(ValidationIssue(
+                code="data_initial_values_unavailable",
+                message="SSM 包含可静态验证的 data 初始值，但未取得 San initData 结果。",
+                severity="warning",
+                location="script",
+                suggestion="确认 Node 编译校验可运行，且 initData 返回可序列化对象。",
+            ))
+            return
+
+        mismatches = []
+        for name, expected_value in expected.items():
+            if name not in actual or not self._values_equivalent(expected_value, actual[name]):
+                mismatches.append({
+                    "field": name,
+                    "expected": expected_value,
+                    "actual": actual.get(name, "<missing>"),
+                })
+
+        checks.append(ValidationCheck(
+            name="data_initial_values_equivalent",
+            passed=not mismatches,
+            message="Vue data 初始值与 San initData 等价",
+        ))
+        if mismatches:
+            issues.append(ValidationIssue(
+                code="data_initial_value_mismatch",
+                message=(
+                    "以下 data 初始值与 SSM 不等价："
+                    + json.dumps(mismatches, ensure_ascii=False, separators=(",", ":"))
+                ),
+                location="script",
+                suggestion="按 SSM data_initial_values_to_preserve 精确保留完整初始值。",
+            ))
+
+    def _values_equivalent(self, expected: Any, actual: Any) -> bool:
+        if isinstance(expected, bool) or isinstance(actual, bool):
+            return type(expected) is type(actual) and expected == actual
+        if isinstance(expected, (int, float)) and isinstance(actual, (int, float)):
+            return expected == actual
+        if isinstance(expected, dict) and isinstance(actual, dict):
+            return expected.keys() == actual.keys() and all(
+                self._values_equivalent(expected[key], actual[key])
+                for key in expected
+            )
+        if isinstance(expected, list) and isinstance(actual, list):
+            return len(expected) == len(actual) and all(
+                self._values_equivalent(expected_item, actual_item)
+                for expected_item, actual_item in zip(expected, actual)
+            )
+        return type(expected) is type(actual) and expected == actual
+
     def _validate_event_arguments_landing(
         self,
         template: str,
@@ -566,7 +720,8 @@ class ValidateStage:
         if not handlers:
             return
 
-        missing = [handler for handler in handlers if not re.search(rf"\bon-[\w:-]+\s*=\s*['\"]{re.escape(handler)}(?:\([^'\"]*\))?['\"]", template)]
+        bound_handlers = self._bound_event_handlers(template)
+        missing = [handler for handler in handlers if handler not in bound_handlers]
         passed = not missing
         checks.append(ValidationCheck(
             name="event_binding_completeness",
@@ -580,6 +735,20 @@ class ValidateStage:
                 location="template",
                 suggestion="在模板中补充对应 on-click/on-input 等 San 事件绑定。",
             ))
+
+    def _bound_event_handlers(self, template: str) -> set[str]:
+        """Return handler names from on-* attributes, including calls with quoted args."""
+        handlers: set[str] = set()
+        attribute_pattern = re.compile(
+            r"\bon-[\w:-]+\s*=\s*([\"'])(.*?)\1",
+            re.DOTALL,
+        )
+        handler_pattern = re.compile(r"^\s*([A-Za-z_$][\w$]*)\s*(?:\(|$)")
+        for match in attribute_pattern.finditer(template):
+            handler_match = handler_pattern.match(match.group(2))
+            if handler_match:
+                handlers.add(handler_match.group(1))
+        return handlers
 
     def _validate_computed_watch_migration(
         self,

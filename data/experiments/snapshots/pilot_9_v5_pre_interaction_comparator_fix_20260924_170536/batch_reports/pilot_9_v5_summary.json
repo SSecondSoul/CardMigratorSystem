@@ -1,0 +1,129 @@
+{
+  "batch_id": "pilot_9_v5",
+  "config_sha256": "4d67db8908ad7462a505ba5a0693665e4c609872a6906ad268417c00769c31dc",
+  "started_at": "2026-09-24T17:04:39+08:00",
+  "updated_at": "2026-09-24T17:05:36+08:00",
+  "samples": [
+    {
+      "id": "medium_form_rule_playground",
+      "component_name": "FormRulePlayground",
+      "complexity": "medium",
+      "coverage_focus": [
+        "dynamic form fields",
+        "validation rules",
+        "nested list rendering",
+        "$event argument forwarding"
+      ],
+      "vue_file": "data/datasets/components/02_medium/FormRulePlayground/vue/FormRulePlayground.vue",
+      "output_file": "data/experiments/pipeline/batches/pilot_9_v5/medium/FormRulePlayground.san",
+      "report_file": "data/experiments/repair_reports/batches/pilot_9_v5/medium/FormRulePlayground_repair_history.json",
+      "final_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\pilot_9_v5\\medium\\FormRulePlayground_repaired.san",
+      "status": "completed",
+      "started_at": "2026-09-24T17:04:39+08:00",
+      "finished_at": "2026-09-24T17:05:36+08:00",
+      "elapsed_seconds": 57.362,
+      "final_passed": false,
+      "stop_reason": "interaction_eval_failed",
+      "repair_rounds": 1,
+      "max_repair_rounds": 3,
+      "initial_validation_passed": false,
+      "initial_validation_error_codes": [
+        "missing_prop_defaults"
+      ],
+      "initial_validation_warning_codes": [
+        "migration_hints_not_landed"
+      ],
+      "initial_visual_eval_passed": false,
+      "initial_visual_error_codes": [
+        "dom_structure_similarity_low"
+      ],
+      "initial_visual_warning_codes": [
+        "dom_text_similarity_low"
+      ],
+      "initial_structure_similarity": 0.2857,
+      "final_validation_passed": true,
+      "final_validation_error_codes": [],
+      "final_visual_eval_passed": true,
+      "final_visual_error_codes": [],
+      "final_structure_similarity": 1.0,
+      "final_tag_sequence_similarity": 1.0,
+      "final_text_similarity": 1.0,
+      "final_tree_edit_distance": 0.0,
+      "interaction_eval_passed": false,
+      "interaction_eval_reason": "interaction_scenarios_mismatch",
+      "generation_provider": "qwen",
+      "generation_model": "qwen-plus",
+      "generation_tokens": 16680,
+      "repair_tokens": 20168,
+      "total_tokens": 36848
+    }
+  ],
+  "aggregate": {
+    "configured": 9,
+    "completed": 1,
+    "passed": 0,
+    "failed": 1,
+    "execution_errors": 0,
+    "pending": 8,
+    "pass_rate_completed": 0.0,
+    "initial_passed": 0,
+    "initial_pass_rate_completed": 0.0,
+    "repaired_to_pass": 0,
+    "repair_rounds_total": 1,
+    "repair_rounds_average": 1.0,
+    "generation_tokens": 16680,
+    "repair_tokens": 20168,
+    "total_tokens": 36848,
+    "stop_reason_counts": {
+      "interaction_eval_failed": 1
+    },
+    "error_code_counts": {
+      "initial_validation": {
+        "missing_prop_defaults": 1
+      },
+      "initial_visual": {
+        "dom_structure_similarity_low": 1
+      },
+      "final_validation": {},
+      "final_visual": {}
+    },
+    "by_complexity": {
+      "simple": {
+        "configured": 3,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "medium": {
+        "configured": 3,
+        "completed": 1,
+        "passed": 0,
+        "failed": 1,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.0
+      },
+      "complex": {
+        "configured": 3,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      }
+    }
+  },
+  "description": "沿用 pilot_9_v4 的样本、Prompt、SSM 初始值检查与关键属性校验；新增完整 computed/method 源码，并对指定样本执行提交后交互场景评估。",
+  "config_file": "migration_pipeline/batch_configs/pilot_9_v5.json",
+  "max_repair_rounds": 3,
+  "output_dir": "data/experiments/pipeline/batches/pilot_9_v5",
+  "report_dir": "data/experiments/repair_reports/batches/pilot_9_v5",
+  "summary_file": "data/experiments/batch_reports/pilot_9_v5_summary.json",
+  "local_server": {
+    "model": "qwen-plus",
+    "ok": true,
+    "provider": "qwen",
+    "service": "local_server"
+  }
+}

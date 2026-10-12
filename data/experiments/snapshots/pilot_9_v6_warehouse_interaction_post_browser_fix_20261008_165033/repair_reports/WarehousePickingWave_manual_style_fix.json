@@ -1,0 +1,32 @@
+{
+  "sample_id": "complex_warehouse_picking_wave",
+  "repair_type": "manual_post_validation_fix",
+  "model_called": false,
+  "reported_issue": "人工浏览器验证中，San 选中拣选路径后颜色不变化。",
+  "root_cause": [
+    "任务 article 的 class 插值缺少一个结束花括号，导致 {{ task.picked ? 'picked' : '' }} 未闭合。",
+    "Vue v-for 的 :key 被迁移为独立 key=\"{= task.id =}\"，没有使用 San s-for 内联 trackby，循环节点状态更新语义不等价。",
+    "同一迁移问题存在于订单、波次、异常和拣货员 option 循环；picker option 还使用了不必要的双向绑定。"
+  ],
+  "changes": [
+    "修复任务 class 插值为 class=\"{{task.picked ? 'picked' : ''}}\"。",
+    "将循环改为 s-for=\"... trackby ...\"，删除独立 key 属性。",
+    "将 picker select/option 改为单向 value 插值并保留 on-change 更新方法。",
+    "生成与修复 Prompt 明确 :key 到 trackby 的迁移规则。",
+    "Validator 新增 invalid_s_for_key_binding 和 unbalanced_template_interpolation 检查。"
+  ],
+  "before_sha256": "641758cbf94d0246e9f793470cdeadfb7ae425ad16dc47dce72f8ea1556c6af4",
+  "after_sha256": "ce19a7d95d7dae8ea935517a2671b5486543fbdec632f4b9367d8a8bc9f43441",
+  "verification": {
+    "san_compile_passed": true,
+    "visual_eval_passed": true,
+    "structure_similarity": 1.0,
+    "tag_sequence_similarity": 1.0,
+    "text_similarity": 1.0,
+    "tree_edit_distance": 0.0,
+    "interaction_eval_passed": true,
+    "regression_tests_passed": 30
+  },
+  "frozen_pre_fix_snapshot": "data/experiments/snapshots/pilot_9_v6_warehouse_interaction_final_20261008_160716/",
+  "note": "Pre-fix v6 snapshot remains unchanged; this report records the post-browser-validation correction separately."
+}

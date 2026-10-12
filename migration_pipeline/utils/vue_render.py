@@ -272,6 +272,18 @@ function buildInitialData(component, props) {
   return data;
 }
 
+function exposeTemplateMethods(data, component) {
+  if (!component || !component.methods || typeof component.methods !== 'object') {
+    return;
+  }
+  const context = createVueContext(data, component);
+  Object.keys(component.methods).forEach(function (name) {
+    if (typeof component.methods[name] === 'function') {
+      data[name] = component.methods[name].bind(context);
+    }
+  });
+}
+
 function createVueContext(data, component) {
   return new Proxy(data, {
     get(target, prop) {
@@ -577,6 +589,7 @@ try {
     component.created.call(createVueContext(data, component));
     applyComputed(data, component);
   }
+  exposeTemplateMethods(data, component);
   const renderedTemplate = template ? renderTemplate(template, data) : '';
   const htmlSnapshot = [renderedTemplate, style ? `<style>${style}</style>` : ''].filter(Boolean).join('\n');
   const domSnapshot = buildDomSnapshot(renderedTemplate);

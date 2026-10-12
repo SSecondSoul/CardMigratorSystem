@@ -225,6 +225,34 @@ class VisualEvalStage:
                 suggestion="检查文本插值、computed、props 和 data 初始化是否等价。",
             ))
 
+        critical_attributes = {"value", "checked", "selected", "disabled"}
+        critical_mismatches = []
+        for changed in dom_compare_result.get("changed_nodes", []):
+            if not isinstance(changed, dict) or "attrs_changed" not in changed.get("reason", ""):
+                continue
+            vue_attrs = (changed.get("vue_node") or {}).get("attrs", {})
+            san_attrs = (changed.get("san_node") or {}).get("attrs", {})
+            mismatched_names = sorted(
+                name for name in critical_attributes
+                if vue_attrs.get(name) != san_attrs.get(name)
+            )
+            if mismatched_names:
+                critical_mismatches.append({
+                    "path": changed.get("path", ""),
+                    "attributes": mismatched_names,
+                    "vue": {name: vue_attrs.get(name) for name in mismatched_names},
+                    "san": {name: san_attrs.get(name) for name in mismatched_names},
+                })
+
+        if critical_mismatches:
+            issues.append(VisualEvalIssue(
+                code="dom_critical_attribute_mismatch",
+                message=f"Vue/San 关键表单属性不一致：{critical_mismatches}",
+                severity="error",
+                location="dom_compare",
+                suggestion="精确保留 value、checked、selected、disabled 的初始渲染状态。",
+            ))
+
     def _build_summary(
         self,
         passed: bool,

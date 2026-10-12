@@ -1,3 +1,4 @@
+import hashlib
 from copy import deepcopy
 from dataclasses import dataclass, field
 from typing import Any
@@ -67,6 +68,8 @@ class MigrationPipelineState:
     final_visual_eval_result: dict[str, Any] | None = None
     final_passed: bool = False
     stop_reason: str = ""
+    progress_signature: dict[str, Any] | None = None
+    no_repair_progress: bool = False
 
 
 @dataclass
@@ -154,6 +157,8 @@ class MigrationPipelineOrchestrator:
         state["max_repair_rounds"] = max_repair_rounds
         state["repair_history"] = []
         state["repair_rounds"] = 0
+        state["progress_signature"] = None
+        state["no_repair_progress"] = False
 
         validate_update = self.validate_stage.run_from_state(state)
         state.update(validate_update)
@@ -176,6 +181,14 @@ class MigrationPipelineOrchestrator:
             state.update(visual_update)
             state["repaired_visual_eval_result"] = state["visual_eval_result"]
 
+            progress_signature = self._build_progress_signature(state)
+            previous_signature = (
+                state["repair_history"][-1].get("progress_signature")
+                if state["repair_history"]
+                else None
+            )
+            state["progress_signature"] = progress_signature
+            state["no_repair_progress"] = previous_signature == progress_signature
             state["repair_history"].append(self._build_repair_history_entry(state))
 
         self._finalize_state(state, max_repair_rounds)
@@ -209,7 +222,36 @@ class MigrationPipelineOrchestrator:
         return state
 
     def _should_continue_repair(self, state: dict[str, Any], max_repair_rounds: int) -> bool:
-        return not self._stage_passed(state) and state.get("repair_attempt", 0) < max_repair_rounds
+        return (
+            not self._stage_passed(state)
+            and not state.get("no_repair_progress", False)
+            and state.get("repair_attempt", 0) < max_repair_rounds
+        )
+
+    def _build_progress_signature(self, state: dict[str, Any]) -> dict[str, Any]:
+        normalized_code = "\n".join(
+            line.rstrip()
+            for line in (state.get("generated_code") or "").replace("\r\n", "\n").split("\n")
+        ).strip()
+        return {
+            "generated_code_sha256": hashlib.sha256(
+                normalized_code.encode("utf-8")
+            ).hexdigest(),
+            "validation_error_codes": self._issue_codes(state.get("validation_errors", [])),
+            "visual_error_codes": self._issue_codes(state.get("visual_eval_errors", [])),
+            "tree_edit_distance": state.get("tree_edit_distance"),
+            "structure_similarity": state.get("structure_similarity"),
+            "tag_sequence_similarity": state.get("tag_sequence_similarity"),
+            "text_similarity": state.get("text_similarity"),
+        }
+
+    def _issue_codes(self, issues: Any) -> list[str]:
+        if not isinstance(issues, list):
+            return []
+        return sorted(
+            str(issue.get("code", "unknown"))
+            for issue in issues if isinstance(issue, dict)
+        )
 
     def _build_repair_history_entry(self, state: dict[str, Any]) -> dict[str, Any]:
         return {
@@ -223,6 +265,8 @@ class MigrationPipelineOrchestrator:
             "structure_similarity": state.get("structure_similarity", 0.0),
             "tag_sequence_similarity": state.get("tag_sequence_similarity", 0.0),
             "text_similarity": state.get("text_similarity", 0.0),
+            "progress_signature": deepcopy(state.get("progress_signature")),
+            "no_progress_detected": state.get("no_repair_progress", False),
             "passed": self._stage_passed(state),
         }
 
@@ -236,6 +280,8 @@ class MigrationPipelineOrchestrator:
 
         if final_passed:
             state["stop_reason"] = "passed"
+        elif state.get("no_repair_progress", False):
+            state["stop_reason"] = "no_repair_progress"
         elif state.get("repair_attempt", 0) >= max_repair_rounds:
             state["stop_reason"] = "max_repair_rounds_reached"
         else:

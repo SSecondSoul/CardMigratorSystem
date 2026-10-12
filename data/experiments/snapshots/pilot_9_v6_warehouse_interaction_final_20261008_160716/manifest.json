@@ -1,0 +1,61 @@
+{
+  "snapshot_id": "pilot_9_v6_warehouse_interaction_final_20261008_160716",
+  "created_at": "2026-10-08T16:07:16+08:00",
+  "purpose": "Freeze the successful pilot_9_v6 WarehousePickingWave complex run, deterministic workflow interaction evaluation, effective code, tests, inputs, and reports before proceeding to the final complex sample.",
+  "experiment_batch_id": "pilot_9_v6",
+  "sample_id": "complex_warehouse_picking_wave",
+  "git_head": "a943106cd071bd9cae96e8cbf33715fc6a5824b0",
+  "config_file_sha256": "ae432f9660c7db454a8aaff4e0c058d24c226ce47351b8545d8f320cddc0f3b6",
+  "config_canonical_sha256": "0de2c5b627e627b6b58a71bc4ce7bf502bd40cfe54f1b48f4dc2f4f59c61a941",
+  "summary_file_sha256": "e7cf3b61c9a8f542a2a5228115f02726d126b33f1c0ed0dc47b7f042a7eb4fa4",
+  "final_san_sha256": "641758cbf94d0246e9f793470cdeadfb7ae425ad16dc47dce72f8ea1556c6af4",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "pipeline_result": {
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 1,
+    "final_validation_passed": true,
+    "final_validation_error_count": 0,
+    "final_validation_warning_count": 0,
+    "final_visual_eval_passed": true,
+    "final_structure_similarity": 1.0,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "generation_tokens": 34635,
+    "repair_tokens": 41696,
+    "total_tokens": 76331,
+    "elapsed_seconds": 131.614
+  },
+  "interaction_evaluation": {
+    "config_file_sha256": "aae537fb63f358cb7e5378223704e136b2fb18f1949f01773dd42072a9114e8f",
+    "config_canonical_sha256": "2c33cccdab6dd3f0de0dacc79c31a3ea893d89850d3c9bbc1e8895393b443592",
+    "report_file_sha256": "60f89fbb5c90ba120b9bc6a2402377638eb9c66e88ad418119436e0ca1daf1a7",
+    "fixed_now_ms": 1791447300000,
+    "model_called": false,
+    "passed": true,
+    "reason": "interaction_scenarios_passed",
+    "scenarios": [
+      "change_picker",
+      "create_wave",
+      "complete_wave",
+      "exception_blocks_then_allows_completion"
+    ]
+  },
+  "workflow_evidence": [
+    "Creating a wave assigns selected orders and emits the wave event.",
+    "Picking all lines allows the active wave to complete and emits the complete event.",
+    "An unresolved exception blocks completion; resolving it permits completion.",
+    "Date.now-based exception identifiers are evaluated with an explicit deterministic clock."
+  ],
+  "known_limitations": [
+    "The interaction evaluator is a lightweight in-memory execution layer, not real-browser automation or screenshot comparison.",
+    "Select/option bindings, keyed-list identity, CSS state colors, and click hit targets still require real-browser verification.",
+    "The model run did not use a recorded random seed, so this single complex result is case evidence rather than a statistical success-rate estimate."
+  ],
+  "regression_tests_passed": 28,
+  "payload_file_count": 30,
+  "integrity_file": "SHA256SUMS.txt",
+  "status": "frozen_final_complex_with_interactions"
+}

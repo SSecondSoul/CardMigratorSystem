@@ -32,10 +32,10 @@ class RepairPromptBuilder:
             "2. 必须包含 <template>、<script>、<style> 三段。\n"
             "3. <script> 中必须使用 const san = require('san')、const DataTypes = san.DataTypes、module.exports = san.defineComponent(...)。\n"
             "4. Vue props 必须迁移为 San dataTypes，禁止在 san.defineComponent 中输出 props: {...}。\n"
-            "5. initData() 只能返回稳定默认数据对象；Vue props 的 default（包括数组/对象工厂默认值）必须作为同名字段落入 initData；如果内部 data 依赖 props，必须在 inited() 中用 this.data.get('propName') 读取并 this.data.set(...) 同步。\n"
-            "6. 组件状态读写必须使用 this.data.get('field') 和 this.data.set('field', value)；Vue 的 this.$emit(...) 或 emitEvent 包装方法必须迁移为 this.fire(...)，禁止 this.props、this.xxx 状态读写、this.$emit 和用 this.dispatch(...) 代替自定义事件。\n"
+            "5. initData() 只能返回稳定默认数据对象；Vue props 的 default（包括数组/对象工厂默认值）必须作为同名字段落入 initData；Vue data() 的全部初始值必须精确等价地保留，包括嵌套对象、数组、数字和启用项集合，不得用空字符串、空数组或删减后的集合替代；如果内部 data 依赖 props，必须在 inited() 中用 this.data.get('propName') 读取并 this.data.set(...) 同步。\n"
+            "6. 组件状态读写必须使用 this.data.get('field') 和 this.data.set('field', value)；San computed 的结果也在 data store 中，computed 之间的依赖以及普通方法读取 computed 时必须使用 this.data.get('computedName')，禁止 this.computed.foo()；Vue 的 this.$emit(...) 或 emitEvent 包装方法必须迁移为 this.fire(...)，禁止 this.props、this.xxx 状态读写、this.$emit 和用 this.dispatch(...) 代替自定义事件。\n"
             "7. 方法必须直接定义在 san.defineComponent 顶层，禁止保留 Vue 的 methods: {...} 包裹。\n"
-            "8. template 必须使用 San 语法：on-click、s-if、s-for；保留事件调用的全部参数，例如 on-click=\"move(-1)\"、on-click=\"select(task.id)\"；禁止丢失参数、使用 data-args/getAttribute 绕行，或保留 @click、v-if、v-for、v-model、:class 等 Vue 模板语法。\n"
+            "8. template 必须使用 San 语法：on-click、s-if、s-for；保留事件调用的全部参数，例如 on-click=\"move(-1)\"、on-click=\"select(task.id)\"；Vue v-for 的 :key 必须写入 s-for 的 trackby 子句，例如 s-for=\"task in tasks trackby task.id\"，禁止输出独立 key=\"{{ task.id }}\" 或 key=\"{= task.id =}\"；所有 {{ ... }} 和 {= ... =} 插值必须完整闭合；双向绑定 {= assignable.path =} 只能用于可赋值的数据路径，方法调用、computed 表达式和其他派生值必须使用单向插值；disabled、checked、selected 等派生属性必须使用 disabled=\"{{ expression }}\" 这一类单向插值，禁止写成 disabled=\"{= expression =}\"；方法调用、computed 表达式和其他派生值必须使用单向插值，例如 checked=\"{{ isEnabled(rule.id, enabled) }}\"；禁止丢失参数、使用 data-args/getAttribute 绕行，或保留 @click、v-if、v-for、v-model、:class 等 Vue 模板语法。\n"
             "9. style 标签必须写成 <style>，禁止输出 <style scoped>；必须保留原有 class 名和样式内容。\n"
             "10. 不要重新设计组件，不要引入外部依赖，不要删除已有 DOM 节点、文本、class 或样式。\n"
             "11. 如果 DOM 对比报告指出缺失/新增/变化节点，优先修复 template 结构。\n"
@@ -44,6 +44,10 @@ class RepairPromptBuilder:
             "- 是否存在 props:、methods:、this.props、this.$emit、this.dispatch、<style scoped>、@click、v-if、v-for、v-model、:class？如果存在，必须改掉。\n"
             "- SSM props 是否全部出现在 dataTypes 中？\n"
             "- 带 default 的 Vue props 是否以同名字段和等价默认值出现在 initData 中？\n"
+            "- Vue data() 中每个初始值是否精确保留了原始类型、嵌套内容、数组元素和数值，而不是空值或删减值？\n"
+            "- computed 之间以及普通方法中是否只通过 this.data.get('computedName') 读取 computed，且完全不存在 this.computed.foo()？\n"
+            "- 所有 {= ... =} 是否都是可赋值数据路径；disabled、checked、selected 等派生属性是否使用 {{ ... }} 单向插值；方法调用和 computed 等派生表达式是否使用 {{ ... }} 单向插值？\n"
+            "- 所有 {{ ... }} 和 {= ... =} 是否完整闭合；Vue v-for 的 :key 是否迁移为 s-for 内联 trackby，且不存在独立 key 属性？\n"
             "- 事件绑定中的参数是否完整保留，且没有 data-args/getAttribute 绕行？\n"
             "- SSM data 字段是否全部在 initData 或 this.data.set 中有对应？\n"
             "- SSM 事件 handler 是否同时在 template 的 on-* 和 script 顶层方法中存在？\n\n"
@@ -114,13 +118,21 @@ class RepairPromptBuilder:
                 options.get("data", []) or options.get("data_fields", []),
                 ("name", "field_name"),
             ),
+            "data_initial_values_to_preserve": self._data_initial_values(options),
+            "computed_logic_to_preserve": self._logic_items(options.get("computed", []), "getter_body_full", "getter_body"),
+            "method_logic_to_preserve": self._logic_items(options.get("methods", []), "body_full", "body"),
             "computed_to_preserve": self._names_from_items(options.get("computed", []), ("name",)),
             "watch_to_preserve": self._names_from_items(options.get("watch", []), ("expression", "name")),
             "event_handlers_to_define_and_bind": self._event_handlers(ssm),
             "required_san_patterns": [
                 "dataTypes: { ... } for props",
                 "initData() { return { ... } } for defaults",
+                "all Vue data() initial values preserved exactly, including nested objects, arrays, numbers, and enabled-item collections",
                 "inited() with this.data.get('propName') and this.data.set(...) when data depends on props",
+                "computed values must be read with this.data.get('computedName') from methods and other computed functions",
+                "two-way binding only for assignable data paths; derived expressions use one-way {{ ... }} interpolation",
+                "disabled/checked/selected use one-way {{ ... }} interpolation, never {= ... =}",
+                "all interpolation delimiters are balanced and Vue v-for :key is migrated as an inline s-for trackby clause",
                 "top-level handler methods in san.defineComponent",
                 "template events as on-click/on-input/etc.",
                 "style tag without scoped",
@@ -130,7 +142,11 @@ class RepairPromptBuilder:
                 "methods:",
                 "this.props",
                 "this.$emit",
+                "this.computed.foo()",
                 "this.<stateField>",
+                "{= methodCall(...) =} or other two-way binding to a derived expression",
+                "disabled=\"{= expression =}\", checked=\"{= expression =}\", or selected=\"{= expression =}\"",
+                "unbalanced interpolation delimiters or a separate key attribute on an s-for element",
                 "<style scoped>",
                 "@click or other Vue event shorthand",
                 "v-if/v-for/v-model",
@@ -159,6 +175,38 @@ class RepairPromptBuilder:
             elif isinstance(item, str) and item:
                 names.append(item)
         return sorted(set(names))
+
+    def _data_initial_values(self, options: dict[str, Any]) -> list[dict[str, Any]]:
+        values = []
+        items = options.get("data", []) or options.get("data_fields", [])
+        for item in items if isinstance(items, list) else []:
+            if not isinstance(item, dict):
+                continue
+            name = item.get("name") or item.get("field_name")
+            if not name:
+                continue
+            entry = {
+                "name": name,
+                "expression": item.get("default_value_expression")
+                or item.get("default_value_summary", ""),
+                "statically_evaluated": bool(item.get("default_value_static", False)),
+            }
+            if item.get("default_value_static", False):
+                entry["value"] = item.get("default_value")
+            values.append(entry)
+        return values
+
+    def _logic_items(self, items: Any, full_key: str, fallback_key: str) -> list[dict[str, Any]]:
+        result = []
+        for item in items if isinstance(items, list) else []:
+            if not isinstance(item, dict) or not item.get("name"):
+                continue
+            result.append({
+                "name": item["name"],
+                "source": item.get(full_key) or item.get(fallback_key, ""),
+                "source_is_complete": bool(item.get(full_key)),
+            })
+        return result
 
     def _event_handlers(self, ssm: dict[str, Any]) -> list[str]:
         handlers: set[str] = set()

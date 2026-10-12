@@ -17,6 +17,8 @@ SSM Extractors — 脚本结构提取器
 - top_level_declarations 顶层声明
 """
 
+import ast
+import json
 import re
 from typing import Any, Optional, List
 
@@ -89,6 +91,28 @@ def _strip_js_comments(source: str) -> str:
     source = COMMENT_BLOCK_RE.sub("", source)
     source = COMMENT_LINE_RE.sub(lambda m: m.group(1), source)
     return source
+
+
+def _parse_static_value(expression: str) -> tuple[bool, Any]:
+    """Best-effort parsing for JSON-like Vue data literals in fallback mode."""
+    text = expression.strip()
+    try:
+        return True, json.loads(text)
+    except (json.JSONDecodeError, TypeError):
+        pass
+
+    python_literal = re.sub(
+        r'([,{]\s*)([A-Za-z_$][\w$]*)\s*:',
+        r'\1"\2":',
+        text,
+    )
+    python_literal = re.sub(r'\btrue\b', 'True', python_literal)
+    python_literal = re.sub(r'\bfalse\b', 'False', python_literal)
+    python_literal = re.sub(r'\bnull\b', 'None', python_literal)
+    try:
+        return True, ast.literal_eval(python_literal)
+    except (ValueError, SyntaxError):
+        return False, None
 
 
 def _extract_object_properties(obj_body: str) -> List[dict]:
@@ -490,9 +514,13 @@ class ScriptExtractor:
                 props = _extract_object_properties(body)
                 for pp in props:
                     default_val = pp["value"]
+                    is_static, static_value = _parse_static_value(default_val)
                     fields.append({
                         "name": pp["key"],
                         "default_value_summary": default_val[:50] if len(default_val) > 50 else default_val,
+                        "default_value_expression": default_val,
+                        "default_value": static_value,
+                        "default_value_static": is_static,
                         "value_type_inferred": self._infer_type(default_val),
                     })
         else:
@@ -502,9 +530,13 @@ class ScriptExtractor:
                 body = _extract_object_body(source, m.end() - 1)
                 props = _extract_object_properties(body)
                 for pp in props:
+                    is_static, static_value = _parse_static_value(pp["value"])
                     fields.append({
                         "name": pp["key"],
                         "default_value_summary": pp["value"][:50],
+                        "default_value_expression": pp["value"],
+                        "default_value": static_value,
+                        "default_value_static": is_static,
                         "value_type_inferred": self._infer_type(pp["value"]),
                     })
 
@@ -527,6 +559,7 @@ class ScriptExtractor:
                 "name": pp["key"],
                 "has_setter": has_setter,
                 "getter_body": pp["value"][:200],
+                "getter_body_full": pp["value"],
                 "dependencies_inferred": deps,
                 "return_type_inferred": None,
             })
@@ -597,6 +630,7 @@ class ScriptExtractor:
                 "name": pp["key"],
                 "params": pp.get("params", []),
                 "body": body_text[:500],
+                "body_full": body_text,
                 "is_async": is_async,
                 "reads_inferred": reads,
                 "writes_inferred": writes,

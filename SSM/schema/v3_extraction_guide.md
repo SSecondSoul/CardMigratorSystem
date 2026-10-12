@@ -169,6 +169,17 @@ const babelAst = parser.parse(scriptContent, {
 - 识别 `localStorage` → 标记 `side_effects_inferred: localStorage`
 - 识别 `fetch`/`axios`/`XMLHttpRequest` → 标记 `side_effects_inferred: fetch`
 
+### 4.5 data 初始值保真
+
+`script.options.data[*]` 同时保存：
+
+- `default_value_summary`：表达式前 50 个字符，仅用于紧凑展示；
+- `default_value_expression`：未截断的完整源码，供生成和修复 Prompt 使用；
+- `default_value`：数组、对象、字符串、数字、布尔值和 null 可静态求值时的结构化值；
+- `default_value_static`：结构化值是否可靠可用。
+
+Node/Babel 路径递归解析静态数组与对象；Python fallback 对 JSON/字面量做尽力解析。Validator 只对 `default_value_static=true` 的字段执行精确初始值等价检查，避免把动态表达式误判为静态常量。
+
 ---
 
 ## 5. 样式提取 (`styles`)
@@ -234,6 +245,7 @@ const root = postcss.parse(styleContent);
 从 `template.dom_tree` 收集所有 `event_bindings`，其中 `is_component_event === false`：
 - `dom_event_name` = `event_name`
 - `handler_name` = 解析 handler_expression 提取的标识符
+- `san_event_syntax` 使用完整 `handler_expression`，必须保留 `move(-1)`、`select(task.id)` 等调用参数
 - 从 `script.methods` 中查找对应方法，填充 `reads`、`writes`、`side_effects`
 
 ### 7.2 自定义事件
@@ -243,6 +255,11 @@ const root = postcss.parse(styleContent);
 - `event_name` = 第一个参数字符串
 - `emit_points` = 包含该调用的方法名
 - `source_component` = 当前组件名
+
+若 `$emit` 通过一层包装方法调用，例如 `emitEvent(name, payload) { this.$emit(name, payload) }`，继续扫描 `this.emitEvent('eventName', payload)` 的调用方：
+- 用调用方传入的字符串实参恢复 `event_name`
+- `emit_points` 记录实际触发包装方法的业务方法，而不是只记录包装方法
+- `emit_expression` 保留包装调用来源，San 生成时仍统一迁移为 `this.fire('eventName', payload)`
 
 **父组件监听**：
 从 `template.component_refs` 的 `event_bindings` 中，收集 `is_component_event === true` 的项：

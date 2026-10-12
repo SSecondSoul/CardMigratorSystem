@@ -1,0 +1,60 @@
+{
+  "snapshot_id": "pilot_9_v6_crisis_interaction_final_20261008_155848",
+  "created_at": "2026-10-08T15:58:48+08:00",
+  "purpose": "Freeze the successful pilot_9_v6 CrisisCommunicationHub complex run, deterministic interaction re-evaluation, effective code, tests, inputs, and reports before proceeding to the next complex sample.",
+  "experiment_batch_id": "pilot_9_v6",
+  "sample_id": "complex_crisis_communication_hub",
+  "git_head": "a943106cd071bd9cae96e8cbf33715fc6a5824b0",
+  "config_file_sha256": "ae432f9660c7db454a8aaff4e0c058d24c226ce47351b8545d8f320cddc0f3b6",
+  "config_canonical_sha256": "0de2c5b627e627b6b58a71bc4ce7bf502bd40cfe54f1b48f4dc2f4f59c61a941",
+  "summary_file_sha256": "aa51f71c23f4059386b2f957cb398a7863cc4b19ef1fe9d21907710cdba8f50a",
+  "final_san_sha256": "208de1ed7cc0345a3bb51a09f54c2c257e3e6985470c91006e42cb1a7c09177a",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "pipeline_result": {
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 1,
+    "final_validation_passed": true,
+    "final_validation_error_count": 0,
+    "final_validation_warning_count": 1,
+    "final_visual_eval_passed": true,
+    "final_structure_similarity": 1.0,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "generation_tokens": 36308,
+    "repair_tokens": 43638,
+    "total_tokens": 79946
+  },
+  "interaction_evaluation": {
+    "config_file_sha256": "9c85ca4718a36ecebdbcfc73f702126b500fe158f35cc1565a4e1d393956c2ee",
+    "config_canonical_sha256": "28fb1ec423344fbbc0cd38dbe2eea43a4746f3605635fc4c489623a1cab330f0",
+    "report_file_sha256": "8d4efa6f664ddbe73132e1f06e226980b81c83a33a742e32ecc3f4dcf2526f76",
+    "fixed_now_ms": 1791446400000,
+    "model_called": false,
+    "passed": true,
+    "reason": "interaction_scenarios_passed",
+    "scenarios": [
+      "edit_subject",
+      "toggle_audience",
+      "save_version",
+      "approval_workflow",
+      "send_workflow"
+    ]
+  },
+  "experimental_changes": [
+    "The standalone interaction evaluator now injects an explicit deterministic Date implementation so Date.now-based identifiers are reproducible.",
+    "CrisisCommunicationHub interaction scenarios compare Vue and San state, computed values, and emitted events without another model call.",
+    "Object keys are canonicalized for equality while array order remains significant."
+  ],
+  "known_limitations": [
+    "The interaction evaluator is a lightweight in-memory execution layer, not real-browser automation or screenshot comparison.",
+    "The remaining migration_hints_not_landed warning is a validator false positive because setValue delegates writes to this.data.set.",
+    "The model run did not use a recorded random seed, so this single complex result is case evidence rather than a statistical success-rate estimate."
+  ],
+  "regression_tests_passed": 27,
+  "payload_file_count": 30,
+  "integrity_file": "SHA256SUMS.txt",
+  "status": "frozen_final_complex_with_interactions"
+}

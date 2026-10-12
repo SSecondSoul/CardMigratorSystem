@@ -26,7 +26,7 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
         "5. data 初始化优先拆成稳定默认值 + 生命周期同步：Vue props 中声明的 default（包括数组/对象工厂默认值）必须作为同名字段落入 initData；props 到内部 state 的同步优先放到 inited/attached 中。\n"
         "6. 优先将 methods 直接定义在组件对象顶层，不要保留 Vue 风格的 methods: {} 包裹；Vue 的 this.$emit(...) 或 emitEvent 包装方法必须迁移为 this.fire(...)，禁止用 this.dispatch(...) 代替自定义事件。\n"
         "7. 必须尽量完整输出样式，复用 styles 和 style_model 中已有的 class、selector、css_rules；样式标签必须写成 <style>，禁止输出 <style scoped>。\n"
-        "8. 模板中保留现有 DOM 结构、类名、文本内容与完整事件表达式；例如 move(-1)、select(task.id) 必须直接迁移为 on-click=\"move(-1)\"、on-click=\"select(task.id)\"，禁止丢失参数或改用 data-args/getAttribute 绕行。插值格式尽量使用 {{ value }}。\n"
+        "8. 模板中保留现有 DOM 结构、类名、文本内容与完整事件表达式；例如 move(-1)、select(task.id) 必须直接迁移为 on-click=\"move(-1)\"、on-click=\"select(task.id)\"，禁止丢失参数或改用 data-args/getAttribute 绕行。Vue v-for 上的 :key 必须迁移到 San s-for 内联 trackby，例如 s-for=\"task in tasks trackby task.id\"；禁止输出独立 key=\"{{ task.id }}\" 或 key=\"{= task.id =}\"。所有 {{ ... }} 和 {= ... =} 插值必须完整闭合。双向绑定 {= assignable.path =} 只允许可赋值的数据路径；disabled、checked、selected 等派生属性必须使用 disabled=\"{{ expression }}\" 一类单向插值，禁止 disabled=\"{= expression =}\"。\n"
         "9. 若 SSM 信息不足，可做最小必要假设，但不要编造未出现的复杂业务逻辑。\n"
         "10. 除代码外不要输出解释、标题或 Markdown 代码围栏。\n\n"
         f"补充要求：{extra_instruction or '保持输出风格尽量贴近项目内已有 san 组件：完整 SFC、显式 DataTypes、保留样式、代码可直接保存为 .san 文件。'}\n\n"

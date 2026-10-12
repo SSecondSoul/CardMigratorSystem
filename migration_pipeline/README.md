@@ -56,6 +56,74 @@ python3 migration_pipeline/run_pipeline.py \
 
 报告中包含初次 validate/visual_eval 摘要、最终结果、`stop_reason`、`repair_rounds`，以及每轮 repair 后的结构相似度、树编辑距离和错误数量。
 
+## 分层批量实验
+
+评估器校准后的 9 个代表样本配置位于：
+
+```text
+migration_pipeline/batch_configs/pilot_9_v4.json
+```
+
+旧批次 `pilot_9.json` 已冻结为测量工具校准实验；`pilot_9_v2` 已在完成 simple 与 medium 共 6 个样本后冻结，用于记录评估器校准后、Repair Prompt 增强前的基线。两者都不应继续追加或覆盖。对应快照分别位于 `data/experiments/snapshots/pilot_9_pre_evaluator_fix_20260924_150916/` 和 `data/experiments/snapshots/pilot_9_v2_pre_prompt_fix_20260924_155149/`。
+
+`pilot_9_v3` 沿用 v2 的评估器和相同样本，新增以下实验变量：
+
+- Repair Prompt 明确要求 computed 通过 `this.data.get(...)` 读取；
+- 精确保留 Vue `data()` 初始值；
+- 双向绑定只允许可赋值路径，派生表达式使用单向插值；
+- 连续两轮代码哈希、错误码和结构指标完全相同时，以 `no_repair_progress` 提前终止。
+
+v3 正式运行两个针对性 medium 样本后已冻结到 `data/experiments/snapshots/pilot_9_v3_targeted_pre_ssm_fix_20260924_162405/`。其中 DataPaginationTable 真实通过；FormRulePlayground 因 SSM data 初始表达式被截断、关键属性差异低于结构阈值而假通过。当前默认批次 `pilot_9_v4` 在 v3 基础上新增：
+
+- SSM 同时保存完整 data 初始表达式和可静态求值的结构化值；
+- Validator 精确比较 Vue data 与 San initData 的静态初始值；
+- `value`、`checked`、`selected`、`disabled` 等关键 DOM 属性不一致直接判错。
+
+v4 的两个针对性 medium 样本均在一轮 repair 后通过；FormRulePlayground 的初始状态已达到 DOM 零差异。v4 结果已冻结到 `data/experiments/snapshots/pilot_9_v4_targeted_pre_interaction_fix_20260924_164548/`。源码复核发现其错误提示文本和数值转换与 Vue 有轻微漂移，因此“通过”应解释为静态、编译和初始状态轻量 DOM 通过，而非完整浏览器交互等价。
+
+`pilot_9_v5` 保留完整 computed/method 源码，并支持配置提交后交互场景。FormRulePlayground 在比较器校准后通过；DataPaginationTable 在 3 轮 repair 后仍生成 `disabled="{= expression =}"`，最终以 `dom_critical_attribute_mismatch` 失败，共消耗 97,731 token。该失败不能覆盖或改写。
+
+当前默认批次为 `pilot_9_v6`。v6 在 v5 基础上新增 `invalid_dynamic_attribute_binding` 静态错误：`disabled`、`checked`、`selected` 等派生属性必须使用 `{{ ... }}` 单向插值，禁止使用 `{= ... =}` 双向绑定；generation 与 Repair Prompt 同步加入相同硬约束。合法的可赋值路径（例如 `value="{= pageSize =}"`）仍允许使用双向绑定。
+
+运行前先做 dry-run，只校验样本路径、复杂度配额和输出计划，不会调用模型：
+
+```powershell
+python migration_pipeline/run_batch_pipeline.py --dry-run
+```
+
+确认 `local_server` 已启动后执行批量实验：
+
+```powershell
+python migration_pipeline/run_batch_pipeline.py
+```
+
+也可以先运行单个样本：
+
+```powershell
+python migration_pipeline/run_batch_pipeline.py --sample-id simple_step
+```
+
+批量 runner 默认具备：
+
+- 每个样本结束后原子更新 checkpoint/汇总 JSON；
+- 已标记为 `completed` 的样本下次自动跳过；
+- 执行异常记录为 `error`，下次运行自动重试；
+- 单样本异常默认不影响后续样本；
+- `--force` 可强制重跑已完成样本；
+- `--fail-fast` 可在首个执行异常后停止；
+- `--include-state` 可在单样本报告中保留完整 pipeline state。
+- 连续两轮 repair 结果无进展时提前终止，并在 repair history 中记录 progress signature。
+
+默认输出位置：
+
+```text
+data/experiments/pipeline/batches/pilot_9_v6/
+data/experiments/repair_reports/batches/pilot_9_v6/
+data/experiments/batch_reports/pilot_9_v6_summary.json
+```
+
+批量汇总包含初次通过数、repair 后通过数、执行异常数、平均 repair 轮数、停止原因分布、token 消耗，以及 simple/medium/complex 分层统计。
+
 ## 文件职责
 
 - `migration_pipeline/__init__.py`

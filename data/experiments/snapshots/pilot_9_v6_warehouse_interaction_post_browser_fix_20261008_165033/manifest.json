@@ -1,0 +1,31 @@
+{
+  "snapshot_id": "pilot_9_v6_warehouse_interaction_post_browser_fix_20261008_165033",
+  "created_at": "2026-10-08T16:50:33+08:00",
+  "purpose": "Record the post-browser-validation correction for the WarehousePickingWave San artifact without overwriting the pre-fix v6 snapshot.",
+  "sample_id": "complex_warehouse_picking_wave",
+  "pre_fix_snapshot": "data/experiments/snapshots/pilot_9_v6_warehouse_interaction_final_20261008_160716/",
+  "model_called": false,
+  "before_sha256": "641758cbf94d0246e9f793470cdeadfb7ae425ad16dc47dce72f8ea1556c6af4",
+  "after_sha256": "ce19a7d95d7dae8ea935517a2671b5486543fbdec632f4b9367d8a8bc9f43441",
+  "root_cause": [
+    "The picked task class interpolation was missing a closing brace, so the picked CSS class was not evaluated by San.",
+    "Vue v-for :key had been emitted as a separate San key binding instead of an inline s-for trackby clause, which can prevent loop-node state/class refresh."
+  ],
+  "changes": [
+    "Closed the task picked class interpolation.",
+    "Migrated picker, order, wave, task, and exception loops to inline trackby.",
+    "Changed picker select/option to one-way value interpolation with the existing change handler.",
+    "Added generation/repair prompt constraints and validator checks for trackby and balanced interpolation delimiters."
+  ],
+  "verification": {
+    "san_compile_passed": true,
+    "visual_eval_passed": true,
+    "structure_similarity": 1.0,
+    "tag_sequence_similarity": 1.0,
+    "text_similarity": 1.0,
+    "tree_edit_distance": 0.0,
+    "interaction_eval_passed": true,
+    "regression_tests_passed": 30
+  },
+  "status": "post_browser_validation_fix_recorded"
+}

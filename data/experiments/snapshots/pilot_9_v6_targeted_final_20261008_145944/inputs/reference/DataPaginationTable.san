@@ -1,0 +1,132 @@
+<template>
+  <section class="data-pagination-table"><header><h2>评估样本</h2><select value="{{ pageSize }}" on-change="updatePageSize"><option value="{{ 4 }}">4 行</option><option value="{{ 6 }}">6 行</option></select></header><table><thead><tr><th><button on-click="setSort('id')">编号</button></th><th>名称</th><th><button on-click="setSort('score')">得分</button></th></tr></thead><tbody><tr s-for="row in pageRows trackby row.id" class="{{ row.id === selectedId ? 'selected' : '' }}" on-click="select(row.id)"><td>{{ row.id }}</td><td>{{ row.name }}</td><td>{{ row.score }}</td></tr></tbody></table><footer><button on-click="go(-1)" disabled="{{ page === 1 }}">上一页</button><span>{{ page }}/{{ pageCount }}</span><button on-click="go(1)" disabled="{{ page === pageCount }}">下一页</button><strong s-if="selectedRow">已选 {{ selectedRow.name }}</strong></footer></section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'DataPaginationTable',
+  dataTypes: {
+    rows: DataTypes.array,
+    initialPageSize: DataTypes.number
+  },
+  initData() {
+    return {
+      rows: [
+        {
+          "id": 1,
+          "name": "样本-1",
+          "score": 60
+        },
+        {
+          "id": 2,
+          "name": "样本-2",
+          "score": 67
+        },
+        {
+          "id": 3,
+          "name": "样本-3",
+          "score": 74
+        },
+        {
+          "id": 4,
+          "name": "样本-4",
+          "score": 81
+        },
+        {
+          "id": 5,
+          "name": "样本-5",
+          "score": 88
+        },
+        {
+          "id": 6,
+          "name": "样本-6",
+          "score": 95
+        },
+        {
+          "id": 7,
+          "name": "样本-7",
+          "score": 64
+        },
+        {
+          "id": 8,
+          "name": "样本-8",
+          "score": 71
+        },
+        {
+          "id": 9,
+          "name": "样本-9",
+          "score": 78
+        },
+        {
+          "id": 10,
+          "name": "样本-10",
+          "score": 85
+        },
+        {
+          "id": 11,
+          "name": "样本-11",
+          "score": 92
+        },
+        {
+          "id": 12,
+          "name": "样本-12",
+          "score": 61
+        }
+      ],
+      initialPageSize: 4,
+      page: 1,
+      pageSize: 4,
+      sortKey: "id",
+      selectedId: null
+    };
+  },
+  computed: {
+    sortedRows() {
+      return this.data.get('rows').slice().sort((a, b) => this.data.get('sortKey') === 'score' ? b.score - a.score : a.id - b.id);
+    },
+    pageCount() {
+      return Math.max(1, Math.ceil(this.data.get('sortedRows').length / this.data.get('pageSize')));
+    },
+    pageRows() {
+      const start = (this.data.get('page') - 1) * this.data.get('pageSize'); return this.data.get('sortedRows').slice(start, start + this.data.get('pageSize'));
+    },
+    selectedRow() {
+      return this.data.get('rows').find(item => item.id === this.data.get('selectedId')) || null;
+    }
+  },
+  inited() {
+    this.setValue('pageSize', this.data.get('initialPageSize'));
+  },
+  setValue(key, value) { this.data.set(key, value); },
+  emitEvent(name, payload) { this.fire(name, payload); },
+  setSort(key) {
+    this.setValue('sortKey', key); this.setValue('page', 1);
+  },
+  go(delta) {
+    const next = Math.max(1, Math.min(this.data.get('pageCount'), this.data.get('page') + delta)); this.setValue('page', next); this.emitEvent('page', next);
+  },
+  updatePageSize(event) {
+    this.setValue('pageSize', Number(event.target.value)); this.setValue('page', 1);
+  },
+  select(id) {
+    this.setValue('selectedId', id); this.emitEvent('select', id);
+  }
+});
+</script>
+
+<style>
+
+.data-pagination-table{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.data-pagination-table *{box-sizing:border-box}
+.data-pagination-table h2,.data-pagination-table h3,.data-pagination-table p{margin-top:0}
+.data-pagination-table button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.data-pagination-table button.primary{border-color:#475569;background:#475569;color:#fff}
+.data-pagination-table button:disabled{opacity:.45;cursor:not-allowed}
+.data-pagination-table input,.data-pagination-table select,.data-pagination-table textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.data-pagination-table .muted{color:#71808e;font-size:12px}
+.data-pagination-table .toolbar,.data-pagination-table .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+header,footer{display:flex;justify-content:space-between;align-items:center}table{width:100%;border-collapse:collapse;margin:12px 0}th,td{padding:9px;border:1px solid #e2e8f0}th button{border:0}tr.selected{background:#f1f5f9}footer{justify-content:flex-start;gap:10px}footer strong{margin-left:auto}
+</style>

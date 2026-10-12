@@ -13,6 +13,7 @@ class SanCompileResult:
     skipped: bool = False
     reason: str = ""
     diagnostics: list[dict[str, Any]] = field(default_factory=list)
+    initial_data: dict[str, Any] | None = None
     stdout: str = ""
     stderr: str = ""
 
@@ -115,6 +116,7 @@ class SanCompileChecker:
             skipped=bool(payload.get("skipped", False)),
             reason=payload.get("reason", ""),
             diagnostics=diagnostics,
+            initial_data=payload.get("initialData"),
             stdout=stdout,
             stderr=stderr,
         )
@@ -160,6 +162,7 @@ function createSanStub() {
 }
 
 const diagnostics = [];
+let initialData = null;
 const template = extractBlock(source, 'template');
 const script = extractBlock(source, 'script');
 
@@ -217,6 +220,18 @@ if (script.trim()) {
         message: 'San script 没有导出组件对象。',
         severity: 'error'
       });
+    } else if (typeof component.initData === 'function') {
+      const store = {};
+      const context = {
+        data: {
+          get(name) { return store[name]; },
+          set(name, value) { store[name] = value; }
+        }
+      };
+      const value = component.initData.call(context);
+      if (value && typeof value === 'object') {
+        initialData = value;
+      }
     }
   } catch (error) {
     diagnostics.push({
@@ -233,7 +248,8 @@ emit({
   passed,
   skipped: false,
   reason: passed ? 'san_compile_passed' : 'san_compile_failed',
-  diagnostics
+  diagnostics,
+  initialData
 });
 process.exit(passed ? 0 : 1);
 '''

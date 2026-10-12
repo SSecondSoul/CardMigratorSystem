@@ -9,6 +9,15 @@ from migration_pipeline.stages.visual_eval import VisualEvalStage, VisualEvalSta
 ROOT = Path(__file__).resolve().parents[1]
 VUE = ROOT / "data/datasets/components/02_medium/KanbanColumnBoard/vue/KanbanColumnBoard.vue"
 REFERENCE_SAN = ROOT / "data/datasets/components/02_medium/KanbanColumnBoard/san/KanbanColumnBoard.san"
+FORM_RULE_VUE = ROOT / "data/datasets/components/02_medium/FormRulePlayground/vue/FormRulePlayground.vue"
+FORM_RULE_SAN = ROOT / "data/datasets/components/02_medium/FormRulePlayground/san/FormRulePlayground.san"
+REFERENCE_CASES = (
+    "KanbanColumnBoard",
+    "DataPaginationTable",
+    "FormRulePlayground",
+)
+
+
 class MigrationPipelineRegressionTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -77,6 +86,34 @@ module.exports = san.defineComponent({
         self.assertNotIn("missing_prop_defaults", error_codes)
         self.assertNotIn("event_arguments_not_landed", error_codes)
 
+    def test_medium_reference_components_pass_static_and_visual_evaluation(self):
+        for component_name in REFERENCE_CASES:
+            with self.subTest(component=component_name):
+                component_dir = ROOT / "data/datasets/components/02_medium" / component_name
+                vue_file = component_dir / "vue" / f"{component_name}.vue"
+                san_file = component_dir / "san" / f"{component_name}.san"
+                ssm = SSMFactory().build_from_file(str(vue_file))
+
+                validation = ValidateStage().run(ValidateStageInput(
+                    generated_file_path=str(san_file),
+                    ssm=ssm,
+                ))
+                visual = VisualEvalStage().run(VisualEvalStageInput(
+                    vue_file_path=str(vue_file),
+                    generated_file_path=str(san_file),
+                ))
+
+                self.assertTrue(validation.validation_passed, validation.validation_errors)
+                self.assertTrue(visual.visual_eval_passed, {
+                    "errors": visual.visual_eval_errors,
+                    "warnings": visual.visual_eval_warnings,
+                })
+                self.assertEqual(visual.visual_eval_errors, [])
+                self.assertEqual(visual.visual_eval_warnings, [])
+                self.assertEqual(visual.structure_similarity, 1.0)
+                self.assertEqual(visual.tag_sequence_similarity, 1.0)
+                self.assertEqual(visual.text_similarity, 1.0)
+
     def test_validator_rejects_dispatch_as_vue_emit_replacement(self):
         dispatch_code = REFERENCE_SAN.read_text(encoding="utf-8").replace(
             "this.fire(name, payload)",
@@ -90,6 +127,79 @@ module.exports = san.defineComponent({
 
         self.assertFalse(result.validation_passed)
         self.assertIn("custom_event_not_fire", error_codes)
+
+    def test_form_defaults_and_critical_dom_attributes_cannot_false_pass(self):
+        ssm = SSMFactory().build_from_file(str(FORM_RULE_VUE))
+        broken_code = FORM_RULE_SAN.read_text(encoding="utf-8").replace(
+            '"age": 18',
+            '"age": ""',
+        ).replace(
+            '"adult",\n        "name"',
+            '"adult"',
+        )
+
+        validation = ValidateStage().run(ValidateStageInput(
+            generated_code=broken_code,
+            ssm=ssm,
+        ))
+        visual = VisualEvalStage().run(VisualEvalStageInput(
+            vue_file_path=str(FORM_RULE_VUE),
+            generated_code=broken_code,
+        ))
+
+        validation_codes = {issue["code"] for issue in validation.validation_errors}
+        visual_codes = {issue["code"] for issue in visual.visual_eval_errors}
+        self.assertFalse(validation.validation_passed)
+        self.assertIn("data_initial_value_mismatch", validation_codes)
+        self.assertFalse(visual.visual_eval_passed)
+        self.assertIn("dom_critical_attribute_mismatch", visual_codes)
+
+    def test_validator_rejects_two_way_binding_for_derived_attributes(self):
+        reference = (ROOT / "data/datasets/components/02_medium/DataPaginationTable/san/DataPaginationTable.san").read_text(encoding="utf-8")
+        broken_code = reference.replace(
+            'disabled="{{ page === 1 }}"',
+            'disabled="{= page === 1 =}"',
+        )
+        result = ValidateStage().run(ValidateStageInput(generated_code=broken_code))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertFalse(result.validation_passed)
+        self.assertIn("invalid_dynamic_attribute_binding", error_codes)
+
+    def test_validator_allows_assignable_value_two_way_binding(self):
+        reference = (ROOT / "data/datasets/components/02_medium/DataPaginationTable/san/DataPaginationTable.san").read_text(encoding="utf-8")
+        broken_code = reference.replace(
+            'value="{{ pageSize }}"',
+            'value="{= pageSize =}"',
+        )
+        result = ValidateStage().run(ValidateStageInput(generated_code=broken_code))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertNotIn("invalid_dynamic_attribute_binding", error_codes)
+
+    def test_validator_rejects_separate_key_attribute_on_s_for(self):
+        reference = (ROOT / "data/datasets/components/02_medium/DataPaginationTable/san/DataPaginationTable.san").read_text(encoding="utf-8")
+        broken_code = reference.replace(
+            's-for="row in pageRows trackby row.id"',
+            's-for="row in pageRows" key="{= row.id =}"',
+        )
+        result = ValidateStage().run(ValidateStageInput(generated_code=broken_code))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertFalse(result.validation_passed)
+        self.assertIn("invalid_s_for_key_binding", error_codes)
+
+    def test_validator_rejects_unbalanced_template_interpolation(self):
+        reference = (ROOT / "data/datasets/components/02_medium/DataPaginationTable/san/DataPaginationTable.san").read_text(encoding="utf-8")
+        broken_code = reference.replace(
+            'class="{{ row.id === selectedId ? \'selected\' : \'\' }}"',
+            'class="{{ row.id === selectedId ? \'selected\' : \'\' }"',
+        )
+        result = ValidateStage().run(ValidateStageInput(generated_code=broken_code))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertFalse(result.validation_passed)
+        self.assertIn("unbalanced_template_interpolation", error_codes)
 
 
 if __name__ == "__main__":

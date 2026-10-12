@@ -131,6 +131,8 @@ def compact_repair_history_entry(entry: dict[str, Any]) -> dict[str, Any]:
         "structure_similarity": entry.get("structure_similarity"),
         "tag_sequence_similarity": entry.get("tag_sequence_similarity"),
         "text_similarity": entry.get("text_similarity"),
+        "progress_signature": entry.get("progress_signature"),
+        "no_progress_detected": entry.get("no_progress_detected", False),
         "repaired_file_path": repair_result.get("repaired_file_path"),
         "repair_provider": repair_result.get("provider"),
         "repair_model": repair_result.get("model"),
@@ -169,6 +171,8 @@ def build_report(
             "max_repair_rounds": state.get("max_repair_rounds", args.max_repair_rounds),
             "final_structure_similarity": state.get("structure_similarity"),
             "final_tree_edit_distance": state.get("tree_edit_distance"),
+            "interaction_eval_passed": (state.get("interaction_eval_result") or {}).get("passed") if state.get("interaction_eval_result") else None,
+            "interaction_eval_reason": (state.get("interaction_eval_result") or {}).get("reason", "") if state.get("interaction_eval_result") else "",
         },
         "initial": {
             "validate": compact_validate_result(state.get("initial_validate_result")),

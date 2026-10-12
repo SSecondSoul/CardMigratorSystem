@@ -1,0 +1,52 @@
+{
+  "snapshot_id": "pilot_9_v6_targeted_final_20261008_145944",
+  "created_at": "2026-10-08T15:15:13+08:00",
+  "purpose": "Freeze the successful pilot_9_v6 DataPaginationTable targeted rerun together with the v5 failure baseline, effective prompt/validator code, tests, inputs, and reports.",
+  "experiment_batch_id": "pilot_9_v6",
+  "sample_id": "medium_data_pagination_table",
+  "git_head": "a943106cd071bd9cae96e8cbf33715fc6a5824b0",
+  "config_sha256": "0de2c5b627e627b6b58a71bc4ce7bf502bd40cfe54f1b48f4dc2f4f59c61a941",
+  "summary_file_sha256": "c2da39b207992e67d7fe27804a5f648e69434a8a1fd57d05743e92822fcbb0be",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "result": {
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 1,
+    "final_validation_passed": true,
+    "final_visual_eval_passed": true,
+    "final_structure_similarity": 1.0,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "interaction_eval_passed": null,
+    "interaction_eval_reason": "no_interaction_scenario_configured",
+    "generation_tokens": 21123,
+    "repair_tokens": 25501,
+    "total_tokens": 46624
+  },
+  "comparison_to_v5": {
+    "v5_final_passed": false,
+    "v5_stop_reason": "max_repair_rounds_reached",
+    "v5_repair_rounds": 3,
+    "v5_total_tokens": 97731,
+    "v6_repair_rounds": 1,
+    "v6_total_tokens": 46624,
+    "token_reduction": 51107,
+    "token_reduction_ratio": 0.5229,
+    "fixed_error": "dom_critical_attribute_mismatch caused by two-way binding on derived disabled expressions"
+  },
+  "experimental_change": [
+    "Generation prompt requires one-way interpolation for disabled, checked, and selected derived attributes.",
+    "Repair prompt carries the same hard constraint with positive and negative examples.",
+    "Validator emits invalid_dynamic_attribute_binding before visual evaluation for forbidden two-way derived bindings."
+  ],
+  "known_limitations": [
+    "No DataPaginationTable interaction scenario was configured, so sorting, pagination, page-size changes, row selection, and emitted events were not evaluated by interaction_eval.",
+    "The remaining migration_hints_not_landed warning is a validator false positive for the setValue wrapper that delegates to this.data.set."
+  ],
+  "regression_tests_passed": 24,
+  "snapshot_file_count_excluding_manifests": 23,
+  "integrity_file": "SHA256SUMS.txt",
+  "status": "frozen_final_targeted_v6"
+}

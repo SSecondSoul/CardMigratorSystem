@@ -311,6 +311,49 @@ function literalValue(node) {
   return null;
 }
 
+function staticValue(node) {
+  if (!node) return { supported: false, value: null };
+  if (node.type === 'StringLiteral' || node.type === 'NumericLiteral' || node.type === 'BooleanLiteral') {
+    return { supported: true, value: node.value };
+  }
+  if (node.type === 'NullLiteral') return { supported: true, value: null };
+  if (node.type === 'TemplateLiteral' && (node.expressions || []).length === 0) {
+    const cooked = node.quasis && node.quasis[0] && node.quasis[0].value;
+    return { supported: true, value: cooked ? cooked.cooked : '' };
+  }
+  if (node.type === 'UnaryExpression' && ['+', '-'].includes(node.operator)) {
+    const argument = staticValue(node.argument);
+    if (argument.supported && typeof argument.value === 'number') {
+      return {
+        supported: true,
+        value: node.operator === '-' ? -argument.value : argument.value,
+      };
+    }
+  }
+  if (node.type === 'ArrayExpression') {
+    const values = [];
+    for (const element of node.elements || []) {
+      const item = staticValue(element);
+      if (!item.supported) return { supported: false, value: null };
+      values.push(item.value);
+    }
+    return { supported: true, value: values };
+  }
+  if (node.type === 'ObjectExpression') {
+    const value = {};
+    for (const prop of node.properties || []) {
+      if (prop.type !== 'ObjectProperty' || prop.computed) {
+        return { supported: false, value: null };
+      }
+      const item = staticValue(prop.value);
+      if (!item.supported) return { supported: false, value: null };
+      value[propertyName(prop)] = item.value;
+    }
+    return { supported: true, value };
+  }
+  return { supported: false, value: null };
+}
+
 function inferValueType(node) {
   if (!node) return 'unknown';
   switch (node.type) {
@@ -444,10 +487,12 @@ function extractFunctionInfo(name, functionNode, sourceCode) {
   const params = (functionNode.params || []).map(param => param.type === 'Identifier' ? param.name : nodeToCode(param, sourceCode));
   const wrapper = { type: 'File', program: { type: 'Program', body: [{ type: 'ExpressionStatement', expression: functionNode }] } };
   const usage = collectThisReadsWrites(wrapper, sourceCode);
+  const fullBody = nodeToCode(functionNode.body || functionNode, sourceCode);
   return {
     name,
     params,
-    body: nodeToCode(functionNode.body || functionNode, sourceCode).slice(0, 500),
+    body: fullBody.slice(0, 500),
+    body_full: fullBody,
     is_async: !!functionNode.async,
     ...usage,
   };
@@ -583,7 +628,16 @@ function buildScriptAnalysis(scriptContent) {
       for (const prop of returnedObject.properties || []) {
         if (prop.type !== 'ObjectProperty') continue;
         const fieldName = propertyName(prop);
-        options.data.push({ name: fieldName, default_value_summary: nodeToCode(prop.value, scriptContent).slice(0, 50), value_type_inferred: inferValueType(prop.value) });
+        const defaultValueExpression = nodeToCode(prop.value, scriptContent);
+        const extractedDefault = staticValue(prop.value);
+        options.data.push({
+          name: fieldName,
+          default_value_summary: defaultValueExpression.slice(0, 50),
+          default_value_expression: defaultValueExpression,
+          default_value: extractedDefault.value,
+          default_value_static: extractedDefault.supported,
+          value_type_inferred: inferValueType(prop.value),
+        });
       }
     }
   }
@@ -604,7 +658,14 @@ function buildScriptAnalysis(scriptContent) {
       }
       if (!fnNode && prop.type === 'ObjectProperty' && (prop.value.type === 'FunctionExpression' || prop.value.type === 'ArrowFunctionExpression')) fnNode = prop.value;
       const getterBody = fnNode ? nodeToCode(fnNode.body || fnNode, scriptContent) : nodeToCode(prop, scriptContent);
-      options.computed.push({ name, has_setter: hasSetter, getter_body: (getterBody || '').slice(0, 200), dependencies_inferred: extractIdentifiers(getterBody || ''), return_type_inferred: null });
+      options.computed.push({
+        name,
+        has_setter: hasSetter,
+        getter_body: (getterBody || '').slice(0, 200),
+        getter_body_full: getterBody || '',
+        dependencies_inferred: extractIdentifiers(getterBody || ''),
+        return_type_inferred: null,
+      });
     }
   }
 

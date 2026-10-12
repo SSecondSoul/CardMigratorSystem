@@ -1,0 +1,139 @@
+<template>
+  <section class="crisis-communication-hub"><header><div><small>受众 {{ recipientCount }} 人 · 审批 {{ approvals.length }}/{{ requiredApprovals }}</small><h2>{{ incidentTitle }}</h2></div><button class="primary" @click="send" :disabled="!canSend">立即发送</button></header><div class="crisis-layout"><aside><h3>消息版本</h3><button v-for="version in versions" :key="version.id" :class="activeVersionId === version.id ? 'active' : ''" @click="selectVersion(version.id)"><strong>v{{ version.id }} · {{ version.status }}</strong><span>{{ version.subject }}</span></button><button @click="saveVersion">另存为新版本</button></aside><main><label>标题<input :value="editSubject" @input="updateDraft('editSubject', $event)"></label><label>正文<textarea :value="editBody" @input="updateDraft('editBody', $event)"></textarea></label><div class="selectors"><section><h3>受众</h3><button v-for="audience in audiences" :key="audience.id" :class="isSelected(audience.id, selectedAudienceIds) ? 'selected' : ''" @click="toggleAudience(audience.id)">{{ audience.name }} · {{ audience.count }}</button></section><section><h3>渠道</h3><button v-for="channel in channels" :key="channel.id" :class="isSelected(channel.id, selectedChannelIds) ? 'selected' : ''" @click="toggleChannel(channel.id)">{{ channel.name }}</button></section></div><button @click="requestApproval" :disabled="!canRequestApproval">提交审批</button></main><aside class="approval"><h3>审批链</h3><button v-for="person in approvers" :key="person" :class="hasApproval(person, approvals) ? 'approved' : ''" @click="approve(person)">{{ person }} · {{ hasApproval(person, approvals) ? '已批准' : '待批准' }}</button><h3>发送记录</h3><p v-for="entry in deliveryLog" :key="entry.id">{{ entry.channelId }} · {{ entry.recipients }}人 · {{ entry.status }}</p></aside></div></section>
+</template>
+
+<script>
+module.exports = {
+  name: 'CrisisCommunicationHub',
+  props: {
+    incidentTitle: { type: String, default: "区域服务中断通报" },
+    audiences: { type: Array, default: () => ([
+          {
+            "id": "customers",
+            "name": "受影响客户",
+            "count": 1280
+          },
+          {
+            "id": "staff",
+            "name": "内部员工",
+            "count": 230
+          },
+          {
+            "id": "media",
+            "name": "媒体联系人",
+            "count": 18
+          }
+        ]) },
+    channels: { type: Array, default: () => ([
+          {
+            "id": "sms",
+            "name": "短信"
+          },
+          {
+            "id": "email",
+            "name": "邮件"
+          },
+          {
+            "id": "status",
+            "name": "状态页"
+          }
+        ]) },
+    approvers: { type: Array, default: () => ([
+          "值班经理",
+          "法务负责人"
+        ]) },
+    requiredApprovals: { type: Number, default: 2 }
+  },
+  data() {
+    return {
+        versions: [
+          {
+            "id": 1,
+            "subject": "服务异常通知",
+            "body": "我们正在处理区域服务中断，下一次更新将在30分钟内发布。",
+            "author": "响应组",
+            "status": "draft"
+          }
+        ],
+        activeVersionId: 1,
+        selectedAudienceIds: [
+          "customers"
+        ],
+        selectedChannelIds: [
+          "email",
+          "status"
+        ],
+        approvals: [],
+        deliveryLog: [],
+        editSubject: "",
+        editBody: "",
+        nextVersionId: 2
+    };
+  },
+  computed: {
+    activeVersion() {
+      return this.versions.find(item => item.id === this.activeVersionId) || null;
+    },
+    recipientCount() {
+      return this.audiences.filter(item => this.selectedAudienceIds.indexOf(item.id) >= 0).reduce((sum, item) => sum + item.count, 0);
+    },
+    canRequestApproval() {
+      return this.editSubject.trim().length > 0 && this.editBody.trim().length >= 20 && this.selectedAudienceIds.length > 0 && this.selectedChannelIds.length > 0;
+    },
+    canSend() {
+      return this.canRequestApproval && this.approvals.length >= this.requiredApprovals && this.activeVersion && this.activeVersion.status === 'approved';
+    }
+  },
+  created() {
+    const active = this.versions[0]; this.setValue('editSubject', active.subject); this.setValue('editBody', active.body);
+  },
+  methods: {
+    setValue(key, value) { this[key] = value; },
+    emitEvent(name, payload) { this.$emit(name, payload); },
+    updateDraft(field, event) {
+      this.setValue(field, event.target.value); this.setValue('approvals', []); this.setValue('versions', this.versions.map(item => item.id === this.activeVersionId ? Object.assign({}, item, { status: 'draft' }) : item));
+    },
+    toggleAudience(id) {
+      const ids = this.selectedAudienceIds; this.setValue('selectedAudienceIds', ids.indexOf(id) >= 0 ? ids.filter(item => item !== id) : ids.concat(id)); this.setValue('approvals', []);
+    },
+    toggleChannel(id) {
+      const ids = this.selectedChannelIds; this.setValue('selectedChannelIds', ids.indexOf(id) >= 0 ? ids.filter(item => item !== id) : ids.concat(id)); this.setValue('approvals', []);
+    },
+    saveVersion() {
+      if (!this.canRequestApproval) return; const version = { id: this.nextVersionId, subject: this.editSubject, body: this.editBody, author: '响应组', status: 'draft' }; this.setValue('versions', this.versions.concat(version)); this.setValue('activeVersionId', version.id); this.setValue('nextVersionId', version.id + 1); this.setValue('approvals', []); this.emitEvent('version', version);
+    },
+    selectVersion(id) {
+      const version = this.versions.find(item => item.id === id); if (!version) return; this.setValue('activeVersionId', id); this.setValue('editSubject', version.subject); this.setValue('editBody', version.body); this.setValue('approvals', []);
+    },
+    requestApproval() {
+      if (!this.canRequestApproval) return; this.setValue('versions', this.versions.map(item => item.id === this.activeVersionId ? Object.assign({}, item, { subject: this.editSubject, body: this.editBody, status: 'reviewing' }) : item)); this.emitEvent('review', this.activeVersionId);
+    },
+    approve(person) {
+      if (!this.activeVersion || this.activeVersion.status !== 'reviewing' || this.approvals.indexOf(person) >= 0) return; const approvals = this.approvals.concat(person); this.setValue('approvals', approvals); if (approvals.length >= this.requiredApprovals) this.setValue('versions', this.versions.map(item => item.id === this.activeVersionId ? Object.assign({}, item, { status: 'approved' }) : item)); this.emitEvent('approve', { person, versionId: this.activeVersionId });
+    },
+    send() {
+      if (!this.canSend) return; const deliveries = this.selectedChannelIds.map((channelId, index) => ({ id: Date.now() + index, channelId, recipients: this.recipientCount, status: 'sent' })); this.setValue('deliveryLog', deliveries.concat(this.deliveryLog)); this.setValue('versions', this.versions.map(item => item.id === this.activeVersionId ? Object.assign({}, item, { status: 'sent' }) : item)); this.emitEvent('send', { versionId: this.activeVersionId, audiences: this.selectedAudienceIds, channels: this.selectedChannelIds });
+    },
+    isSelected(id, list) {
+      return list.indexOf(id) >= 0;
+    },
+    hasApproval(person, approvals) {
+      return approvals.indexOf(person) >= 0;
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.crisis-communication-hub{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.crisis-communication-hub *{box-sizing:border-box}
+.crisis-communication-hub h2,.crisis-communication-hub h3,.crisis-communication-hub p{margin-top:0}
+.crisis-communication-hub button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.crisis-communication-hub button.primary{border-color:#b91c1c;background:#b91c1c;color:#fff}
+.crisis-communication-hub button:disabled{opacity:.45;cursor:not-allowed}
+.crisis-communication-hub input,.crisis-communication-hub select,.crisis-communication-hub textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.crisis-communication-hub .muted{color:#71808e;font-size:12px}
+.crisis-communication-hub .toolbar,.crisis-communication-hub .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+header{display:flex;justify-content:space-between}.crisis-layout{display:grid;grid-template-columns:200px 1fr 220px;gap:12px}.crisis-layout>aside{padding:10px;background:#f8fafc}.crisis-layout>aside>button{display:grid;width:100%;text-align:left;margin-bottom:7px}.crisis-layout>aside>button.active{background:#fef3c7;border-color:#d97706}.crisis-layout main label{display:grid;margin-bottom:10px}.crisis-layout textarea{min-height:150px}.selectors{display:grid;grid-template-columns:1fr 1fr;gap:10px}.selectors section{padding:10px;border:1px solid #e2e8f0}.selectors button{display:block;width:100%;margin:5px 0}.selectors button.selected{background:#fef3c7}.approval button.approved{background:#dcfce7;color:#166534}.approval p{padding:6px;background:white}
+</style>

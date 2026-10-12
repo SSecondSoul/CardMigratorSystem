@@ -1,0 +1,118 @@
+<template>
+<section class="form-rule-playground">
+  <h2>{{title}}</h2>
+  <div class="rule-strip">
+    <label s-for="rule in rules" key="{{rule.id}}">
+       {{rule.label}}
+      <input type="checkbox" checked="{= isEnabled(rule.id, enabled) =}" on-change="toggleRule(rule.id)" />
+    </label>
+  </div>
+  <form on-submit="submit">
+    <input placeholder="用户名" value="{= form.name =}" on-input="updateField('name', $event)" />
+    <input placeholder="邮箱" value="{= form.email =}" on-input="updateField('email', $event)" />
+    <input type="number" placeholder="年龄" value="{= form.age =}" on-input="updateField('age', $event)" />
+    <button class="primary" type="submit">验证并提交</button>
+  </form>
+  <ul s-if="submitted && errors.length">
+    <li s-for="error in errors" key="{{error}}">{{error}}</li>
+  </ul>
+  <p class="success" s-if="submitted && valid">表单通过全部启用规则</p>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'FormRulePlayground',
+
+  dataTypes: {
+    rules: DataTypes.array,
+    title: DataTypes.string
+  },
+
+  initData() {
+    return {
+      form: {
+        name: '',
+        email: '',
+        age: ''
+      },
+      enabled: ['email', 'adult'],
+      submitted: false
+    };
+  },
+
+  computed: {
+    errors() {
+      const errors = [];
+      if (this.data.get('enabled').indexOf('name') >= 0 && this.data.get('form').name.trim().length < 3) {
+        errors.push('用户名至少 3 位');
+      }
+      if (this.data.get('enabled').indexOf('email') >= 0 && this.data.get('form').email.indexOf('@') < 0) {
+        errors.push('邮箱格式不正确');
+      }
+      if (this.data.get('enabled').indexOf('adult') >= 0 && Number(this.data.get('form').age) < 18) {
+        errors.push('年龄不少于 18');
+      }
+      return errors;
+    },
+
+    valid() {
+      return this.data.get('errors').length === 0;
+    }
+  },
+
+  setValue(key, value) {
+    this.data.set(key, value);
+  },
+
+  emitEvent(name, payload) {
+    this.fire(name, payload);
+  },
+
+  updateField(field, event) {
+    const form = this.data.get('form');
+    const newForm = Object.assign({}, form, { [field]: event.target.value });
+    this.data.set('form', newForm);
+    this.data.set('submitted', false);
+  },
+
+  toggleRule(id) {
+    const list = this.data.get('enabled');
+    const index = list.indexOf(id);
+    if (index >= 0) {
+      this.data.set('enabled', list.filter(item => item !== id));
+    } else {
+      this.data.set('enabled', list.concat(id));
+    }
+  },
+
+  isEnabled(id, enabled) {
+    return enabled.indexOf(id) >= 0;
+  },
+
+  submit(event) {
+    event.preventDefault();
+    this.data.set('submitted', true);
+    if (this.data.get('valid')) {
+      const form = this.data.get('form');
+      this.fire('submit', Object.assign({}, form));
+    }
+  }
+});
+</script>
+
+<style>
+.form-rule-playground{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.form-rule-playground *{box-sizing:border-box}
+.form-rule-playground h2,.form-rule-playground h3,.form-rule-playground p{margin-top:0}
+.form-rule-playground button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.form-rule-playground button.primary{border-color:#dc2626;background:#dc2626;color:#fff}
+.form-rule-playground button:disabled{opacity:.45;cursor:not-allowed}
+.form-rule-playground input,.form-rule-playground select,.form-rule-playground textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.form-rule-playground .muted{color:#71808e;font-size:12px}
+.form-rule-playground .toolbar,.form-rule-playground .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rule-strip{display:flex;gap:10px;flex-wrap:wrap;padding:10px;background:#f8fafc}form{display:grid;grid-template-columns:1fr 1fr 100px auto;gap:8px;margin-top:12px}ul{color:#b91c1c}.success{color:#15803d}
+</style>

@@ -1,0 +1,119 @@
+{
+  "batch_id": "pilot_9_v4",
+  "description": "沿用 pilot_9_v3 的样本、Repair Prompt 与无进展终止机制；完整保留 SSM data 初始值，并将 data 初始值和关键 DOM 属性不一致升级为校验错误。",
+  "max_repair_rounds": 3,
+  "expected_counts": {
+    "simple": 3,
+    "medium": 3,
+    "complex": 3
+  },
+  "samples": [
+    {
+      "id": "simple_step",
+      "component_name": "step",
+      "complexity": "simple",
+      "vue_file": "data/datasets/components/01_simple/step/vue/step.vue",
+      "coverage_focus": [
+        "simple baseline",
+        "known zero-repair pass",
+        "basic state and click event"
+      ]
+    },
+    {
+      "id": "simple_bookmark_toggle_card",
+      "component_name": "BookmarkToggleCard",
+      "complexity": "simple",
+      "vue_file": "data/datasets/components/01_simple/BookmarkToggleCard/vue/BookmarkToggleCard.vue",
+      "coverage_focus": [
+        "prop default value",
+        "created lifecycle",
+        "dynamic class",
+        "wrapped custom event emission"
+      ]
+    },
+    {
+      "id": "simple_star_rating_input",
+      "component_name": "StarRatingInput",
+      "complexity": "simple",
+      "vue_file": "data/datasets/components/01_simple/StarRatingInput/vue/StarRatingInput.vue",
+      "coverage_focus": [
+        "list rendering",
+        "computed state",
+        "hover and click interactions",
+        "multiple parameterized events"
+      ]
+    },
+    {
+      "id": "medium_kanban_column_board",
+      "component_name": "KanbanColumnBoard",
+      "complexity": "medium",
+      "vue_file": "data/datasets/components/02_medium/KanbanColumnBoard/vue/KanbanColumnBoard.vue",
+      "coverage_focus": [
+        "nested list rendering",
+        "computed state and lifecycle",
+        "parameterized DOM events",
+        "wrapped custom events"
+      ]
+    },
+    {
+      "id": "medium_data_pagination_table",
+      "component_name": "DataPaginationTable",
+      "complexity": "medium",
+      "vue_file": "data/datasets/components/02_medium/DataPaginationTable/vue/DataPaginationTable.vue",
+      "coverage_focus": [
+        "table rendering",
+        "pagination and sorting",
+        "conditional rendering",
+        "disabled control state"
+      ]
+    },
+    {
+      "id": "medium_form_rule_playground",
+      "component_name": "FormRulePlayground",
+      "complexity": "medium",
+      "vue_file": "data/datasets/components/02_medium/FormRulePlayground/vue/FormRulePlayground.vue",
+      "coverage_focus": [
+        "dynamic form fields",
+        "validation rules",
+        "nested list rendering",
+        "$event argument forwarding"
+      ]
+    },
+    {
+      "id": "complex_crisis_communication_hub",
+      "component_name": "CrisisCommunicationHub",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/CrisisCommunicationHub/vue/CrisisCommunicationHub.vue",
+      "coverage_focus": [
+        "multi-region state",
+        "approval workflow",
+        "deep list rendering",
+        "conditional actions"
+      ]
+    },
+    {
+      "id": "complex_warehouse_picking_wave",
+      "component_name": "WarehousePickingWave",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/WarehousePickingWave/vue/WarehousePickingWave.vue",
+      "coverage_focus": [
+        "complex operational workflow",
+        "wave status transitions",
+        "exception handling flow",
+        "multiple computed values"
+      ]
+    },
+    {
+      "id": "complex_workflow_diagram_editor",
+      "component_name": "WorkflowDiagramEditor",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/WorkflowDiagramEditor/vue/WorkflowDiagramEditor.vue",
+      "coverage_focus": [
+        "dynamic inline styles",
+        "graph node operations",
+        "undo behavior",
+        "validation and run states"
+      ]
+    }
+  ]
+}

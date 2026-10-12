@@ -296,6 +296,7 @@ function evaluateComputed(component, dataStore) {
       } else if (getter && typeof getter.get === 'function') {
         values[name] = getter.get.call(context);
       }
+      dataStore.set(name, values[name]);
     } catch (error) {
       diagnostics.push({
         code: 'san_computed_error',
@@ -309,13 +310,22 @@ function evaluateComputed(component, dataStore) {
 }
 
 function buildRenderData(component, dataStore) {
-  return Object.assign({}, dataStore.raw(), evaluateComputed(component, dataStore));
+  const computedValues = evaluateComputed(component, dataStore);
+  const renderData = Object.assign({}, dataStore.raw(), computedValues);
+  const context = createComponentContext(component, dataStore);
+  Object.keys(component || {}).forEach(function (name) {
+    if (typeof context[name] === 'function') {
+      renderData[name] = context[name];
+    }
+  });
+  return renderData;
 }
 
 function renderTemplate(template, data) {
   let html = template;
 
   html = renderForBlocks(html, data);
+  html = renderIfBlocks(html, data);
   html = html.replace(/\s+s-if="([^"]+)"/g, function (_, expr) {
     const value = evaluateExpression(expr, data);
     return value ? '' : ' data-san-hidden="true"';
@@ -347,6 +357,14 @@ function renderTemplate(template, data) {
   });
 
   return html;
+}
+
+function renderIfBlocks(html, data) {
+  const pattern = /<([a-zA-Z][\w-]*)([^>]*)\s+s-if="([^"]+)"([^>]*)>([\s\S]*?)<\/\1>/g;
+  return html.replace(pattern, function (full, tag, beforeAttrs, expr, afterAttrs, inner) {
+    const value = evaluateExpression(expr, data);
+    return value ? `<${tag}${beforeAttrs}${afterAttrs}>${inner}</${tag}>` : '';
+  });
 }
 
 function renderForBlocks(html, data) {

@@ -1,0 +1,74 @@
+{
+  "calibration_id": "pilot_9_evaluator_calibration_20260924",
+  "recorded_at": "2026-09-24T15:26:41+08:00",
+  "pre_fix_snapshot": "data/experiments/snapshots/pilot_9_pre_evaluator_fix_20260924_150916",
+  "source_batch": "pilot_9",
+  "replacement_batch": "pilot_9_v2",
+  "model_calls_during_calibration": 0,
+  "pre_fix_aggregate": {
+    "completed": 6,
+    "passed": 4,
+    "failed": 2,
+    "pending": 3,
+    "total_tokens": 262393
+  },
+  "fixed_files": {
+    "migration_pipeline/stages/validate.py": "52f2104f5ec46dc74f894318367797e0aaa713b7503a8f265ecf2b9bafdc28cf",
+    "migration_pipeline/utils/vue_render.py": "f4b4dcd4db74472912c7b26eee85f6b1f8aa8ffe8c5f247881fe534825e2d953",
+    "migration_pipeline/utils/san_render.py": "210107693851039d5b475129c501dff573a9f1a786c95d3f3503d05c1f480d46",
+    "tests/test_migration_pipeline_regressions.py": "e88f6d163cadde3c22a36532ebab97fad5865bbe44e61fb34386a33e24bd5aa0"
+  },
+  "positive_controls_after_fix": [
+    {
+      "component": "KanbanColumnBoard",
+      "validation_passed": true,
+      "visual_eval_passed": true,
+      "structure_similarity": 1.0,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0
+    },
+    {
+      "component": "DataPaginationTable",
+      "validation_passed": true,
+      "visual_eval_passed": true,
+      "structure_similarity": 1.0,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0
+    },
+    {
+      "component": "FormRulePlayground",
+      "validation_passed": true,
+      "visual_eval_passed": true,
+      "structure_similarity": 1.0,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0
+    }
+  ],
+  "legacy_model_outputs_after_fix": [
+    {
+      "component": "KanbanColumnBoard",
+      "validation_passed": true,
+      "visual_eval_passed": true,
+      "structure_similarity": 1.0
+    },
+    {
+      "component": "DataPaginationTable",
+      "validation_passed": false,
+      "validation_errors": ["vue_this_state"],
+      "visual_eval_passed": false,
+      "structure_similarity": 0.1714
+    },
+    {
+      "component": "FormRulePlayground",
+      "validation_passed": true,
+      "validation_warnings": ["migration_hints_not_landed"],
+      "visual_eval_passed": false,
+      "structure_similarity": 0.9286
+    }
+  ],
+  "regression_tests": {
+    "command": "python -m unittest discover -s tests -p test*.py",
+    "passed": 13,
+    "failed": 0
+  }
+}

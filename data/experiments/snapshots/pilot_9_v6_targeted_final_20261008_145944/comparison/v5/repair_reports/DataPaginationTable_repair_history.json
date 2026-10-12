@@ -1,0 +1,176 @@
+{
+  "inputs": {
+    "vue_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\datasets\\components\\02_medium\\DataPaginationTable\\vue\\DataPaginationTable.vue",
+    "ssm_file": null,
+    "source_file": "DataPaginationTable",
+    "output_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\pilot_9_v5\\medium\\DataPaginationTable.san",
+    "max_repair_rounds": 3
+  },
+  "outputs": {
+    "report_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\repair_reports\\batches\\pilot_9_v5\\medium\\DataPaginationTable_repair_history.json",
+    "generated_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\pilot_9_v5\\medium\\DataPaginationTable.san",
+    "final_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\pilot_9_v5\\medium\\DataPaginationTable_repaired_repaired_repaired.san"
+  },
+  "summary": {
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "max_repair_rounds": 3,
+    "final_structure_similarity": 0.9857,
+    "final_tree_edit_distance": 0.5,
+    "interaction_eval_passed": null,
+    "interaction_eval_reason": ""
+  },
+  "initial": {
+    "validate": {
+      "validation_passed": false,
+      "error_count": 1,
+      "warning_count": 1,
+      "summary": "San 静态校验未通过：32/34 项检查通过，1 个错误，1 个警告。"
+    },
+    "visual_eval": {
+      "visual_eval_passed": false,
+      "error_count": 1,
+      "warning_count": 0,
+      "tree_edit_distance": 1.5,
+      "structure_similarity": 0.9571,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0,
+      "summary": "视觉结构评估未通过：Vue 节点数 35，San 节点数 35，tree_edit_distance=1.5，structure_similarity=0.9571，text_similarity=1.0，1 个错误，0 个警告。"
+    }
+  },
+  "final": {
+    "validate": {
+      "validation_passed": true,
+      "error_count": 0,
+      "warning_count": 0,
+      "summary": "San 静态校验通过：34/34 项检查通过，0 个错误，0 个警告。"
+    },
+    "visual_eval": {
+      "visual_eval_passed": false,
+      "error_count": 1,
+      "warning_count": 0,
+      "tree_edit_distance": 0.5,
+      "structure_similarity": 0.9857,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0,
+      "summary": "视觉结构评估未通过：Vue 节点数 35，San 节点数 35，tree_edit_distance=0.5，structure_similarity=0.9857，text_similarity=1.0，1 个错误，0 个警告。"
+    }
+  },
+  "repair_history": [
+    {
+      "repair_attempt": 1,
+      "passed": false,
+      "validation_passed": true,
+      "visual_eval_passed": false,
+      "validation_error_count": 0,
+      "validation_warning_count": 1,
+      "visual_eval_error_count": 1,
+      "visual_eval_warning_count": 0,
+      "tree_edit_distance": 0.5,
+      "structure_similarity": 0.9857,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0,
+      "progress_signature": {
+        "generated_code_sha256": "3f8e473641f852ca76136bed66bc697193c59a0f4e1d17e75ce2b917e205d48e",
+        "validation_error_codes": [],
+        "visual_error_codes": [
+          "dom_critical_attribute_mismatch"
+        ],
+        "tree_edit_distance": 0.5,
+        "structure_similarity": 0.9857,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0
+      },
+      "no_progress_detected": false,
+      "repaired_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\pilot_9_v5\\medium\\DataPaginationTable_repaired.san",
+      "repair_provider": "qwen",
+      "repair_model": "qwen-plus",
+      "repair_usage": {
+        "completion_tokens": 1602,
+        "prompt_tokens": 24238,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 25840
+      }
+    },
+    {
+      "repair_attempt": 2,
+      "passed": false,
+      "validation_passed": false,
+      "visual_eval_passed": false,
+      "validation_error_count": 1,
+      "validation_warning_count": 1,
+      "visual_eval_error_count": 2,
+      "visual_eval_warning_count": 1,
+      "tree_edit_distance": 29.0,
+      "structure_similarity": 0.1714,
+      "tag_sequence_similarity": 0.7037,
+      "text_similarity": 0.6038,
+      "progress_signature": {
+        "generated_code_sha256": "3eeedf49d0323613417d86b293e8058c4045a76a7cc650e9b0dee1877fd3f3cd",
+        "validation_error_codes": [
+          "missing_prop_defaults"
+        ],
+        "visual_error_codes": [
+          "dom_critical_attribute_mismatch",
+          "dom_structure_similarity_low"
+        ],
+        "tree_edit_distance": 29.0,
+        "structure_similarity": 0.1714,
+        "tag_sequence_similarity": 0.7037,
+        "text_similarity": 0.6038
+      },
+      "no_progress_detected": false,
+      "repaired_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\pilot_9_v5\\medium\\DataPaginationTable_repaired_repaired.san",
+      "repair_provider": "qwen",
+      "repair_model": "qwen-plus",
+      "repair_usage": {
+        "completion_tokens": 1247,
+        "prompt_tokens": 23658,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 24905
+      }
+    },
+    {
+      "repair_attempt": 3,
+      "passed": false,
+      "validation_passed": true,
+      "visual_eval_passed": false,
+      "validation_error_count": 0,
+      "validation_warning_count": 0,
+      "visual_eval_error_count": 1,
+      "visual_eval_warning_count": 0,
+      "tree_edit_distance": 0.5,
+      "structure_similarity": 0.9857,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0,
+      "progress_signature": {
+        "generated_code_sha256": "e4b6d1f8a80401b93b27a8484ccef145514939fa95c43af01cd4ee52c9eef31d",
+        "validation_error_codes": [],
+        "visual_error_codes": [
+          "dom_critical_attribute_mismatch"
+        ],
+        "tree_edit_distance": 0.5,
+        "structure_similarity": 0.9857,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0
+      },
+      "no_progress_detected": false,
+      "repaired_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\pilot_9_v5\\medium\\DataPaginationTable_repaired_repaired_repaired.san",
+      "repair_provider": "qwen",
+      "repair_model": "qwen-plus",
+      "repair_usage": {
+        "completion_tokens": 1566,
+        "prompt_tokens": 23974,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 25540
+      }
+    }
+  ]
+}

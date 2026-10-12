@@ -360,9 +360,10 @@ class RelationBuilder:
                 evt["reads"] = method.get("reads_inferred", [])
                 evt["writes"] = method.get("writes_inferred", [])
                 evt["side_effects"] = method.get("side_effects_inferred", [])
+                handler_expression = evt.get("handler_expression", "").strip() or hname
                 evt["san_event_syntax"] = (
                     f"on-{evt.get('event_name', 'click')}"
-                    f"=\"{hname}\""
+                    f"=\"{handler_expression}\""
                 )
 
         # 自定义事件（父子通信）
@@ -371,36 +372,121 @@ class RelationBuilder:
             if evt.get("is_component_event")
         ]
 
-        for m in script_options.get("methods", []):
-            for emit_name in m.get("emits_inferred", []):
-                matched_listener = next(
-                    (evt for evt in component_event_listeners if evt.get("event_name") == emit_name),
-                    None,
+        for emission in self._infer_custom_event_emissions(script_options):
+            emit_name = emission["event_name"]
+            matched_listener = next(
+                (evt for evt in component_event_listeners if evt.get("event_name") == emit_name),
+                None,
+            )
+            target_component = None
+            if matched_listener:
+                target_component = self._find_component_name_by_node_id(
+                    template_result.get("component_refs", []),
+                    matched_listener.get("node_id"),
                 )
-                target_component = None
-                if matched_listener:
-                    target_component = self._find_component_name_by_node_id(
-                        template_result.get("component_refs", []),
-                        matched_listener.get("node_id"),
-                    )
 
-                custom_events.append({
-                    "event_name": emit_name,
-                    "source_component": script_options.get("name", "unknown"),
-                    "target_component": target_component,
-                    "emit_points": [m["name"]],
-                    "emit_expression": f"$emit('{emit_name}', ...)",
-                    "san_emit": f"this.fire('{emit_name}', ...)",
-                    "listener_handler": matched_listener.get("handler_name") if matched_listener else None,
-                    "listener_node_id": matched_listener.get("node_id") if matched_listener else None,
-                    "payload_schema": {"type": "unknown", "fields_inferred": []},
-                    "state_impact": m.get("writes_inferred", []),
-                })
+            custom_events.append({
+                "event_name": emit_name,
+                "source_component": script_options.get("name", "unknown"),
+                "target_component": target_component,
+                "emit_points": emission["emit_points"],
+                "emit_expression": emission["emit_expression"],
+                "san_emit": f"this.fire('{emit_name}', ...)",
+                "listener_handler": matched_listener.get("handler_name") if matched_listener else None,
+                "listener_node_id": matched_listener.get("node_id") if matched_listener else None,
+                "payload_schema": {"type": "unknown", "fields_inferred": []},
+                "state_impact": emission["state_impact"],
+            })
 
         return build_event_model(
             dom_events=dom_events,
             custom_events=custom_events,
         )
+
+    def _infer_custom_event_emissions(self, script_options: dict) -> list[dict]:
+        """解析直接 $emit，并将一层包装方法调用解析到真实事件名。"""
+        methods = script_options.get("methods", [])
+        emissions: dict[str, dict] = {}
+
+        def add_emission(event_name: str, method: dict, expression: str) -> None:
+            if not event_name:
+                return
+            item = emissions.setdefault(event_name, {
+                "event_name": event_name,
+                "emit_points": [],
+                "emit_expressions": [],
+                "state_impact": [],
+            })
+            method_name = method.get("name", "")
+            if method_name and method_name not in item["emit_points"]:
+                item["emit_points"].append(method_name)
+            if expression and expression not in item["emit_expressions"]:
+                item["emit_expressions"].append(expression)
+            for field in method.get("writes_inferred", []):
+                if field not in item["state_impact"]:
+                    item["state_impact"].append(field)
+
+        # 直接调用：this.$emit('event-name', payload)
+        direct_pattern = re.compile(
+            r"this\.\$emit\s*\(\s*(['\"])(?P<event_name>.*?)\1"
+        )
+        for method in methods:
+            body = method.get("body", "")
+            direct_names = set()
+            for match in direct_pattern.finditer(body):
+                event_name = match.group("event_name")
+                direct_names.add(event_name)
+                add_emission(
+                    event_name,
+                    method,
+                    f"$emit({match.group(1)}{event_name}{match.group(1)}, ...)",
+                )
+            # AST 提取结果可在方法体摘要被截断时继续提供直接事件名。
+            for event_name in method.get("emits_inferred", []):
+                if event_name not in direct_names:
+                    add_emission(event_name, method, f"$emit('{event_name}', ...)")
+
+        # 包装调用：emitEvent(name, payload) 内部调用 this.$emit(name, payload)，
+        # 真实事件名来自调用方 this.emitEvent('move', payload)。
+        wrappers: list[tuple[str, int]] = []
+        for method in methods:
+            params = method.get("params", [])
+            body = method.get("body", "")
+            for index, param in enumerate(params):
+                dynamic_pattern = re.compile(
+                    rf"this\.\$emit\s*\(\s*{re.escape(param)}\b"
+                )
+                if dynamic_pattern.search(body):
+                    wrappers.append((method.get("name", ""), index))
+                    break
+
+        for wrapper_name, event_arg_index in wrappers:
+            if not wrapper_name:
+                continue
+            wrapper_call_pattern = re.compile(
+                rf"this\.{re.escape(wrapper_name)}\s*\(\s*(['\"])(?P<event_name>.*?)\1"
+            )
+            # 目前支持事件名位于包装方法第一个参数；其他位置保留给后续 AST 扩展。
+            if event_arg_index != 0:
+                continue
+            for method in methods:
+                for match in wrapper_call_pattern.finditer(method.get("body", "")):
+                    event_name = match.group("event_name")
+                    add_emission(
+                        event_name,
+                        method,
+                        f"{wrapper_name}({match.group(1)}{event_name}{match.group(1)}, ...)",
+                    )
+
+        return [
+            {
+                "event_name": event_name,
+                "emit_points": item["emit_points"],
+                "emit_expression": " | ".join(item["emit_expressions"]),
+                "state_impact": item["state_impact"],
+            }
+            for event_name, item in emissions.items()
+        ]
 
     def _collect_dom_events(self, events: list, dom_node: dict,
                             script_options: dict):
@@ -642,10 +728,7 @@ class RelationBuilder:
 
         # 脚本模式
         script_patterns = [
-            ("emit", any(
-                m.get("emits_inferred") for m in
-                script_options.get("methods", [])
-            ),
+            ("emit", bool(self._infer_custom_event_emissions(script_options)),
              "存在 $emit 调用，需转为 this.fire", "low"),
             ("data_access", True,  # 几乎所有 Vue 组件都需要
              "methods 中存在 this.xxx 访问，需统一改为 this.data.get/set", "high"),
