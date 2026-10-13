@@ -1,0 +1,6284 @@
+{
+  "evaluation_id": "pilot_9_v6_warehouse_picking_wave_interactions",
+  "created_at": "2026-10-08T16:46:25+08:00",
+  "config_file": "migration_pipeline/interaction_configs/pilot_9_v6_warehouse_picking_wave.json",
+  "config_sha256": "2c33cccdab6dd3f0de0dacc79c31a3ea893d89850d3c9bbc1e8895393b443592",
+  "vue_file": "data/datasets/components/03_complex/WarehousePickingWave/vue/WarehousePickingWave.vue",
+  "san_file": "data/experiments/pipeline/batches/pilot_9_v6/complex/WarehousePickingWave_repaired.san",
+  "fixed_now_ms": 1791447300000,
+  "model_called": false,
+  "result": {
+    "passed": true,
+    "skipped": false,
+    "reason": "interaction_scenarios_passed",
+    "scenarios": [
+      {
+        "name": "change_picker",
+        "passed": true,
+        "vue": [
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [],
+              "activeWaveId": null,
+              "picker": "宋宁",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          }
+        ],
+        "san": [
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [],
+              "activeWaveId": null,
+              "picker": "宋宁",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          }
+        ]
+      },
+      {
+        "name": "create_wave",
+        "passed": true,
+        "vue": [
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [
+                "W201"
+              ],
+              "activeWaveId": null,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 2,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [
+                "W201",
+                "W202"
+              ],
+              "activeWaveId": null,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 3,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W201",
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W201",
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "K11",
+                  "bin": "A-01",
+                  "qty": 2,
+                  "id": "W201-0",
+                  "picked": false,
+                  "orderId": "W201"
+                },
+                {
+                  "sku": "M20",
+                  "bin": "C-04",
+                  "qty": 1,
+                  "id": "W201-1",
+                  "picked": false,
+                  "orderId": "W201"
+                },
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": false,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W201",
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              }
+            ]
+          }
+        ],
+        "san": [
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [
+                "W201"
+              ],
+              "activeWaveId": null,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 2,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [
+                "W201",
+                "W202"
+              ],
+              "activeWaveId": null,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 3,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W201",
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W201",
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "K11",
+                  "bin": "A-01",
+                  "qty": 2,
+                  "id": "W201-0",
+                  "picked": false,
+                  "orderId": "W201"
+                },
+                {
+                  "sku": "M20",
+                  "bin": "C-04",
+                  "qty": 1,
+                  "id": "W201-1",
+                  "picked": false,
+                  "orderId": "W201"
+                },
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": false,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W201",
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "complete_wave",
+        "passed": true,
+        "vue": [
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [
+                "W202"
+              ],
+              "activeWaveId": null,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 1,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": false,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "completed",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "completed"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "completed"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              },
+              {
+                "name": "complete",
+                "payload": 1
+              }
+            ]
+          }
+        ],
+        "san": [
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [
+                "W202"
+              ],
+              "activeWaveId": null,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 1,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": false,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "completed",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "completed"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "completed"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              },
+              {
+                "name": "complete",
+                "payload": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "exception_blocks_then_allows_completion",
+        "passed": true,
+        "vue": [
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [
+                "W202"
+              ],
+              "activeWaveId": null,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 1,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": false,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": false
+                }
+              ],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": false
+                }
+              ]
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": false
+                }
+              ],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": false
+                }
+              ]
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": true
+                }
+              ],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              },
+              {
+                "name": "exception",
+                "payload": 1791447300000
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "completed",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "completed"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": true
+                }
+              ],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "completed"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              },
+              {
+                "name": "exception",
+                "payload": 1791447300000
+              },
+              {
+                "name": "complete",
+                "payload": 1
+              }
+            ]
+          }
+        ],
+        "san": [
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [],
+              "selectedOrderIds": [
+                "W202"
+              ],
+              "activeWaveId": null,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 1
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 1,
+              "activeWave": null,
+              "activeTasks": [],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": []
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": false
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": false,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 0,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": false
+                }
+              ],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": false
+                }
+              ]
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": false
+                }
+              ],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": false
+                }
+              ]
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "assigned",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": true
+                }
+              ],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "picking"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              },
+              {
+                "name": "exception",
+                "payload": 1791447300000
+              }
+            ]
+          },
+          {
+            "data": {
+              "warehouseName": "A3 智能仓",
+              "initialOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1
+                    }
+                  ]
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3
+                    }
+                  ]
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2
+                    }
+                  ]
+                }
+              ],
+              "pickers": [
+                "刘佳",
+                "彭越",
+                "宋宁"
+              ],
+              "maxLinesPerWave": 5,
+              "zones": [
+                "A",
+                "B",
+                "C",
+                "D"
+              ],
+              "orders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W202",
+                  "lines": [
+                    {
+                      "sku": "P08",
+                      "bin": "B-03",
+                      "qty": 3,
+                      "id": "W202-0",
+                      "picked": true
+                    }
+                  ],
+                  "status": "completed",
+                  "waveId": 1
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "waves": [
+                {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "completed"
+                }
+              ],
+              "selectedOrderIds": [],
+              "activeWaveId": 1,
+              "picker": "刘佳",
+              "exceptions": [
+                {
+                  "id": 1791447300000,
+                  "orderId": "W202",
+                  "lineId": "W202-0",
+                  "reason": "库位缺货",
+                  "resolved": true
+                }
+              ],
+              "nextWaveId": 2
+            },
+            "computed": {
+              "openOrders": [
+                {
+                  "id": "W201",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 2,
+                      "id": "W201-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "M20",
+                      "bin": "C-04",
+                      "qty": 1,
+                      "id": "W201-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                },
+                {
+                  "id": "W203",
+                  "lines": [
+                    {
+                      "sku": "K11",
+                      "bin": "A-01",
+                      "qty": 1,
+                      "id": "W203-0",
+                      "picked": false
+                    },
+                    {
+                      "sku": "R77",
+                      "bin": "D-02",
+                      "qty": 2,
+                      "id": "W203-1",
+                      "picked": false
+                    }
+                  ],
+                  "status": "open"
+                }
+              ],
+              "selectedLineCount": 0,
+              "activeWave": {
+                "id": 1,
+                "orderIds": [
+                  "W202"
+                ],
+                "picker": "刘佳",
+                "status": "completed"
+              },
+              "activeTasks": [
+                {
+                  "sku": "P08",
+                  "bin": "B-03",
+                  "qty": 3,
+                  "id": "W202-0",
+                  "picked": true,
+                  "orderId": "W202"
+                }
+              ],
+              "waveProgress": 100,
+              "unresolvedExceptions": []
+            },
+            "fired": [
+              {
+                "name": "wave",
+                "payload": {
+                  "id": 1,
+                  "orderIds": [
+                    "W202"
+                  ],
+                  "picker": "刘佳",
+                  "status": "picking"
+                }
+              },
+              {
+                "name": "pick",
+                "payload": {
+                  "orderId": "W202",
+                  "lineId": "W202-0"
+                }
+              },
+              {
+                "name": "exception",
+                "payload": 1791447300000
+              },
+              {
+                "name": "complete",
+                "payload": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "diagnostics": []
+  }
+}

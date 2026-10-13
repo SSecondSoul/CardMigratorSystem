@@ -1,0 +1,93 @@
+<template>
+  <div class="quote-card" @click="refreshQuote">
+    <div class="quote-content">
+      <p class="quote-text">“{{ quote }}”</p>
+      <p class="quote-author">—— {{ author }}</p>
+    </div>
+    <button class="refresh-btn">换一句</button>
+  </div>
+</template>
+
+<script>
+module.exports = {
+  name: 'QuoteCard',
+  props: {
+    // 可选：允许父组件传入初始名言（不传则使用默认）
+    initialQuote: {
+      type: Object,
+      default: () => ({ text: '代码如诗，简洁为美', author: '佚名' })
+    }
+  },
+  data() {
+    return {
+      quote: this.initialQuote.text,
+      author: this.initialQuote.author,
+      // 内置名言库
+      quotes: [
+        { text: '代码如诗，简洁为美', author: '佚名' },
+        { text: '保持简单，保持愚蠢', author: 'Unix哲学' },
+        { text: '优雅的实现来源于简单', author: 'R. Pike' },
+        { text: '简单是复杂的最终形态', author: '达·芬奇' },
+        { text: '大道至简，衍化至繁', author: '道德经' }
+      ]
+    }
+  },
+  methods: {
+    // 随机获取一条名言
+    getRandomQuote() {
+      const randomIndex = Math.floor(Math.random() * this.quotes.length);
+      return this.quotes[randomIndex];
+    },
+    // 刷新卡片内容
+    refreshQuote() {
+      const newQuote = this.getRandomQuote();
+      this.quote = newQuote.text;
+      this.author = newQuote.author;
+    }
+  }
+};
+</script>
+
+<style scoped>
+.quote-card {
+  width: 300px;
+  padding: 24px 20px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.quote-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+.quote-content {
+  margin-bottom: 20px;
+}
+.quote-text {
+  font-size: 18px;
+  line-height: 1.5;
+  color: #2c3e50;
+  margin: 0 0 12px 0;
+}
+.quote-author {
+  font-size: 14px;
+  color: #7f8c8d;
+  margin: 0;
+}
+.refresh-btn {
+  padding: 6px 16px;
+  background: #42b983;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.refresh-btn:hover {
+  background: #358c68;
+}
+</style>

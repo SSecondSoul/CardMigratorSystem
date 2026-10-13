@@ -1,0 +1,143 @@
+<template>
+  <section class="gradebook-matrix"><header><div><p class="muted">{{ published ? '成绩已发布' : changeCount + ' 项未发布变更' }}</p><h2>{{ courseTitle }}</h2></div><button class="primary" @click="publish">发布成绩</button></header><div class="metric-strip"><article><span>班级均分</span><strong>{{ classAverage }}</strong></article><article><span>通过率</span><strong>{{ passRate }}%</strong></article><article><span>学生数</span><strong>{{ students.length }}</strong></article></div><div class="toolbar"><select :value="sortMode" @change="updateSort"><option value="name">按姓名</option><option value="score">按总分</option></select><label><input type="checkbox" :checked="failingOnly" @change="toggleFailing"> 仅看不及格</label><button @click="resetWeights">恢复权重</button></div><div class="gradebook-layout"><table><thead><tr><th>学生</th><th v-for="assignment in assignments" :key="assignment.id">{{ assignment.label }}<input type="number" :value="weights[assignment.id]" @input="updateWeight(assignment.id, $event)">%</th><th>总分</th></tr></thead><tbody><tr v-for="student in rows" :key="student.id" :class="student.failing ? 'failing' : ''"><th><button @click="selectStudent(student.id)">{{ student.name }}</button></th><td v-for="assignment in assignments" :key="assignment.id"><input type="number" :class="gradeClass(student.grades[assignment.id])" :value="student.grades[assignment.id]" @input="updateGrade(student.id, assignment.id, $event)"></td><td><strong>{{ student.total }}</strong><small>{{ letterGrade(student.total) }}</small></td></tr></tbody></table><aside v-if="selectedStudent"><button @click="closeDetail">×</button><h3>{{ selectedStudent.name }}</h3><dl><div v-for="assignment in assignments" :key="assignment.id"><dt>{{ assignment.label }}</dt><dd>{{ selectedStudent.grades[assignment.id] }}</dd></div></dl><p>最近编辑：{{ lastEdited || '无' }}</p></aside></div></section>
+</template>
+
+<script>
+module.exports = {
+  name: 'GradebookMatrix',
+  props: {
+    courseTitle: { type: String, default: "前端工程实践" },
+    assignments: { type: Array, default: () => ([
+          {
+            "id": "lab",
+            "label": "实验",
+            "weight": 40
+          },
+          {
+            "id": "exam",
+            "label": "考试",
+            "weight": 60
+          }
+        ]) },
+    initialStudents: { type: Array, default: () => ([
+          {
+            "id": 1,
+            "name": "林晓",
+            "grades": {
+              "lab": 88,
+              "exam": 92
+            }
+          },
+          {
+            "id": 2,
+            "name": "周宁",
+            "grades": {
+              "lab": 74,
+              "exam": 81
+            }
+          },
+          {
+            "id": 3,
+            "name": "陈雨",
+            "grades": {
+              "lab": 95,
+              "exam": 86
+            }
+          },
+          {
+            "id": 4,
+            "name": "孟然",
+            "grades": {
+              "lab": 62,
+              "exam": 55
+            }
+          }
+        ]) }
+  },
+  data() {
+    return {
+        students: [],
+        weights: {},
+        sortMode: "name",
+        failingOnly: false,
+        selectedId: null,
+        published: false,
+        changeCount: 0,
+        lastEdited: ""
+    };
+  },
+  computed: {
+    rows() {
+      const weights = this.weights; const totalWeight = Object.keys(weights).reduce((sum, key) => sum + weights[key], 0) || 1; const rows = this.students.map(student => { const total = this.assignments.reduce((sum, item) => sum + (student.grades[item.id] || 0) * (weights[item.id] || 0), 0) / totalWeight; return Object.assign({}, student, { total: Math.round(total), failing: total < 60 }); }); const filtered = this.failingOnly ? rows.filter(row => row.failing) : rows; return filtered.slice().sort((a, b) => this.sortMode === 'score' ? b.total - a.total : a.name.localeCompare(b.name, 'zh-CN'));
+    },
+    classAverage() {
+      const rows = this.rows; return rows.length ? Math.round(rows.reduce((sum, row) => sum + row.total, 0) / rows.length) : 0;
+    },
+    passRate() {
+      const rows = this.rows; return rows.length ? Math.round(rows.filter(row => !row.failing).length / rows.length * 100) : 0;
+    },
+    selectedStudent() {
+      return this.students.find(item => item.id === this.selectedId) || null;
+    }
+  },
+  watch: {
+    changeCount() {
+      this.setValue('published', false);
+    }
+  },
+  created() {
+    this.setValue('students', this.initialStudents.map(item => ({ id: item.id, name: item.name, grades: Object.assign({}, item.grades) }))); const weights = {}; this.assignments.forEach(item => { weights[item.id] = item.weight; }); this.setValue('weights', weights);
+  },
+  methods: {
+    setValue(key, value) { this[key] = value; },
+    emitEvent(name, payload) { this.$emit(name, payload); },
+    updateSort(event) {
+      this.setValue('sortMode', event.target.value);
+    },
+    toggleFailing(event) {
+      this.setValue('failingOnly', event.target.checked);
+    },
+    selectStudent(id) {
+      this.setValue('selectedId', id);
+    },
+    closeDetail() {
+      this.setValue('selectedId', null);
+    },
+    updateGrade(studentId, assignmentId, event) {
+      const value = Math.max(0, Math.min(100, Number(event.target.value) || 0)); this.setValue('students', this.students.map(student => student.id === studentId ? Object.assign({}, student, { grades: Object.assign({}, student.grades, { [assignmentId]: value }) }) : student)); this.setValue('changeCount', this.changeCount + 1); this.setValue('lastEdited', studentId + ':' + assignmentId); this.emitEvent('grade-change', { studentId, assignmentId, value });
+    },
+    updateWeight(id, event) {
+      this.setValue('weights', Object.assign({}, this.weights, { [id]: Number(event.target.value) || 0 })); this.setValue('changeCount', this.changeCount + 1);
+    },
+    resetWeights() {
+      const next = {}; this.assignments.forEach(item => { next[item.id] = item.weight; }); this.setValue('weights', next); this.setValue('changeCount', this.changeCount + 1);
+    },
+    publish() {
+      this.setValue('published', true); this.emitEvent('publish', this.rows.map(row => ({ id: row.id, total: row.total })));
+    },
+    gradeClass(value) {
+      return value < 60 ? 'low' : value >= 90 ? 'high' : '';
+    },
+    letterGrade(value) {
+      return value >= 90 ? 'A' : value >= 80 ? 'B' : value >= 70 ? 'C' : value >= 60 ? 'D' : 'F';
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.gradebook-matrix { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.gradebook-matrix * { box-sizing: border-box; }
+.gradebook-matrix h2, .gradebook-matrix h3, .gradebook-matrix p { margin-top: 0; }
+.gradebook-matrix h2 { margin-bottom: 14px; font-size: 21px; }
+.gradebook-matrix button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.gradebook-matrix button.primary { border-color: #1d4ed8; background: #1d4ed8; color: #fff; }
+.gradebook-matrix button:disabled { opacity: .45; cursor: not-allowed; }
+.gradebook-matrix input, .gradebook-matrix select, .gradebook-matrix textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.gradebook-matrix .toolbar, .gradebook-matrix .summary, .gradebook-matrix .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.gradebook-matrix .muted { color: #71808e; font-size: 12px; }
+.gradebook-matrix .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+header,.metric-strip{display:flex;justify-content:space-between}.metric-strip{gap:8px;margin:12px 0}.metric-strip article{flex:1;padding:12px;background:#eff6ff}.metric-strip strong{display:block;font-size:24px}.gradebook-layout{display:grid;grid-template-columns:1fr auto;gap:12px;overflow:auto}table{width:100%;border-collapse:collapse}th,td{padding:8px;border:1px solid #dce2e8;text-align:center}thead input{width:54px}tbody input{width:60px}.low{border-color:#dc2626!important}.high{border-color:#15803d!important}tr.failing{background:#fff7ed}td small{display:block}aside{width:180px;padding:12px;background:#f8fafc}dl div{display:flex;justify-content:space-between}
+
+</style>

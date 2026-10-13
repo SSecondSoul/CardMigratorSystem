@@ -1,0 +1,49 @@
+<template>
+  <section :class="'theme-preview-toggle ' + theme"><div class="preview"><h2>{{ themeLabel }}</h2><p>正文与控件将共同切换主题。</p></div><div class="actions"><button class="primary" @click="toggle">切换主题</button><button @click="reset">恢复默认</button></div></section>
+</template>
+
+<script>
+module.exports = {
+  name: 'ThemePreviewToggle',
+  props: {
+    initialTheme: { type: String, default: "light" }
+  },
+  data() {
+    return {
+        theme: "light"
+    };
+  },
+  computed: {
+    themeLabel() {
+      return this.theme === 'dark' ? '深色主题' : '浅色主题';
+    }
+  },
+  created() {
+    this.setValue('theme', this.initialTheme);
+  },
+  methods: {
+    setValue(key, value) { this[key] = value; },
+    emitEvent(name, payload) { this.$emit(name, payload); },
+    toggle() {
+      const next = this.theme === 'dark' ? 'light' : 'dark'; this.setValue('theme', next); this.emitEvent('change', next);
+    },
+    reset() {
+      this.setValue('theme', this.initialTheme);
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.theme-preview-toggle{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.theme-preview-toggle *{box-sizing:border-box}
+.theme-preview-toggle h2,.theme-preview-toggle h3,.theme-preview-toggle p{margin-top:0}
+.theme-preview-toggle button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.theme-preview-toggle button.primary{border-color:#334155;background:#334155;color:#fff}
+.theme-preview-toggle button:disabled{opacity:.45;cursor:not-allowed}
+.theme-preview-toggle input,.theme-preview-toggle select,.theme-preview-toggle textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.theme-preview-toggle .muted{color:#71808e;font-size:12px}
+.theme-preview-toggle .toolbar,.theme-preview-toggle .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.theme-preview-toggle.dark{background:#111827;color:#f8fafc}.preview{padding:16px;border:1px dashed currentColor}.theme-preview-toggle .actions{margin-top:12px}
+</style>

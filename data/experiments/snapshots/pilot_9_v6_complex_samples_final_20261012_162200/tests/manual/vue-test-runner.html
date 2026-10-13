@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Vue Component Test Runner</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 当前测试组件：WorkflowDiagramEditor -->
+        <workflow-diagram-editor></workflow-diagram-editor>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            components: {
+                'workflow-diagram-editor': httpVueLoader('../../data/datasets/components/03_complex/WorkflowDiagramEditor/vue/WorkflowDiagramEditor.vue')
+            }
+        });
+    </script>
+</body>
+</html>

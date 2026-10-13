@@ -1,0 +1,83 @@
+<template>
+  <section class="expense-split-ledger"><h2>旅行费用分摊</h2><form @submit="add"><select :value="payer" @change="updatePayer"><option v-for="name in members" :key="name" :value="name">{{ name }}</option></select><input type="number" :value="amount" @input="updateAmount" placeholder="金额"><input :value="note" @input="updateNote" placeholder="用途"><button class="primary" type="submit">记一笔</button></form><ul><li v-for="entry in entries" :key="entry.id"><span>{{ entry.payer }} 支付 {{ entry.note }}</span><strong>¥{{ entry.amount }}</strong><button @click="remove(entry.id)">删除</button></li></ul><div class="balances"><span v-for="row in balances" :key="row.name" :class="row.balance >= 0 ? 'positive' : 'negative'">{{ row.name }}：{{ balanceText(row.balance) }}</span></div></section>
+</template>
+
+<script>
+module.exports = {
+  name: 'ExpenseSplitLedger',
+  props: {
+    members: { type: Array, default: () => ([
+          "林晓",
+          "周宁",
+          "陈雨"
+        ]) },
+    initialEntries: { type: Array, default: () => ([
+          {
+            "id": 1,
+            "payer": "林晓",
+            "amount": 180,
+            "note": "晚餐"
+          }
+        ]) }
+  },
+  data() {
+    return {
+        entries: [],
+        payer: "林晓",
+        amount: 0,
+        note: "",
+        nextId: 10
+    };
+  },
+  computed: {
+    total() {
+      return this.entries.reduce((sum, item) => sum + item.amount, 0);
+    },
+    balances() {
+      const share = this.total / (this.members.length || 1); return this.members.map(name => ({ name, balance: this.entries.filter(item => item.payer === name).reduce((sum, item) => sum + item.amount, 0) - share }));
+    }
+  },
+  created() {
+    this.setValue('entries', this.initialEntries.map(item => Object.assign({}, item))); this.setValue('payer', this.members[0] || '');
+  },
+  methods: {
+    setValue(key, value) { this[key] = value; },
+    emitEvent(name, payload) { this.$emit(name, payload); },
+    updatePayer(event) {
+      this.setValue('payer', event.target.value);
+    },
+    updateAmount(event) {
+      this.setValue('amount', Number(event.target.value) || 0);
+    },
+    updateNote(event) {
+      this.setValue('note', event.target.value);
+    },
+    add(event) {
+      event.preventDefault(); if (this.amount <= 0 || !this.note.trim()) return; this.setValue('entries', this.entries.concat({ id: this.nextId, payer: this.payer, amount: this.amount, note: this.note.trim() })); this.setValue('nextId', this.nextId + 1); this.setValue('amount', 0); this.setValue('note', ''); this.notify();
+    },
+    remove(id) {
+      this.setValue('entries', this.entries.filter(item => item.id !== id)); this.notify();
+    },
+    notify() {
+      this.emitEvent('change', this.entries.slice());
+    },
+    balanceText(value) {
+      return value >= 0 ? '应收 ¥' + value.toFixed(2) : '应补 ¥' + Math.abs(value).toFixed(2);
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.expense-split-ledger{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.expense-split-ledger *{box-sizing:border-box}
+.expense-split-ledger h2,.expense-split-ledger h3,.expense-split-ledger p{margin-top:0}
+.expense-split-ledger button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.expense-split-ledger button.primary{border-color:#c2410c;background:#c2410c;color:#fff}
+.expense-split-ledger button:disabled{opacity:.45;cursor:not-allowed}
+.expense-split-ledger input,.expense-split-ledger select,.expense-split-ledger textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.expense-split-ledger .muted{color:#71808e;font-size:12px}
+.expense-split-ledger .toolbar,.expense-split-ledger .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+form{display:grid;grid-template-columns:120px 100px 1fr auto;gap:8px}ul{padding:0;list-style:none}li{display:grid;grid-template-columns:1fr 90px auto;gap:8px;padding:8px;border-bottom:1px solid #e2e8f0}.balances{display:flex;gap:8px;flex-wrap:wrap}.balances span{padding:8px;background:#f8fafc}.positive{color:#15803d}.negative{color:#b91c1c}
+</style>

@@ -1,0 +1,77 @@
+<template>
+  <section class="poll-results"><header><h2>{{ question }}</h2><button @click="toggleResults">{{ showResults ? '隐藏结果' : '查看结果' }}</button></header><div class="poll-list"><article v-for="item in results" :key="item.id" :class="item.id === selectedId ? 'chosen' : ''"><button @click="vote(item.id)">{{ item.label }}</button><div v-if="showResults" class="result-line"><span :style="item.bar"></span><strong>{{ item.percent }}%</strong></div></article></div><footer>{{ totalVotes }} 票 <button @click="reset">重置</button></footer></section>
+</template>
+
+<script>
+module.exports = {
+  name: 'PollResults',
+  props: {
+    question: { type: String, default: "下次分享主题？" },
+    initialOptions: { type: Array, default: () => ([
+          {
+            "id": 1,
+            "label": "性能优化",
+            "votes": 8
+          },
+          {
+            "id": 2,
+            "label": "测试策略",
+            "votes": 5
+          },
+          {
+            "id": 3,
+            "label": "组件设计",
+            "votes": 7
+          }
+        ]) }
+  },
+  data() {
+    return {
+        options: [],
+        selectedId: null,
+        showResults: false
+    };
+  },
+  computed: {
+    totalVotes() {
+      return this.options.reduce((sum, item) => sum + item.votes, 0);
+    },
+    results() {
+      const total = this.totalVotes || 1; return this.options.map(item => Object.assign({}, item, { percent: Math.round(item.votes / total * 100), bar: 'width:' + (item.votes / total * 100) + '%' }));
+    }
+  },
+  created() {
+    this.setValue('options', this.initialOptions.map(item => Object.assign({}, item)));
+  },
+  methods: {
+    setValue(key, value) { this[key] = value; },
+    emitEvent(name, payload) { this.$emit(name, payload); },
+    vote(id) {
+      const old = this.selectedId; const next = this.options.map(item => Object.assign({}, item, { votes: item.votes + (item.id === id ? 1 : 0) - (item.id === old ? 1 : 0) })); this.setValue('options', next); this.setValue('selectedId', old === id ? null : id); this.emitEvent('vote', id);
+    },
+    toggleResults() {
+      this.setValue('showResults', !this.showResults);
+    },
+    reset() {
+      this.setValue('options', this.initialOptions.map(item => Object.assign({}, item))); this.setValue('selectedId', null);
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.poll-results { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.poll-results * { box-sizing: border-box; }
+.poll-results h2, .poll-results h3, .poll-results p { margin-top: 0; }
+.poll-results h2 { margin-bottom: 14px; font-size: 21px; }
+.poll-results button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.poll-results button.primary { border-color: #7c3aed; background: #7c3aed; color: #fff; }
+.poll-results button:disabled { opacity: .45; cursor: not-allowed; }
+.poll-results input, .poll-results select, .poll-results textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.poll-results .toolbar, .poll-results .summary, .poll-results .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.poll-results .muted { color: #71808e; font-size: 12px; }
+.poll-results .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+header,footer{display:flex;justify-content:space-between;align-items:center}.poll-list article{padding:9px;border-bottom:1px solid #e4e8ec}.poll-list article.chosen{background:#f5f3ff}.result-line{display:grid;grid-template-columns:1fr 44px;gap:8px;align-items:center;margin-top:6px;background:#eee}.result-line span{height:7px;background:#7c3aed}
+
+</style>

@@ -1,0 +1,112 @@
+{
+  "validation_id": "pilot_9_v6_representative_manual_validation",
+  "recorded_at": "2026-10-13T15:36:02+08:00",
+  "batch_id": "pilot_9_v6",
+  "scope": "Five representative samples: one simple, one medium, and all three complex samples.",
+  "summary": {
+    "checked": 5,
+    "passed": 5,
+    "failed": 0,
+    "all_configured_samples_manually_checked": false
+  },
+  "samples": [
+    {
+      "id": "simple_bookmark_toggle_card",
+      "component_name": "BookmarkToggleCard",
+      "complexity": "simple",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "automated_interaction_report": null,
+      "checks": [
+        "initial bookmark state",
+        "toggle interaction",
+        "immediate icon and color update",
+        "Vue and San visual/behavioral consistency"
+      ]
+    },
+    {
+      "id": "medium_data_pagination_table",
+      "component_name": "DataPaginationTable",
+      "complexity": "medium",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "automated_interaction_report": "data/experiments/interaction_reports/pilot_9_v6_data_pagination_interactions.json",
+      "checks": [
+        "initial table rendering",
+        "sorting",
+        "pagination",
+        "page-size change",
+        "row selection",
+        "Vue and San visual/behavioral consistency"
+      ]
+    },
+    {
+      "id": "complex_crisis_communication_hub",
+      "component_name": "CrisisCommunicationHub",
+      "complexity": "complex",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "automated_interaction_report": "data/experiments/interaction_reports/pilot_9_v6_crisis_communication_hub_interactions.json",
+      "checks": [
+        "draft editing",
+        "audience selection",
+        "version saving",
+        "approval workflow",
+        "send workflow",
+        "Vue and San visual/behavioral consistency"
+      ]
+    },
+    {
+      "id": "complex_warehouse_picking_wave",
+      "component_name": "WarehousePickingWave",
+      "complexity": "complex",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "automated_interaction_report": "data/experiments/interaction_reports/pilot_9_v6_warehouse_picking_wave_interactions.json",
+      "checks": [
+        "order selection",
+        "picker change",
+        "wave creation",
+        "task selection",
+        "exception workflow",
+        "wave completion",
+        "Vue and San visual/behavioral consistency"
+      ]
+    },
+    {
+      "id": "complex_workflow_diagram_editor",
+      "component_name": "WorkflowDiagramEditor",
+      "complexity": "complex",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "automated_interaction_report": null,
+      "checks": [
+        "node selection and movement",
+        "node creation",
+        "connection workflow",
+        "enabled state",
+        "undo",
+        "validation and run state",
+        "Vue and San visual/behavioral consistency"
+      ]
+    }
+  ],
+  "excluded_from_manual_pass_claim": [
+    {
+      "id": "simple_step",
+      "reason": "Automated pipeline failed with missing_prop_defaults and no_repair_progress."
+    },
+    {
+      "id": "simple_star_rating_input",
+      "reason": "Not included in this representative manual-validation round."
+    },
+    {
+      "id": "medium_kanban_column_board",
+      "reason": "Not included in this representative manual-validation round."
+    },
+    {
+      "id": "medium_form_rule_playground",
+      "reason": "Not included in this representative manual-validation round."
+    }
+  ]
+}
