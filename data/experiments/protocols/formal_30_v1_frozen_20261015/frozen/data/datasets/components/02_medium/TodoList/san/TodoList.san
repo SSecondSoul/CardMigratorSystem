@@ -1,0 +1,513 @@
+<template>
+  <div class="{{ appClass }}">
+    <div class="app-header">
+      <h1>📋 待办清单 Pro</h1>
+      <button class="theme-btn" on-click="toggleTheme">
+        {{ isDarkMode ? '☀️' : '🌙' }}
+      </button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card" on-click="setFilter('all')">
+        <div class="stat-value">{{ totalCount }}</div>
+        <div class="stat-label">全部</div>
+      </div>
+      <div class="stat-card" on-click="setFilter('active')">
+        <div class="stat-value">{{ activeCount }}</div>
+        <div class="stat-label">未完成</div>
+      </div>
+      <div class="stat-card" on-click="setFilter('completed')">
+        <div class="stat-value">{{ completedCount }}</div>
+        <div class="stat-label">已完成</div>
+      </div>
+    </div>
+
+    <div class="add-section">
+      <input
+        value="{= newTitle =}"
+        type="text"
+        placeholder="任务标题..."
+        on-keyup="onTitleKeyup($event)"
+      />
+      <select value="{= newPriority =}">
+        <option value="high">🔴 高优先级</option>
+        <option value="medium">🟡 中优先级</option>
+        <option value="low">🟢 低优先级</option>
+      </select>
+      <button type="button" on-click="addTodo">添加</button>
+    </div>
+
+    <div class="todo-list">
+      <todo-item
+        s-for="todo in filteredTodos"
+        todo="{{ todo }}"
+        on-toggle="toggleTodo($event)"
+        on-delete="deleteTodo($event)"
+      />
+      <div s-if="filteredTodos.length === 0" class="empty-state">
+        暂无任务
+      </div>
+    </div>
+
+    <div s-if="todos.length > 0" class="footer">
+      <span>📊 共 {{ totalCount }} 项，剩余 {{ activeCount }} 项</span>
+      <button s-if="completedCount > 0" class="clear-btn" on-click="clearCompleted">
+        清除已完成
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+const TodoItem = san.defineComponent({
+  template: `
+    <div class="todo-item {{ itemClass }}">
+      <input
+        type="checkbox"
+        checked="{{ todo.completed }}"
+        on-change="handleToggle"
+      />
+      <div class="todo-content">
+        <span class="todo-title">{{ todo.title }}</span>
+        <span class="todo-priority {{ todo.priority }}">
+          {{ priorityText }}
+        </span>
+      </div>
+      <button class="delete-btn" on-click="handleDelete">删除</button>
+    </div>
+  `,
+  dataTypes: {
+    todo: DataTypes.object
+  },
+  initData() {
+    return {
+      todo: {
+        id: null,
+        title: '',
+        priority: 'medium',
+        completed: false,
+        createdAt: 0
+      }
+    };
+  },
+  computed: {
+    itemClass() {
+      const todo = this.data.get('todo') || {};
+      const classNames = [];
+      if (todo.completed) {
+        classNames.push('completed');
+      }
+      if (todo.priority) {
+        classNames.push(todo.priority);
+      }
+      return classNames.join(' ');
+    },
+    priorityText() {
+      const todo = this.data.get('todo') || {};
+      const map = { high: '高', medium: '中', low: '低' };
+      return map[todo.priority] || '';
+    }
+  },
+  handleToggle() {
+    const todo = this.data.get('todo') || {};
+    this.fire('toggle', todo.id);
+  },
+  handleDelete() {
+    const todo = this.data.get('todo') || {};
+    this.fire('delete', todo.id);
+  }
+});
+
+module.exports = san.defineComponent({
+  components: {
+    'todo-item': TodoItem
+  },
+  initData() {
+    return {
+      isDarkMode: false,
+      todos: [],
+      newTitle: '',
+      newPriority: 'medium',
+      currentFilter: 'all'
+    };
+  },
+  computed: {
+    appClass() {
+      return this.data.get('isDarkMode') ? 'todo-app dark-mode' : 'todo-app';
+    },
+    totalCount() {
+      const todos = this.data.get('todos') || [];
+      return todos.length;
+    },
+    activeCount() {
+      const todos = this.data.get('todos') || [];
+      return todos.filter(todo => !todo.completed).length;
+    },
+    completedCount() {
+      const todos = this.data.get('todos') || [];
+      return todos.filter(todo => todo.completed).length;
+    },
+    filteredTodos() {
+      const todos = this.data.get('todos') || [];
+      const currentFilter = this.data.get('currentFilter');
+      if (currentFilter === 'active') {
+        return todos.filter(todo => !todo.completed);
+      }
+      if (currentFilter === 'completed') {
+        return todos.filter(todo => todo.completed);
+      }
+      return todos;
+    }
+  },
+  attached() {
+    this.loadFromLocal();
+  },
+  setFilter(filter) {
+    this.data.set('currentFilter', filter);
+  },
+  onTitleKeyup(event) {
+    if (event.key === 'Enter') {
+      this.addTodo();
+    }
+  },
+  addTodo() {
+    const title = (this.data.get('newTitle') || '').trim();
+    if (!title) {
+      return;
+    }
+
+    const todos = (this.data.get('todos') || []).slice();
+    todos.push({
+      id: Date.now(),
+      title,
+      priority: this.data.get('newPriority'),
+      completed: false,
+      createdAt: Date.now()
+    });
+
+    this.data.set('todos', todos);
+    this.data.set('newTitle', '');
+    this.data.set('currentFilter', 'all');
+    this.saveToLocal();
+  },
+  toggleTodo(id) {
+    const todos = (this.data.get('todos') || []).map(todo => {
+      if (todo.id === id) {
+        return Object.assign({}, todo, { completed: !todo.completed });
+      }
+      return todo;
+    });
+
+    this.data.set('todos', todos);
+    this.saveToLocal();
+  },
+  deleteTodo(id) {
+    const todos = (this.data.get('todos') || []).filter(todo => todo.id !== id);
+    this.data.set('todos', todos);
+    this.saveToLocal();
+  },
+  clearCompleted() {
+    const todos = (this.data.get('todos') || []).filter(todo => !todo.completed);
+    this.data.set('todos', todos);
+    this.saveToLocal();
+  },
+  toggleTheme() {
+    this.data.set('isDarkMode', !this.data.get('isDarkMode'));
+  },
+  saveToLocal() {
+    localStorage.setItem('todo_pro_list', JSON.stringify(this.data.get('todos') || []));
+  },
+  loadFromLocal() {
+    const saved = localStorage.getItem('todo_pro_list');
+    if (saved) {
+      try {
+        this.data.set('todos', JSON.parse(saved));
+        return;
+      }
+      catch (e) {
+      }
+    }
+
+    this.data.set('todos', this.getSampleTodos());
+  },
+  getSampleTodos() {
+    return [
+      { id: 1, title: '完成项目报告', priority: 'high', completed: false, createdAt: Date.now() },
+      { id: 2, title: '学习Vue组件', priority: 'medium', completed: false, createdAt: Date.now() },
+      { id: 3, title: '团队周会', priority: 'low', completed: true, createdAt: Date.now() }
+    ];
+  }
+});
+</script>
+
+<style>
+.todo-app {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.todo-app.dark-mode {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.theme-btn {
+  padding: 8px 16px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dark-mode .theme-btn {
+  background: #334155;
+}
+
+.stats-grid {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  flex: 1;
+  text-align: center;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dark-mode .stat-card {
+  background: #0f172a;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-value {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: #3b82f6;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.dark-mode .stat-label {
+  color: #94a3b8;
+}
+
+.add-section {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.add-section input {
+  flex: 2;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.add-section select {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+}
+
+.dark-mode .add-section input,
+.dark-mode .add-section select {
+  background: #0f172a;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+.add-section button {
+  padding: 12px 20px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.todo-list {
+  margin-bottom: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  margin-bottom: 8px;
+  background: #f8fafc;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.dark-mode .todo-item {
+  background: #0f172a;
+}
+
+.todo-item.completed {
+  opacity: 0.6;
+}
+
+.todo-item.completed .todo-title {
+  text-decoration: line-through;
+}
+
+.todo-item.high {
+  border-left: 4px solid #ef4444;
+}
+
+.todo-item.medium {
+  border-left: 4px solid #f59e0b;
+}
+
+.todo-item.low {
+  border-left: 4px solid #10b981;
+}
+
+.todo-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.todo-title {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.todo-priority {
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.todo-priority.high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.todo-priority.medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.todo-priority.low {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.delete-btn {
+  padding: 4px 12px;
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.dark-mode .delete-btn {
+  background: #450a0a;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 48px;
+  color: #94a3b8;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+}
+
+.dark-mode .footer {
+  border-top-color: #334155;
+}
+
+.clear-btn {
+  padding: 8px 16px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.dark-mode .clear-btn {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+@media (max-width: 500px) {
+  .todo-app {
+    margin: 20px;
+    padding: 16px;
+  }
+
+  .add-section {
+    flex-direction: column;
+  }
+
+  .stats-grid {
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 12px;
+  }
+
+  .stat-value {
+    font-size: 20px;
+  }
+}
+</style>
