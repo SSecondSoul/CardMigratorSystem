@@ -1,0 +1,31 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "DocumentApprovalFlow",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "passed_after_1_repair_round",
+  "vue_file": "data/datasets/components/03_complex/DocumentApprovalFlow/vue/DocumentApprovalFlow.vue",
+  "san_file": "data/experiments/pipeline/batches/formal_30_v1/complex/DocumentApprovalFlow_repaired.san",
+  "sha256": "7ECA775D014AC1D7FE1C35CCF7CBDA2034906566B4944A780868E8235CD9A69E",
+  "automatic_result": {
+    "stop_reason": "passed",
+    "repair_rounds": 1,
+    "final_validation_passed": true,
+    "final_visual_eval_passed": true,
+    "final_structure_similarity": 0.9844,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0
+  },
+  "manual_checks": [
+    "Initial title, author, version, update time, content, approval steps, active reviewer, and progress match Vue.",
+    "Approving each reviewer advances the active step, progress, comments, timestamp, and final approved panel.",
+    "Entering a rejection reason and requesting revision changes the step status and enables document editing.",
+    "Editing content and submitting a revision increments the version, resets approval steps, and records version history.",
+    "Submitting a comment appends it immediately without refreshing the page.",
+    "Toggling version history shows and hides the expected versions."
+  ],
+  "validated_by": "user_manual_browser_check",
+  "validated_at": "2026-10-22T14:37:40+08:00",
+  "result": "passed"
+}

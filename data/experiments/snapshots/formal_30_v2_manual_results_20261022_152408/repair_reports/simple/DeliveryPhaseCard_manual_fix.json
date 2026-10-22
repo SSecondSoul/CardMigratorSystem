@@ -1,0 +1,28 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "DeliveryPhaseCard",
+  "complexity": "simple",
+  "source_version": "formal_30_v1",
+  "source_vue": "data/datasets/components/01_simple/DeliveryPhaseCard/vue/DeliveryPhaseCard.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/simple/DeliveryPhaseCard_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/simple/DeliveryPhaseCard_repaired.san",
+  "observed_issue": "Stage track colors did not change when the active phase advanced in the San browser page.",
+  "root_cause": "The San s-for declaration did not bind a loop index, while its class expression referenced index.",
+  "fix": {
+    "before": "s-for=\"phase in phases trackby phase.key\"",
+    "after": "s-for=\"phase, index in phases trackby phase.key\"",
+    "scope": "Only the loop declaration was changed; Vue source and formal_30_v1 artifacts were not modified."
+  },
+  "sha256": {
+    "formal_30_v1_repaired_san": "9FCC16A13626A11CAD48261F5BB6AED4B26EF8479FEA61B97FD83766B7164DF9",
+    "formal_30_v2_fixed_san": "620B3E084D109388A7FB5E2E31CDFA42ED30D0E90E15AE501184D6F8C086EA6F"
+  },
+  "manual_check": {
+    "runner": "tests/manual/san-test-runner.html",
+    "expected": "Click the advance button and verify that reached colors update cumulatively with the active phase.",
+    "result": "passed",
+    "validated_by": "user_manual_browser_check",
+    "validated_at": "2026-10-21T10:26:06+08:00"
+  }
+}

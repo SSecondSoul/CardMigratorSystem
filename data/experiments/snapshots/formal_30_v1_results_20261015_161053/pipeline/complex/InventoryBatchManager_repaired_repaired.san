@@ -1,0 +1,284 @@
+<template>
+<section class="inventory-batch-manager">
+  <header class="page-head">
+    <div>
+      <p class="muted">最后同步 {{lastSynced}}</p>
+      <h2>{{title}}</h2>
+    </div>
+    <button on-click="exportData">导出视图</button>
+  </header>
+  <div class="metric-strip">
+    <article>
+      <span>库存件数</span>
+      <strong>{{summary.units}}</strong>
+    </article>
+    <article>
+      <span>临期批次</span>
+      <strong>{{summary.expiring}}</strong>
+    </article>
+    <article>
+      <span>低库存</span>
+      <strong>{{summary.low}}</strong>
+    </article>
+  </div>
+  <div class="toolbar">
+    <select value="{{warehouse}}" on-change="updateWarehouse">
+      <option value="all">全部仓库</option>
+      <option s-for="item in warehouses trackby item" value="{{item}}">{{item}}</option>
+    </select>
+    <label>
+      <input type="checkbox" checked="{{riskOnly}}" on-change="toggleRisk" />
+      仅看风险
+    </label>
+    <button on-click="selectVisible">全选结果</button>
+    <button on-click="undo" disabled="{{!history.length}}">撤销</button>
+  </div>
+  <div class="inventory-layout">
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>批次</th>
+            <th>仓库</th>
+            <th>库存</th>
+            <th>保质期</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr s-for="batch in visibleBatches trackby batch.id" class="{{batchRowClass(batch)}}">
+            <td>
+              <input type="checkbox" checked="{{isSelected(batch.id)}}" on-change="toggleBatch(batch.id)" />
+            </td>
+            <td>
+              <strong>{{batch.product}}</strong>
+              <small>{{batch.sku}}</small>
+            </td>
+            <td>{{batch.warehouse}}</td>
+            <td>
+              {{batch.quantity}}/{{batch.capacity}}
+              <div class="stock-bar">
+                <span style="{{stockStyle(batch)}}"></span>
+              </div>
+            </td>
+            <td>{{batch.expiryDays}} 天</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="empty" s-if="!visibleBatches.length">没有匹配批次</p>
+    </div>
+    <aside>
+      <h3>批量调整</h3>
+      <p>已选 {{selectedCount}} 批</p>
+      <label>
+        数量变化
+        <input type="number" value="{{adjustment}}" on-input="updateAdjustment" />
+      </label>
+      <label>
+        原因
+        <select value="{{reason}}" on-change="updateReason">
+          <option>盘点修正</option>
+          <option>损耗登记</option>
+          <option>入库补录</option>
+        </select>
+      </label>
+      <button class="primary" on-click="applyAdjustment" disabled="{{!canApply}}">应用</button>
+      <h3>操作历史</h3>
+      <ol>
+        <li s-for="entry in history trackby entry.id">{{entry.reason}}：{{entry.count}} 批</li>
+      </ol>
+    </aside>
+  </div>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'InventoryBatchManager',
+
+  dataTypes: {
+    initialBatches: DataTypes.array,
+    title: DataTypes.string,
+    warehouses: DataTypes.array
+  },
+
+  initData() {
+    return {
+      batches: [],
+      warehouse: 'all',
+      riskOnly: false,
+      selectedIds: [],
+      adjustment: 0,
+      reason: '盘点修正',
+      history: [],
+      lastSynced: '',
+      timer: null
+    };
+  },
+
+  inited() {
+    const initialBatches = this.data.get('initialBatches') || [];
+    this.data.set('batches', initialBatches.map(item => Object.assign({}, item)));
+    const title = this.data.get('title') || '冷链库存控制台';
+    this.data.set('title', title);
+    const warehouses = this.data.get('warehouses') || ['华东仓', '华南仓'];
+    this.data.set('warehouses', warehouses);
+    this.watch('warehouse', () => {
+      this.data.set('selectedIds', []);
+    });
+  },
+
+  attached() {
+    this.refreshClock();
+    this._timer = setInterval(() => this.refreshClock(), 30000);
+  },
+
+  disposed() {
+    if (this._timer) {
+      clearInterval(this._timer);
+      this._timer = null;
+    }
+  },
+
+  computed: {
+    visibleBatches() {
+      const batches = this.data.get('batches') || [];
+      const warehouse = this.data.get('warehouse');
+      const riskOnly = this.data.get('riskOnly');
+      return batches.filter(item => (warehouse === 'all' || item.warehouse === warehouse) && (!riskOnly || item.expiryDays <= 3 || item.quantity <= 10));
+    },
+
+    summary() {
+      const batches = this.data.get('batches') || [];
+      return batches.reduce((result, item) => {
+        result.units += item.quantity;
+        if (item.expiryDays <= 3) result.expiring += 1;
+        if (item.quantity <= 10) result.low += 1;
+        return result;
+      }, { units: 0, expiring: 0, low: 0 });
+    },
+
+    selectedCount() {
+      return (this.data.get('selectedIds') || []).length;
+    },
+
+    canApply() {
+      return this.data.get('selectedCount') > 0 && this.data.get('adjustment') !== 0;
+    }
+  },
+
+  setValue(key, value) {
+    this.data.set(key, value);
+  },
+
+  emitEvent(name, payload) {
+    this.fire(name, payload);
+  },
+
+  refreshClock() {
+    this.setValue('lastSynced', new Date().toLocaleTimeString('zh-CN', { hour12: false }));
+  },
+
+  updateWarehouse(event) {
+    this.setValue('warehouse', event.target.value);
+  },
+
+  toggleRisk(event) {
+    this.setValue('riskOnly', event.target.checked);
+  },
+
+  isSelected(id) {
+    const selectedIds = this.data.get('selectedIds') || [];
+    return selectedIds.indexOf(id) >= 0;
+  },
+
+  toggleBatch(id) {
+    const selectedIds = this.data.get('selectedIds') || [];
+    if (selectedIds.indexOf(id) >= 0) {
+      this.setValue('selectedIds', selectedIds.filter(item => item !== id));
+    } else {
+      this.setValue('selectedIds', selectedIds.concat(id));
+    }
+  },
+
+  selectVisible() {
+    const visibleBatches = this.data.get('visibleBatches') || [];
+    this.setValue('selectedIds', visibleBatches.map(item => item.id));
+  },
+
+  updateAdjustment(event) {
+    const value = Number(event.target.value);
+    this.setValue('adjustment', isNaN(value) ? 0 : value);
+  },
+
+  updateReason(event) {
+    this.setValue('reason', event.target.value);
+  },
+
+  applyAdjustment() {
+    if (!this.data.get('canApply')) return;
+    const ids = this.data.get('selectedIds') || [];
+    const before = (this.data.get('batches') || []).map(item => Object.assign({}, item));
+    const next = (this.data.get('batches') || []).map(item =>
+      ids.indexOf(item.id) >= 0
+        ? Object.assign({}, item, {
+            quantity: Math.max(0, Math.min(item.capacity, item.quantity + this.data.get('adjustment')))
+          })
+        : item
+    );
+    this.setValue('batches', next);
+    const history = this.data.get('history') || [];
+    const newEntry = {
+      id: Date.now(),
+      reason: this.data.get('reason'),
+      count: ids.length,
+      delta: this.data.get('adjustment'),
+      before
+    };
+    this.setValue('history', [newEntry].concat(history).slice(0, 5));
+    this.setValue('selectedIds', []);
+    this.setValue('adjustment', 0);
+    this.emitEvent('inventory-change', next);
+  },
+
+  undo() {
+    const history = this.data.get('history') || [];
+    if (!history.length) return;
+    this.setValue('batches', history[0].before.map(item => Object.assign({}, item)));
+    this.setValue('history', history.slice(1));
+    this.emitEvent('inventory-change', this.data.get('batches'));
+  },
+
+  exportData() {
+    this.emitEvent('export', this.data.get('visibleBatches'));
+  },
+
+  stockStyle(batch) {
+    return 'width:' + Math.round(batch.quantity / batch.capacity * 100) + '%';
+  },
+
+  batchRowClass(batch) {
+    const isSelected = this.isSelected(batch.id);
+    const isRisk = batch.expiryDays <= 3;
+    return (isSelected ? 'selected ' : '') + (isRisk ? 'risk' : '');
+  }
+});
+</script>
+
+<style>
+.inventory-batch-manager { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.inventory-batch-manager * { box-sizing: border-box; }
+.inventory-batch-manager h2, .inventory-batch-manager h3, .inventory-batch-manager p { margin-top: 0; }
+.inventory-batch-manager h2 { margin-bottom: 14px; font-size: 21px; }
+.inventory-batch-manager button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.inventory-batch-manager button.primary { border-color: #0f766e; background: #0f766e; color: #fff; }
+.inventory-batch-manager button:disabled { opacity: .45; cursor: not-allowed; }
+.inventory-batch-manager input, .inventory-batch-manager select, .inventory-batch-manager textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.inventory-batch-manager .toolbar, .inventory-batch-manager .summary, .inventory-batch-manager .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.inventory-batch-manager .muted { color: #71808e; font-size: 12px; }
+.inventory-batch-manager .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+.page-head,.metric-strip{display:flex;justify-content:space-between}.metric-strip{margin:12px 0;gap:8px}.metric-strip article{flex:1;padding:12px;background:#edf7f5}.metric-strip strong{display:block;font-size:23px}.inventory-layout{display:grid;grid-template-columns:1fr 200px;gap:14px}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid #e0e5e9;text-align:left}td small{display:block}tr.selected{background:#ecfdf5}tr.risk{box-shadow:inset 3px 0 #dc2626}.stock-bar{width:75px;height:6px;background:#e5e7eb}.stock-bar span{display:block;height:100%;background:#0f766e}aside{padding:12px;background:#f7f9fa}aside label{display:grid;gap:5px;margin:8px 0}
+</style>

@@ -1,0 +1,30 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "InventoryBatchManager",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "failed_after_max_repair_rounds",
+  "source_vue": "data/datasets/components/03_complex/InventoryBatchManager/vue/InventoryBatchManager.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/complex/InventoryBatchManager_repaired_repaired_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/complex/InventoryBatchManager_repaired.san",
+  "observed_issue": "Clicking a single batch checkbox did not change the row selection style, and the select-visible button did not produce a visible selection effect.",
+  "root_cause": "The San template called isSelected(batch.id) and batchRowClass(batch) without passing selectedIds. Because these ordinary method calls did not expose selectedIds as template dependencies, San did not recompute the checkbox and row class after selectedIds changed.",
+  "fix": {
+    "template_before": "batchRowClass(batch), isSelected(batch.id)",
+    "template_after": "batchRowClass(batch, selectedIds), isSelected(batch.id, selectedIds)",
+    "method_change": "isSelected and batchRowClass now consume the selectedIds argument supplied by the template.",
+    "scope": "Only the v2 San artifact was changed; formal_30_v1 and Vue source remain unchanged."
+  },
+  "sha256": {
+    "formal_30_v1_final_san": "E5CB63FBFDBE1E5134A80A54D06660BC2D5F5261E8487CB529AB240E79A93C99",
+    "formal_30_v2_fixed_san": "FF8D238B6A97EEAD268B4EDB640413CDF431626870903A0ED9745F74774776C3"
+  },
+  "manual_check": {
+    "runner": "tests/manual/san-test-runner.html",
+    "expected": "Selecting one row should check its checkbox and add the selected row style; select-visible should select every currently visible row and update the selected count.",
+    "result": "passed",
+    "validated_by": "user_manual_browser_check",
+    "validated_at": "2026-10-21T11:59:16+08:00"
+  }
+}

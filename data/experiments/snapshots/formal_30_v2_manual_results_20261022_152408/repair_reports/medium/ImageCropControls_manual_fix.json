@@ -1,0 +1,39 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "ImageCropControls",
+  "complexity": "medium",
+  "source_version": "formal_30_v1",
+  "source_vue": "data/datasets/components/02_medium/ImageCropControls/vue/ImageCropControls.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/medium/ImageCropControls_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/medium/ImageCropControls_repaired.san",
+  "observed_issue": "The San component rendered without the initial crop box and initial input values.",
+  "root_cause": "San initialized crop as an empty object but had no inited hook to copy initialCrop into crop, unlike the Vue created hook.",
+  "fix": {
+    "added": "inited() { const initialCrop = this.data.get('initialCrop'); this.data.set('crop', Object.assign({}, initialCrop)); }",
+    "scope": "Only the v2 San artifact was changed; Vue source and formal_30_v1 artifacts were not modified."
+  },
+  "sha256": {
+    "formal_30_v1_repaired_san": "F612B3C5DD34F9BFB6CFA27014D0046CC31BD7A66DB527B5A343CC9AF572F828",
+    "formal_30_v2_fixed_san": "4545F100103B4492CC24129087670AF27542AC6550F5437A60C62441F8CA27BD"
+  },
+  "follow_up_issue": "Changing a numeric parameter did not move or resize the crop box on the canvas.",
+  "follow_up_root_cause": "The input handler passed `event` instead of San's `$event` expression, so update() did not receive the DOM event and crop remained unchanged.",
+  "follow_up_fix": {
+    "before": "on-input=\"update(field, event)\"",
+    "after": "on-input=\"update(field, $event)\""
+  },
+  "lock_issue": "The lock-aspect-ratio row did not match the Vue layout, and enabling the checkbox did not apply the aspect-ratio update.",
+  "lock_root_cause": "The checkbox inherited the numeric-field grid layout, and the migrated Vue-style watch object was not registered by the San component runtime.",
+  "lock_fix": {
+    "style": "Added a dedicated lock-control flex row and placed the checkbox before the label text visually.",
+    "behavior": "Registered this.watch('locked', ...) in inited() and removed the inactive Vue-style watch object."
+  },
+  "manual_check": {
+    "runner": "tests/manual/san-test-runner.html",
+    "expected": "Initial values should match x=10, y=10, width=45, height=55; edits should update the crop box immediately; enabling lock should update height from width and keep subsequent width edits proportional; the checkbox should appear before its label text.",
+    "result": "passed",
+    "validated_by": "user_manual_browser_check",
+    "validated_at": "2026-10-21T11:12:05+08:00"
+  }
+}

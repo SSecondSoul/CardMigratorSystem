@@ -1,0 +1,118 @@
+{
+  "snapshot_id": "formal_30_v1_results_20261015_161053",
+  "created_at": "2026-10-15T16:10:55+08:00",
+  "purpose": "Immutable post-execution evidence for formal_30_v1; original batch outputs remain at their canonical paths.",
+  "protocol_id": "formal_30_v1_frozen_20261015",
+  "batch_id": "formal_30_v1",
+  "status": "frozen_post_execution",
+  "summary": "formal_30_v1_summary.json",
+  "aggregate": {
+    "configured": 30,
+    "completed": 29,
+    "passed": 16,
+    "failed": 13,
+    "execution_errors": 1,
+    "pending": 0,
+    "pass_rate_completed": 0.5517,
+    "initial_passed": 3,
+    "initial_pass_rate_completed": 0.1034,
+    "repaired_to_pass": 13,
+    "repair_rounds_total": 51,
+    "repair_rounds_average": 1.759,
+    "generation_tokens": 701340,
+    "repair_tokens": 1767836,
+    "total_tokens": 2469176,
+    "stop_reason_counts": {
+      "max_repair_rounds_reached": 11,
+      "no_repair_progress": 2,
+      "passed": 16
+    },
+    "error_code_counts": {
+      "initial_validation": {
+        "custom_event_not_fire": 2,
+        "event_arguments_not_landed": 2,
+        "invalid_dynamic_attribute_binding": 4,
+        "invalid_s_for_key_binding": 3,
+        "missing_datatypes_for_props": 1,
+        "missing_event_bindings": 2,
+        "missing_event_handlers": 1,
+        "missing_prop_defaults": 24,
+        "vue_this_state": 3
+      },
+      "initial_visual": {
+        "dom_critical_attribute_mismatch": 2,
+        "dom_structure_similarity_low": 16,
+        "san_render_failed": 1,
+        "san_san_render_error": 1
+      },
+      "final_validation": {
+        "custom_event_not_fire": 1,
+        "event_arguments_not_landed": 1,
+        "missing_event_bindings": 1,
+        "missing_event_handlers": 1,
+        "missing_prop_defaults": 1,
+        "vue_this_state": 5
+      },
+      "final_visual": {
+        "dom_critical_attribute_mismatch": 7,
+        "dom_structure_similarity_low": 9
+      }
+    },
+    "by_complexity": {
+      "simple": {
+        "configured": 10,
+        "completed": 10,
+        "passed": 9,
+        "failed": 1,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.9
+      },
+      "medium": {
+        "configured": 10,
+        "completed": 10,
+        "passed": 5,
+        "failed": 5,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.5
+      },
+      "complex": {
+        "configured": 10,
+        "completed": 9,
+        "passed": 2,
+        "failed": 7,
+        "execution_errors": 1,
+        "pass_rate_completed": 0.2222
+      }
+    }
+  },
+  "execution_error_samples": [
+    "topology_editor"
+  ],
+  "failed_completed_samples": [
+    "inline_rename",
+    "image_crop_controls",
+    "ExpenseTracker",
+    "quiz_navigator",
+    "survey_branch_form",
+    "TodoList",
+    "inventory_batch_manager",
+    "media_review_studio",
+    "forecast_simulator",
+    "capacity_planning_board",
+    "gradebook_matrix",
+    "support_ticket_console",
+    "experiment_rollout_console"
+  ],
+  "canonical_outputs": {
+    "summary": "data/experiments/batch_reports/formal_30_v1_summary.json",
+    "pipeline": "data/experiments/pipeline/batches/formal_30_v1",
+    "repair_reports": "data/experiments/repair_reports/batches/formal_30_v1"
+  },
+  "integrity_file": "SHA256SUMS.txt",
+  "payload_file_count": 114,
+  "notes": [
+    "No failed sample was regenerated or edited after completion.",
+    "TopologyEditor ended with a repair request timeout and remains an execution error.",
+    "This snapshot is evidence only; any repair requires a new protocol version and output directory."
+  ]
+}

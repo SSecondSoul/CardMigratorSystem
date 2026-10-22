@@ -1,0 +1,105 @@
+{
+  "protocol_id": "formal_30_v1_frozen_20261015",
+  "status": "frozen_pre_execution",
+  "frozen_at": "2026-10-15T14:28:31+08:00",
+  "timezone": "Asia/Shanghai",
+  "git_head": "4c18a4b6a908139a285648be2f81b7ec8a75196c",
+  "git_commit_time": "2026-10-13T17:11:28+08:00",
+  "git_commit_subject": "更新交接文档，划分测试集和实验集pilot_9_v6_development_and_formal_30_v1.json",
+  "tracked_worktree_clean_before_freeze": true,
+  "batch": {
+    "id": "formal_30_v1",
+    "config": "migration_pipeline/batch_configs/formal_30_v1.json",
+    "config_sha256": "6d459378416e3666565f172e2c2b3d5621e0d7ace78ea14d0eccf8a467fbcb59",
+    "config_git_blob_sha256": "ec70c7ac55bbd8e125ebc9b25a4105cdb92ef07407f44b4029b60e3f3ec3bab5",
+    "config_fingerprint": "1ca3314cb0a3532aa6213404c355efbd9e7b63761cfcfa53eacfd73fdd910e7e",
+    "split": "data/datasets/splits/pilot_9_v6_development_and_formal_30_v1.json",
+    "split_sha256": "00c64dd7c625f09013e446565669f6c988af474ed09933f2d1fc684be74fce9c",
+    "split_git_blob_sha256": "dd679a15d65f37b6a5f6b181bce8b30ad3f8298ae1db7df61f05b3050758712f",
+    "sample_count": 30,
+    "counts_by_complexity": {
+      "simple": 10,
+      "medium": 10,
+      "complex": 10
+    },
+    "max_repair_rounds": 3
+  },
+  "model": {
+    "provider": "qwen",
+    "model": "qwen-plus",
+    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+    "temperature": 0.2,
+    "seed": null,
+    "seed_note": "The current client does not send a seed; stochasticity is a documented limitation.",
+    "api_key_stored": false
+  },
+  "pipeline": {
+    "generation_api_url": "http://127.0.0.1:8787/api/evaluation/generate",
+    "repair_api_url": "http://127.0.0.1:8787/api/evaluation/repair",
+    "generation_timeout_seconds": 300,
+    "repair_timeout_seconds": 300,
+    "llm_timeout_seconds": 120,
+    "structure_similarity_threshold": 0.95,
+    "text_similarity_threshold": 0.8,
+    "health_check": true,
+    "include_state": true,
+    "force": false
+  },
+  "primary_evaluation": {
+    "population": "all 30 independent-test samples",
+    "metrics": [
+      "initial and final pass rate",
+      "pass rate by complexity",
+      "repaired-to-pass count and repair rounds",
+      "generation, repair, and total tokens",
+      "stop reason and error-code distributions",
+      "per-sample DOM similarity metrics"
+    ],
+    "execution_errors_remain_in_denominator": true,
+    "interaction_claim_excluded": true
+  },
+  "manual_secondary_evaluation": {
+    "preregistered_sample_ids": [
+      "password_strength_meter",
+      "session_timeout_notice",
+      "delivery_phase_card",
+      "poll_results",
+      "image_crop_controls",
+      "attendance_roster",
+      "inventory_batch_manager",
+      "media_review_studio",
+      "energy_load_scheduler"
+    ],
+    "count": 9,
+    "per_complexity": 3,
+    "performed_after_automated_batch": true
+  },
+  "reference_san_policy": "Frozen for integrity only; embargoed from prompts, repair, tuning, and sample selection until the automated batch is complete.",
+  "execution_command": "python migration_pipeline/run_batch_pipeline.py --config-file migration_pipeline/batch_configs/formal_30_v1.json --include-state",
+  "resume_policy": "Repeat the identical command after infrastructure interruption; checkpoint skips completed samples; never use --force.",
+  "output_paths": {
+    "pipeline": "data/experiments/pipeline/batches/formal_30_v1",
+    "repair_reports": "data/experiments/repair_reports/batches/formal_30_v1",
+    "summary": "data/experiments/batch_reports/formal_30_v1_summary.json"
+  },
+  "preflight": {
+    "dry_run": "passed",
+    "unittest_command": "python -m unittest tests.test_batch_pipeline_runner tests.test_interaction_eval tests.test_migration_pipeline_regressions tests.test_repair_prompt_and_loop tests.test_ssm_event_extraction",
+    "unittest_result": "30 tests passed",
+    "python": "3.14.7",
+    "node": "24.19.0",
+    "npm": "11.17.0",
+    "flask": "3.1.3",
+    "pyyaml": "6.0.3",
+    "formal_outputs_absent": true
+  },
+  "frozen_payload_root": "frozen",
+  "frozen_payload_file_count": 144,
+  "integrity_file": "SHA256SUMS.txt",
+  "verification_command": "python data/experiments/protocols/formal_30_v1_frozen_20261015/verify_protocol.py --live",
+  "known_limitations": [
+    "The LLM request has temperature 0.2 and no fixed seed.",
+    "Automated final_passed does not establish full browser interaction equivalence.",
+    "The observed Python runtime is 3.14.7 while environment.yml declares Python 3.12."
+  ]
+}

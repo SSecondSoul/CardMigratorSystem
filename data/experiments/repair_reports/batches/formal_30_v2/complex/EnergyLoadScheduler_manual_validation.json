@@ -1,0 +1,35 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "EnergyLoadScheduler",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "passed_after_1_repair_round",
+  "vue_file": "data/datasets/components/03_complex/EnergyLoadScheduler/vue/EnergyLoadScheduler.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/complex/EnergyLoadScheduler_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/complex/EnergyLoadScheduler_repaired.san",
+  "observed_issue": "After toggling a device time slot, its text and dependent values updated but the button color did not follow the new on/off state.",
+  "root_cause": "The San template derived the class through slotClass(device.id, hour), while schedule was read only inside that ordinary method. San therefore did not register schedule as a template-expression dependency and could retain the previous class after schedule changed.",
+  "fix": "The template now calls slotClass(device.id, hour, schedule), and slotClass derives the class from the explicitly supplied schedule argument. This makes schedule a reactive dependency without changing the frozen formal_30_v1 artifact.",
+  "sha256": {
+    "formal_30_v1_final_san": "DE0D71E816572E0263C8C60F14DCDFBBF7D677F8F65C7803BE3A1070C7372B5B",
+    "formal_30_v2_fixed_san": "4A6A55CC946C287EEABA2F7A22C24E00432AEACD5C7A06D8D6B153A243DE827C"
+  },
+  "automatic_result": {
+    "final_validation_passed": true,
+    "final_visual_eval_passed": true,
+    "final_structure_similarity": 0.9921,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0
+  },
+  "manual_checks": [
+    "Initial device schedule, selected hour, load chart, load details, peak load, and estimated cost match Vue.",
+    "Selecting an hour updates its active style and the detail panel.",
+    "Toggling a device time slot updates its on/off text and color, selected hour, chart, load values, peak, cost, and limit warning.",
+    "Balancing the peak updates the schedule, optimized state, chart, load values, peak, cost, and warning consistently.",
+    "Editing the scenario name and saving creates a scenario entry with the current cost and peak."
+  ],
+  "validated_by": "user_manual_browser_check",
+  "validated_at": "2026-10-21T16:34:41+08:00",
+  "result": "passed"
+}

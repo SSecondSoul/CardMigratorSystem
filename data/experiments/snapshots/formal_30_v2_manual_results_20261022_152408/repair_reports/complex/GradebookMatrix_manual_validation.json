@@ -1,0 +1,46 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "GradebookMatrix",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "failed_after_max_repair_rounds",
+  "vue_file": "data/datasets/components/03_complex/GradebookMatrix/vue/GradebookMatrix.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/complex/GradebookMatrix_repaired_repaired_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/complex/GradebookMatrix_repaired.san",
+  "observed_issue": "The failing-only checkbox was positioned differently from Vue, and the percent sign for the lab and exam weight inputs appeared before the input instead of after it. All other manual checks passed.",
+  "root_cause": "The migration preserved the same elements and text but changed their DOM child order. The checkbox label became text-then-input instead of input-then-text, and each assignment header became label-percent-input instead of label-input-percent. This explains the final dom_structure_similarity_low result despite matching tag and near-matching text metrics.",
+  "fix": "The v2 copy restores the Vue child order for the failing-only checkbox and both assignment weight headers. No state or interaction logic was changed, and the repaired template compiles with the local San package.",
+  "sha256": {
+    "formal_30_v1_final_san": "86C3B5788FB6EB47EC22171998587D796CA36A84AF84DCFDC6E5FC30DFC59B03",
+    "formal_30_v2_fixed_san": "ED14B36CE6DEC9D56AFF5409AA728201D967798E12B37C11484EC5DD5A8679F2"
+  },
+  "manual_validation_progress": {
+    "passed": "All functional checks and all other visual checks.",
+    "pending_recheck": [
+      "Failing-only checkbox order matches Vue.",
+      "Lab and exam percent signs appear after their weight inputs."
+    ]
+  },
+  "automatic_result": {
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "final_validation_passed": true,
+    "final_visual_eval_passed": false,
+    "final_visual_error_codes": ["dom_structure_similarity_low"],
+    "final_structure_similarity": 0.9324,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 0.9907
+  },
+  "manual_checks": [
+    "Initial course title, weights, student grades, totals, letter grades, class average, pass rate, and publication state match Vue.",
+    "Editing a grade clamps it to 0-100 and updates row total, letter grade, row style, class metrics, change count, and selected-student details.",
+    "Editing weights and restoring defaults recomputes every total and metric and increments the change count.",
+    "Sorting by name or score and filtering failing students produces the same rows and order as Vue.",
+    "Selecting and closing a student detail panel shows current grades and last-edited information.",
+    "Publishing changes the state to published; a subsequent grade or weight edit resets it to unpublished through the migrated watcher."
+  ],
+  "validated_by": "user_manual_browser_check",
+  "validated_at": "2026-10-22T14:53:28+08:00",
+  "result": "passed"
+}

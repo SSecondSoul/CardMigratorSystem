@@ -1,0 +1,28 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "MediaReviewStudio",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "failed_no_repair_progress",
+  "source_vue": "data/datasets/components/03_complex/MediaReviewStudio/vue/MediaReviewStudio.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/complex/MediaReviewStudio_repaired_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/complex/MediaReviewStudio_repaired.san",
+  "observed_issue": "The changes and approved decisions could not be selected, resolve/reopen/delete note actions had no visible effect, and submitting a new note refreshed the page.",
+  "root_cause": "Two independent migration defects were present. First, the handlers mutated nested objects returned by the selectedAsset computed value directly. Those plain-object mutations bypassed San data updates, so selectedAsset, visibleNotes, decisionText, classes, and the note list were not recomputed. Second, Vue's @submit.prevent modifier was translated to on-submit without preserving preventDefault behavior, so the browser performed a native form submission and refreshed the page when a note was added.",
+  "fix": "Decision, note resolution, note deletion, and note addition now create new asset/note objects and write the complete next assets array through this.data.set('assets', nextAssets). The note form passes $event to addNote(event), which calls preventDefault() before updating state.",
+  "sha256": {
+    "formal_30_v1_final_san": "16F5DBD9ACDDEEBB0124FA7675C1614745BF9684699841383525338B0B6D71C7",
+    "formal_30_v2_fixed_san": "92BCCCE0136DAA0365C1C64E4A04D426C32037CDA06A834D36D529C48B40C375"
+  },
+  "manual_checks": [
+    "Asset selection and active styling.",
+    "Playback, seek, and current-time display.",
+    "Decision buttons and chosen state.",
+    "Note add, filter, jump-to-time, resolve, and delete interactions."
+  ],
+  "expected_after_fix": "Decision text and chosen styles should update; resolving/reopening should update note state and filtering; deleting should remove the note immediately; adding should append a reactive note without navigating or refreshing the page.",
+  "validated_by": "user_manual_browser_check",
+  "validated_at": "2026-10-21T16:16:54+08:00",
+  "result": "passed"
+}

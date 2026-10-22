@@ -1,0 +1,50 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "SupportTicketConsole",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "failed_after_max_repair_rounds",
+  "vue_file": "data/datasets/components/03_complex/SupportTicketConsole/vue/SupportTicketConsole.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/complex/SupportTicketConsole_repaired_repaired_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/complex/SupportTicketConsole_repaired.san",
+  "observed_issue": "The internal-note checkbox appeared after its label text in San, while Vue places the checkbox before the text. The control therefore occupied a different visual position.",
+  "root_cause": "The migration reversed the two child nodes inside the reply footer label. Vue renders input-then-text, but the generated San template rendered text-then-input. Shared CSS could not compensate for the changed DOM order.",
+  "fix": "Created a formal_30_v2 copy and restored the Vue child order by placing the checkbox input before the internal-note text. No state or interaction logic was changed.",
+  "sha256": {
+    "formal_30_v1_final_san": "472E207E36B84413E6B08FAB034D4A2FBF70A476C8940BFCD4D5D562691ECBF1",
+    "formal_30_v2_fixed_san": "0C0D4F297C78E295E5CA4B45A97004B4DAAF14C9A17D0F18CD51DAB161F2531B"
+  },
+  "manual_validation_progress": {
+    "failed": "The internal-note checkbox position did not match Vue.",
+    "passed": [
+      "The internal-note checkbox appears before the label text, matching Vue.",
+      "Toggling the checkbox still changes whether a submitted message is an internal note."
+    ]
+  },
+  "automatic_result": {
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "final_validation_passed": false,
+    "final_validation_error_codes": ["vue_this_state"],
+    "final_visual_eval_passed": false,
+    "final_visual_error_codes": ["dom_structure_similarity_low"],
+    "final_structure_similarity": 0.1181,
+    "final_tag_sequence_similarity": 0.6286,
+    "final_text_similarity": 0.6384,
+    "san_template_compile_check": "passed"
+  },
+  "manual_checks": [
+    "Initial inbox title, open count, sorted ticket list, selected conversation, messages, SLA, properties, tags, and controls match Vue.",
+    "Search, status filtering, and tag filtering produce the same tickets and active tag styling as Vue.",
+    "Selecting a ticket resets reply and merge state and updates the conversation and properties panels.",
+    "Canned replies populate the draft without submitting or refreshing the page.",
+    "Sending public replies or internal notes appends the correct message, updates status when appropriate, and does not refresh the page.",
+    "Changing assignee and ticket status updates the ticket list, open count, selected properties, and filters.",
+    "Selecting a merge target and merging moves messages, removes the source ticket, and selects the target.",
+    "SLA minutes and safe, warning, or breached styling update consistently."
+  ],
+  "validated_by": "user_manual_browser_check",
+  "validated_at": "2026-10-22T15:03:54+08:00",
+  "result": "passed"
+}

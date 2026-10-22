@@ -1,0 +1,40 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "CapacityPlanningBoard",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "failed_after_max_repair_rounds",
+  "vue_file": "data/datasets/components/03_complex/CapacityPlanningBoard/vue/CapacityPlanningBoard.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/complex/CapacityPlanningBoard_repaired_repaired_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/complex/CapacityPlanningBoard_repaired.san",
+  "observed_issue": "The San test page failed before rendering with: [SAN ERROR] ROOT>section>div>aside>small>option is closed with button.",
+  "root_cause": "All five migrated loops emitted trackby as a separate unquoted attribute, for example s-for=\"item in cycles\" trackby item. San requires the tracking expression inside the s-for value, for example s-for=\"item in cycles trackby item\". The malformed attributes confused the template parser and produced a misleading tag-closing error. The formal_30_v1 final static validation reported passed despite this syntax, so this is also a validator false negative.",
+  "fix": "The v2 copy moves each tracking expression inside its s-for value for cycles, unassigned work, member lanes, lane items, and change-log entries. The repaired template was compiled with the locally installed San package. The frozen formal_30_v1 artifact remains unchanged.",
+  "sha256": {
+    "formal_30_v1_final_san": "E75EBC5ACD804AD519137773DDEAFCC26C6C4AABE3B5CC7BFFEE9E92F454384F",
+    "formal_30_v2_fixed_san": "4713412562B48ABEA4D9CC7EC15D4779F120097E7918193117DF8262D598E28F"
+  },
+  "automatic_result": {
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "final_validation_passed": true,
+    "final_visual_eval_passed": false,
+    "final_visual_error_codes": ["dom_critical_attribute_mismatch"],
+    "final_structure_similarity": 0.9596,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0
+  },
+  "manual_checks": [
+    "Initial title, cycle, total points, unassigned items, member lanes, loads, capacity bars, and save state match Vue.",
+    "Selecting a work item updates its selected style and current-work details.",
+    "Assigning an item moves it to the selected member lane and updates load, capacity bar, save state, and log.",
+    "Unassigning an item returns it to the pool without unintended parent-button selection behavior.",
+    "Increasing and decreasing capacity updates the denominator, capacity bar, near-limit or overloaded style, and unsaved state.",
+    "Cycle switching and skill filtering show the correct work and member subsets.",
+    "Saving restores the saved state and appends the expected log entry."
+  ],
+  "validated_by": "user_manual_browser_check",
+  "validated_at": "2026-10-22T14:44:50+08:00",
+  "result": "passed"
+}

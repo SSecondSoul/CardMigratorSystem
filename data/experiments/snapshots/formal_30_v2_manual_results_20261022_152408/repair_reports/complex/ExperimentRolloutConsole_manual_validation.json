@@ -1,0 +1,51 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "ExperimentRolloutConsole",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "failed_after_max_repair_rounds",
+  "vue_file": "data/datasets/components/03_complex/ExperimentRolloutConsole/vue/ExperimentRolloutConsole.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/complex/ExperimentRolloutConsole_repaired_repaired_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/complex/ExperimentRolloutConsole_repaired.san",
+  "observed_issue": "After selecting a winning variant, the corresponding San table row did not change to the winner color immediately, unlike Vue.",
+  "root_cause": "The San template bound the row class through rowClass(row). The template expression exposed only row as a tracked dependency, while winnerId and leaderId were read inside the component method. Updating winnerId therefore did not invalidate and reevaluate the class binding in real time. Vue rerenders template methods during reactive updates, so the same source pattern works there.",
+  "fix": "Created a formal_30_v2 copy and replaced the method-based class binding with an explicit template expression that directly references row.id, winnerId, and leaderId. San can now track both state dependencies and update winner or leader styling immediately; state and event logic were not changed.",
+  "sha256": {
+    "formal_30_v1_final_san": "07297466752559F46810AE2070C00F7E8ED93D28F11E1A81AAD956AE0A1F9B31",
+    "formal_30_v2_fixed_san": "744E2389099E24FE2CB7E0C4C4B6EB57BA9E94678E863693EE65233C1A0E259B"
+  },
+  "manual_validation_progress": {
+    "failed": "Winner-row styling did not update immediately after selecting a winning variant.",
+    "passed": [
+      "Selecting a winner immediately changes the selected row to the winner color.",
+      "The previous leader styling yields to winner styling, and rollback clears winner styling."
+    ]
+  },
+  "automatic_result": {
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "initial_validation_passed": false,
+    "initial_validation_error_codes": ["vue_this_state", "missing_prop_defaults"],
+    "final_validation_passed": false,
+    "final_validation_error_codes": ["vue_this_state"],
+    "final_visual_eval_passed": true,
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 1.0,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "san_template_compile_check": "passed"
+  },
+  "manual_checks": [
+    "Initial experiment name, target metric, draft state, 50/50 allocations, valid total, metrics, leader row, empty history, and button states match Vue.",
+    "Changing either allocation slider updates its value and total, switches valid or invalid styling, and enables Start only when the total equals 100.",
+    "Starting creates a history snapshot, changes the state to running, disables Start and winner selection, and enables Pause.",
+    "While running, periodic simulation ticks update visitors, conversion rates, error rates, and leader styling; paused or completed experiments stop changing.",
+    "Pausing creates a history snapshot and allows a winner to be selected; selecting a winner changes the state to completed and applies winner-row styling.",
+    "Rolling back a history entry restores its allocations and status and clears winner styling without refreshing the page."
+  ],
+  "validated_by": "user_manual_browser_check",
+  "validated_at": "2026-10-22T15:15:32+08:00",
+  "result": "passed"
+}

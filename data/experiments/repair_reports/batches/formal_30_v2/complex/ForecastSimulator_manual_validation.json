@@ -1,0 +1,41 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "ForecastSimulator",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "failed_after_max_repair_rounds",
+  "vue_file": "data/datasets/components/03_complex/ForecastSimulator/vue/ForecastSimulator.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/complex/ForecastSimulator_repaired_repaired_repaired.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/complex/ForecastSimulator_repaired.san",
+  "observed_issue": "The San component opened without the initial simulation result, chart bars, summary values, or monthly detail rows.",
+  "root_cause": "The final third-round formal_30_v1 artifact lost the attached() and disposed() lifecycle methods that were present in earlier generated and repair artifacts, so Vue mounted() no longer triggered runSimulation(). It also initialized assumptions with the Vue-style instance access this.initialAssumptions, which is undefined in San initData(). This is a repair regression: the final repair removed previously preserved lifecycle behavior.",
+  "fix": "A formal_30_v2 copy restores an inited() hook that reads initialAssumptions through this.data and clones it into assumptions, an attached() hook that runs the initial simulation, and a disposed() hook that clears the pending timer. The frozen formal_30_v1 artifacts remain unchanged.",
+  "sha256": {
+    "formal_30_v1_final_san": "8E2957D7B2051A06CD4FDDF534D31AC58552AB0CBC5BFC7BAA11EF8BA1D7972E",
+    "formal_30_v2_fixed_san": "3FF0F5D08FEFFA425DD74F9899257BF27795E01A9221D81516925F0C53D31963"
+  },
+  "automatic_result": {
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "final_validation_passed": false,
+    "final_validation_error_codes": ["vue_this_state"],
+    "final_visual_eval_passed": false,
+    "final_visual_error_codes": ["dom_structure_similarity_low", "dom_critical_attribute_mismatch"],
+    "final_structure_similarity": 0.9492,
+    "final_tag_sequence_similarity": 0.9921,
+    "final_text_similarity": 0.9812
+  },
+  "manual_checks": [
+    "Initial simulation runs and the chart, summary values, timestamp, and monthly table match Vue.",
+    "Editing each assumption and running the simulation updates the chart, summary, and table consistently.",
+    "Revenue, customer, and profit metric tabs update their active style and chart values.",
+    "Reset restores the baseline assumptions and recomputes the result.",
+    "Saving scenarios appends entries with the expected name and cumulative revenue.",
+    "Adding and removing up to two comparison scenarios updates labels and compared styling.",
+    "Deleting a scenario removes it and clears it from the comparison selection."
+  ],
+  "validated_by": "user_manual_browser_check",
+  "validated_at": "2026-10-21T17:06:29+08:00",
+  "result": "passed"
+}

@@ -1,0 +1,38 @@
+{
+  "experiment_version": "formal_30_v2",
+  "status": "passed",
+  "sample_id": "TopologyEditor",
+  "complexity": "complex",
+  "source_version": "formal_30_v1",
+  "auto_evaluation_status": "execution_error_during_repair_request",
+  "vue_file": "data/datasets/components/03_complex/TopologyEditor/vue/TopologyEditor.vue",
+  "source_san": "data/experiments/pipeline/batches/formal_30_v1/complex/TopologyEditor.san",
+  "fixed_san": "data/experiments/pipeline/batches/formal_30_v2/complex/TopologyEditor_repaired.san",
+  "observed_issue": "The San component had no title; node movement and connection creation had no visible effect; simulation did not visibly update node states as expected. After the first reactive-state repair, starting simulation still produced only the 'simulation started' log and no periodic node-status logs.",
+  "root_cause": "The Vue title prop default was not initialized in San. In addition, the generated handlers mutated objects and arrays returned by this.data.get() or computed selectedNode directly, including selectedNode coordinates, edges.push(), nodes.push(), and node.status assignment. Those mutations bypassed San's reactive data update path. The simulation timer was also created only during attached() and stored as reactive view data; toggleSimulation() changed only a flag and did not establish that an active timer existed, so the manual runner showed no tick callbacks after simulation was enabled.",
+  "fix": "The v2 copy initializes the default title and replaces direct nested mutations with immutable node or edge arrays written through this.data.set(). Rename, move, add-node, connection creation, and simulation tick paths now write complete reactive values. Simulation timer ownership was moved to a component instance field: starting simulation immediately performs one tick and creates the interval, stopping or disposing clears it, and log insertion now writes a new eventLog array. The frozen formal_30_v1 artifact remains unchanged.",
+  "sha256": {
+    "formal_30_v1_generated_san": "7ED750DFB6D3E1F674DC968E891C1581F7A821D33150B4D8652DFE90245DE898",
+    "formal_30_v2_fixed_san": "685F92DE10FFFA27BF54B6E545E1B24DC1DD405C7370F5781D0EC5C0A2901F03"
+  },
+  "automatic_result": {
+    "status": "error",
+    "error_type": "RuntimeError",
+    "error_stage": "repair_request",
+    "error_message": "Repair request failed: HTTP 400: The read operation timed out",
+    "repair_result_available": false,
+    "artifact_under_manual_test": "initial_generated_san"
+  },
+  "manual_checks": [
+    "Initial nodes, edges, selected inspector, coordinates, connection counts, zoom, and event log match Vue.",
+    "Selecting nodes updates selected styling and inspector details.",
+    "Renaming and moving the selected node updates both the canvas and inspector.",
+    "Adding and deleting nodes updates the canvas, edges, selection, and event log.",
+    "Starting and completing or cancelling a connection updates source styling, edges, and hints.",
+    "Zoom controls update the percentage and canvas transform consistently.",
+    "Running and stopping simulation updates active styles, node or edge state, and event log consistently."
+  ],
+  "validated_by": "user_manual_browser_check",
+  "validated_at": "2026-10-22T14:34:21+08:00",
+  "result": "passed"
+}

@@ -1,0 +1,213 @@
+<template>
+<section class="document-approval-flow">
+  <header>
+    <div>
+      <p class="muted">v{{version}} · {{updatedAt}}</p>
+      <h2>{{documentTitle}}</h2>
+      <span>作者：{{author}}</span>
+    </div>
+    <button on-click="toggleHistory">版本历史</button>
+  </header>
+  <div class="approval-progress">
+    <span style="{{progressStyle}}"></span>
+  </div>
+  <div class="approval-steps">
+    <article s-for="step, index in steps trackby step.id" class="{{step.status}}">
+      <i>{{index + 1}}</i>
+      <div>
+        <strong>{{step.name}}</strong>
+        <small>{{statusText(step.status)}}</small>
+      </div>
+    </article>
+  </div>
+  <div class="approval-layout">
+    <main>
+      <textarea class="document-content" value="{= content =}" disabled="{{status !== 'revision'}}" on-input="updateContent"></textarea>
+      <div class="decision-panel" s-if="status === 'reviewing'">
+        <h3>当前：{{currentReviewer.name}}</h3>
+        <input placeholder="驳回原因" value="{= rejectionReason =}" on-input="updateReason">
+        <button disabled="{{!rejectionReason}}" on-click="reject">要求修订</button>
+        <button class="primary" on-click="approve">批准</button>
+      </div>
+      <div class="revision-panel" s-if="status === 'revision'">
+        <strong>文档正在修订</strong>
+        <button class="primary" on-click="submitRevision">提交新版本</button>
+      </div>
+      <div class="approved-panel" s-if="status === 'approved'">全部审批完成</div>
+    </main>
+    <aside>
+      <h3>评论</h3>
+      <form on-submit="submitComment">
+        <textarea value="{= commentDraft =}" on-input="updateComment"></textarea>
+        <button type="submit">发送</button>
+      </form>
+      <ol>
+        <li s-for="comment in comments trackby comment.id">
+          <small>v{{comment.version}} · {{comment.role}}</small>
+          <p>{{comment.text}}</p>
+        </li>
+      </ol>
+    </aside>
+  </div>
+  <section class="version-history" s-if="showHistory">
+    <article s-for="item in versions trackby item.version">
+      <strong>v{{item.version}}</strong>
+      <span>{{item.status}}</span>
+    </article>
+    <p s-if="!versions.length">暂无历史版本</p>
+  </section>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'DocumentApprovalFlow',
+  dataTypes: {
+    documentTitle: DataTypes.string,
+    author: DataTypes.string,
+    reviewers: DataTypes.array,
+    initialContent: DataTypes.string
+  },
+  initData() {
+    return {
+      version: 1,
+      content: '',
+      steps: [],
+      activeStep: 0,
+      status: 'reviewing',
+      commentDraft: '',
+      comments: [],
+      versions: [],
+      rejectionReason: '',
+      showHistory: false,
+      updatedAt: ''
+    };
+  },
+  computed: {
+    currentReviewer() {
+      const steps = this.data.get('steps');
+      const activeStep = this.data.get('activeStep');
+      return steps[activeStep] || null;
+    },
+    approvedCount() {
+      const steps = this.data.get('steps');
+      return steps.filter(item => item.status === 'approved').length;
+    },
+    canDecide() {
+      const status = this.data.get('status');
+      const currentReviewer = this.data.get('currentReviewer');
+      return status === 'reviewing' && !!currentReviewer;
+    },
+    progressStyle() {
+      const approvedCount = this.data.get('approvedCount');
+      const steps = this.data.get('steps');
+      return 'width:' + Math.round(approvedCount / steps.length * 100) + '%';
+    }
+  },
+  inited() {
+    const initialContent = this.data.get('initialContent');
+    const reviewers = this.data.get('reviewers');
+    this.data.set('content', initialContent);
+    this.data.set('steps', reviewers.map((name, index) => ({ id: index + 1, name, status: index === 0 ? 'active' : 'pending' })));
+    this.refreshTime();
+  },
+  setValue(key, value) {
+    this.data.set(key, value);
+  },
+  emitEvent(name, payload) {
+    this.fire(name, payload);
+  },
+  approve() {
+    if (!this.data.get('canDecide')) return;
+    const index = this.data.get('activeStep');
+    const steps = this.data.get('steps');
+    const newSteps = steps.map((item, itemIndex) => Object.assign({}, item, { status: itemIndex === index ? 'approved' : itemIndex === index + 1 ? 'active' : item.status }));
+    this.data.set('steps', newSteps);
+    if (index === newSteps.length - 1) {
+      this.data.set('status', 'approved');
+    } else {
+      this.data.set('activeStep', index + 1);
+    }
+    this.addComment('system', '步骤已批准');
+    this.refreshTime();
+    this.fire('approve', { version: this.data.get('version'), step: index });
+  },
+  updateReason(event) {
+    this.data.set('rejectionReason', event.target.value);
+  },
+  reject() {
+    const reason = this.data.get('rejectionReason').trim();
+    if (!this.data.get('canDecide') || !reason) return;
+    const steps = this.data.get('steps');
+    const newSteps = steps.map((item, index) => index === this.data.get('activeStep') ? Object.assign({}, item, { status: 'rejected' }) : item);
+    this.data.set('steps', newSteps);
+    this.data.set('status', 'revision');
+    this.addComment('system', '需要修订：' + reason);
+    this.data.set('rejectionReason', '');
+    this.fire('reject', reason);
+  },
+  updateComment(event) {
+    this.data.set('commentDraft', event.target.value);
+  },
+  submitComment(event) {
+    event.preventDefault();
+    const text = this.data.get('commentDraft').trim();
+    if (!text) return;
+    this.addComment('reviewer', text);
+    this.data.set('commentDraft', '');
+  },
+  addComment(role, text) {
+    const id = Date.now();
+    const version = this.data.get('version');
+    const comments = this.data.get('comments');
+    this.data.set('comments', [{ id, role, text, version }].concat(comments));
+  },
+  updateContent(event) {
+    this.data.set('content', event.target.value);
+  },
+  submitRevision() {
+    if (this.data.get('status') !== 'revision') return;
+    const version = this.data.get('version');
+    const content = this.data.get('content');
+    const status = this.data.get('status');
+    const versions = this.data.get('versions');
+    this.data.set('versions', [{ version, content, status }].concat(versions));
+    const newVersion = version + 1;
+    this.data.set('version', newVersion);
+    const reviewers = this.data.get('reviewers');
+    this.data.set('steps', reviewers.map((name, index) => ({ id: index + 1, name, status: index === 0 ? 'active' : 'pending' })));
+    this.data.set('activeStep', 0);
+    this.data.set('status', 'reviewing');
+    this.addComment('system', '已提交版本 v' + newVersion);
+    this.fire('version', newVersion);
+  },
+  toggleHistory() {
+    this.data.set('showHistory', !this.data.get('showHistory'));
+  },
+  refreshTime() {
+    this.data.set('updatedAt', new Date().toLocaleString('zh-CN', { hour12: false }));
+  },
+  statusText(status) {
+    const map = { pending: '等待', active: '审批中', approved: '已通过', rejected: '需修订' };
+    return map[status] || status;
+  }
+});
+</script>
+
+<style>
+.document-approval-flow { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.document-approval-flow * { box-sizing: border-box; }
+.document-approval-flow h2, .document-approval-flow h3, .document-approval-flow p { margin-top: 0; }
+.document-approval-flow h2 { margin-bottom: 14px; font-size: 21px; }
+.document-approval-flow button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.document-approval-flow button.primary { border-color: #b45309; background: #b45309; color: #fff; }
+.document-approval-flow button:disabled { opacity: .45; cursor: not-allowed; }
+.document-approval-flow input, .document-approval-flow select, .document-approval-flow textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.document-approval-flow .toolbar, .document-approval-flow .summary, .document-approval-flow .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.document-approval-flow .muted { color: #71808e; font-size: 12px; }
+.document-approval-flow .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+header{display:flex;justify-content:space-between}.approval-progress{height:7px;margin:14px 0;background:#e5e7eb}.approval-progress span{display:block;height:100%;background:#b45309}.approval-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.approval-steps article{display:flex;gap:8px;padding:10px;background:#f8fafc}.approval-steps i{display:grid;width:26px;height:26px;place-items:center;border-radius:50%;background:#d9dee4}.approval-steps article.active i{background:#f59e0b}.approval-steps article.approved i{background:#15803d;color:#fff}.approval-layout{display:grid;grid-template-columns:1fr 250px;gap:14px;margin-top:14px}.document-content{width:100%;min-height:180px}.decision-panel,.revision-panel,.approved-panel{padding:12px;background:#fffbeb}.decision-panel{display:flex;gap:7px}.decision-panel input{flex:1}.approved-panel{background:#ecfdf5}aside{padding:12px;background:#f8fafc}aside textarea{width:100%}aside ol{padding:0;list-style:none}.version-history{display:flex;gap:8px;margin-top:12px}
+</style>
