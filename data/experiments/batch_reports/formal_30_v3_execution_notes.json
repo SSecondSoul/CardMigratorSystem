@@ -1,0 +1,57 @@
+{
+  "batch_id": "formal_30_v3",
+  "recorded_at": "2026-10-22T20:03:06+08:00",
+  "reason": "The frozen protocol permits retrying infrastructure failures with the unchanged checkpoint command.",
+  "command": "python migration_pipeline/run_batch_pipeline.py --config-file migration_pipeline/batch_configs/formal_30_v3.json --include-state",
+  "protocol_changes": false,
+  "force_used": false,
+  "attempts": [
+    {
+      "attempt": 1,
+      "samples": [
+        {
+          "id": "analytics_dashboard",
+          "started_at": "2026-10-22T19:17:37+08:00",
+          "finished_at": "2026-10-22T19:19:37+08:00",
+          "result": "generation_timeout"
+        },
+        {
+          "id": "TaskManager",
+          "started_at": "2026-10-22T19:24:07+08:00",
+          "finished_at": "2026-10-22T19:26:08+08:00",
+          "result": "generation_timeout"
+        },
+        {
+          "id": "MonitoringDashboard",
+          "started_at": "2026-10-22T19:26:08+08:00",
+          "finished_at": "2026-10-22T19:28:08+08:00",
+          "result": "generation_timeout"
+        }
+      ]
+    },
+    {
+      "attempt": 2,
+      "samples": [
+        {
+          "id": "analytics_dashboard",
+          "started_at": "2026-10-22T19:57:03+08:00",
+          "finished_at": "2026-10-22T19:59:04+08:00",
+          "result": "generation_timeout"
+        },
+        {
+          "id": "TaskManager",
+          "started_at": "2026-10-22T19:59:05+08:00",
+          "finished_at": "2026-10-22T20:01:05+08:00",
+          "result": "generation_timeout"
+        },
+        {
+          "id": "MonitoringDashboard",
+          "started_at": "2026-10-22T20:01:05+08:00",
+          "finished_at": "2026-10-22T20:03:06+08:00",
+          "result": "generation_timeout"
+        }
+      ]
+    }
+  ],
+  "conclusion": "All three infrastructure errors reproduced at the unchanged 120-second generation timeout. They remain execution errors; no timeout, model, prompt, or pipeline setting was changed."
+}

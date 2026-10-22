@@ -1,0 +1,104 @@
+{
+  "snapshot_id": "formal_30_v3_results_20261022_200548",
+  "created_at": "2026-10-22T20:05:49+08:00",
+  "purpose": "Immutable automatic-result evidence for the post-remediation formal_30_v3 untouched holdout.",
+  "protocol_id": "formal_30_v3_frozen_20261022",
+  "batch_id": "formal_30_v3",
+  "status": "frozen_post_execution",
+  "aggregate": {
+    "configured": 30,
+    "completed": 27,
+    "passed": 18,
+    "failed": 9,
+    "execution_errors": 3,
+    "pending": 0,
+    "pass_rate_completed": 0.6667,
+    "initial_passed": 2,
+    "initial_pass_rate_completed": 0.0741,
+    "repaired_to_pass": 16,
+    "repair_rounds_total": 45,
+    "repair_rounds_average": 1.667,
+    "generation_tokens": 552963,
+    "repair_tokens": 1396414,
+    "total_tokens": 1949377,
+    "stop_reason_counts": {
+      "max_repair_rounds_reached": 7,
+      "no_repair_progress": 2,
+      "passed": 18
+    },
+    "error_code_counts": {
+      "initial_validation": {
+        "custom_event_not_fire": 1,
+        "event_arguments_not_landed": 1,
+        "hidden_template_reactive_dependency": 2,
+        "invalid_dynamic_attribute_binding": 1,
+        "invalid_s_for_key_binding": 2,
+        "missing_prop_defaults": 25,
+        "nested_state_mutation": 8,
+        "unbalanced_template_interpolation": 1,
+        "vue_this_state": 2
+      },
+      "initial_visual": {
+        "dom_critical_attribute_mismatch": 9,
+        "dom_structure_similarity_low": 19
+      },
+      "final_validation": {
+        "hidden_template_reactive_dependency": 3,
+        "invalid_s_for_key_binding": 2,
+        "missing_prop_defaults": 1,
+        "vue_this_state": 1
+      },
+      "final_visual": {
+        "dom_critical_attribute_mismatch": 5,
+        "dom_structure_similarity_low": 6
+      }
+    },
+    "by_complexity": {
+      "simple": {
+        "configured": 10,
+        "completed": 10,
+        "passed": 10,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": 1.0
+      },
+      "medium": {
+        "configured": 10,
+        "completed": 10,
+        "passed": 7,
+        "failed": 3,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.7
+      },
+      "complex": {
+        "configured": 10,
+        "completed": 7,
+        "passed": 1,
+        "failed": 6,
+        "execution_errors": 3,
+        "pass_rate_completed": 0.1429
+      }
+    }
+  },
+  "execution_error_samples": [
+    "analytics_dashboard",
+    "TaskManager",
+    "MonitoringDashboard"
+  ],
+  "failed_completed_samples": [
+    "habit_week_tracker",
+    "playback_queue",
+    "course_module_accordion",
+    "incident_response_board",
+    "rule_builder",
+    "access_matrix",
+    "localization_workspace",
+    "trip_itinerary_planner",
+    "schema_mapping_workbench"
+  ],
+  "notes": [
+    "No generated component or repair report was manually edited before freezing.",
+    "Three generation timeouts reproduced once under the unchanged protocol and remain execution errors.",
+    "Any later remediation requires a new batch/version; this snapshot is evidence only."
+  ]
+}

@@ -1,6 +1,7 @@
 import re
 import json
 from dataclasses import asdict, dataclass, field
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
 
@@ -95,10 +96,45 @@ class ValidateStage:
         r"<[^>]*\bs-for\s*=\s*(?:\"[^\"]*\"|'[^']*')[^>]*>",
         re.IGNORECASE,
     )
+    S_FOR_ATTRIBUTE_PATTERN = re.compile(
+        r"\bs-for\s*=\s*([\"'])(.*?)\1",
+        re.IGNORECASE | re.DOTALL,
+    )
+    TEMPLATE_ATTRIBUTE_PATTERN = re.compile(
+        r"(?:^|\s)([A-Za-z_:][\w:.-]*)\s*=\s*([\"'])(.*?)\2",
+        re.DOTALL,
+    )
+    LOOP_INDEX_IDENTIFIERS = {"index", "idx", "$index"}
+    REACTIVE_PRESENTATION_ATTRIBUTE_PATTERN = re.compile(
+        r"(?:^|\s)(class|style|checked|selected|disabled)\s*=\s*([\"'])(.*?)\2",
+        re.IGNORECASE | re.DOTALL,
+    )
+    TEMPLATE_INTERPOLATION_PATTERN = re.compile(r"\{\{(.*?)\}\}|\{=(.*?)=\}", re.DOTALL)
+    TEMPLATE_METHOD_CALL_PATTERN = re.compile(r"\b([A-Za-z_$][\w$]*)\s*\(([^()]*)\)")
+    DATA_GET_PATTERN = re.compile(
+        r"\bthis\.data\.get\s*\(\s*(['\"])([A-Za-z_$][\w$]*)\1\s*\)"
+    )
+    METHOD_DEFINITION_PATTERN = re.compile(
+        r"\b([A-Za-z_$][\w$]*)\s*\([^)]*\)\s*\{"
+    )
+    STATE_ALIAS_PATTERN = re.compile(
+        r"\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*"
+        r"this\.data\.get\s*\(\s*(['\"])([A-Za-z_$][\w$]*)\2\s*\)"
+    )
+    LOCAL_ASSIGNMENT_PATTERN = re.compile(
+        r"\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*([^;\n]+)"
+    )
+    MUTATING_ARRAY_METHODS = (
+        "copyWithin", "fill", "pop", "push", "reverse", "shift", "sort", "splice", "unshift"
+    )
+    JAVASCRIPT_CONTROL_KEYWORDS = {
+        "catch", "do", "for", "if", "switch", "while", "with",
+    }
     VUE_SCRIPT_PATTERNS = (
         (r"export\s+default", "vue_export_default", "San 脚本应使用 module.exports = san.defineComponent(...)。"),
         (r"\bprops\s*:", "vue_props_option", "San 中 props 应迁移为 dataTypes。"),
         (r"\bmethods\s*:\s*\{", "vue_methods_wrapper", "San 方法应直接定义在组件对象顶层。"),
+        (r"\bwatch\s*:\s*\{", "vue_watch_option", "Vue watch 配置不会被 San 自动注册，请在 inited/attached 中使用 this.watch(...)。"),
         (r"\bthis\.\$emit\s*\(", "vue_emit", "Vue 的 this.$emit 应迁移为 San 的 this.fire。"),
         (r"\bthis\.(?!data\b|fire\b|watch\b|ref\b|nextTick\b)([A-Za-z_$][\w$]*)\b(?!\s*\()", "vue_this_state", "San 状态读写应使用 this.data.get()/this.data.set()。"),
     )
@@ -113,11 +149,28 @@ class ValidateStage:
         self._validate_sfc_blocks(blocks, issues, checks)
         self._validate_san_script(blocks.get("script", ""), issues, checks)
         self._validate_template_rules(blocks.get("template", ""), issues, checks)
+        self._validate_loop_scope_bindings(
+            blocks.get("template", ""),
+            blocks.get("script", ""),
+            ssm,
+            stage_input,
+            issues,
+            checks,
+        )
         self._validate_script_rules(blocks.get("script", ""), issues, checks)
+        self._validate_template_reactive_dependencies(
+            blocks.get("template", ""),
+            blocks.get("script", ""),
+            issues,
+            checks,
+        )
+        self._validate_nested_state_mutations(blocks.get("script", ""), issues, checks)
+        self._validate_dom_child_order(code, stage_input, issues, checks)
         self._validate_style_rules(blocks.get("style", ""), issues, checks, strict=stage_input.strict)
         san_compile_result = self._validate_san_compile(code, stage_input, issues, checks)
         self._validate_ssm_consistency(code, blocks, ssm, issues, checks)
         self._validate_prop_defaults_landing(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_prop_dependent_data_initialization(blocks.get("script", ""), ssm, issues, checks)
         self._validate_data_initial_values(san_compile_result, ssm, issues, checks)
         self._validate_event_arguments_landing(blocks.get("template", ""), ssm, issues, checks)
         self._validate_custom_event_migration(blocks.get("script", ""), ssm, issues, checks)
@@ -319,6 +372,453 @@ class ValidateStage:
                     location="script",
                     suggestion=suggestion,
                 ))
+
+    def _validate_loop_scope_bindings(
+        self,
+        template: str,
+        script: str,
+        ssm: dict[str, Any],
+        stage_input: ValidateStageInput,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        source_index_aliases = self._source_loop_index_aliases(stage_input.source_file)
+        state_fields = self._known_component_state_fields(script, ssm)
+        findings: list[tuple[str, str]] = []
+
+        for loop_number, tag in enumerate(self.S_FOR_OPEN_TAG_PATTERN.findall(template)):
+            loop_match = self.S_FOR_ATTRIBUTE_PATTERN.search(tag)
+            if not loop_match:
+                continue
+
+            loop_expression = loop_match.group(2).strip()
+            declaration_match = re.match(
+                r"^\s*\(?\s*([^)]*?)\s*\)?\s+in\s+.+$",
+                loop_expression,
+                re.DOTALL,
+            )
+            if not declaration_match:
+                continue
+
+            declared = {
+                alias.strip()
+                for alias in declaration_match.group(1).split(",")
+                if re.fullmatch(r"[A-Za-z_$][\w$]*", alias.strip())
+            }
+            candidates = set(self.LOOP_INDEX_IDENTIFIERS)
+            if loop_number < len(source_index_aliases) and source_index_aliases[loop_number]:
+                candidates.add(source_index_aliases[loop_number])
+
+            expression_values = []
+            for attribute_match in self.TEMPLATE_ATTRIBUTE_PATTERN.finditer(tag):
+                attribute_name = attribute_match.group(1).lower()
+                attribute_value = attribute_match.group(3)
+                if attribute_name == "s-for":
+                    continue
+                if (
+                    "{{" in attribute_value
+                    or "{=" in attribute_value
+                    or attribute_name.startswith("on-")
+                    or attribute_name in {"s-if", "s-else-if"}
+                ):
+                    expression_values.append(attribute_value)
+
+            expression_text = " ".join(expression_values)
+            for candidate in sorted(candidates):
+                if candidate in declared or candidate in state_fields:
+                    continue
+                if re.search(rf"(?<![\w$]){re.escape(candidate)}(?![\w$])", expression_text):
+                    findings.append((candidate, loop_expression))
+
+        checks.append(ValidationCheck(
+            name="loop_scope_variables_declared",
+            passed=not findings,
+            message=(
+                "s-for 标签表达式使用的循环索引变量均已声明"
+                if not findings
+                else f"检测到 {len(findings)} 个未在 s-for 中声明的循环索引变量"
+            ),
+        ))
+
+        for variable, loop_expression in findings:
+            issues.append(ValidationIssue(
+                code="unbound_loop_scope_variable",
+                message=(
+                    f"s-for=\"{loop_expression}\" 所在标签使用了循环变量 {variable}，"
+                    "但该变量没有在 s-for 的别名列表中声明，运行时表达式不会获得当前循环索引。"
+                ),
+                location="template",
+                suggestion=(
+                    f"在 s-for 中显式声明索引别名，例如将 item in items 改为 "
+                    f"item, {variable} in items，并保持 Vue v-for 的循环项和索引别名一致。"
+                ),
+            ))
+
+    def _source_loop_index_aliases(self, source_file: str) -> list[str]:
+        if not source_file:
+            return []
+        source_path = Path(source_file)
+        if not source_path.is_file():
+            return []
+
+        try:
+            source = source_path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            return []
+
+        template = self._extract_block(source, "template")
+        aliases = []
+        for match in re.finditer(
+            r"\bv-for\s*=\s*([\"'])(.*?)\1",
+            template,
+            re.IGNORECASE | re.DOTALL,
+        ):
+            expression = match.group(2)
+            declaration = re.match(r"^\s*\(?\s*([^)]*?)\s*\)?\s+in\s+.+$", expression, re.DOTALL)
+            if not declaration:
+                aliases.append("")
+                continue
+            names = [name.strip() for name in declaration.group(1).split(",")]
+            aliases.append(names[1] if len(names) > 1 else "")
+        return aliases
+
+    def _known_component_state_fields(self, script: str, ssm: dict[str, Any]) -> set[str]:
+        fields = {
+            match.group(2)
+            for match in re.finditer(
+                r"\bthis\.data\.(?:get|set)\s*\(\s*(['\"])([A-Za-z_$][\w$]*)\1",
+                script,
+            )
+        }
+
+        init_data_body = self._extract_function_body(script, "initData")
+        fields.update(
+            match.group(1)
+            for match in re.finditer(
+                r"(?:^|[,{]\s*)([A-Za-z_$][\w$]*)\s*:",
+                init_data_body,
+                re.MULTILINE,
+            )
+        )
+
+        options = self._script_options(ssm)
+        for collection_name in ("props", "data", "data_fields", "computed"):
+            for item in options.get(collection_name, []) if isinstance(options, dict) else []:
+                if isinstance(item, str):
+                    fields.add(item)
+                elif isinstance(item, dict):
+                    name = item.get("name") or item.get("field_name") or item.get("prop_name")
+                    if isinstance(name, str) and name:
+                        fields.add(name)
+        return fields
+
+    def _validate_template_reactive_dependencies(
+        self,
+        template: str,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        findings: dict[tuple[str, str], set[str]] = {}
+
+        for attribute_match in self.REACTIVE_PRESENTATION_ATTRIBUTE_PATTERN.finditer(template):
+            attribute_name = attribute_match.group(1).lower()
+            attribute_value = attribute_match.group(3)
+            for interpolation_match in self.TEMPLATE_INTERPOLATION_PATTERN.finditer(attribute_value):
+                expression = interpolation_match.group(1) or interpolation_match.group(2) or ""
+                for call_match in self.TEMPLATE_METHOD_CALL_PATTERN.finditer(expression):
+                    method_name = call_match.group(1)
+                    method_body = self._extract_function_body(script, method_name)
+                    if not method_body:
+                        continue
+
+                    reactive_reads = {
+                        match.group(2)
+                        for match in self.DATA_GET_PATTERN.finditer(method_body)
+                    }
+                    hidden_reads = {
+                        field
+                        for field in reactive_reads
+                        if not re.search(rf"\b{re.escape(field)}\b", expression)
+                    }
+                    if hidden_reads:
+                        findings.setdefault((attribute_name, method_name), set()).update(hidden_reads)
+
+        checks.append(ValidationCheck(
+            name="template_reactive_dependencies_visible",
+            passed=not findings,
+            message=(
+                "展示属性的方法调用没有隐藏 San 响应式字段依赖"
+                if not findings
+                else f"检测到 {len(findings)} 个方法调用隐藏 San 响应式字段依赖"
+            ),
+        ))
+
+        for (attribute_name, method_name), fields in sorted(findings.items()):
+            field_list = ", ".join(sorted(fields))
+            issues.append(ValidationIssue(
+                code="hidden_template_reactive_dependency",
+                message=(
+                    f"模板 {attribute_name} 绑定调用 {method_name}(...)，但该方法内部隐藏读取响应式字段："
+                    f"{field_list}。这些字段变化时，San 可能不会重新计算该绑定。"
+                ),
+                location="template/script",
+                suggestion=(
+                    f"在模板表达式中直接引用 {field_list}，或将这些字段作为参数显式传给 "
+                    f"{method_name}(...)。"
+                ),
+            ))
+
+    def _validate_nested_state_mutations(
+        self,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        findings: dict[str, set[str]] = {}
+
+        for method_name, method_body in self._iter_method_bodies(script):
+            aliases: dict[str, set[str]] = {
+                match.group(1): {match.group(3)}
+                for match in self.STATE_ALIAS_PATTERN.finditer(method_body)
+            }
+
+            changed = True
+            while changed:
+                changed = False
+                for assignment in self.LOCAL_ASSIGNMENT_PATTERN.finditer(method_body):
+                    target = assignment.group(1)
+                    expression = assignment.group(2)
+                    if target in aliases or self._is_detached_copy_expression(expression):
+                        continue
+                    source_fields: set[str] = set()
+                    for alias, fields in aliases.items():
+                        if re.search(rf"\b{re.escape(alias)}\b", expression):
+                            source_fields.update(fields)
+                    if source_fields:
+                        aliases[target] = source_fields
+                        changed = True
+
+            mutated_fields: set[str] = set()
+            mutator_names = "|".join(self.MUTATING_ARRAY_METHODS)
+            for alias, fields in aliases.items():
+                alias_path = rf"\b{re.escape(alias)}(?:\s*(?:\.[A-Za-z_$][\w$]*|\[[^\]\n]+\]))*"
+                alias_nested_path = rf"\b{re.escape(alias)}(?:\s*(?:\.[A-Za-z_$][\w$]*|\[[^\]\n]+\]))+"
+                property_assignment = re.compile(
+                    alias_nested_path + r"\s*(?:\+\+|--|[+\-*/%]?=(?!=))"
+                )
+                mutating_call = re.compile(
+                    alias_path + rf"\s*\.\s*(?:{mutator_names})\s*\("
+                )
+                object_assign = re.compile(
+                    rf"\bObject\.assign\s*\(\s*{alias_path}\s*,"
+                )
+                delete_property = re.compile(rf"\bdelete\s+{alias_path}")
+                if any(pattern.search(method_body) for pattern in (
+                    property_assignment,
+                    mutating_call,
+                    object_assign,
+                    delete_property,
+                )):
+                    mutated_fields.update(fields)
+
+            direct_property_assignment = re.compile(
+                r"this\.data\.get\s*\(\s*(['\"])([A-Za-z_$][\w$]*)\1\s*\)"
+                r"(?:\s*(?:\.[A-Za-z_$][\w$]*|\[[^\]\n]+\]))+\s*"
+                r"(?:\+\+|--|[+\-*/%]?=(?!=))"
+            )
+            direct_mutating_call = re.compile(
+                r"this\.data\.get\s*\(\s*(['\"])([A-Za-z_$][\w$]*)\1\s*\)"
+                r"(?:\s*(?:\.[A-Za-z_$][\w$]*|\[[^\]\n]+\]))*"
+                rf"\s*\.\s*(?:{mutator_names})\s*\("
+            )
+            for pattern in (direct_property_assignment, direct_mutating_call):
+                mutated_fields.update(match.group(2) for match in pattern.finditer(method_body))
+
+            if mutated_fields:
+                findings.setdefault(method_name, set()).update(mutated_fields)
+
+        checks.append(ValidationCheck(
+            name="reactive_state_uses_data_updates",
+            passed=not findings,
+            message=(
+                "响应式对象和数组通过 San data API 更新"
+                if not findings
+                else f"检测到 {len(findings)} 个方法直接修改响应式对象或数组"
+            ),
+        ))
+
+        for method_name, fields in sorted(findings.items()):
+            field_list = ", ".join(sorted(fields))
+            issues.append(ValidationIssue(
+                code="nested_state_mutation",
+                message=(
+                    f"方法 {method_name}(...) 直接修改了来自 San data 的对象或数组引用："
+                    f"{field_list}。原地修改可能绕过响应式更新。"
+                ),
+                location="script",
+                suggestion=(
+                    "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，"
+                    f"然后通过 this.data.set(...) 写回 {field_list}；不要直接修改其属性或调用 push/splice。"
+                ),
+            ))
+
+    def _validate_dom_child_order(
+        self,
+        code: str,
+        stage_input: ValidateStageInput,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        source_path = Path(stage_input.source_file) if stage_input.source_file else None
+        if not source_path or not source_path.is_file():
+            return
+
+        try:
+            source_code = source_path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            return
+
+        source_template = self._extract_block(source_code, "template")
+        generated_template = self._extract_block(code, "template")
+        source_tree = self._parse_template_order(source_template)
+        generated_tree = self._parse_template_order(generated_template)
+        mismatches = []
+        if source_tree and generated_tree:
+            self._collect_dom_order_mismatches(source_tree, generated_tree, "/", mismatches)
+
+        checks.append(ValidationCheck(
+            name="dom_child_order_consistency",
+            passed=not mismatches,
+            message=(
+                "Vue 与 San 模板直接子节点顺序一致"
+                if not mismatches
+                else f"检测到 {len(mismatches)} 处 Vue/San 直接子节点顺序变化"
+            ),
+        ))
+        if mismatches:
+            examples = "; ".join(
+                f"{item['path']}: Vue {item['source']} / San {item['generated']}"
+                for item in mismatches[:5]
+            )
+            issues.append(ValidationIssue(
+                code="dom_child_order_mismatch",
+                message=f"San 模板改变了 Vue 节点的直接子节点顺序：{examples}。",
+                location="template",
+                suggestion=(
+                    "保持 Vue 原始 DOM 子节点顺序，尤其是 input/checkbox 与相邻文字、百分号、"
+                    "label 文本的先后关系；不要依赖 CSS 排序替代 DOM 顺序。"
+                ),
+            ))
+
+    def _parse_template_order(self, template: str):
+        if not template.strip():
+            return None
+
+        class OrderNode:
+            def __init__(self, tag):
+                self.tag = tag
+                self.tokens = []
+                self.children = []
+
+        class OrderParser(HTMLParser):
+            VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
+
+            def __init__(self):
+                super().__init__(convert_charrefs=False)
+                self.root = None
+                self.stack = []
+
+            def handle_starttag(self, tag, attrs):
+                node = OrderNode(tag.lower())
+                if self.stack:
+                    self.stack[-1].tokens.append(("element", node.tag))
+                    self.stack[-1].children.append(node)
+                else:
+                    self.root = node
+                if tag.lower() not in self.VOID_TAGS:
+                    self.stack.append(node)
+
+            def handle_startendtag(self, tag, attrs):
+                self.handle_starttag(tag, attrs)
+                if self.stack and self.stack[-1].tag == tag.lower():
+                    self.stack.pop()
+
+            def handle_endtag(self, tag):
+                for index in range(len(self.stack) - 1, -1, -1):
+                    if self.stack[index].tag == tag.lower():
+                        del self.stack[index:]
+                        break
+
+            def handle_data(self, data):
+                normalized = self._normalize_text(data)
+                if normalized and self.stack:
+                    self.stack[-1].tokens.append(("text", normalized))
+
+            def handle_entityref(self, name):
+                self.handle_data(f"&{name};")
+
+            def handle_charref(self, name):
+                self.handle_data(f"&#{name};")
+
+            @staticmethod
+            def _normalize_text(text):
+                text = re.sub(r"\s+", " ", text).strip()
+                text = re.sub(r"\{\{\s*([^{}]*?)\s*\}\}", r"{{\1}}", text)
+                text = re.sub(r"\{=\s*([^{}]*?)\s*=\}", r"{=\1=}", text)
+                return text
+
+        parser = OrderParser()
+        try:
+            parser.feed(template)
+            parser.close()
+        except Exception:
+            return None
+        return parser.root
+
+    def _collect_dom_order_mismatches(self, source_node, generated_node, path, mismatches):
+        if source_node.tag != generated_node.tag:
+            mismatches.append({
+                "path": path,
+                "source": source_node.tag,
+                "generated": generated_node.tag,
+            })
+            return
+        if source_node.tokens != generated_node.tokens:
+            source_signature = [token[1] for token in source_node.tokens]
+            generated_signature = [token[1] for token in generated_node.tokens]
+            if sorted(source_signature, key=str) == sorted(generated_signature, key=str):
+                mismatches.append({
+                    "path": path + source_node.tag,
+                    "source": source_signature,
+                    "generated": generated_signature,
+                })
+
+        child_count = min(len(source_node.children), len(generated_node.children))
+        for index in range(child_count):
+            child_path = f"{path}{source_node.tag}[{index}]/"
+            self._collect_dom_order_mismatches(
+                source_node.children[index],
+                generated_node.children[index],
+                child_path,
+                mismatches,
+            )
+
+    def _iter_method_bodies(self, script: str):
+        for match in self.METHOD_DEFINITION_PATTERN.finditer(script):
+            method_name = match.group(1)
+            if method_name in self.JAVASCRIPT_CONTROL_KEYWORDS:
+                continue
+            method_body = self._extract_braced_body(script, match.end() - 1)
+            if method_body:
+                yield method_name, method_body
+
+    def _is_detached_copy_expression(self, expression: str) -> bool:
+        return bool(re.search(
+            r"\.(?:map|filter|slice|concat)\s*\(|\bArray\.from\s*\(|"
+            r"\bObject\.assign\s*\(\s*\{\s*\}|\[\s*\.\.\.",
+            expression,
+        ))
 
     def _validate_style_rules(
         self,
@@ -559,6 +1059,66 @@ class ValidateStage:
                 suggestion="按 SSM data_initial_values_to_preserve 精确保留完整初始值。",
             ))
 
+    def _validate_prop_dependent_data_initialization(
+        self,
+        script: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        options = self._script_options(ssm)
+        prop_names = set(self._expected_props(ssm))
+        dependent_fields: dict[str, set[str]] = {}
+        for item in options.get("data", []) if isinstance(options.get("data", []), list) else []:
+            if not isinstance(item, dict):
+                continue
+            field_name = item.get("name") or item.get("field_name")
+            expression = str(item.get("default_value_expression") or "")
+            dependencies = {
+                name for name in prop_names
+                if re.search(rf"\bthis\.{re.escape(name)}\b", expression)
+            }
+            if field_name and dependencies:
+                dependent_fields[str(field_name)] = dependencies
+
+        if not dependent_fields:
+            return
+
+        inited_body = self._extract_function_body(script, "inited")
+        missing = []
+        for field_name, dependencies in sorted(dependent_fields.items()):
+            writes_field = bool(re.search(
+                rf"\bthis\.data\.set\s*\(\s*['\"]{re.escape(field_name)}['\"]",
+                inited_body,
+            ))
+            missing_reads = [
+                dependency for dependency in sorted(dependencies)
+                if not re.search(
+                    rf"\bthis\.data\.get\s*\(\s*['\"]{re.escape(dependency)}['\"]",
+                    inited_body,
+                )
+            ]
+            if not writes_field or missing_reads:
+                missing.append(
+                    f"{field_name} <- {', '.join(sorted(dependencies))}"
+                )
+
+        checks.append(ValidationCheck(
+            name="prop_dependent_data_initialized_in_inited",
+            passed=not missing,
+            message="依赖 props 的 data 已在 San inited 中初始化",
+        ))
+        if missing:
+            issues.append(ValidationIssue(
+                code="missing_prop_dependent_initialization",
+                message=f"以下 prop 派生 data 未在 inited() 中完整初始化：{'; '.join(missing)}。",
+                location="script",
+                suggestion=(
+                    "initData() 先返回稳定占位值，再在 inited() 中使用 this.data.get('propName') "
+                    "读取 prop、创建独立副本，并通过 this.data.set('field', value) 写入派生 data。"
+                ),
+            ))
+
     def _values_equivalent(self, expected: Any, actual: Any) -> bool:
         if isinstance(expected, bool) or isinstance(actual, bool):
             return type(expected) is type(actual) and expected == actual
@@ -678,35 +1238,109 @@ class ValidateStage:
         issues: list[ValidationIssue],
         checks: list[ValidationCheck],
     ) -> None:
-        hooks = self._expected_lifecycle_hooks(ssm)
+        hooks = self._expected_lifecycle_items(ssm)
         if not hooks:
             return
 
         expected_mapping = {
+            "beforeCreate": "compiled",
+            "created": "inited",
+            "beforeMount": "created",
             "mounted": "attached",
             "beforeDestroy": "disposed",
             "destroyed": "disposed",
+            "activated": "attached",
+            "deactivated": "disposed",
         }
         missing = []
-        for source_hook in hooks:
-            target_hook = expected_mapping.get(source_hook)
+        behavior_missing = []
+        options = self._script_options(ssm)
+        known_fields = set(self._expected_props(ssm))
+        known_fields.update(self._expected_data_fields(ssm))
+        known_fields.update(self._expected_computed_names(ssm))
+        known_methods = set(self._expected_method_names(ssm))
+
+        for hook in hooks:
+            source_hook = hook["source_hook"]
+            target_hook = hook.get("target_hook") or expected_mapping.get(source_hook)
             if target_hook and not re.search(rf"\b{target_hook}\s*\(", script):
                 missing.append(f"{source_hook} -> {target_hook}")
+                continue
+            if not target_hook:
+                continue
+
+            source_body = hook.get("body", "")
+            target_body = self._extract_function_body(script, target_hook)
+            requirements = []
+
+            for field_name in re.findall(
+                r"\bthis\.setValue\s*\(\s*['\"]([A-Za-z_$][\w$]*)['\"]",
+                source_body,
+            ):
+                landed = bool(re.search(
+                    rf"(?:this\.setValue|this\.data\.set)\s*\(\s*['\"]{re.escape(field_name)}['\"]",
+                    target_body,
+                ))
+                if not landed:
+                    requirements.append(f"写入字段 {field_name}")
+
+            for field_name in known_fields:
+                if not re.search(rf"\bthis\.{re.escape(field_name)}\b", source_body):
+                    continue
+                reads_or_writes = bool(re.search(
+                    rf"this\.data\.(?:get|set)\s*\(\s*['\"]{re.escape(field_name)}['\"]",
+                    target_body,
+                ))
+                if not reads_or_writes:
+                    requirements.append(f"访问字段 {field_name}")
+
+            for method_name in known_methods:
+                if not re.search(rf"\bthis\.{re.escape(method_name)}\s*\(", source_body):
+                    continue
+                if method_name == "setValue":
+                    continue
+                if not re.search(rf"\bthis\.{re.escape(method_name)}\s*\(", target_body):
+                    requirements.append(f"调用方法 {method_name}()")
+
+            for side_effect in ("setTimeout", "setInterval", "clearTimeout", "clearInterval"):
+                if re.search(rf"\b{side_effect}\s*\(", source_body) and not re.search(
+                    rf"\b{side_effect}\s*\(", target_body
+                ):
+                    requirements.append(f"保留 {side_effect}()")
+
+            if requirements:
+                behavior_missing.append(
+                    f"{source_hook} -> {target_hook}: {', '.join(sorted(set(requirements)))}"
+                )
 
         passed = not missing
         checks.append(ValidationCheck(
             name="lifecycle_mapping_consistency",
             passed=passed,
             message="Vue 生命周期已映射到 San 生命周期",
-            severity="warning",
         ))
         if missing:
             issues.append(ValidationIssue(
                 code="missing_lifecycle_mapping",
                 message=f"以下生命周期映射未在 San 中找到：{', '.join(missing)}。",
-                severity="warning",
                 location="script",
                 suggestion="将 Vue 生命周期迁移到对应 San 生命周期，或确认逻辑已合并到其他生命周期中。",
+            ))
+
+        checks.append(ValidationCheck(
+            name="lifecycle_behavior_consistency",
+            passed=not behavior_missing,
+            message="Vue 生命周期中的初始化、方法调用和副作用已在 San 钩子中保留",
+        ))
+        if behavior_missing:
+            issues.append(ValidationIssue(
+                code="lifecycle_behavior_not_landed",
+                message=f"以下生命周期行为未完整迁移：{'; '.join(behavior_missing)}。",
+                location="script",
+                suggestion=(
+                    "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；"
+                    "不要只保留空的 inited/attached/disposed 方法。"
+                ),
             ))
 
     def _validate_event_binding_completeness(
@@ -789,7 +1423,6 @@ class ValidateStage:
                 issues.append(ValidationIssue(
                     code="missing_watch_migration",
                     message=f"以下 watch 未在 San script 中找到 this.watch 对应：{', '.join(missing_watch)}。",
-                    severity="warning",
                     location="script",
                     suggestion="在 San inited/attached 中使用 this.watch 迁移 Vue watch，或确认逻辑已等价处理。",
                 ))
@@ -870,7 +1503,9 @@ class ValidateStage:
         match = re.search(rf"\b{re.escape(function_name)}\s*\([^)]*\)\s*{{", script)
         if not match:
             return ""
-        start = match.end() - 1
+        return self._extract_braced_body(script, match.end() - 1)
+
+    def _extract_braced_body(self, script: str, start: int) -> str:
         depth = 0
         quote = ""
         escaped = False
@@ -982,16 +1617,39 @@ class ValidateStage:
         return result
 
     def _expected_lifecycle_hooks(self, ssm: dict[str, Any]) -> list[str]:
+        return [item["source_hook"] for item in self._expected_lifecycle_items(ssm)]
+
+    def _expected_lifecycle_items(self, ssm: dict[str, Any]) -> list[dict[str, str]]:
         options = self._script_options(ssm)
         hooks = options.get("lifecycle_hooks", [])
         result = []
         for hook in hooks if isinstance(hooks, list) else []:
             if isinstance(hook, dict):
-                name = hook.get("name") or hook.get("hook")
-                if name:
-                    result.append(name)
+                source_hook = hook.get("vue_hook") or hook.get("name") or hook.get("hook")
+                if source_hook:
+                    result.append({
+                        "source_hook": str(source_hook),
+                        "target_hook": str(hook.get("san_hook") or ""),
+                        "body": str(hook.get("body_full") or hook.get("body") or ""),
+                    })
             elif isinstance(hook, str):
-                result.append(hook)
+                result.append({
+                    "source_hook": hook,
+                    "target_hook": "",
+                    "body": "",
+                })
+        return result
+
+    def _expected_method_names(self, ssm: dict[str, Any]) -> list[str]:
+        methods = self._script_options(ssm).get("methods", [])
+        result = []
+        for method in methods if isinstance(methods, list) else []:
+            if isinstance(method, dict):
+                name = method.get("name") or method.get("method_name")
+                if name:
+                    result.append(str(name))
+            elif isinstance(method, str):
+                result.append(method)
         return result
 
     def _expected_computed_names(self, ssm: dict[str, Any]) -> list[str]:

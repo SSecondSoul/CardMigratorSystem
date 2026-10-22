@@ -1,0 +1,93 @@
+<template>
+  <section class="habit-week-tracker"><header><h2>本周习惯</h2><button on-click="resetWeek">重置</button></header><div class="week-head"><span></span><b s-for="day in dayLabels">{{ day }}</b><span>完成</span></div><div s-for="habit in habits" class="{{ 'habit-row ' + (habit.id === selectedHabit ? 'active' : '') }}" on-click="selectHabit(habit.id)"><strong>{{ habit.name }}</strong><button s-for="day, index in dayLabels" class="{{ isDone(habit.id, index, records) ? 'done' : '' }}" on-click="toggle(habit.id, index)">✓</button><span>{{ rowCount(habit.id, records) }}/{{ habit.goal }}</span></div><div class="progress"><span style="{{ barStyle }}"></span></div><p>总完成率 {{ percent }}%</p></section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'HabitWeekTracker',
+  dataTypes: {
+    habits: DataTypes.array,
+    dayLabels: DataTypes.array
+  },
+  initData() {
+    return {
+      habits: [
+        {
+          "id": "read",
+          "name": "阅读",
+          "goal": 5
+        },
+        {
+          "id": "walk",
+          "name": "步行",
+          "goal": 7
+        },
+        {
+          "id": "sleep",
+          "name": "早睡",
+          "goal": 4
+        }
+      ],
+      dayLabels: [
+        "一",
+        "二",
+        "三",
+        "四",
+        "五",
+        "六",
+        "日"
+      ],
+      records: {},
+      selectedHabit: "read"
+    };
+  },
+  computed: {
+    totalDone() {
+      return Object.keys(this.data.get('records')).reduce((sum, key) => sum + this.data.get('records')[key].filter(Boolean).length, 0);
+    },
+    percent() {
+      const total = this.data.get('habits').length * this.data.get('dayLabels').length || 1; return Math.round(this.data.get('totalDone') / total * 100);
+    },
+    barStyle() {
+      return 'width:' + this.data.get('percent') + '%';
+    }
+  },
+  inited() {
+    const records = {}; this.data.get('habits').forEach(habit => records[habit.id] = [false, false, false, false, false, false, false]); this.setValue('records', records); this.setValue('selectedHabit', this.data.get('habits')[0] ? this.data.get('habits')[0].id : '');
+  },
+  setValue(key, value) { this.data.set(key, value); },
+  emitEvent(name, payload) { this.fire(name, payload); },
+  toggle(habitId, index) {
+    const records = Object.assign({}, this.data.get('records')); const row = records[habitId].slice(); row[index] = !row[index]; records[habitId] = row; this.setValue('records', records); this.emitEvent('change', records);
+  },
+  selectHabit(id) {
+    this.setValue('selectedHabit', id);
+  },
+  resetWeek() {
+    const records = {}; this.data.get('habits').forEach(habit => records[habit.id] = this.data.get('dayLabels').map(() => false)); this.setValue('records', records);
+  },
+  isDone(habitId, index, records) {
+    return !!(records[habitId] && records[habitId][index]);
+  },
+  rowCount(habitId, records) {
+    return records[habitId] ? records[habitId].filter(Boolean).length : 0;
+  }
+});
+</script>
+
+<style>
+
+.habit-week-tracker{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.habit-week-tracker *{box-sizing:border-box}
+.habit-week-tracker h2,.habit-week-tracker h3,.habit-week-tracker p{margin-top:0}
+.habit-week-tracker button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.habit-week-tracker button.primary{border-color:#16a34a;background:#16a34a;color:#fff}
+.habit-week-tracker button:disabled{opacity:.45;cursor:not-allowed}
+.habit-week-tracker input,.habit-week-tracker select,.habit-week-tracker textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.habit-week-tracker .muted{color:#71808e;font-size:12px}
+.habit-week-tracker .toolbar,.habit-week-tracker .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+header{display:flex;justify-content:space-between}.week-head,.habit-row{display:grid;grid-template-columns:90px repeat(7,1fr) 55px;gap:5px;align-items:center}.week-head{text-align:center}.habit-row{padding:7px;border-left:3px solid transparent}.habit-row.active{border-color:#16a34a;background:#f0fdf4}.habit-row button.done{background:#16a34a;color:#fff}.progress{height:7px;background:#e5e7eb}.progress span{display:block;height:100%;background:#16a34a}
+</style>

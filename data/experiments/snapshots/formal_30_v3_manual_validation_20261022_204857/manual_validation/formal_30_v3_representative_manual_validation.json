@@ -1,0 +1,163 @@
+{
+  "validation_id": "formal_30_v3_representative_manual_validation",
+  "recorded_at": "2026-10-22T20:44:22+08:00",
+  "batch_id": "formal_30_v3",
+  "automatic_evidence": {
+    "snapshot_id": "formal_30_v3_results_20261022_200548",
+    "manifest": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/manifest.json",
+    "manifest_sha256": "8c809539a6dc4a66cf215240ec7a32e76fe5766fd79e001294173219057d6b6b"
+  },
+  "method": {
+    "type": "sequential_manual_browser_comparison",
+    "vue_runner": "tests/manual/vue-test-runner.html",
+    "san_runner": "tests/manual/san-test-runner.html",
+    "props": {},
+    "procedure": "Load one Vue/San pair at a time with component defaults, compare initial rendering and representative interactions, and record a pass only after explicit user confirmation."
+  },
+  "scope": "Purposeful sample of seven automatically passed components: three simple, three medium, and the only automatically passed complex component.",
+  "summary": {
+    "checked": 7,
+    "passed": 7,
+    "failed": 0,
+    "automatic_passed_in_batch": 18,
+    "automatic_passes_manually_checked": 7,
+    "all_automatic_passes_manually_checked": false,
+    "all_configured_samples_manually_checked": false,
+    "by_complexity": {
+      "simple": {
+        "checked": 3,
+        "passed": 3
+      },
+      "medium": {
+        "checked": 3,
+        "passed": 3
+      },
+      "complex": {
+        "checked": 1,
+        "passed": 1
+      }
+    }
+  },
+  "samples": [
+    {
+      "validation_order": 1,
+      "id": "budget_threshold",
+      "component_name": "BudgetThreshold",
+      "complexity": "simple",
+      "vue_source": "data/datasets/components/01_simple/BudgetThreshold/vue/BudgetThreshold.vue",
+      "san_artifact": "data/experiments/pipeline/batches/formal_30_v3/simple/BudgetThreshold_repaired_repaired_repaired.san",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "checks": [
+        "initial rendering",
+        "primary controls and state changes",
+        "state-dependent visual feedback",
+        "Vue and San visual and behavioral consistency"
+      ]
+    },
+    {
+      "validation_order": 2,
+      "id": "volume_control",
+      "component_name": "VolumeControl",
+      "complexity": "simple",
+      "vue_source": "data/datasets/components/01_simple/VolumeControl/vue/VolumeControl.vue",
+      "san_artifact": "data/experiments/pipeline/batches/formal_30_v3/simple/VolumeControl_repaired.san",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "checks": [
+        "initial rendering",
+        "volume adjustment and state changes",
+        "state-dependent visual feedback",
+        "Vue and San visual and behavioral consistency"
+      ]
+    },
+    {
+      "validation_order": 3,
+      "id": "otp_code_input",
+      "component_name": "OtpCodeInput",
+      "complexity": "simple",
+      "vue_source": "data/datasets/components/01_simple/OtpCodeInput/vue/OtpCodeInput.vue",
+      "san_artifact": "data/experiments/pipeline/batches/formal_30_v3/simple/OtpCodeInput_repaired.san",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "checks": [
+        "initial rendering",
+        "code entry and input-state changes",
+        "state-dependent visual feedback",
+        "Vue and San visual and behavioral consistency"
+      ]
+    },
+    {
+      "validation_order": 4,
+      "id": "meeting_poll_scheduler",
+      "component_name": "MeetingPollScheduler",
+      "complexity": "medium",
+      "vue_source": "data/datasets/components/02_medium/MeetingPollScheduler/vue/MeetingPollScheduler.vue",
+      "san_artifact": "data/experiments/pipeline/batches/formal_30_v3/medium/MeetingPollScheduler_repaired_repaired_repaired.san",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "checks": [
+        "initial poll rendering",
+        "meeting-option interactions",
+        "selection and summary updates",
+        "Vue and San visual and behavioral consistency"
+      ]
+    },
+    {
+      "validation_order": 5,
+      "id": "seat_booking_map",
+      "component_name": "SeatBookingMap",
+      "complexity": "medium",
+      "vue_source": "data/datasets/components/02_medium/SeatBookingMap/vue/SeatBookingMap.vue",
+      "san_artifact": "data/experiments/pipeline/batches/formal_30_v3/medium/SeatBookingMap_repaired.san",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "checks": [
+        "initial seat-map rendering",
+        "seat selection and deselection",
+        "selection summary updates",
+        "Vue and San visual and behavioral consistency"
+      ]
+    },
+    {
+      "validation_order": 6,
+      "id": "batch_renamer",
+      "component_name": "BatchRenamer",
+      "complexity": "medium",
+      "vue_source": "data/datasets/components/02_medium/BatchRenamer/vue/BatchRenamer.vue",
+      "san_artifact": "data/experiments/pipeline/batches/formal_30_v3/medium/BatchRenamer_repaired.san",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "checks": [
+        "initial file-list rendering",
+        "rename-parameter interactions",
+        "preview and result updates",
+        "Vue and San visual and behavioral consistency"
+      ]
+    },
+    {
+      "validation_order": 7,
+      "id": "fleet_dispatch_console",
+      "component_name": "FleetDispatchConsole",
+      "complexity": "complex",
+      "vue_source": "data/datasets/components/03_complex/FleetDispatchConsole/vue/FleetDispatchConsole.vue",
+      "san_artifact": "data/experiments/pipeline/batches/formal_30_v3/complex/FleetDispatchConsole_repaired.san",
+      "pipeline_passed": true,
+      "manual_browser_passed": true,
+      "checks": [
+        "initial depot, vehicle, order, and pending-unit rendering",
+        "zone filtering and order selection",
+        "vehicle selection and capacity constraints",
+        "dispatch confirmation and route-record updates",
+        "return-to-depot workflow and pending-total updates",
+        "Vue and San visual and behavioral consistency"
+      ]
+    }
+  ],
+  "claim_boundaries": [
+    "The result is 7/7 for the deliberately selected manual-validation sample, not 30/30 for the full batch.",
+    "The result manually covers 7 of the 18 automatic passes; the remaining 11 automatic passes were not checked in this round.",
+    "The automatic formal_30_v3 metrics remain 18/30 configured and 18/27 completed.",
+    "This post-execution manual check does not alter the frozen protocol or automatic-result snapshot."
+  ]
+}

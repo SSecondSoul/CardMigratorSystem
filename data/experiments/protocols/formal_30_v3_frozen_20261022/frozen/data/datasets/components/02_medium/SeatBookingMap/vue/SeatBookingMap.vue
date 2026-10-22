@@ -1,0 +1,67 @@
+<template>
+  <section class="seat-booking-map"><header><h2>小剧场选座</h2><div class="legend"><span>可选 {{ availableCount }}</span><span>已选 {{ selectedCount }}</span></div></header><div class="screen">银幕</div><div class="seat-rows"><div v-for="row in rows" :key="row.label" class="seat-row"><strong>{{ row.label }}</strong><button v-for="seat in row.seats" :key="seat.id" :class="seatClass(seat)" @click="toggleSeat(seat)" :disabled="seat.reserved">{{ seat.id }}</button></div></div><footer><button @click="clearSelection">清空</button><button class="primary" @click="confirm" :disabled="!selectedCount">确认 {{ selectedCount }} 个座位</button></footer></section>
+</template>
+
+<script>
+module.exports = {
+  name: 'SeatBookingMap',
+  props: {
+    rowLabels: { type: Array, default: () => ([
+          "A",
+          "B",
+          "C"
+        ]) },
+    seatsPerRow: { type: Number, default: 5 }
+  },
+  data() {
+    return {
+        rows: [],
+        selectedIds: []
+    };
+  },
+  computed: {
+    selectedCount() {
+      return this.selectedIds.length;
+    },
+    availableCount() {
+      return this.rows.reduce((sum, row) => sum + row.seats.filter(seat => !seat.reserved).length, 0);
+    }
+  },
+  created() {
+    const rows = this.rowLabels.map((label, rowIndex) => ({ label, seats: Array.from({ length: this.seatsPerRow }, (_, index) => ({ id: label + (index + 1), reserved: (rowIndex + index) % 4 === 0 })) })); this.setValue('rows', rows);
+  },
+  methods: {
+    setValue(key, value) { this[key] = value; },
+    emitEvent(name, payload) { this.$emit(name, payload); },
+    seatClass(seat) {
+      if (seat.reserved) return 'reserved'; return this.selectedIds.indexOf(seat.id) >= 0 ? 'selected' : 'available';
+    },
+    toggleSeat(seat) {
+      if (seat.reserved) return; const list = this.selectedIds; this.setValue('selectedIds', list.indexOf(seat.id) >= 0 ? list.filter(id => id !== seat.id) : list.concat(seat.id));
+    },
+    clearSelection() {
+      this.setValue('selectedIds', []);
+    },
+    confirm() {
+      if (!this.selectedIds.length) return; this.emitEvent('confirm', this.selectedIds.slice());
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.seat-booking-map { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.seat-booking-map * { box-sizing: border-box; }
+.seat-booking-map h2, .seat-booking-map h3, .seat-booking-map p { margin-top: 0; }
+.seat-booking-map h2 { margin-bottom: 14px; font-size: 21px; }
+.seat-booking-map button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.seat-booking-map button.primary { border-color: #047857; background: #047857; color: #fff; }
+.seat-booking-map button:disabled { opacity: .45; cursor: not-allowed; }
+.seat-booking-map input, .seat-booking-map select, .seat-booking-map textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.seat-booking-map .toolbar, .seat-booking-map .summary, .seat-booking-map .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.seat-booking-map .muted { color: #71808e; font-size: 12px; }
+.seat-booking-map .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+header,footer{display:flex;justify-content:space-between}.legend{display:flex;gap:12px}.screen{margin:14px 50px 22px;padding:7px;background:#dfe7e3;text-align:center}.seat-row{display:grid;grid-template-columns:28px repeat(5,1fr);gap:8px;margin:8px 0}.seat-row button.reserved{background:#e5e7eb}.seat-row button.selected{background:#047857;color:#fff}
+
+</style>

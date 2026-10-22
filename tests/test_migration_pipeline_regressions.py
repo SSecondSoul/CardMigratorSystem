@@ -189,6 +189,58 @@ module.exports = san.defineComponent({
         self.assertFalse(result.validation_passed)
         self.assertIn("invalid_s_for_key_binding", error_codes)
 
+    def test_validator_rejects_unbound_loop_index_and_allows_declared_alias(self):
+        broken_code = self._minimal_san_component(
+            (
+                '<span s-for="phase in phases trackby phase.key" '
+                'class="{{ index <= phaseIndex ? \'reached\' : \'\' }}"></span>'
+            ),
+            "",
+        )
+        fixed_code = broken_code.replace(
+            's-for="phase in phases trackby phase.key"',
+            's-for="phase, index in phases trackby phase.key"',
+        )
+
+        broken = ValidateStage().run(ValidateStageInput(
+            generated_code=broken_code,
+            compile_check=False,
+        ))
+        fixed = ValidateStage().run(ValidateStageInput(
+            generated_code=fixed_code,
+            compile_check=False,
+        ))
+
+        broken_codes = {issue["code"] for issue in broken.validation_errors}
+        fixed_codes = {issue["code"] for issue in fixed.validation_errors}
+        self.assertIn("unbound_loop_scope_variable", broken_codes)
+        self.assertNotIn("unbound_loop_scope_variable", fixed_codes)
+
+    def test_validator_detects_delivery_phase_loop_scope_regression(self):
+        vue_file = ROOT / "data/datasets/components/01_simple/DeliveryPhaseCard/vue/DeliveryPhaseCard.vue"
+        broken_file = ROOT / "data/experiments/snapshots/formal_30_v1_results_20261015_161053/pipeline/simple/DeliveryPhaseCard_repaired.san"
+        fixed_file = ROOT / "data/experiments/pipeline/batches/formal_30_v2/simple/DeliveryPhaseCard_repaired.san"
+
+        broken = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(broken_file),
+            source_file=str(vue_file),
+            compile_check=False,
+        ))
+        fixed = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(fixed_file),
+            source_file=str(vue_file),
+            compile_check=False,
+        ))
+
+        self.assertIn(
+            "unbound_loop_scope_variable",
+            {issue["code"] for issue in broken.validation_errors},
+        )
+        self.assertNotIn(
+            "unbound_loop_scope_variable",
+            {issue["code"] for issue in fixed.validation_errors},
+        )
+
     def test_validator_rejects_unbalanced_template_interpolation(self):
         reference = (ROOT / "data/datasets/components/02_medium/DataPaginationTable/san/DataPaginationTable.san").read_text(encoding="utf-8")
         broken_code = reference.replace(
@@ -200,6 +252,368 @@ module.exports = san.defineComponent({
 
         self.assertFalse(result.validation_passed)
         self.assertIn("unbalanced_template_interpolation", error_codes)
+
+    def test_validator_rejects_hidden_reactive_dependencies_in_class_method(self):
+        code = self._minimal_san_component(
+            '<tr class="{{ rowClass(row) }}"><td>{{ row.name }}</td></tr>',
+            """
+    rowClass(row) {
+        const winnerId = this.data.get('winnerId');
+        const leaderId = this.data.get("leaderId");
+        return row.id === winnerId ? 'winner' : row.id === leaderId ? 'leader' : '';
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        hidden_issues = [
+            issue for issue in result.validation_errors
+            if issue["code"] == "hidden_template_reactive_dependency"
+        ]
+
+        self.assertEqual(len(hidden_issues), 1)
+        self.assertIn("rowClass", hidden_issues[0]["message"])
+        self.assertIn("leaderId", hidden_issues[0]["message"])
+        self.assertIn("winnerId", hidden_issues[0]["message"])
+
+    def test_validator_rejects_hidden_schedule_dependency_in_class_method(self):
+        code = self._minimal_san_component(
+            '<button class="{{ slotClass(device.id, hour) }}">时段</button>',
+            """
+    slotClass(deviceId, hour) {
+        const schedule = this.data.get('schedule');
+        return schedule[deviceId] === hour ? 'scheduled' : '';
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        hidden_issues = [
+            issue for issue in result.validation_errors
+            if issue["code"] == "hidden_template_reactive_dependency"
+        ]
+
+        self.assertEqual(len(hidden_issues), 1)
+        self.assertIn("schedule", hidden_issues[0]["message"])
+
+    def test_validator_allows_explicit_reactive_method_arguments_and_event_handlers(self):
+        code = self._minimal_san_component(
+            (
+                '<button class="{{ slotClass(device.id, hour, schedule) }}" '
+                'on-click="selectSlot(device.id, hour)">时段</button>'
+            ),
+            """
+    slotClass(deviceId, hour, schedule) {
+        return schedule[deviceId] === hour ? 'scheduled' : '';
+    },
+    selectSlot(deviceId, hour) {
+        const selectedIds = this.data.get('selectedIds');
+        this.data.set('selectedIds', selectedIds.concat(deviceId + ':' + hour));
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertNotIn("hidden_template_reactive_dependency", error_codes)
+
+    def test_validator_rejects_nested_mutation_of_computed_state_objects(self):
+        code = self._minimal_san_component(
+            '<button on-click="setDecision(\'approved\')">批准</button>',
+            """
+    setDecision(decision) {
+        const selectedAsset = this.data.get('selectedAsset');
+        selectedAsset.decision = decision;
+        const notes = selectedAsset.notes || [];
+        notes.push({id: 1, resolved: false});
+        const note = notes.find(item => item.id === 1);
+        note.resolved = true;
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        mutation_issues = [
+            issue for issue in result.validation_errors
+            if issue["code"] == "nested_state_mutation"
+        ]
+
+        self.assertEqual(len(mutation_issues), 1)
+        self.assertIn("setDecision", mutation_issues[0]["message"])
+        self.assertIn("selectedAsset", mutation_issues[0]["message"])
+
+    def test_validator_rejects_array_and_descendant_mutation_from_data_get(self):
+        code = self._minimal_san_component(
+            '<button on-click="updateTopology">更新</button>',
+            """
+    updateTopology() {
+        const nodes = this.data.get('nodes');
+        const node = nodes[0];
+        node.status = 'offline';
+        nodes.push({id: 2, status: 'online'});
+        const edges = this.data.get('edges');
+        edges.splice(0, 1);
+        this.data.get('eventLog').unshift({message: 'updated'});
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        mutation_issues = [
+            issue for issue in result.validation_errors
+            if issue["code"] == "nested_state_mutation"
+        ]
+
+        self.assertEqual(len(mutation_issues), 1)
+        self.assertIn("edges", mutation_issues[0]["message"])
+        self.assertIn("eventLog", mutation_issues[0]["message"])
+        self.assertIn("nodes", mutation_issues[0]["message"])
+
+    def test_validator_allows_immutable_state_replacement_and_local_mutation(self):
+        code = self._minimal_san_component(
+            '<button on-click="setDecision(\'approved\')">批准</button>',
+            """
+    setDecision(decision) {
+        const assets = this.data.get('assets') || [];
+        const nextAssets = assets.map(asset =>
+            asset.id === 1 ? Object.assign({}, asset, {decision}) : asset
+        );
+        const audit = [];
+        audit.push(decision);
+        this.data.set('assets', nextAssets);
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertNotIn("nested_state_mutation", error_codes)
+
+    def test_validator_rejects_lifecycle_hooks_without_source_behavior(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "lifecycle_hooks": [
+                        {
+                            "vue_hook": "created",
+                            "san_hook": "inited",
+                            "body": "{ this.setValue('crop', Object.assign({}, this.initialCrop)); }",
+                        },
+                        {
+                            "vue_hook": "mounted",
+                            "san_hook": "attached",
+                            "body": "{ this.runSimulation(); }",
+                        },
+                        {
+                            "vue_hook": "beforeDestroy",
+                            "body": "{ clearTimeout(this.simulationTimer); }",
+                        },
+                    ],
+                    "watch": [{"expression": "locked"}],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<button on-click="runSimulation">运行</button>',
+            """
+    inited() {},
+    attached() {},
+    disposed() {},
+    watch: {
+        locked() {}
+    },
+    runSimulation() {}
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertIn("lifecycle_behavior_not_landed", error_codes)
+        self.assertIn("missing_watch_migration", error_codes)
+        self.assertIn("vue_watch_option", error_codes)
+
+    def test_validator_allows_lifecycle_behavior_and_registered_watch(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "lifecycle_hooks": [
+                        {
+                            "vue_hook": "created",
+                            "san_hook": "inited",
+                            "body": "{ this.setValue('crop', Object.assign({}, this.initialCrop)); }",
+                        },
+                        {
+                            "vue_hook": "mounted",
+                            "san_hook": "attached",
+                            "body": "{ this.runSimulation(); }",
+                        },
+                        {
+                            "vue_hook": "beforeDestroy",
+                            "body": "{ clearTimeout(this.simulationTimer); }",
+                        },
+                    ],
+                    "watch": [{"expression": "locked"}],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<button on-click="runSimulation">运行</button>',
+            """
+    inited() {
+        const initialCrop = this.data.get('initialCrop');
+        this.data.set('crop', Object.assign({}, initialCrop));
+        this.watch('locked', () => {});
+    },
+    attached() {
+        this.runSimulation();
+    },
+    disposed() {
+        clearTimeout(this.data.get('simulationTimer'));
+    },
+    runSimulation() {}
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertNotIn("missing_lifecycle_mapping", error_codes)
+        self.assertNotIn("lifecycle_behavior_not_landed", error_codes)
+        self.assertNotIn("missing_watch_migration", error_codes)
+        self.assertNotIn("vue_watch_option", error_codes)
+
+    def test_validator_requires_prop_dependent_data_initialization_in_inited(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "props": [{"name": "initialAssumptions", "type": "Object"}],
+                    "data": [{
+                        "name": "assumptions",
+                        "default_value_expression": "Object.assign({}, this.initialAssumptions)",
+                        "default_value_static": False,
+                    }],
+                }
+            }
+        }
+        broken_code = self._minimal_san_component('<div></div>', "")
+        fixed_code = self._minimal_san_component(
+            '<div></div>',
+            """
+    inited() {
+        const initialAssumptions = this.data.get('initialAssumptions');
+        this.data.set('assumptions', Object.assign({}, initialAssumptions));
+    }
+""",
+        )
+
+        broken = ValidateStage().run(ValidateStageInput(
+            generated_code=broken_code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+        fixed = ValidateStage().run(ValidateStageInput(
+            generated_code=fixed_code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+
+        self.assertIn(
+            "missing_prop_dependent_initialization",
+            {issue["code"] for issue in broken.validation_errors},
+        )
+        self.assertNotIn(
+            "missing_prop_dependent_initialization",
+            {issue["code"] for issue in fixed.validation_errors},
+        )
+
+    def test_validator_rejects_dom_child_order_drift_in_formal_samples(self):
+        cases = (
+            (
+                "GradebookMatrix",
+                ROOT / "data/datasets/components/03_complex/GradebookMatrix/vue/GradebookMatrix.vue",
+                ROOT / "data/experiments/snapshots/formal_30_v1_results_20261015_161053/pipeline/complex/GradebookMatrix_repaired_repaired_repaired.san",
+                ROOT / "data/experiments/pipeline/batches/formal_30_v2/complex/GradebookMatrix_repaired.san",
+            ),
+            (
+                "SupportTicketConsole",
+                ROOT / "data/datasets/components/03_complex/SupportTicketConsole/vue/SupportTicketConsole.vue",
+                ROOT / "data/experiments/snapshots/formal_30_v1_results_20261015_161053/pipeline/complex/SupportTicketConsole_repaired_repaired_repaired.san",
+                ROOT / "data/experiments/pipeline/batches/formal_30_v2/complex/SupportTicketConsole_repaired.san",
+            ),
+        )
+
+        for component_name, vue_file, broken_file, fixed_file in cases:
+            with self.subTest(component=component_name):
+                broken = ValidateStage().run(ValidateStageInput(
+                    generated_file_path=str(broken_file),
+                    source_file=str(vue_file),
+                    compile_check=False,
+                ))
+                fixed = ValidateStage().run(ValidateStageInput(
+                    generated_file_path=str(fixed_file),
+                    source_file=str(vue_file),
+                    compile_check=False,
+                ))
+
+                self.assertIn(
+                    "dom_child_order_mismatch",
+                    {issue["code"] for issue in broken.validation_errors},
+                )
+                self.assertNotIn(
+                    "dom_child_order_mismatch",
+                    {issue["code"] for issue in fixed.validation_errors},
+                )
+
+    @staticmethod
+    def _minimal_san_component(template_body, methods):
+        return f"""<template><section>{template_body}</section></template>
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+module.exports = san.defineComponent({{
+    dataTypes: {{}},
+    initData() {{
+        return {{
+            winnerId: '',
+            leaderId: '',
+            schedule: {{}},
+            selectedIds: []
+        }};
+    }},
+{methods}
+}});
+</script>
+<style>.winner {{ color: green; }}</style>
+"""
 
 
 if __name__ == "__main__":

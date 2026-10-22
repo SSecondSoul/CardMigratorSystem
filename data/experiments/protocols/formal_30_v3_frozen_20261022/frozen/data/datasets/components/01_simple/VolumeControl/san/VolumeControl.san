@@ -1,0 +1,55 @@
+<template>
+  <section class="volume-control"><header><h2>播放音量</h2><strong>{{ volumeLabel }}</strong></header><input class="volume-slider" type="range" min="0" max="100" value="{{ volume }}" on-input="updateVolume"><button class="primary" on-click="toggleMute">{{ volume === 0 ? '恢复音量' : '静音' }}</button></section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'VolumeControl',
+  dataTypes: {
+    initialVolume: DataTypes.number
+  },
+  initData() {
+    return {
+      initialVolume: 45,
+      volume: 45,
+      lastVolume: 45
+    };
+  },
+  computed: {
+    volumeLabel() {
+      return this.data.get('volume') === 0 ? '已静音' : this.data.get('volume') + '%';
+    }
+  },
+  inited() {
+    this.setValue('volume', this.data.get('initialVolume')); this.setValue('lastVolume', this.data.get('initialVolume') || 45);
+  },
+  setValue(key, value) { this.data.set(key, value); },
+  emitEvent(name, payload) { this.fire(name, payload); },
+  updateVolume(event) {
+    const value = Number(event.target.value); this.setValue('volume', value); if (value > 0) this.setValue('lastVolume', value); this.emitEvent('change', value);
+  },
+  toggleMute() {
+    const next = this.data.get('volume') === 0 ? this.data.get('lastVolume') : 0; this.setValue('volume', next); this.emitEvent('change', next);
+  }
+});
+</script>
+
+<style>
+
+.volume-control { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.volume-control * { box-sizing: border-box; }
+.volume-control h2, .volume-control h3, .volume-control p { margin-top: 0; }
+.volume-control h2 { margin-bottom: 14px; font-size: 21px; }
+.volume-control button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.volume-control button.primary { border-color: #0f766e; background: #0f766e; color: #fff; }
+.volume-control button:disabled { opacity: .45; cursor: not-allowed; }
+.volume-control input, .volume-control select, .volume-control textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.volume-control .toolbar, .volume-control .summary, .volume-control .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.volume-control .muted { color: #71808e; font-size: 12px; }
+.volume-control .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+header{display:flex;justify-content:space-between}.volume-slider{width:100%;margin:12px 0;accent-color:#0f766e}
+
+</style>

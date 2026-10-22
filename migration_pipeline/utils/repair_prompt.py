@@ -33,21 +33,28 @@ class RepairPromptBuilder:
             "3. <script> 中必须使用 const san = require('san')、const DataTypes = san.DataTypes、module.exports = san.defineComponent(...)。\n"
             "4. Vue props 必须迁移为 San dataTypes，禁止在 san.defineComponent 中输出 props: {...}。\n"
             "5. initData() 只能返回稳定默认数据对象；Vue props 的 default（包括数组/对象工厂默认值）必须作为同名字段落入 initData；Vue data() 的全部初始值必须精确等价地保留，包括嵌套对象、数组、数字和启用项集合，不得用空字符串、空数组或删减后的集合替代；如果内部 data 依赖 props，必须在 inited() 中用 this.data.get('propName') 读取并 this.data.set(...) 同步。\n"
-            "6. 组件状态读写必须使用 this.data.get('field') 和 this.data.set('field', value)；San computed 的结果也在 data store 中，computed 之间的依赖以及普通方法读取 computed 时必须使用 this.data.get('computedName')，禁止 this.computed.foo()；Vue 的 this.$emit(...) 或 emitEvent 包装方法必须迁移为 this.fire(...)，禁止 this.props、this.xxx 状态读写、this.$emit 和用 this.dispatch(...) 代替自定义事件。\n"
+            "6. 组件状态读写必须使用 this.data.get('field') 和 this.data.set('field', value)；禁止直接修改 this.data.get(...) 或 computed 返回的对象/数组及其子对象，例如 selectedAsset.decision = value、note.resolved = true、nodes.push(node)、edges.splice(...)、node.status = status；必须用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新的对象/数组，再通过 this.data.set('assets', nextAssets)、this.data.set('nodes', nextNodes) 等方式写回根字段；San computed 的结果也在 data store 中，computed 之间的依赖以及普通方法读取 computed 时必须使用 this.data.get('computedName')，禁止 this.computed.foo()；Vue 的 this.$emit(...) 或 emitEvent 包装方法必须迁移为 this.fire(...)，禁止 this.props、this.xxx 状态读写、this.$emit 和用 this.dispatch(...) 代替自定义事件。\n"
             "7. 方法必须直接定义在 san.defineComponent 顶层，禁止保留 Vue 的 methods: {...} 包裹。\n"
-            "8. template 必须使用 San 语法：on-click、s-if、s-for；保留事件调用的全部参数，例如 on-click=\"move(-1)\"、on-click=\"select(task.id)\"；Vue v-for 的 :key 必须写入 s-for 的 trackby 子句，例如 s-for=\"task in tasks trackby task.id\"，禁止输出独立 key=\"{{ task.id }}\" 或 key=\"{= task.id =}\"；所有 {{ ... }} 和 {= ... =} 插值必须完整闭合；双向绑定 {= assignable.path =} 只能用于可赋值的数据路径，方法调用、computed 表达式和其他派生值必须使用单向插值；disabled、checked、selected 等派生属性必须使用 disabled=\"{{ expression }}\" 这一类单向插值，禁止写成 disabled=\"{= expression =}\"；方法调用、computed 表达式和其他派生值必须使用单向插值，例如 checked=\"{{ isEnabled(rule.id, enabled) }}\"；禁止丢失参数、使用 data-args/getAttribute 绕行，或保留 @click、v-if、v-for、v-model、:class 等 Vue 模板语法。\n"
+            "8. template 必须使用 San 语法：on-click、s-if、s-for；保留事件调用的全部参数，例如 on-click=\"move(-1)\"、on-click=\"select(task.id)\"；Vue v-for 的循环项和索引别名必须完整迁移，如果模板表达式使用 index，就必须显式写成 s-for=\"phase, index in phases trackby phase.key\"，禁止只声明 phase 却继续引用未绑定的 index；Vue v-for 的 :key 必须写入 s-for 的 trackby 子句，例如 s-for=\"task in tasks trackby task.id\"，禁止输出独立 key=\"{{ task.id }}\" 或 key=\"{= task.id =}\"；所有 {{ ... }} 和 {= ... =} 插值必须完整闭合；双向绑定 {= assignable.path =} 只能用于可赋值的数据路径，方法调用、computed 表达式和其他派生值必须使用单向插值；disabled、checked、selected 等派生属性必须使用 disabled=\"{{ expression }}\" 这一类单向插值，禁止写成 disabled=\"{= expression =}\"；方法调用、computed 表达式和其他派生值必须使用单向插值，例如 checked=\"{{ isEnabled(rule.id, enabled) }}\"；class、style、checked、selected、disabled 等展示属性调用普通方法时，不得把响应式依赖只隐藏在方法内部的 this.data.get(...) 中，依赖字段必须直接出现在模板表达式中或作为参数显式传入，例如 class=\"{{ rowClass(row, winnerId, leaderId) }}\"、class=\"{{ slotClass(device.id, hour, schedule) }}\"、checked=\"{{ isSelected(row.id, selectedIds) }}\"；禁止丢失参数、使用 data-args/getAttribute 绕行，或保留 @click、v-if、v-for、v-model、:class 等 Vue 模板语法。\n"
             "9. style 标签必须写成 <style>，禁止输出 <style scoped>；必须保留原有 class 名和样式内容。\n"
             "10. 不要重新设计组件，不要引入外部依赖，不要删除已有 DOM 节点、文本、class 或样式。\n"
-            "11. 如果 DOM 对比报告指出缺失/新增/变化节点，优先修复 template 结构。\n"
-            f"12. 补充要求：{extra_instruction}\n\n"
+            "11. Vue 生命周期必须完整迁移：created 中的 prop 派生状态初始化放入 inited，mounted 中的初始方法调用和副作用放入 attached，beforeDestroy/destroyed 中的定时器或监听清理放入 disposed；不能只保留空钩子或只保留钩子名称。依赖 prop 的 data 不得在 initData() 中使用 this.propName 初始化，必须先返回稳定占位值，再在 inited() 中用 this.data.get('propName') 读取、复制并通过 this.data.set(...) 写入。Vue watch: {...} 不会被 San 自动注册，必须在 inited/attached 中使用 this.watch('field', handler)。\n"
+            "12. 如果 DOM 对比报告指出缺失/新增/变化节点，优先修复 template 结构。\n"
+            "13. 必须保留 Vue template 的 DOM 子节点顺序；元素和文本都存在但顺序改变仍属于错误。特别检查 label/th/footer 中 input 或 checkbox 与相邻文字、百分号、按钮的先后关系，不要用 CSS order 或 flex 排序掩盖模板顺序差异。\n"
+            f"14. 补充要求：{extra_instruction}\n\n"
             "修复前请按下面清单自检，但最终不要输出清单：\n"
             "- 是否存在 props:、methods:、this.props、this.$emit、this.dispatch、<style scoped>、@click、v-if、v-for、v-model、:class？如果存在，必须改掉。\n"
             "- SSM props 是否全部出现在 dataTypes 中？\n"
             "- 带 default 的 Vue props 是否以同名字段和等价默认值出现在 initData 中？\n"
             "- Vue data() 中每个初始值是否精确保留了原始类型、嵌套内容、数组元素和数值，而不是空值或删减值？\n"
             "- computed 之间以及普通方法中是否只通过 this.data.get('computedName') 读取 computed，且完全不存在 this.computed.foo()？\n"
+            "- 是否直接修改了 this.data.get(...) 或 computed 返回的对象、数组、数组元素及嵌套属性，或对其调用 push/splice/sort？所有此类更新是否改为创建新值并通过 this.data.set(...) 写回根字段？\n"
+            "- created/mounted/beforeDestroy/destroyed 是否分别完整迁移到 inited/attached/disposed，且源钩子中的初始化、方法调用、定时器创建和清理均已保留？\n"
+            "- 依赖 prop 的 data 是否在 inited() 中通过 this.data.get('propName') 初始化；所有 Vue watch 是否使用 this.watch(...) 实际注册，而不是保留 watch: {...}？\n"
+            "- DOM 子节点顺序是否与 Vue 完全一致，尤其是 input/checkbox 与文字、百分号、按钮的相邻顺序？\n"
             "- 所有 {= ... =} 是否都是可赋值数据路径；disabled、checked、selected 等派生属性是否使用 {{ ... }} 单向插值；方法调用和 computed 等派生表达式是否使用 {{ ... }} 单向插值？\n"
-            "- 所有 {{ ... }} 和 {= ... =} 是否完整闭合；Vue v-for 的 :key 是否迁移为 s-for 内联 trackby，且不存在独立 key 属性？\n"
+            "- class、style、checked、selected、disabled 中调用的普通方法是否隐藏读取了 winnerId、leaderId、schedule、selectedIds 等响应式字段？这些字段是否直接出现在模板表达式中或作为参数显式传入？\n"
+            "- Vue v-for 的循环项和索引别名是否完整迁移；模板中使用的 index/idx/$index 是否已在对应 s-for 中显式声明？所有 {{ ... }} 和 {= ... =} 是否完整闭合；Vue v-for 的 :key 是否迁移为 s-for 内联 trackby，且不存在独立 key 属性？\n"
             "- 事件绑定中的参数是否完整保留，且没有 data-args/getAttribute 绕行？\n"
             "- SSM data 字段是否全部在 initData 或 this.data.set 中有对应？\n"
             "- SSM 事件 handler 是否同时在 template 的 on-* 和 script 顶层方法中存在？\n\n"
@@ -129,9 +136,15 @@ class RepairPromptBuilder:
                 "initData() { return { ... } } for defaults",
                 "all Vue data() initial values preserved exactly, including nested objects, arrays, numbers, and enabled-item collections",
                 "inited() with this.data.get('propName') and this.data.set(...) when data depends on props",
+                "created/mounted/beforeDestroy/destroyed lifecycle behavior preserved in inited/attached/disposed, including initialization, method calls, and timer cleanup",
+                "Vue watchers registered with this.watch(...) in a San lifecycle hook, never left as a watch: {...} option",
+                "DOM child order preserved exactly, especially input/checkbox relative to adjacent text, percent signs, and buttons",
                 "computed values must be read with this.data.get('computedName') from methods and other computed functions",
+                "nested objects and arrays from this.data.get(...) or computed values are updated immutably and written back with this.data.set(...) instead of property assignment or push/splice",
                 "two-way binding only for assignable data paths; derived expressions use one-way {{ ... }} interpolation",
                 "disabled/checked/selected use one-way {{ ... }} interpolation, never {= ... =}",
+                "reactive values used by class/style/checked/selected/disabled method calls must appear in the template expression or be passed explicitly as method arguments",
+                "every loop item/index alias referenced by a loop element is declared in s-for, for example phase, index in phases",
                 "all interpolation delimiters are balanced and Vue v-for :key is migrated as an inline s-for trackby clause",
                 "top-level handler methods in san.defineComponent",
                 "template events as on-click/on-input/etc.",
@@ -144,8 +157,14 @@ class RepairPromptBuilder:
                 "this.$emit",
                 "this.computed.foo()",
                 "this.<stateField>",
+                "direct property assignment or mutating array methods on values returned by this.data.get(...) or computed state",
+                "empty lifecycle hooks that omit source initialization, method calls, or timer cleanup",
+                "Vue watch: {...} option without this.watch(...) registration",
+                "reordered DOM children hidden by CSS order or flex layout",
                 "{= methodCall(...) =} or other two-way binding to a derived expression",
                 "disabled=\"{= expression =}\", checked=\"{= expression =}\", or selected=\"{= expression =}\"",
+                "template presentation methods that hide reactive this.data.get(...) dependencies",
+                "references to index, idx, $index, or a Vue v-for index alias that is not declared by the corresponding s-for",
                 "unbalanced interpolation delimiters or a separate key attribute on an s-for element",
                 "<style scoped>",
                 "@click or other Vue event shorthand",

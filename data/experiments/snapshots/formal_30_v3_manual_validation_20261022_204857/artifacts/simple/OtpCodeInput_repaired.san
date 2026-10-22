@@ -1,0 +1,87 @@
+<template>
+<section class="otp-code-input">
+    <h2>输入验证码</h2>
+    <input
+        inputmode="numeric"
+        placeholder="仅输入数字"
+        maxlength="{= length =}"
+        value="{= code =}"
+        on-input="updateCode"
+    >
+    <p>{{complete ? '验证码长度正确' : '还需 ' + remaining + ' 位'}}</p>
+    <div class="actions">
+        <button on-click="clear">清空</button>
+        <button class="primary" disabled="{{ !complete }}" on-click="verify">验证</button>
+    </div>
+    <strong s-if="submitted">已提交验证</strong>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+    name: 'OtpCodeInput',
+
+    dataTypes: {
+        length: DataTypes.number
+    },
+
+    initData() {
+        return {
+            code: '',
+            submitted: false,
+            length: 6
+        };
+    },
+
+    computed: {
+        remaining() {
+            return Math.max(0, this.data.get('length') - this.data.get('code').length);
+        },
+        complete() {
+            return this.data.get('code').length === this.data.get('length');
+        }
+    },
+
+    setValue(key, value) {
+        this.data.set(key, value);
+    },
+
+    emitEvent(name, payload) {
+        this.fire(name, payload);
+    },
+
+    updateCode(event) {
+        const rawValue = event.target.value.replace(/\D/g, '');
+        const truncated = rawValue.slice(0, this.data.get('length'));
+        this.data.set('code', truncated);
+        this.data.set('submitted', false);
+    },
+
+    clear() {
+        this.data.set('code', '');
+        this.data.set('submitted', false);
+    },
+
+    verify() {
+        if (!this.data.get('complete')) return;
+        this.data.set('submitted', true);
+        this.fire('complete', this.data.get('code'));
+    }
+});
+</script>
+
+<style>
+.otp-code-input{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.otp-code-input *{box-sizing:border-box}
+.otp-code-input h2,.otp-code-input h3,.otp-code-input p{margin-top:0}
+.otp-code-input button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.otp-code-input button.primary{border-color:#dc2626;background:#dc2626;color:#fff}
+.otp-code-input button:disabled{opacity:.45;cursor:not-allowed}
+.otp-code-input input,.otp-code-input select,.otp-code-input textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.otp-code-input .muted{color:#71808e;font-size:12px}
+.otp-code-input .toolbar,.otp-code-input .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.otp-code-input input{width:100%;font-size:24px;letter-spacing:8px}.otp-code-input>strong{display:block;margin-top:10px;color:#15803d}
+</style>

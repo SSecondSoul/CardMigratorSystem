@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Vue Component Test Runner</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Current test component: FleetDispatchConsole -->
+        <fleet-dispatch-console></fleet-dispatch-console>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            components: {
+                'fleet-dispatch-console': httpVueLoader('../../data/datasets/components/03_complex/FleetDispatchConsole/vue/FleetDispatchConsole.vue')
+            }
+        });
+    </script>
+</body>
+</html>

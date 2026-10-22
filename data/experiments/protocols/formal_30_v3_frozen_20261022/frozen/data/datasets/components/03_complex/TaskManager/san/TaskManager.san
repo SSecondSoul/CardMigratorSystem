@@ -1,0 +1,1777 @@
+<template>
+  <div class="{{ rootClass }}">
+    <header class="app-header">
+      <div class="logo-area">
+        <span class="logo">✅</span>
+        <h1 class="title">智能任务管家</h1>
+        <span class="version">v3.0</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" on-click="toggleCompactMode" title="{{ isCompactMode ? '展开模式' : '紧凑模式' }}">
+          {{ isCompactMode ? '📐' : '📏' }}
+        </button>
+        <button class="icon-btn" on-click="toggleTheme" title="{{ isDarkMode ? '亮色模式' : '暗色模式' }}">
+          {{ isDarkMode ? '☀️' : '🌙' }}
+        </button>
+        <button class="icon-btn" on-click="exportData" title="导出数据">
+          📥
+        </button>
+        <button class="icon-btn" on-click="openSettings" title="设置">
+          ⚙️
+        </button>
+      </div>
+    </header>
+
+    <div class="stats-section">
+      <stat-card
+        s-for="stat in statistics"
+        label="{{ stat.label }}"
+        value="{{ stat.value }}"
+        icon="{{ stat.icon }}"
+        trend="{{ stat.trend }}"
+        color="{{ stat.color }}"
+        on-click="onStatClick(stat)"
+      />
+    </div>
+
+    <div class="main-workspace">
+      <div class="tasks-panel">
+        <div class="panel-header">
+          <h2>📋 任务列表</h2>
+          <div class="task-controls">
+            <button class="primary-btn" on-click="openTaskModal">+ 新建任务</button>
+            <div class="search-box">
+              <input
+                value="{= searchKeyword =}"
+                type="text"
+                placeholder="搜索任务..."
+                on-input="onSearchChange"
+              />
+              <span class="search-icon">🔍</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-tabs">
+          <button
+            s-for="filter in filters"
+            class="filter-tab {{ currentFilter === filter.value ? 'active' : '' }}"
+            on-click="setFilter(filter.value)"
+          >
+            {{ filter.label }}
+            <span class="count">{{ getTaskCount(filter.value) }}</span>
+          </button>
+        </div>
+
+        <div class="task-list" on-dragover="onListDragOver($event)" on-drop="onDropToEnd($event)">
+          <task-item
+            s-for="task, index in filteredTasks"
+            task="{{ task }}"
+            index="{{ index }}"
+            draggable="{{ true }}"
+            on-toggle="toggleTaskStatus($event)"
+            on-edit="editTask($event)"
+            on-view="selectTask($event)"
+            on-delete="deleteTask($event)"
+            on-drag-start="onDragStart($event)"
+            on-drag-end="onDragEnd"
+            on-drop-on="onDropOnTask($event)"
+          />
+          <div s-if="!filteredTasks.length" class="empty-state">
+            <span class="empty-icon">📭</span>
+            <p>暂无任务，创建一个吧！</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-panel" s-if="selectedTask">
+        <task-detail
+          task="{{ selectedTask }}"
+          on-close="closeDetail"
+          on-update="updateTask($event)"
+          on-comment="addComment($event)"
+        />
+      </div>
+    </div>
+
+    <div s-if="isModalOpen" class="modal-overlay" on-click="onModalOverlayClick($event)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>{{ editingTask ? '编辑任务' : '新建任务' }}</h3>
+          <button class="close-btn" on-click="closeModal">✕</button>
+        </div>
+        <task-form
+          form-key="{{ editingTask ? editingTask.id : 'new-task' }}"
+          task="{{ editingTask }}"
+          users="{{ users }}"
+          tags="{{ availableTags }}"
+          on-submit="handleTaskSubmit($event)"
+          on-cancel="closeModal"
+        />
+      </div>
+    </div>
+
+    <div s-if="showSettings" class="modal-overlay" on-click="onSettingsOverlayClick($event)">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>⚙️ 系统设置</h3>
+          <button class="close-btn" on-click="closeSettings">✕</button>
+        </div>
+        <settings-panel
+          settings="{{ settings }}"
+          on-update="updateSettings($event.key, $event.value)"
+        />
+      </div>
+    </div>
+
+    <div s-if="notification.show" class="notification {{ notification.type }}">
+      <span>{{ notification.message }}</span>
+      <button on-click="hideNotification">✕</button>
+    </div>
+  </div>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+const StatCard = san.defineComponent({
+  name: 'StatCard',
+  template: `
+    <div class="stat-card" on-click="handleClick">
+      <div class="stat-card-icon" style="background: {{ color }};">
+        {{ icon }}
+      </div>
+      <div class="stat-card-content">
+        <div class="stat-card-label">{{ label }}</div>
+        <div class="stat-card-value">{{ value }}</div>
+        <div class="stat-card-trend {{ trend >= 0 ? 'positive' : 'negative' }}">
+          {{ trend >= 0 ? '↑' : '↓' }} {{ absTrend }}%
+        </div>
+      </div>
+    </div>
+  `,
+  dataTypes: {
+    label: DataTypes.string,
+    value: DataTypes.number,
+    icon: DataTypes.string,
+    trend: DataTypes.number,
+    color: DataTypes.string
+  },
+  initData() {
+    return {
+      label: '',
+      value: 0,
+      icon: '',
+      trend: 0,
+      color: ''
+    };
+  },
+  computed: {
+    absTrend() {
+      return Math.abs(this.data.get('trend'));
+    }
+  },
+  handleClick() {
+    this.fire('click');
+  }
+});
+
+const TaskItem = san.defineComponent({
+  name: 'TaskItem',
+  template: `
+    <div
+      class="task-item {{ task.completed ? 'completed' : '' }} {{ task.priority === 'high' ? 'urgent' : '' }}"
+      draggable="true"
+      on-dragstart="onDragStart($event)"
+      on-dragover="onDragOver($event)"
+      on-drop="onDrop($event)"
+      on-dragend="onDragEnd"
+    >
+      <div class="task-checkbox" on-click="toggleTask">
+        <span class="checkbox">{{ task.completed ? '☑' : '☐' }}</span>
+      </div>
+      <div class="task-content" on-click="viewTask">
+        <div class="task-title">{{ task.title }}</div>
+        <div class="task-meta">
+          <span class="task-priority {{ task.priority }}">{{ priorityLabel }}</span>
+          <span class="task-due-date">📅 {{ formattedDate }}</span>
+        </div>
+        <div class="task-tags">
+          <span s-for="tag in task.tags" class="task-tag">{{ tag }}</span>
+        </div>
+      </div>
+      <div class="task-actions">
+        <button class="task-action-btn" on-click="editTask($event)">✏️</button>
+        <button class="task-action-btn" on-click="deleteTask($event)">🗑️</button>
+      </div>
+    </div>
+  `,
+  dataTypes: {
+    task: DataTypes.object,
+    index: DataTypes.number,
+    draggable: DataTypes.bool
+  },
+  initData() {
+    return {
+      task: {
+        title: '',
+        completed: false,
+        priority: 'medium',
+        dueDate: '',
+        tags: []
+      },
+      index: 0,
+      draggable: true
+    };
+  },
+  computed: {
+    priorityLabel() {
+      const task = this.data.get('task') || {};
+      const labels = {high: '高优先级', medium: '中优先级', low: '低优先级'};
+      return labels[task.priority] || task.priority;
+    },
+    formattedDate() {
+      const task = this.data.get('task') || {};
+      if (!task.dueDate) return '无截止日期';
+      const d = new Date(task.dueDate);
+      return (d.getMonth() + 1) + '/' + d.getDate();
+    }
+  },
+  toggleTask() {
+    const task = this.data.get('task') || {};
+    this.fire('toggle', task.id);
+  },
+  viewTask() {
+    this.fire('view', this.data.get('task'));
+  },
+  editTask(event) {
+    if (event && typeof event.stopPropagation === 'function') {
+      event.stopPropagation();
+    }
+    this.fire('edit', this.data.get('task'));
+  },
+  deleteTask(event) {
+    if (event && typeof event.stopPropagation === 'function') {
+      event.stopPropagation();
+    }
+    const task = this.data.get('task') || {};
+    this.fire('delete', task.id);
+  },
+  onDragStart(event) {
+    if (!this.data.get('draggable')) return;
+    if (event && event.dataTransfer) {
+      event.dataTransfer.setData('text/plain', this.data.get('index'));
+      event.dataTransfer.effectAllowed = 'move';
+    }
+    this.fire('drag-start', this.data.get('index'));
+  },
+  onDragOver(event) {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
+    }
+  },
+  onDrop(event) {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
+    }
+    if (event && typeof event.stopPropagation === 'function') {
+      event.stopPropagation();
+    }
+    this.fire('drop-on', this.data.get('index'));
+  },
+  onDragEnd() {
+    this.fire('drag-end');
+  }
+});
+
+const TaskDetail = san.defineComponent({
+  name: 'TaskDetail',
+  template: `
+    <div class="task-detail">
+      <div class="detail-header">
+        <h3>任务详情</h3>
+        <div class="detail-actions">
+          <button class="edit-detail" on-click="editTask">编辑</button>
+          <button class="close-detail" on-click="closeDetail">✕</button>
+        </div>
+      </div>
+      <div class="detail-content">
+        <div class="detail-field">
+          <label>标题</label>
+          <div class="field-value">{{ task.title }}</div>
+        </div>
+        <div class="detail-field">
+          <label>描述</label>
+          <div class="field-value">{{ task.description || '无描述' }}</div>
+        </div>
+        <div class="detail-field">
+          <label>优先级</label>
+          <div class="field-value {{ task.priority }}">{{ priorityLabel }}</div>
+        </div>
+        <div class="detail-field">
+          <label>截止日期</label>
+          <div class="field-value">{{ formattedDate }}</div>
+        </div>
+        <div class="detail-field">
+          <label>标签</label>
+          <div class="field-value">
+            <span s-for="tag in task.tags" class="detail-tag">{{ tag }}</span>
+          </div>
+        </div>
+        <div class="detail-field">
+          <label>评论</label>
+          <div class="comments-section">
+            <div s-for="comment in task.comments" class="comment-item">
+              <strong>{{ comment.user }}</strong>: {{ comment.text }}
+              <small>{{ formatTime(comment.time) }}</small>
+            </div>
+            <div class="comment-input">
+              <input value="{= newComment =}" type="text" placeholder="添加评论..." on-keyup="onCommentKeyup($event)" />
+              <button on-click="addComment">发送</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  dataTypes: {
+    task: DataTypes.object
+  },
+  initData() {
+    return {
+      task: {
+        title: '',
+        description: '',
+        priority: 'medium',
+        dueDate: '',
+        tags: [],
+        comments: []
+      },
+      newComment: ''
+    };
+  },
+  computed: {
+    priorityLabel() {
+      const task = this.data.get('task') || {};
+      const labels = {high: '高优先级', medium: '中优先级', low: '低优先级'};
+      return labels[task.priority] || task.priority;
+    },
+    formattedDate() {
+      const task = this.data.get('task') || {};
+      if (!task.dueDate) return '无截止日期';
+      const d = new Date(task.dueDate);
+      return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+    }
+  },
+  closeDetail() {
+    this.fire('close');
+  },
+  editTask() {
+    this.fire('update', this.data.get('task'));
+  },
+  formatTime(time) {
+    return new Date(time).toLocaleTimeString();
+  },
+  onCommentKeyup(event) {
+    if (event && event.keyCode === 13) {
+      this.addComment();
+    }
+  },
+  addComment() {
+    const newComment = this.data.get('newComment') || '';
+    const task = this.data.get('task') || {};
+    if (newComment.trim()) {
+      this.fire('comment', {taskId: task.id, text: newComment});
+      this.data.set('newComment', '');
+    }
+  }
+});
+
+const TaskForm = san.defineComponent({
+  name: 'TaskForm',
+  template: `
+    <form class="task-form" on-submit="handleSubmit($event)">
+      <div class="form-group">
+        <label>任务标题 *</label>
+        <input value="{= formData.title =}" type="text" required placeholder="输入任务标题" />
+      </div>
+      <div class="form-group">
+        <label>任务描述</label>
+        <textarea value="{= formData.description =}" rows="3" placeholder="详细描述..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>优先级</label>
+          <select value="{= formData.priority =}">
+            <option value="low">低优先级</option>
+            <option value="medium">中优先级</option>
+            <option value="high">高优先级</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>截止日期</label>
+          <input value="{= formData.dueDate =}" type="date" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>标签</label>
+        <div class="tag-selector">
+          <span
+            s-for="tag in tags"
+            class="selectable-tag {{ hasTag(tag) ? 'selected' : '' }}"
+            on-click="toggleTag(tag)"
+          >
+            {{ tag }}
+          </span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>负责人</label>
+        <select value="{= formData.assignee =}">
+          <option value="">未分配</option>
+          <option s-for="user in users" value="{{ user.name }}">{{ user.name }}</option>
+        </select>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="cancel-btn" on-click="cancel">取消</button>
+        <button type="submit" class="submit-btn">{{ task ? '更新' : '创建' }}</button>
+      </div>
+    </form>
+  `,
+  dataTypes: {
+    task: DataTypes.object,
+    users: DataTypes.array,
+    tags: DataTypes.array,
+    formKey: DataTypes.string
+  },
+  initData() {
+    return {
+      task: null,
+      users: [],
+      tags: [],
+      formKey: '',
+      formData: this.createFormData(null)
+    };
+  },
+  inited() {
+    this.syncFromTask(this.data.get('task'));
+    this.watch('task', task => {
+      this.syncFromTask(task);
+    });
+    this.watch('formKey', () => {
+      this.syncFromTask(this.data.get('task'));
+    });
+  },
+  createFormData(task) {
+    return task ? Object.assign({}, task, {tags: (task.tags || []).slice()}) : {
+      title: '',
+      description: '',
+      priority: 'medium',
+      dueDate: '',
+      tags: [],
+      assignee: ''
+    };
+  },
+  syncFromTask(task) {
+    this.data.set('formData', this.createFormData(task));
+  },
+  hasTag(tag) {
+    return (this.data.get('formData.tags') || []).indexOf(tag) !== -1;
+  },
+  toggleTag(tag) {
+    const tags = (this.data.get('formData.tags') || []).slice();
+    const index = tags.indexOf(tag);
+    if (index !== -1) {
+      tags.splice(index, 1);
+    }
+    else {
+      tags.push(tag);
+    }
+    this.data.set('formData.tags', tags);
+  },
+  handleSubmit(event) {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
+    }
+    const formData = this.data.get('formData') || {};
+    if (!String(formData.title || '').trim()) return;
+    this.fire('submit', Object.assign({}, formData, {tags: (formData.tags || []).slice()}));
+  },
+  cancel() {
+    this.fire('cancel');
+  }
+});
+
+const SettingsPanel = san.defineComponent({
+  name: 'SettingsPanel',
+  template: `
+    <div class="settings-panel">
+      <div class="setting-group">
+        <label>默认视图</label>
+        <select value="{{ settings.defaultView }}" on-change="updateDefaultView($event)">
+          <option value="list">列表视图</option>
+          <option value="board">看板视图</option>
+        </select>
+      </div>
+      <div class="setting-group">
+        <label>自动保存</label>
+        <input type="checkbox" checked="{{ settings.autoSave }}" on-change="updateAutoSave($event)" />
+      </div>
+      <div class="setting-group">
+        <label>通知提醒</label>
+        <input type="checkbox" checked="{{ settings.notifications }}" on-change="updateNotifications($event)" />
+      </div>
+      <div class="setting-group">
+        <label>数据同步间隔</label>
+        <select value="{{ settings.syncInterval }}" on-change="updateSyncInterval($event)">
+          <option value="0">手动同步</option>
+          <option value="30">30秒</option>
+          <option value="60">1分钟</option>
+          <option value="300">5分钟</option>
+        </select>
+      </div>
+    </div>
+  `,
+  dataTypes: {
+    settings: DataTypes.object
+  },
+  initData() {
+    return {
+      settings: {
+        defaultView: 'list',
+        autoSave: true,
+        notifications: true,
+        syncInterval: 60
+      }
+    };
+  },
+  emitUpdate(key, value) {
+    this.fire('update', {key, value});
+  },
+  updateDefaultView(event) {
+    this.emitUpdate('defaultView', event.target.value);
+  },
+  updateAutoSave(event) {
+    this.emitUpdate('autoSave', event.target.checked);
+  },
+  updateNotifications(event) {
+    this.emitUpdate('notifications', event.target.checked);
+  },
+  updateSyncInterval(event) {
+    this.emitUpdate('syncInterval', event.target.value);
+  }
+});
+
+module.exports = san.defineComponent({
+  name: 'TaskManager',
+  components: {
+    'stat-card': StatCard,
+    'task-item': TaskItem,
+    'task-detail': TaskDetail,
+    'task-form': TaskForm,
+    'settings-panel': SettingsPanel
+  },
+  initData() {
+    return {
+      isDarkMode: false,
+      isCompactMode: false,
+      showSettings: false,
+      isModalOpen: false,
+      tasks: [],
+      selectedTask: null,
+      editingTask: null,
+      currentFilter: 'all',
+      searchKeyword: '',
+      dragStartIndex: null,
+      users: [
+        {id: 1, name: '张三'},
+        {id: 2, name: '李四'},
+        {id: 3, name: '王五'}
+      ],
+      availableTags: ['工作', '个人', '紧急', '学习', '休闲', '会议'],
+      statistics: [
+        {id: 1, label: '总任务', value: 0, icon: '📊', trend: 12, color: '#3b82f6'},
+        {id: 2, label: '已完成', value: 0, icon: '✅', trend: 8, color: '#10b981'},
+        {id: 3, label: '进行中', value: 0, icon: '🔄', trend: -3, color: '#f59e0b'},
+        {id: 4, label: '逾期任务', value: 0, icon: '⚠️', trend: 5, color: '#ef4444'}
+      ],
+      filters: [
+        {value: 'all', label: '全部'},
+        {value: 'active', label: '进行中'},
+        {value: 'completed', label: '已完成'},
+        {value: 'overdue', label: '已逾期'},
+        {value: 'urgent', label: '紧急'}
+      ],
+      settings: {
+        defaultView: 'list',
+        autoSave: true,
+        notifications: true,
+        syncInterval: 60
+      },
+      notification: {
+        show: false,
+        message: '',
+        type: 'info'
+      },
+      syncTimer: null,
+      storageKey: 'task_manager_data',
+      notificationTimer: null
+    };
+  },
+  computed: {
+    rootClass() {
+      const classes = ['task-manager'];
+      if (this.data.get('isDarkMode')) {
+        classes.push('dark-theme');
+      }
+      if (this.data.get('isCompactMode')) {
+        classes.push('compact-mode');
+      }
+      return classes.join(' ');
+    },
+    filteredTasks() {
+      let result = (this.data.get('tasks') || []).slice();
+      const currentFilter = this.data.get('currentFilter');
+      const searchKeyword = this.data.get('searchKeyword');
+
+      if (currentFilter !== 'all') {
+        result = result.filter(task => {
+          switch (currentFilter) {
+            case 'active':
+              return !task.completed && !this.isOverdue(task);
+            case 'completed':
+              return task.completed;
+            case 'overdue':
+              return this.isOverdue(task) && !task.completed;
+            case 'urgent':
+              return task.priority === 'high' && !task.completed;
+            default:
+              return true;
+          }
+        });
+      }
+
+      if (searchKeyword) {
+        const keyword = String(searchKeyword).toLowerCase();
+        result = result.filter(task => {
+          return String(task.title || '').toLowerCase().indexOf(keyword) !== -1
+            || String(task.description || '').toLowerCase().indexOf(keyword) !== -1;
+        });
+      }
+
+      return result;
+    }
+  },
+  inited() {
+    this.watch('tasks', () => {
+      this.updateStatistics();
+      if (this.data.get('settings.autoSave')) {
+        this.saveToLocalStorage();
+      }
+      this.refreshSelectedTask();
+    });
+
+    this.watch('settings', () => {
+      if (this.data.get('settings.autoSave')) {
+        this.saveToLocalStorage();
+      }
+      this.updateSyncInterval();
+    });
+  },
+  attached() {
+    this.loadInitialData();
+    this.startAutoSync();
+    this.showNotification('系统初始化完成', 'success');
+  },
+  disposed() {
+    const syncTimer = this.data.get('syncTimer');
+    const notificationTimer = this.data.get('notificationTimer');
+    if (syncTimer) {
+      clearInterval(syncTimer);
+    }
+    if (notificationTimer) {
+      clearTimeout(notificationTimer);
+    }
+    this.saveToLocalStorage();
+  },
+  loadInitialData() {
+    let tasks = this.getSampleTasks();
+    let settings = this.data.get('settings');
+    const storageKey = this.data.get('storageKey');
+
+    try {
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        const data = JSON.parse(saved);
+        tasks = data.tasks || tasks;
+        settings = Object.assign({}, settings, data.settings || {});
+      }
+    }
+    catch (e) {
+      tasks = this.getSampleTasks();
+    }
+
+    this.data.set('tasks', tasks);
+    this.data.set('settings', settings);
+    this.updateStatistics();
+  },
+  getSampleTasks() {
+    return [
+      {
+        id: 1,
+        title: '完成项目报告',
+        description: '编写Q4季度项目总结报告，包含数据分析和改进建议',
+        priority: 'high',
+        dueDate: new Date(Date.now() + 2 * 86400000).toISOString().split('T')[0],
+        tags: ['工作', '紧急'],
+        completed: false,
+        comments: [],
+        assignee: '张三'
+      },
+      {
+        id: 2,
+        title: '学习Vue高级特性',
+        description: '深入学习Vue3组合式API和响应式原理',
+        priority: 'medium',
+        dueDate: new Date(Date.now() + 5 * 86400000).toISOString().split('T')[0],
+        tags: ['学习'],
+        completed: false,
+        comments: [],
+        assignee: '李四'
+      },
+      {
+        id: 3,
+        title: '团队会议',
+        description: '周例会，讨论项目进展和下周计划',
+        priority: 'medium',
+        dueDate: new Date(Date.now() - 1 * 86400000).toISOString().split('T')[0],
+        tags: ['工作', '会议'],
+        completed: true,
+        comments: [{user: '张三', text: '会议纪要已更新', time: Date.now() - 86400000}],
+        assignee: '王五'
+      }
+    ];
+  },
+  updateStatistics() {
+    const tasks = this.data.get('tasks') || [];
+    const statistics = this.data.get('statistics') || [];
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+    const active = tasks.filter(t => !t.completed && !this.isOverdue(t)).length;
+    const overdue = tasks.filter(t => this.isOverdue(t) && !t.completed).length;
+
+    this.data.set('statistics', [
+      Object.assign({}, statistics[0], {value: total}),
+      Object.assign({}, statistics[1], {value: completed}),
+      Object.assign({}, statistics[2], {value: active}),
+      Object.assign({}, statistics[3], {value: overdue})
+    ]);
+  },
+  isOverdue(task) {
+    if (!task || task.completed || !task.dueDate) return false;
+    const dueDate = new Date(task.dueDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return dueDate < today;
+  },
+  openTaskModal() {
+    this.data.set('editingTask', null);
+    this.data.set('isModalOpen', true);
+  },
+  editTask(task) {
+    this.data.set('editingTask', Object.assign({}, task));
+    this.data.set('isModalOpen', true);
+  },
+  selectTask(task) {
+    this.data.set('selectedTask', task);
+  },
+  handleTaskSubmit(formData) {
+    const editingTask = this.data.get('editingTask');
+    const tasks = (this.data.get('tasks') || []).slice();
+
+    if (editingTask) {
+      const index = tasks.findIndex(t => t.id === editingTask.id);
+      if (index !== -1) {
+        tasks[index] = Object.assign({}, tasks[index], formData, {updatedAt: Date.now()});
+        this.showNotification('任务更新成功', 'success');
+      }
+    }
+    else {
+      const newTask = Object.assign({}, formData, {
+        id: Date.now(),
+        completed: false,
+        comments: [],
+        createdAt: Date.now()
+      });
+      tasks.unshift(newTask);
+      this.showNotification('任务创建成功', 'success');
+    }
+
+    this.data.set('tasks', tasks);
+    this.closeModal();
+  },
+  toggleTaskStatus(taskId) {
+    const tasks = (this.data.get('tasks') || []).slice();
+    const index = tasks.findIndex(t => t.id === taskId);
+    if (index !== -1) {
+      tasks[index] = Object.assign({}, tasks[index], {completed: !tasks[index].completed});
+      this.data.set('tasks', tasks);
+      this.showNotification(tasks[index].completed ? '任务已完成' : '任务已恢复', 'info');
+    }
+  },
+  deleteTask(taskId) {
+    if (typeof confirm === 'function' && !confirm('确定删除此任务吗？')) {
+      return;
+    }
+    const tasks = (this.data.get('tasks') || []).filter(t => t.id !== taskId);
+    this.data.set('tasks', tasks);
+    const selectedTask = this.data.get('selectedTask');
+    if (selectedTask && selectedTask.id === taskId) {
+      this.data.set('selectedTask', null);
+    }
+    this.showNotification('任务已删除', 'warning');
+  },
+  updateTask(updatedData) {
+    this.editTask(updatedData);
+  },
+  addComment(commentData) {
+    const tasks = (this.data.get('tasks') || []).slice();
+    const index = tasks.findIndex(t => t.id === commentData.taskId);
+    if (index !== -1) {
+      const comments = (tasks[index].comments || []).slice();
+      comments.push({
+        user: '当前用户',
+        text: commentData.text,
+        time: Date.now()
+      });
+      tasks[index] = Object.assign({}, tasks[index], {comments});
+      this.data.set('tasks', tasks);
+      this.showNotification('评论已添加', 'success');
+    }
+  },
+  closeDetail() {
+    this.data.set('selectedTask', null);
+  },
+  onDragStart(index) {
+    this.data.set('dragStartIndex', index);
+  },
+  onDropOnTask(dropIndex) {
+    this.moveTask(this.data.get('dragStartIndex'), dropIndex, false);
+  },
+  onListDragOver(event) {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
+    }
+  },
+  onDropToEnd(event) {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
+    }
+    const filteredTasks = this.data.get('filteredTasks') || [];
+    this.moveTask(this.data.get('dragStartIndex'), filteredTasks.length - 1, true);
+  },
+  onDragEnd() {
+    this.data.set('dragStartIndex', null);
+  },
+  moveTask(fromFilteredIndex, toFilteredIndex, insertAfter) {
+    if (fromFilteredIndex == null || toFilteredIndex == null) return;
+    const filteredTasks = this.data.get('filteredTasks') || [];
+    const draggedTask = filteredTasks[fromFilteredIndex];
+    const targetTask = filteredTasks[toFilteredIndex];
+    const isMovingDown = fromFilteredIndex < toFilteredIndex;
+    if (!draggedTask || !targetTask || draggedTask.id === targetTask.id) return;
+
+    const tasks = (this.data.get('tasks') || []).slice();
+    const originalIndex = tasks.findIndex(t => t.id === draggedTask.id);
+    let targetOriginalIndex = tasks.findIndex(t => t.id === targetTask.id);
+
+    if (originalIndex !== -1 && targetOriginalIndex !== -1) {
+      const movedTask = tasks.splice(originalIndex, 1)[0];
+      if (originalIndex < targetOriginalIndex) {
+        targetOriginalIndex -= 1;
+      }
+      if (insertAfter || isMovingDown) {
+        targetOriginalIndex += 1;
+      }
+      tasks.splice(targetOriginalIndex, 0, movedTask);
+      this.data.set('tasks', tasks);
+      this.data.set('dragStartIndex', null);
+      this.showNotification('任务顺序已更新', 'info');
+    }
+  },
+  setFilter(filter) {
+    this.data.set('currentFilter', filter);
+    const target = (this.data.get('filters') || []).find(f => f.value === filter);
+    this.showNotification('已筛选：' + (target ? target.label : filter), 'info');
+  },
+  onSearchChange() {
+    const searchKeyword = this.data.get('searchKeyword');
+    if (searchKeyword) {
+      this.showNotification('搜索：' + searchKeyword, 'info');
+    }
+  },
+  getTaskCount(filterValue) {
+    const tasks = this.data.get('tasks') || [];
+    switch (filterValue) {
+      case 'all':
+        return tasks.length;
+      case 'active':
+        return tasks.filter(t => !t.completed && !this.isOverdue(t)).length;
+      case 'completed':
+        return tasks.filter(t => t.completed).length;
+      case 'overdue':
+        return tasks.filter(t => this.isOverdue(t) && !t.completed).length;
+      case 'urgent':
+        return tasks.filter(t => t.priority === 'high' && !t.completed).length;
+      default:
+        return 0;
+    }
+  },
+  toggleTheme() {
+    const nextValue = !this.data.get('isDarkMode');
+    this.data.set('isDarkMode', nextValue);
+    this.showNotification('已切换到' + (nextValue ? '暗色' : '亮色') + '主题', 'info');
+  },
+  toggleCompactMode() {
+    const nextValue = !this.data.get('isCompactMode');
+    this.data.set('isCompactMode', nextValue);
+    this.showNotification('已切换到' + (nextValue ? '紧凑' : '展开') + '模式', 'info');
+  },
+  closeModal() {
+    this.data.set('isModalOpen', false);
+    this.data.set('editingTask', null);
+  },
+  onStatClick(stat) {
+    if (stat.id === 1) this.setFilter('all');
+    else if (stat.id === 2) this.setFilter('completed');
+    else if (stat.id === 3) this.setFilter('active');
+    else if (stat.id === 4) this.setFilter('overdue');
+    this.showNotification('查看' + stat.label, 'info');
+  },
+  openSettings() {
+    this.data.set('showSettings', true);
+  },
+  closeSettings() {
+    this.data.set('showSettings', false);
+  },
+  onModalOverlayClick(event) {
+    if (event && event.target === event.currentTarget) {
+      this.closeModal();
+    }
+  },
+  onSettingsOverlayClick(event) {
+    if (event && event.target === event.currentTarget) {
+      this.closeSettings();
+    }
+  },
+  updateSettings(key, value) {
+    const settings = Object.assign({}, this.data.get('settings'));
+    settings[key] = key === 'syncInterval' ? Number(value) : value;
+    this.data.set('settings', settings);
+    this.showNotification('设置已更新：' + key, 'success');
+  },
+  saveToLocalStorage() {
+    const data = {
+      tasks: this.data.get('tasks'),
+      settings: this.data.get('settings'),
+      lastSave: Date.now()
+    };
+    localStorage.setItem(this.data.get('storageKey'), JSON.stringify(data));
+  },
+  exportData() {
+    const data = {
+      tasks: this.data.get('tasks'),
+      statistics: this.data.get('statistics'),
+      exportTime: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'task_export_' + Date.now() + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    this.showNotification('数据已导出', 'success');
+  },
+  startAutoSync() {
+    this.updateSyncInterval();
+  },
+  updateSyncInterval() {
+    const syncTimer = this.data.get('syncTimer');
+    const settings = this.data.get('settings') || {};
+    if (syncTimer) {
+      clearInterval(syncTimer);
+      this.data.set('syncTimer', null);
+    }
+    if (settings.syncInterval > 0) {
+      const timer = setInterval(() => {
+        this.autoSync();
+      }, settings.syncInterval * 1000);
+      this.data.set('syncTimer', timer);
+    }
+  },
+  autoSync() {
+    this.showNotification('正在同步云端数据...', 'info');
+    return new Promise(resolve => {
+      setTimeout(resolve, 500);
+    }).then(() => {
+      this.showNotification('数据同步完成', 'success');
+    });
+  },
+  showNotification(message, type) {
+    this.data.set('notification', {
+      show: true,
+      message: message,
+      type: type || 'info'
+    });
+    const notificationTimer = this.data.get('notificationTimer');
+    if (notificationTimer) {
+      clearTimeout(notificationTimer);
+    }
+    const timer = setTimeout(() => {
+      this.hideNotification();
+    }, 3000);
+    this.data.set('notificationTimer', timer);
+  },
+  hideNotification() {
+    const notification = Object.assign({}, this.data.get('notification'), {show: false});
+    this.data.set('notification', notification);
+  },
+  refreshSelectedTask() {
+    const selectedTask = this.data.get('selectedTask');
+    if (!selectedTask) return;
+    const nextTask = (this.data.get('tasks') || []).find(t => t.id === selectedTask.id) || null;
+    this.data.set('selectedTask', nextTask);
+  }
+});
+</script>
+
+<style>
+/* 主容器 */
+.task-manager {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f7f9fc;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.task-manager.dark-theme {
+  background: #1a1a2e;
+  color: #e0e0e0;
+}
+
+.task-manager.compact-mode {
+  padding: 12px;
+}
+
+/* 头部 */
+.app-header {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.dark-theme .app-header {
+  background: #16213e;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 32px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.version {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  padding: 8px 12px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.dark-theme .icon-btn {
+  background: #1e293b;
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* 统计卡片 */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dark-theme .stat-card {
+  background: #16213e;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.stat-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.stat-card-content {
+  flex: 1;
+}
+
+.stat-card-label {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.stat-card-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.stat-card-trend {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.stat-card-trend.positive {
+  color: #10b981;
+}
+
+.stat-card-trend.negative {
+  color: #ef4444;
+}
+
+/* 主要工作区 */
+.main-workspace {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 24px;
+}
+
+.tasks-panel, .detail-panel {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.dark-theme .tasks-panel,
+.dark-theme .detail-panel {
+  background: #16213e;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.panel-header h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.task-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.primary-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.2s;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  padding: 8px 12px 8px 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  width: 200px;
+}
+
+.dark-theme .search-box input {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e0e0e0;
+}
+
+.search-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 过滤标签 */
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  padding: 6px 12px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.dark-theme .filter-tab {
+  background: #1e293b;
+  color: #e0e0e0;
+}
+
+.filter-tab.active {
+  background: #667eea;
+  color: white;
+}
+
+.filter-tab .count {
+  margin-left: 4px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* 任务列表 */
+.task-list {
+  max-height: 600px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-item {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s;
+  cursor: grab;
+}
+
+.dark-theme .task-item {
+  background: #1e293b;
+}
+
+.task-item:active {
+  cursor: grabbing;
+}
+
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.task-item.urgent {
+  border-left: 4px solid #ef4444;
+}
+
+.task-checkbox {
+  cursor: pointer;
+}
+
+.checkbox {
+  font-size: 20px;
+}
+
+.task-content {
+  flex: 1;
+  cursor: pointer;
+}
+
+.task-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.task-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.task-priority {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.task-priority.high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.task-priority.medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.task-priority.low {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.task-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.task-tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.task-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.task-action-btn:hover {
+  background: #e2e8f0;
+}
+
+/* 任务详情 */
+.task-detail {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-header h3 {
+  margin: 0;
+}
+
+.detail-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.edit-detail {
+  padding: 6px 12px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.close-detail {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.detail-content {
+  flex: 1;
+}
+
+.detail-field {
+  margin-bottom: 16px;
+}
+
+.detail-field label {
+  font-weight: 600;
+  font-size: 12px;
+  color: #64748b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.field-value {
+  font-size: 14px;
+}
+
+.detail-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+.comments-section {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.comment-item {
+  padding: 8px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.comment-item small {
+  color: #94a3b8;
+  margin-left: 8px;
+}
+
+.comment-input {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.comment-input input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.comment-input button {
+  padding: 6px 12px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 模态框 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 500px;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.dark-theme .modal-content {
+  background: #1e293b;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 表单 */
+.task-form {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.dark-theme .form-group input,
+.dark-theme .form-group textarea,
+.dark-theme .form-group select {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e0e0e0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.tag-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.selectable-tag {
+  padding: 4px 12px;
+  background: #f1f5f9;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.selectable-tag.selected {
+  background: #667eea;
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  padding: 8px 16px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* 设置面板 */
+.settings-panel {
+  padding: 20px;
+}
+
+.setting-group {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.setting-group label {
+  font-weight: 500;
+}
+
+.setting-group select {
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+/* 消息提示 */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: slideIn 0.3s ease;
+}
+
+.notification.success {
+  background: #10b981;
+  color: white;
+}
+
+.notification.error {
+  background: #ef4444;
+  color: white;
+}
+
+.notification.warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.notification.info {
+  background: #3b82f6;
+  color: white;
+}
+
+.notification button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #94a3b8;
+}
+
+.empty-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .main-workspace {
+    grid-template-columns: 1fr;
+  }
+  
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .panel-header {
+    flex-direction: column;
+  }
+  
+  .task-controls {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .search-box input {
+    width: 100%;
+  }
+}
+</style>

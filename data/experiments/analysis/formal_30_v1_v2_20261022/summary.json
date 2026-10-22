@@ -1,0 +1,173 @@
+{
+  "analysis_id": "formal_30_v1_v2_20261022",
+  "generated_from_frozen_evidence_at": "2026-10-22T15:24:09+08:00",
+  "sources": {
+    "formal_30_v1_snapshot": "formal_30_v1_results_20261015_161053",
+    "formal_30_v2_snapshot": "formal_30_v2_manual_results_20261022_152408",
+    "v1_verified_files": 115,
+    "v2_verified_files": 78
+  },
+  "interpretation": {
+    "formal_30_v1": "Independent automatic migration baseline on 30 held-out samples.",
+    "formal_30_v2": "Post-hoc manual browser diagnosis and targeted repair of 14 registered samples; not a new automatic 30-sample pass rate."
+  },
+  "formal_30_v1": {
+    "aggregate": {
+      "configured": 30,
+      "completed": 29,
+      "passed": 16,
+      "failed": 13,
+      "execution_errors": 1,
+      "pending": 0,
+      "pass_rate_completed": 0.5517,
+      "initial_passed": 3,
+      "initial_pass_rate_completed": 0.1034,
+      "repaired_to_pass": 13,
+      "repair_rounds_total": 51,
+      "repair_rounds_average": 1.759,
+      "generation_tokens": 701340,
+      "repair_tokens": 1767836,
+      "total_tokens": 2469176,
+      "stop_reason_counts": {
+        "max_repair_rounds_reached": 11,
+        "no_repair_progress": 2,
+        "passed": 16
+      },
+      "error_code_counts": {
+        "initial_validation": {
+          "custom_event_not_fire": 2,
+          "event_arguments_not_landed": 2,
+          "invalid_dynamic_attribute_binding": 4,
+          "invalid_s_for_key_binding": 3,
+          "missing_datatypes_for_props": 1,
+          "missing_event_bindings": 2,
+          "missing_event_handlers": 1,
+          "missing_prop_defaults": 24,
+          "vue_this_state": 3
+        },
+        "initial_visual": {
+          "dom_critical_attribute_mismatch": 2,
+          "dom_structure_similarity_low": 16,
+          "san_render_failed": 1,
+          "san_san_render_error": 1
+        },
+        "final_validation": {
+          "custom_event_not_fire": 1,
+          "event_arguments_not_landed": 1,
+          "missing_event_bindings": 1,
+          "missing_event_handlers": 1,
+          "missing_prop_defaults": 1,
+          "vue_this_state": 5
+        },
+        "final_visual": {
+          "dom_critical_attribute_mismatch": 7,
+          "dom_structure_similarity_low": 9
+        }
+      },
+      "by_complexity": {
+        "simple": {
+          "configured": 10,
+          "completed": 10,
+          "passed": 9,
+          "failed": 1,
+          "execution_errors": 0,
+          "pass_rate_completed": 0.9
+        },
+        "medium": {
+          "configured": 10,
+          "completed": 10,
+          "passed": 5,
+          "failed": 5,
+          "execution_errors": 0,
+          "pass_rate_completed": 0.5
+        },
+        "complex": {
+          "configured": 10,
+          "completed": 9,
+          "passed": 2,
+          "failed": 7,
+          "execution_errors": 1,
+          "pass_rate_completed": 0.2222
+        }
+      }
+    },
+    "pass_rate_all_configured": 0.5333333333333333,
+    "initial_pass_rate_all_configured": 0.1,
+    "complexity": [
+      {
+        "complexity": "simple",
+        "configured": 10,
+        "completed": 10,
+        "passed": 9,
+        "failed": 1,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.9,
+        "pass_rate_configured": 0.9
+      },
+      {
+        "complexity": "medium",
+        "configured": 10,
+        "completed": 10,
+        "passed": 5,
+        "failed": 5,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.5,
+        "pass_rate_configured": 0.5
+      },
+      {
+        "complexity": "complex",
+        "configured": 10,
+        "completed": 9,
+        "passed": 2,
+        "failed": 7,
+        "execution_errors": 1,
+        "pass_rate_completed": 0.2222,
+        "pass_rate_configured": 0.2
+      }
+    ]
+  },
+  "formal_30_v2": {
+    "registered": 14,
+    "manual_passed": 14,
+    "code_modified": 11,
+    "unchanged_confirmed": 3,
+    "v1_result_distribution_in_review_set": {
+      "execution_error": 1,
+      "failed": 8,
+      "passed": 5
+    },
+    "auto_passed_but_manual_defect_found": [
+      "DeliveryPhaseCard",
+      "EnergyLoadScheduler"
+    ],
+    "primary_category_counts": {
+      "dom_child_order": 2,
+      "hidden_reactive_dependency": 3,
+      "initialization_or_lifecycle": 2,
+      "loop_scope_binding": 1,
+      "nested_state_mutation": 2,
+      "no_discrepancy_confirmed": 3,
+      "template_syntax": 1
+    },
+    "multi_label_counts": {
+      "dom_order_or_layout": 3,
+      "event_conversion": 2,
+      "hidden_reactive_dependency": 3,
+      "initialization_or_lifecycle": 3,
+      "loop_binding_or_syntax": 2,
+      "nested_state_mutation": 2,
+      "no_discrepancy_confirmed": 3,
+      "prop_default": 1,
+      "repair_regression": 1,
+      "timer_ownership": 1,
+      "validator_false_negative": 1,
+      "watcher_mapping": 1
+    }
+  },
+  "claims_boundary": [
+    "The unbiased automatic result is formal_30_v1: 16/30 configured samples passed.",
+    "The 14/14 formal_30_v2 result describes manual rechecks after targeted intervention.",
+    "It must not be reported as a 100% automatic migration success rate.",
+    "Two v1 automatic passes had browser-visible defects in the reviewed set; this is evidence of evaluator blind spots, not an estimate for all automatic passes."
+  ]
+}

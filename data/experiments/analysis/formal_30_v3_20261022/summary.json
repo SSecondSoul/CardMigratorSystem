@@ -1,0 +1,181 @@
+{
+  "analysis_id": "formal_30_v3_20261022",
+  "sources": {
+    "v1_snapshot": "formal_30_v1_results_20261015_161053",
+    "v1_verified_files": 115,
+    "v3_protocol": "formal_30_v3_frozen_20261022",
+    "v3_protocol_verified_files": 126,
+    "v3_summary_sha256": "1a0c672011fcfb71dfbd2cd79e6af10ef0c465c9801d4d71cd9c58fb5effd4ee",
+    "v3_execution_notes_sha256": "8c56320712e89d74491532866b7fbd901636477a3509f0cb0b8368ebd77bf4c0"
+  },
+  "formal_30_v3": {
+    "aggregate": {
+      "configured": 30,
+      "completed": 27,
+      "passed": 18,
+      "failed": 9,
+      "execution_errors": 3,
+      "pending": 0,
+      "pass_rate_completed": 0.6667,
+      "initial_passed": 2,
+      "initial_pass_rate_completed": 0.0741,
+      "repaired_to_pass": 16,
+      "repair_rounds_total": 45,
+      "repair_rounds_average": 1.667,
+      "generation_tokens": 552963,
+      "repair_tokens": 1396414,
+      "total_tokens": 1949377,
+      "stop_reason_counts": {
+        "max_repair_rounds_reached": 7,
+        "no_repair_progress": 2,
+        "passed": 18
+      },
+      "error_code_counts": {
+        "initial_validation": {
+          "custom_event_not_fire": 1,
+          "event_arguments_not_landed": 1,
+          "hidden_template_reactive_dependency": 2,
+          "invalid_dynamic_attribute_binding": 1,
+          "invalid_s_for_key_binding": 2,
+          "missing_prop_defaults": 25,
+          "nested_state_mutation": 8,
+          "unbalanced_template_interpolation": 1,
+          "vue_this_state": 2
+        },
+        "initial_visual": {
+          "dom_critical_attribute_mismatch": 9,
+          "dom_structure_similarity_low": 19
+        },
+        "final_validation": {
+          "hidden_template_reactive_dependency": 3,
+          "invalid_s_for_key_binding": 2,
+          "missing_prop_defaults": 1,
+          "vue_this_state": 1
+        },
+        "final_visual": {
+          "dom_critical_attribute_mismatch": 5,
+          "dom_structure_similarity_low": 6
+        }
+      },
+      "by_complexity": {
+        "simple": {
+          "configured": 10,
+          "completed": 10,
+          "passed": 10,
+          "failed": 0,
+          "execution_errors": 0,
+          "pass_rate_completed": 1.0
+        },
+        "medium": {
+          "configured": 10,
+          "completed": 10,
+          "passed": 7,
+          "failed": 3,
+          "execution_errors": 0,
+          "pass_rate_completed": 0.7
+        },
+        "complex": {
+          "configured": 10,
+          "completed": 7,
+          "passed": 1,
+          "failed": 6,
+          "execution_errors": 3,
+          "pass_rate_completed": 0.1429
+        }
+      }
+    },
+    "pass_rate_all_configured": 0.6,
+    "terminal_status_counts": {
+      "completed": 27,
+      "error": 3
+    },
+    "failed_completed_ids": [
+      "habit_week_tracker",
+      "playback_queue",
+      "course_module_accordion",
+      "incident_response_board",
+      "rule_builder",
+      "access_matrix",
+      "localization_workspace",
+      "trip_itinerary_planner",
+      "schema_mapping_workbench"
+    ],
+    "execution_error_ids": [
+      "analytics_dashboard",
+      "TaskManager",
+      "MonitoringDashboard"
+    ],
+    "execution_retry": {
+      "batch_id": "formal_30_v3",
+      "recorded_at": "2026-10-22T20:03:06+08:00",
+      "reason": "The frozen protocol permits retrying infrastructure failures with the unchanged checkpoint command.",
+      "command": "python migration_pipeline/run_batch_pipeline.py --config-file migration_pipeline/batch_configs/formal_30_v3.json --include-state",
+      "protocol_changes": false,
+      "force_used": false,
+      "attempts": [
+        {
+          "attempt": 1,
+          "samples": [
+            {
+              "id": "analytics_dashboard",
+              "started_at": "2026-10-22T19:17:37+08:00",
+              "finished_at": "2026-10-22T19:19:37+08:00",
+              "result": "generation_timeout"
+            },
+            {
+              "id": "TaskManager",
+              "started_at": "2026-10-22T19:24:07+08:00",
+              "finished_at": "2026-10-22T19:26:08+08:00",
+              "result": "generation_timeout"
+            },
+            {
+              "id": "MonitoringDashboard",
+              "started_at": "2026-10-22T19:26:08+08:00",
+              "finished_at": "2026-10-22T19:28:08+08:00",
+              "result": "generation_timeout"
+            }
+          ]
+        },
+        {
+          "attempt": 2,
+          "samples": [
+            {
+              "id": "analytics_dashboard",
+              "started_at": "2026-10-22T19:57:03+08:00",
+              "finished_at": "2026-10-22T19:59:04+08:00",
+              "result": "generation_timeout"
+            },
+            {
+              "id": "TaskManager",
+              "started_at": "2026-10-22T19:59:05+08:00",
+              "finished_at": "2026-10-22T20:01:05+08:00",
+              "result": "generation_timeout"
+            },
+            {
+              "id": "MonitoringDashboard",
+              "started_at": "2026-10-22T20:01:05+08:00",
+              "finished_at": "2026-10-22T20:03:06+08:00",
+              "result": "generation_timeout"
+            }
+          ]
+        }
+      ],
+      "conclusion": "All three infrastructure errors reproduced at the unchanged 120-second generation timeout. They remain execution errors; no timeout, model, prompt, or pipeline setting was changed."
+    }
+  },
+  "formal_30_v1_to_v3": {
+    "configured_pass_rate_change_points": 6.67,
+    "completed_pass_rate_change_points": 11.49,
+    "token_change": -519799,
+    "token_change_percent": -21.05,
+    "warning": "v1 and v3 use different complexity-balanced samples; this is not a paired comparison."
+  },
+  "claims_boundary": [
+    "formal_30_v3 is an untouched post-remediation holdout selected before its first model call.",
+    "The configured-sample automatic pass rate is 18/30 (60.00%).",
+    "The completed-sample automatic pass rate is 18/27 (66.67%).",
+    "Three complex samples remain execution errors after one unchanged-command retry.",
+    "The automatic evaluator does not establish browser interaction equivalence.",
+    "Do not tune on v3 and continue to call it untouched; any remediation requires a new development version and another untouched holdout."
+  ]
+}
