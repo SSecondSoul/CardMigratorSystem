@@ -261,6 +261,14 @@ export LLM_BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1/chat/comp
 export LOCAL_SERVER_HOST="127.0.0.1"
 export LOCAL_SERVER_PORT="8787"
 ```
+```
+$env:LLM_PROVIDER = "qwen"
+$env:LLM_API_KEY = "你的密钥"
+$env:LLM_MODEL = "qwen-plus"
+$env:LLM_TIMEOUT = "240"
+
+python -m local_server.app
+```
 
 ## 7.3 启动服务
 

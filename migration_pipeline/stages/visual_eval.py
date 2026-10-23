@@ -225,13 +225,28 @@ class VisualEvalStage:
                 suggestion="检查文本插值、computed、props 和 data 初始化是否等价。",
             ))
 
-        critical_attributes = {"value", "checked", "selected", "disabled"}
+        critical_attributes_by_tag = {
+            "button": {"disabled"},
+            "fieldset": {"disabled"},
+            "input": {"value", "checked", "disabled"},
+            "optgroup": {"disabled"},
+            "option": {"value", "selected", "disabled"},
+            "select": {"value", "disabled"},
+            "textarea": {"value", "disabled"},
+        }
         critical_mismatches = []
         for changed in dom_compare_result.get("changed_nodes", []):
             if not isinstance(changed, dict) or "attrs_changed" not in changed.get("reason", ""):
                 continue
             vue_attrs = (changed.get("vue_node") or {}).get("attrs", {})
             san_attrs = (changed.get("san_node") or {}).get("attrs", {})
+            vue_tag = str((changed.get("vue_node") or {}).get("tag", "")).lower()
+            san_tag = str((changed.get("san_node") or {}).get("tag", "")).lower()
+            critical_attributes = (
+                critical_attributes_by_tag.get(vue_tag, set())
+                if vue_tag == san_tag
+                else set()
+            )
             mismatched_names = sorted(
                 name for name in critical_attributes
                 if vue_attrs.get(name) != san_attrs.get(name)

@@ -6,7 +6,7 @@ from local_server.client.base_client import BaseLLMClient
 
 
 class QwenClient(BaseLLMClient):
-    def __init__(self, api_key: str, base_url: str, model: str, timeout: int = 120):
+    def __init__(self, api_key: str, base_url: str, model: str, timeout: int = 240):
         self.api_key = api_key
         self.base_url = base_url
         self.model = model

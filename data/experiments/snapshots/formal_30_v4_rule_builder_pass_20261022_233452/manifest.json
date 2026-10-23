@@ -1,0 +1,49 @@
+{
+  "snapshot_id": "formal_30_v4_rule_builder_pass_20261022_233452",
+  "created_at": "2026-10-22T23:36:02+08:00",
+  "purpose": "Immutable evidence for the passing RuleBuilder v4 run after San data-store access validation and Prompt remediation.",
+  "batch_id": "formal_30_v4_targeted",
+  "sample_id": "rule_builder",
+  "parent_snapshot_id": "formal_30_v3_results_20261022_200548",
+  "baseline_commit": "df284a3",
+  "status": "frozen_targeted_pass",
+  "run_window": {
+    "started_at": "2026-10-22T23:32:02+08:00",
+    "finished_at": "2026-10-22T23:34:52+08:00"
+  },
+  "result": {
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 1,
+    "initial_validation_error_codes": [
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation"
+    ],
+    "initial_visual_error_codes": [],
+    "final_validation_error_codes": [],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 0.9909,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.5,
+    "total_tokens": 107232
+  },
+  "residual_difference": {
+    "classification": "semantically_equivalent_default_attribute",
+    "description": "Two San input elements explicitly include type=text while the corresponding Vue inputs omit type; HTML defaults omitted input type to text.",
+    "affected_paths": [
+      "/section[2]/div[1]/div[0]/input[0]",
+      "/section[2]/div[1]/div[1]/article[0]/input[3]"
+    ]
+  },
+  "notes": [
+    "The initial generation already preserved prop defaults and used this.data.get(...) rather than destructuring this.data.",
+    "The sole repair round removed five nested_state_mutation errors.",
+    "No nodes are missing or extra, and tag/text similarity is exact.",
+    "This is development-set remediation evidence and is not an independent holdout result."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

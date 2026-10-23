@@ -339,9 +339,11 @@ function renderTemplate(template, data) {
     const value = evaluateExpression(expr, data);
     return value ? ' disabled="true"' : '';
   });
-  html = html.replace(/\s+class="\{\{\s*([^}]+?)\s*\}\}"/g, function (_, expr) {
-    const value = evaluateExpression(expr, data);
-    return value ? ` class="${escapeHtml(stringifyValue(value))}"` : '';
+  html = html.replace(/\s+class="([^"]*\{\{[^"]+\}\}[^"]*)"/g, function (_, templateValue) {
+    const value = templateValue.replace(/\{\{\s*([^}]+?)\s*\}\}/g, function (_match, expr) {
+      return stringifyValue(evaluateExpression(expr, data));
+    }).replace(/\s+/g, ' ').trim();
+    return value ? ` class="${escapeHtml(value)}"` : '';
   });
   html = html.replace(/\s+value="\{=\s*([^=]+?)\s*=\}"/g, function (_, expr) {
     return ` value="${escapeHtml(stringifyValue(evaluateExpression(expr, data)))}"`;
@@ -372,6 +374,21 @@ function renderForBlocks(html, data) {
   const opening = openingPattern.exec(html);
   if (!opening) return html;
   const tag = opening[1];
+  const directive = opening[3].replace(/\s+trackby\s+.+$/, '').trim();
+  const match = directive.match(/^\s*(?:\(([\w$]+)\s*,\s*([\w$]+)\)|([\w$]+)\s*,\s*([\w$]+)|([\w$]+))\s+in\s+(.+)$/);
+  if (!match) return html;
+  const itemName = match[1] || match[3] || match[5];
+  const indexName = match[2] || match[4] || 'index';
+  const list = evaluateExpression(match[6], data);
+  const attrs = `${opening[2]}${opening[4]}`;
+  if (/\/\s*>$/.test(opening[0])) {
+    const replacement = Array.isArray(list) ? list.map(function (item, index) {
+      const scopedData = Object.assign({}, data, { [itemName]: item, [indexName]: index });
+      return renderTemplate(`<${tag}${attrs}/>`, scopedData);
+    }).join('') : '';
+    const replaced = html.slice(0, opening.index) + replacement + html.slice(opening.index + opening[0].length);
+    return renderForBlocks(replaced, data);
+  }
   const tokenPattern = new RegExp(`<\\/?${tag}\\b[^>]*>`, 'gi');
   tokenPattern.lastIndex = opening.index + opening[0].length;
   let depth = 1;
@@ -383,14 +400,7 @@ function renderForBlocks(html, data) {
     if (depth === 0) { closing = token; break; }
   }
   if (!closing) return html;
-  const directive = opening[3].replace(/\s+trackby\s+.+$/, '').trim();
-  const match = directive.match(/^\s*(?:\((\w+)\s*,\s*(\w+)\)|([\w$]+))\s+in\s+(.+)$/);
-  if (!match) return html;
-  const itemName = match[1] || match[3];
-  const indexName = match[2] || 'index';
-  const list = evaluateExpression(match[4], data);
   const inner = html.slice(opening.index + opening[0].length, closing.index);
-  const attrs = `${opening[2]}${opening[4]}`;
   const replacement = Array.isArray(list) ? list.map(function (item, index) {
     const scopedData = Object.assign({}, data, { [itemName]: item, [indexName]: index });
     return renderTemplate(`<${tag}${attrs}>${inner}</${tag}>`, scopedData);

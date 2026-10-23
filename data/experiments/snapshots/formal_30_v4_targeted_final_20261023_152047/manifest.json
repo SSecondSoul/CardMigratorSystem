@@ -1,0 +1,116 @@
+{
+  "snapshot_id": "formal_30_v4_targeted_final_20261023_152047",
+  "created_at": "2026-10-23T15:25:11+08:00",
+  "purpose": "Curated final evidence bundle for the completed formal_30_v4_targeted development remediation batch.",
+  "batch_id": "formal_30_v4_targeted",
+  "source_snapshot_id": "formal_30_v3_results_20261022_200548",
+  "latest_sample_snapshot_id": "formal_30_v4_analytics_pass_20261023_152047",
+  "baseline_commit": "df284a3",
+  "status": "frozen_targeted_batch_complete",
+  "result": {
+    "configured": 7,
+    "completed": 7,
+    "passed": 7,
+    "failed": 0,
+    "execution_errors": 0,
+    "pending": 0,
+    "pass_rate_completed": 1.0,
+    "initial_passed": 0,
+    "repaired_to_pass": 7,
+    "repair_rounds_total": 8,
+    "repair_rounds_average": 1.143,
+    "generation_tokens": 231499,
+    "repair_tokens": 359671,
+    "total_tokens": 591170
+  },
+  "by_complexity": {
+    "medium": {
+      "configured": 3,
+      "passed": 3,
+      "pass_rate_completed": 1.0
+    },
+    "complex": {
+      "configured": 4,
+      "passed": 4,
+      "pass_rate_completed": 1.0
+    }
+  },
+  "final_error_counts": {
+    "validation": 0,
+    "visual": 0
+  },
+  "final_samples": [
+    {
+      "id": "course_module_accordion",
+      "complexity": "medium",
+      "final_file": "final_outputs/medium/CourseModuleAccordion_repaired.san",
+      "repair_rounds": 1,
+      "structure_similarity": 1.0,
+      "tree_edit_distance": 0.0
+    },
+    {
+      "id": "schema_mapping_workbench",
+      "complexity": "complex",
+      "final_file": "final_outputs/complex/SchemaMappingWorkbench_repaired.san",
+      "repair_rounds": 1,
+      "structure_similarity": 1.0,
+      "tree_edit_distance": 0.0
+    },
+    {
+      "id": "incident_response_board",
+      "complexity": "complex",
+      "final_file": "final_outputs/complex/IncidentResponseBoard_repaired.san",
+      "repair_rounds": 1,
+      "structure_similarity": 1.0,
+      "tree_edit_distance": 0.0
+    },
+    {
+      "id": "rule_builder",
+      "complexity": "complex",
+      "final_file": "final_outputs/complex/RuleBuilder_repaired.san",
+      "repair_rounds": 1,
+      "structure_similarity": 0.9909,
+      "tree_edit_distance": 0.5
+    },
+    {
+      "id": "habit_week_tracker",
+      "complexity": "medium",
+      "final_file": "final_outputs/medium/HabitWeekTracker_repaired.san",
+      "repair_rounds": 1,
+      "structure_similarity": 1.0,
+      "tree_edit_distance": 0.0
+    },
+    {
+      "id": "playback_queue",
+      "complexity": "medium",
+      "final_file": "final_outputs/medium/PlaybackQueue_repaired.san",
+      "repair_rounds": 1,
+      "structure_similarity": 1.0,
+      "tree_edit_distance": 0.0
+    },
+    {
+      "id": "analytics_dashboard",
+      "complexity": "complex",
+      "final_file": "final_outputs/complex/AnalyticsDashboard_repaired_repaired.san",
+      "repair_rounds": 2,
+      "structure_similarity": 1.0,
+      "tree_edit_distance": 0.0
+    }
+  ],
+  "contents": {
+    "inputs": "Frozen batch configuration and development split.",
+    "results": "Final 7/7 batch checkpoint summary.",
+    "final_outputs": "Only the final San artifact referenced by each passing sample result.",
+    "repair_reports": "Full repair history for every targeted sample.",
+    "analysis": "Diagnosis and remediation ledger updated through the passing AnalyticsDashboard run.",
+    "notebooks": "Human-readable experiment narrative updated through batch completion.",
+    "code": "Uncommitted evaluator, renderer, Prompt, repair-stage, and regression-test sources used for the final result."
+  },
+  "boundaries": [
+    "formal_30_v4_targeted is a development-set remediation batch derived from formal_30_v3 failures.",
+    "The 7/7 result is not an independent holdout estimate and must not be reported as generalization performance.",
+    "Per-run snapshots preserve failed intermediate AnalyticsDashboard attempts separately.",
+    "The next generalization claim requires a separately untouched test set after this implementation is frozen."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

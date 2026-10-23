@@ -1,0 +1,113 @@
+{
+  "split_id": "formal_30_v4_targeted_development",
+  "created_at": "2026-10-22T20:54:01+08:00",
+  "purpose": "Development-only representatives selected from frozen formal_30_v3 failures and execution errors.",
+  "parent_snapshot_id": "formal_30_v3_results_20261022_200548",
+  "parent_snapshot_manifest_sha256": "8c809539a6dc4a66cf215240ec7a32e76fe5766fd79e001294173219057d6b6b",
+  "selection_method": "One minimal representative for each distinct final defect family, plus one reproducible timeout case.",
+  "counts": {
+    "selected": 7,
+    "medium": 3,
+    "complex": 4,
+    "migration_failure_representatives": 6,
+    "infrastructure_error_representatives": 1
+  },
+  "evidence_boundary": [
+    "This split is derived from v3 outcomes and is therefore a development set, not an untouched holdout.",
+    "Unselected duplicate failures remain available for internal regression after targeted fixes.",
+    "A later generalization claim requires another untouched holdout."
+  ],
+  "samples": [
+    {
+      "id": "course_module_accordion",
+      "component_name": "CourseModuleAccordion",
+      "complexity": "medium",
+      "vue_file": "data/datasets/components/02_medium/CourseModuleAccordion/vue/CourseModuleAccordion.vue",
+      "san_file": "data/datasets/components/02_medium/CourseModuleAccordion/san/CourseModuleAccordion.san",
+      "selection_role": "semantic_reactivity_representative",
+      "target_defects": [
+        "hidden_template_reactive_dependency",
+        "dom_structure_similarity_low"
+      ],
+      "rationale": "Covers hidden template dependencies plus structural drift."
+    },
+    {
+      "id": "schema_mapping_workbench",
+      "component_name": "SchemaMappingWorkbench",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/SchemaMappingWorkbench/vue/SchemaMappingWorkbench.vue",
+      "san_file": "data/datasets/components/03_complex/SchemaMappingWorkbench/san/SchemaMappingWorkbench.san",
+      "selection_role": "loop_key_and_no_progress_representative",
+      "target_defects": [
+        "invalid_s_for_key_binding",
+        "dom_critical_attribute_mismatch",
+        "no_repair_progress"
+      ],
+      "rationale": "Covers invalid San loop-key placement and a repeated no-progress stop."
+    },
+    {
+      "id": "incident_response_board",
+      "component_name": "IncidentResponseBoard",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/IncidentResponseBoard/vue/IncidentResponseBoard.vue",
+      "san_file": "data/datasets/components/03_complex/IncidentResponseBoard/san/IncidentResponseBoard.san",
+      "selection_role": "state_access_and_no_progress_representative",
+      "target_defects": [
+        "vue_this_state",
+        "dom_critical_attribute_mismatch",
+        "no_repair_progress"
+      ],
+      "rationale": "Covers residual Vue-style state access and a repeated no-progress stop."
+    },
+    {
+      "id": "rule_builder",
+      "component_name": "RuleBuilder",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/RuleBuilder/vue/RuleBuilder.vue",
+      "san_file": "data/datasets/components/03_complex/RuleBuilder/san/RuleBuilder.san",
+      "selection_role": "prop_default_representative",
+      "target_defects": [
+        "missing_prop_defaults",
+        "dom_structure_similarity_low",
+        "dom_critical_attribute_mismatch"
+      ],
+      "rationale": "Covers the remaining prop-default failure and combined DOM drift."
+    },
+    {
+      "id": "habit_week_tracker",
+      "component_name": "HabitWeekTracker",
+      "complexity": "medium",
+      "vue_file": "data/datasets/components/02_medium/HabitWeekTracker/vue/HabitWeekTracker.vue",
+      "san_file": "data/datasets/components/02_medium/HabitWeekTracker/san/HabitWeekTracker.san",
+      "selection_role": "structure_only_representative",
+      "target_defects": [
+        "dom_structure_similarity_low"
+      ],
+      "rationale": "Isolates a final structural mismatch with no final static-validation error."
+    },
+    {
+      "id": "playback_queue",
+      "component_name": "PlaybackQueue",
+      "complexity": "medium",
+      "vue_file": "data/datasets/components/02_medium/PlaybackQueue/vue/PlaybackQueue.vue",
+      "san_file": "data/datasets/components/02_medium/PlaybackQueue/san/PlaybackQueue.san",
+      "selection_role": "critical_attribute_only_representative",
+      "target_defects": [
+        "dom_critical_attribute_mismatch"
+      ],
+      "rationale": "Isolates a critical-attribute mismatch with no final static-validation error."
+    },
+    {
+      "id": "analytics_dashboard",
+      "component_name": "AnalyticsDashboard",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/AnalyticsDashboard/vue/AnalyticsDashboard.vue",
+      "san_file": "data/datasets/components/03_complex/AnalyticsDashboard/san/AnalyticsDashboard.san",
+      "selection_role": "infrastructure_timeout_representative",
+      "target_defects": [
+        "generation_timeout"
+      ],
+      "rationale": "Represents the three reproducible generation timeouts; it is not a migration-quality failure."
+    }
+  ]
+}

@@ -1,9 +1,14 @@
+import os
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
 from SSM.extractors.factory import SSMFactory
 from migration_pipeline.stages.validate import ValidateStage, ValidateStageInput
 from migration_pipeline.stages.visual_eval import VisualEvalStage, VisualEvalStageInput
+from migration_pipeline.utils.san_render import render_san_component
+from migration_pipeline.utils.vue_render import render_vue_component
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -128,6 +133,82 @@ module.exports = san.defineComponent({
         self.assertFalse(result.validation_passed)
         self.assertIn("custom_event_not_fire", error_codes)
 
+    def test_validator_allows_private_instance_timer_fields(self):
+        code = self._minimal_san_component(
+            '<div>{{ elapsed }}</div>',
+            """
+    attached() {
+        this._timer = setInterval(() => {
+            this.data.set('elapsed', this.data.get('elapsed') + 1);
+        }, 60000);
+    },
+    disposed() {
+        if (this._timer) {
+            clearInterval(this._timer);
+            this._timer = null;
+        }
+    },
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertNotIn(
+            "vue_this_state",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+    def test_validator_allows_nonreactive_instance_timer_fields(self):
+        code = self._minimal_san_component(
+            '<div>{{ elapsed }}</div>',
+            """
+    attached() {
+        this.refreshInterval = setInterval(() => {
+            this.data.set('elapsed', this.data.get('elapsed') + 1);
+        }, 60000);
+    },
+    disposed() {
+        clearInterval(this.refreshInterval);
+        this.refreshInterval = null;
+    },
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertNotIn(
+            "vue_this_state",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+    def test_validator_rejects_destructuring_the_san_data_store(self):
+        code = self._minimal_san_component(
+            '<div>{{ groups.length }}</div>',
+            """
+    inited() {
+        const { initialGroups, availableFields } = this.data;
+        this.data.set('groups', Array.isArray(initialGroups) ? initialGroups : []);
+        this.data.set('availableFields', availableFields || []);
+    },
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertIn(
+            "invalid_san_data_destructuring",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
     def test_form_defaults_and_critical_dom_attributes_cannot_false_pass(self):
         ssm = SSMFactory().build_from_file(str(FORM_RULE_VUE))
         broken_code = FORM_RULE_SAN.read_text(encoding="utf-8").replace(
@@ -166,6 +247,22 @@ module.exports = san.defineComponent({
         self.assertFalse(result.validation_passed)
         self.assertIn("invalid_dynamic_attribute_binding", error_codes)
 
+    def test_validator_rejects_two_way_binding_on_custom_component_props(self):
+        code = self._minimal_san_component(
+            '<stat-card value="{= stat.value =}" loading="{= isLoading =}"/>',
+            "",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertIn(
+            "invalid_component_prop_two_way_binding",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
     def test_validator_allows_assignable_value_two_way_binding(self):
         reference = (ROOT / "data/datasets/components/02_medium/DataPaginationTable/san/DataPaginationTable.san").read_text(encoding="utf-8")
         broken_code = reference.replace(
@@ -188,6 +285,43 @@ module.exports = san.defineComponent({
 
         self.assertFalse(result.validation_passed)
         self.assertIn("invalid_s_for_key_binding", error_codes)
+
+    def test_validator_rejects_separate_trackby_attribute_on_s_for(self):
+        reference = (ROOT / "data/datasets/components/02_medium/DataPaginationTable/san/DataPaginationTable.san").read_text(encoding="utf-8")
+        broken_code = reference.replace(
+            's-for="row in pageRows trackby row.id"',
+            's-for="row in pageRows" trackby="row.id"',
+        )
+        result = ValidateStage().run(ValidateStageInput(generated_code=broken_code))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertFalse(result.validation_passed)
+        self.assertIn("invalid_s_for_key_binding", error_codes)
+
+    def test_validator_does_not_treat_key_suffix_in_expression_as_key_attribute(self):
+        code = self._minimal_san_component(
+            (
+                '<button s-for="field in fields trackby field.key" '
+                'class="{{ field.key === sourceKey ? \'selected\' : \'\' }}">'
+                '{{ field.key }}'
+                '</button>'
+                '<button s-for="field in targets trackby field.key" '
+                'class="{{ field.key === targetKey ? \'selected\' : \'\' }}">'
+                '{{ field.key }}'
+                '</button>'
+            ),
+            "",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertNotIn(
+            "invalid_s_for_key_binding",
+            {issue["code"] for issue in result.validation_errors},
+        )
 
     def test_validator_rejects_unbound_loop_index_and_allows_declared_alias(self):
         broken_code = self._minimal_san_component(
@@ -327,6 +461,49 @@ module.exports = san.defineComponent({
 
         self.assertNotIn("hidden_template_reactive_dependency", error_codes)
 
+    def test_validator_rejects_hidden_dependencies_in_render_directives_and_text(self):
+        code = self._minimal_san_component(
+            (
+                '<div s-if="isOpen(module.id)">'
+                '<span>{{ isOpen(module.id) ? "open" : "closed" }}</span>'
+                '<label s-for="lesson in visibleLessons(module.lessons) trackby lesson.id">'
+                '{{ lesson.title }}'
+                '</label>'
+                '</div>'
+            ),
+            """
+    isOpen(id) {
+        const openIds = this.data.get('openIds');
+        return openIds.indexOf(id) >= 0;
+    },
+    visibleLessons(lessons) {
+        const completedIds = this.data.get('completedIds');
+        const unfinishedOnly = this.data.get('unfinishedOnly');
+        return unfinishedOnly
+            ? lessons.filter(item => completedIds.indexOf(item.id) < 0)
+            : lessons;
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        hidden_messages = [
+            issue["message"]
+            for issue in result.validation_errors
+            if issue["code"] == "hidden_template_reactive_dependency"
+        ]
+
+        self.assertTrue(any("isOpen" in message and "openIds" in message for message in hidden_messages))
+        self.assertTrue(any(
+            "visibleLessons" in message
+            and "completedIds" in message
+            and "unfinishedOnly" in message
+            for message in hidden_messages
+        ))
+
     def test_validator_rejects_nested_mutation_of_computed_state_objects(self):
         code = self._minimal_san_component(
             '<button on-click="setDecision(\'approved\')">批准</button>',
@@ -408,6 +585,135 @@ module.exports = san.defineComponent({
         error_codes = {issue["code"] for issue in result.validation_errors}
 
         self.assertNotIn("nested_state_mutation", error_codes)
+
+    def test_validator_allows_mutating_array_literal_with_spread_before_set(self):
+        code = self._minimal_san_component(
+            '<button on-click="addEvent">添加</button>',
+            """
+    addEvent() {
+        const history = this.data.get('eventHistory');
+        const nextHistory = [{id: 2}, ...history];
+        if (nextHistory.length > 50) {
+            nextHistory.pop();
+        }
+        this.data.set('eventHistory', nextHistory);
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertNotIn(
+            "nested_state_mutation",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+    def test_validator_allows_mutating_object_literal_with_spread_before_set(self):
+        code = self._minimal_san_component(
+            '<button on-click="clearCache">清理</button>',
+            """
+    clearCache() {
+        const cache = this.data.get('dataCache');
+        const nextCache = {...cache};
+        nextCache.current = null;
+        this.data.set('dataCache', nextCache);
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertNotIn(
+            "nested_state_mutation",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+    def test_vue_mounted_and_san_attached_share_initial_render_phase(self):
+        vue_source = """<template><button :disabled="loading">{{ loading ? 'loading' : 'ready' }}</button></template>
+<script>
+module.exports = {
+    data() { return {loading: false}; },
+    mounted() { this.loading = true; }
+};
+</script>
+<style></style>
+"""
+        san_source = """<template><button disabled="{{loading}}">{{loading ? 'loading' : 'ready'}}</button></template>
+<script>
+const san = require('san');
+module.exports = san.defineComponent({
+    initData() { return {loading: false}; },
+    attached() { this.data.set('loading', true); }
+});
+</script>
+<style></style>
+"""
+
+        vue = render_vue_component(vue_source=vue_source)
+        san = render_san_component(san_source=san_source)
+
+        self.assertTrue(vue.passed, vue.diagnostics)
+        self.assertTrue(san.passed, san.diagnostics)
+        self.assertEqual(vue.dom_snapshot["text_content"], "loading")
+        self.assertEqual(vue.dom_snapshot, san.dom_snapshot)
+
+    def test_self_closing_component_loops_expand_in_both_renderers(self):
+        vue_source = """<template><section><item-card v-for="item in items" :value="item.value" /></section></template>
+<script>module.exports = {data() { return {items: [{id: 1, value: 'A'}, {id: 2, value: 'B'}]}; }};</script>
+<style></style>
+"""
+        san_source = """<template><section><item-card s-for="item in items trackby item.id" value="{{item.value}}" /></section></template>
+<script>const san = require('san'); module.exports = san.defineComponent({initData() { return {items: [{id: 1, value: 'A'}, {id: 2, value: 'B'}]}; }});</script>
+<style></style>
+"""
+
+        vue = render_vue_component(vue_source=vue_source)
+        san = render_san_component(san_source=san_source)
+
+        self.assertEqual(vue.dom_snapshot["node_count"], 3)
+        self.assertEqual(vue.dom_snapshot, san.dom_snapshot)
+
+    def test_critical_form_attributes_ignore_custom_component_props(self):
+        stage = VisualEvalStage()
+        custom_issues = []
+        stage._collect_dom_compare_issues(
+            {
+                "structure_similarity": 1.0,
+                "text_similarity": 1.0,
+                "changed_nodes": [{
+                    "path": "/stat-card[0]",
+                    "reason": "attrs_changed",
+                    "vue_node": {"tag": "stat-card", "attrs": {"value": "1"}},
+                    "san_node": {"tag": "stat-card", "attrs": {"value": "2"}},
+                }],
+            },
+            VisualEvalStageInput(),
+            custom_issues,
+        )
+        native_issues = []
+        stage._collect_dom_compare_issues(
+            {
+                "structure_similarity": 1.0,
+                "text_similarity": 1.0,
+                "changed_nodes": [{
+                    "path": "/input[0]",
+                    "reason": "attrs_changed",
+                    "vue_node": {"tag": "input", "attrs": {"value": "1"}},
+                    "san_node": {"tag": "input", "attrs": {"value": "2"}},
+                }],
+            },
+            VisualEvalStageInput(),
+            native_issues,
+        )
+
+        self.assertNotIn("dom_critical_attribute_mismatch", {issue.code for issue in custom_issues})
+        self.assertIn("dom_critical_attribute_mismatch", {issue.code for issue in native_issues})
 
     def test_validator_rejects_lifecycle_hooks_without_source_behavior(self):
         ssm = {
@@ -592,6 +898,199 @@ module.exports = san.defineComponent({
                     "dom_child_order_mismatch",
                     {issue["code"] for issue in fixed.validation_errors},
                 )
+
+    def test_incident_response_frozen_artifact_supports_unparenthesized_loop_index(self):
+        vue_file = (
+            ROOT
+            / "data/datasets/components/03_complex/IncidentResponseBoard/vue/IncidentResponseBoard.vue"
+        )
+        san_file = (
+            ROOT
+            / "data/experiments/snapshots/formal_30_v3_results_20261022_200548"
+            / "pipeline/complex/IncidentResponseBoard_repaired_repaired.san"
+        )
+
+        result = VisualEvalStage().run(VisualEvalStageInput(
+            vue_file_path=str(vue_file),
+            generated_file_path=str(san_file),
+        ))
+
+        ssm = SSMFactory().build_from_file(str(vue_file))
+        validation = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(san_file),
+            ssm=ssm,
+            source_file=str(vue_file),
+            compile_check=False,
+        ))
+        validation_error_codes = {
+            issue["code"] for issue in validation.validation_errors
+        }
+
+        self.assertTrue(result.visual_eval_passed, {
+            "errors": result.visual_eval_errors,
+            "warnings": result.visual_eval_warnings,
+        })
+        self.assertEqual(result.structure_similarity, 1.0)
+        self.assertEqual(result.tree_edit_distance, 0.0)
+        self.assertNotIn("vue_this_state", validation_error_codes)
+        self.assertNotIn("lifecycle_behavior_not_landed", validation_error_codes)
+
+    def test_incident_response_lifecycle_accepts_local_this_alias(self):
+        vue_file = (
+            ROOT
+            / "data/datasets/components/03_complex/IncidentResponseBoard/vue/IncidentResponseBoard.vue"
+        )
+        san_file = (
+            ROOT
+            / "data/experiments/snapshots/formal_30_v4_incident_first_run_20261022_225432"
+            / "pipeline/complex/IncidentResponseBoard_repaired_repaired_repaired.san"
+        )
+        ssm = SSMFactory().build_from_file(str(vue_file))
+
+        validation = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(san_file),
+            ssm=ssm,
+            source_file=str(vue_file),
+            compile_check=False,
+        ))
+        validation_error_codes = {
+            issue["code"] for issue in validation.validation_errors
+        }
+
+        self.assertNotIn("vue_this_state", validation_error_codes)
+        self.assertNotIn("lifecycle_behavior_not_landed", validation_error_codes)
+
+    def test_rule_builder_frozen_artifact_exposes_data_store_destructuring(self):
+        vue_file = (
+            ROOT
+            / "data/datasets/components/03_complex/RuleBuilder/vue/RuleBuilder.vue"
+        )
+        san_file = (
+            ROOT
+            / "data/experiments/snapshots/formal_30_v3_results_20261022_200548"
+            / "pipeline/complex/RuleBuilder_repaired_repaired_repaired.san"
+        )
+        ssm = SSMFactory().build_from_file(str(vue_file))
+
+        validation = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(san_file),
+            ssm=ssm,
+            source_file=str(vue_file),
+            compile_check=False,
+        ))
+        validation_error_codes = {
+            issue["code"] for issue in validation.validation_errors
+        }
+
+        self.assertIn("missing_prop_defaults", validation_error_codes)
+        self.assertIn("invalid_san_data_destructuring", validation_error_codes)
+
+    def test_habit_week_tracker_frozen_artifact_supports_unparenthesized_loop_index(self):
+        vue_file = (
+            ROOT
+            / "data/datasets/components/02_medium/HabitWeekTracker/vue/HabitWeekTracker.vue"
+        )
+        san_file = (
+            ROOT
+            / "data/experiments/snapshots/formal_30_v3_results_20261022_200548"
+            / "pipeline/medium/HabitWeekTracker_repaired_repaired_repaired.san"
+        )
+        ssm = SSMFactory().build_from_file(str(vue_file))
+
+        validation = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(san_file),
+            ssm=ssm,
+            source_file=str(vue_file),
+            compile_check=False,
+        ))
+        visual = VisualEvalStage().run(VisualEvalStageInput(
+            vue_file_path=str(vue_file),
+            generated_file_path=str(san_file),
+        ))
+
+        self.assertTrue(validation.validation_passed, validation.validation_errors)
+        self.assertTrue(visual.visual_eval_passed, visual.visual_eval_errors)
+        self.assertEqual(visual.structure_similarity, 1.0)
+        self.assertEqual(visual.tag_sequence_similarity, 1.0)
+        self.assertEqual(visual.text_similarity, 1.0)
+        self.assertEqual(visual.tree_edit_distance, 0.0)
+
+    def test_playback_queue_frozen_artifact_supports_unparenthesized_loop_index(self):
+        vue_file = (
+            ROOT
+            / "data/datasets/components/02_medium/PlaybackQueue/vue/PlaybackQueue.vue"
+        )
+        san_file = (
+            ROOT
+            / "data/experiments/snapshots/formal_30_v3_results_20261022_200548"
+            / "pipeline/medium/PlaybackQueue_repaired_repaired_repaired.san"
+        )
+        ssm = SSMFactory().build_from_file(str(vue_file))
+
+        validation = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(san_file),
+            ssm=ssm,
+            source_file=str(vue_file),
+            compile_check=False,
+        ))
+        visual = VisualEvalStage().run(VisualEvalStageInput(
+            vue_file_path=str(vue_file),
+            generated_file_path=str(san_file),
+        ))
+
+        self.assertTrue(validation.validation_passed, validation.validation_errors)
+        self.assertTrue(visual.visual_eval_passed, visual.visual_eval_errors)
+        self.assertEqual(visual.structure_similarity, 1.0)
+        self.assertEqual(visual.tag_sequence_similarity, 1.0)
+        self.assertEqual(visual.text_similarity, 1.0)
+        self.assertEqual(visual.tree_edit_distance, 0.0)
+
+    def test_default_llm_timeout_fits_inside_pipeline_timeout_budget(self):
+        env = os.environ.copy()
+        env.pop("LLM_TIMEOUT", None)
+        env.pop("MIGRATION_GENERATION_TIMEOUT", None)
+        script = (
+            "from local_server.config import settings as server; "
+            "from migration_pipeline.config import settings as pipeline; "
+            "print(server.llm_timeout, pipeline.generation_timeout)"
+        )
+
+        completed = subprocess.run(
+            [sys.executable, "-c", script],
+            cwd=ROOT,
+            env=env,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        server_timeout, pipeline_timeout = map(int, completed.stdout.split())
+
+        self.assertEqual(server_timeout, 240)
+        self.assertEqual(pipeline_timeout, 300)
+        self.assertLess(server_timeout, pipeline_timeout)
+
+    def test_validator_uses_vue_file_path_from_pipeline_state_for_dom_order(self):
+        vue_file = (
+            ROOT
+            / "data/datasets/components/02_medium/CourseModuleAccordion/vue/CourseModuleAccordion.vue"
+        )
+        broken_file = (
+            ROOT
+            / "data/experiments/pipeline/batches/formal_30_v4_targeted/medium"
+            / "CourseModuleAccordion_repaired_repaired_repaired.san"
+        )
+
+        result = ValidateStage().run_from_state({
+            "generated_file_path": str(broken_file),
+            "source_file": "CourseModuleAccordion",
+            "vue_file_path": str(vue_file),
+            "validation_compile_check": False,
+        })
+
+        self.assertIn(
+            "dom_child_order_mismatch",
+            {issue["code"] for issue in result["validation_errors"]},
+        )
 
     @staticmethod
     def _minimal_san_component(template_body, methods):

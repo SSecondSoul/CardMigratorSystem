@@ -1,0 +1,124 @@
+<template>
+<section class="course-module-accordion">
+    <header>
+        <h2>课程进度 {{progress}}%</h2>
+        <label> 仅未完成
+            <input type="checkbox" checked="{{unfinishedOnly}}" on-change="toggleFilter"/>
+        </label>
+    </header>
+    <article s-for="module in modules trackby module.id">
+        <button class="module-head" on-click="toggleModule(module.id)">
+            <strong>{{module.title}}</strong>
+            <span>{{isOpen(module.id, openIds) ? '收起' : '展开'}}</span>
+        </button>
+        <div class="lessons" s-if="isOpen(module.id, openIds)">
+            <label s-for="lesson in visibleLessons(module.lessons, completedIds, unfinishedOnly) trackby lesson.id" class="{{isCompleted(lesson.id, completedIds) ? 'done' : ''}}">
+                 {{lesson.title}}
+                <input type="checkbox" checked="{{isCompleted(lesson.id, completedIds)}}" on-change="toggleLesson(lesson.id)"/>
+            </label>
+        </div>
+    </article>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+    name: 'CourseModuleAccordion',
+
+    dataTypes: {
+        modules: DataTypes.array,
+        initiallyOpen: DataTypes.number
+    },
+
+    initData() {
+        return {
+            openIds: [],
+            completedIds: [],
+            unfinishedOnly: false
+        };
+    },
+
+    inited() {
+        this.data.set('openIds', [this.data.get('initiallyOpen')]);
+    },
+
+    computed: {
+        totalLessons() {
+            const modules = this.data.get('modules') || [];
+            return modules.reduce((sum, module) => sum + (module.lessons || []).length, 0);
+        },
+        progress() {
+            const completedIds = this.data.get('completedIds') || [];
+            const total = this.data.get('totalLessons') || 1;
+            return Math.round(completedIds.length / total * 100);
+        }
+    },
+
+    setValue(key, value) {
+        this.data.set(key, value);
+    },
+
+    emitEvent(name, payload) {
+        this.fire(name, payload);
+    },
+
+    toggleModule(id) {
+        const open = this.data.get('openIds') || [];
+        const idx = open.indexOf(id);
+        if (idx >= 0) {
+            this.data.set('openIds', open.filter(item => item !== id));
+        } else {
+            this.data.set('openIds', open.concat(id));
+        }
+    },
+
+    isOpen(id, openIds) {
+        return (openIds || []).indexOf(id) >= 0;
+    },
+
+    toggleLesson(id) {
+        const completed = this.data.get('completedIds') || [];
+        const idx = completed.indexOf(id);
+        if (idx >= 0) {
+            this.data.set('completedIds', completed.filter(item => item !== id));
+        } else {
+            this.data.set('completedIds', completed.concat(id));
+        }
+        this.emitEvent('progress', this.data.get('completedIds'));
+    },
+
+    isCompleted(id, completedIds) {
+        return (completedIds || []).indexOf(id) >= 0;
+    },
+
+    toggleFilter(event) {
+        this.data.set('unfinishedOnly', event.target.checked);
+    },
+
+    visibleLessons(lessons, completedIds, unfinishedOnly) {
+        if (!unfinishedOnly) return lessons || [];
+        return (lessons || []).filter(item => (completedIds || []).indexOf(item.id) < 0);
+    }
+});
+</script>
+
+<style>
+.course-module-accordion{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.course-module-accordion *{box-sizing:border-box}
+.course-module-accordion h2,.course-module-accordion h3,.course-module-accordion p{margin-top:0}
+.course-module-accordion button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.course-module-accordion button.primary{border-color:#4f46e5;background:#4f46e5;color:#fff}
+.course-module-accordion button:disabled{opacity:.45;cursor:not-allowed}
+.course-module-accordion input,.course-module-accordion select,.course-module-accordion textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.course-module-accordion .muted{color:#71808e;font-size:12px}
+.course-module-accordion .toolbar,.course-module-accordion .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+header{display:flex;justify-content:space-between}
+.course-module-accordion article{border:1px solid #e2e8f0}
+.module-head{display:flex;width:100%;justify-content:space-between;border:0}
+.lessons{display:grid;padding:10px}
+.lessons label{padding:7px}
+.lessons label.done{text-decoration:line-through;color:#64748b}
+</style>

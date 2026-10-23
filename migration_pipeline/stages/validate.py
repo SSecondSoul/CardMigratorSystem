@@ -37,6 +37,7 @@ class ValidateStageInput:
     generated_file_path: str = ""
     ssm: dict[str, Any] | None = None
     source_file: str = ""
+    vue_file_path: str = ""
     strict: bool = False
     compile_check: bool = True
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -105,10 +106,20 @@ class ValidateStage:
         re.DOTALL,
     )
     LOOP_INDEX_IDENTIFIERS = {"index", "idx", "$index"}
-    REACTIVE_PRESENTATION_ATTRIBUTE_PATTERN = re.compile(
-        r"(?:^|\s)(class|style|checked|selected|disabled)\s*=\s*([\"'])(.*?)\2",
-        re.IGNORECASE | re.DOTALL,
-    )
+    REACTIVE_RENDER_DIRECTIVES = {"s-if", "s-else-if", "s-for"}
+    NATIVE_HTML_TAGS = {
+        "a", "abbr", "address", "article", "aside", "audio", "b", "blockquote",
+        "body", "br", "button", "canvas", "caption", "code", "col", "colgroup",
+        "data", "datalist", "dd", "del", "details", "dialog", "div", "dl", "dt",
+        "em", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2",
+        "h3", "h4", "h5", "h6", "header", "hr", "html", "i", "iframe", "img",
+        "input", "ins", "kbd", "label", "legend", "li", "main", "mark", "menu",
+        "meter", "nav", "ol", "optgroup", "option", "output", "p", "picture",
+        "pre", "progress", "q", "s", "section", "select", "small", "source", "span",
+        "strong", "sub", "summary", "sup", "table", "tbody", "td", "template",
+        "textarea", "tfoot", "th", "thead", "time", "tr", "track", "u", "ul",
+        "video", "wbr",
+    }
     TEMPLATE_INTERPOLATION_PATTERN = re.compile(r"\{\{(.*?)\}\}|\{=(.*?)=\}", re.DOTALL)
     TEMPLATE_METHOD_CALL_PATTERN = re.compile(r"\b([A-Za-z_$][\w$]*)\s*\(([^()]*)\)")
     DATA_GET_PATTERN = re.compile(
@@ -136,7 +147,15 @@ class ValidateStage:
         (r"\bmethods\s*:\s*\{", "vue_methods_wrapper", "San 方法应直接定义在组件对象顶层。"),
         (r"\bwatch\s*:\s*\{", "vue_watch_option", "Vue watch 配置不会被 San 自动注册，请在 inited/attached 中使用 this.watch(...)。"),
         (r"\bthis\.\$emit\s*\(", "vue_emit", "Vue 的 this.$emit 应迁移为 San 的 this.fire。"),
-        (r"\bthis\.(?!data\b|fire\b|watch\b|ref\b|nextTick\b)([A-Za-z_$][\w$]*)\b(?!\s*\()", "vue_this_state", "San 状态读写应使用 this.data.get()/this.data.set()。"),
+        (r"\bthis\.(?!_|data\b|fire\b|watch\b|ref\b|nextTick\b)([A-Za-z_$][\w$]*)\b(?!\s*\()", "vue_this_state", "San 状态读写应使用 this.data.get()/this.data.set()。"),
+    )
+
+    SAN_DATA_STORE_PATTERNS = (
+        (
+            r"\b(?:const|let|var)\s*\{[^}\n]+\}\s*=\s*this\.data\b(?!\s*\.)",
+            "invalid_san_data_destructuring",
+            "San this.data is a Data store, not a plain object; read each field with this.data.get('field').",
+        ),
     )
 
     def run(self, stage_input: ValidateStageInput) -> ValidateStageResult:
@@ -157,7 +176,7 @@ class ValidateStage:
             issues,
             checks,
         )
-        self._validate_script_rules(blocks.get("script", ""), issues, checks)
+        self._validate_script_rules(blocks.get("script", ""), ssm, issues, checks)
         self._validate_template_reactive_dependencies(
             blocks.get("template", ""),
             blocks.get("script", ""),
@@ -202,6 +221,7 @@ class ValidateStage:
             generated_file_path=state.get("generated_file_path", state.get("saved_file_path", "")),
             ssm=state.get("ssm"),
             source_file=state.get("source_file", ""),
+            vue_file_path=state.get("vue_file_path", "") or "",
             strict=state.get("validation_strict", False),
             compile_check=state.get("validation_compile_check", True),
             metadata=state.get("validation_metadata", {}),
@@ -308,11 +328,51 @@ class ValidateStage:
                 suggestion="例如将 disabled=\"{= page === 1 =}\" 改为 disabled=\"{{ page === 1 }}\"。",
             ))
 
-        s_for_tags_with_key = [
+        custom_component_two_way_bindings = []
+        for tag_match in re.finditer(
+            r"<([A-Za-z][\w-]*)\b([^>]*)>", template, re.DOTALL
+        ):
+            tag_name = tag_match.group(1).lower()
+            if tag_name in self.NATIVE_HTML_TAGS:
+                continue
+            for attribute in self.TEMPLATE_ATTRIBUTE_PATTERN.finditer(tag_match.group(2)):
+                if "{=" in attribute.group(3):
+                    custom_component_two_way_bindings.append(
+                        (tag_name, attribute.group(1))
+                    )
+
+        custom_binding_passed = not custom_component_two_way_bindings
+        checks.append(ValidationCheck(
+            name="custom_component_props_use_one_way_binding",
+            passed=custom_binding_passed,
+            message="普通自定义组件 props 使用 {{ ... }} 单向绑定，而不是 {= ... =}",
+        ))
+        if not custom_binding_passed:
+            issues.append(ValidationIssue(
+                code="invalid_component_prop_two_way_binding",
+                message=(
+                    "San 模板中检测到普通自定义组件 props 使用双向绑定："
+                    + ", ".join(
+                        f"<{tag}>.{attribute}"
+                        for tag, attribute in custom_component_two_way_bindings
+                    )
+                    + "。Vue :prop 是单向绑定，不能无依据升级为双向绑定。"
+                ),
+                location="template",
+                suggestion=(
+                    "将 value=\"{= stat.value =}\" 等普通组件属性改为 "
+                    "value=\"{{ stat.value }}\"；{= ... =} 仅用于源 Vue v-model 对应的可赋值表单路径。"
+                ),
+            ))
+
+        s_for_tags_with_separate_identity = [
             tag for tag in self.S_FOR_OPEN_TAG_PATTERN.findall(template)
-            if re.search(r"\bkey\s*=", tag, re.IGNORECASE)
+            if any(
+                attribute.group(1).lower() in {"key", "trackby"}
+                for attribute in self.TEMPLATE_ATTRIBUTE_PATTERN.finditer(tag)
+            )
         ]
-        s_for_key_passed = not s_for_tags_with_key
+        s_for_key_passed = not s_for_tags_with_separate_identity
         checks.append(ValidationCheck(
             name="s_for_uses_inline_trackby",
             passed=s_for_key_passed,
@@ -322,13 +382,15 @@ class ValidateStage:
             issues.append(ValidationIssue(
                 code="invalid_s_for_key_binding",
                 message=(
-                    f"San 模板中检测到 {len(s_for_tags_with_key)} 个 s-for 节点使用独立 key 属性；"
-                    "该写法不能等价替代 San 的 trackby，可能导致循环节点状态或 class 不刷新。"
+                    f"San 模板中检测到 {len(s_for_tags_with_separate_identity)} 个 s-for 节点"
+                    "使用独立 key 或 trackby 属性；San 要求将 trackby 写入 s-for 表达式，"
+                    "否则可能导致循环作用域、节点状态或 class 不刷新。"
                 ),
                 location="template",
                 suggestion=(
-                    "将 s-for=\"task in tasks\" key=\"{{ task.id }}\" 改为 "
-                    "s-for=\"task in tasks trackby task.id\"，并删除独立 key 属性。"
+                    "将 s-for=\"task in tasks\" key=\"{{ task.id }}\" 或 "
+                    "s-for=\"task in tasks\" trackby=\"task.id\" 改为 "
+                    "s-for=\"task in tasks trackby task.id\"，并删除独立属性。"
                 ),
             ))
 
@@ -354,11 +416,16 @@ class ValidateStage:
     def _validate_script_rules(
         self,
         script: str,
+        ssm: dict[str, Any],
         issues: list[ValidationIssue],
         checks: list[ValidationCheck],
     ) -> None:
-        for pattern, code, suggestion in self.VUE_SCRIPT_PATTERNS:
+        patterns = (*self.VUE_SCRIPT_PATTERNS, *self.SAN_DATA_STORE_PATTERNS)
+        for pattern, code, suggestion in patterns:
             matches = re.findall(pattern, script)
+            if code == "vue_this_state":
+                state_fields = self._known_component_state_fields(script, ssm)
+                matches = [name for name in matches if name in state_fields]
             passed = not matches
             checks.append(ValidationCheck(
                 name=f"no_{code}",
@@ -382,7 +449,9 @@ class ValidateStage:
         issues: list[ValidationIssue],
         checks: list[ValidationCheck],
     ) -> None:
-        source_index_aliases = self._source_loop_index_aliases(stage_input.source_file)
+        source_index_aliases = self._source_loop_index_aliases(
+            stage_input.vue_file_path or stage_input.source_file
+        )
         state_fields = self._known_component_state_fields(script, ssm)
         findings: list[tuple[str, str]] = []
 
@@ -521,36 +590,49 @@ class ValidateStage:
     ) -> None:
         findings: dict[tuple[str, str], set[str]] = {}
 
-        for attribute_match in self.REACTIVE_PRESENTATION_ATTRIBUTE_PATTERN.finditer(template):
+        def inspect_expression(binding_name: str, expression: str) -> None:
+            for call_match in self.TEMPLATE_METHOD_CALL_PATTERN.finditer(expression):
+                method_name = call_match.group(1)
+                method_body = self._extract_function_body(script, method_name)
+                if not method_body:
+                    continue
+
+                reactive_reads = {
+                    match.group(2)
+                    for match in self.DATA_GET_PATTERN.finditer(method_body)
+                }
+                hidden_reads = {
+                    field
+                    for field in reactive_reads
+                    if not re.search(rf"\b{re.escape(field)}\b", expression)
+                }
+                if hidden_reads:
+                    findings.setdefault((binding_name, method_name), set()).update(hidden_reads)
+
+        for attribute_match in self.TEMPLATE_ATTRIBUTE_PATTERN.finditer(template):
             attribute_name = attribute_match.group(1).lower()
             attribute_value = attribute_match.group(3)
-            for interpolation_match in self.TEMPLATE_INTERPOLATION_PATTERN.finditer(attribute_value):
-                expression = interpolation_match.group(1) or interpolation_match.group(2) or ""
-                for call_match in self.TEMPLATE_METHOD_CALL_PATTERN.finditer(expression):
-                    method_name = call_match.group(1)
-                    method_body = self._extract_function_body(script, method_name)
-                    if not method_body:
-                        continue
+            expressions = {
+                interpolation.group(1) or interpolation.group(2) or ""
+                for interpolation in self.TEMPLATE_INTERPOLATION_PATTERN.finditer(attribute_value)
+            }
+            if attribute_name in self.REACTIVE_RENDER_DIRECTIVES:
+                expressions.add(attribute_value)
+            for expression in expressions:
+                inspect_expression(attribute_name, expression)
 
-                    reactive_reads = {
-                        match.group(2)
-                        for match in self.DATA_GET_PATTERN.finditer(method_body)
-                    }
-                    hidden_reads = {
-                        field
-                        for field in reactive_reads
-                        if not re.search(rf"\b{re.escape(field)}\b", expression)
-                    }
-                    if hidden_reads:
-                        findings.setdefault((attribute_name, method_name), set()).update(hidden_reads)
+        for text_match in re.finditer(r">([^<]+)<", template, re.DOTALL):
+            for interpolation in self.TEMPLATE_INTERPOLATION_PATTERN.finditer(text_match.group(1)):
+                expression = interpolation.group(1) or interpolation.group(2) or ""
+                inspect_expression("text", expression)
 
         checks.append(ValidationCheck(
             name="template_reactive_dependencies_visible",
             passed=not findings,
             message=(
-                "展示属性的方法调用没有隐藏 San 响应式字段依赖"
+                "模板渲染表达式的方法调用没有隐藏 San 响应式字段依赖"
                 if not findings
-                else f"检测到 {len(findings)} 个方法调用隐藏 San 响应式字段依赖"
+                else f"检测到 {len(findings)} 个模板渲染方法调用隐藏 San 响应式字段依赖"
             ),
         ))
 
@@ -559,7 +641,7 @@ class ValidateStage:
             issues.append(ValidationIssue(
                 code="hidden_template_reactive_dependency",
                 message=(
-                    f"模板 {attribute_name} 绑定调用 {method_name}(...)，但该方法内部隐藏读取响应式字段："
+                    f"模板 {attribute_name} 渲染表达式调用 {method_name}(...)，但该方法内部隐藏读取响应式字段："
                     f"{field_list}。这些字段变化时，San 可能不会重新计算该绑定。"
                 ),
                 location="template/script",
@@ -670,7 +752,8 @@ class ValidateStage:
         issues: list[ValidationIssue],
         checks: list[ValidationCheck],
     ) -> None:
-        source_path = Path(stage_input.source_file) if stage_input.source_file else None
+        source_name = stage_input.vue_file_path or stage_input.source_file
+        source_path = Path(source_name) if source_name else None
         if not source_path or not source_path.is_file():
             return
 
@@ -816,7 +899,8 @@ class ValidateStage:
     def _is_detached_copy_expression(self, expression: str) -> bool:
         return bool(re.search(
             r"\.(?:map|filter|slice|concat)\s*\(|\bArray\.from\s*\(|"
-            r"\bObject\.assign\s*\(\s*\{\s*\}|\[\s*\.\.\.",
+            r"\bObject\.assign\s*\(\s*\{\s*\}|\[[^\]\n]*\.\.\.|"
+            r"\{[^}\n]*\.\.\.",
             expression,
         ))
 
@@ -1271,6 +1355,16 @@ class ValidateStage:
 
             source_body = hook.get("body", "")
             target_body = self._extract_function_body(script, target_hook)
+            target_body_for_matching = target_body
+            for alias in re.findall(
+                r"\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*this\s*;",
+                target_body,
+            ):
+                target_body_for_matching = re.sub(
+                    rf"\b{re.escape(alias)}\.",
+                    "this.",
+                    target_body_for_matching,
+                )
             requirements = []
 
             for field_name in re.findall(
@@ -1279,7 +1373,7 @@ class ValidateStage:
             ):
                 landed = bool(re.search(
                     rf"(?:this\.setValue|this\.data\.set)\s*\(\s*['\"]{re.escape(field_name)}['\"]",
-                    target_body,
+                    target_body_for_matching,
                 ))
                 if not landed:
                     requirements.append(f"写入字段 {field_name}")
@@ -1289,7 +1383,7 @@ class ValidateStage:
                     continue
                 reads_or_writes = bool(re.search(
                     rf"this\.data\.(?:get|set)\s*\(\s*['\"]{re.escape(field_name)}['\"]",
-                    target_body,
+                    target_body_for_matching,
                 ))
                 if not reads_or_writes:
                     requirements.append(f"访问字段 {field_name}")
@@ -1299,12 +1393,15 @@ class ValidateStage:
                     continue
                 if method_name == "setValue":
                     continue
-                if not re.search(rf"\bthis\.{re.escape(method_name)}\s*\(", target_body):
+                if not re.search(
+                    rf"\bthis\.{re.escape(method_name)}\s*\(",
+                    target_body_for_matching,
+                ):
                     requirements.append(f"调用方法 {method_name}()")
 
             for side_effect in ("setTimeout", "setInterval", "clearTimeout", "clearInterval"):
                 if re.search(rf"\b{side_effect}\s*\(", source_body) and not re.search(
-                    rf"\b{side_effect}\s*\(", target_body
+                    rf"\b{side_effect}\s*\(", target_body_for_matching
                 ):
                     requirements.append(f"保留 {side_effect}()")
 

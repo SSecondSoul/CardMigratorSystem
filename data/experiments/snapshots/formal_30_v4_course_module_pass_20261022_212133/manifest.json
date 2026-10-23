@@ -1,0 +1,39 @@
+{
+  "snapshot_id": "formal_30_v4_course_module_pass_20261022_212133",
+  "created_at": "2026-10-22T21:23:10+08:00",
+  "purpose": "Immutable evidence for the passing CourseModuleAccordion rerun after validator source-path wiring was fixed.",
+  "batch_id": "formal_30_v4_targeted",
+  "sample_id": "course_module_accordion",
+  "parent_snapshot_id": "formal_30_v4_course_module_first_run_20261022_211130",
+  "baseline_commit": "df284a3",
+  "status": "frozen_targeted_pass",
+  "run_window": {
+    "started_at": "2026-10-22T21:20:35+08:00",
+    "finished_at": "2026-10-22T21:21:33+08:00"
+  },
+  "result": {
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 1,
+    "initial_validation_error_codes": [
+      "dom_child_order_mismatch",
+      "missing_prop_defaults"
+    ],
+    "initial_visual_error_codes": [
+      "dom_structure_similarity_low"
+    ],
+    "final_validation_error_codes": [],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 1.0,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "total_tokens": 38010
+  },
+  "notes": [
+    "The newly wired validator detected the header label child-order mismatch during initial validation.",
+    "One repair round restored checkbox-before-text order and prop defaults while preserving explicit reactive method arguments.",
+    "This is development-set remediation evidence and is not an independent holdout result."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

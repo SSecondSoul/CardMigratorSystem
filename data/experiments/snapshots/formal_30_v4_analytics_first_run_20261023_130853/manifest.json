@@ -1,0 +1,53 @@
+{
+  "snapshot_id": "formal_30_v4_analytics_first_run_20261023_130853",
+  "created_at": "2026-10-23T13:11:24+08:00",
+  "purpose": "Immutable evidence for the first AnalyticsDashboard v4 run after increasing the upstream LLM timeout.",
+  "batch_id": "formal_30_v4_targeted",
+  "sample_id": "analytics_dashboard",
+  "parent_snapshot_id": "formal_30_v3_results_20261022_200548",
+  "baseline_commit": "df284a3",
+  "status": "frozen_targeted_failure",
+  "run_window": {
+    "started_at": "2026-10-23T12:59:17+08:00",
+    "finished_at": "2026-10-23T13:08:53+08:00"
+  },
+  "result": {
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "initial_validation_error_codes": [
+      "missing_data_types",
+      "invalid_s_for_key_binding",
+      "vue_methods_wrapper",
+      "nested_state_mutation",
+      "missing_datatypes_for_props",
+      "missing_prop_defaults",
+      "event_arguments_not_landed",
+      "datatypes_type_mismatch"
+    ],
+    "initial_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "final_validation_error_codes": [
+      "invalid_s_for_key_binding",
+      "nested_state_mutation"
+    ],
+    "final_visual_error_codes": [
+      "dom_structure_similarity_low",
+      "dom_critical_attribute_mismatch"
+    ],
+    "final_structure_similarity": 0.8421,
+    "final_tag_sequence_similarity": 0.973,
+    "final_text_similarity": 0.9434,
+    "final_tree_edit_distance": 6.0,
+    "total_tokens": 291987
+  },
+  "notes": [
+    "The 240-second upstream timeout allowed generation to complete, resolving the v3 infrastructure blocker.",
+    "The generated migration still failed after three repair rounds; this is now a migration/evaluation remediation case rather than an execution error.",
+    "No artifact in this snapshot was manually edited before freezing.",
+    "This is development-set remediation evidence and is not an independent holdout result."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

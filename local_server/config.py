@@ -14,7 +14,7 @@ class Settings:
         "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
     )
     llm_model: str = os.getenv("LLM_MODEL", "qwen-plus")
-    llm_timeout: int = int(os.getenv("LLM_TIMEOUT", "120"))
+    llm_timeout: int = int(os.getenv("LLM_TIMEOUT", "240"))
 
 
 settings = Settings()

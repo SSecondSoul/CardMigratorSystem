@@ -1,9 +1,12 @@
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from local_server.api.evaluation_routes import _build_generation_prompt
 from migration_pipeline.orchestrator import MigrationPipelineOrchestrator
 from migration_pipeline.run_pipeline import compact_repair_history_entry
 from migration_pipeline.stages.generate import GenerateStageInput, GenerateStageResult
+from migration_pipeline.stages.repair import RepairStage, RepairStageInput
 from migration_pipeline.utils.repair_prompt import RepairPromptInput, build_repair_prompt
 
 
@@ -90,17 +93,117 @@ class NoChangeRepairStage:
         }
 
 
+class FailIfCalledRepairClient:
+    def repair(self, request_data):
+        raise AssertionError("LLM repair should not run for a deterministic correction")
+
+
 class RepairPromptAndLoopTests(unittest.TestCase):
+    def test_repair_normalizer_removes_redundant_loop_key_attributes(self):
+        code = '''<template>
+  <stat-card
+    s-for="stat in statistics trackby stat.id"
+    key="{{stat.id}}"
+    trackby="stat.id"
+    value="{{stat.value}}"
+  />
+</template>
+'''
+
+        normalized = RepairStage._normalize_redundant_s_for_attributes(code)
+
+        self.assertIn('s-for="stat in statistics trackby stat.id"', normalized)
+        self.assertNotIn('key="{{stat.id}}"', normalized)
+        self.assertNotIn('trackby="stat.id"', normalized)
+        self.assertIn('value="{{stat.value}}"', normalized)
+
+    def test_repair_normalizer_keeps_key_until_inline_trackby_exists(self):
+        code = '''<template>
+  <li s-for="item in items" key="{{item.id}}">{{item.name}}</li>
+</template>
+'''
+
+        normalized = RepairStage._normalize_redundant_s_for_attributes(code)
+
+        self.assertEqual(normalized, code)
+
+    def test_repair_normalizer_keeps_non_equivalent_loop_key(self):
+        code = '''<template>
+  <li
+    s-for="item in items trackby item.id"
+    key="{{item.version}}"
+  >{{item.name}}</li>
+</template>
+'''
+
+        normalized = RepairStage._normalize_redundant_s_for_attributes(code)
+
+        self.assertEqual(normalized, code)
+
+    def test_deterministic_repair_requires_single_static_error_and_clean_visual_eval(self):
+        code = '''<template>
+  <li s-for="item in items trackby item.id" key="{{item.id}}">{{item.name}}</li>
+</template>
+'''
+        invalid_loop_error = {"code": "invalid_s_for_key_binding"}
+
+        with_other_static_error = RepairStage._apply_deterministic_repairs(
+            code,
+            [invalid_loop_error, {"code": "missing_prop_defaults"}],
+            [],
+        )
+        with_visual_error = RepairStage._apply_deterministic_repairs(
+            code,
+            [invalid_loop_error],
+            [{"code": "dom_structure_similarity_low"}],
+        )
+
+        self.assertEqual(with_other_static_error, code)
+        self.assertEqual(with_visual_error, code)
+
+    def test_repair_stage_skips_llm_for_redundant_loop_key(self):
+        code = '''<template>
+  <stat-card s-for="stat in statistics trackby stat.id" key="{{stat.id}}" />
+</template>
+<script>module.exports = san.defineComponent({});</script>
+<style></style>
+'''
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "AnalyticsDashboard_repaired.san"
+            result = RepairStage(repair_client=FailIfCalledRepairClient()).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=code,
+                    output_file_path=str(output_path),
+                    validation_errors=[{"code": "invalid_s_for_key_binding"}],
+                )
+            )
+
+            self.assertEqual(result.provider, "deterministic")
+            self.assertEqual(result.model, "san_loop_binding_normalizer")
+            self.assertNotIn('key="{{stat.id}}"', result.repaired_code)
+            self.assertEqual(output_path.read_text(encoding="utf-8"), result.repaired_code)
+
     def test_generation_prompt_requires_one_way_derived_attributes(self):
         prompt = _build_generation_prompt({"metadata": {"component_name": "Example"}})
 
         self.assertIn('disabled="{{ expression }}"', prompt)
         self.assertIn('disabled="{= expression =}"', prompt)
-        self.assertIn("只允许可赋值的数据路径", prompt)
+        self.assertIn("只用于源 Vue v-model 对应的原生", prompt)
+        self.assertIn("普通自定义组件 props 必须使用 {{ ... }} 单向插值", prompt)
         self.assertIn('s-for="task in tasks trackby task.id"', prompt)
-        self.assertIn('s-for="phase, index in phases trackby phase.key"', prompt)
         self.assertIn("循环项和索引别名必须完整迁移", prompt)
-        self.assertIn("独立 key", prompt)
+        self.assertIn("禁止独立 key 属性", prompt)
+        self.assertIn('禁止写成独立 trackby="task.id" 属性', prompt)
+        self.assertIn('s-if="isOpen(module.id, openIds)"', prompt)
+        self.assertIn(
+            'visibleLessons(module.lessons, completedIds, unfinishedOnly)',
+            prompt,
+        )
+        self.assertIn('select 的 :disabled="previewMode"', prompt)
+        self.assertIn('!canConnect || previewMode', prompt)
+        self.assertIn("never destructure this.data", prompt)
+        self.assertIn("this.data.get('initialGroups')", prompt)
 
     def test_prompt_makes_computed_defaults_and_binding_direction_explicit(self):
         prompt = build_repair_prompt(RepairPromptInput(
@@ -137,9 +240,11 @@ class RepairPromptAndLoopTests(unittest.TestCase):
         self.assertIn('disabled=\"{{ expression }}\"', prompt)
         self.assertIn('disabled=\"{= expression =}\"', prompt)
         self.assertIn("computed values must be read with this.data.get", prompt)
-        self.assertIn("two-way binding only for assignable data paths", prompt)
+        self.assertIn("two-way binding only for native form assignable paths", prompt)
+        self.assertIn("普通自定义组件 props 必须保持单向", prompt)
         self.assertIn("插值必须完整闭合", prompt)
         self.assertIn("s-for 内联 trackby", prompt)
+        self.assertIn('trackby="task.id" 属性', prompt)
         self.assertIn('s-for="phase, index in phases trackby phase.key"', prompt)
         self.assertIn("模板中使用的 index/idx/$index 是否已在对应 s-for 中显式声明", prompt)
         self.assertIn('"data_initial_values_to_preserve"', prompt)
@@ -150,7 +255,15 @@ class RepairPromptAndLoopTests(unittest.TestCase):
         self.assertIn('rowClass(row, winnerId, leaderId)', prompt)
         self.assertIn('slotClass(device.id, hour, schedule)', prompt)
         self.assertIn('isSelected(row.id, selectedIds)', prompt)
-        self.assertIn("reactive values used by class/style/checked/selected/disabled", prompt)
+        self.assertIn('s-if=\"isOpen(module.id, openIds)\"', prompt)
+        self.assertIn(
+            'visibleLessons(module.lessons, completedIds, unfinishedOnly)',
+            prompt,
+        )
+        self.assertIn(
+            "reactive values used by class/style/checked/selected/disabled/s-if/s-for/text",
+            prompt,
+        )
         self.assertIn("禁止直接修改 this.data.get(...) 或 computed 返回的对象/数组", prompt)
         self.assertIn("selectedAsset.decision = value", prompt)
         self.assertIn("nodes.push(node)", prompt)
@@ -165,7 +278,13 @@ class RepairPromptAndLoopTests(unittest.TestCase):
         self.assertIn("必须保留 Vue template 的 DOM 子节点顺序", prompt)
         self.assertIn("input 或 checkbox 与相邻文字、百分号、按钮的先后关系", prompt)
         self.assertIn("DOM child order preserved exactly", prompt)
+        self.assertIn(
+            "critical value/checked/selected/disabled expressions remain attached to the same source element",
+            prompt,
+        )
         self.assertIn("every loop item/index alias referenced by a loop element is declared in s-for", prompt)
+        self.assertIn("never destructure this.data", prompt)
+        self.assertIn("this.data.get('initialGroups')", prompt)
 
     def test_loop_stops_after_two_identical_repair_outcomes(self):
         repair_stage = NoChangeRepairStage()

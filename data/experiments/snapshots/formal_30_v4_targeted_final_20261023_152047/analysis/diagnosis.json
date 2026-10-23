@@ -1,0 +1,572 @@
+{
+  "analysis_id": "formal_30_v4_planning_20261022",
+  "created_at": "2026-10-22T20:54:01+08:00",
+  "updated_at": "2026-10-23T15:25:11+08:00",
+  "source": {
+    "snapshot_id": "formal_30_v3_results_20261022_200548",
+    "snapshot_manifest_sha256": "8c809539a6dc4a66cf215240ec7a32e76fe5766fd79e001294173219057d6b6b",
+    "snapshot_verified_files": 234,
+    "summary_sha256": "1a0c672011fcfb71dfbd2cd79e6af10ef0c465c9801d4d71cd9c58fb5effd4ee",
+    "baseline_commit": "df284a3"
+  },
+  "summary": {
+    "v3_configured": 30,
+    "v3_automatic_passed": 18,
+    "completed_failures": 9,
+    "execution_errors": 3,
+    "targeted_samples": 7,
+    "targeted_migration_failures": 6,
+    "targeted_infrastructure_errors": 1
+  },
+  "targeted_v4_checkpoint": {
+    "configured": 7,
+    "completed": 7,
+    "passed": 7,
+    "failed": 0,
+    "execution_errors": 0,
+    "pending": 0,
+    "next_sample": null,
+    "next_action": "Freeze the complete v4 aggregate, then run deferred duplicate cases only as internal regression before using a separately untouched holdout for generalization claims.",
+    "latest_completed_sample": "analytics_dashboard",
+    "latest_snapshot": "data/experiments/snapshots/formal_30_v4_analytics_pass_20261023_152047",
+    "boundary": "Development-set remediation evidence; not an independent holdout result."
+  },
+  "analytics_dashboard_first_v4_run": {
+    "run_window": {
+      "started_at": "2026-10-23T12:59:17+08:00",
+      "finished_at": "2026-10-23T13:08:53+08:00"
+    },
+    "timeout_resolved": true,
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "recorded_structure_similarity": 0.8421,
+    "recorded_tree_edit_distance": 6.0,
+    "total_tokens": 291987,
+    "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_first_run_20261023_130853",
+    "post_fix_replay": {
+      "structure_similarity": 0.9934,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0,
+      "tree_edit_distance": 0.25,
+      "vue_node_count": 38,
+      "san_node_count": 38,
+      "remaining_validation_error_codes": [
+        "invalid_s_for_key_binding"
+      ]
+    },
+    "root_causes": [
+      "Vue mounted was omitted while San attached ran before DOM capture, creating a lifecycle-phase evaluator mismatch.",
+      "The nested-mutation validator did not recognize [event, ...history] as a detached array copy.",
+      "The generated San used standalone trackby and later standalone key attributes instead of an inline s-for trackby clause."
+    ]
+  },
+  "analytics_dashboard_second_v4_run": {
+    "run_window": {
+      "started_at": "2026-10-23T13:23:58+08:00",
+      "finished_at": "2026-10-23T13:33:24+08:00"
+    },
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "recorded_validation_error_codes": [
+      "vue_this_state",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation"
+    ],
+    "recorded_visual_error_codes": [
+      "dom_critical_attribute_mismatch"
+    ],
+    "recorded_structure_similarity": 0.9737,
+    "recorded_tag_sequence_similarity": 1.0,
+    "recorded_text_similarity": 1.0,
+    "recorded_tree_edit_distance": 1.0,
+    "total_tokens": 291244,
+    "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_second_run_20261023_133324",
+    "snapshot_verified_files": 8,
+    "post_fix_replay": {
+      "validation_error_codes": [
+        "invalid_component_prop_two_way_binding"
+      ],
+      "visual_passed": true,
+      "visual_error_codes": [],
+      "structure_similarity": 0.9573,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0,
+      "tree_edit_distance": 1.75,
+      "vue_node_count": 41,
+      "san_node_count": 41
+    },
+    "root_causes": [
+      "refreshInterval is a nonreactive instance timer handle, but vue_this_state previously treated every non-underscore this.field access as Vue reactive state.",
+      "The nested-mutation validator did not recognize {...dataCache} as a detached object copy before local property assignment.",
+      "The visual evaluator applied native value-attribute criticality to custom components.",
+      "Both lightweight renderers failed to expand self-closing custom-component loops.",
+      "The generated San used two-way {= ... =} bindings for ordinary custom-component props that originated from Vue :prop bindings."
+    ]
+  },
+  "analytics_dashboard_third_v4_run": {
+    "run_window": {
+      "started_at": "2026-10-23T13:56:30+08:00",
+      "finished_at": "2026-10-23T14:03:40+08:00"
+    },
+    "final_passed": false,
+    "stop_reason": "no_repair_progress",
+    "repair_rounds": 2,
+    "recorded_validation_error_codes": [
+      "invalid_s_for_key_binding"
+    ],
+    "recorded_visual_error_codes": [],
+    "recorded_structure_similarity": 1.0,
+    "recorded_tag_sequence_similarity": 1.0,
+    "recorded_text_similarity": 1.0,
+    "recorded_tree_edit_distance": 0.0,
+    "total_tokens": 213427,
+    "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_third_run_20261023_140340",
+    "snapshot_verified_files": 7,
+    "post_fix_replay": {
+      "removed_bytes": 24,
+      "validation_passed": true,
+      "validation_error_codes": [],
+      "visual_passed": true,
+      "visual_error_codes": [],
+      "structure_similarity": 1.0,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0,
+      "tree_edit_distance": 0.0,
+      "vue_node_count": 41,
+      "san_node_count": 41
+    },
+    "root_causes": [
+      "The generated initial San already had a correct inline s-for trackby clause but also retained redundant key={{stat.id}}.",
+      "Both model repair rounds returned the same redundant key attribute, causing no_repair_progress even though the requested edit was deterministic.",
+      "Prompt guidance and validator detection were already correct; the missing layer was a narrow deterministic normalization at the RepairStage boundary, guarded by a sole-static-error check, a clean visual evaluation, and exact binding-expression equivalence."
+    ]
+  },
+  "analytics_dashboard_fourth_v4_run": {
+    "run_window": {
+      "started_at": "2026-10-23T15:13:31+08:00",
+      "finished_at": "2026-10-23T15:20:47+08:00"
+    },
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 2,
+    "initial_validation_error_codes": [
+      "missing_data_types",
+      "invalid_s_for_key_binding",
+      "vue_methods_wrapper",
+      "event_arguments_not_landed"
+    ],
+    "initial_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "final_validation_error_codes": [],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 1.0,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "generation_tokens": 62744,
+    "repair_tokens": 151104,
+    "total_tokens": 213848,
+    "repair_provenance": [
+      {
+        "attempt": 1,
+        "provider": "qwen",
+        "model": "qwen-plus",
+        "total_tokens": 75685,
+        "remaining_validation_error_codes": [
+          "missing_prop_defaults"
+        ]
+      },
+      {
+        "attempt": 2,
+        "provider": "qwen",
+        "model": "qwen-plus",
+        "total_tokens": 75419,
+        "remaining_validation_error_codes": []
+      }
+    ],
+    "deterministic_repair_triggered": false,
+    "deterministic_repair_interpretation": "The strict guard correctly remained inactive because the initial result contained multiple static and visual errors. The first Qwen repair resolved the loop-key error; the second resolved missing_prop_defaults.",
+    "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_pass_20261023_152047",
+    "snapshot_verified_files": 7
+  },
+  "taxonomy": {
+    "final_validation_error_sample_counts": {
+      "hidden_template_reactive_dependency": 2,
+      "vue_this_state": 1,
+      "missing_prop_defaults": 1,
+      "invalid_s_for_key_binding": 2
+    },
+    "final_visual_error_sample_counts": {
+      "dom_structure_similarity_low": 6,
+      "dom_critical_attribute_mismatch": 5
+    },
+    "stop_reason_sample_counts": {
+      "max_repair_rounds_reached": 7,
+      "no_repair_progress": 2
+    },
+    "observations": [
+      "All nine completed failures retain at least one final DOM comparison error.",
+      "Six completed failures also retain a static semantic validation error.",
+      "The three generation timeouts are infrastructure errors and must not be classified as migration-quality failures."
+    ]
+  },
+  "all_terminal_nonpasses": [
+    {
+      "id": "habit_week_tracker",
+      "component_name": "HabitWeekTracker",
+      "complexity": "medium",
+      "status": "completed",
+      "stop_reason": "max_repair_rounds_reached",
+      "repair_rounds": 3,
+      "final_validation_errors": [],
+      "final_visual_errors": [
+        "dom_structure_similarity_low"
+      ],
+      "error_type": null,
+      "error_message": null,
+      "total_tokens": 90924
+    },
+    {
+      "id": "playback_queue",
+      "component_name": "PlaybackQueue",
+      "complexity": "medium",
+      "status": "completed",
+      "stop_reason": "max_repair_rounds_reached",
+      "repair_rounds": 3,
+      "final_validation_errors": [],
+      "final_visual_errors": [
+        "dom_critical_attribute_mismatch"
+      ],
+      "error_type": null,
+      "error_message": null,
+      "total_tokens": 83640
+    },
+    {
+      "id": "course_module_accordion",
+      "component_name": "CourseModuleAccordion",
+      "complexity": "medium",
+      "status": "completed",
+      "stop_reason": "max_repair_rounds_reached",
+      "repair_rounds": 3,
+      "final_validation_errors": [
+        "hidden_template_reactive_dependency"
+      ],
+      "final_visual_errors": [
+        "dom_structure_similarity_low"
+      ],
+      "error_type": null,
+      "error_message": null,
+      "total_tokens": 80186
+    },
+    {
+      "id": "analytics_dashboard",
+      "component_name": "AnalyticsDashboard",
+      "complexity": "complex",
+      "status": "error",
+      "stop_reason": null,
+      "repair_rounds": null,
+      "final_validation_errors": [],
+      "final_visual_errors": [],
+      "error_type": "RuntimeError",
+      "error_message": "Generation request failed: HTTP 400 {\"error\":\"The read operation timed out\",\"ok\":false}",
+      "total_tokens": null
+    },
+    {
+      "id": "incident_response_board",
+      "component_name": "IncidentResponseBoard",
+      "complexity": "complex",
+      "status": "completed",
+      "stop_reason": "no_repair_progress",
+      "repair_rounds": 2,
+      "final_validation_errors": [
+        "vue_this_state"
+      ],
+      "final_visual_errors": [
+        "dom_critical_attribute_mismatch"
+      ],
+      "error_type": null,
+      "error_message": null,
+      "total_tokens": 115050
+    },
+    {
+      "id": "TaskManager",
+      "component_name": "TaskManager",
+      "complexity": "complex",
+      "status": "error",
+      "stop_reason": null,
+      "repair_rounds": null,
+      "final_validation_errors": [],
+      "final_visual_errors": [],
+      "error_type": "RuntimeError",
+      "error_message": "Generation request failed: HTTP 400 {\"error\":\"The read operation timed out\",\"ok\":false}",
+      "total_tokens": null
+    },
+    {
+      "id": "MonitoringDashboard",
+      "component_name": "MonitoringDashboard",
+      "complexity": "complex",
+      "status": "error",
+      "stop_reason": null,
+      "repair_rounds": null,
+      "final_validation_errors": [],
+      "final_visual_errors": [],
+      "error_type": "RuntimeError",
+      "error_message": "Generation request failed: HTTP 400 {\"error\":\"The read operation timed out\",\"ok\":false}",
+      "total_tokens": null
+    },
+    {
+      "id": "rule_builder",
+      "component_name": "RuleBuilder",
+      "complexity": "complex",
+      "status": "completed",
+      "stop_reason": "max_repair_rounds_reached",
+      "repair_rounds": 3,
+      "final_validation_errors": [
+        "missing_prop_defaults"
+      ],
+      "final_visual_errors": [
+        "dom_critical_attribute_mismatch",
+        "dom_structure_similarity_low"
+      ],
+      "error_type": null,
+      "error_message": null,
+      "total_tokens": 231468
+    },
+    {
+      "id": "access_matrix",
+      "component_name": "AccessMatrix",
+      "complexity": "complex",
+      "status": "completed",
+      "stop_reason": "max_repair_rounds_reached",
+      "repair_rounds": 3,
+      "final_validation_errors": [],
+      "final_visual_errors": [
+        "dom_structure_similarity_low"
+      ],
+      "error_type": null,
+      "error_message": null,
+      "total_tokens": 219569
+    },
+    {
+      "id": "localization_workspace",
+      "component_name": "LocalizationWorkspace",
+      "complexity": "complex",
+      "status": "completed",
+      "stop_reason": "max_repair_rounds_reached",
+      "repair_rounds": 3,
+      "final_validation_errors": [
+        "invalid_s_for_key_binding"
+      ],
+      "final_visual_errors": [
+        "dom_structure_similarity_low"
+      ],
+      "error_type": null,
+      "error_message": null,
+      "total_tokens": 181001
+    },
+    {
+      "id": "trip_itinerary_planner",
+      "component_name": "TripItineraryPlanner",
+      "complexity": "complex",
+      "status": "completed",
+      "stop_reason": "max_repair_rounds_reached",
+      "repair_rounds": 3,
+      "final_validation_errors": [
+        "hidden_template_reactive_dependency"
+      ],
+      "final_visual_errors": [
+        "dom_critical_attribute_mismatch",
+        "dom_structure_similarity_low"
+      ],
+      "error_type": null,
+      "error_message": null,
+      "total_tokens": 176697
+    },
+    {
+      "id": "schema_mapping_workbench",
+      "component_name": "SchemaMappingWorkbench",
+      "complexity": "complex",
+      "status": "completed",
+      "stop_reason": "no_repair_progress",
+      "repair_rounds": 2,
+      "final_validation_errors": [
+        "invalid_s_for_key_binding"
+      ],
+      "final_visual_errors": [
+        "dom_critical_attribute_mismatch"
+      ],
+      "error_type": null,
+      "error_message": null,
+      "total_tokens": 120297
+    }
+  ],
+  "targeted_selection": [
+    {
+      "id": "course_module_accordion",
+      "component_name": "CourseModuleAccordion",
+      "complexity": "medium",
+      "selection_role": "semantic_reactivity_representative",
+      "target_defects": [
+        "hidden_template_reactive_dependency",
+        "dom_structure_similarity_low"
+      ],
+      "rationale": "Covers hidden template dependencies plus structural drift."
+    },
+    {
+      "id": "schema_mapping_workbench",
+      "component_name": "SchemaMappingWorkbench",
+      "complexity": "complex",
+      "selection_role": "loop_key_and_no_progress_representative",
+      "target_defects": [
+        "invalid_s_for_key_binding",
+        "dom_critical_attribute_mismatch",
+        "no_repair_progress"
+      ],
+      "rationale": "Covers invalid San loop-key placement and a repeated no-progress stop."
+    },
+    {
+      "id": "incident_response_board",
+      "component_name": "IncidentResponseBoard",
+      "complexity": "complex",
+      "selection_role": "state_access_and_no_progress_representative",
+      "target_defects": [
+        "vue_this_state",
+        "dom_critical_attribute_mismatch",
+        "no_repair_progress"
+      ],
+      "rationale": "Covers residual Vue-style state access and a repeated no-progress stop."
+    },
+    {
+      "id": "rule_builder",
+      "component_name": "RuleBuilder",
+      "complexity": "complex",
+      "selection_role": "prop_default_representative",
+      "target_defects": [
+        "missing_prop_defaults",
+        "dom_structure_similarity_low",
+        "dom_critical_attribute_mismatch"
+      ],
+      "rationale": "Covers the remaining prop-default failure and combined DOM drift."
+    },
+    {
+      "id": "habit_week_tracker",
+      "component_name": "HabitWeekTracker",
+      "complexity": "medium",
+      "selection_role": "structure_only_representative",
+      "target_defects": [
+        "dom_structure_similarity_low"
+      ],
+      "rationale": "Isolates a final structural mismatch with no final static-validation error."
+    },
+    {
+      "id": "playback_queue",
+      "component_name": "PlaybackQueue",
+      "complexity": "medium",
+      "selection_role": "critical_attribute_only_representative",
+      "target_defects": [
+        "dom_critical_attribute_mismatch"
+      ],
+      "rationale": "Isolates a critical-attribute mismatch with no final static-validation error."
+    },
+    {
+      "id": "analytics_dashboard",
+      "component_name": "AnalyticsDashboard",
+      "complexity": "complex",
+      "selection_role": "infrastructure_timeout_representative",
+      "target_defects": [
+        "generation_timeout"
+      ],
+      "rationale": "Represents the three reproducible generation timeouts; it is not a migration-quality failure."
+    }
+  ],
+  "deferred_duplicate_regression_ids": [
+    "access_matrix",
+    "localization_workspace",
+    "trip_itinerary_planner",
+    "TaskManager",
+    "MonitoringDashboard"
+  ],
+  "post_diagnosis_corrections": [
+    {
+      "sample_id": "schema_mapping_workbench",
+      "observed_code": "invalid_s_for_key_binding",
+      "corrected_classification": "validator_false_positive",
+      "reason": "The validator's raw key= regex matched sourceKey === and targetKey === inside class expressions; every actual s-for already used inline trackby."
+    },
+    {
+      "sample_id": "incident_response_board",
+      "observed_code": "vue_this_state",
+      "corrected_classification": "validator_false_positive",
+      "reason": "All four matches were legal private timer accesses to this._timer, not Vue reactive-state access."
+    },
+    {
+      "sample_id": "incident_response_board",
+      "observed_code": "dom_critical_attribute_mismatch",
+      "corrected_classification": "renderer_false_positive",
+      "reason": "Both lightweight renderers failed to expand unparenthesized two-alias loops, causing item.done to be evaluated outside loop scope."
+    },
+    {
+      "sample_id": "incident_response_board",
+      "observed_code": "lifecycle_behavior_not_landed",
+      "observed_in": "formal_30_v4_targeted_first_run",
+      "corrected_classification": "validator_false_negative",
+      "reason": "The final San retained the attached timer and elapsed state access through const self = this; lifecycle behavior matching only recognized direct this.data.get/set calls."
+    },
+    {
+      "sample_id": "rule_builder",
+      "observed_code": "missing_prop_defaults_and_dom_structure_similarity_low",
+      "corrected_classification": "confirmed_migration_error_with_missing_validator_signal",
+      "reason": "The final San omitted prop defaults and destructured this.data as a plain object, making initialGroups undefined and collapsing groups to an empty array. The validator previously reported only missing_prop_defaults; invalid_san_data_destructuring now identifies the direct runtime cause."
+    },
+    {
+      "sample_id": "habit_week_tracker",
+      "observed_code": "dom_structure_similarity_low",
+      "corrected_classification": "renderer_false_positive",
+      "reason": "The old Vue and San lightweight renderers failed to expand the valid unparenthesized two-alias loop day, index in dayLabels. The unchanged frozen final San now compares at 47 nodes on both sides, all similarities 1.0, and zero tree-edit distance."
+    },
+    {
+      "sample_id": "playback_queue",
+      "observed_code": "dom_critical_attribute_mismatch",
+      "corrected_classification": "renderer_false_positive",
+      "reason": "The old lightweight renderers failed to expand track, index in queue, causing index === 0 to be evaluated outside loop scope. The unchanged frozen final San now compares at 23 nodes on both sides, all similarities 1.0, and zero tree-edit distance."
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "observed_code": "generation_timeout",
+      "corrected_classification": "infrastructure_timeout",
+      "reason": "The sample failed twice at approximately 120 seconds because local_server's upstream LLM timeout was 120 seconds while the outer migration client allowed 300 seconds. For v4 only, the inner default is now 240 seconds, retaining 60 seconds of outer-client headroom; no migration-quality conclusion is drawn until generation completes."
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "observed_code": "second_v4_vue_this_state_and_nested_state_mutation",
+      "corrected_classification": "validator_false_positives",
+      "reason": "refreshInterval is a nonreactive timer handle, and newDataCache is detached by object spread before mutation. Replaying the frozen artifact after correction removes all four findings."
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "observed_code": "second_v4_dom_critical_attribute_mismatch",
+      "corrected_classification": "evaluator_false_positive_masking_confirmed_binding_direction_error",
+      "reason": "Custom-component value props are not native form critical attributes. After scoping that comparison and expanding self-closing component loops, visual evaluation passes, while static validation precisely reports invalid_component_prop_two_way_binding for the real {= ... =} direction error."
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "observed_code": "third_v4_invalid_s_for_key_binding_and_no_repair_progress",
+      "corrected_classification": "confirmed_redundant_attribute_migration_error_with_repair_loop_limitation",
+      "reason": "The initial and both repaired files retained key={{stat.id}} beside an already-correct inline s-for trackby clause. RepairStage skips the LLM only when this is the sole static error, visual evaluation is clean, and the standalone and inline expressions are equivalent. Strict-guard replay of the frozen final artifact passes static and visual evaluation exactly."
+    }
+  ],
+  "remediation_sequence": [
+    "Inspect frozen final artifacts and repair histories for the seven selected representatives.",
+    "Add one focused failing regression per confirmed root cause before changing production logic.",
+    "Apply minimal fixes to the responsible extractor, schema, validator, evaluator, Prompt, or timeout layer.",
+    "Run the existing regression suite and the formal_30_v4_targeted dry-run.",
+    "Execute selected samples incrementally and preserve checkpoint history.",
+    "Run deferred duplicate cases as internal regression after the representative fixes stabilize.",
+    "Use another untouched holdout for any later generalization claim."
+  ]
+}

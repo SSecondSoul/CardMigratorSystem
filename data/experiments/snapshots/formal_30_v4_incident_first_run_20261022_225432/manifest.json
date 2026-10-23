@@ -1,0 +1,44 @@
+{
+  "snapshot_id": "formal_30_v4_incident_first_run_20261022_225432",
+  "created_at": "2026-10-22T23:00:39+08:00",
+  "purpose": "Immutable evidence for the first IncidentResponseBoard v4 run before correcting lifecycle alias recognition in the validator.",
+  "batch_id": "formal_30_v4_targeted",
+  "sample_id": "incident_response_board",
+  "parent_snapshot_id": "formal_30_v3_results_20261022_200548",
+  "baseline_commit": "df284a3",
+  "status": "frozen_targeted_evaluator_false_negative",
+  "run_window": {
+    "started_at": "2026-10-22T22:50:53+08:00",
+    "finished_at": "2026-10-22T22:54:32+08:00"
+  },
+  "result": {
+    "final_passed": false,
+    "stop_reason": "no_repair_progress",
+    "repair_rounds": 3,
+    "initial_validation_error_codes": [
+      "invalid_dynamic_attribute_binding",
+      "dom_child_order_mismatch",
+      "missing_prop_defaults",
+      "lifecycle_behavior_not_landed"
+    ],
+    "initial_visual_error_codes": [
+      "dom_structure_similarity_low"
+    ],
+    "final_validation_error_codes": [
+      "lifecycle_behavior_not_landed"
+    ],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 1.0,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "total_tokens": 153688
+  },
+  "notes": [
+    "The final San preserves the mounted timer in attached() and reads/writes elapsed through a local const self = this alias.",
+    "The lifecycle validator only recognized direct this.data.get/set calls, so the remaining lifecycle_behavior_not_landed error is an evaluator false negative.",
+    "The final Vue and San DOM snapshots both contain 49 nodes and compare at zero tree-edit distance.",
+    "This is development-set remediation evidence and is not an independent holdout result."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

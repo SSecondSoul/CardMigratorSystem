@@ -1,0 +1,144 @@
+{
+  "batch_id": "formal_30_v4_targeted",
+  "config_sha256": "8492b0cde441f2daeae713597c8244f2b2a8537874a6d370fed2a24a924ed37f",
+  "started_at": "2026-10-22T21:09:31+08:00",
+  "updated_at": "2026-10-22T21:11:30+08:00",
+  "samples": [
+    {
+      "id": "course_module_accordion",
+      "component_name": "CourseModuleAccordion",
+      "complexity": "medium",
+      "coverage_focus": [
+        "migration.attribute_binding_conversion",
+        "migration.data_access_conversion",
+        "migration.event_name_conversion",
+        "migration.props_to_data_types",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "styles.has_dynamic_class",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "vue_file": "data/datasets/components/02_medium/CourseModuleAccordion/vue/CourseModuleAccordion.vue",
+      "output_file": "data/experiments/pipeline/batches/formal_30_v4_targeted/medium/CourseModuleAccordion.san",
+      "report_file": "data/experiments/repair_reports/batches/formal_30_v4_targeted/medium/CourseModuleAccordion_repair_history.json",
+      "final_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_targeted\\medium\\CourseModuleAccordion_repaired_repaired_repaired.san",
+      "status": "completed",
+      "started_at": "2026-10-22T21:09:31+08:00",
+      "finished_at": "2026-10-22T21:11:30+08:00",
+      "elapsed_seconds": 119.156,
+      "final_passed": false,
+      "stop_reason": "max_repair_rounds_reached",
+      "repair_rounds": 3,
+      "max_repair_rounds": 3,
+      "initial_validation_passed": false,
+      "initial_validation_error_codes": [
+        "missing_prop_defaults"
+      ],
+      "initial_validation_warning_codes": [
+        "migration_hints_not_landed"
+      ],
+      "initial_visual_eval_passed": false,
+      "initial_visual_error_codes": [
+        "dom_structure_similarity_low"
+      ],
+      "initial_visual_warning_codes": [
+        "dom_text_similarity_low"
+      ],
+      "initial_structure_similarity": 0.0,
+      "final_validation_passed": true,
+      "final_validation_error_codes": [],
+      "final_visual_eval_passed": false,
+      "final_visual_error_codes": [
+        "dom_structure_similarity_low"
+      ],
+      "final_structure_similarity": 0.8889,
+      "final_tag_sequence_similarity": 1.0,
+      "final_text_similarity": 1.0,
+      "final_tree_edit_distance": 2.0,
+      "interaction_eval_passed": null,
+      "interaction_eval_reason": "",
+      "generation_provider": "qwen",
+      "generation_model": "qwen-plus",
+      "generation_tokens": 16533,
+      "repair_tokens": 63683,
+      "total_tokens": 80216
+    }
+  ],
+  "aggregate": {
+    "configured": 7,
+    "completed": 1,
+    "passed": 0,
+    "failed": 1,
+    "execution_errors": 0,
+    "pending": 6,
+    "pass_rate_completed": 0.0,
+    "initial_passed": 0,
+    "initial_pass_rate_completed": 0.0,
+    "repaired_to_pass": 0,
+    "repair_rounds_total": 3,
+    "repair_rounds_average": 3.0,
+    "generation_tokens": 16533,
+    "repair_tokens": 63683,
+    "total_tokens": 80216,
+    "stop_reason_counts": {
+      "max_repair_rounds_reached": 1
+    },
+    "error_code_counts": {
+      "initial_validation": {
+        "missing_prop_defaults": 1
+      },
+      "initial_visual": {
+        "dom_structure_similarity_low": 1
+      },
+      "final_validation": {},
+      "final_visual": {
+        "dom_structure_similarity_low": 1
+      }
+    },
+    "by_complexity": {
+      "simple": {
+        "configured": 0,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "medium": {
+        "configured": 3,
+        "completed": 1,
+        "passed": 0,
+        "failed": 1,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.0
+      },
+      "complex": {
+        "configured": 4,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      }
+    }
+  },
+  "description": "Development-only targeted remediation of representative formal_30_v3 failures; not an independent evaluation.",
+  "config_file": "migration_pipeline/batch_configs/formal_30_v4_targeted.json",
+  "max_repair_rounds": 3,
+  "output_dir": "data/experiments/pipeline/batches/formal_30_v4_targeted",
+  "report_dir": "data/experiments/repair_reports/batches/formal_30_v4_targeted",
+  "summary_file": "data/experiments/batch_reports/formal_30_v4_targeted_summary.json",
+  "local_server": {
+    "model": "qwen-plus",
+    "ok": true,
+    "provider": "qwen",
+    "service": "local_server"
+  }
+}

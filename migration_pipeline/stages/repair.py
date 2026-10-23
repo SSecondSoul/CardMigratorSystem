@@ -90,6 +90,15 @@ class RepairStageResult:
 
 
 class RepairStage:
+    OPENING_TAG_PATTERN = re.compile(
+        r"<[A-Za-z][A-Za-z0-9:_-]*(?:\s+(?:\"[^\"]*\"|'[^']*'|[^'\">])*)?\s*/?>",
+        re.DOTALL,
+    )
+    ATTRIBUTE_PATTERN = re.compile(
+        r"\s+([A-Za-z_:][\w:.-]*)\s*=\s*([\"'])(.*?)\2",
+        re.DOTALL,
+    )
+
     def __init__(self, repair_client=None):
         self.repair_client = repair_client or create_repair_client()
 
@@ -106,6 +115,30 @@ class RepairStage:
             dom_compare_result=stage_input.dom_compare_result,
             extra_instruction=stage_input.repair_instruction,
         ))
+        deterministic_code = self._apply_deterministic_repairs(
+            current_code,
+            stage_input.validation_errors,
+            stage_input.visual_eval_errors,
+        )
+        if deterministic_code != current_code:
+            output_path = stage_input.resolve_output_file_path() or ""
+            self._ensure_repaired_file(output_path, deterministic_code)
+            return RepairStageResult(
+                repaired_code=deterministic_code,
+                repaired_file_path=output_path,
+                repair_prompt=repair_prompt,
+                repair_attempt=stage_input.repair_attempt,
+                source_file=stage_input.source_file,
+                provider="deterministic",
+                model="san_loop_binding_normalizer",
+                usage={"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
+                raw_response={
+                    "normalization": "removed_redundant_s_for_key_or_trackby_attribute"
+                },
+                repair_summary=(
+                    f"Deterministic loop-binding normalization completed: {output_path}"
+                ),
+            )
         request_data = RepairRequest(
             ssm=stage_input.ssm,
             repair_prompt=repair_prompt,
@@ -121,6 +154,11 @@ class RepairStage:
         )
         result = self.repair_client.repair(request_data)
         result.code = self._strip_code_fences(result.code)
+        if any(
+            issue.get("code") == "invalid_s_for_key_binding"
+            for issue in stage_input.validation_errors
+        ):
+            result.code = self._normalize_redundant_s_for_attributes(result.code)
         self._ensure_repaired_file(result.saved_file_path, result.code)
         return RepairStageResult.from_repair_result(
             result=result,
@@ -164,6 +202,67 @@ class RepairStage:
         if fence_match:
             return fence_match.group(1).strip() + "\n"
         return text + ("\n" if text else "")
+
+    @classmethod
+    def _normalize_redundant_s_for_attributes(cls, code: str) -> str:
+        def normalize_tag(match: re.Match[str]) -> str:
+            tag = match.group(0)
+            attributes = list(cls.ATTRIBUTE_PATTERN.finditer(tag))
+            s_for = next(
+                (item for item in attributes if item.group(1).lower() == "s-for"),
+                None,
+            )
+            if not s_for:
+                return tag
+
+            inline_trackby = re.search(r"\btrackby\s+(.+?)\s*$", s_for.group(3))
+            if not inline_trackby:
+                return tag
+            inline_expression = cls._normalize_binding_expression(inline_trackby.group(1))
+
+            redundant = [
+                item
+                for item in attributes
+                if item.group(1).lower() in {"key", "trackby"}
+            ]
+            if not redundant:
+                return tag
+            if any(
+                cls._normalize_binding_expression(item.group(3)) != inline_expression
+                for item in redundant
+            ):
+                return tag
+
+            chunks: list[str] = []
+            cursor = 0
+            for item in redundant:
+                chunks.append(tag[cursor:item.start()])
+                cursor = item.end()
+            chunks.append(tag[cursor:])
+            return "".join(chunks)
+
+        return cls.OPENING_TAG_PATTERN.sub(normalize_tag, code)
+
+    @staticmethod
+    def _normalize_binding_expression(value: str) -> str:
+        expression = value.strip()
+        if expression.startswith("{{") and expression.endswith("}}"):
+            expression = expression[2:-2].strip()
+        elif expression.startswith("{=") and expression.endswith("=}"):
+            expression = expression[2:-2].strip()
+        return expression
+
+    @classmethod
+    def _apply_deterministic_repairs(
+        cls,
+        code: str,
+        validation_errors: list[dict[str, Any]],
+        visual_eval_errors: list[dict[str, Any]],
+    ) -> str:
+        error_codes = {issue.get("code") for issue in validation_errors}
+        if error_codes == {"invalid_s_for_key_binding"} and not visual_eval_errors:
+            return cls._normalize_redundant_s_for_attributes(code)
+        return code
 
     def _ensure_repaired_file(self, repaired_file_path: str, repaired_code: str) -> None:
         if not repaired_file_path:

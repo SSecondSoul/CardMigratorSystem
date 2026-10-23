@@ -378,6 +378,21 @@ function renderForBlocks(html, data) {
   const opening = openingPattern.exec(html);
   if (!opening) return html;
   const tag = opening[1];
+  const directive = opening[3].trim();
+  const match = directive.match(/^\s*(?:\(([\w$]+)\s*,\s*([\w$]+)\)|([\w$]+)\s*,\s*([\w$]+)|([\w$]+))\s+in\s+(.+)$/);
+  if (!match) return html;
+  const itemName = match[1] || match[3] || match[5];
+  const indexName = match[2] || match[4] || 'index';
+  const list = evaluateExpression(match[6], data);
+  const attrs = `${opening[2]}${opening[4]}`;
+  if (/\/\s*>$/.test(opening[0])) {
+    const replacement = Array.isArray(list) ? list.map(function (item, index) {
+      const scopedData = Object.assign({}, data, { [itemName]: item, [indexName]: index });
+      return renderTemplate(`<${tag}${attrs}/>`, scopedData);
+    }).join('') : '';
+    const replaced = html.slice(0, opening.index) + replacement + html.slice(opening.index + opening[0].length);
+    return renderForBlocks(replaced, data);
+  }
   const tokenPattern = new RegExp(`<\\/?${tag}\\b[^>]*>`, 'gi');
   tokenPattern.lastIndex = opening.index + opening[0].length;
   let depth = 1;
@@ -389,14 +404,7 @@ function renderForBlocks(html, data) {
     if (depth === 0) { closing = token; break; }
   }
   if (!closing) return html;
-  const directive = opening[3].trim();
-  const match = directive.match(/^\s*(?:\((\w+)\s*,\s*(\w+)\)|(\w+))\s+in\s+(.+)$/);
-  if (!match) return html;
-  const itemName = match[1] || match[3];
-  const indexName = match[2] || 'index';
-  const list = evaluateExpression(match[4], data);
   const inner = html.slice(opening.index + opening[0].length, closing.index);
-  const attrs = `${opening[2]}${opening[4]}`;
   const replacement = Array.isArray(list) ? list.map(function (item, index) {
     const scopedData = Object.assign({}, data, { [itemName]: item, [indexName]: index });
     return renderTemplate(`<${tag}${attrs}>${inner}</${tag}>`, scopedData);
@@ -590,6 +598,10 @@ try {
     applyComputed(data, component);
   }
   exposeTemplateMethods(data, component);
+  if (component && typeof component.mounted === 'function') {
+    component.mounted.call(createVueContext(data, component));
+    applyComputed(data, component);
+  }
   const renderedTemplate = template ? renderTemplate(template, data) : '';
   const htmlSnapshot = [renderedTemplate, style ? `<style>${style}</style>` : ''].filter(Boolean).join('\n');
   const domSnapshot = buildDomSnapshot(renderedTemplate);

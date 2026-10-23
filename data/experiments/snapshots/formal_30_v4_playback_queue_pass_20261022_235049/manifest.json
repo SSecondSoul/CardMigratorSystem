@@ -1,0 +1,37 @@
+{
+  "snapshot_id": "formal_30_v4_playback_queue_pass_20261022_235049",
+  "created_at": "2026-10-22T23:51:45+08:00",
+  "purpose": "Immutable evidence for the passing PlaybackQueue v4 run after correction of the unparenthesized loop-renderer false positive.",
+  "batch_id": "formal_30_v4_targeted",
+  "sample_id": "playback_queue",
+  "parent_snapshot_id": "formal_30_v3_results_20261022_200548",
+  "baseline_commit": "df284a3",
+  "status": "frozen_targeted_pass",
+  "run_window": {
+    "started_at": "2026-10-22T23:49:47+08:00",
+    "finished_at": "2026-10-22T23:50:49+08:00"
+  },
+  "result": {
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 1,
+    "initial_validation_error_codes": [
+      "missing_prop_defaults"
+    ],
+    "initial_visual_error_codes": [],
+    "final_validation_error_codes": [],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 1.0,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "total_tokens": 38891
+  },
+  "notes": [
+    "The corrected renderer expands the unparenthesized track, index in queue loop and evaluates disabled expressions in loop scope.",
+    "The initial generation already passed visual evaluation; one repair round supplied the missing prop defaults.",
+    "The final result has exact structural, tag, and text similarity under the lightweight evaluator.",
+    "This is development-set remediation evidence and is not an independent holdout result."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

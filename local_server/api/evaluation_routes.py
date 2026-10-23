@@ -14,7 +14,9 @@ from local_server.config import settings
 evaluation_bp = Blueprint("evaluation", __name__, url_prefix="/api/evaluation")
 
 
-def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -> str:
+# Retained to make the v3-to-v4 prompt change auditable; production calls use
+# the UTF-8 implementation below.
+def _build_generation_prompt_v3_legacy(ssm: dict[str, Any], extra_instruction: str = "") -> str:
     ssm_json = json.dumps(ssm, ensure_ascii=False, indent=2)
     return (
         "请仅基于给定 SSM 生成可运行、可直接落盘的 San 单文件组件代码。\n"
@@ -30,6 +32,35 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
         "9. 若 SSM 信息不足，可做最小必要假设，但不要编造未出现的复杂业务逻辑。\n"
         "10. 除代码外不要输出解释、标题或 Markdown 代码围栏。\n\n"
         f"补充要求：{extra_instruction or '保持输出风格尽量贴近项目内已有 san 组件：完整 SFC、显式 DataTypes、保留样式、代码可直接保存为 .san 文件。'}\n\n"
+        "--- SSM ---\n"
+        f"{ssm_json}"
+    )
+
+
+def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -> str:
+    ssm_json = json.dumps(ssm, ensure_ascii=False, indent=2)
+    data_access_rule = (
+        "San data access rule: never destructure this.data or treat it as a plain object. "
+        "Read fields separately, for example const initialGroups = "
+        "this.data.get('initialGroups'), then write state with this.data.set(...).\n"
+    )
+    return data_access_rule + (
+        "请仅基于给定 SSM 生成可运行、可直接落盘的 San 单文件组件代码。\n"
+        "输出要求：\n"
+        "1. 直接输出完整 .san 文件内容，必须包含 <template>、<script>、<style> 三段，不要输出解释或 Markdown 代码围栏。\n"
+        "2. <script> 必须包含 const san = require('san')、const DataTypes = san.DataTypes，并使用 module.exports = san.defineComponent(...) 导出。\n"
+        "3. 必须输出来自 metadata.component_name 的 name。Vue props 必须迁移为 dataTypes，并使用标准 DataTypes 类型，禁止保留 props 或 propTypes。\n"
+        "4. initData 必须精确保留 Vue props default 和 data() 的类型、数值、嵌套对象与数组内容；依赖 props 的内部状态应在 inited/attached 中通过 this.data.get/set 同步。\n"
+        "5. 状态和 computed 必须通过 this.data.get/set 访问；禁止 this.props、this.computed.foo()、this.xxx 状态访问以及直接修改嵌套对象或数组。更新嵌套状态时创建新值并写回根字段。\n"
+        "6. methods 必须直接定义在组件对象顶层。Vue this.$emit(...) 或 emitEvent 包装调用必须迁移为 this.fire(...)，禁止用 this.dispatch(...) 代替自定义事件。\n"
+        "7. template 使用 San 的 on-*、s-if、s-for 语法，完整保留 DOM 结构、文本、class、子节点顺序以及方法调用的全部参数。事件参数不得丢失或改用 data-args/getAttribute 绕行。\n"
+        "8. Vue v-for 的循环项和索引别名必须完整迁移；:key 必须写入 s-for 的 trackby 子句，例如 s-for=\"task in tasks trackby task.id\"，禁止独立 key 属性，也禁止写成独立 trackby=\"task.id\" 属性。\n"
+        "9. {= assignable.path =} 只用于源 Vue v-model 对应的原生 input/select/textarea 可赋值路径；Vue :prop 和普通自定义组件 props 必须使用 {{ ... }} 单向插值，例如 value=\"{{ stat.value }}\"。方法、computed、disabled、checked、selected 等派生表达式也使用 {{ ... }}，例如 disabled=\"{{ expression }}\"，禁止 disabled=\"{= expression =}\"。所有插值必须完整闭合。\n"
+        "10. value、checked、selected、disabled 等关键属性必须逐元素保留 Vue 原表达式，禁止把相邻或同级元素的条件合并进来。例如 select 的 :disabled=\"previewMode\" 必须迁移为 disabled=\"{{ previewMode }}\"，不能误用旁边按钮的 !canConnect || previewMode。\n"
+        "11. class、style、checked、selected、disabled、s-if、s-for 和文本插值调用普通方法时，响应式依赖必须出现在模板表达式中或作为参数显式传入。必须保留 SSM/Vue 表达式中的完整参数，例如 s-if=\"isOpen(module.id, openIds)\"、s-for=\"lesson in visibleLessons(module.lessons, completedIds, unfinishedOnly) trackby lesson.id\"。\n"
+        "12. 完整迁移 created/mounted/beforeDestroy/destroyed 和 watch 行为到 San 生命周期与 this.watch(...)，不能保留空钩子。\n"
+        "13. 复用 style_model 中的 class、selector 和 css_rules；使用 <style>，禁止 <style scoped>。不要重新设计组件或编造业务逻辑。\n\n"
+        f"补充要求：{extra_instruction or '保持完整 SFC、显式 DataTypes、原始样式和可直接运行的 San 代码。'}\n\n"
         "--- SSM ---\n"
         f"{ssm_json}"
     )
