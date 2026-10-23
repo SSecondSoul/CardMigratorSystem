@@ -117,6 +117,69 @@ class StaticRepairClient:
 
 
 class RepairPromptAndLoopTests(unittest.TestCase):
+    def test_repair_normalizer_unwraps_only_structural_directives(self):
+        code = '''<template>
+  <div s-if="{{ showSettings }}"></div>
+  <div s-else-if="{= showFallback =}"></div>
+  <li s-for="{{ item in items trackby item.id }}">{{item.name}}</li>
+  <button disabled="{{ isDisabled }}">Save</button>
+</template>
+'''
+
+        normalized = RepairStage._normalize_wrapped_san_directives(code)
+
+        self.assertIn('s-if="showSettings"', normalized)
+        self.assertIn('s-else-if="showFallback"', normalized)
+        self.assertIn('s-for="item in items trackby item.id"', normalized)
+        self.assertIn('disabled="{{ isDisabled }}"', normalized)
+
+    def test_repair_stage_skips_llm_for_wrapped_san_directives(self):
+        code = '''<template><div s-if="{{ visible }}"></div></template>
+<script>module.exports = san.defineComponent({});</script>
+<style></style>
+'''
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "Directive_repaired.san"
+            result = RepairStage(repair_client=FailIfCalledRepairClient()).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=code,
+                    output_file_path=str(output_path),
+                    validation_errors=[
+                        {"code": "invalid_san_directive_interpolation"},
+                    ],
+                    visual_eval_errors=[{"code": "dom_structure_similarity_low"}],
+                )
+            )
+
+            self.assertEqual(result.provider, "deterministic")
+            self.assertEqual(result.model, "san_directive_expression_normalizer")
+            self.assertEqual(
+                result.raw_response["normalization"],
+                "unwrapped_san_directive_expression",
+            )
+            self.assertIn('s-if="visible"', result.repaired_code)
+
+    def test_llm_result_records_wrapped_directive_postprocessing(self):
+        current_code = '<template><div></div></template>'
+        repaired_code = '<template><div s-if="{{ visible }}"></div></template>'
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "Directive_repaired.san"
+            result = RepairStage(repair_client=StaticRepairClient(repaired_code)).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=current_code,
+                    output_file_path=str(output_path),
+                    validation_errors=[{"code": "missing_prop_defaults"}],
+                )
+            )
+
+            self.assertIn('s-if="visible"', result.repaired_code)
+            self.assertEqual(
+                result.raw_response["pipeline_postprocessing"],
+                ["unwrapped_san_directive_expression"],
+            )
+
     def test_repair_normalizer_removes_redundant_loop_key_attributes(self):
         code = '''<template>
   <stat-card
@@ -387,6 +450,9 @@ module.exports = san.defineComponent({
         self.assertIn("this.data.get('initialGroups')", prompt)
         self.assertIn("exactly one class attribute", prompt)
         self.assertIn("merge static and dynamic classes", prompt)
+        self.assertIn("San s-if/s-else-if/s-for directive values use raw expressions", prompt)
+        self.assertIn('s-if="{{showSettings}}"', prompt)
+        self.assertIn('s-for="{{item in items}}"', prompt)
 
     def test_prompt_makes_computed_defaults_and_binding_direction_explicit(self):
         prompt = build_repair_prompt(RepairPromptInput(
@@ -475,6 +541,9 @@ module.exports = san.defineComponent({
         self.assertIn("this.data.get('initialGroups')", prompt)
         self.assertIn("exactly one class attribute", prompt)
         self.assertIn("merge static and dynamic classes", prompt)
+        self.assertIn("San s-if/s-else-if/s-for directive values use raw expressions", prompt)
+        self.assertIn('s-if="{{showSettings}}"', prompt)
+        self.assertIn('s-for="{{item in items}}"', prompt)
 
     def test_loop_stops_after_two_identical_repair_outcomes(self):
         repair_stage = NoChangeRepairStage()

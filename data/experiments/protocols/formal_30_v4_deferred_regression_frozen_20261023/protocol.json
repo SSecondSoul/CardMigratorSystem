@@ -1,7 +1,7 @@
 {
   "protocol_id": "formal_30_v4_deferred_regression_20261023",
   "created_at": "2026-10-23T15:42:23+08:00",
-  "status": "in_progress_monitoring_dashboard_pending",
+  "status": "in_progress_monitoring_dashboard_correction_pending_rerun",
   "batch_id": "formal_30_v4_deferred_regression",
   "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
   "classification": "development_internal_regression",
@@ -90,13 +90,13 @@
     "Do not tune against these five samples and then report them as independent evaluation."
   ],
   "execution_state": {
-    "updated_at": "2026-10-23T19:12:00+08:00",
+    "updated_at": "2026-10-23T19:50:09+08:00",
     "automatic_checkpoint": {
       "configured": 5,
-      "completed": 4,
+      "completed": 5,
       "passed": 4,
-      "failed": 0,
-      "pending": 1
+      "failed": 1,
+      "pending": 0
     },
     "audit_confirmed_passes": [
       "access_matrix",
@@ -258,7 +258,63 @@
         "immutable_tasks_clone_present": true
       },
       "interpretation": "Passing reused development regression; not independent holdout evidence."
+    },
+    "monitoring_dashboard_first_complete_run": {
+      "status": "failed_after_max_repair_rounds",
+      "started_at": "2026-10-23T19:20:35+08:00",
+      "finished_at": "2026-10-23T19:31:06+08:00",
+      "elapsed_seconds": 631.265,
+      "repair_rounds": 3,
+      "generation_tokens": 95267,
+      "repair_tokens": 228044,
+      "total_tokens": 323311,
+      "final_validation_error_codes": [
+        "lifecycle_behavior_not_landed"
+      ],
+      "final_visual_error_codes": [
+        "dom_structure_similarity_low"
+      ],
+      "final_structure_similarity": 0.0,
+      "final_tag_sequence_similarity": 0.9636,
+      "final_text_similarity": 0.9355,
+      "final_tree_edit_distance": 137.5,
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_failed_20261023_193106",
+      "interpretation": "Failed reused development regression; not independent holdout evidence."
+    },
+    "monitoring_dashboard_correction": {
+      "classification": "lifecycle_equivalence_false_positive_with_llm_directive_syntax_regression",
+      "changes": [
+        "Accept a source helper method as lifecycle-equivalent only when every known nested method call is present in the target hook; for a Vue business method named initData, also allow complete inlining into San inited because the name is reserved by San.",
+        "Reject interpolation-wrapped San structural directives with invalid_san_directive_interpolation.",
+        "Deterministically unwrap complete {{ ... }} or {= ... =} wrappers from s-if, s-else-if, and s-for values without changing ordinary bound attributes.",
+        "Apply the same directive normalization to every LLM repair response and record unwrapped_san_directive_expression in pipeline_postprocessing.",
+        "Add raw-directive requirements and forbidden wrapped examples to generation and repair prompts."
+      ],
+      "read_only_replay": {
+        "round_2_validation_passed": true,
+        "round_2_visual_passed": true,
+        "round_2_vue_node_count": 57,
+        "round_2_san_node_count": 57,
+        "round_2_structure_similarity": 1.0,
+        "round_2_tag_sequence_similarity": 1.0,
+        "round_2_text_similarity": 1.0,
+        "round_2_tree_edit_distance": 0.0,
+        "round_3_raw_validation_error_codes": [
+          "invalid_san_directive_interpolation"
+        ],
+        "round_3_normalized_validation_passed": true,
+        "round_3_normalized_visual_passed": true,
+        "round_3_normalized_vue_node_count": 57,
+        "round_3_normalized_san_node_count": 57,
+        "round_3_normalized_structure_similarity": 1.0,
+        "round_3_normalized_tag_sequence_similarity": 1.0,
+        "round_3_normalized_text_similarity": 1.0,
+        "round_3_normalized_tree_edit_distance": 0.0
+      },
+      "related_tests_passed": 87,
+      "rerun_completed": false,
+      "rerun_status": "pending_after_commit"
     }
   },
-  "next_action": "Commit the audit-confirmed TaskManager pass and frozen snapshot; then run MonitoringDashboard once without --force and include full state."
+  "next_action": "Commit the MonitoringDashboard correction and its frozen first-run failure evidence; then deliberately rerun only MonitoringDashboard with --force and include full state."
 }

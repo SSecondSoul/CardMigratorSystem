@@ -48,7 +48,13 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
         "Each template element must have exactly one class attribute: merge static and dynamic classes "
         "into that single attribute instead of emitting duplicate class attributes.\n"
     )
-    return data_access_rule + class_attribute_rule + (
+    directive_rule = (
+        "San s-if/s-else-if/s-for directive values use raw expressions: "
+        "s-if=\"showSettings\" and s-for=\"item in items trackby item.id\". "
+        "Never use s-if=\"{{showSettings}}\", s-if=\"{= showSettings =}\", "
+        "or s-for=\"{{item in items}}\".\n"
+    )
+    return data_access_rule + class_attribute_rule + directive_rule + (
         "请仅基于给定 SSM 生成可运行、可直接落盘的 San 单文件组件代码。\n"
         "输出要求：\n"
         "1. 直接输出完整 .san 文件内容，必须包含 <template>、<script>、<style> 三段，不要输出解释或 Markdown 代码围栏。\n"
@@ -78,7 +84,13 @@ def _build_repair_prompt(payload: dict[str, Any]) -> str:
     ssm = payload.get("ssm") or {}
     current_code = (payload.get("current_code") or payload.get("generated_code") or "").strip()
     repair_report = payload.get("repair_report") or {}
-    return (
+    directive_rule = (
+        "San s-if/s-else-if/s-for directive values use raw expressions: "
+        "s-if=\"showSettings\" and s-for=\"item in items trackby item.id\". "
+        "Never use s-if=\"{{showSettings}}\", s-if=\"{= showSettings =}\", "
+        "or s-for=\"{{item in items}}\".\n"
+    )
+    return directive_rule + (
         "你是一个 Vue 到 San 迁移修复专家。请根据 SSM、当前 San 代码和修复报告，输出修复后的完整 .san 文件。\n"
         "要求：只输出代码，不要输出解释或 Markdown 代码围栏。\n\n"
         "--- SSM ---\n"

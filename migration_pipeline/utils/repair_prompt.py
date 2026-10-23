@@ -35,8 +35,14 @@ class RepairPromptBuilder:
             "conditional class names. Each template element must have exactly one class attribute; "
             "merge static and dynamic classes into that single attribute.\n"
         )
+        directive_rule = (
+            "San s-if/s-else-if/s-for directive values use raw expressions: "
+            "s-if=\"showSettings\" and s-for=\"item in items trackby item.id\". "
+            "Never use s-if=\"{{showSettings}}\", s-if=\"{= showSettings =}\", "
+            "or s-for=\"{{item in items}}\".\n"
+        )
 
-        return data_access_rule + class_binding_rule + (
+        return data_access_rule + class_binding_rule + directive_rule + (
             "你是一个 Vue 到 San 迁移修复专家。请根据 SSM、当前 San 代码和校验报告，修复 San 单文件组件。\n"
             "修复目标：输出必须满足下面列出的 San 结构、语法和渲染一致性规则；不要只生成语义上看起来像 San 的代码。\n\n"
             "输出要求：\n"
@@ -164,6 +170,7 @@ class RepairPromptBuilder:
                 "reactive values used by class/style/checked/selected/disabled/s-if/s-for/text method calls must appear in the template expression or be passed explicitly as method arguments",
                 "every loop item/index alias referenced by a loop element is declared in s-for, for example phase, index in phases",
                 "all interpolation delimiters are balanced and Vue v-for :key is migrated as an inline s-for trackby clause, never a separate key or trackby attribute",
+                "San s-if/s-else-if/s-for directive values use raw expressions without {{ ... }} or {= ... =} wrappers",
                 "top-level handler methods in san.defineComponent",
                 "template events as on-click/on-input/etc.",
                 "style tag without scoped",
@@ -187,6 +194,7 @@ class RepairPromptBuilder:
                 "template presentation methods that hide reactive this.data.get(...) dependencies",
                 "references to index, idx, $index, or a Vue v-for index alias that is not declared by the corresponding s-for",
                 "unbalanced interpolation delimiters or a separate key attribute on an s-for element",
+                "s-if=\"{{showSettings}}\", s-if=\"{= showSettings =}\", or s-for=\"{{item in items}}\"",
                 "<style scoped>",
                 "@click or other Vue event shorthand",
                 "v-if/v-for/v-model",

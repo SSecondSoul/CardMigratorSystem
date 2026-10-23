@@ -105,6 +105,11 @@ class ValidateStage:
         r"\bs-for\s*=\s*([\"'])(.*?)\1",
         re.IGNORECASE | re.DOTALL,
     )
+    DIRECTIVE_INTERPOLATION_PATTERN = re.compile(
+        r"\b(s-if|s-else-if|s-for)\s*=\s*([\"'])\s*"
+        r"(?:\{\{(.*?)\}\}|\{=(.*?)=\})\s*\2",
+        re.IGNORECASE | re.DOTALL,
+    )
     TEMPLATE_ATTRIBUTE_PATTERN = re.compile(
         r"(?:^|\s)([A-Za-z_:][\w:.-]*)\s*=\s*([\"'])(.*?)\2",
         re.DOTALL,
@@ -350,6 +355,27 @@ class ValidateStage:
                 suggestion=(
                     "Convert class=\"{{{ selected: condition }}}\" to a string expression such as "
                     "class=\"{{ condition ? 'selected' : '' }}\"; concatenate multiple conditional classes."
+                ),
+            ))
+
+        wrapped_directives = self.DIRECTIVE_INTERPOLATION_PATTERN.findall(template)
+        directives_passed = not wrapped_directives
+        checks.append(ValidationCheck(
+            name="san_directives_use_raw_expressions",
+            passed=directives_passed,
+            message="San s-if/s-else-if/s-for directive values use raw expressions",
+        ))
+        if not directives_passed:
+            issues.append(ValidationIssue(
+                code="invalid_san_directive_interpolation",
+                message=(
+                    f"San template contains {len(wrapped_directives)} structural directive value(s) "
+                    "wrapped in interpolation delimiters."
+                ),
+                location="template",
+                suggestion=(
+                    "Use raw directive expressions such as s-if=\"showSettings\" and "
+                    "s-for=\"item in items trackby item.id\"; do not wrap them in {{ ... }} or {= ... =}."
                 ),
             ))
 
@@ -1399,6 +1425,7 @@ class ValidateStage:
         known_fields.update(self._expected_data_fields(ssm))
         known_fields.update(self._expected_computed_names(ssm))
         known_methods = set(self._expected_method_names(ssm))
+        method_bodies = self._expected_method_bodies(ssm)
 
         for hook in hooks:
             source_hook = hook["source_hook"]
@@ -1449,9 +1476,13 @@ class ValidateStage:
                     continue
                 if method_name == "setValue":
                     continue
-                if not re.search(
-                    rf"\bthis\.{re.escape(method_name)}\s*\(",
+                if not self._lifecycle_method_landed(
+                    method_name,
+                    target_hook,
                     target_body_for_matching,
+                    script,
+                    known_methods,
+                    method_bodies,
                 ):
                     requirements.append(f"调用方法 {method_name}()")
 
@@ -1495,6 +1526,47 @@ class ValidateStage:
                     "不要只保留空的 inited/attached/disposed 方法。"
                 ),
             ))
+
+    def _lifecycle_method_landed(
+        self,
+        method_name: str,
+        target_hook: str,
+        target_body: str,
+        script: str,
+        known_methods: set[str],
+        method_bodies: dict[str, str],
+    ) -> bool:
+        call_pattern = rf"\bthis\.{re.escape(method_name)}\s*\("
+        if re.search(call_pattern, target_body):
+            return True
+
+        nested_methods = {
+            nested_name
+            for nested_name in re.findall(
+                r"\bthis\.([A-Za-z_$][\w$]*)\s*\(",
+                method_bodies.get(method_name, ""),
+            )
+            if nested_name in known_methods and nested_name != method_name
+        }
+        if not nested_methods:
+            return False
+
+        candidate_bodies = [target_body]
+        # A Vue business method named initData cannot remain a normal San method.
+        # It may be conservatively inlined into San's inited hook instead.
+        if method_name == "initData" and target_hook != "inited":
+            candidate_bodies.append(self._extract_function_body(script, "inited"))
+
+        return any(
+            all(
+                re.search(
+                    rf"\bthis\.{re.escape(nested_name)}\s*\(",
+                    candidate_body,
+                )
+                for nested_name in nested_methods
+            )
+            for candidate_body in candidate_bodies
+        )
 
     def _validate_event_binding_completeness(
         self,
@@ -1803,6 +1875,18 @@ class ValidateStage:
                     result.append(str(name))
             elif isinstance(method, str):
                 result.append(method)
+        return result
+
+    def _expected_method_bodies(self, ssm: dict[str, Any]) -> dict[str, str]:
+        methods = self._script_options(ssm).get("methods", [])
+        result = {}
+        for method in methods if isinstance(methods, list) else []:
+            if not isinstance(method, dict):
+                continue
+            name = method.get("name") or method.get("method_name")
+            body = method.get("body_full") or method.get("body")
+            if name and body:
+                result[str(name)] = str(body)
         return result
 
     def _expected_computed_names(self, ssm: dict[str, Any]) -> list[str]:

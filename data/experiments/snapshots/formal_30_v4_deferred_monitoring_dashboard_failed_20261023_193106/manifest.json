@@ -1,0 +1,96 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_monitoring_dashboard_failed_20261023_193106",
+  "created_at": "2026-10-23T19:31:06+08:00",
+  "purpose": "Freeze the first complete MonitoringDashboard run before correcting lifecycle-equivalence validation and San directive syntax handling.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "MonitoringDashboard",
+  "component_name": "MonitoringDashboard",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_failed_after_max_repair_rounds",
+  "implementation_commit": "3a8f017fc9a7ef577fb19a77179f08bf482a6ef5",
+  "result": {
+    "started_at": "2026-10-23T19:20:35+08:00",
+    "finished_at": "2026-10-23T19:31:06+08:00",
+    "elapsed_seconds": 631.265,
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 95267,
+    "repair_tokens": 228044,
+    "total_tokens": 323311,
+    "final_validation_error_codes": [
+      "lifecycle_behavior_not_landed"
+    ],
+    "final_visual_error_codes": [
+      "dom_structure_similarity_low"
+    ],
+    "final_structure_similarity": 0.0,
+    "final_tag_sequence_similarity": 0.9636,
+    "final_text_similarity": 0.9355,
+    "final_tree_edit_distance": 137.5
+  },
+  "repair_audit": {
+    "attempt_1": {
+      "provider": "deterministic",
+      "model": "san_methods_wrapper_normalizer",
+      "total_tokens": 0,
+      "visual_eval_passed": true,
+      "structure_similarity": 0.9868
+    },
+    "attempt_2": {
+      "provider": "qwen",
+      "model": "qwen-plus",
+      "total_tokens": 114562,
+      "remaining_validation_error_codes": [
+        "lifecycle_behavior_not_landed"
+      ],
+      "visual_eval_passed": true,
+      "vue_node_count": 57,
+      "san_node_count": 57,
+      "structure_similarity": 1.0,
+      "tag_sequence_similarity": 1.0,
+      "text_similarity": 1.0,
+      "tree_edit_distance": 0.0
+    },
+    "attempt_3": {
+      "provider": "qwen",
+      "model": "qwen-plus",
+      "total_tokens": 113482,
+      "remaining_validation_error_codes": [
+        "lifecycle_behavior_not_landed"
+      ],
+      "visual_error_codes": [
+        "dom_structure_similarity_low"
+      ],
+      "vue_node_count": 57,
+      "san_node_count": 53,
+      "structure_similarity": 0.0
+    }
+  },
+  "diagnosis": {
+    "lifecycle_validator_false_positive": "Vue mounted calls a custom initData method. San cannot preserve that name as a normal method because initData is its data hook; the seven calls from the Vue method are equivalently inlined in San inited, but the validator only accepts the original call name.",
+    "repair_regression": "The third LLM repair changed valid San directives such as s-if=\"showSettings\" to invalid interpolation-wrapped forms such as s-if=\"{{showSettings}}\".",
+    "validator_gap": "The template validator does not currently reject or normalize interpolation wrappers inside San structural directive values.",
+    "decision": "Do not count this run as passing. Correct both validator gaps, add focused regression tests, and only then perform a separately recorded deliberate rerun."
+  },
+  "contents": {
+    "formal_30_v4_deferred_regression.json": "Frozen batch configuration used for the first run.",
+    "formal_30_v4_deferred_regression_summary.json": "Completed 5/5 batch checkpoint with MonitoringDashboard failed.",
+    "source/MonitoringDashboard.vue": "Frozen Vue input from the formal_30_v3 protocol.",
+    "pipeline/complex/MonitoringDashboard*.san": "Initial generation and all three repair artifacts.",
+    "repair_reports/complex/MonitoringDashboard_repair_history.json": "Complete failure history and retained state.",
+    "code": "Extractor, validator, repair loop, prompts, renderers, and tests used for this run.",
+    "analysis/protocol.json": "Protocol state immediately before recording this result.",
+    "notebooks/2026-10-23_formal_30_v4_deferred_regression.ipynb": "Notebook state immediately before recording this result."
+  },
+  "boundaries": [
+    "This is a failed first complete run and is not overwritten by later corrections.",
+    "The sample is a reused development case and is not independent holdout evidence.",
+    "The second repair's perfect DOM result does not convert the run into a pass because validation still failed.",
+    "No validator, Prompt, or repair correction was made before this snapshot was created."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

@@ -274,6 +274,46 @@ module.exports = san.defineComponent({
 
         self.assertNotIn("invalid_dynamic_attribute_binding", error_codes)
 
+    def test_validator_rejects_interpolation_wrapped_san_directives(self):
+        code = self._minimal_san_component(
+            (
+                '<div s-if="{{ showSettings }}"></div>'
+                '<div s-else-if="{= showFallback =}"></div>'
+                '<div s-for="{{ item in items }}">{{ item }}</div>'
+            ),
+            "",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertIn(
+            "invalid_san_directive_interpolation",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+    def test_validator_allows_raw_san_directive_expressions(self):
+        code = self._minimal_san_component(
+            (
+                '<div s-if="showSettings"></div>'
+                '<div s-else-if="showFallback"></div>'
+                '<div s-for="item in items trackby item.id">{{ item.name }}</div>'
+            ),
+            "",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertNotIn(
+            "invalid_san_directive_interpolation",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
     def test_validator_rejects_separate_key_attribute_on_s_for(self):
         reference = (ROOT / "data/datasets/components/02_medium/DataPaginationTable/san/DataPaginationTable.san").read_text(encoding="utf-8")
         broken_code = reference.replace(
@@ -914,6 +954,97 @@ module.exports = san.defineComponent({
         self.assertNotIn("lifecycle_behavior_not_landed", error_codes)
         self.assertNotIn("missing_watch_migration", error_codes)
         self.assertNotIn("vue_watch_option", error_codes)
+
+    def test_validator_allows_complete_reserved_init_data_method_inlining(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "lifecycle_hooks": [{
+                        "vue_hook": "mounted",
+                        "san_hook": "attached",
+                        "body": "{ this.initData(); this.startPolling(); }",
+                    }],
+                    "methods": [
+                        {
+                            "name": "initData",
+                            "body_full": "{ this.loadMetrics(); this.loadAlerts(); }",
+                        },
+                        {"name": "loadMetrics", "body_full": "{}"},
+                        {"name": "loadAlerts", "body_full": "{}"},
+                        {"name": "startPolling", "body_full": "{}"},
+                    ],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<div></div>',
+            """
+    inited() {
+        this.loadMetrics();
+        this.loadAlerts();
+    },
+    attached() {
+        this.startPolling();
+    },
+    loadMetrics() {},
+    loadAlerts() {},
+    startPolling() {}
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+
+        self.assertNotIn(
+            "lifecycle_behavior_not_landed",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+    def test_validator_rejects_incomplete_reserved_init_data_method_inlining(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "lifecycle_hooks": [{
+                        "vue_hook": "mounted",
+                        "san_hook": "attached",
+                        "body": "{ this.initData(); }",
+                    }],
+                    "methods": [
+                        {
+                            "name": "initData",
+                            "body_full": "{ this.loadMetrics(); this.loadAlerts(); }",
+                        },
+                        {"name": "loadMetrics", "body_full": "{}"},
+                        {"name": "loadAlerts", "body_full": "{}"},
+                    ],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<div></div>',
+            """
+    inited() {
+        this.loadMetrics();
+    },
+    attached() {},
+    loadMetrics() {},
+    loadAlerts() {}
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+
+        self.assertIn(
+            "lifecycle_behavior_not_landed",
+            {issue["code"] for issue in result.validation_errors},
+        )
 
     def test_validator_requires_prop_dependent_data_initialization_in_inited(self):
         ssm = {

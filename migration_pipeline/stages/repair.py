@@ -98,6 +98,11 @@ class RepairStage:
         r"\s+([A-Za-z_:][\w:.-]*)\s*=\s*([\"'])(.*?)\2",
         re.DOTALL,
     )
+    WRAPPED_SAN_DIRECTIVE_PATTERN = re.compile(
+        r"\b(?P<directive>s-if|s-else-if|s-for)\s*=\s*(?P<quote>[\"'])\s*"
+        r"(?:\{\{(?P<one_way>.*?)\}\}|\{=(?P<two_way>.*?)=\})\s*(?P=quote)",
+        re.IGNORECASE | re.DOTALL,
+    )
     METHOD_DEFINITION_PATTERN = re.compile(
         r"(?m)^([ \t]*)([A-Za-z_$][\w$]*)\s*\([^)]*\)\s*\{"
     )
@@ -136,9 +141,16 @@ class RepairStage:
         )
         if deterministic_code != current_code:
             error_codes = {issue.get("code") for issue in stage_input.validation_errors}
+            directive_code = self._normalize_wrapped_san_directives(current_code)
             methods_code = self._normalize_vue_methods_wrapper(current_code)
             array_code = self._normalize_mutated_state_array_aliases(current_code)
-            if "vue_methods_wrapper" in error_codes and methods_code == deterministic_code:
+            if (
+                "invalid_san_directive_interpolation" in error_codes
+                and directive_code == deterministic_code
+            ):
+                normalizer_model = "san_directive_expression_normalizer"
+                normalization = "unwrapped_san_directive_expression"
+            elif "vue_methods_wrapper" in error_codes and methods_code == deterministic_code:
                 normalizer_model = "san_methods_wrapper_normalizer"
                 normalization = "unwrapped_final_top_level_methods_option"
             elif "nested_state_mutation" in error_codes and array_code == deterministic_code:
@@ -178,6 +190,17 @@ class RepairStage:
         )
         result = self.repair_client.repair(request_data)
         result.code = self._strip_code_fences(result.code)
+        normalized_code = self._normalize_wrapped_san_directives(result.code)
+        if normalized_code != result.code:
+            result.code = normalized_code
+            if isinstance(result.raw_response, dict):
+                result.raw_response = {
+                    **result.raw_response,
+                    "pipeline_postprocessing": [
+                        *result.raw_response.get("pipeline_postprocessing", []),
+                        "unwrapped_san_directive_expression",
+                    ],
+                }
         if any(
             issue.get("code") == "invalid_s_for_key_binding"
             for issue in stage_input.validation_errors
@@ -290,6 +313,19 @@ class RepairStage:
         elif expression.startswith("{=") and expression.endswith("=}"):
             expression = expression[2:-2].strip()
         return expression
+
+    @classmethod
+    def _normalize_wrapped_san_directives(cls, code: str) -> str:
+        def unwrap(match: re.Match[str]) -> str:
+            expression = match.group("one_way")
+            if expression is None:
+                expression = match.group("two_way")
+            return (
+                f"{match.group('directive')}={match.group('quote')}"
+                f"{(expression or '').strip()}{match.group('quote')}"
+            )
+
+        return cls.WRAPPED_SAN_DIRECTIVE_PATTERN.sub(unwrap, code)
 
     @staticmethod
     def _find_matching_js_brace(code: str, opening_index: int) -> int:
@@ -443,6 +479,10 @@ class RepairStage:
         visual_eval_errors: list[dict[str, Any]],
     ) -> str:
         error_codes = {issue.get("code") for issue in validation_errors}
+        if "invalid_san_directive_interpolation" in error_codes:
+            normalized = cls._normalize_wrapped_san_directives(code)
+            if normalized != code:
+                return normalized
         if "vue_methods_wrapper" in error_codes:
             normalized = cls._normalize_vue_methods_wrapper(code)
             if normalized != code:
