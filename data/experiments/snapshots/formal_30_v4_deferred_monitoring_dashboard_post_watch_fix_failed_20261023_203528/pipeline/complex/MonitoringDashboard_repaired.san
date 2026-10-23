@@ -1,0 +1,1294 @@
+<template>
+<div class="monitoring-dashboard {{isDarkMode ? 'dark-mode' : ''}}">
+  <div class="status-bar">
+    <div class="system-status">
+      <span class="status-indicator {{systemHealth}}"></span>
+      <span class="status-text">系统状态：{{systemHealthText}}</span>
+    </div>
+    <div class="time-display">
+      <span>📅 {{currentDate}}</span>
+      <span>⏰ {{currentTime}}</span>
+    </div>
+    <div class="action-buttons">
+      <button class="icon-btn" on-click="toggleTheme">🌓</button>
+      <button class="icon-btn" on-click="exportReport">📊</button>
+      <button class="icon-btn" on-click="showSettings = true">⚙️</button>
+    </div>
+  </div>
+  <div class="kpi-grid">
+    <kpi-card s-for="kpi in kpiData trackby kpi.id" title="{{kpi.title}}" value="{{kpi.value}}" unit="{{kpi.unit}}" trend="{{kpi.trend}}" status="{{kpi.status}}" icon="{{kpi.icon}}" on-click="onKPIClick(kpi)"></kpi-card>
+  </div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3>实时 CPU / 内存 使用率</h3>
+        <div class="chart-controls">
+          <button class="period-btn {{selectedPeriod === period.value ? 'active' : ''}}" s-for="period in timePeriods trackby period.value" on-click="changePeriod(period.value)">{{period.label}}</button>
+        </div>
+      </div>
+      <real-time-chart data="{{cpuHistory}}" height="250" color="#3b82f6" loading="{{isChartLoading}}"></real-time-chart>
+      <real-time-chart data="{{memoryHistory}}" height="250" color="#10b981" loading="{{isChartLoading}}"></real-time-chart>
+    </div>
+    <div class="chart-card">
+      <h3>服务请求统计</h3>
+      <request-chart data="{{requestStats}}" height="300" on-bar-click="onBarClick"></request-chart>
+    </div>
+  </div>
+  <div class="events-grid">
+    <div class="alerts-panel">
+      <div class="panel-header">
+        <h3>🚨 实时告警</h3>
+        <span class="alert-count">{{activeAlerts.length}}</span>
+        <button class="clear-btn" on-click="clearAlerts" s-if="activeAlerts.length">清空</button>
+      </div>
+      <alert-list alerts="{{activeAlerts}}" on-acknowledge="acknowledgeAlert" on-resolve="resolveAlert"></alert-list>
+    </div>
+    <div class="logs-panel">
+      <div class="panel-header">
+        <h3>📋 系统日志</h3>
+        <div class="log-filters">
+          <select value="{= logFilter =}" on-change="filterLogs">
+            <option value="all">全部</option>
+            <option value="info">信息</option>
+            <option value="warning">警告</option>
+            <option value="error">错误</option>
+          </select>
+          <button class="clear-btn" on-click="clearLogs">清空</button>
+        </div>
+      </div>
+      <log-list logs="{{filteredLogs}}" loading="{{isLogLoading}}" on-log-click="onLogClick"></log-list>
+    </div>
+  </div>
+  <div class="services-panel">
+    <div class="panel-header">
+      <h3>🔗 服务健康检查</h3>
+      <button class="refresh-btn" on-click="refreshServices" disabled="{{isRefreshingServices}}">{{isRefreshingServices ? '刷新中...' : '刷新'}}</button>
+    </div>
+    <service-grid services="{{services}}" on-service-click="onServiceClick"></service-grid>
+  </div>
+  <div class="modal-overlay" s-if="showSettings" on-click="showSettings = false">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>系统设置</h3>
+        <button class="close-btn" on-click="showSettings = false">✕</button>
+      </div>
+      <settings-form settings="{{settings}}" on-save="saveSettings" on-cancel="showSettings = false"></settings-form>
+    </div>
+  </div>
+  <div class="notification {{notification.type}}" s-if="notification.show" on-click="hideNotification">
+    <span>{{notification.message}}</span>
+    <button>✕</button>
+  </div>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'MonitoringDashboard',
+  components: {
+    'kpi-card': kpi-card,
+    'real-time-chart': real-time-chart,
+    'request-chart': request-chart,
+    'alert-list': alert-list,
+    'log-list': log-list,
+    'service-grid': service-grid,
+    'settings-form': settings-form
+  },
+  initData() {
+    return {
+      isDarkMode: false,
+      showSettings: false,
+      selectedPeriod: '1h',
+      isChartLoading: false,
+      isLogLoading: false,
+      isRefreshingServices: false,
+      currentDate: '',
+      currentTime: '',
+      timePeriods: [
+        { value: '1h', label: '1小时' },
+        { value: '6h', label: '6小时' },
+        { value: '24h', label: '24小时' }
+      ],
+      kpiData: [
+        { id: 1, title: 'CPU使用率', value: 45, unit: '%', trend: -5, status: 'healthy', icon: '💻' },
+        { id: 2, title: '内存使用率', value: 62, unit: '%', trend: 8, status: 'warning', icon: '🧠' },
+        { id: 3, title: '请求成功率', value: 98.5, unit: '%', trend: 1.2, status: 'healthy', icon: '✅' },
+        { id: 4, title: '平均响应时间', value: 156, unit: 'ms', trend: -12, status: 'healthy', icon: '⚡' }
+      ],
+      cpuHistory: [],
+      memoryHistory: [],
+      requestStats: [],
+      activeAlerts: [],
+      alertHistory: [],
+      systemLogs: [],
+      logFilter: 'all',
+      services: [],
+      settings: {
+        refreshInterval: 5,
+        alertThreshold: 80,
+        logRetention: '7',
+        autoRefresh: true,
+        desktopNotifications: false
+      },
+      notification: {
+        show: false,
+        message: '',
+        type: 'info'
+      },
+      refreshTimer: null,
+      timeTimer: null,
+      notificationTimer: null,
+      dataGenerator: null,
+      alertIdCounter: 100
+    };
+  },
+  inited() {
+    this.watch('settings', (newVal, oldVal) => {
+      if (newVal.autoRefresh && !this.data.get('refreshTimer')) {
+        this.startAutoRefresh();
+      } else if (!newVal.autoRefresh && this.data.get('refreshTimer')) {
+        this.stopAutoRefresh();
+      }
+    }, { deep: true });
+  },
+  attached() {
+    this.initData();
+    this.startTimeUpdate();
+    this.startDataSimulation();
+    const settings = this.data.get('settings');
+    if (settings.autoRefresh) {
+      this.startAutoRefresh();
+    }
+    this.showNotification('监控仪表盘已启动', 'success');
+  },
+  detached() {
+    this.stopAutoRefresh();
+    this.stopTimeUpdate();
+    this.stopDataSimulation();
+    const timer = this.data.get('notificationTimer');
+    if (timer) {
+      clearTimeout(timer);
+      this.data.set('notificationTimer', null);
+    }
+  },
+  computed: {
+    systemHealth() {
+      const kpiData = this.data.get('kpiData');
+      const avgCpu = kpiData[0].value;
+      if (avgCpu > 80) return 'critical';
+      if (avgCpu > 60) return 'warning';
+      return 'healthy';
+    },
+    systemHealthText() {
+      const texts = { healthy: '健康', warning: '警告', critical: '严重' };
+      return texts[this.data.get('systemHealth')];
+    },
+    filteredLogs() {
+      const logFilter = this.data.get('logFilter');
+      const systemLogs = this.data.get('systemLogs');
+      if (logFilter === 'all') return systemLogs;
+      return systemLogs.filter(log => log.level === logFilter);
+    }
+  },
+  methods: {
+    initData() {
+      this.updateDateTime();
+      this.initChartData();
+      this.initRequestStats();
+      this.initAlerts();
+      this.initLogs();
+      this.initServices();
+      this.loadSettings();
+    },
+    initChartData() {
+      const now = Date.now();
+      const cpuHistory = [];
+      const memoryHistory = [];
+      for (let i = 0; i < 60; i++) {
+        cpuHistory.push({
+          time: now - (60 - i) * 60000,
+          value: 30 + Math.random() * 40
+        });
+        memoryHistory.push({
+          time: now - (60 - i) * 60000,
+          value: 40 + Math.random() * 30
+        });
+      }
+      this.data.set('cpuHistory', cpuHistory);
+      this.data.set('memoryHistory', memoryHistory);
+    },
+    initRequestStats() {
+      const requestStats = [];
+      for (let i = 0; i < 12; i++) {
+        const hour = `${i.toString().padStart(2, '0')}:00`;
+        const total = Math.floor(500 + Math.random() * 500);
+        requestStats.push({
+          hour,
+          count: total,
+          success: Math.floor(total * (0.9 + Math.random() * 0.09)),
+          warning: Math.floor(total * (0.05 + Math.random() * 0.03)),
+          error: Math.floor(total * (0.02 + Math.random() * 0.02)),
+          status: Math.random() > 0.9 ? 'error' : (Math.random() > 0.8 ? 'warning' : 'success')
+        });
+      }
+      this.data.set('requestStats', requestStats);
+    },
+    initAlerts() {
+      const activeAlerts = [
+        {
+          id: 1,
+          title: 'CPU使用率过高',
+          description: 'CPU使用率已超过80%阈值，建议扩容',
+          severity: 'warning',
+          timestamp: Date.now() - 1800000
+        },
+        {
+          id: 2,
+          title: 'API响应超时',
+          description: '用户服务API响应时间超过3秒',
+          severity: 'critical',
+          timestamp: Date.now() - 3600000
+        }
+      ];
+      this.data.set('activeAlerts', activeAlerts);
+    },
+    initLogs() {
+      const levels = ['info', 'warning', 'error'];
+      const messages = [
+        '用户登录成功', '数据库查询慢', 'API请求失败', '缓存命中',
+        '服务重启', '配置更新', '磁盘空间不足', '网络延迟增加'
+      ];
+      const sources = ['API Gateway', 'Auth Service', 'Database', 'Cache', 'Worker'];
+
+      const systemLogs = [];
+      for (let i = 0; i < 50; i++) {
+        const level = levels[Math.floor(Math.random() * levels.length)];
+        systemLogs.push({
+          id: i,
+          level,
+          message: messages[Math.floor(Math.random() * messages.length)],
+          source: sources[Math.floor(Math.random() * sources.length)],
+          timestamp: Date.now() - Math.random() * 86400000
+        });
+      }
+      systemLogs.sort((a, b) => b.timestamp - a.timestamp);
+      this.data.set('systemLogs', systemLogs);
+    },
+    initServices() {
+      const services = [
+        { id: 1, name: 'API Gateway', status: 'healthy', responseTime: 45, availability: 99.9 },
+        { id: 2, name: 'Auth Service', status: 'healthy', responseTime: 67, availability: 99.8 },
+        { id: 3, name: 'User Service', status: 'warning', responseTime: 234, availability: 95.2 },
+        { id: 4, name: 'Payment Service', status: 'healthy', responseTime: 89, availability: 99.5 },
+        { id: 5, name: 'Database', status: 'healthy', responseTime: 12, availability: 99.99 },
+        { id: 6, name: 'Cache Service', status: 'warning', responseTime: 156, availability: 97.3 }
+      ];
+      this.data.set('services', services);
+    },
+    loadSettings() {
+      const saved = localStorage.getItem('dashboard_settings');
+      if (saved) {
+        try {
+          const loaded = JSON.parse(saved);
+          const settings = this.data.get('settings');
+          this.data.set('settings', { ...settings, ...loaded });
+        } catch (e) {
+          console.error('加载设置失败', e);
+        }
+      }
+    },
+    startDataSimulation() {
+      const dataGenerator = setInterval(() => {
+        this.simulateDataUpdate();
+      }, 2000);
+      this.data.set('dataGenerator', dataGenerator);
+    },
+    stopDataSimulation() {
+      const dataGenerator = this.data.get('dataGenerator');
+      if (dataGenerator) {
+        clearInterval(dataGenerator);
+      }
+      this.data.set('dataGenerator', null);
+    },
+    simulateDataUpdate() {
+      const kpiData = this.data.get('kpiData');
+      const cpuHistory = this.data.get('cpuHistory');
+      const memoryHistory = this.data.get('memoryHistory');
+
+      // 更新KPI数据
+      kpiData[0].value = Math.max(5, Math.min(95, kpiData[0].value + (Math.random() - 0.5) * 3));
+      kpiData[1].value = Math.max(30, Math.min(90, kpiData[1].value + (Math.random() - 0.5) * 2));
+      kpiData[2].value = Math.max(95, Math.min(100, kpiData[2].value + (Math.random() - 0.5) * 0.5));
+      kpiData[3].value = Math.max(50, Math.min(500, kpiData[3].value + (Math.random() - 0.5) * 10));
+
+      // 更新图表数据
+      const newCpuValue = 30 + Math.random() * 50;
+      const newMemoryValue = 40 + Math.random() * 40;
+
+      cpuHistory.push({ time: Date.now(), value: newCpuValue });
+      memoryHistory.push({ time: Date.now(), value: newMemoryValue });
+
+      if (cpuHistory.length > 60) cpuHistory.shift();
+      if (memoryHistory.length > 60) memoryHistory.shift();
+
+      // 检查并生成告警
+      if (newCpuValue > 85 && Math.random() > 0.7) {
+        this.addAlert('CPU使用率异常', `CPU使用率达到 ${newCpuValue.toFixed(1)}%`, 'critical');
+      }
+      if (newMemoryValue > 85 && Math.random() > 0.8) {
+        this.addAlert('内存使用率过高', `内存使用率达到 ${newMemoryValue.toFixed(1)}%`, 'warning');
+      }
+
+      // 添加随机日志
+      if (Math.random() > 0.7) {
+        const levels = ['info', 'warning', 'error'];
+        const level = levels[Math.floor(Math.random() * levels.length)];
+        this.addLog(level, `系统运行状态更新`, 'Monitor');
+      }
+
+      this.data.set('kpiData', [...kpiData]);
+      this.data.set('cpuHistory', cpuHistory);
+      this.data.set('memoryHistory', memoryHistory);
+    },
+    refreshAllData() {
+      return new Promise(resolve => {
+        this.data.set('isChartLoading', true);
+        this.data.set('isRefreshingServices', true);
+        this.showNotification('正在刷新数据...', 'info');
+
+        setTimeout(() => {
+          this.initRequestStats();
+          this.initServices();
+          this.data.set('isChartLoading', false);
+          this.data.set('isRefreshingServices', false);
+          this.showNotification('数据刷新完成', 'success');
+          resolve();
+        }, 1000);
+      });
+    },
+    refreshServices() {
+      this.refreshAllData();
+    },
+    startAutoRefresh() {
+      this.stopAutoRefresh();
+      const settings = this.data.get('settings');
+      const refreshTimer = setInterval(() => {
+        this.refreshAllData();
+      }, settings.refreshInterval * 1000);
+      this.data.set('refreshTimer', refreshTimer);
+    },
+    stopAutoRefresh() {
+      const refreshTimer = this.data.get('refreshTimer');
+      if (refreshTimer) {
+        clearInterval(refreshTimer);
+        this.data.set('refreshTimer', null);
+      }
+    },
+    startTimeUpdate() {
+      const timeTimer = setInterval(() => {
+        this.updateDateTime();
+      }, 1000);
+      this.data.set('timeTimer', timeTimer);
+    },
+    stopTimeUpdate() {
+      const timeTimer = this.data.get('timeTimer');
+      if (timeTimer) {
+        clearInterval(timeTimer);
+      }
+    },
+    updateDateTime() {
+      const now = new Date();
+      this.data.set('currentDate', now.toLocaleDateString('zh-CN'));
+      this.data.set('currentTime', now.toLocaleTimeString('zh-CN'));
+    },
+    changePeriod(period) {
+      this.data.set('selectedPeriod', period);
+      this.showNotification(`切换到 ${period} 视图`, 'info');
+    },
+    addAlert(title, description, severity) {
+      const alertIdCounter = this.data.get('alertIdCounter');
+      const activeAlerts = this.data.get('activeAlerts');
+      const newAlert = {
+        id: ++alertIdCounter,
+        title,
+        description,
+        severity,
+        timestamp: Date.now()
+      };
+      activeAlerts.unshift(newAlert);
+      this.showNotification(`新告警: ${title}`, 'warning');
+
+      const settings = this.data.get('settings');
+      if (settings.desktopNotifications && Notification.permission === 'granted') {
+        new Notification(title, { body: description });
+      }
+
+      this.data.set('alertIdCounter', alertIdCounter);
+      this.data.set('activeAlerts', activeAlerts);
+    },
+    acknowledgeAlert(alertId) {
+      const activeAlerts = this.data.get('activeAlerts');
+      const alert = activeAlerts.find(a => a.id === alertId);
+      if (alert) {
+        alert.acknowledged = true;
+        this.showNotification(`已确认告警: ${alert.title}`, 'info');
+        this.data.set('activeAlerts', [...activeAlerts]);
+      }
+    },
+    resolveAlert(alertId) {
+      const activeAlerts = this.data.get('activeAlerts');
+      const index = activeAlerts.findIndex(a => a.id === alertId);
+      if (index !== -1) {
+        const resolved = activeAlerts.splice(index, 1)[0];
+        const alertHistory = this.data.get('alertHistory');
+        alertHistory.push({ ...resolved, resolvedAt: Date.now() });
+        this.showNotification(`已解决告警: ${resolved.title}`, 'success');
+        this.data.set('activeAlerts', activeAlerts);
+        this.data.set('alertHistory', alertHistory);
+      }
+    },
+    clearAlerts() {
+      this.data.set('activeAlerts', []);
+      this.showNotification('已清空所有告警', 'info');
+    },
+    addLog(level, message, source) {
+      const systemLogs = this.data.get('systemLogs');
+      const newLog = {
+        id: Date.now(),
+        level,
+        message,
+        source,
+        timestamp: Date.now()
+      };
+      systemLogs.unshift(newLog);
+      if (systemLogs.length > 500) {
+        this.data.set('systemLogs', systemLogs.slice(0, 500));
+      } else {
+        this.data.set('systemLogs', systemLogs);
+      }
+    },
+    filterLogs() {
+      this.showNotification(`筛选日志: ${this.data.get('logFilter')}`, 'info');
+    },
+    clearLogs() {
+      this.data.set('systemLogs', []);
+      this.showNotification('日志已清空', 'info');
+    },
+    onKPIClick(kpi) {
+      this.showNotification(`查看详情: ${kpi.title}`, 'info');
+      this.addLog('info', `查看KPI指标: ${kpi.title}`, 'Dashboard');
+    },
+    onBarClick(data) {
+      this.showNotification(`查看时段: ${data.hour} 请求量 ${data.count}`, 'info');
+    },
+    onLogClick(log) {
+      this.showNotification(`日志详情: ${log.message}`, 'info');
+    },
+    onServiceClick(service) {
+      this.showNotification(`服务详情: ${service.name} (${service.status})`, 'info');
+    },
+    exportReport() {
+      const kpiData = this.data.get('kpiData');
+      const activeAlerts = this.data.get('activeAlerts');
+      const services = this.data.get('services');
+      const report = {
+        exportTime: new Date().toISOString(),
+        kpi: kpiData,
+        alerts: activeAlerts,
+        services: services,
+        summary: {
+          totalAlerts: activeAlerts.length,
+          healthyServices: services.filter(s => s.status === 'healthy').length,
+          avgCpu: kpiData[0].value,
+          avgMemory: kpiData[1].value
+        }
+      };
+
+      const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `monitoring_report_${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      this.showNotification('报告导出成功', 'success');
+    },
+    saveSettings(settings) {
+      this.stopAutoRefresh();
+      this.data.set('settings', { ...settings });
+      if (settings.autoRefresh) {
+        this.startAutoRefresh();
+      }
+      this.data.set('showSettings', false);
+      this.showNotification('设置已保存', 'success');
+    },
+    toggleTheme() {
+      const isDarkMode = !this.data.get('isDarkMode');
+      this.data.set('isDarkMode', isDarkMode);
+      this.showNotification(`已切换到${isDarkMode ? '暗色' : '亮色'}模式`, 'info');
+    },
+    showNotification(message, type) {
+      const timer = this.data.get('notificationTimer');
+      if (timer) {
+        clearTimeout(timer);
+      }
+      this.data.set('notification', {
+        show: true,
+        message,
+        type
+      });
+      const notificationTimer = setTimeout(() => {
+        this.hideNotification();
+        this.data.set('notificationTimer', null);
+      }, 3000);
+      this.data.set('notificationTimer', notificationTimer);
+    },
+    hideNotification() {
+      const notification = this.data.get('notification');
+      notification.show = false;
+      this.data.set('notification', notification);
+    },
+    requestNotificationPermission() {
+      if ('Notification' in window && this.data.get('settings').desktopNotifications) {
+        Notification.requestPermission();
+      }
+    }
+  }
+});
+</script>
+
+<style>
+/* 主容器 */
+.monitoring-dashboard {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f1f5f9;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.monitoring-dashboard.dark-mode {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+/* 状态栏 */
+.status-bar {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dark-mode .status-bar {
+  background: #1e293b;
+}
+
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-indicator.healthy {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.status-indicator.warning {
+  background: #f59e0b;
+  box-shadow: 0 0 8px #f59e0b;
+}
+
+.status-indicator.critical {
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+}
+
+.time-display {
+  display: flex;
+  gap: 16px;
+  font-family: monospace;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  padding: 6px 12px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dark-mode .icon-btn {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* KPI网格 */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dark-mode .kpi-card {
+  background: #1e293b;
+}
+
+.kpi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.kpi-card.healthy {
+  border-left: 4px solid #10b981;
+}
+
+.kpi-card.warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.kpi-card.critical {
+  border-left: 4px solid #ef4444;
+}
+
+.kpi-icon {
+  font-size: 32px;
+}
+
+.kpi-content {
+  flex: 1;
+}
+
+.kpi-title {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.kpi-unit {
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.kpi-trend {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.kpi-trend.up {
+  color: #10b981;
+}
+
+.kpi-trend.down {
+  color: #ef4444;
+}
+
+/* 图表区域 */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dark-mode .chart-card {
+  background: #1e293b;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.chart-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.chart-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.period-btn {
+  padding: 4px 12px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.dark-mode .period-btn {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+.period-btn.active {
+  background: #3b82f6;
+  color: white;
+}
+
+.chart-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.chart-wrapper.loading {
+  opacity: 0.5;
+}
+
+/* 请求图表 */
+.request-chart {
+  margin-top: 16px;
+}
+
+.chart-legend {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+/* 事件区域 */
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.alerts-panel, .logs-panel {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dark-mode .alerts-panel,
+.dark-mode .logs-panel {
+  background: #1e293b;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.alert-count {
+  background: #ef4444;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.clear-btn {
+  padding: 4px 8px;
+  background: none;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.log-filters {
+  display: flex;
+  gap: 8px;
+}
+
+.log-filters select {
+  padding: 4px 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+}
+
+/* 告警列表 */
+.alert-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.alert-item {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  gap: 12px;
+  background: #f8fafc;
+}
+
+.dark-mode .alert-item {
+  background: #334155;
+}
+
+.alert-item.critical {
+  border-left: 4px solid #ef4444;
+}
+
+.alert-item.warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.alert-item.info {
+  border-left: 4px solid #3b82f6;
+}
+
+.alert-icon {
+  font-size: 20px;
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.alert-desc {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.alert-time {
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.alert-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.alert-btn {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.alert-btn.resolve {
+  background: #10b981;
+  color: white;
+}
+
+.empty-alerts {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+/* 日志列表 */
+.log-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.log-item {
+  padding: 8px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.log-item:hover {
+  background: #f8fafc;
+}
+
+.log-time {
+  font-family: monospace;
+  color: #64748b;
+}
+
+.log-level {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 10px;
+}
+
+.log-level.info {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.log-level.warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.log-level.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.log-message {
+  flex: 1;
+}
+
+.log-source {
+  color: #94a3b8;
+  font-size: 10px;
+}
+
+/* 服务面板 */
+.services-panel {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.dark-mode .services-panel {
+  background: #1e293b;
+}
+
+.refresh-btn {
+  padding: 4px 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.service-card {
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.service-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.service-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.service-name {
+  font-weight: 600;
+}
+
+.service-status {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.service-status.healthy {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.service-status.warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.service-status.down {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.service-metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.metric {
+  text-align: center;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: #64748b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.service-progress {
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 6px;
+}
+
+.progress-bar {
+  height: 100%;
+  transition: width 0.3s;
+}
+
+/* 模态框 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.dark-mode .modal-content {
+  background: #1e293b;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.settings-form {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.form-group input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.cancel-btn, .submit-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #f1f5f9;
+}
+
+.submit-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+/* 通知 */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  z-index: 2000;
+  animation: slideIn 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.notification.success {
+  background: #10b981;
+  color: white;
+}
+
+.notification.error {
+  background: #ef4444;
+  color: white;
+}
+
+.notification.warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.notification.info {
+  background: #3b82f6;
+  color: white;
+}
+
+.notification button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* 响应式 */
+@media (max-width: 1024px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .status-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+</style>

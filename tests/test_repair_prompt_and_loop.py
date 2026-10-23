@@ -2,13 +2,18 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
+from SSM.extractors.factory import SSMFactory
 from local_server.api.evaluation_routes import _build_generation_prompt
 from migration_pipeline.orchestrator import MigrationPipelineOrchestrator
 from migration_pipeline.repair_client import RepairResult
 from migration_pipeline.run_pipeline import compact_repair_history_entry
 from migration_pipeline.stages.generate import GenerateStageInput, GenerateStageResult
 from migration_pipeline.stages.repair import RepairStage, RepairStageInput
+from migration_pipeline.stages.validate import ValidateStage, ValidateStageInput
 from migration_pipeline.utils.repair_prompt import RepairPromptInput, build_repair_prompt
+
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class StaticGenerateStage:
@@ -425,6 +430,74 @@ module.exports = san.defineComponent({
             self.assertNotIn("methods: {", result.repaired_code)
             self.assertEqual(output_path.read_text(encoding="utf-8"), result.repaired_code)
 
+    def test_deterministic_repair_combines_directive_and_methods_fixes(self):
+        code = '''<template><div s-if="{{ visible }}"></div></template>
+<script>
+module.exports = san.defineComponent({
+  methods: {
+    show() { this.data.set('visible', true); }
+  }
+});
+</script>
+<style></style>
+'''
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "Combined_repaired.san"
+            result = RepairStage(repair_client=FailIfCalledRepairClient()).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=code,
+                    output_file_path=str(output_path),
+                    validation_errors=[
+                        {"code": "invalid_san_directive_interpolation"},
+                        {"code": "vue_methods_wrapper"},
+                    ],
+                    visual_eval_errors=[{"code": "san_render_failed"}],
+                )
+            )
+
+            self.assertEqual(result.model, "san_combined_structural_normalizer")
+            self.assertEqual(
+                result.raw_response["normalizations"],
+                [
+                    "unwrapped_san_directive_expression",
+                    "unwrapped_final_top_level_methods_option",
+                ],
+            )
+            self.assertIn('s-if="visible"', result.repaired_code)
+            self.assertNotIn("methods: {", result.repaired_code)
+
+    def test_monitoring_dashboard_frozen_initial_repairs_structural_errors_together(self):
+        snapshot = (
+            ROOT
+            / "data/experiments/snapshots"
+            / "formal_30_v4_deferred_monitoring_dashboard_post_watch_fix_failed_20261023_203528"
+        )
+        vue_file = snapshot / "source/MonitoringDashboard.vue"
+        san_file = snapshot / "pipeline/complex/MonitoringDashboard.san"
+        ssm = SSMFactory().build_from_file(str(vue_file))
+        validation = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(san_file),
+            vue_file_path=str(vue_file),
+            ssm=ssm,
+        ))
+        original = san_file.read_text(encoding="utf-8")
+
+        normalized, repairs = RepairStage._deterministic_repair_plan(
+            original,
+            validation.validation_errors,
+            [],
+        )
+
+        self.assertNotEqual(normalized, original)
+        self.assertEqual(
+            [item[1] for item in repairs],
+            [
+                "unwrapped_san_directive_expression",
+                "unwrapped_final_top_level_methods_option",
+            ],
+        )
+
     def test_repair_normalizer_clones_state_array_before_local_mutation(self):
         code = '''<script>
 module.exports = san.defineComponent({
@@ -555,6 +628,9 @@ module.exports = san.defineComponent({
         self.assertIn('s-for="{{item in items}}"', prompt)
         self.assertIn("this.watch(...) directly inside San inited() or attached()", prompt)
         self.assertIn("uncalled top-level watch() method", prompt)
+        self.assertIn("inline_definition.source_code", prompt)
+        self.assertIn("never invent an undefined camelCase replacement", prompt)
+        self.assertIn("business method is named initData", prompt)
 
     def test_prompt_makes_computed_defaults_and_binding_direction_explicit(self):
         prompt = build_repair_prompt(RepairPromptInput(
@@ -638,6 +714,33 @@ module.exports = san.defineComponent({
             "critical value/checked/selected/disabled expressions remain attached to the same source element",
             prompt,
         )
+
+    def test_repair_prompt_includes_inline_components_and_reserved_method_collision(self):
+        prompt = build_repair_prompt(RepairPromptInput(
+            ssm={
+                "script": {
+                    "options": {
+                        "components": [{
+                            "registered_name": "status-chip",
+                            "source_name": "StatusChip",
+                            "definition_location": "inline",
+                            "inline_definition": {
+                                "source_name": "StatusChip",
+                                "source_code": "{template: '<strong>{{label}}</strong>'}",
+                            },
+                        }],
+                        "methods": [{"name": "initData", "body_full": "{}"}],
+                    }
+                }
+            },
+            current_code="<template></template>",
+        ))
+
+        self.assertIn("components_to_define_and_register", prompt)
+        self.assertIn("reserved_san_method_collisions", prompt)
+        self.assertIn("StatusChip", prompt)
+        self.assertIn("inline_definition.source_code", prompt)
+        self.assertIn("mounted calls in attached()", prompt)
         self.assertIn("every loop item/index alias referenced by a loop element is declared in s-for", prompt)
         self.assertIn("never destructure this.data", prompt)
         self.assertIn("this.data.get('initialGroups')", prompt)

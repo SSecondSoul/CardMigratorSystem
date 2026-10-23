@@ -134,38 +134,23 @@ class RepairStage:
             dom_compare_result=stage_input.dom_compare_result,
             extra_instruction=stage_input.repair_instruction,
         ))
-        deterministic_code = self._apply_deterministic_repairs(
+        deterministic_code, deterministic_repairs = self._deterministic_repair_plan(
             current_code,
             stage_input.validation_errors,
             stage_input.visual_eval_errors,
         )
         if deterministic_code != current_code:
-            error_codes = {issue.get("code") for issue in stage_input.validation_errors}
-            directive_code = self._normalize_wrapped_san_directives(current_code)
-            watch_code = self._normalize_misplaced_watch_registration(current_code)
-            methods_code = self._normalize_vue_methods_wrapper(current_code)
-            array_code = self._normalize_mutated_state_array_aliases(current_code)
-            if (
-                "invalid_san_directive_interpolation" in error_codes
-                and directive_code == deterministic_code
-            ):
-                normalizer_model = "san_directive_expression_normalizer"
-                normalization = "unwrapped_san_directive_expression"
-            elif (
-                "watch_registration_not_in_lifecycle" in error_codes
-                and watch_code == deterministic_code
-            ):
-                normalizer_model = "san_watch_lifecycle_normalizer"
-                normalization = "moved_watch_registration_into_lifecycle"
-            elif "vue_methods_wrapper" in error_codes and methods_code == deterministic_code:
-                normalizer_model = "san_methods_wrapper_normalizer"
-                normalization = "unwrapped_final_top_level_methods_option"
-            elif "nested_state_mutation" in error_codes and array_code == deterministic_code:
-                normalizer_model = "san_state_array_clone_normalizer"
-                normalization = "cloned_state_array_before_local_mutation"
-            else:
-                normalizer_model = "san_loop_binding_normalizer"
-                normalization = "removed_redundant_s_for_key_or_trackby_attribute"
+            normalizer_model = (
+                deterministic_repairs[0][0]
+                if len(deterministic_repairs) == 1
+                else "san_combined_structural_normalizer"
+            )
+            normalization_names = [item[1] for item in deterministic_repairs]
+            normalization = (
+                normalization_names[0]
+                if len(normalization_names) == 1
+                else "combined_structural_normalization"
+            )
             output_path = stage_input.resolve_output_file_path() or ""
             self._ensure_repaired_file(output_path, deterministic_code)
             return RepairStageResult(
@@ -177,7 +162,10 @@ class RepairStage:
                 provider="deterministic",
                 model=normalizer_model,
                 usage={"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
-                raw_response={"normalization": normalization},
+                raw_response={
+                    "normalization": normalization,
+                    "normalizations": normalization_names,
+                },
                 repair_summary=(
                     f"Deterministic structural normalization completed: {output_path}"
                 ),
@@ -217,6 +205,17 @@ class RepairStage:
                     "pipeline_postprocessing": [
                         *result.raw_response.get("pipeline_postprocessing", []),
                         "moved_watch_registration_into_lifecycle",
+                    ],
+                }
+        normalized_code = self._normalize_vue_methods_wrapper(result.code)
+        if normalized_code != result.code:
+            result.code = normalized_code
+            if isinstance(result.raw_response, dict):
+                result.raw_response = {
+                    **result.raw_response,
+                    "pipeline_postprocessing": [
+                        *result.raw_response.get("pipeline_postprocessing", []),
+                        "unwrapped_final_top_level_methods_option",
                     ],
                 }
         if any(
@@ -569,24 +568,64 @@ class RepairStage:
         validation_errors: list[dict[str, Any]],
         visual_eval_errors: list[dict[str, Any]],
     ) -> str:
+        return cls._deterministic_repair_plan(
+            code,
+            validation_errors,
+            visual_eval_errors,
+        )[0]
+
+    @classmethod
+    def _deterministic_repair_plan(
+        cls,
+        code: str,
+        validation_errors: list[dict[str, Any]],
+        visual_eval_errors: list[dict[str, Any]],
+    ) -> tuple[str, list[tuple[str, str]]]:
         error_codes = {issue.get("code") for issue in validation_errors}
+        normalized = code
+        applied: list[tuple[str, str]] = []
+
         if "invalid_san_directive_interpolation" in error_codes:
-            normalized = cls._normalize_wrapped_san_directives(code)
-            if normalized != code:
-                return normalized
+            candidate = cls._normalize_wrapped_san_directives(normalized)
+            if candidate != normalized:
+                normalized = candidate
+                applied.append((
+                    "san_directive_expression_normalizer",
+                    "unwrapped_san_directive_expression",
+                ))
         if "watch_registration_not_in_lifecycle" in error_codes:
-            normalized = cls._normalize_misplaced_watch_registration(code)
-            if normalized != code:
-                return normalized
+            candidate = cls._normalize_misplaced_watch_registration(normalized)
+            if candidate != normalized:
+                normalized = candidate
+                applied.append((
+                    "san_watch_lifecycle_normalizer",
+                    "moved_watch_registration_into_lifecycle",
+                ))
         if "vue_methods_wrapper" in error_codes:
-            normalized = cls._normalize_vue_methods_wrapper(code)
-            if normalized != code:
-                return normalized
+            candidate = cls._normalize_vue_methods_wrapper(normalized)
+            if candidate != normalized:
+                normalized = candidate
+                applied.append((
+                    "san_methods_wrapper_normalizer",
+                    "unwrapped_final_top_level_methods_option",
+                ))
         if error_codes == {"nested_state_mutation"} and not visual_eval_errors:
-            return cls._normalize_mutated_state_array_aliases(code)
+            candidate = cls._normalize_mutated_state_array_aliases(normalized)
+            if candidate != normalized:
+                normalized = candidate
+                applied.append((
+                    "san_state_array_clone_normalizer",
+                    "cloned_state_array_before_local_mutation",
+                ))
         if error_codes == {"invalid_s_for_key_binding"} and not visual_eval_errors:
-            return cls._normalize_redundant_s_for_attributes(code)
-        return code
+            candidate = cls._normalize_redundant_s_for_attributes(normalized)
+            if candidate != normalized:
+                normalized = candidate
+                applied.append((
+                    "san_loop_binding_normalizer",
+                    "removed_redundant_s_for_key_or_trackby_attribute",
+                ))
+        return normalized, applied
 
     def _ensure_repaired_file(self, repaired_file_path: str, repaired_code: str) -> None:
         if not repaired_file_path:

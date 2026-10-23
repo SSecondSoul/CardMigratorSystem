@@ -58,7 +58,18 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
         "Register Vue watchers by calling this.watch(...) directly inside San inited() or attached(). "
         "Never hide this.watch(...) inside an uncalled top-level watch() method.\n"
     )
-    return data_access_rule + class_attribute_rule + directive_rule + watch_rule + (
+    component_rule = (
+        "Every component in script.options.components must have a defined JavaScript identifier before "
+        "the parent san.defineComponent call. For an inline Vue component, migrate its complete "
+        "inline_definition.source_code to const SourceName = san.defineComponent({...}) and register "
+        "that exact identifier; never invent an undefined camelCase replacement.\n"
+    )
+    reserved_method_rule = (
+        "If a Vue business method is named initData, rename that business method in San because "
+        "initData is San's state factory. Update every call to the renamed method and preserve mounted "
+        "calls inside attached(), not in inited().\n"
+    )
+    return data_access_rule + class_attribute_rule + directive_rule + watch_rule + component_rule + reserved_method_rule + (
         "请仅基于给定 SSM 生成可运行、可直接落盘的 San 单文件组件代码。\n"
         "输出要求：\n"
         "1. 直接输出完整 .san 文件内容，必须包含 <template>、<script>、<style> 三段，不要输出解释或 Markdown 代码围栏。\n"
@@ -98,7 +109,16 @@ def _build_repair_prompt(payload: dict[str, Any]) -> str:
         "Register Vue watchers by calling this.watch(...) directly inside San inited() or attached(). "
         "Never hide this.watch(...) inside an uncalled top-level watch() method.\n"
     )
-    return directive_rule + watch_rule + (
+    component_rule = (
+        "Define every identifier used in the San components registry. When SSM marks a component "
+        "definition_location as inline, convert inline_definition.source_code into a complete local "
+        "san.defineComponent definition before registering it; never leave an undefined placeholder.\n"
+    )
+    reserved_method_rule = (
+        "A Vue business method named initData conflicts with San's initData state factory. Rename the "
+        "business method, update its call sites, and keep source mounted behavior in attached().\n"
+    )
+    return directive_rule + watch_rule + component_rule + reserved_method_rule + (
         "你是一个 Vue 到 San 迁移修复专家。请根据 SSM、当前 San 代码和修复报告，输出修复后的完整 .san 文件。\n"
         "要求：只输出代码，不要输出解释或 Markdown 代码围栏。\n\n"
         "--- SSM ---\n"

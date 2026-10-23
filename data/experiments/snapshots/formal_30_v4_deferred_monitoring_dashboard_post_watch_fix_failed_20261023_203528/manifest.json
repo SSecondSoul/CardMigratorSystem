@@ -1,0 +1,59 @@
+﻿{
+    "snapshot_id":  "formal_30_v4_deferred_monitoring_dashboard_post_watch_fix_failed_20261023_203528",
+    "created_at":  "2026-10-23T20:38:55+08:00",
+    "purpose":  "Freeze the failed MonitoringDashboard rerun after the San watch lifecycle registration correction and before diagnosing or changing the pipeline.",
+    "batch_id":  "formal_30_v4_deferred_regression",
+    "sample_id":  "MonitoringDashboard",
+    "component_name":  "MonitoringDashboard",
+    "classification":  "development_internal_regression",
+    "not_independent_holdout":  true,
+    "status":  "frozen_failed_after_watch_lifecycle_fix",
+    "implementation_commit":  "291f20a",
+    "result":  {
+                   "started_at":  "2026-10-23T20:28:16+08:00",
+                   "finished_at":  "2026-10-23T20:35:28+08:00",
+                   "elapsed_seconds":  432.312,
+                   "final_passed":  false,
+                   "stop_reason":  "max_repair_rounds_reached",
+                   "repair_rounds":  3,
+                   "generation_provider":  "qwen",
+                   "generation_model":  "qwen-plus",
+                   "generation_tokens":  95552,
+                   "repair_tokens":  114603,
+                   "total_tokens":  210155,
+                   "final_validation_error_codes":  [
+                                                        "san_script_compile_error",
+                                                        "lifecycle_behavior_not_landed"
+                                                    ],
+                   "final_visual_error_codes":  [
+                                                    "san_render_failed",
+                                                    "san_san_render_error"
+                                                ],
+                   "final_san_node_count":  0
+               },
+    "repair_audit":  {
+                         "attempt_1":  {
+                                           "provider":  "deterministic",
+                                           "model":  "san_directive_expression_normalizer",
+                                           "total_tokens":  0
+                                       },
+                         "attempt_2":  {
+                                           "provider":  "deterministic",
+                                           "model":  "san_methods_wrapper_normalizer",
+                                           "total_tokens":  0
+                                       },
+                         "attempt_3":  {
+                                           "provider":  "qwen",
+                                           "model":  "qwen-plus",
+                                           "total_tokens":  114603,
+                                           "final_passed":  false
+                                       }
+                     },
+    "decision":  "Preserve this failed rerun, diagnose the compile and lifecycle failures, then correct the pipeline rather than editing the generated San artifact directly.",
+    "boundaries":  [
+                       "This sample is a reused development case and is not independent holdout evidence.",
+                       "The generated San artifacts and repair history are preserved exactly as produced.",
+                       "No validator, Prompt, or repair-loop change was made before this snapshot was created."
+                   ],
+    "integrity_file":  "SHA256SUMS.txt"
+}

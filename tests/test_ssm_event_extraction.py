@@ -43,6 +43,22 @@ module.exports = {
 <style>.probe { display: block; }</style>
 """
 
+INLINE_COMPONENT_VUE = """<template><section><status-chip :label="label" /></section></template>
+<script>
+const StatusChip = {
+  name: 'StatusChip',
+  props: ['label'],
+  template: '<strong>{{ label }}</strong>'
+};
+export default {
+  name: 'InlineComponentHost',
+  components: {'status-chip': StatusChip},
+  data() { return {label: 'ready'}; }
+};
+</script>
+<style>.host { display: block; }</style>
+"""
+
 
 class SSMEventExtractionTests(unittest.TestCase):
     def _build(self, **kwargs):
@@ -192,6 +208,29 @@ class SSMEventExtractionTests(unittest.TestCase):
         self.assertEqual(len(assignments), 3)
         self.assertTrue(all(event["handler_type"] == "inline_expression" for event in assignments))
         self.assertTrue(all(event["handler_name"] == "" for event in assignments))
+
+    def test_inline_registered_component_source_is_preserved(self):
+        for use_node_bridge in (True, False):
+            with self.subTest(use_node_bridge=use_node_bridge):
+                ssm = SSMFactory(use_node_bridge=use_node_bridge).build(
+                    INLINE_COMPONENT_VUE,
+                    "InlineComponentHost.vue",
+                )
+                component = ssm["script"]["options"]["components"][0]
+                sub_component = ssm["sub_components"][0]
+
+                self.assertEqual(component["source_name"], "StatusChip")
+                self.assertEqual(component["definition_location"], "inline")
+                self.assertIn(
+                    "template: '<strong>{{ label }}</strong>'",
+                    component["inline_definition"]["source_code"],
+                )
+                self.assertTrue(sub_component["is_inline"])
+                self.assertFalse(sub_component["is_imported"])
+                self.assertEqual(
+                    sub_component["inline_definition"],
+                    component["inline_definition"],
+                )
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
   "batch_id": "formal_30_v4_deferred_regression",
   "config_sha256": "6ddf23a789315479d7b55693b6f2023e80eb2692a766ee9f898929d5235c2a49",
   "started_at": "2026-10-23T15:46:09+08:00",
-  "updated_at": "2026-10-23T20:03:16+08:00",
+  "updated_at": "2026-10-23T20:35:28+08:00",
   "samples": [
     {
       "id": "access_matrix",
@@ -310,26 +310,29 @@
       "report_file": "data/experiments/repair_reports/batches/formal_30_v4_deferred_regression/complex/MonitoringDashboard_repair_history.json",
       "final_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_deferred_regression\\complex\\MonitoringDashboard_repaired_repaired_repaired.san",
       "status": "completed",
-      "started_at": "2026-10-23T19:55:59+08:00",
-      "finished_at": "2026-10-23T20:03:16+08:00",
-      "elapsed_seconds": 436.844,
-      "final_passed": true,
-      "stop_reason": "passed",
+      "started_at": "2026-10-23T20:28:16+08:00",
+      "finished_at": "2026-10-23T20:35:28+08:00",
+      "elapsed_seconds": 432.312,
+      "final_passed": false,
+      "stop_reason": "max_repair_rounds_reached",
       "repair_rounds": 3,
       "max_repair_rounds": 3,
       "initial_validation_passed": false,
       "initial_validation_error_codes": [
         "missing_data_types",
         "invalid_san_directive_interpolation",
-        "duplicate_class_attribute",
-        "invalid_s_for_key_binding",
         "vue_methods_wrapper",
         "nested_state_mutation",
         "nested_state_mutation",
         "nested_state_mutation",
-        "event_arguments_not_landed"
+        "nested_state_mutation",
+        "nested_state_mutation",
+        "nested_state_mutation",
+        "san_script_compile_error",
+        "missing_lifecycle_mapping"
       ],
       "initial_validation_warning_codes": [
+        "data_initial_values_unavailable",
         "migration_hints_not_landed"
       ],
       "initial_visual_eval_passed": false,
@@ -339,53 +342,61 @@
       ],
       "initial_visual_warning_codes": [],
       "initial_structure_similarity": 0.0,
-      "final_validation_passed": true,
-      "final_validation_error_codes": [],
-      "final_visual_eval_passed": true,
-      "final_visual_error_codes": [],
-      "final_structure_similarity": 0.9912,
-      "final_tag_sequence_similarity": 1.0,
-      "final_text_similarity": 1.0,
-      "final_tree_edit_distance": 0.5,
+      "final_validation_passed": false,
+      "final_validation_error_codes": [
+        "san_script_compile_error",
+        "lifecycle_behavior_not_landed"
+      ],
+      "final_visual_eval_passed": false,
+      "final_visual_error_codes": [
+        "san_render_failed",
+        "san_san_render_error"
+      ],
+      "final_structure_similarity": 0.0,
+      "final_tag_sequence_similarity": 0.0,
+      "final_text_similarity": 0.0,
+      "final_tree_edit_distance": 0.0,
       "interaction_eval_passed": null,
       "interaction_eval_reason": "",
       "generation_provider": "qwen",
       "generation_model": "qwen-plus",
-      "generation_tokens": 95542,
-      "repair_tokens": 114615,
-      "total_tokens": 210157
+      "generation_tokens": 95552,
+      "repair_tokens": 114603,
+      "total_tokens": 210155
     }
   ],
   "aggregate": {
     "configured": 5,
     "completed": 5,
-    "passed": 5,
-    "failed": 0,
+    "passed": 4,
+    "failed": 1,
     "execution_errors": 0,
     "pending": 0,
-    "pass_rate_completed": 1.0,
+    "pass_rate_completed": 0.8,
     "initial_passed": 0,
     "initial_pass_rate_completed": 0.0,
-    "repaired_to_pass": 5,
+    "repaired_to_pass": 4,
     "repair_rounds_total": 10,
     "repair_rounds_average": 2.0,
-    "generation_tokens": 309645,
-    "repair_tokens": 535951,
-    "total_tokens": 845596,
+    "generation_tokens": 309655,
+    "repair_tokens": 535939,
+    "total_tokens": 845594,
     "stop_reason_counts": {
-      "passed": 5
+      "max_repair_rounds_reached": 1,
+      "passed": 4
     },
     "error_code_counts": {
       "initial_validation": {
-        "duplicate_class_attribute": 2,
-        "event_arguments_not_landed": 1,
+        "duplicate_class_attribute": 1,
         "hidden_template_reactive_dependency": 5,
-        "invalid_s_for_key_binding": 2,
+        "invalid_s_for_key_binding": 1,
         "invalid_san_directive_interpolation": 1,
         "missing_data_types": 2,
+        "missing_lifecycle_mapping": 1,
         "missing_prop_defaults": 3,
         "missing_watch_migration": 1,
-        "nested_state_mutation": 4,
+        "nested_state_mutation": 7,
+        "san_script_compile_error": 1,
         "vue_methods_wrapper": 3
       },
       "initial_visual": {
@@ -394,8 +405,14 @@
         "san_render_failed": 4,
         "san_san_render_error": 4
       },
-      "final_validation": {},
-      "final_visual": {}
+      "final_validation": {
+        "lifecycle_behavior_not_landed": 1,
+        "san_script_compile_error": 1
+      },
+      "final_visual": {
+        "san_render_failed": 1,
+        "san_san_render_error": 1
+      }
     },
     "by_complexity": {
       "simple": {
@@ -417,10 +434,10 @@
       "complex": {
         "configured": 5,
         "completed": 5,
-        "passed": 5,
-        "failed": 0,
+        "passed": 4,
+        "failed": 1,
         "execution_errors": 0,
-        "pass_rate_completed": 1.0
+        "pass_rate_completed": 0.8
       }
     }
   },

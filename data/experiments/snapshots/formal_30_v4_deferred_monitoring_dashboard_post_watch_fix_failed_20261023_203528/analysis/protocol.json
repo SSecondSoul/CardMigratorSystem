@@ -1,0 +1,380 @@
+{
+  "protocol_id": "formal_30_v4_deferred_regression_20261023",
+  "created_at": "2026-10-23T15:42:23+08:00",
+  "status": "in_progress_monitoring_dashboard_correction_pending_rerun",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "implementation": {
+    "commit": "9fcdee3",
+    "snapshot": "data/experiments/snapshots/formal_30_v4_targeted_final_20261023_152047",
+    "related_tests_passed": 49
+  },
+  "configuration": {
+    "path": "migration_pipeline/batch_configs/formal_30_v4_deferred_regression.json",
+    "file_sha256": "883432b67bf39d71c186d8ba625ab033cad90344c21d9f364ea9ba3a38c2fbac",
+    "runner_canonical_sha256": "6ddf23a789315479d7b55693b6f2023e80eb2692a766ee9f898929d5235c2a49",
+    "dry_run_passed": true,
+    "max_repair_rounds": 3
+  },
+  "source": {
+    "batch": "formal_30_v3",
+    "result_snapshot": "data/experiments/snapshots/formal_30_v3_results_20261022_200548",
+    "frozen_protocol": "data/experiments/protocols/formal_30_v3_frozen_20261022",
+    "input_policy": "Read Vue inputs directly from the frozen v3 protocol tree; do not use mutable dataset copies."
+  },
+  "execution_order": [
+    "access_matrix",
+    "localization_workspace",
+    "trip_itinerary_planner",
+    "TaskManager",
+    "MonitoringDashboard"
+  ],
+  "samples": [
+    {
+      "id": "access_matrix",
+      "component_name": "AccessMatrix",
+      "source_sha256": "bfa2ed8fed13245e1aa143d88f34f67551ed189af1d139fa4240fa71edf75ef5",
+      "source_size_bytes": 10715,
+      "v3_outcome": "max_repair_rounds_reached",
+      "v3_errors": [
+        "dom_structure_similarity_low"
+      ]
+    },
+    {
+      "id": "localization_workspace",
+      "component_name": "LocalizationWorkspace",
+      "source_sha256": "0e2dfccb1b63a350cf27f090e0a273406f98776526cf259b00e4a0c1d7cc2f42",
+      "source_size_bytes": 9500,
+      "v3_outcome": "max_repair_rounds_reached",
+      "v3_errors": [
+        "invalid_s_for_key_binding",
+        "dom_structure_similarity_low"
+      ]
+    },
+    {
+      "id": "trip_itinerary_planner",
+      "component_name": "TripItineraryPlanner",
+      "source_sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139",
+      "source_size_bytes": 8578,
+      "v3_outcome": "max_repair_rounds_reached",
+      "v3_errors": [
+        "hidden_template_reactive_dependency",
+        "dom_structure_similarity_low",
+        "dom_critical_attribute_mismatch"
+      ]
+    },
+    {
+      "id": "TaskManager",
+      "component_name": "TaskManager",
+      "source_sha256": "ce3c3d4596792683e1e94a37764fdd542a97b80e4cff0c5ad8ba60c052f9e74c",
+      "source_size_bytes": 39797,
+      "v3_outcome": "generation_timeout",
+      "v3_errors": []
+    },
+    {
+      "id": "MonitoringDashboard",
+      "component_name": "MonitoringDashboard",
+      "source_sha256": "f669fc59619a30ce94cf8188b57124ae7e7084aa65d84604751391e73ab0ae4b",
+      "source_size_bytes": 42275,
+      "v3_outcome": "generation_timeout",
+      "v3_errors": []
+    }
+  ],
+  "execution_policy": [
+    "Run one sample at a time in the fixed order.",
+    "Do not use --force for the first run of a sample.",
+    "Freeze each completed result before any evaluator, Prompt, or pipeline change and before any deliberate rerun.",
+    "Classify evaluator defects, migration defects, and infrastructure errors separately.",
+    "Do not tune against these five samples and then report them as independent evaluation."
+  ],
+  "execution_state": {
+    "updated_at": "2026-10-23T20:21:36+08:00",
+    "automatic_checkpoint": {
+      "configured": 5,
+      "completed": 5,
+      "passed": 5,
+      "failed": 0,
+      "pending": 0
+    },
+    "audit_confirmed_checkpoint": {
+      "configured": 5,
+      "completed": 5,
+      "passed": 4,
+      "audit_failed": 1,
+      "pending": 0
+    },
+    "audit_confirmed_passes": [
+      "access_matrix",
+      "localization_workspace",
+      "trip_itinerary_planner",
+      "TaskManager"
+    ],
+    "task_manager_first_complete_run": {
+      "status": "failed_after_max_repair_rounds",
+      "started_at": "2026-10-23T17:17:02+08:00",
+      "finished_at": "2026-10-23T17:26:16+08:00",
+      "repair_rounds": 3,
+      "generation_tokens": 65758,
+      "repair_tokens": 226717,
+      "total_tokens": 292475,
+      "final_validation_error_codes": [
+        "vue_methods_wrapper",
+        "missing_event_handlers",
+        "missing_event_bindings"
+      ],
+      "final_visual_error_codes": [
+        "san_render_failed",
+        "san_san_render_error"
+      ],
+      "final_render_error": "this.showNotification is not a function",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_task_manager_failed_20261023_173104"
+    },
+    "task_manager_correction": {
+      "classification": "ssm_extractor_failure_with_validator_and_prompt_gaps",
+      "changes": [
+        "Parse object-method watch handlers without crashing the Node AST bridge.",
+        "Scope fallback script extraction and component-name inference to the root exported component.",
+        "Classify inline assignment event expressions without treating them as handler methods.",
+        "Reject duplicate class attributes and instruct generation/repair prompts to merge static and dynamic classes."
+      ],
+      "post_fix_ssm": {
+        "component_name": "TaskManager",
+        "data_field_count": 18,
+        "method_count": 33,
+        "watch_expressions": [
+          "tasks",
+          "settings"
+        ],
+        "inline_assignment_handler_names_removed": true
+      },
+      "related_tests_passed": 73,
+      "rerun_completed": true,
+      "rerun_status": "failed_after_max_repair_rounds"
+    },
+    "task_manager_post_ssm_fix_rerun": {
+      "status": "failed_after_max_repair_rounds",
+      "started_at": "2026-10-23T17:52:24+08:00",
+      "finished_at": "2026-10-23T18:05:06+08:00",
+      "repair_rounds": 3,
+      "generation_tokens": 90818,
+      "repair_tokens": 322831,
+      "total_tokens": 413649,
+      "final_validation_error_codes": [
+        "vue_methods_wrapper",
+        "nested_state_mutation",
+        "missing_watch_migration"
+      ],
+      "final_visual_error_codes": [
+        "san_render_failed",
+        "san_san_render_error"
+      ],
+      "final_render_error": "localStorage is not defined",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_task_manager_post_ssm_fix_failed_20261023_180506",
+      "ssm_contract_verified": true
+    },
+    "task_manager_second_correction": {
+      "classification": "deterministic_structural_repair_and_renderer_parity",
+      "changes": [
+        "Add a guarded deterministic repair that unwraps a final top-level Vue methods option without changing method bodies.",
+        "Add localStorage and sessionStorage stubs to the San renderer to match the Vue renderer environment."
+      ],
+      "read_only_replay": {
+        "methods_wrapper_removed": true,
+        "render_passed": true,
+        "san_node_count": 45,
+        "remaining_validation_error_codes": [
+          "nested_state_mutation",
+          "missing_watch_migration"
+        ]
+      },
+      "related_tests_passed": 76,
+      "rerun_completed": true,
+      "rerun_status": "failed_after_max_repair_rounds"
+    },
+    "task_manager_post_deterministic_fix_rerun": {
+      "status": "failed_after_max_repair_rounds",
+      "started_at": "2026-10-23T18:39:14+08:00",
+      "finished_at": "2026-10-23T18:49:00+08:00",
+      "repair_rounds": 3,
+      "generation_tokens": 90876,
+      "repair_tokens": 217314,
+      "total_tokens": 308190,
+      "first_repair_provider": "deterministic",
+      "first_repair_model": "san_methods_wrapper_normalizer",
+      "first_repair_tokens": 0,
+      "final_validation_error_codes": [
+        "nested_state_mutation"
+      ],
+      "final_visual_error_codes": [],
+      "final_structure_similarity": 0.9889,
+      "final_text_similarity": 1.0,
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_task_manager_post_deterministic_fix_failed_20261023_184900",
+      "methods_wrapper_removed": true,
+      "watch_migration_verified": true,
+      "renderer_parity_verified": true
+    },
+    "task_manager_third_correction": {
+      "classification": "guarded_immutable_state_array_repair",
+      "changes": [
+        "Clone a direct this.data.get array alias before recognized local mutation when the same field is explicitly written back.",
+        "Apply the same traceable post-processing to an LLM repair when nested_state_mutation coexists with other errors."
+      ],
+      "read_only_replay": {
+        "state_array_cloned_before_splice": true,
+        "watch_count": 2,
+        "validation_passed": true,
+        "validation_error_codes": [],
+        "visual_passed": true,
+        "visual_error_codes": [],
+        "san_node_count": 45,
+        "structure_similarity": 0.9889,
+        "text_similarity": 1.0
+      },
+      "related_tests_passed": 80,
+      "rerun_completed": true,
+      "rerun_status": "passed"
+    },
+    "task_manager_passing_rerun": {
+      "status": "audit_confirmed_pass",
+      "started_at": "2026-10-23T18:58:32+08:00",
+      "finished_at": "2026-10-23T19:08:05+08:00",
+      "elapsed_seconds": 573.61,
+      "repair_rounds": 3,
+      "generation_tokens": 90802,
+      "repair_tokens": 216837,
+      "total_tokens": 307639,
+      "final_validation_error_codes": [],
+      "final_visual_error_codes": [],
+      "final_structure_similarity": 0.9889,
+      "final_tag_sequence_similarity": 1.0,
+      "final_text_similarity": 1.0,
+      "final_tree_edit_distance": 0.5,
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_task_manager_pass_20261023_190805",
+      "independent_replay": {
+        "validation_passed": true,
+        "validation_warning_codes": [
+          "migration_hints_not_landed"
+        ],
+        "visual_eval_passed": true,
+        "vue_node_count": 45,
+        "san_node_count": 45,
+        "methods_wrapper_present": false,
+        "watch_count": 2,
+        "immutable_tasks_clone_present": true
+      },
+      "interpretation": "Passing reused development regression; not independent holdout evidence."
+    },
+    "monitoring_dashboard_first_complete_run": {
+      "status": "failed_after_max_repair_rounds",
+      "started_at": "2026-10-23T19:20:35+08:00",
+      "finished_at": "2026-10-23T19:31:06+08:00",
+      "elapsed_seconds": 631.265,
+      "repair_rounds": 3,
+      "generation_tokens": 95267,
+      "repair_tokens": 228044,
+      "total_tokens": 323311,
+      "final_validation_error_codes": [
+        "lifecycle_behavior_not_landed"
+      ],
+      "final_visual_error_codes": [
+        "dom_structure_similarity_low"
+      ],
+      "final_structure_similarity": 0.0,
+      "final_tag_sequence_similarity": 0.9636,
+      "final_text_similarity": 0.9355,
+      "final_tree_edit_distance": 137.5,
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_failed_20261023_193106",
+      "interpretation": "Failed reused development regression; not independent holdout evidence."
+    },
+    "monitoring_dashboard_correction": {
+      "classification": "lifecycle_equivalence_false_positive_with_llm_directive_syntax_regression",
+      "changes": [
+        "Accept a source helper method as lifecycle-equivalent only when every known nested method call is present in the target hook; for a Vue business method named initData, also allow complete inlining into San inited because the name is reserved by San.",
+        "Reject interpolation-wrapped San structural directives with invalid_san_directive_interpolation.",
+        "Deterministically unwrap complete {{ ... }} or {= ... =} wrappers from s-if, s-else-if, and s-for values without changing ordinary bound attributes.",
+        "Apply the same directive normalization to every LLM repair response and record unwrapped_san_directive_expression in pipeline_postprocessing.",
+        "Add raw-directive requirements and forbidden wrapped examples to generation and repair prompts."
+      ],
+      "read_only_replay": {
+        "round_2_validation_passed": true,
+        "round_2_visual_passed": true,
+        "round_2_vue_node_count": 57,
+        "round_2_san_node_count": 57,
+        "round_2_structure_similarity": 1.0,
+        "round_2_tag_sequence_similarity": 1.0,
+        "round_2_text_similarity": 1.0,
+        "round_2_tree_edit_distance": 0.0,
+        "round_3_raw_validation_error_codes": [
+          "invalid_san_directive_interpolation"
+        ],
+        "round_3_normalized_validation_passed": true,
+        "round_3_normalized_visual_passed": true,
+        "round_3_normalized_vue_node_count": 57,
+        "round_3_normalized_san_node_count": 57,
+        "round_3_normalized_structure_similarity": 1.0,
+        "round_3_normalized_tag_sequence_similarity": 1.0,
+        "round_3_normalized_text_similarity": 1.0,
+        "round_3_normalized_tree_edit_distance": 0.0
+      },
+      "related_tests_passed": 87,
+      "rerun_completed": true,
+      "rerun_status": "automatic_pass_rejected_by_audit"
+    },
+    "monitoring_dashboard_post_correction_rerun": {
+      "status": "automatic_pass_rejected_by_audit",
+      "started_at": "2026-10-23T19:55:59+08:00",
+      "finished_at": "2026-10-23T20:03:16+08:00",
+      "elapsed_seconds": 436.844,
+      "repair_rounds": 3,
+      "generation_tokens": 95542,
+      "repair_tokens": 114615,
+      "total_tokens": 210157,
+      "first_repair_provider": "deterministic",
+      "first_repair_model": "san_directive_expression_normalizer",
+      "first_repair_tokens": 0,
+      "second_repair_provider": "deterministic",
+      "second_repair_model": "san_methods_wrapper_normalizer",
+      "second_repair_tokens": 0,
+      "automatic_final_validation_error_codes": [],
+      "automatic_final_visual_error_codes": [],
+      "final_structure_similarity": 0.9912,
+      "final_tag_sequence_similarity": 1.0,
+      "final_text_similarity": 1.0,
+      "final_tree_edit_distance": 0.5,
+      "audit_error_code": "watch_registration_not_in_lifecycle",
+      "audit_evidence": "The generated top-level watch() method contains this.watch('settings', ...) but is never called by inited() or attached(), so the watcher is not registered.",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_audit_failure_20261023_200316",
+      "interpretation": "Automatic pass rejected during audit; reused development regression, not independent holdout evidence."
+    },
+    "monitoring_dashboard_second_correction": {
+      "classification": "watch_registration_lifecycle_placement_gap",
+      "changes": [
+        "Require every source Vue watch expression to have a matching this.watch(...) call directly inside San inited() or attached().",
+        "Report watch_registration_not_in_lifecycle when a matching call exists elsewhere in the component but will not run automatically.",
+        "Move a narrowly matched top-level watch() wrapper containing this.watch(...) into an existing inited() or attached() hook and record moved_watch_registration_into_lifecycle.",
+        "Apply the same guarded watch placement normalization to every LLM repair response.",
+        "Explicitly prohibit uncalled watch() wrappers in generation and repair prompts."
+      ],
+      "read_only_replay": {
+        "frozen_final_error_codes_before_normalization": [
+          "watch_registration_not_in_lifecycle"
+        ],
+        "normalizer_changed_code": true,
+        "ordinary_watch_wrapper_remaining": false,
+        "watch_registration_in_inited": true,
+        "validation_passed_after_normalization": true,
+        "validation_error_codes_after_normalization": [],
+        "visual_passed_after_normalization": true,
+        "vue_node_count": 57,
+        "san_node_count": 57,
+        "tag_sequence_similarity": 1.0
+      },
+      "related_tests_passed": 92,
+      "rerun_completed": false,
+      "rerun_status": "pending_after_commit"
+    }
+  },
+  "next_action": "Commit the MonitoringDashboard watch-placement correction and frozen audit-failure evidence; then deliberately rerun only MonitoringDashboard with --force and include full state."
+}

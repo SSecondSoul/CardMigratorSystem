@@ -186,6 +186,8 @@ class ValidateStage:
             checks,
         )
         self._validate_script_rules(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_component_registrations(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_reserved_method_collisions(blocks.get("script", ""), ssm, issues, checks)
         self._validate_template_reactive_dependencies(
             blocks.get("template", ""),
             blocks.get("script", ""),
@@ -294,6 +296,95 @@ class ValidateStage:
                 message="San 组件未使用 dataTypes。" + ("当前检测到 propTypes，必须改为 dataTypes。" if has_proptypes else ""),
                 location="script",
                 suggestion="将 Vue props 迁移为 San dataTypes。",
+            ))
+
+    def _validate_component_registrations(
+        self,
+        script: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        expected_items = self._script_options(ssm).get("components", [])
+        expected_names = {
+            str(item.get("registered_name") or item.get("registered_tag"))
+            for item in expected_items if isinstance(item, dict)
+            if item.get("registered_name") or item.get("registered_tag")
+        }
+        registry_match = re.search(r"\bcomponents\s*:\s*\{", script)
+        registry_body = (
+            self._extract_braced_body(script, registry_match.end() - 1)
+            if registry_match else ""
+        )
+        entries = {
+            key or bare_key: identifier
+            for key, bare_key, identifier in re.findall(
+                r"(?:['\"]([^'\"]+)['\"]|([A-Za-z_$][\w$-]*))\s*:\s*"
+                r"([A-Za-z_$][\w$]*)",
+                registry_body,
+            )
+        }
+        missing = sorted(expected_names - set(entries))
+        declared = set(re.findall(
+            r"\b(?:const|let|var|function|class)\s+([A-Za-z_$][\w$]*)",
+            script,
+        ))
+        unresolved = sorted({
+            f"{tag}: {identifier}"
+            for tag, identifier in entries.items()
+            if identifier not in declared
+        })
+
+        checks.append(ValidationCheck(
+            name="component_registration_integrity",
+            passed=not missing and not unresolved,
+            message="Every expected child component is registered with a defined identifier.",
+        ))
+        if missing:
+            issues.append(ValidationIssue(
+                code="missing_component_registration",
+                message=f"Missing San component registrations: {', '.join(missing)}.",
+                location="script.components",
+                suggestion="Register every Vue child component under the corresponding San tag.",
+            ))
+        if unresolved:
+            issues.append(ValidationIssue(
+                code="unresolved_component_registration",
+                message=f"San component registrations reference undefined identifiers: {', '.join(unresolved)}.",
+                location="script.components",
+                suggestion=(
+                    "Define each local child with san.defineComponent before the parent component, "
+                    "using the SSM inline_definition source when available."
+                ),
+            ))
+
+    def _validate_reserved_method_collisions(
+        self,
+        script: str,
+        ssm: dict[str, Any],
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        source_methods = set(self._expected_method_names(ssm))
+        has_collision = "initData" in source_methods and bool(
+            re.search(r"\bthis\.initData\s*\(", script)
+        )
+        checks.append(ValidationCheck(
+            name="reserved_init_data_method_collision",
+            passed=not has_collision,
+            message="Vue business initData does not collide with San's initData state factory.",
+        ))
+        if has_collision:
+            issues.append(ValidationIssue(
+                code="reserved_init_data_method_collision",
+                message=(
+                    "The source defines a business method named initData, but the San component calls "
+                    "this.initData(), which resolves to San's state factory rather than that business method."
+                ),
+                location="script",
+                suggestion=(
+                    "Rename the Vue business method, update its calls, and keep mounted behavior in attached()."
+                ),
             ))
 
     def _validate_template_rules(
@@ -1537,7 +1628,7 @@ class ValidateStage:
         method_bodies: dict[str, str],
     ) -> bool:
         call_pattern = rf"\bthis\.{re.escape(method_name)}\s*\("
-        if re.search(call_pattern, target_body):
+        if method_name != "initData" and re.search(call_pattern, target_body):
             return True
 
         nested_methods = {
@@ -1551,12 +1642,6 @@ class ValidateStage:
         if not nested_methods:
             return False
 
-        candidate_bodies = [target_body]
-        # A Vue business method named initData cannot remain a normal San method.
-        # It may be conservatively inlined into San's inited hook instead.
-        if method_name == "initData" and target_hook != "inited":
-            candidate_bodies.append(self._extract_function_body(script, "inited"))
-
         return any(
             all(
                 re.search(
@@ -1565,7 +1650,7 @@ class ValidateStage:
                 )
                 for nested_name in nested_methods
             )
-            for candidate_body in candidate_bodies
+            for candidate_body in [target_body]
         )
 
     def _validate_event_binding_completeness(

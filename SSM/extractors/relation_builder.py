@@ -653,20 +653,41 @@ class RelationBuilder:
                 registry_map.setdefault(source_name, component)
 
         subs = []
+        seen_components: set[str] = set()
         for ref in component_refs:
             source_name = ref.get("source_name", "")
             # 匹配 script 中的注册
             reg_match = registry_map.get(source_name) or registry_map.get(
                 _kebab_case(source_name))
+            registered_name = (
+                reg_match.get("registered_name", source_name)
+                if reg_match else source_name
+            )
+            component_key = _kebab_case(registered_name)
+            if component_key in seen_components:
+                continue
+            seen_components.add(component_key)
 
             subs.append({
                 "name": source_name,
+                "source_name": (
+                    reg_match.get("source_name", source_name)
+                    if reg_match else source_name
+                ),
+                "registered_name": registered_name,
+                "definition_location": (
+                    reg_match.get("definition_location", "unknown")
+                    if reg_match else "unknown"
+                ),
+                "inline_definition": (
+                    reg_match.get("inline_definition") if reg_match else None
+                ),
                 "is_inline": (
                     reg_match.get("definition_location") == "inline"
                     if reg_match else False
                 ),
                 "is_imported": (
-                    reg_match.get("definition_location") == "unknown"
+                    reg_match.get("definition_location") == "import"
                     if reg_match else False
                 ),
                 "import_source": None,

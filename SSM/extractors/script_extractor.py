@@ -396,6 +396,7 @@ class ScriptExtractor:
 
     def _extract_options(self, source: str) -> dict:
         """提取组件各选项。"""
+        full_source = source
         source = _extract_exported_options_object(source)
         options: dict[str, Any] = {}
 
@@ -404,7 +405,7 @@ class ScriptExtractor:
         options["name"] = name_match.group(1) if name_match else None
 
         # components
-        options["components"] = self._extract_components_option(source)
+        options["components"] = self._extract_components_option(source, full_source)
 
         # props
         options["props"] = self._extract_props(source)
@@ -440,7 +441,7 @@ class ScriptExtractor:
 
         return options
 
-    def _extract_components_option(self, source: str) -> List[dict]:
+    def _extract_components_option(self, source: str, full_source: str = "") -> List[dict]:
         """提取 components: { ... } 注册表。"""
         components = []
 
@@ -456,13 +457,40 @@ class ScriptExtractor:
             key = prop["key"]
             value = prop["value"]
             registered_tag = key  # 注册用名
+            source_name = value if not prop["is_object"] else f"inline_{key}"
+            inline_definition = None
+            definition_location = "unknown"
+
+            if prop["is_object"]:
+                definition_location = "inline"
+                inline_definition = {
+                    "source_name": source_name,
+                    "source_code": value,
+                }
+            elif re.fullmatch(r"[A-Za-z_$][\w$]*", value):
+                declaration = re.search(
+                    rf"\b(?:const|let|var)\s+{re.escape(value)}\s*=\s*\{{",
+                    full_source,
+                )
+                if declaration:
+                    brace_start = full_source.find("{", declaration.start())
+                    definition_location = "inline"
+                    inline_definition = {
+                        "source_name": value,
+                        "source_code": _extract_object_body(full_source, brace_start),
+                    }
+                elif re.search(
+                    rf"\bimport\s+(?:[^;\n]*\b)?{re.escape(value)}\b[^;\n]*\bfrom\b",
+                    full_source,
+                ):
+                    definition_location = "import"
 
             components.append({
                 "registered_name": key,
                 "registered_tag": registered_tag,
-                "source_name": value if not prop["is_object"] else f"inline_{key}",
-                "definition_location": "inline" if prop["is_object"] else "unknown",
-                "inline_definition": None,
+                "source_name": source_name,
+                "definition_location": definition_location,
+                "inline_definition": inline_definition,
             })
 
         return components

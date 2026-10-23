@@ -520,8 +520,13 @@ function buildScriptAnalysis(scriptContent) {
 
   const imports = [];
   const topLevelDeclarations = [];
+  const topLevelObjectDefinitions = new Map();
+  const importedNames = new Set();
   babelTraverse(ast, {
     ImportDeclaration(path) {
+      for (const spec of path.node.specifiers || []) {
+        if (spec.local && spec.local.name) importedNames.add(spec.local.name);
+      }
       imports.push({
         kind: 'import',
         source: path.node.source.value,
@@ -532,7 +537,14 @@ function buildScriptAnalysis(scriptContent) {
     VariableDeclaration(path) {
       if (path.parent.type !== 'Program') return;
       for (const decl of path.node.declarations) {
-        if (decl.id.type === 'Identifier') topLevelDeclarations.push({ name: decl.id.name, kind: path.node.kind, is_used_in_component: false });
+        if (decl.id.type !== 'Identifier') continue;
+        topLevelDeclarations.push({ name: decl.id.name, kind: path.node.kind, is_used_in_component: false });
+        if (decl.init && decl.init.type === 'ObjectExpression') {
+          topLevelObjectDefinitions.set(decl.id.name, {
+            source_name: decl.id.name,
+            source_code: nodeToCode(decl.init, scriptContent),
+          });
+        }
       }
     },
     FunctionDeclaration(path) {
@@ -571,12 +583,17 @@ function buildScriptAnalysis(scriptContent) {
       if (prop.type !== 'ObjectProperty' && prop.type !== 'ObjectMethod') continue;
       const key = propertyName(prop);
       const sourceName = prop.type === 'ObjectProperty' && prop.value.type === 'Identifier' ? prop.value.name : `inline_${key}`;
+      const directInline = prop.type === 'ObjectProperty' && prop.value.type === 'ObjectExpression';
+      const referencedInline = topLevelObjectDefinitions.get(sourceName) || null;
+      const inlineDefinition = directInline
+        ? { source_name: sourceName, source_code: nodeToCode(prop.value, scriptContent) }
+        : referencedInline;
       options.components.push({
         registered_name: key,
         registered_tag: kebabCase(key),
         source_name: sourceName,
-        definition_location: prop.type === 'ObjectProperty' && prop.value.type === 'ObjectExpression' ? 'inline' : 'unknown',
-        inline_definition: null,
+        definition_location: inlineDefinition ? 'inline' : (importedNames.has(sourceName) ? 'import' : 'unknown'),
+        inline_definition: inlineDefinition,
       });
     }
   }

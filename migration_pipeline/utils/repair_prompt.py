@@ -41,8 +41,19 @@ class RepairPromptBuilder:
             "Never use s-if=\"{{showSettings}}\", s-if=\"{= showSettings =}\", "
             "or s-for=\"{{item in items}}\".\n"
         )
+        component_rule = (
+            "Define every JavaScript identifier used in the San components registry. For each SSM "
+            "component whose definition_location is inline, migrate inline_definition.source_code "
+            "to a complete local san.defineComponent definition before the parent component; never "
+            "replace a source identifier with an undefined placeholder.\n"
+        )
+        reserved_method_rule = (
+            "If Vue defines a business method named initData, rename that business method in San, "
+            "update all calls, and preserve mounted calls in attached(). San initData must remain only "
+            "the state factory that returns defaults.\n"
+        )
 
-        return data_access_rule + class_binding_rule + directive_rule + (
+        return data_access_rule + class_binding_rule + directive_rule + component_rule + reserved_method_rule + (
             "你是一个 Vue 到 San 迁移修复专家。请根据 SSM、当前 San 代码和校验报告，修复 San 单文件组件。\n"
             "修复目标：输出必须满足下面列出的 San 结构、语法和渲染一致性规则；不要只生成语义上看起来像 San 的代码。\n\n"
             "输出要求：\n"
@@ -150,6 +161,11 @@ class RepairPromptBuilder:
             "method_logic_to_preserve": self._logic_items(options.get("methods", []), "body_full", "body"),
             "computed_to_preserve": self._names_from_items(options.get("computed", []), ("name",)),
             "watch_to_preserve": self._names_from_items(options.get("watch", []), ("expression", "name")),
+            "components_to_define_and_register": self._component_contracts(options),
+            "reserved_san_method_collisions": sorted(
+                set(self._names_from_items(options.get("methods", []), ("name",)))
+                & {"initData"}
+            ),
             "event_handlers_to_define_and_bind": self._event_handlers(ssm),
             "required_san_patterns": [
                 "dataTypes: { ... } for props",
@@ -159,6 +175,8 @@ class RepairPromptBuilder:
                 "inited() with this.data.get('propName') and this.data.set(...) when data depends on props",
                 "created/mounted/beforeDestroy/destroyed lifecycle behavior preserved in inited/attached/disposed, including initialization, method calls, and timer cleanup",
                 "Vue watchers registered by calling this.watch(...) directly inside San inited() or attached()",
+                "every inline Vue subcomponent migrated from inline_definition.source_code to a defined local san.defineComponent identifier and registered under its source tag",
+                "Vue business method initData renamed to avoid collision with San initData, with mounted call sites preserved in attached",
                 "DOM child order preserved exactly, especially input/checkbox relative to adjacent text, percent signs, and buttons",
                 "computed values must be read with this.data.get('computedName') from methods and other computed functions",
                 "nested objects and arrays from this.data.get(...) or computed values are updated immutably and written back with this.data.set(...) instead of property assignment or push/splice",
@@ -186,6 +204,8 @@ class RepairPromptBuilder:
                 "direct property assignment or mutating array methods on values returned by this.data.get(...) or computed state",
                 "empty lifecycle hooks that omit source initialization, method calls, or timer cleanup",
                 "Vue watch: {...} option or an uncalled top-level watch() method that hides this.watch(...) outside inited()/attached()",
+                "undefined identifiers in the components registry",
+                "a Vue business initData method overwriting or being confused with San's initData state factory",
                 "reordered DOM children hidden by CSS order or flex layout",
                 "{= methodCall(...) =} or other two-way binding to a derived expression",
                 "disabled=\"{= expression =}\", checked=\"{= expression =}\", or selected=\"{= expression =}\"",
@@ -206,6 +226,19 @@ class RepairPromptBuilder:
         script = ssm.get("script", {}) if isinstance(ssm, dict) else {}
         options = script.get("options", {}) if isinstance(script, dict) else {}
         return options if isinstance(options, dict) else {}
+
+    def _component_contracts(self, options: dict[str, Any]) -> list[dict[str, Any]]:
+        result = []
+        for item in options.get("components", []) if isinstance(options, dict) else []:
+            if not isinstance(item, dict):
+                continue
+            result.append({
+                "registered_name": item.get("registered_name", ""),
+                "source_name": item.get("source_name", ""),
+                "definition_location": item.get("definition_location", "unknown"),
+                "inline_definition": item.get("inline_definition"),
+            })
+        return result
 
     def _component_name(self, ssm: dict[str, Any], options: dict[str, Any]) -> str:
         metadata = ssm.get("metadata", {}) if isinstance(ssm, dict) else {}

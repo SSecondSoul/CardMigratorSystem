@@ -1,7 +1,7 @@
 {
   "protocol_id": "formal_30_v4_deferred_regression_20261023",
   "created_at": "2026-10-23T15:42:23+08:00",
-  "status": "in_progress_monitoring_dashboard_correction_pending_rerun",
+  "status": "in_progress_monitoring_dashboard_inline_component_correction_pending_commit",
   "batch_id": "formal_30_v4_deferred_regression",
   "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
   "classification": "development_internal_regression",
@@ -90,12 +90,12 @@
     "Do not tune against these five samples and then report them as independent evaluation."
   ],
   "execution_state": {
-    "updated_at": "2026-10-23T20:21:36+08:00",
+    "updated_at": "2026-10-23T20:35:28+08:00",
     "automatic_checkpoint": {
       "configured": 5,
       "completed": 5,
-      "passed": 5,
-      "failed": 0,
+      "passed": 4,
+      "failed": 1,
       "pending": 0
     },
     "audit_confirmed_checkpoint": {
@@ -372,9 +372,71 @@
         "tag_sequence_similarity": 1.0
       },
       "related_tests_passed": 92,
+      "rerun_completed": true,
+      "rerun_status": "failed_after_max_repair_rounds"
+    },
+    "monitoring_dashboard_post_watch_fix_rerun": {
+      "status": "failed_after_max_repair_rounds",
+      "started_at": "2026-10-23T20:28:16+08:00",
+      "finished_at": "2026-10-23T20:35:28+08:00",
+      "elapsed_seconds": 432.312,
+      "repair_rounds": 3,
+      "generation_tokens": 95552,
+      "repair_tokens": 114603,
+      "total_tokens": 210155,
+      "first_repair_provider": "deterministic",
+      "first_repair_model": "san_directive_expression_normalizer",
+      "first_repair_tokens": 0,
+      "second_repair_provider": "deterministic",
+      "second_repair_model": "san_methods_wrapper_normalizer",
+      "second_repair_tokens": 0,
+      "final_validation_error_codes": [
+        "san_script_compile_error",
+        "lifecycle_behavior_not_landed"
+      ],
+      "final_visual_error_codes": [
+        "san_render_failed",
+        "san_san_render_error"
+      ],
+      "final_compile_error": "kpiCard is not defined",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_post_watch_fix_failed_20261023_203528",
+      "interpretation": "Failed reused development regression after the watch correction; not independent holdout evidence."
+    },
+    "monitoring_dashboard_third_correction": {
+      "classification": "inline_subcomponent_ssm_loss_reserved_init_data_collision_and_repair_round_fragmentation",
+      "changes": [
+        "Preserve complete source code for top-level object constants referenced by the Vue components registry in both Node AST and Python fallback extraction.",
+        "Expose inline component definitions through the SSM sub_components contract and deduplicate repeated template references.",
+        "Reject missing or undefined San component registry identifiers with dedicated validation codes.",
+        "Treat a Vue business method named initData as a San reserved-name collision; require its behavior to remain in the mapped attached hook under a renamed method or equivalent inline calls.",
+        "Add inline-component and reserved-initData rules to generation and repair prompts.",
+        "Compose compatible deterministic structural normalizations in one repair round and apply methods-wrapper normalization to LLM repair output."
+      ],
+      "read_only_replay": {
+        "inline_components_extracted": 7,
+        "inline_component_names": [
+          "KPICard",
+          "RealTimeChart",
+          "RequestChart",
+          "AlertList",
+          "LogList",
+          "ServiceGrid",
+          "SettingsForm"
+        ],
+        "frozen_final_new_error_codes": [
+          "unresolved_component_registration",
+          "reserved_init_data_method_collision",
+          "lifecycle_behavior_not_landed"
+        ],
+        "initial_structural_repairs_combined": [
+          "unwrapped_san_directive_expression",
+          "unwrapped_final_top_level_methods_option"
+        ]
+      },
+      "related_tests_passed": 99,
       "rerun_completed": false,
-      "rerun_status": "pending_after_commit"
+      "rerun_status": "pending_after_commit_and_server_restart"
     }
   },
-  "next_action": "Commit the MonitoringDashboard watch-placement correction and frozen audit-failure evidence; then deliberately rerun only MonitoringDashboard with --force and include full state."
+  "next_action": "Commit the third MonitoringDashboard correction and frozen failed evidence, restart the local server so it loads the new extractor and prompts, then deliberately rerun only MonitoringDashboard with --force and include full state."
 }

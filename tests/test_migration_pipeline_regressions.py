@@ -12,6 +12,11 @@ from migration_pipeline.utils.vue_render import render_vue_component
 
 
 ROOT = Path(__file__).resolve().parents[1]
+MONITORING_FAILURE_SNAPSHOT = (
+    ROOT
+    / "data/experiments/snapshots"
+    / "formal_30_v4_deferred_monitoring_dashboard_post_watch_fix_failed_20261023_203528"
+)
 VUE = ROOT / "data/datasets/components/02_medium/KanbanColumnBoard/vue/KanbanColumnBoard.vue"
 REFERENCE_SAN = ROOT / "data/datasets/components/02_medium/KanbanColumnBoard/san/KanbanColumnBoard.san"
 FORM_RULE_VUE = ROOT / "data/datasets/components/02_medium/FormRulePlayground/vue/FormRulePlayground.vue"
@@ -983,7 +988,7 @@ module.exports = san.defineComponent({
         self.assertIn("watch_registration_not_in_lifecycle", error_codes)
         self.assertNotIn("missing_watch_migration", error_codes)
 
-    def test_validator_allows_complete_reserved_init_data_method_inlining(self):
+    def test_validator_allows_complete_reserved_init_data_method_inlining_in_attached(self):
         ssm = {
             "script": {
                 "options": {
@@ -1007,11 +1012,10 @@ module.exports = san.defineComponent({
         code = self._minimal_san_component(
             '<div></div>',
             """
-    inited() {
+    inited() {},
+    attached() {
         this.loadMetrics();
         this.loadAlerts();
-    },
-    attached() {
         this.startPolling();
     },
     loadMetrics() {},
@@ -1030,6 +1034,107 @@ module.exports = san.defineComponent({
             "lifecycle_behavior_not_landed",
             {issue["code"] for issue in result.validation_errors},
         )
+
+    def test_validator_rejects_reserved_init_data_business_call(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "lifecycle_hooks": [{
+                        "vue_hook": "mounted",
+                        "san_hook": "attached",
+                        "body": "{ this.initData(); }",
+                    }],
+                    "methods": [{
+                        "name": "initData",
+                        "body_full": "{ this.loadMetrics(); }",
+                    }, {
+                        "name": "loadMetrics",
+                        "body_full": "{}",
+                    }],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<div></div>',
+            """
+    attached() { this.initData(); },
+    loadMetrics() {}
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertIn("reserved_init_data_method_collision", error_codes)
+        self.assertIn("lifecycle_behavior_not_landed", error_codes)
+
+    def test_validator_rejects_undefined_component_registry_identifier(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "components": [{
+                        "registered_name": "status-chip",
+                        "source_name": "StatusChip",
+                        "definition_location": "inline",
+                    }],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<status-chip></status-chip>',
+            """
+    components: {'status-chip': statusChip}
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertIn("unresolved_component_registration", error_codes)
+
+    def test_monitoring_dashboard_frozen_failure_exposes_component_and_lifecycle_causes(self):
+        vue_file = MONITORING_FAILURE_SNAPSHOT / "source/MonitoringDashboard.vue"
+        san_file = (
+            MONITORING_FAILURE_SNAPSHOT
+            / "pipeline/complex/MonitoringDashboard_repaired_repaired_repaired.san"
+        )
+        ssm = SSMFactory().build_from_file(str(vue_file))
+        components = ssm["script"]["options"]["components"]
+
+        self.assertEqual(len(components), 7)
+        self.assertEqual(
+            {item["source_name"] for item in components},
+            {
+                "KPICard",
+                "RealTimeChart",
+                "RequestChart",
+                "AlertList",
+                "LogList",
+                "ServiceGrid",
+                "SettingsForm",
+            },
+        )
+        self.assertTrue(all(item["definition_location"] == "inline" for item in components))
+        self.assertTrue(all(item["inline_definition"]["source_code"] for item in components))
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(san_file),
+            ssm=ssm,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertIn("unresolved_component_registration", error_codes)
+        self.assertIn("reserved_init_data_method_collision", error_codes)
+        self.assertIn("lifecycle_behavior_not_landed", error_codes)
 
     def test_validator_rejects_incomplete_reserved_init_data_method_inlining(self):
         ssm = {

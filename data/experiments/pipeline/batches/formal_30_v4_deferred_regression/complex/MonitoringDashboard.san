@@ -1,8 +1,8 @@
 <template>
-<div class="monitoring-dashboard" class="{{isDarkMode ? 'dark-mode' : ''}}">
+<div class="monitoring-dashboard {{isDarkMode ? 'dark-mode' : ''}}">
   <div class="status-bar">
     <div class="system-status">
-      <span class="status-indicator" class="{{systemHealth}}"></span>
+      <span class="status-indicator {{systemHealth}}"></span>
       <span class="status-text">系统状态：{{systemHealthText}}</span>
     </div>
     <div class="time-display">
@@ -15,58 +15,25 @@
       <button class="icon-btn" on-click="showSettings = true">⚙️</button>
     </div>
   </div>
-
   <div class="kpi-grid">
-    <kpi-card
-      s-for="kpi in kpiData trackby kpi.id"
-      key="{{kpi.id}}"
-      title="{{kpi.title}}"
-      value="{{kpi.value}}"
-      unit="{{kpi.unit}}"
-      trend="{{kpi.trend}}"
-      status="{{kpi.status}}"
-      icon="{{kpi.icon}}"
-      on-click="onKPIClick"
-    ></kpi-card>
+    <kpi-card s-for="kpi in kpiData trackby kpi.id" title="{{kpi.title}}" value="{{kpi.value}}" unit="{{kpi.unit}}" trend="{{kpi.trend}}" status="{{kpi.status}}" icon="{{kpi.icon}}" on-click="onKPIClick(kpi)"></kpi-card>
   </div>
-
   <div class="charts-grid">
     <div class="chart-card">
       <div class="chart-header">
         <h3>实时 CPU / 内存 使用率</h3>
         <div class="chart-controls">
-          <button
-            s-for="period in timePeriods trackby period.value"
-            class="period-btn"
-            class="{{selectedPeriod === period.value ? 'active' : ''}}"
-            on-click="changePeriod"
-          >{{period.label}}</button>
+          <button class="period-btn {{selectedPeriod === period.value ? 'active' : ''}}" s-for="period in timePeriods trackby period.value" on-click="changePeriod(period.value)">{{period.label}}</button>
         </div>
       </div>
-      <real-time-chart
-        data="{{cpuHistory}}"
-        height="250"
-        color="#3b82f6"
-        loading="{{isChartLoading}}"
-      ></real-time-chart>
-      <real-time-chart
-        data="{{memoryHistory}}"
-        height="250"
-        color="#10b981"
-        loading="{{isChartLoading}}"
-      ></real-time-chart>
+      <real-time-chart data="{{cpuHistory}}" height="250" color="#3b82f6" loading="{{isChartLoading}}"></real-time-chart>
+      <real-time-chart data="{{memoryHistory}}" height="250" color="#10b981" loading="{{isChartLoading}}"></real-time-chart>
     </div>
-
     <div class="chart-card">
       <h3>服务请求统计</h3>
-      <request-chart
-        data="{{requestStats}}"
-        height="300"
-        on-bar-click="onBarClick"
-      ></request-chart>
+      <request-chart data="{{requestStats}}" height="300" on-bar-click="onBarClick"></request-chart>
     </div>
   </div>
-
   <div class="events-grid">
     <div class="alerts-panel">
       <div class="panel-header">
@@ -74,13 +41,8 @@
         <span class="alert-count">{{activeAlerts.length}}</span>
         <button class="clear-btn" on-click="clearAlerts" s-if="{{activeAlerts.length}}">清空</button>
       </div>
-      <alert-list
-        alerts="{{activeAlerts}}"
-        on-acknowledge="acknowledgeAlert"
-        on-resolve="resolveAlert"
-      ></alert-list>
+      <alert-list alerts="{{activeAlerts}}" on-acknowledge="acknowledgeAlert" on-resolve="resolveAlert"></alert-list>
     </div>
-
     <div class="logs-panel">
       <div class="panel-header">
         <h3>📋 系统日志</h3>
@@ -94,44 +56,29 @@
           <button class="clear-btn" on-click="clearLogs">清空</button>
         </div>
       </div>
-      <log-list
-        logs="{{filteredLogs}}"
-        loading="{{isLogLoading}}"
-        on-log-click="onLogClick"
-      ></log-list>
+      <log-list logs="{{filteredLogs}}" loading="{{isLogLoading}}" on-log-click="onLogClick"></log-list>
     </div>
   </div>
-
   <div class="services-panel">
     <div class="panel-header">
       <h3>🔗 服务健康检查</h3>
-      <button class="refresh-btn" disabled="{{isRefreshingServices}}" on-click="refreshServices">{{isRefreshingServices ? '刷新中...' : '刷新'}}</button>
+      <button class="refresh-btn" on-click="refreshServices" disabled="{{isRefreshingServices}}">{{isRefreshingServices ? '刷新中...' : '刷新'}}</button>
     </div>
-    <service-grid
-      services="{{services}}"
-      on-service-click="onServiceClick"
-    ></service-grid>
+    <service-grid services="{{services}}" on-service-click="onServiceClick"></service-grid>
   </div>
-
   <div class="modal-overlay" s-if="{{showSettings}}" on-click="showSettings = false">
     <div class="modal-content">
       <div class="modal-header">
         <h3>系统设置</h3>
         <button class="close-btn" on-click="showSettings = false">✕</button>
       </div>
-      <settings-form
-        settings="{{settings}}"
-        on-save="saveSettings"
-        on-cancel="showSettings = false"
-      ></settings-form>
+      <settings-form settings="{{settings}}" on-save="saveSettings" on-cancel="showSettings = false"></settings-form>
     </div>
   </div>
-
-  <div class="notification" s-if="{{notification.show}}" class="{{notification.type}}">
+  <div class="notification {{notification.type}}" s-if="{{notification.show}}" on-click="hideNotification">
     <span>{{notification.message}}</span>
-    <button on-click="hideNotification">✕</button>
+    <button>✕</button>
   </div>
-</div>
 </template>
 
 <script>
@@ -141,13 +88,13 @@ const DataTypes = san.DataTypes;
 module.exports = san.defineComponent({
   name: 'MonitoringDashboard',
   components: {
-    'kpi-card': require('./kpi-card'),
-    'real-time-chart': require('./real-time-chart'),
-    'request-chart': require('./request-chart'),
-    'alert-list': require('./alert-list'),
-    'log-list': require('./log-list'),
-    'service-grid': require('./service-grid'),
-    'settings-form': require('./settings-form')
+    'kpi-card': kpi-card,
+    'real-time-chart': real-time-chart,
+    'request-chart': request-chart,
+    'alert-list': alert-list,
+    'log-list': log-list,
+    'service-grid': service-grid,
+    'settings-form': settings-form
   },
   initData() {
     return {
@@ -197,7 +144,35 @@ module.exports = san.defineComponent({
       alertIdCounter: 100
     };
   },
-
+  inited() {
+    this.watch('settings', (newVal, oldVal) => {
+      if (newVal.autoRefresh && !this.data.get('refreshTimer')) {
+        this.startAutoRefresh();
+      } else if (!newVal.autoRefresh && this.data.get('refreshTimer')) {
+        this.stopAutoRefresh();
+      }
+    }, { deep: true });
+  },
+  attached() {
+    this.initData();
+    this.startTimeUpdate();
+    this.startDataSimulation();
+    const settings = this.data.get('settings');
+    if (settings.autoRefresh) {
+      this.startAutoRefresh();
+    }
+    this.showNotification('监控仪表盘已启动', 'success');
+  },
+  detached() {
+    this.stopAutoRefresh();
+    this.stopTimeUpdate();
+    this.stopDataSimulation();
+    const timer = this.data.get('notificationTimer');
+    if (timer) {
+      clearTimeout(timer);
+      this.data.set('notificationTimer', null);
+    }
+  },
   computed: {
     systemHealth() {
       const kpiData = this.data.get('kpiData');
@@ -217,47 +192,6 @@ module.exports = san.defineComponent({
       return systemLogs.filter(log => log.level === logFilter);
     }
   },
-
-  inited() {
-    this.initData();
-  },
-
-  attached() {
-    this.initData();
-    this.startTimeUpdate();
-    this.startDataSimulation();
-    const settings = this.data.get('settings');
-    if (settings.autoRefresh) {
-      this.startAutoRefresh();
-    }
-    this.showNotification('监控仪表盘已启动', 'success');
-  },
-
-  detached() {
-    this.stopAutoRefresh();
-  },
-
-  disposed() {
-    this.stopAutoRefresh();
-    this.stopTimeUpdate();
-    this.stopDataSimulation();
-    const notificationTimer = this.data.get('notificationTimer');
-    if (notificationTimer) {
-      clearTimeout(notificationTimer);
-      this.data.set('notificationTimer', null);
-    }
-  },
-
-  watch() {
-    this.watch('settings', (newVal, oldVal) => {
-      if (newVal.autoRefresh && !this.data.get('refreshTimer')) {
-        this.startAutoRefresh();
-      } else if (!newVal.autoRefresh && this.data.get('refreshTimer')) {
-        this.stopAutoRefresh();
-      }
-    }, { deep: true });
-  },
-
   methods: {
     initData() {
       this.updateDateTime();
@@ -268,7 +202,6 @@ module.exports = san.defineComponent({
       this.initServices();
       this.loadSettings();
     },
-
     initChartData() {
       const now = Date.now();
       const cpuHistory = [];
@@ -286,7 +219,6 @@ module.exports = san.defineComponent({
       this.data.set('cpuHistory', cpuHistory);
       this.data.set('memoryHistory', memoryHistory);
     },
-
     initRequestStats() {
       const requestStats = [];
       for (let i = 0; i < 12; i++) {
@@ -303,7 +235,6 @@ module.exports = san.defineComponent({
       }
       this.data.set('requestStats', requestStats);
     },
-
     initAlerts() {
       const activeAlerts = [
         {
@@ -323,7 +254,6 @@ module.exports = san.defineComponent({
       ];
       this.data.set('activeAlerts', activeAlerts);
     },
-
     initLogs() {
       const levels = ['info', 'warning', 'error'];
       const messages = [
@@ -346,7 +276,6 @@ module.exports = san.defineComponent({
       systemLogs.sort((a, b) => b.timestamp - a.timestamp);
       this.data.set('systemLogs', systemLogs);
     },
-
     initServices() {
       const services = [
         { id: 1, name: 'API Gateway', status: 'healthy', responseTime: 45, availability: 99.9 },
@@ -358,7 +287,6 @@ module.exports = san.defineComponent({
       ];
       this.data.set('services', services);
     },
-
     loadSettings() {
       const saved = localStorage.getItem('dashboard_settings');
       if (saved) {
@@ -371,44 +299,41 @@ module.exports = san.defineComponent({
         }
       }
     },
-
     startDataSimulation() {
       const dataGenerator = setInterval(() => {
         this.simulateDataUpdate();
       }, 2000);
       this.data.set('dataGenerator', dataGenerator);
     },
-
     stopDataSimulation() {
       const dataGenerator = this.data.get('dataGenerator');
       if (dataGenerator) {
         clearInterval(dataGenerator);
-        this.data.set('dataGenerator', null);
       }
+      this.data.set('dataGenerator', null);
     },
-
     simulateDataUpdate() {
       const kpiData = this.data.get('kpiData');
-      const newKpiData = [...kpiData];
-      newKpiData[0].value = Math.max(5, Math.min(95, kpiData[0].value + (Math.random() - 0.5) * 3));
-      newKpiData[1].value = Math.max(30, Math.min(90, kpiData[1].value + (Math.random() - 0.5) * 2));
-      newKpiData[2].value = Math.max(95, Math.min(100, kpiData[2].value + (Math.random() - 0.5) * 0.5));
-      newKpiData[3].value = Math.max(50, Math.min(500, kpiData[3].value + (Math.random() - 0.5) * 10));
-      this.data.set('kpiData', newKpiData);
+      const cpuHistory = this.data.get('cpuHistory');
+      const memoryHistory = this.data.get('memoryHistory');
 
+      // 更新KPI数据
+      kpiData[0].value = Math.max(5, Math.min(95, kpiData[0].value + (Math.random() - 0.5) * 3));
+      kpiData[1].value = Math.max(30, Math.min(90, kpiData[1].value + (Math.random() - 0.5) * 2));
+      kpiData[2].value = Math.max(95, Math.min(100, kpiData[2].value + (Math.random() - 0.5) * 0.5));
+      kpiData[3].value = Math.max(50, Math.min(500, kpiData[3].value + (Math.random() - 0.5) * 10));
+
+      // 更新图表数据
       const newCpuValue = 30 + Math.random() * 50;
       const newMemoryValue = 40 + Math.random() * 40;
 
-      const cpuHistory = this.data.get('cpuHistory');
-      const newCpuHistory = [...cpuHistory, { time: Date.now(), value: newCpuValue }];
-      if (newCpuHistory.length > 60) newCpuHistory.shift();
-      this.data.set('cpuHistory', newCpuHistory);
+      cpuHistory.push({ time: Date.now(), value: newCpuValue });
+      memoryHistory.push({ time: Date.now(), value: newMemoryValue });
 
-      const memoryHistory = this.data.get('memoryHistory');
-      const newMemoryHistory = [...memoryHistory, { time: Date.now(), value: newMemoryValue }];
-      if (newMemoryHistory.length > 60) newMemoryHistory.shift();
-      this.data.set('memoryHistory', newMemoryHistory);
+      if (cpuHistory.length > 60) cpuHistory.shift();
+      if (memoryHistory.length > 60) memoryHistory.shift();
 
+      // 检查并生成告警
       if (newCpuValue > 85 && Math.random() > 0.7) {
         this.addAlert('CPU使用率异常', `CPU使用率达到 ${newCpuValue.toFixed(1)}%`, 'critical');
       }
@@ -416,32 +341,36 @@ module.exports = san.defineComponent({
         this.addAlert('内存使用率过高', `内存使用率达到 ${newMemoryValue.toFixed(1)}%`, 'warning');
       }
 
+      // 添加随机日志
       if (Math.random() > 0.7) {
         const levels = ['info', 'warning', 'error'];
         const level = levels[Math.floor(Math.random() * levels.length)];
         this.addLog(level, `系统运行状态更新`, 'Monitor');
       }
+
+      this.data.set('kpiData', [...kpiData]);
+      this.data.set('cpuHistory', cpuHistory);
+      this.data.set('memoryHistory', memoryHistory);
     },
+    refreshAllData() {
+      return new Promise(resolve => {
+        this.data.set('isChartLoading', true);
+        this.data.set('isRefreshingServices', true);
+        this.showNotification('正在刷新数据...', 'info');
 
-    async refreshAllData() {
-      this.data.set('isChartLoading', true);
-      this.data.set('isRefreshingServices', true);
-      this.showNotification('正在刷新数据...', 'info');
-
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      this.initRequestStats();
-      this.initServices();
-
-      this.data.set('isChartLoading', false);
-      this.data.set('isRefreshingServices', false);
-      this.showNotification('数据刷新完成', 'success');
+        setTimeout(() => {
+          this.initRequestStats();
+          this.initServices();
+          this.data.set('isChartLoading', false);
+          this.data.set('isRefreshingServices', false);
+          this.showNotification('数据刷新完成', 'success');
+          resolve();
+        }, 1000);
+      });
     },
-
     refreshServices() {
       this.refreshAllData();
     },
-
     startAutoRefresh() {
       this.stopAutoRefresh();
       const settings = this.data.get('settings');
@@ -450,7 +379,6 @@ module.exports = san.defineComponent({
       }, settings.refreshInterval * 1000);
       this.data.set('refreshTimer', refreshTimer);
     },
-
     stopAutoRefresh() {
       const refreshTimer = this.data.get('refreshTimer');
       if (refreshTimer) {
@@ -458,34 +386,30 @@ module.exports = san.defineComponent({
         this.data.set('refreshTimer', null);
       }
     },
-
     startTimeUpdate() {
       const timeTimer = setInterval(() => {
         this.updateDateTime();
       }, 1000);
       this.data.set('timeTimer', timeTimer);
     },
-
     stopTimeUpdate() {
       const timeTimer = this.data.get('timeTimer');
       if (timeTimer) {
         clearInterval(timeTimer);
       }
     },
-
     updateDateTime() {
       const now = new Date();
       this.data.set('currentDate', now.toLocaleDateString('zh-CN'));
       this.data.set('currentTime', now.toLocaleTimeString('zh-CN'));
     },
-
     changePeriod(period) {
       this.data.set('selectedPeriod', period);
       this.showNotification(`切换到 ${period} 视图`, 'info');
     },
-
     addAlert(title, description, severity) {
       const alertIdCounter = this.data.get('alertIdCounter');
+      const activeAlerts = this.data.get('activeAlerts');
       const newAlert = {
         id: ++alertIdCounter,
         title,
@@ -493,45 +417,44 @@ module.exports = san.defineComponent({
         severity,
         timestamp: Date.now()
       };
-      const activeAlerts = this.data.get('activeAlerts');
-      const newActiveAlerts = [newAlert, ...activeAlerts];
-      this.data.set('alertIdCounter', alertIdCounter);
-      this.data.set('activeAlerts', newActiveAlerts);
+      activeAlerts.unshift(newAlert);
       this.showNotification(`新告警: ${title}`, 'warning');
 
       const settings = this.data.get('settings');
       if (settings.desktopNotifications && Notification.permission === 'granted') {
         new Notification(title, { body: description });
       }
-    },
 
+      this.data.set('alertIdCounter', alertIdCounter);
+      this.data.set('activeAlerts', activeAlerts);
+    },
     acknowledgeAlert(alertId) {
       const activeAlerts = this.data.get('activeAlerts');
       const alert = activeAlerts.find(a => a.id === alertId);
       if (alert) {
         alert.acknowledged = true;
         this.showNotification(`已确认告警: ${alert.title}`, 'info');
+        this.data.set('activeAlerts', [...activeAlerts]);
       }
     },
-
     resolveAlert(alertId) {
       const activeAlerts = this.data.get('activeAlerts');
       const index = activeAlerts.findIndex(a => a.id === alertId);
       if (index !== -1) {
         const resolved = activeAlerts.splice(index, 1)[0];
         const alertHistory = this.data.get('alertHistory');
-        const newAlertHistory = [...alertHistory, { ...resolved, resolvedAt: Date.now() }];
-        this.data.set('alertHistory', newAlertHistory);
+        alertHistory.push({ ...resolved, resolvedAt: Date.now() });
         this.showNotification(`已解决告警: ${resolved.title}`, 'success');
+        this.data.set('activeAlerts', activeAlerts);
+        this.data.set('alertHistory', alertHistory);
       }
     },
-
     clearAlerts() {
       this.data.set('activeAlerts', []);
       this.showNotification('已清空所有告警', 'info');
     },
-
     addLog(level, message, source) {
+      const systemLogs = this.data.get('systemLogs');
       const newLog = {
         id: Date.now(),
         level,
@@ -539,41 +462,33 @@ module.exports = san.defineComponent({
         source,
         timestamp: Date.now()
       };
-      const systemLogs = this.data.get('systemLogs');
-      const newSystemLogs = [newLog, ...systemLogs];
-      if (newSystemLogs.length > 500) {
-        this.data.set('systemLogs', newSystemLogs.slice(0, 500));
+      systemLogs.unshift(newLog);
+      if (systemLogs.length > 500) {
+        this.data.set('systemLogs', systemLogs.slice(0, 500));
       } else {
-        this.data.set('systemLogs', newSystemLogs);
+        this.data.set('systemLogs', systemLogs);
       }
     },
-
     filterLogs() {
       this.showNotification(`筛选日志: ${this.data.get('logFilter')}`, 'info');
     },
-
     clearLogs() {
       this.data.set('systemLogs', []);
       this.showNotification('日志已清空', 'info');
     },
-
     onKPIClick(kpi) {
       this.showNotification(`查看详情: ${kpi.title}`, 'info');
       this.addLog('info', `查看KPI指标: ${kpi.title}`, 'Dashboard');
     },
-
     onBarClick(data) {
       this.showNotification(`查看时段: ${data.hour} 请求量 ${data.count}`, 'info');
     },
-
     onLogClick(log) {
       this.showNotification(`日志详情: ${log.message}`, 'info');
     },
-
     onServiceClick(service) {
       this.showNotification(`服务详情: ${service.name} (${service.status})`, 'info');
     },
-
     exportReport() {
       const kpiData = this.data.get('kpiData');
       const activeAlerts = this.data.get('activeAlerts');
@@ -600,50 +515,43 @@ module.exports = san.defineComponent({
       URL.revokeObjectURL(url);
       this.showNotification('报告导出成功', 'success');
     },
-
     saveSettings(settings) {
       this.stopAutoRefresh();
       this.data.set('settings', { ...settings });
-      const newSettings = this.data.get('settings');
-      if (newSettings.autoRefresh) {
+      if (settings.autoRefresh) {
         this.startAutoRefresh();
       }
       this.data.set('showSettings', false);
       this.showNotification('设置已保存', 'success');
     },
-
     toggleTheme() {
-      const isDarkMode = this.data.get('isDarkMode');
-      this.data.set('isDarkMode', !isDarkMode);
-      this.showNotification(`已切换到${!isDarkMode ? '暗色' : '亮色'}模式`, 'info');
+      const isDarkMode = !this.data.get('isDarkMode');
+      this.data.set('isDarkMode', isDarkMode);
+      this.showNotification(`已切换到${isDarkMode ? '暗色' : '亮色'}模式`, 'info');
     },
-
     showNotification(message, type) {
-      const notificationTimer = this.data.get('notificationTimer');
-      if (notificationTimer) {
-        clearTimeout(notificationTimer);
+      const timer = this.data.get('notificationTimer');
+      if (timer) {
+        clearTimeout(timer);
       }
       this.data.set('notification', {
         show: true,
         message,
         type
       });
-      const newNotificationTimer = setTimeout(() => {
+      const notificationTimer = setTimeout(() => {
         this.hideNotification();
         this.data.set('notificationTimer', null);
       }, 3000);
-      this.data.set('notificationTimer', newNotificationTimer);
+      this.data.set('notificationTimer', notificationTimer);
     },
-
     hideNotification() {
       const notification = this.data.get('notification');
       notification.show = false;
       this.data.set('notification', notification);
     },
-
     requestNotificationPermission() {
-      const settings = this.data.get('settings');
-      if ('Notification' in window && settings.desktopNotifications) {
+      if ('Notification' in window && this.data.get('settings').desktopNotifications) {
         Notification.requestPermission();
       }
     }
