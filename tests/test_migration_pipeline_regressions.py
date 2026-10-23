@@ -955,6 +955,34 @@ module.exports = san.defineComponent({
         self.assertNotIn("missing_watch_migration", error_codes)
         self.assertNotIn("vue_watch_option", error_codes)
 
+    def test_validator_rejects_watch_registration_outside_lifecycle(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "watch": [{"expression": "settings"}],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<div></div>',
+            """
+    inited() {},
+    watch() {
+        this.watch('settings', () => {});
+    }
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertIn("watch_registration_not_in_lifecycle", error_codes)
+        self.assertNotIn("missing_watch_migration", error_codes)
+
     def test_validator_allows_complete_reserved_init_data_method_inlining(self):
         ssm = {
             "script": {

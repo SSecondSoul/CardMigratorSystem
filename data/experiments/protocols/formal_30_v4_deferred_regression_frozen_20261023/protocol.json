@@ -90,12 +90,19 @@
     "Do not tune against these five samples and then report them as independent evaluation."
   ],
   "execution_state": {
-    "updated_at": "2026-10-23T19:50:09+08:00",
+    "updated_at": "2026-10-23T20:21:36+08:00",
     "automatic_checkpoint": {
       "configured": 5,
       "completed": 5,
+      "passed": 5,
+      "failed": 0,
+      "pending": 0
+    },
+    "audit_confirmed_checkpoint": {
+      "configured": 5,
+      "completed": 5,
       "passed": 4,
-      "failed": 1,
+      "audit_failed": 1,
       "pending": 0
     },
     "audit_confirmed_passes": [
@@ -312,9 +319,62 @@
         "round_3_normalized_tree_edit_distance": 0.0
       },
       "related_tests_passed": 87,
+      "rerun_completed": true,
+      "rerun_status": "automatic_pass_rejected_by_audit"
+    },
+    "monitoring_dashboard_post_correction_rerun": {
+      "status": "automatic_pass_rejected_by_audit",
+      "started_at": "2026-10-23T19:55:59+08:00",
+      "finished_at": "2026-10-23T20:03:16+08:00",
+      "elapsed_seconds": 436.844,
+      "repair_rounds": 3,
+      "generation_tokens": 95542,
+      "repair_tokens": 114615,
+      "total_tokens": 210157,
+      "first_repair_provider": "deterministic",
+      "first_repair_model": "san_directive_expression_normalizer",
+      "first_repair_tokens": 0,
+      "second_repair_provider": "deterministic",
+      "second_repair_model": "san_methods_wrapper_normalizer",
+      "second_repair_tokens": 0,
+      "automatic_final_validation_error_codes": [],
+      "automatic_final_visual_error_codes": [],
+      "final_structure_similarity": 0.9912,
+      "final_tag_sequence_similarity": 1.0,
+      "final_text_similarity": 1.0,
+      "final_tree_edit_distance": 0.5,
+      "audit_error_code": "watch_registration_not_in_lifecycle",
+      "audit_evidence": "The generated top-level watch() method contains this.watch('settings', ...) but is never called by inited() or attached(), so the watcher is not registered.",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_audit_failure_20261023_200316",
+      "interpretation": "Automatic pass rejected during audit; reused development regression, not independent holdout evidence."
+    },
+    "monitoring_dashboard_second_correction": {
+      "classification": "watch_registration_lifecycle_placement_gap",
+      "changes": [
+        "Require every source Vue watch expression to have a matching this.watch(...) call directly inside San inited() or attached().",
+        "Report watch_registration_not_in_lifecycle when a matching call exists elsewhere in the component but will not run automatically.",
+        "Move a narrowly matched top-level watch() wrapper containing this.watch(...) into an existing inited() or attached() hook and record moved_watch_registration_into_lifecycle.",
+        "Apply the same guarded watch placement normalization to every LLM repair response.",
+        "Explicitly prohibit uncalled watch() wrappers in generation and repair prompts."
+      ],
+      "read_only_replay": {
+        "frozen_final_error_codes_before_normalization": [
+          "watch_registration_not_in_lifecycle"
+        ],
+        "normalizer_changed_code": true,
+        "ordinary_watch_wrapper_remaining": false,
+        "watch_registration_in_inited": true,
+        "validation_passed_after_normalization": true,
+        "validation_error_codes_after_normalization": [],
+        "visual_passed_after_normalization": true,
+        "vue_node_count": 57,
+        "san_node_count": 57,
+        "tag_sequence_similarity": 1.0
+      },
+      "related_tests_passed": 92,
       "rerun_completed": false,
       "rerun_status": "pending_after_commit"
     }
   },
-  "next_action": "Commit the MonitoringDashboard correction and its frozen first-run failure evidence; then deliberately rerun only MonitoringDashboard with --force and include full state."
+  "next_action": "Commit the MonitoringDashboard watch-placement correction and frozen audit-failure evidence; then deliberately rerun only MonitoringDashboard with --force and include full state."
 }

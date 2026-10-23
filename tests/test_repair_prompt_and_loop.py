@@ -180,6 +180,106 @@ class RepairPromptAndLoopTests(unittest.TestCase):
                 ["unwrapped_san_directive_expression"],
             )
 
+    def test_repair_normalizer_moves_watch_registration_into_inited(self):
+        code = '''<script>
+module.exports = san.defineComponent({
+  inited() {
+    this.loadSettings();
+  },
+  watch() {
+    this.watch('settings', (newVal) => {
+      this.data.set('changed', Boolean(newVal));
+    });
+  },
+  loadSettings() {}
+});
+</script>
+'''
+
+        normalized = RepairStage._normalize_misplaced_watch_registration(code)
+        inited_body = normalized[
+            normalized.index("inited()") : normalized.index("\n  loadSettings()")
+        ]
+
+        self.assertIn("this.watch('settings'", inited_body)
+        self.assertNotIn("\n  watch() {", normalized)
+        self.assertIn("this.loadSettings();", inited_body)
+
+    def test_repair_normalizer_keeps_ordinary_watch_method(self):
+        code = '''<script>
+module.exports = san.defineComponent({
+  inited() {},
+  watch() {
+    return 'business method';
+  }
+});
+</script>
+'''
+
+        self.assertEqual(
+            RepairStage._normalize_misplaced_watch_registration(code),
+            code,
+        )
+
+    def test_repair_stage_skips_llm_for_misplaced_watch_registration(self):
+        code = '''<script>
+module.exports = san.defineComponent({
+  inited() {},
+  watch() {
+    this.watch('settings', () => {});
+  }
+});
+</script>
+'''
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "Watch_repaired.san"
+            result = RepairStage(repair_client=FailIfCalledRepairClient()).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=code,
+                    output_file_path=str(output_path),
+                    validation_errors=[
+                        {"code": "watch_registration_not_in_lifecycle"},
+                    ],
+                )
+            )
+
+            self.assertEqual(result.provider, "deterministic")
+            self.assertEqual(result.model, "san_watch_lifecycle_normalizer")
+            self.assertEqual(
+                result.raw_response["normalization"],
+                "moved_watch_registration_into_lifecycle",
+            )
+            self.assertNotIn("\n  watch() {", result.repaired_code)
+
+    def test_llm_result_records_watch_lifecycle_postprocessing(self):
+        current_code = '<script>module.exports = san.defineComponent({});</script>'
+        repaired_code = '''<script>
+module.exports = san.defineComponent({
+  inited() {},
+  watch() {
+    this.watch('settings', () => {});
+  }
+});
+</script>
+'''
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "Watch_repaired.san"
+            result = RepairStage(repair_client=StaticRepairClient(repaired_code)).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=current_code,
+                    output_file_path=str(output_path),
+                    validation_errors=[{"code": "missing_prop_defaults"}],
+                )
+            )
+
+            self.assertNotIn("\n  watch() {", result.repaired_code)
+            self.assertEqual(
+                result.raw_response["pipeline_postprocessing"],
+                ["moved_watch_registration_into_lifecycle"],
+            )
+
     def test_repair_normalizer_removes_redundant_loop_key_attributes(self):
         code = '''<template>
   <stat-card
@@ -453,6 +553,8 @@ module.exports = san.defineComponent({
         self.assertIn("San s-if/s-else-if/s-for directive values use raw expressions", prompt)
         self.assertIn('s-if="{{showSettings}}"', prompt)
         self.assertIn('s-for="{{item in items}}"', prompt)
+        self.assertIn("this.watch(...) directly inside San inited() or attached()", prompt)
+        self.assertIn("uncalled top-level watch() method", prompt)
 
     def test_prompt_makes_computed_defaults_and_binding_direction_explicit(self):
         prompt = build_repair_prompt(RepairPromptInput(
@@ -544,6 +646,8 @@ module.exports = san.defineComponent({
         self.assertIn("San s-if/s-else-if/s-for directive values use raw expressions", prompt)
         self.assertIn('s-if="{{showSettings}}"', prompt)
         self.assertIn('s-for="{{item in items}}"', prompt)
+        self.assertIn("directly inside San inited() or attached()", prompt)
+        self.assertIn("uncalled top-level watch() method", prompt)
 
     def test_loop_stops_after_two_identical_repair_outcomes(self):
         repair_stage = NoChangeRepairStage()

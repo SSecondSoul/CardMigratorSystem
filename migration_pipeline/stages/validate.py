@@ -1637,10 +1637,25 @@ class ValidateStage:
                 ))
 
         if watch_expressions:
-            missing_watch = [expr for expr in watch_expressions if not re.search(rf"this\.watch\s*\(\s*['\"]{re.escape(expr)}['\"]", script)]
+            lifecycle_script = "\n".join(
+                self._extract_function_body(script, hook_name)
+                for hook_name in ("inited", "attached")
+            )
+            missing_watch = []
+            misplaced_watch = []
+            for expr in watch_expressions:
+                watch_pattern = (
+                    rf"this\.watch\s*\(\s*['\"]{re.escape(expr)}['\"]"
+                )
+                if re.search(watch_pattern, lifecycle_script):
+                    continue
+                if re.search(watch_pattern, script):
+                    misplaced_watch.append(expr)
+                else:
+                    missing_watch.append(expr)
             checks.append(ValidationCheck(
                 name="watch_migration_consistency",
-                passed=not missing_watch,
+                passed=not missing_watch and not misplaced_watch,
                 message="SSM watch 字段已在 San 中保留",
                 severity="warning",
             ))
@@ -1650,6 +1665,20 @@ class ValidateStage:
                     message=f"以下 watch 未在 San script 中找到 this.watch 对应：{', '.join(missing_watch)}。",
                     location="script",
                     suggestion="在 San inited/attached 中使用 this.watch 迁移 Vue watch，或确认逻辑已等价处理。",
+                ))
+
+            if misplaced_watch:
+                issues.append(ValidationIssue(
+                    code="watch_registration_not_in_lifecycle",
+                    message=(
+                        "The following watch registrations are outside San inited/attached and "
+                        f"will not be installed automatically: {', '.join(misplaced_watch)}."
+                    ),
+                    location="script",
+                    suggestion=(
+                        "Move each this.watch('field', handler) call directly into inited() or attached(); "
+                        "do not hide it in an uncalled top-level watch() method."
+                    ),
                 ))
 
     def _validate_migration_hints_landing(

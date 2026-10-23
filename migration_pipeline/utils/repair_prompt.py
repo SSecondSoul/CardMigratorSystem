@@ -56,7 +56,7 @@ class RepairPromptBuilder:
             "8. template 必须使用 San 语法：on-click、s-if、s-for；保留事件调用的全部参数，例如 on-click=\"move(-1)\"、on-click=\"select(task.id)\"；Vue v-for 的循环项和索引别名必须完整迁移，如果模板表达式使用 index，就必须显式写成 s-for=\"phase, index in phases trackby phase.key\"，禁止只声明 phase 却继续引用未绑定的 index；Vue v-for 的 :key 必须写入 s-for 的 trackby 子句，例如 s-for=\"task in tasks trackby task.id\"，禁止输出独立 key=\"{{ task.id }}\"、key=\"{= task.id =}\" 或 trackby=\"task.id\" 属性；所有 {{ ... }} 和 {= ... =} 插值必须完整闭合；双向绑定 {= assignable.path =} 只用于源 Vue v-model 对应的原生 input/select/textarea 可赋值路径；Vue :prop 和普通自定义组件 props 必须保持单向 {{ ... }}，例如 value=\"{{ stat.value }}\"，禁止写成 value=\"{= stat.value =}\"；方法调用、computed、disabled、checked、selected 等派生表达式也必须使用单向插值，例如 checked=\"{{ isEnabled(rule.id, enabled) }}\" 和 disabled=\"{{ expression }}\"，禁止 disabled=\"{= expression =}\"；class、style、checked、selected、disabled 等属性、s-if/s-for 指令以及文本插值调用普通方法时，不得把响应式依赖只隐藏在方法内部的 this.data.get(...) 中；必须保留 Vue 模板表达式中的完整参数，或将依赖字段显式传入，例如 class=\"{{ rowClass(row, winnerId, leaderId) }}\"、class=\"{{ slotClass(device.id, hour, schedule) }}\"、s-if=\"isOpen(module.id, openIds)\"、s-for=\"lesson in visibleLessons(module.lessons, completedIds, unfinishedOnly) trackby lesson.id\"、checked=\"{{ isSelected(row.id, selectedIds) }}\"；禁止丢失参数、使用 data-args/getAttribute 绕行，或保留 @click、v-if、v-for、v-model、:class 等 Vue 模板语法。\n"
             "9. style 标签必须写成 <style>，禁止输出 <style scoped>；必须保留原有 class 名和样式内容。\n"
             "10. 不要重新设计组件，不要引入外部依赖，不要删除已有 DOM 节点、文本、class 或样式。\n"
-            "11. Vue 生命周期必须完整迁移：created 中的 prop 派生状态初始化放入 inited，mounted 中的初始方法调用和副作用放入 attached，beforeDestroy/destroyed 中的定时器或监听清理放入 disposed；不能只保留空钩子或只保留钩子名称。依赖 prop 的 data 不得在 initData() 中使用 this.propName 初始化，必须先返回稳定占位值，再在 inited() 中用 this.data.get('propName') 读取、复制并通过 this.data.set(...) 写入。Vue watch: {...} 不会被 San 自动注册，必须在 inited/attached 中使用 this.watch('field', handler)。\n"
+            "11. Vue 生命周期必须完整迁移：created 中的 prop 派生状态初始化放入 inited，mounted 中的初始方法调用和副作用放入 attached，beforeDestroy/destroyed 中的定时器或监听清理放入 disposed；不能只保留空钩子或只保留钩子名称。依赖 prop 的 data 不得在 initData() 中使用 this.propName 初始化，必须先返回稳定占位值，再在 inited() 中用 this.data.get('propName') 读取、复制并通过 this.data.set(...) 写入。Vue watch: {...} 不会被 San 自动注册，必须把 this.watch('field', handler) 调用直接放在 inited() 或 attached() 内；禁止定义未被生命周期调用的普通 watch() 方法来包裹 this.watch(...)。\n"
             "12. 如果 DOM 对比报告指出缺失/新增/变化节点，优先修复 template 结构。\n"
             "13. 必须保留 Vue template 的 DOM 子节点顺序；元素和文本都存在但顺序改变仍属于错误。特别检查 label/th/footer 中 input 或 checkbox 与相邻文字、百分号、按钮的先后关系，不要用 CSS order 或 flex 排序掩盖模板顺序差异。\n"
             "14. value、checked、selected、disabled 等关键属性必须逐元素保留 Vue 原表达式，禁止把相邻或同级元素的条件合并进来。例如 select 的 :disabled=\"previewMode\" 必须迁移为 disabled=\"{{ previewMode }}\"，不能误用旁边按钮的 !canConnect || previewMode。\n"
@@ -69,7 +69,7 @@ class RepairPromptBuilder:
             "- computed 之间以及普通方法中是否只通过 this.data.get('computedName') 读取 computed，且完全不存在 this.computed.foo()？\n"
             "- 是否直接修改了 this.data.get(...) 或 computed 返回的对象、数组、数组元素及嵌套属性，或对其调用 push/splice/sort？所有此类更新是否改为创建新值并通过 this.data.set(...) 写回根字段？\n"
             "- created/mounted/beforeDestroy/destroyed 是否分别完整迁移到 inited/attached/disposed，且源钩子中的初始化、方法调用、定时器创建和清理均已保留？\n"
-            "- 依赖 prop 的 data 是否在 inited() 中通过 this.data.get('propName') 初始化；所有 Vue watch 是否使用 this.watch(...) 实际注册，而不是保留 watch: {...}？\n"
+            "- 依赖 prop 的 data 是否在 inited() 中通过 this.data.get('propName') 初始化；所有 Vue watch 是否直接在 inited()/attached() 内使用 this.watch(...) 实际注册，而不是保留 watch: {...} 或未调用的普通 watch() 方法？\n"
             "- DOM 子节点顺序是否与 Vue 完全一致，尤其是 input/checkbox 与文字、百分号、按钮的相邻顺序？\n"
             "- 所有 {= ... =} 是否都来自源 Vue v-model 的原生表单可赋值路径；Vue :prop 和普通自定义组件 props 是否保持 {{ ... }} 单向绑定；disabled、checked、selected、方法调用和 computed 等派生表达式是否使用 {{ ... }}？\n"
             "- value、checked、selected、disabled 是否逐元素保留了 Vue 原表达式，而没有合并相邻元素的条件？\n"
@@ -158,7 +158,7 @@ class RepairPromptBuilder:
                 "all Vue data() initial values preserved exactly, including nested objects, arrays, numbers, and enabled-item collections",
                 "inited() with this.data.get('propName') and this.data.set(...) when data depends on props",
                 "created/mounted/beforeDestroy/destroyed lifecycle behavior preserved in inited/attached/disposed, including initialization, method calls, and timer cleanup",
-                "Vue watchers registered with this.watch(...) in a San lifecycle hook, never left as a watch: {...} option",
+                "Vue watchers registered by calling this.watch(...) directly inside San inited() or attached()",
                 "DOM child order preserved exactly, especially input/checkbox relative to adjacent text, percent signs, and buttons",
                 "computed values must be read with this.data.get('computedName') from methods and other computed functions",
                 "nested objects and arrays from this.data.get(...) or computed values are updated immutably and written back with this.data.set(...) instead of property assignment or push/splice",
@@ -185,7 +185,7 @@ class RepairPromptBuilder:
                 "const { field } = this.data or any other direct destructuring of the San data store",
                 "direct property assignment or mutating array methods on values returned by this.data.get(...) or computed state",
                 "empty lifecycle hooks that omit source initialization, method calls, or timer cleanup",
-                "Vue watch: {...} option without this.watch(...) registration",
+                "Vue watch: {...} option or an uncalled top-level watch() method that hides this.watch(...) outside inited()/attached()",
                 "reordered DOM children hidden by CSS order or flex layout",
                 "{= methodCall(...) =} or other two-way binding to a derived expression",
                 "disabled=\"{= expression =}\", checked=\"{= expression =}\", or selected=\"{= expression =}\"",

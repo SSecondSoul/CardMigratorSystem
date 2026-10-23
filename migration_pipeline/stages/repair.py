@@ -142,6 +142,7 @@ class RepairStage:
         if deterministic_code != current_code:
             error_codes = {issue.get("code") for issue in stage_input.validation_errors}
             directive_code = self._normalize_wrapped_san_directives(current_code)
+            watch_code = self._normalize_misplaced_watch_registration(current_code)
             methods_code = self._normalize_vue_methods_wrapper(current_code)
             array_code = self._normalize_mutated_state_array_aliases(current_code)
             if (
@@ -150,6 +151,12 @@ class RepairStage:
             ):
                 normalizer_model = "san_directive_expression_normalizer"
                 normalization = "unwrapped_san_directive_expression"
+            elif (
+                "watch_registration_not_in_lifecycle" in error_codes
+                and watch_code == deterministic_code
+            ):
+                normalizer_model = "san_watch_lifecycle_normalizer"
+                normalization = "moved_watch_registration_into_lifecycle"
             elif "vue_methods_wrapper" in error_codes and methods_code == deterministic_code:
                 normalizer_model = "san_methods_wrapper_normalizer"
                 normalization = "unwrapped_final_top_level_methods_option"
@@ -199,6 +206,17 @@ class RepairStage:
                     "pipeline_postprocessing": [
                         *result.raw_response.get("pipeline_postprocessing", []),
                         "unwrapped_san_directive_expression",
+                    ],
+                }
+        normalized_code = self._normalize_misplaced_watch_registration(result.code)
+        if normalized_code != result.code:
+            result.code = normalized_code
+            if isinstance(result.raw_response, dict):
+                result.raw_response = {
+                    **result.raw_response,
+                    "pipeline_postprocessing": [
+                        *result.raw_response.get("pipeline_postprocessing", []),
+                        "moved_watch_registration_into_lifecycle",
                     ],
                 }
         if any(
@@ -326,6 +344,79 @@ class RepairStage:
             )
 
         return cls.WRAPPED_SAN_DIRECTIVE_PATTERN.sub(unwrap, code)
+
+    @classmethod
+    def _normalize_misplaced_watch_registration(cls, code: str) -> str:
+        wrapper_pattern = re.compile(r"(?m)^([ \t]*)watch\s*\(\s*\)\s*\{")
+        wrapper_match = wrapper_pattern.search(code)
+        if not wrapper_match:
+            return code
+
+        wrapper_open = code.find("{", wrapper_match.start(), wrapper_match.end())
+        wrapper_close = cls._find_matching_js_brace(code, wrapper_open)
+        if wrapper_close < 0:
+            return code
+        wrapper_body = code[wrapper_open + 1:wrapper_close]
+        if not re.search(r"\bthis\.watch\s*\(", wrapper_body):
+            return code
+
+        target_match = None
+        for hook_name in ("inited", "attached"):
+            target_match = re.search(
+                rf"(?m)^([ \t]*){hook_name}\s*\([^)]*\)\s*\{{",
+                code,
+            )
+            if target_match:
+                break
+        if not target_match:
+            return code
+
+        target_open = code.find("{", target_match.start(), target_match.end())
+        target_close = cls._find_matching_js_brace(code, target_open)
+        if target_close < 0:
+            return code
+
+        body_lines = wrapper_body.splitlines()
+        while body_lines and not body_lines[0].strip():
+            body_lines.pop(0)
+        while body_lines and not body_lines[-1].strip():
+            body_lines.pop()
+        if not body_lines:
+            return code
+        body_indent = min(
+            len(line) - len(line.lstrip())
+            for line in body_lines
+            if line.strip()
+        )
+        target_indent = target_match.group(1) + "  "
+        moved_lines = [
+            target_indent + line[body_indent:] if line.strip() else ""
+            for line in body_lines
+        ]
+        target_line_start = code.rfind("\n", 0, target_close) + 1
+        if not code[target_line_start:target_close].strip():
+            insertion_at = target_line_start
+            insertion = "\n".join(moved_lines) + "\n"
+        else:
+            insertion_at = target_close
+            insertion = (
+                "\n" + "\n".join(moved_lines) + "\n" + target_match.group(1)
+            )
+
+        wrapper_end = wrapper_close + 1
+        while wrapper_end < len(code) and code[wrapper_end] in " \t":
+            wrapper_end += 1
+        if wrapper_end < len(code) and code[wrapper_end] == ",":
+            wrapper_end += 1
+
+        replacements = [
+            (insertion_at, insertion_at, insertion),
+            (wrapper_match.start(), wrapper_end, ""),
+        ]
+        normalized = code
+        for start, end, replacement in sorted(replacements, reverse=True):
+            normalized = normalized[:start] + replacement + normalized[end:]
+        return normalized
 
     @staticmethod
     def _find_matching_js_brace(code: str, opening_index: int) -> int:
@@ -481,6 +572,10 @@ class RepairStage:
         error_codes = {issue.get("code") for issue in validation_errors}
         if "invalid_san_directive_interpolation" in error_codes:
             normalized = cls._normalize_wrapped_san_directives(code)
+            if normalized != code:
+                return normalized
+        if "watch_registration_not_in_lifecycle" in error_codes:
+            normalized = cls._normalize_misplaced_watch_registration(code)
             if normalized != code:
                 return normalized
         if "vue_methods_wrapper" in error_codes:

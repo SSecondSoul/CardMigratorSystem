@@ -1,0 +1,106 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_monitoring_dashboard_audit_failure_20261023_200316",
+  "created_at": "2026-10-23T20:10:31+08:00",
+  "purpose": "Freeze the automatically passing MonitoringDashboard rerun before correcting the lifecycle placement check for San watch registration.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "MonitoringDashboard",
+  "component_name": "MonitoringDashboard",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_automatic_pass_rejected_by_audit",
+  "implementation_commit": "ec0fa91bb2d8b7abd6878898e9573e44c040619a",
+  "result": {
+    "started_at": "2026-10-23T19:55:59+08:00",
+    "finished_at": "2026-10-23T20:03:16+08:00",
+    "elapsed_seconds": 436.844,
+    "automatic_final_passed": true,
+    "audit_confirmed_passed": false,
+    "stop_reason": "passed",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 95542,
+    "repair_tokens": 114615,
+    "total_tokens": 210157,
+    "initial_validation_error_codes": [
+      "missing_data_types",
+      "invalid_san_directive_interpolation",
+      "duplicate_class_attribute",
+      "invalid_s_for_key_binding",
+      "vue_methods_wrapper",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "event_arguments_not_landed"
+    ],
+    "initial_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "automatic_final_validation_error_codes": [],
+    "automatic_final_visual_error_codes": [],
+    "final_structure_similarity": 0.9912,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.5
+  },
+  "repair_audit": {
+    "attempt_1": {
+      "provider": "deterministic",
+      "model": "san_directive_expression_normalizer",
+      "total_tokens": 0,
+      "directive_wrapper_removed": true
+    },
+    "attempt_2": {
+      "provider": "deterministic",
+      "model": "san_methods_wrapper_normalizer",
+      "total_tokens": 0,
+      "methods_wrapper_removed": true
+    },
+    "attempt_3": {
+      "provider": "qwen",
+      "model": "qwen-plus",
+      "total_tokens": 114615,
+      "automatic_passed": true
+    }
+  },
+  "independent_replay": {
+    "automatic_validation_passed": true,
+    "automatic_validation_error_codes": [],
+    "validation_warning_codes": [
+      "migration_hints_not_landed"
+    ],
+    "visual_eval_passed": true,
+    "visual_error_codes": [],
+    "visual_warning_codes": [],
+    "vue_node_count": 57,
+    "san_node_count": 57,
+    "structure_similarity": 0.9912,
+    "tag_sequence_similarity": 1.0,
+    "text_similarity": 1.0,
+    "tree_edit_distance": 0.5
+  },
+  "audit_failure": {
+    "code": "watch_registration_not_in_lifecycle",
+    "evidence": "The final component defines watch() { this.watch('settings', ...) } as an ordinary top-level method, but no lifecycle hook calls watch(). The settings watcher is therefore never registered.",
+    "validator_gap": "The validator searches for this.watch(...) across the entire script and does not require the registration to occur in inited() or attached().",
+    "decision": "Do not count the automatic pass as an audit-confirmed pass. Correct the validator and repair Prompt, add regression tests, and perform a separately recorded deliberate rerun."
+  },
+  "contents": {
+    "formal_30_v4_deferred_regression.json": "Frozen batch configuration used for the rerun.",
+    "formal_30_v4_deferred_regression_summary.json": "Automatic 5/5 batch checkpoint before audit rejection.",
+    "source/MonitoringDashboard.vue": "Frozen Vue input from the formal_30_v3 protocol.",
+    "pipeline/complex/MonitoringDashboard*.san": "Initial generation and all three repair artifacts.",
+    "repair_reports/complex/MonitoringDashboard_repair_history.json": "Complete rerun history and retained state.",
+    "code": "Extractor, validator, repair loop, prompts, renderers, and tests used for this rerun.",
+    "analysis/protocol.json": "Protocol state immediately before this rerun was recorded.",
+    "notebooks/2026-10-23_formal_30_v4_deferred_regression.ipynb": "Notebook state immediately before this rerun was recorded."
+  },
+  "boundaries": [
+    "This automatically passing result was rejected during code audit and is not counted as an audit-confirmed pass.",
+    "This sample is a reused development case and is not independent holdout evidence.",
+    "The automatic summary remains preserved as produced; audit interpretation is recorded separately.",
+    "No validator, Prompt, or repair correction was made before this snapshot was created."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}
