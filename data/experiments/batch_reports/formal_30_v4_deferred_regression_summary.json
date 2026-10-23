@@ -2,7 +2,7 @@
   "batch_id": "formal_30_v4_deferred_regression",
   "config_sha256": "6ddf23a789315479d7b55693b6f2023e80eb2692a766ee9f898929d5235c2a49",
   "started_at": "2026-10-23T15:46:09+08:00",
-  "updated_at": "2026-10-23T16:13:39+08:00",
+  "updated_at": "2026-10-23T16:30:55+08:00",
   "samples": [
     {
       "id": "access_matrix",
@@ -99,16 +99,15 @@
       "report_file": "data/experiments/repair_reports/batches/formal_30_v4_deferred_regression/complex/LocalizationWorkspace_repair_history.json",
       "final_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_deferred_regression\\complex\\LocalizationWorkspace_repaired.san",
       "status": "completed",
-      "started_at": "2026-10-23T16:11:27+08:00",
-      "finished_at": "2026-10-23T16:13:39+08:00",
-      "elapsed_seconds": 132.375,
+      "started_at": "2026-10-23T16:28:45+08:00",
+      "finished_at": "2026-10-23T16:30:55+08:00",
+      "elapsed_seconds": 129.922,
       "final_passed": true,
       "stop_reason": "passed",
       "repair_rounds": 1,
       "max_repair_rounds": 3,
       "initial_validation_passed": false,
       "initial_validation_error_codes": [
-        "vue_methods_wrapper",
         "hidden_template_reactive_dependency",
         "missing_prop_defaults"
       ],
@@ -117,26 +116,28 @@
       ],
       "initial_visual_eval_passed": false,
       "initial_visual_error_codes": [
-        "san_render_failed",
-        "san_san_render_error"
+        "dom_structure_similarity_low",
+        "dom_critical_attribute_mismatch"
       ],
-      "initial_visual_warning_codes": [],
+      "initial_visual_warning_codes": [
+        "dom_text_similarity_low"
+      ],
       "initial_structure_similarity": 0.0,
       "final_validation_passed": true,
       "final_validation_error_codes": [],
       "final_visual_eval_passed": true,
       "final_visual_error_codes": [],
-      "final_structure_similarity": 0.9853,
+      "final_structure_similarity": 1.0,
       "final_tag_sequence_similarity": 1.0,
       "final_text_similarity": 1.0,
-      "final_tree_edit_distance": 0.75,
+      "final_tree_edit_distance": 0.0,
       "interaction_eval_passed": null,
       "interaction_eval_reason": "",
       "generation_provider": "qwen",
       "generation_model": "qwen-plus",
-      "generation_tokens": 39033,
-      "repair_tokens": 46159,
-      "total_tokens": 85192
+      "generation_tokens": 39002,
+      "repair_tokens": 48305,
+      "total_tokens": 87307
     }
   ],
   "aggregate": {
@@ -152,21 +153,22 @@
     "repaired_to_pass": 2,
     "repair_rounds_total": 3,
     "repair_rounds_average": 1.5,
-    "generation_tokens": 86363,
-    "repair_tokens": 158109,
-    "total_tokens": 244472,
+    "generation_tokens": 86332,
+    "repair_tokens": 160255,
+    "total_tokens": 246587,
     "stop_reason_counts": {
       "passed": 2
     },
     "error_code_counts": {
       "initial_validation": {
         "hidden_template_reactive_dependency": 1,
-        "missing_prop_defaults": 2,
-        "vue_methods_wrapper": 1
+        "missing_prop_defaults": 2
       },
       "initial_visual": {
-        "san_render_failed": 2,
-        "san_san_render_error": 2
+        "dom_critical_attribute_mismatch": 1,
+        "dom_structure_similarity_low": 1,
+        "san_render_failed": 1,
+        "san_san_render_error": 1
       },
       "final_validation": {},
       "final_visual": {}

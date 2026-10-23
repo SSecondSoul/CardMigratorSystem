@@ -1,7 +1,7 @@
 {
   "protocol_id": "formal_30_v4_deferred_regression_20261023",
   "created_at": "2026-10-23T15:42:23+08:00",
-  "status": "in_progress_localization_workspace_retest_required",
+  "status": "in_progress_2_of_5",
   "batch_id": "formal_30_v4_deferred_regression",
   "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
   "classification": "development_internal_regression",
@@ -34,7 +34,9 @@
       "frozen_artifact_revalidation": {
         "validation_passed": false,
         "error_code": "invalid_object_class_binding"
-      }
+      },
+      "passing_rerun_snapshot": "data/experiments/snapshots/formal_30_v4_deferred_localization_workspace_pass_20261023_163149",
+      "resolution": "The deliberate rerun used San string class expressions and passed validation plus exact DOM replay with no errors or warnings."
     }
   ],
   "configuration": {
@@ -139,6 +141,42 @@
         "san_node_count": 51,
         "audit_defect": "invalid_object_class_binding",
         "audit_decision": "Do not count as an audit-confirmed pass; rerun after validator and Prompt correction."
+      },
+      "v4_deferred_rerun": {
+        "status": "completed_audit_confirmed_pass",
+        "started_at": "2026-10-23T16:28:45+08:00",
+        "finished_at": "2026-10-23T16:30:55+08:00",
+        "elapsed_seconds": 129.922,
+        "stop_reason": "passed",
+        "repair_rounds": 1,
+        "generation_provider": "qwen",
+        "generation_model": "qwen-plus",
+        "generation_tokens": 39002,
+        "repair_tokens": 48305,
+        "total_tokens": 87307,
+        "initial_validation_error_codes": [
+          "hidden_template_reactive_dependency",
+          "missing_prop_defaults"
+        ],
+        "initial_visual_error_codes": [
+          "dom_structure_similarity_low",
+          "dom_critical_attribute_mismatch"
+        ],
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "vue_node_count": 51,
+        "san_node_count": 51,
+        "direct_recheck": {
+          "validation_errors": [],
+          "validation_warnings": [],
+          "visual_errors": [],
+          "visual_warnings": []
+        },
+        "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_localization_workspace_pass_20261023_163149"
       }
     },
     {
@@ -181,9 +219,9 @@
     "configured": 5,
     "automatic_completed": 2,
     "automatic_passed": 2,
-    "audit_confirmed_passed": 1,
+    "audit_confirmed_passed": 2,
     "pending_first_run": 3,
-    "pending_retest": 1
+    "pending_retest": 0
   },
-  "next_action": "Commit the localization_workspace pre-fix evidence and validator/Prompt correction, then deliberately rerun localization_workspace with --force and full state."
+  "next_action": "Commit the localization_workspace passing rerun evidence, then run trip_itinerary_planner without --force and include full state."
 }
