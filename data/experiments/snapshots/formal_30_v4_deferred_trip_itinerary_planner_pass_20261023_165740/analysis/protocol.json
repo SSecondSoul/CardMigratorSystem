@@ -1,0 +1,227 @@
+{
+  "protocol_id": "formal_30_v4_deferred_regression_20261023",
+  "created_at": "2026-10-23T15:42:23+08:00",
+  "status": "in_progress_2_of_5",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "implementation": {
+    "commit": "9fcdee3",
+    "snapshot": "data/experiments/snapshots/formal_30_v4_targeted_final_20261023_152047",
+    "related_tests_passed": 49
+  },
+  "evaluator_corrections": [
+    {
+      "discovered_after_sample": "access_matrix",
+      "component": "vue_lightweight_renderer",
+      "defect": "A dynamic :class binding replaced, rather than merged with, a static class on the same element.",
+      "pre_fix_test": "test_vue_renderer_merges_static_and_dynamic_classes failed with actual class 'granted' instead of 'grant-cell granted'.",
+      "fix_scope": "Merge and deduplicate class attributes after evaluating Vue :class; no San, Prompt, or batch-runner behavior changed.",
+      "regression_tests_passed": 50,
+      "frozen_pre_fix_snapshot": "data/experiments/snapshots/formal_30_v4_deferred_access_matrix_pass_20261023_155031"
+    }
+  ],
+  "remediation_events": [
+    {
+      "discovered_after_sample": "localization_workspace",
+      "classification": "migration_defect_and_validator_false_negative",
+      "defect": "The generated San retained Vue object-style class syntax as class=\"{{{ selected: ..., reviewed: ... }}}\".",
+      "observed_effect": "Three repeated buttons rendered class=\"}\" and the San renderer emitted three expression warnings, so selected/reviewed row styling was not preserved.",
+      "frozen_pre_fix_snapshot": "data/experiments/snapshots/formal_30_v4_deferred_localization_workspace_pass_with_class_defect_20261023_161648",
+      "correction": "Reject object literals inside San class interpolation and explicitly require ternary string expressions in the repair Prompt.",
+      "regression_tests_passed": 51,
+      "frozen_artifact_revalidation": {
+        "validation_passed": false,
+        "error_code": "invalid_object_class_binding"
+      },
+      "passing_rerun_snapshot": "data/experiments/snapshots/formal_30_v4_deferred_localization_workspace_pass_20261023_163149",
+      "resolution": "The deliberate rerun used San string class expressions and passed validation plus exact DOM replay with no errors or warnings."
+    }
+  ],
+  "configuration": {
+    "path": "migration_pipeline/batch_configs/formal_30_v4_deferred_regression.json",
+    "file_sha256": "883432b67bf39d71c186d8ba625ab033cad90344c21d9f364ea9ba3a38c2fbac",
+    "runner_canonical_sha256": "6ddf23a789315479d7b55693b6f2023e80eb2692a766ee9f898929d5235c2a49",
+    "dry_run_passed": true,
+    "max_repair_rounds": 3
+  },
+  "source": {
+    "batch": "formal_30_v3",
+    "result_snapshot": "data/experiments/snapshots/formal_30_v3_results_20261022_200548",
+    "frozen_protocol": "data/experiments/protocols/formal_30_v3_frozen_20261022",
+    "input_policy": "Read Vue inputs directly from the frozen v3 protocol tree; do not use mutable dataset copies."
+  },
+  "execution_order": [
+    "access_matrix",
+    "localization_workspace",
+    "trip_itinerary_planner",
+    "TaskManager",
+    "MonitoringDashboard"
+  ],
+  "samples": [
+    {
+      "id": "access_matrix",
+      "component_name": "AccessMatrix",
+      "source_sha256": "bfa2ed8fed13245e1aa143d88f34f67551ed189af1d139fa4240fa71edf75ef5",
+      "source_size_bytes": 10715,
+      "v3_outcome": "max_repair_rounds_reached",
+      "v3_errors": [
+        "dom_structure_similarity_low"
+      ],
+      "v4_deferred_result": {
+        "status": "completed",
+        "final_passed": true,
+        "stop_reason": "passed",
+        "repair_rounds": 2,
+        "generation_provider": "qwen",
+        "generation_model": "qwen-plus",
+        "generation_tokens": 47330,
+        "repair_tokens": 111950,
+        "total_tokens": 159280,
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "retained_validation_warning": {
+          "code": "migration_hints_not_landed",
+          "fields": [
+            "lastSaved",
+            "saveState"
+          ]
+        },
+        "recorded_pre_evaluator_fix": {
+          "structure_similarity": 0.9766,
+          "tag_sequence_similarity": 1.0,
+          "text_similarity": 1.0,
+          "tree_edit_distance": 2.5,
+          "vue_node_count": 107,
+          "san_node_count": 107
+        },
+        "frozen_final_san_replay_after_evaluator_fix": {
+          "visual_eval_passed": true,
+          "structure_similarity": 1.0,
+          "tag_sequence_similarity": 1.0,
+          "text_similarity": 1.0,
+          "tree_edit_distance": 0.0,
+          "vue_node_count": 107,
+          "san_node_count": 107,
+          "interpretation": "The original 2.5 distance was a Vue lightweight-renderer false positive; the passing San artifact was not modified."
+        }
+      }
+    },
+    {
+      "id": "localization_workspace",
+      "component_name": "LocalizationWorkspace",
+      "source_sha256": "0e2dfccb1b63a350cf27f090e0a273406f98776526cf259b00e4a0c1d7cc2f42",
+      "source_size_bytes": 9500,
+      "v3_outcome": "max_repair_rounds_reached",
+      "v3_errors": [
+        "invalid_s_for_key_binding",
+        "dom_structure_similarity_low"
+      ],
+      "v4_deferred_first_run": {
+        "automatic_status": "completed_passed",
+        "audit_status": "retest_required",
+        "started_at": "2026-10-23T16:11:27+08:00",
+        "finished_at": "2026-10-23T16:13:39+08:00",
+        "elapsed_seconds": 132.375,
+        "stop_reason": "passed",
+        "repair_rounds": 1,
+        "generation_provider": "qwen",
+        "generation_model": "qwen-plus",
+        "generation_tokens": 39033,
+        "repair_tokens": 46159,
+        "total_tokens": 85192,
+        "automatic_final_validation_error_codes": [],
+        "automatic_final_visual_error_codes": [],
+        "structure_similarity": 0.9853,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.75,
+        "vue_node_count": 51,
+        "san_node_count": 51,
+        "audit_defect": "invalid_object_class_binding",
+        "audit_decision": "Do not count as an audit-confirmed pass; rerun after validator and Prompt correction."
+      },
+      "v4_deferred_rerun": {
+        "status": "completed_audit_confirmed_pass",
+        "started_at": "2026-10-23T16:28:45+08:00",
+        "finished_at": "2026-10-23T16:30:55+08:00",
+        "elapsed_seconds": 129.922,
+        "stop_reason": "passed",
+        "repair_rounds": 1,
+        "generation_provider": "qwen",
+        "generation_model": "qwen-plus",
+        "generation_tokens": 39002,
+        "repair_tokens": 48305,
+        "total_tokens": 87307,
+        "initial_validation_error_codes": [
+          "hidden_template_reactive_dependency",
+          "missing_prop_defaults"
+        ],
+        "initial_visual_error_codes": [
+          "dom_structure_similarity_low",
+          "dom_critical_attribute_mismatch"
+        ],
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "vue_node_count": 51,
+        "san_node_count": 51,
+        "direct_recheck": {
+          "validation_errors": [],
+          "validation_warnings": [],
+          "visual_errors": [],
+          "visual_warnings": []
+        },
+        "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_localization_workspace_pass_20261023_163149"
+      }
+    },
+    {
+      "id": "trip_itinerary_planner",
+      "component_name": "TripItineraryPlanner",
+      "source_sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139",
+      "source_size_bytes": 8578,
+      "v3_outcome": "max_repair_rounds_reached",
+      "v3_errors": [
+        "hidden_template_reactive_dependency",
+        "dom_structure_similarity_low",
+        "dom_critical_attribute_mismatch"
+      ]
+    },
+    {
+      "id": "TaskManager",
+      "component_name": "TaskManager",
+      "source_sha256": "ce3c3d4596792683e1e94a37764fdd542a97b80e4cff0c5ad8ba60c052f9e74c",
+      "source_size_bytes": 39797,
+      "v3_outcome": "generation_timeout",
+      "v3_errors": []
+    },
+    {
+      "id": "MonitoringDashboard",
+      "component_name": "MonitoringDashboard",
+      "source_sha256": "f669fc59619a30ce94cf8188b57124ae7e7084aa65d84604751391e73ab0ae4b",
+      "source_size_bytes": 42275,
+      "v3_outcome": "generation_timeout",
+      "v3_errors": []
+    }
+  ],
+  "execution_policy": [
+    "Run one sample at a time in the fixed order.",
+    "Do not use --force for the first run of a sample.",
+    "Freeze each completed result before any evaluator, Prompt, or pipeline change and before any deliberate rerun.",
+    "Classify evaluator defects, migration defects, and infrastructure errors separately.",
+    "Do not tune against these five samples and then report them as independent evaluation."
+  ],
+  "checkpoint": {
+    "configured": 5,
+    "automatic_completed": 2,
+    "automatic_passed": 2,
+    "audit_confirmed_passed": 2,
+    "pending_first_run": 3,
+    "pending_retest": 0
+  },
+  "next_action": "Commit the localization_workspace passing rerun evidence, then run trip_itinerary_planner without --force and include full state."
+}

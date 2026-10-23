@@ -2,7 +2,7 @@
   "batch_id": "formal_30_v4_deferred_regression",
   "config_sha256": "6ddf23a789315479d7b55693b6f2023e80eb2692a766ee9f898929d5235c2a49",
   "started_at": "2026-10-23T15:46:09+08:00",
-  "updated_at": "2026-10-23T16:30:55+08:00",
+  "updated_at": "2026-10-23T16:53:33+08:00",
   "samples": [
     {
       "id": "access_matrix",
@@ -138,37 +138,108 @@
       "generation_tokens": 39002,
       "repair_tokens": 48305,
       "total_tokens": 87307
+    },
+    {
+      "id": "trip_itinerary_planner",
+      "component_name": "TripItineraryPlanner",
+      "complexity": "complex",
+      "coverage_focus": [
+        "migration.attribute_binding_conversion",
+        "migration.class_binding_conversion",
+        "migration.emit_to_fire",
+        "migration.event_name_conversion",
+        "migration.props_to_data_types",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "styles.has_dynamic_class",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "vue_file": "data/experiments/protocols/formal_30_v3_frozen_20261022/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+      "output_file": "data/experiments/pipeline/batches/formal_30_v4_deferred_regression/complex/TripItineraryPlanner.san",
+      "report_file": "data/experiments/repair_reports/batches/formal_30_v4_deferred_regression/complex/TripItineraryPlanner_repair_history.json",
+      "final_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_deferred_regression\\complex\\TripItineraryPlanner_repaired.san",
+      "status": "completed",
+      "started_at": "2026-10-23T16:51:21+08:00",
+      "finished_at": "2026-10-23T16:53:33+08:00",
+      "elapsed_seconds": 131.766,
+      "final_passed": true,
+      "stop_reason": "passed",
+      "repair_rounds": 1,
+      "max_repair_rounds": 3,
+      "initial_validation_passed": false,
+      "initial_validation_error_codes": [
+        "vue_methods_wrapper",
+        "hidden_template_reactive_dependency",
+        "hidden_template_reactive_dependency",
+        "hidden_template_reactive_dependency",
+        "missing_prop_defaults"
+      ],
+      "initial_validation_warning_codes": [
+        "migration_hints_not_landed"
+      ],
+      "initial_visual_eval_passed": false,
+      "initial_visual_error_codes": [
+        "san_render_failed",
+        "san_san_render_error"
+      ],
+      "initial_visual_warning_codes": [],
+      "initial_structure_similarity": 0.0,
+      "final_validation_passed": true,
+      "final_validation_error_codes": [],
+      "final_visual_eval_passed": true,
+      "final_visual_error_codes": [],
+      "final_structure_similarity": 1.0,
+      "final_tag_sequence_similarity": 1.0,
+      "final_text_similarity": 1.0,
+      "final_tree_edit_distance": 0.0,
+      "interaction_eval_passed": null,
+      "interaction_eval_reason": "",
+      "generation_provider": "qwen",
+      "generation_model": "qwen-plus",
+      "generation_tokens": 36969,
+      "repair_tokens": 44244,
+      "total_tokens": 81213
     }
   ],
   "aggregate": {
     "configured": 5,
-    "completed": 2,
-    "passed": 2,
+    "completed": 3,
+    "passed": 3,
     "failed": 0,
     "execution_errors": 0,
-    "pending": 3,
+    "pending": 2,
     "pass_rate_completed": 1.0,
     "initial_passed": 0,
     "initial_pass_rate_completed": 0.0,
-    "repaired_to_pass": 2,
-    "repair_rounds_total": 3,
-    "repair_rounds_average": 1.5,
-    "generation_tokens": 86332,
-    "repair_tokens": 160255,
-    "total_tokens": 246587,
+    "repaired_to_pass": 3,
+    "repair_rounds_total": 4,
+    "repair_rounds_average": 1.333,
+    "generation_tokens": 123301,
+    "repair_tokens": 204499,
+    "total_tokens": 327800,
     "stop_reason_counts": {
-      "passed": 2
+      "passed": 3
     },
     "error_code_counts": {
       "initial_validation": {
-        "hidden_template_reactive_dependency": 1,
-        "missing_prop_defaults": 2
+        "hidden_template_reactive_dependency": 4,
+        "missing_prop_defaults": 3,
+        "vue_methods_wrapper": 1
       },
       "initial_visual": {
         "dom_critical_attribute_mismatch": 1,
         "dom_structure_similarity_low": 1,
-        "san_render_failed": 1,
-        "san_san_render_error": 1
+        "san_render_failed": 2,
+        "san_san_render_error": 2
       },
       "final_validation": {},
       "final_visual": {}
@@ -192,8 +263,8 @@
       },
       "complex": {
         "configured": 5,
-        "completed": 2,
-        "passed": 2,
+        "completed": 3,
+        "passed": 3,
         "failed": 0,
         "execution_errors": 0,
         "pass_rate_completed": 1.0
