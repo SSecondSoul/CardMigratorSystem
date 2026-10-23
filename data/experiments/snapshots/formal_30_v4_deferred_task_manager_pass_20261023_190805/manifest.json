@@ -1,0 +1,114 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_task_manager_pass_20261023_190805",
+  "created_at": "2026-10-23T19:08:05+08:00",
+  "purpose": "Freeze the audit-confirmed passing TaskManager rerun after the immutable state-array correction.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "TaskManager",
+  "component_name": "TaskManager",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_audit_confirmed_pass",
+  "implementation_commit": "064f5dbd0c3dfecb77fda42e26cd9b4b4d7e77ae",
+  "result": {
+    "started_at": "2026-10-23T18:58:32+08:00",
+    "finished_at": "2026-10-23T19:08:05+08:00",
+    "elapsed_seconds": 573.61,
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 90802,
+    "repair_tokens": 216837,
+    "total_tokens": 307639,
+    "initial_validation_error_codes": [
+      "missing_data_types",
+      "duplicate_class_attribute",
+      "invalid_s_for_key_binding",
+      "vue_methods_wrapper",
+      "hidden_template_reactive_dependency",
+      "nested_state_mutation",
+      "missing_watch_migration"
+    ],
+    "initial_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "final_validation_error_codes": [],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 0.9889,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.5
+  },
+  "repair_audit": {
+    "attempt_1": {
+      "provider": "deterministic",
+      "model": "san_methods_wrapper_normalizer",
+      "total_tokens": 0,
+      "remaining_validation_error_codes": [
+        "duplicate_class_attribute",
+        "hidden_template_reactive_dependency",
+        "invalid_s_for_key_binding",
+        "missing_data_types",
+        "missing_watch_migration",
+        "nested_state_mutation"
+      ]
+    },
+    "attempt_2": {
+      "provider": "qwen",
+      "model": "qwen-plus",
+      "total_tokens": 109037,
+      "pipeline_postprocessing": [
+        "cloned_state_array_before_local_mutation"
+      ],
+      "remaining_validation_error_codes": [
+        "hidden_template_reactive_dependency"
+      ]
+    },
+    "attempt_3": {
+      "provider": "qwen",
+      "model": "qwen-plus",
+      "total_tokens": 107800,
+      "passed": true
+    }
+  },
+  "independent_replay": {
+    "validation_passed": true,
+    "validation_error_codes": [],
+    "validation_warning_codes": [
+      "migration_hints_not_landed"
+    ],
+    "visual_eval_passed": true,
+    "visual_error_codes": [],
+    "visual_warning_codes": [],
+    "vue_node_count": 45,
+    "san_node_count": 45,
+    "structure_similarity": 0.9889,
+    "tag_sequence_similarity": 1.0,
+    "text_similarity": 1.0,
+    "tree_edit_distance": 0.5,
+    "methods_wrapper_present": false,
+    "watch_count": 2,
+    "immutable_tasks_clone_present": true,
+    "full_regression_tests_passed": 80
+  },
+  "contents": {
+    "formal_30_v4_deferred_regression.json": "Frozen batch configuration used for the passing rerun.",
+    "formal_30_v4_deferred_regression_summary.json": "Batch checkpoint immediately after TaskManager passed.",
+    "source/TaskManager.vue": "Frozen Vue input from the formal_30_v3 protocol.",
+    "pipeline/complex/TaskManager*.san": "Initial generation and all three repair artifacts from the passing rerun.",
+    "repair_reports/complex/TaskManager_repair_history.json": "Complete passing rerun history and retained state.",
+    "code": "Extractor, validator, repair loop, prompts, renderers, and tests used for this rerun.",
+    "analysis/protocol.json": "Protocol state immediately before recording the passing rerun.",
+    "notebooks/2026-10-23_formal_30_v4_deferred_regression.ipynb": "Notebook state immediately before recording the passing rerun."
+  },
+  "boundaries": [
+    "This result is an audit-confirmed pass for a reused development case.",
+    "It is not independent holdout or generalization evidence.",
+    "The three earlier failed TaskManager runs remain frozen separately and are not overwritten.",
+    "The migration_hints_not_landed warning is retained and was not promoted to a failure without behavioral evidence.",
+    "Any later reinterpretation or modification requires a new record and snapshot directory."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}
