@@ -1,7 +1,7 @@
 {
   "protocol_id": "formal_30_v4_deferred_regression_20261023",
   "created_at": "2026-10-23T15:42:23+08:00",
-  "status": "in_progress_task_manager_correction_pending_rerun",
+  "status": "in_progress_task_manager_second_correction_pending_rerun",
   "batch_id": "formal_30_v4_deferred_regression",
   "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
   "classification": "development_internal_regression",
@@ -90,7 +90,7 @@
     "Do not tune against these five samples and then report them as independent evaluation."
   ],
   "execution_state": {
-    "updated_at": "2026-10-23T17:46:51+08:00",
+    "updated_at": "2026-10-23T18:35:39+08:00",
     "automatic_checkpoint": {
       "configured": 5,
       "completed": 4,
@@ -142,8 +142,48 @@
         "inline_assignment_handler_names_removed": true
       },
       "related_tests_passed": 73,
+      "rerun_completed": true,
+      "rerun_status": "failed_after_max_repair_rounds"
+    },
+    "task_manager_post_ssm_fix_rerun": {
+      "status": "failed_after_max_repair_rounds",
+      "started_at": "2026-10-23T17:52:24+08:00",
+      "finished_at": "2026-10-23T18:05:06+08:00",
+      "repair_rounds": 3,
+      "generation_tokens": 90818,
+      "repair_tokens": 322831,
+      "total_tokens": 413649,
+      "final_validation_error_codes": [
+        "vue_methods_wrapper",
+        "nested_state_mutation",
+        "missing_watch_migration"
+      ],
+      "final_visual_error_codes": [
+        "san_render_failed",
+        "san_san_render_error"
+      ],
+      "final_render_error": "localStorage is not defined",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_task_manager_post_ssm_fix_failed_20261023_180506",
+      "ssm_contract_verified": true
+    },
+    "task_manager_second_correction": {
+      "classification": "deterministic_structural_repair_and_renderer_parity",
+      "changes": [
+        "Add a guarded deterministic repair that unwraps a final top-level Vue methods option without changing method bodies.",
+        "Add localStorage and sessionStorage stubs to the San renderer to match the Vue renderer environment."
+      ],
+      "read_only_replay": {
+        "methods_wrapper_removed": true,
+        "render_passed": true,
+        "san_node_count": 45,
+        "remaining_validation_error_codes": [
+          "nested_state_mutation",
+          "missing_watch_migration"
+        ]
+      },
+      "related_tests_passed": 76,
       "rerun_completed": false
     }
   },
-  "next_action": "Commit the TaskManager extractor, validator, prompt, tests, snapshot, and experiment records; then deliberately rerun only TaskManager with --force and include full state."
+  "next_action": "Commit the second TaskManager correction, failed-rerun snapshot, and experiment records; then deliberately rerun only TaskManager with --force and include full state."
 }

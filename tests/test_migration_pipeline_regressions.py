@@ -723,6 +723,30 @@ module.exports = san.defineComponent({
         self.assertEqual(vue.dom_snapshot["text_content"], "loading")
         self.assertEqual(vue.dom_snapshot, san.dom_snapshot)
 
+    def test_san_renderer_provides_browser_storage_stubs(self):
+        san_source = """<template><span>{{message}}</span></template>
+<script>
+const san = require('san');
+module.exports = san.defineComponent({
+    initData() { return {message: ''}; },
+    inited() {
+        localStorage.setItem('message', 'stored');
+        sessionStorage.setItem('suffix', '-session');
+        this.data.set(
+            'message',
+            localStorage.getItem('message') + sessionStorage.getItem('suffix')
+        );
+    }
+});
+</script>
+<style></style>
+"""
+
+        result = render_san_component(san_source=san_source)
+
+        self.assertTrue(result.passed, result.diagnostics)
+        self.assertEqual(result.dom_snapshot["text_content"], "stored-session")
+
     def test_self_closing_component_loops_expand_in_both_renderers(self):
         vue_source = """<template><section><item-card v-for="item in items" :value="item.value" /></section></template>
 <script>module.exports = {data() { return {items: [{id: 1, value: 'A'}, {id: 2, value: 'B'}]}; }};</script>

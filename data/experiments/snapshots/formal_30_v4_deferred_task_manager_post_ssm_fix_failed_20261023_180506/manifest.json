@@ -1,0 +1,81 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_task_manager_post_ssm_fix_failed_20261023_180506",
+  "created_at": "2026-10-23T18:05:06+08:00",
+  "purpose": "Freeze the deliberate TaskManager rerun with corrected SSM extraction before any further pipeline, prompt, validator, or renderer change.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "TaskManager",
+  "component_name": "TaskManager",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_post_ssm_fix_failed_after_max_repair_rounds",
+  "implementation_commit": "01c5827428f040787fd69fba3d70d0332eedbf60",
+  "result": {
+    "started_at": "2026-10-23T17:52:24+08:00",
+    "finished_at": "2026-10-23T18:05:06+08:00",
+    "elapsed_seconds": 761.672,
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 90818,
+    "repair_tokens": 322831,
+    "total_tokens": 413649,
+    "initial_validation_error_codes": [
+      "missing_data_types",
+      "duplicate_class_attribute",
+      "invalid_s_for_key_binding",
+      "vue_methods_wrapper",
+      "hidden_template_reactive_dependency",
+      "nested_state_mutation",
+      "missing_watch_migration"
+    ],
+    "final_validation_error_codes": [
+      "vue_methods_wrapper",
+      "nested_state_mutation",
+      "missing_watch_migration"
+    ],
+    "final_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "final_render_error": "localStorage is not defined"
+  },
+  "ssm_audit": {
+    "component_name": "TaskManager",
+    "script_name": "TaskManager",
+    "props": [],
+    "data_field_count": 18,
+    "method_count": 33,
+    "watch_expressions": [
+      "tasks",
+      "settings"
+    ],
+    "assessment": "The prior wrong-component contract defect is fixed in this rerun."
+  },
+  "repair_observations": {
+    "duplicate_class_attribute": "Present in the initial generation and removed by the first repair.",
+    "vue_methods_wrapper": "Retained through all three repair rounds despite explicit validation and prompt guidance.",
+    "nested_state_mutation": "moveTask still mutates the tasks array with splice instead of writing an immutable replacement.",
+    "watch_migration": "The first two repairs contained this.watch registrations, but the third repair regressed and removed them.",
+    "render_environment": "San rendering reaches lifecycle code but fails because localStorage is absent from the lightweight renderer environment.",
+    "decision": "Do not count this rerun as passing. Diagnose deterministic structural repair and renderer parity before another rerun."
+  },
+  "contents": {
+    "formal_30_v4_deferred_regression.json": "Frozen batch configuration used for the rerun.",
+    "formal_30_v4_deferred_regression_summary.json": "Batch checkpoint immediately after the deliberate rerun exhausted three repair rounds.",
+    "source/TaskManager.vue": "Frozen Vue input from the formal_30_v3 protocol.",
+    "pipeline/complex/TaskManager*.san": "Initial generation and all three repair artifacts from the corrected-SSM rerun.",
+    "repair_reports/complex/TaskManager_repair_history.json": "Complete rerun history and corrected SSM.",
+    "code": "Extractor, validator, prompts, renderers, and tests used for this rerun.",
+    "analysis/protocol.json": "Protocol state immediately before recording this rerun.",
+    "notebooks/2026-10-23_formal_30_v4_deferred_regression.ipynb": "Notebook state immediately before recording this rerun."
+  },
+  "boundaries": [
+    "This is a failed deliberate rerun after the SSM extraction correction, not a passing result.",
+    "The earlier wrong-contract failure remains frozen separately and is not overwritten.",
+    "The sample is a reused development case and is not independent holdout evidence.",
+    "No further pipeline or renderer correction was made before this snapshot was created."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

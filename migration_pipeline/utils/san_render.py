@@ -187,6 +187,16 @@ function stringifyValue(value) {
   return String(value);
 }
 
+function createStorageStub() {
+  const values = {};
+  return {
+    getItem(key) { return values[key] || null; },
+    setItem(key, value) { values[key] = String(value); },
+    removeItem(key) { delete values[key]; },
+    clear() { Object.keys(values).forEach(key => delete values[key]); }
+  };
+}
+
 function createDataStore(initial) {
   const store = Object.assign({}, initial || {});
   return {
@@ -247,7 +257,9 @@ function evaluateComponent(script, sourceName) {
     Number,
     Boolean,
     RegExp,
-    Promise
+    Promise,
+    localStorage: createStorageStub(),
+    sessionStorage: createStorageStub()
   };
   sandbox.exports = sandbox.module.exports;
   vm.createContext(sandbox);

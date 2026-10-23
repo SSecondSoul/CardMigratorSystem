@@ -121,6 +121,18 @@ class RepairStage:
             stage_input.visual_eval_errors,
         )
         if deterministic_code != current_code:
+            error_codes = {issue.get("code") for issue in stage_input.validation_errors}
+            methods_unwrapped = "vue_methods_wrapper" in error_codes
+            normalizer_model = (
+                "san_methods_wrapper_normalizer"
+                if methods_unwrapped
+                else "san_loop_binding_normalizer"
+            )
+            normalization = (
+                "unwrapped_final_top_level_methods_option"
+                if methods_unwrapped
+                else "removed_redundant_s_for_key_or_trackby_attribute"
+            )
             output_path = stage_input.resolve_output_file_path() or ""
             self._ensure_repaired_file(output_path, deterministic_code)
             return RepairStageResult(
@@ -130,13 +142,11 @@ class RepairStage:
                 repair_attempt=stage_input.repair_attempt,
                 source_file=stage_input.source_file,
                 provider="deterministic",
-                model="san_loop_binding_normalizer",
+                model=normalizer_model,
                 usage={"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0},
-                raw_response={
-                    "normalization": "removed_redundant_s_for_key_or_trackby_attribute"
-                },
+                raw_response={"normalization": normalization},
                 repair_summary=(
-                    f"Deterministic loop-binding normalization completed: {output_path}"
+                    f"Deterministic structural normalization completed: {output_path}"
                 ),
             )
         request_data = RepairRequest(
@@ -252,6 +262,104 @@ class RepairStage:
             expression = expression[2:-2].strip()
         return expression
 
+    @staticmethod
+    def _find_matching_js_brace(code: str, opening_index: int) -> int:
+        depth = 0
+        quote = ""
+        escaped = False
+        line_comment = False
+        block_comment = False
+        index = opening_index
+
+        while index < len(code):
+            char = code[index]
+            next_char = code[index + 1] if index + 1 < len(code) else ""
+
+            if line_comment:
+                if char in "\r\n":
+                    line_comment = False
+                index += 1
+                continue
+            if block_comment:
+                if char == "*" and next_char == "/":
+                    block_comment = False
+                    index += 2
+                else:
+                    index += 1
+                continue
+            if quote:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == quote:
+                    quote = ""
+                index += 1
+                continue
+            if char == "/" and next_char == "/":
+                line_comment = True
+                index += 2
+                continue
+            if char == "/" and next_char == "*":
+                block_comment = True
+                index += 2
+                continue
+            if char in {"'", '"', "`"}:
+                quote = char
+                index += 1
+                continue
+            if char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+                if depth == 0:
+                    return index
+            index += 1
+
+        return -1
+
+    @classmethod
+    def _normalize_vue_methods_wrapper(cls, code: str) -> str:
+        pattern = re.compile(r"(?m)^([ \t]*)methods\s*:\s*\{")
+        for match in pattern.finditer(code):
+            opening_index = code.find("{", match.start(), match.end())
+            closing_index = cls._find_matching_js_brace(code, opening_index)
+            if closing_index < 0:
+                continue
+
+            script_end = code.find("</script>", closing_index)
+            if script_end < 0:
+                continue
+
+            cursor = closing_index + 1
+            while cursor < script_end and code[cursor] in " \t":
+                cursor += 1
+            if cursor < script_end and code[cursor] == ",":
+                cursor += 1
+            if not re.fullmatch(r"\s*\}\s*\)\s*;?\s*", code[cursor:script_end]):
+                continue
+
+            lines = code[opening_index + 1:closing_index].splitlines()
+            while lines and not lines[0].strip():
+                lines.pop(0)
+            while lines and not lines[-1].strip():
+                lines.pop()
+            if not lines:
+                continue
+
+            indentation = [len(line) - len(line.lstrip()) for line in lines if line.strip()]
+            extra_indent = min(indentation) - len(match.group(1))
+            if extra_indent <= 0:
+                continue
+            normalized_lines = [
+                line[extra_indent:] if line.strip() else ""
+                for line in lines
+            ]
+            replacement = "\n".join(normalized_lines)
+            return code[:match.start()] + replacement + code[cursor:]
+
+        return code
+
     @classmethod
     def _apply_deterministic_repairs(
         cls,
@@ -260,6 +368,10 @@ class RepairStage:
         visual_eval_errors: list[dict[str, Any]],
     ) -> str:
         error_codes = {issue.get("code") for issue in validation_errors}
+        if "vue_methods_wrapper" in error_codes:
+            normalized = cls._normalize_vue_methods_wrapper(code)
+            if normalized != code:
+                return normalized
         if error_codes == {"invalid_s_for_key_binding"} and not visual_eval_errors:
             return cls._normalize_redundant_s_for_attributes(code)
         return code

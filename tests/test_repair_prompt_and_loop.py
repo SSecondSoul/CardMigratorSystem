@@ -184,6 +184,66 @@ class RepairPromptAndLoopTests(unittest.TestCase):
             self.assertNotIn('key="{{stat.id}}"', result.repaired_code)
             self.assertEqual(output_path.read_text(encoding="utf-8"), result.repaired_code)
 
+    def test_repair_normalizer_unwraps_final_top_level_methods_option(self):
+        code = '''<template><button on-click="save">Save</button></template>
+<script>
+const san = require('san');
+module.exports = san.defineComponent({
+  initData() { return {saved: false}; },
+  methods: {
+    save() {
+      this.data.set('saved', true);
+    },
+    format(value) {
+      return `${value}`;
+    }
+  }
+});
+</script>
+<style></style>
+'''
+
+        normalized = RepairStage._normalize_vue_methods_wrapper(code)
+
+        self.assertNotIn("methods: {", normalized)
+        self.assertIn("  save() {", normalized)
+        self.assertIn("  format(value) {", normalized)
+        self.assertIn("module.exports = san.defineComponent({", normalized)
+        self.assertIn("\n});\n</script>", normalized)
+
+    def test_repair_stage_skips_llm_for_top_level_methods_wrapper(self):
+        code = '''<template><button on-click="save">Save</button></template>
+<script>
+const san = require('san');
+module.exports = san.defineComponent({
+  initData() { return {saved: false}; },
+  methods: {
+    save() { this.data.set('saved', true); }
+  }
+});
+</script>
+<style></style>
+'''
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "Methods_repaired.san"
+            result = RepairStage(repair_client=FailIfCalledRepairClient()).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=code,
+                    output_file_path=str(output_path),
+                    validation_errors=[
+                        {"code": "vue_methods_wrapper"},
+                        {"code": "nested_state_mutation"},
+                    ],
+                    visual_eval_errors=[{"code": "san_render_failed"}],
+                )
+            )
+
+            self.assertEqual(result.provider, "deterministic")
+            self.assertEqual(result.model, "san_methods_wrapper_normalizer")
+            self.assertNotIn("methods: {", result.repaired_code)
+            self.assertEqual(output_path.read_text(encoding="utf-8"), result.repaired_code)
+
     def test_generation_prompt_requires_one_way_derived_attributes(self):
         prompt = _build_generation_prompt({"metadata": {"component_name": "Example"}})
 

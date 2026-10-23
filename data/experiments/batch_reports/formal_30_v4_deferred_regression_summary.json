@@ -2,7 +2,7 @@
   "batch_id": "formal_30_v4_deferred_regression",
   "config_sha256": "6ddf23a789315479d7b55693b6f2023e80eb2692a766ee9f898929d5235c2a49",
   "started_at": "2026-10-23T15:46:09+08:00",
-  "updated_at": "2026-10-23T17:26:16+08:00",
+  "updated_at": "2026-10-23T18:05:06+08:00",
   "samples": [
     {
       "id": "access_matrix",
@@ -238,9 +238,9 @@
       "report_file": "data/experiments/repair_reports/batches/formal_30_v4_deferred_regression/complex/TaskManager_repair_history.json",
       "final_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_deferred_regression\\complex\\TaskManager_repaired_repaired_repaired.san",
       "status": "completed",
-      "started_at": "2026-10-23T17:17:02+08:00",
-      "finished_at": "2026-10-23T17:26:16+08:00",
-      "elapsed_seconds": 553.656,
+      "started_at": "2026-10-23T17:52:24+08:00",
+      "finished_at": "2026-10-23T18:05:06+08:00",
+      "elapsed_seconds": 761.672,
       "final_passed": false,
       "stop_reason": "max_repair_rounds_reached",
       "repair_rounds": 3,
@@ -248,17 +248,20 @@
       "initial_validation_passed": false,
       "initial_validation_error_codes": [
         "missing_data_types",
+        "duplicate_class_attribute",
         "invalid_s_for_key_binding",
         "vue_methods_wrapper",
         "hidden_template_reactive_dependency",
-        "missing_datatypes_for_props",
-        "missing_event_handlers",
-        "data_initial_value_mismatch",
-        "missing_event_bindings",
+        "nested_state_mutation",
+        "nested_state_mutation",
+        "nested_state_mutation",
+        "nested_state_mutation",
+        "nested_state_mutation",
+        "nested_state_mutation",
         "missing_watch_migration"
       ],
       "initial_validation_warning_codes": [
-        "missing_data_fields"
+        "migration_hints_not_landed"
       ],
       "initial_visual_eval_passed": false,
       "initial_visual_error_codes": [
@@ -270,8 +273,8 @@
       "final_validation_passed": false,
       "final_validation_error_codes": [
         "vue_methods_wrapper",
-        "missing_event_handlers",
-        "missing_event_bindings"
+        "nested_state_mutation",
+        "missing_watch_migration"
       ],
       "final_visual_eval_passed": false,
       "final_visual_error_codes": [
@@ -286,9 +289,9 @@
       "interaction_eval_reason": "",
       "generation_provider": "qwen",
       "generation_model": "qwen-plus",
-      "generation_tokens": 65758,
-      "repair_tokens": 226717,
-      "total_tokens": 292475
+      "generation_tokens": 90818,
+      "repair_tokens": 322831,
+      "total_tokens": 413649
     }
   ],
   "aggregate": {
@@ -304,24 +307,22 @@
     "repaired_to_pass": 3,
     "repair_rounds_total": 7,
     "repair_rounds_average": 1.75,
-    "generation_tokens": 189059,
-    "repair_tokens": 431216,
-    "total_tokens": 620275,
+    "generation_tokens": 214119,
+    "repair_tokens": 527330,
+    "total_tokens": 741449,
     "stop_reason_counts": {
       "max_repair_rounds_reached": 1,
       "passed": 3
     },
     "error_code_counts": {
       "initial_validation": {
-        "data_initial_value_mismatch": 1,
+        "duplicate_class_attribute": 1,
         "hidden_template_reactive_dependency": 5,
         "invalid_s_for_key_binding": 1,
         "missing_data_types": 1,
-        "missing_datatypes_for_props": 1,
-        "missing_event_bindings": 1,
-        "missing_event_handlers": 1,
         "missing_prop_defaults": 3,
         "missing_watch_migration": 1,
+        "nested_state_mutation": 6,
         "vue_methods_wrapper": 2
       },
       "initial_visual": {
@@ -331,8 +332,8 @@
         "san_san_render_error": 3
       },
       "final_validation": {
-        "missing_event_bindings": 1,
-        "missing_event_handlers": 1,
+        "missing_watch_migration": 1,
+        "nested_state_mutation": 1,
         "vue_methods_wrapper": 1
       },
       "final_visual": {
