@@ -1642,16 +1642,34 @@ class ValidateStage:
         if not nested_methods:
             return False
 
-        return any(
-            all(
+        def contains_all_nested_calls(candidate_body: str) -> bool:
+            return all(
                 re.search(
                     rf"\bthis\.{re.escape(nested_name)}\s*\(",
                     candidate_body,
                 )
                 for nested_name in nested_methods
             )
-            for candidate_body in [target_body]
-        )
+
+        if contains_all_nested_calls(target_body):
+            return True
+
+        if method_name != "initData":
+            return False
+
+        for helper_name in re.findall(
+            r"\bthis\.([A-Za-z_$][\w$]*)\s*\(",
+            target_body,
+        ):
+            normalized_name = helper_name.lower()
+            if helper_name == method_name or not (
+                "init" in normalized_name and "data" in normalized_name
+            ):
+                continue
+            helper_body = self._extract_function_body(script, helper_name)
+            if helper_body and contains_all_nested_calls(helper_body):
+                return True
+        return False
 
     def _validate_event_binding_completeness(
         self,

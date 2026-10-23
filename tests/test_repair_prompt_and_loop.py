@@ -397,6 +397,38 @@ module.exports = san.defineComponent({
         self.assertIn("module.exports = san.defineComponent({", normalized)
         self.assertIn("\n});\n</script>", normalized)
 
+    def test_repair_normalizer_unwraps_parent_and_inline_component_methods(self):
+        code = '''<template><child-card></child-card></template>
+<script>
+const san = require('san');
+const childCard = san.defineComponent({
+  computed: {
+    label() { return this.data.get('name'); }
+  },
+  methods: {
+    format(value) { return `${value}`; }
+  },
+  attached() { this.format('ready'); }
+});
+module.exports = san.defineComponent({
+  components: {'child-card': childCard},
+  methods: {
+    save() { this.data.set('saved', true); }
+  }
+});
+</script>
+<style></style>
+'''
+
+        normalized = RepairStage._normalize_vue_methods_wrapper(code)
+
+        self.assertNotIn("methods: {", normalized)
+        self.assertIn("  format(value) {", normalized)
+        self.assertIn("  attached() {", normalized)
+        self.assertIn("  save() {", normalized)
+        self.assertIn("const childCard = san.defineComponent({", normalized)
+        self.assertIn("module.exports = san.defineComponent({", normalized)
+
     def test_repair_stage_skips_llm_for_top_level_methods_wrapper(self):
         code = '''<template><button on-click="save">Save</button></template>
 <script>
@@ -461,7 +493,7 @@ module.exports = san.defineComponent({
                 result.raw_response["normalizations"],
                 [
                     "unwrapped_san_directive_expression",
-                    "unwrapped_final_top_level_methods_option",
+                    "unwrapped_san_component_methods_options",
                 ],
             )
             self.assertIn('s-if="visible"', result.repaired_code)
@@ -494,7 +526,7 @@ module.exports = san.defineComponent({
             [item[1] for item in repairs],
             [
                 "unwrapped_san_directive_expression",
-                "unwrapped_final_top_level_methods_option",
+                "unwrapped_san_component_methods_options",
             ],
         )
 

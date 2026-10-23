@@ -5,6 +5,7 @@ import unittest
 from pathlib import Path
 
 from SSM.extractors.factory import SSMFactory
+from migration_pipeline.stages.repair import RepairStage
 from migration_pipeline.stages.validate import ValidateStage, ValidateStageInput
 from migration_pipeline.stages.visual_eval import VisualEvalStage, VisualEvalStageInput
 from migration_pipeline.utils.san_render import render_san_component
@@ -16,6 +17,11 @@ MONITORING_FAILURE_SNAPSHOT = (
     ROOT
     / "data/experiments/snapshots"
     / "formal_30_v4_deferred_monitoring_dashboard_post_watch_fix_failed_20261023_203528"
+)
+MONITORING_THIRD_CORRECTION_SNAPSHOT = (
+    ROOT
+    / "data/experiments/snapshots"
+    / "formal_30_v4_deferred_monitoring_dashboard_third_correction_failed_20261023_232937"
 )
 VUE = ROOT / "data/datasets/components/02_medium/KanbanColumnBoard/vue/KanbanColumnBoard.vue"
 REFERENCE_SAN = ROOT / "data/datasets/components/02_medium/KanbanColumnBoard/san/KanbanColumnBoard.san"
@@ -1034,6 +1040,123 @@ module.exports = san.defineComponent({
             "lifecycle_behavior_not_landed",
             {issue["code"] for issue in result.validation_errors},
         )
+
+    def test_validator_allows_complete_reserved_init_data_renamed_helper_in_attached(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "lifecycle_hooks": [{
+                        "vue_hook": "mounted",
+                        "san_hook": "attached",
+                        "body": "{ this.initData(); this.startPolling(); }",
+                    }],
+                    "methods": [
+                        {
+                            "name": "initData",
+                            "body_full": "{ this.loadMetrics(); this.loadAlerts(); }",
+                        },
+                        {"name": "loadMetrics", "body_full": "{}"},
+                        {"name": "loadAlerts", "body_full": "{}"},
+                        {"name": "startPolling", "body_full": "{}"},
+                    ],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<div></div>',
+            """
+    attached() {
+        this.initDataImpl();
+        this.startPolling();
+    },
+    initDataImpl() {
+        this.loadMetrics();
+        this.loadAlerts();
+    },
+    loadMetrics() {},
+    loadAlerts() {},
+    startPolling() {}
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+
+        self.assertNotIn(
+            "lifecycle_behavior_not_landed",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+    def test_validator_rejects_incomplete_reserved_init_data_renamed_helper(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "lifecycle_hooks": [{
+                        "vue_hook": "mounted",
+                        "san_hook": "attached",
+                        "body": "{ this.initData(); }",
+                    }],
+                    "methods": [
+                        {
+                            "name": "initData",
+                            "body_full": "{ this.loadMetrics(); this.loadAlerts(); }",
+                        },
+                        {"name": "loadMetrics", "body_full": "{}"},
+                        {"name": "loadAlerts", "body_full": "{}"},
+                    ],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<div></div>',
+            """
+    attached() { this.initDataImpl(); },
+    initDataImpl() { this.loadMetrics(); },
+    loadMetrics() {},
+    loadAlerts() {}
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+
+        self.assertIn(
+            "lifecycle_behavior_not_landed",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+    def test_monitoring_dashboard_third_correction_replays_after_methods_normalization(self):
+        vue_file = MONITORING_THIRD_CORRECTION_SNAPSHOT / "source/MonitoringDashboard.vue"
+        san_file = (
+            MONITORING_THIRD_CORRECTION_SNAPSHOT
+            / "pipeline/complex/MonitoringDashboard_repaired_repaired_repaired.san"
+        )
+        ssm = SSMFactory().build_from_file(str(vue_file))
+        original = san_file.read_text(encoding="utf-8")
+        normalized = RepairStage._normalize_vue_methods_wrapper(original)
+
+        self.assertEqual(original.count("methods: {"), 6)
+        self.assertNotIn("methods: {", normalized)
+
+        validation = ValidateStage().run(ValidateStageInput(
+            generated_code=normalized,
+            vue_file_path=str(vue_file),
+            ssm=ssm,
+        ))
+        visual = VisualEvalStage().run(VisualEvalStageInput(
+            vue_file_path=str(vue_file),
+            generated_code=normalized,
+        ))
+
+        self.assertTrue(validation.validation_passed, validation.validation_errors)
+        self.assertTrue(visual.visual_eval_passed, visual.visual_eval_errors)
+        self.assertEqual(visual.tag_sequence_similarity, 1.0)
 
     def test_validator_rejects_reserved_init_data_business_call(self):
         ssm = {

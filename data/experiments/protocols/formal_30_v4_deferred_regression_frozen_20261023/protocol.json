@@ -1,7 +1,7 @@
 {
   "protocol_id": "formal_30_v4_deferred_regression_20261023",
   "created_at": "2026-10-23T15:42:23+08:00",
-  "status": "in_progress_monitoring_dashboard_inline_component_correction_pending_commit",
+  "status": "in_progress_monitoring_dashboard_fourth_correction_pending_commit",
   "batch_id": "formal_30_v4_deferred_regression",
   "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
   "classification": "development_internal_regression",
@@ -90,7 +90,7 @@
     "Do not tune against these five samples and then report them as independent evaluation."
   ],
   "execution_state": {
-    "updated_at": "2026-10-23T20:35:28+08:00",
+    "updated_at": "2026-10-23T23:29:37+08:00",
     "automatic_checkpoint": {
       "configured": 5,
       "completed": 5,
@@ -435,8 +435,93 @@
       },
       "related_tests_passed": 99,
       "rerun_completed": false,
+      "rerun_status": "initial_generation_timeout_before_measurement"
+    },
+    "monitoring_dashboard_third_correction_rerun_attempt": {
+      "status": "infrastructure_error_no_measurement",
+      "implementation_commit": "ff3ca862e6b5f4fa9771fcd931c8f89c267e0d8f",
+      "started_at": "2026-10-23T22:42:26+08:00",
+      "finished_at": "2026-10-23T22:46:27+08:00",
+      "elapsed_seconds": 240.969,
+      "error_type": "RuntimeError",
+      "error_message": "Generation request failed: HTTP 400: The read operation timed out",
+      "generation_completed": false,
+      "repair_loop_entered": false,
+      "new_san_artifacts_written": false,
+      "new_repair_history_written": false,
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_generation_timeout_20261023_230038",
+      "interpretation": "Infrastructure timeout during initial generation; no migration result was produced and this attempt is not counted as a quality failure."
+    },
+    "latest_summary_checkpoint_after_timeout": {
+      "configured": 5,
+      "completed": 4,
+      "passed": 4,
+      "failed": 0,
+      "execution_errors": 1,
+      "pending": 0,
+      "interpretation": "The force rerun replaced only the MonitoringDashboard summary entry with an execution error. The separately frozen preceding migration results remain the audit trail."
+    },
+    "monitoring_dashboard_third_correction_complete_rerun": {
+      "status": "failed_after_max_repair_rounds",
+      "implementation_commit": "ff3ca862e6b5f4fa9771fcd931c8f89c267e0d8f",
+      "started_at": "2026-10-23T23:06:59+08:00",
+      "finished_at": "2026-10-23T23:20:58+08:00",
+      "elapsed_seconds": 838.625,
+      "repair_rounds": 3,
+      "generation_tokens": 106138,
+      "repair_tokens": 264023,
+      "total_tokens": 370161,
+      "first_repair_provider": "deterministic",
+      "first_repair_model": "san_combined_structural_normalizer",
+      "first_repair_tokens": 0,
+      "second_repair_provider": "qwen",
+      "second_repair_model": "qwen-plus",
+      "second_repair_tokens": 132350,
+      "third_repair_provider": "qwen",
+      "third_repair_model": "qwen-plus",
+      "third_repair_tokens": 131673,
+      "final_validation_error_codes": [
+        "vue_methods_wrapper",
+        "lifecycle_behavior_not_landed"
+      ],
+      "final_visual_error_codes": [],
+      "final_structure_similarity": 0.9825,
+      "final_tag_sequence_similarity": 1.0,
+      "final_text_similarity": 0.9923,
+      "final_tree_edit_distance": 1.0,
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_third_correction_failed_20261023_232937",
+      "interpretation": "Failed reused development regression after three rounds; not independent holdout evidence."
+    },
+    "monitoring_dashboard_fourth_correction": {
+      "classification": "inline_component_methods_normalization_gap_and_renamed_reserved_method_validator_false_positive",
+      "changes": [
+        "Normalize direct methods options in every local san.defineComponent object, including inline child components, rather than only the final exported component.",
+        "Apply and record the expanded methods normalization both as a deterministic repair and after LLM repair responses.",
+        "Accept a renamed initData business helper called from attached only when its helper body contains every known nested source call.",
+        "Keep rejecting direct calls to San's reserved initData hook and incomplete renamed helpers.",
+        "Explicitly require direct top-level methods in the parent and every inline child in generation and repair prompts."
+      ],
+      "read_only_replay": {
+        "frozen_methods_wrappers_before_normalization": 6,
+        "methods_wrappers_after_normalization": 0,
+        "validation_passed": true,
+        "validation_error_codes": [],
+        "validation_warning_codes": [
+          "migration_hints_not_landed"
+        ],
+        "visual_passed": true,
+        "visual_error_codes": [],
+        "vue_node_count": 57,
+        "san_node_count": 57,
+        "structure_similarity": 0.9825,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 0.9923,
+        "tree_edit_distance": 1.0
+      },
+      "related_tests_passed": 103,
+      "rerun_completed": false,
       "rerun_status": "pending_after_commit_and_server_restart"
     }
   },
-  "next_action": "Commit the third MonitoringDashboard correction and frozen failed evidence, restart the local server so it loads the new extractor and prompts, then deliberately rerun only MonitoringDashboard with --force and include full state."
+  "next_action": "Commit the fourth MonitoringDashboard correction and both new frozen evidence snapshots, restart the local server, then deliberately rerun only MonitoringDashboard with --force and include full state; freeze and audit the result."
 }

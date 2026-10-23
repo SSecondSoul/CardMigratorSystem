@@ -77,7 +77,7 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
         "3. 必须输出来自 metadata.component_name 的 name。Vue props 必须迁移为 dataTypes，并使用标准 DataTypes 类型，禁止保留 props 或 propTypes。\n"
         "4. initData 必须精确保留 Vue props default 和 data() 的类型、数值、嵌套对象与数组内容；依赖 props 的内部状态应在 inited/attached 中通过 this.data.get/set 同步。\n"
         "5. 状态和 computed 必须通过 this.data.get/set 访问；禁止 this.props、this.computed.foo()、this.xxx 状态访问以及直接修改嵌套对象或数组。更新嵌套状态时创建新值并写回根字段。\n"
-        "6. methods 必须直接定义在组件对象顶层。Vue this.$emit(...) 或 emitEvent 包装调用必须迁移为 this.fire(...)，禁止用 this.dispatch(...) 代替自定义事件。\n"
+        "6. 父组件以及每一个内联子组件的 methods 都必须直接定义在各自 san.defineComponent 对象顶层，任何组件中都禁止保留 Vue 的 methods: {} 包裹。Vue this.$emit(...) 或 emitEvent 包装调用必须迁移为 this.fire(...)，禁止用 this.dispatch(...) 代替自定义事件。\n"
         "7. template 使用 San 的 on-*、s-if、s-for 语法，完整保留 DOM 结构、文本、class、子节点顺序以及方法调用的全部参数。事件参数不得丢失或改用 data-args/getAttribute 绕行。\n"
         "8. Vue v-for 的循环项和索引别名必须完整迁移；:key 必须写入 s-for 的 trackby 子句，例如 s-for=\"task in tasks trackby task.id\"，禁止独立 key 属性，也禁止写成独立 trackby=\"task.id\" 属性。\n"
         "9. {= assignable.path =} 只用于源 Vue v-model 对应的原生 input/select/textarea 可赋值路径；Vue :prop 和普通自定义组件 props 必须使用 {{ ... }} 单向插值，例如 value=\"{{ stat.value }}\"。方法、computed、disabled、checked、selected 等派生表达式也使用 {{ ... }}，例如 disabled=\"{{ expression }}\"，禁止 disabled=\"{= expression =}\"。所有插值必须完整闭合。\n"

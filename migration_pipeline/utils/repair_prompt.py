@@ -63,7 +63,7 @@ class RepairPromptBuilder:
             "4. Vue props 必须迁移为 San dataTypes，禁止在 san.defineComponent 中输出 props: {...}。\n"
             "5. initData() 只能返回稳定默认数据对象；Vue props 的 default（包括数组/对象工厂默认值）必须作为同名字段落入 initData；Vue data() 的全部初始值必须精确等价地保留，包括嵌套对象、数组、数字和启用项集合，不得用空字符串、空数组或删减后的集合替代；如果内部 data 依赖 props，必须在 inited() 中用 this.data.get('propName') 读取并 this.data.set(...) 同步。\n"
             "6. 组件状态读写必须使用 this.data.get('field') 和 this.data.set('field', value)；禁止直接修改 this.data.get(...) 或 computed 返回的对象/数组及其子对象，例如 selectedAsset.decision = value、note.resolved = true、nodes.push(node)、edges.splice(...)、node.status = status；必须用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新的对象/数组，再通过 this.data.set('assets', nextAssets)、this.data.set('nodes', nextNodes) 等方式写回根字段；San computed 的结果也在 data store 中，computed 之间的依赖以及普通方法读取 computed 时必须使用 this.data.get('computedName')，禁止 this.computed.foo()；Vue 的 this.$emit(...) 或 emitEvent 包装方法必须迁移为 this.fire(...)，禁止 this.props、this.xxx 状态读写、this.$emit 和用 this.dispatch(...) 代替自定义事件。\n"
-            "7. 方法必须直接定义在 san.defineComponent 顶层，禁止保留 Vue 的 methods: {...} 包裹。\n"
+            "7. 父组件以及每一个内联子组件的方法都必须直接定义在各自 san.defineComponent 顶层；逐个检查所有组件对象，任何位置都禁止保留 Vue 的 methods: {...} 包裹。\n"
             "8. template 必须使用 San 语法：on-click、s-if、s-for；保留事件调用的全部参数，例如 on-click=\"move(-1)\"、on-click=\"select(task.id)\"；Vue v-for 的循环项和索引别名必须完整迁移，如果模板表达式使用 index，就必须显式写成 s-for=\"phase, index in phases trackby phase.key\"，禁止只声明 phase 却继续引用未绑定的 index；Vue v-for 的 :key 必须写入 s-for 的 trackby 子句，例如 s-for=\"task in tasks trackby task.id\"，禁止输出独立 key=\"{{ task.id }}\"、key=\"{= task.id =}\" 或 trackby=\"task.id\" 属性；所有 {{ ... }} 和 {= ... =} 插值必须完整闭合；双向绑定 {= assignable.path =} 只用于源 Vue v-model 对应的原生 input/select/textarea 可赋值路径；Vue :prop 和普通自定义组件 props 必须保持单向 {{ ... }}，例如 value=\"{{ stat.value }}\"，禁止写成 value=\"{= stat.value =}\"；方法调用、computed、disabled、checked、selected 等派生表达式也必须使用单向插值，例如 checked=\"{{ isEnabled(rule.id, enabled) }}\" 和 disabled=\"{{ expression }}\"，禁止 disabled=\"{= expression =}\"；class、style、checked、selected、disabled 等属性、s-if/s-for 指令以及文本插值调用普通方法时，不得把响应式依赖只隐藏在方法内部的 this.data.get(...) 中；必须保留 Vue 模板表达式中的完整参数，或将依赖字段显式传入，例如 class=\"{{ rowClass(row, winnerId, leaderId) }}\"、class=\"{{ slotClass(device.id, hour, schedule) }}\"、s-if=\"isOpen(module.id, openIds)\"、s-for=\"lesson in visibleLessons(module.lessons, completedIds, unfinishedOnly) trackby lesson.id\"、checked=\"{{ isSelected(row.id, selectedIds) }}\"；禁止丢失参数、使用 data-args/getAttribute 绕行，或保留 @click、v-if、v-for、v-model、:class 等 Vue 模板语法。\n"
             "9. style 标签必须写成 <style>，禁止输出 <style scoped>；必须保留原有 class 名和样式内容。\n"
             "10. 不要重新设计组件，不要引入外部依赖，不要删除已有 DOM 节点、文本、class 或样式。\n"
@@ -73,7 +73,7 @@ class RepairPromptBuilder:
             "14. value、checked、selected、disabled 等关键属性必须逐元素保留 Vue 原表达式，禁止把相邻或同级元素的条件合并进来。例如 select 的 :disabled=\"previewMode\" 必须迁移为 disabled=\"{{ previewMode }}\"，不能误用旁边按钮的 !canConnect || previewMode。\n"
             f"15. 补充要求：{extra_instruction}\n\n"
             "修复前请按下面清单自检，但最终不要输出清单：\n"
-            "- 是否存在 props:、methods:、this.props、this.$emit、this.dispatch、<style scoped>、@click、v-if、v-for、v-model、:class？如果存在，必须改掉。\n"
+            "- 父组件和每一个内联子组件中是否存在 props:、methods:、this.props、this.$emit、this.dispatch、<style scoped>、@click、v-if、v-for、v-model、:class？如果存在，必须改掉。\n"
             "- SSM props 是否全部出现在 dataTypes 中？\n"
             "- 带 default 的 Vue props 是否以同名字段和等价默认值出现在 initData 中？\n"
             "- Vue data() 中每个初始值是否精确保留了原始类型、嵌套内容、数组元素和数值，而不是空值或删减值？\n"
@@ -189,7 +189,7 @@ class RepairPromptBuilder:
                 "every loop item/index alias referenced by a loop element is declared in s-for, for example phase, index in phases",
                 "all interpolation delimiters are balanced and Vue v-for :key is migrated as an inline s-for trackby clause, never a separate key or trackby attribute",
                 "San s-if/s-else-if/s-for directive values use raw expressions without {{ ... }} or {= ... =} wrappers",
-                "top-level handler methods in san.defineComponent",
+                "top-level handler methods in the parent and every inline child san.defineComponent",
                 "template events as on-click/on-input/etc.",
                 "style tag without scoped",
             ],

@@ -1,0 +1,59 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_monitoring_dashboard_third_correction_failed_20261023_232937",
+  "created_at": "2026-10-23T23:29:37+08:00",
+  "purpose": "Freeze the complete failed MonitoringDashboard rerun after the inline-subcomponent and reserved-initData corrections, before audit or further pipeline changes.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "MonitoringDashboard",
+  "component_name": "MonitoringDashboard",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_failed_after_third_correction",
+  "implementation_commit": "ff3ca862e6b5f4fa9771fcd931c8f89c267e0d8f",
+  "result": {
+    "started_at": "2026-10-23T23:06:59+08:00",
+    "finished_at": "2026-10-23T23:20:58+08:00",
+    "elapsed_seconds": 838.625,
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 106138,
+    "repair_tokens": 264023,
+    "total_tokens": 370161,
+    "final_validation_error_codes": [
+      "vue_methods_wrapper",
+      "lifecycle_behavior_not_landed"
+    ],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 0.9825,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 0.9923,
+    "final_tree_edit_distance": 1.0
+  },
+  "repair_audit": {
+    "attempt_1": {
+      "provider": "deterministic",
+      "model": "san_combined_structural_normalizer",
+      "total_tokens": 0
+    },
+    "attempt_2": {
+      "provider": "qwen",
+      "model": "qwen-plus",
+      "total_tokens": 132350
+    },
+    "attempt_3": {
+      "provider": "qwen",
+      "model": "qwen-plus",
+      "total_tokens": 131673,
+      "final_passed": false
+    }
+  },
+  "decision": "Preserve this failed rerun and audit the remaining methods-wrapper and lifecycle errors before changing the pipeline; do not manually edit generated San artifacts.",
+  "boundaries": [
+    "This sample is a reused development case and is not independent holdout evidence.",
+    "The generated San artifacts and repair history are preserved exactly as produced.",
+    "No validator, prompt, extractor, or repair-loop change was made before this snapshot was created."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

@@ -215,7 +215,7 @@ class RepairStage:
                     **result.raw_response,
                     "pipeline_postprocessing": [
                         *result.raw_response.get("pipeline_postprocessing", []),
-                        "unwrapped_final_top_level_methods_option",
+                        "unwrapped_san_component_methods_options",
                     ],
                 }
         if any(
@@ -474,25 +474,109 @@ class RepairStage:
         return -1
 
     @classmethod
+    def _js_brace_depth_at(
+        cls,
+        code: str,
+        start: int,
+        end: int,
+        initial_depth: int = 1,
+    ) -> int | None:
+        depth = initial_depth
+        quote = ""
+        escaped = False
+        line_comment = False
+        block_comment = False
+        index = start
+
+        while index < end:
+            char = code[index]
+            next_char = code[index + 1] if index + 1 < end else ""
+            if line_comment:
+                if char in "\r\n":
+                    line_comment = False
+                index += 1
+                continue
+            if block_comment:
+                if char == "*" and next_char == "/":
+                    block_comment = False
+                    index += 2
+                else:
+                    index += 1
+                continue
+            if quote:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == quote:
+                    quote = ""
+                index += 1
+                continue
+            if char == "/" and next_char == "/":
+                line_comment = True
+                index += 2
+                continue
+            if char == "/" and next_char == "*":
+                block_comment = True
+                index += 2
+                continue
+            if char in {"'", '"', "`"}:
+                quote = char
+                index += 1
+                continue
+            if char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+            index += 1
+
+        if quote or line_comment or block_comment:
+            return None
+        return depth
+
+    @classmethod
     def _normalize_vue_methods_wrapper(cls, code: str) -> str:
+        component_ranges: list[tuple[int, int]] = []
+        for component_match in re.finditer(
+            r"\bsan\.defineComponent\s*\(\s*\{",
+            code,
+        ):
+            object_open = code.rfind("{", component_match.start(), component_match.end())
+            object_close = cls._find_matching_js_brace(code, object_open)
+            if object_close >= 0:
+                component_ranges.append((object_open, object_close))
+
         pattern = re.compile(r"(?m)^([ \t]*)methods\s*:\s*\{")
+        replacements: list[tuple[int, int, str]] = []
         for match in pattern.finditer(code):
-            opening_index = code.find("{", match.start(), match.end())
-            closing_index = cls._find_matching_js_brace(code, opening_index)
-            if closing_index < 0:
+            component_range = next(
+                (
+                    (object_open, object_close)
+                    for object_open, object_close in component_ranges
+                    if object_open < match.start() < object_close
+                    and cls._js_brace_depth_at(
+                        code,
+                        object_open + 1,
+                        match.start(),
+                    ) == 1
+                ),
+                None,
+            )
+            if component_range is None:
                 continue
 
-            script_end = code.find("</script>", closing_index)
-            if script_end < 0:
+            opening_index = code.find("{", match.start(), match.end())
+            closing_index = cls._find_matching_js_brace(code, opening_index)
+            if closing_index < 0 or closing_index >= component_range[1]:
                 continue
 
             cursor = closing_index + 1
-            while cursor < script_end and code[cursor] in " \t":
+            while cursor < component_range[1] and code[cursor] in " \t":
                 cursor += 1
-            if cursor < script_end and code[cursor] == ",":
+            has_trailing_comma = False
+            if cursor < component_range[1] and code[cursor] == ",":
+                has_trailing_comma = True
                 cursor += 1
-            if not re.fullmatch(r"\s*\}\s*\)\s*;?\s*", code[cursor:script_end]):
-                continue
 
             lines = code[opening_index + 1:closing_index].splitlines()
             while lines and not lines[0].strip():
@@ -511,9 +595,14 @@ class RepairStage:
                 for line in lines
             ]
             replacement = "\n".join(normalized_lines)
-            return code[:match.start()] + replacement + code[cursor:]
+            if has_trailing_comma:
+                replacement += ","
+            replacements.append((match.start(), cursor, replacement))
 
-        return code
+        normalized = code
+        for start, end, replacement in reversed(replacements):
+            normalized = normalized[:start] + replacement + normalized[end:]
+        return normalized
 
     @classmethod
     def _normalize_mutated_state_array_aliases(cls, code: str) -> str:
@@ -607,7 +696,7 @@ class RepairStage:
                 normalized = candidate
                 applied.append((
                     "san_methods_wrapper_normalizer",
-                    "unwrapped_final_top_level_methods_option",
+                    "unwrapped_san_component_methods_options",
                 ))
         if error_codes == {"nested_state_mutation"} and not visual_eval_errors:
             candidate = cls._normalize_mutated_state_array_aliases(normalized)
