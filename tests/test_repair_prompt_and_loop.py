@@ -4,6 +4,7 @@ from tempfile import TemporaryDirectory
 
 from local_server.api.evaluation_routes import _build_generation_prompt
 from migration_pipeline.orchestrator import MigrationPipelineOrchestrator
+from migration_pipeline.repair_client import RepairResult
 from migration_pipeline.run_pipeline import compact_repair_history_entry
 from migration_pipeline.stages.generate import GenerateStageInput, GenerateStageResult
 from migration_pipeline.stages.repair import RepairStage, RepairStageInput
@@ -96,6 +97,23 @@ class NoChangeRepairStage:
 class FailIfCalledRepairClient:
     def repair(self, request_data):
         raise AssertionError("LLM repair should not run for a deterministic correction")
+
+
+class StaticRepairClient:
+    def __init__(self, code):
+        self.code = code
+
+    def repair(self, request_data):
+        return RepairResult(
+            source_file=request_data.source_file,
+            ssm=request_data.ssm,
+            code=self.code,
+            saved_file_path=request_data.output_file_path or "repaired.san",
+            provider="fake",
+            model="fake-model",
+            usage={"total_tokens": 10},
+            raw_response={"ok": True},
+        )
 
 
 class RepairPromptAndLoopTests(unittest.TestCase):
@@ -243,6 +261,109 @@ module.exports = san.defineComponent({
             self.assertEqual(result.model, "san_methods_wrapper_normalizer")
             self.assertNotIn("methods: {", result.repaired_code)
             self.assertEqual(output_path.read_text(encoding="utf-8"), result.repaired_code)
+
+    def test_repair_normalizer_clones_state_array_before_local_mutation(self):
+        code = '''<script>
+module.exports = san.defineComponent({
+  moveTask() {
+    const tasks = this.data.get('tasks');
+    const moved = tasks.splice(0, 1)[0];
+    tasks.push(moved);
+    this.data.set('tasks', tasks);
+  }
+});
+</script>
+'''
+
+        normalized = RepairStage._normalize_mutated_state_array_aliases(code)
+
+        self.assertIn("const tasks = [...this.data.get('tasks')];", normalized)
+        self.assertIn("tasks.splice(0, 1)", normalized)
+        self.assertIn("this.data.set('tasks', tasks)", normalized)
+
+    def test_repair_normalizer_keeps_mutation_without_state_writeback(self):
+        code = '''<script>
+module.exports = san.defineComponent({
+  inspectTasks() {
+    const tasks = this.data.get('tasks');
+    tasks.sort();
+    return tasks;
+  }
+});
+</script>
+'''
+
+        normalized = RepairStage._normalize_mutated_state_array_aliases(code)
+
+        self.assertEqual(normalized, code)
+
+    def test_repair_stage_skips_llm_for_only_nested_array_mutation(self):
+        code = '''<script>
+module.exports = san.defineComponent({
+  moveTask() {
+    const tasks = this.data.get('tasks') || [];
+    tasks.splice(0, 1);
+    this.data.set('tasks', tasks);
+  }
+});
+</script>
+'''
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "Tasks_repaired.san"
+            result = RepairStage(repair_client=FailIfCalledRepairClient()).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=code,
+                    output_file_path=str(output_path),
+                    validation_errors=[{"code": "nested_state_mutation"}],
+                )
+            )
+
+            self.assertEqual(result.provider, "deterministic")
+            self.assertEqual(result.model, "san_state_array_clone_normalizer")
+            self.assertIn(
+                "const tasks = [...(this.data.get('tasks') || [])];",
+                result.repaired_code,
+            )
+            self.assertEqual(output_path.read_text(encoding="utf-8"), result.repaired_code)
+
+    def test_llm_result_records_nested_array_postprocessing(self):
+        current_code = '''<script>
+module.exports = san.defineComponent({
+  moveTask() { this.data.get('tasks').splice(0, 1); }
+});
+</script>
+'''
+        repaired_code = '''<script>
+module.exports = san.defineComponent({
+  moveTask() {
+    const tasks = this.data.get('tasks');
+    tasks.splice(0, 1);
+    this.data.set('tasks', tasks);
+  }
+});
+</script>
+'''
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "Tasks_repaired.san"
+            result = RepairStage(repair_client=StaticRepairClient(repaired_code)).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=current_code,
+                    output_file_path=str(output_path),
+                    validation_errors=[
+                        {"code": "nested_state_mutation"},
+                        {"code": "missing_prop_defaults"},
+                    ],
+                )
+            )
+
+            self.assertEqual(result.provider, "fake")
+            self.assertIn("const tasks = [...this.data.get('tasks')];", result.repaired_code)
+            self.assertEqual(
+                result.raw_response["pipeline_postprocessing"],
+                ["cloned_state_array_before_local_mutation"],
+            )
 
     def test_generation_prompt_requires_one_way_derived_attributes(self):
         prompt = _build_generation_prompt({"metadata": {"component_name": "Example"}})

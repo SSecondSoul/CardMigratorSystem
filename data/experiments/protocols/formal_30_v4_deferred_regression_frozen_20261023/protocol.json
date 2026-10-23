@@ -1,7 +1,7 @@
 {
   "protocol_id": "formal_30_v4_deferred_regression_20261023",
   "created_at": "2026-10-23T15:42:23+08:00",
-  "status": "in_progress_task_manager_second_correction_pending_rerun",
+  "status": "in_progress_task_manager_third_correction_pending_rerun",
   "batch_id": "formal_30_v4_deferred_regression",
   "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
   "classification": "development_internal_regression",
@@ -90,7 +90,7 @@
     "Do not tune against these five samples and then report them as independent evaluation."
   ],
   "execution_state": {
-    "updated_at": "2026-10-23T18:35:39+08:00",
+    "updated_at": "2026-10-23T18:55:00+08:00",
     "automatic_checkpoint": {
       "configured": 5,
       "completed": 4,
@@ -182,8 +182,51 @@
         ]
       },
       "related_tests_passed": 76,
+      "rerun_completed": true,
+      "rerun_status": "failed_after_max_repair_rounds"
+    },
+    "task_manager_post_deterministic_fix_rerun": {
+      "status": "failed_after_max_repair_rounds",
+      "started_at": "2026-10-23T18:39:14+08:00",
+      "finished_at": "2026-10-23T18:49:00+08:00",
+      "repair_rounds": 3,
+      "generation_tokens": 90876,
+      "repair_tokens": 217314,
+      "total_tokens": 308190,
+      "first_repair_provider": "deterministic",
+      "first_repair_model": "san_methods_wrapper_normalizer",
+      "first_repair_tokens": 0,
+      "final_validation_error_codes": [
+        "nested_state_mutation"
+      ],
+      "final_visual_error_codes": [],
+      "final_structure_similarity": 0.9889,
+      "final_text_similarity": 1.0,
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_task_manager_post_deterministic_fix_failed_20261023_184900",
+      "methods_wrapper_removed": true,
+      "watch_migration_verified": true,
+      "renderer_parity_verified": true
+    },
+    "task_manager_third_correction": {
+      "classification": "guarded_immutable_state_array_repair",
+      "changes": [
+        "Clone a direct this.data.get array alias before recognized local mutation when the same field is explicitly written back.",
+        "Apply the same traceable post-processing to an LLM repair when nested_state_mutation coexists with other errors."
+      ],
+      "read_only_replay": {
+        "state_array_cloned_before_splice": true,
+        "watch_count": 2,
+        "validation_passed": true,
+        "validation_error_codes": [],
+        "visual_passed": true,
+        "visual_error_codes": [],
+        "san_node_count": 45,
+        "structure_similarity": 0.9889,
+        "text_similarity": 1.0
+      },
+      "related_tests_passed": 80,
       "rerun_completed": false
     }
   },
-  "next_action": "Commit the second TaskManager correction, failed-rerun snapshot, and experiment records; then deliberately rerun only TaskManager with --force and include full state."
+  "next_action": "Commit the third TaskManager correction, latest failed-rerun snapshot, and experiment records; then deliberately rerun only TaskManager with --force and include full state."
 }

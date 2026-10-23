@@ -1,0 +1,1265 @@
+<template>
+<div class="task-manager" class="{{'dark-theme': isDarkMode, 'compact-mode': isCompactMode}}">
+  <header class="app-header">
+    <div class="logo-area">
+      <span class="logo">✅</span>
+      <h1 class="title">智能任务管家</h1>
+      <span class="version">v3.0</span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" title="{{isCompactMode ? '展开模式' : '紧凑模式'}}" on-click="toggleCompactMode">{{isCompactMode ? '📐' : '📏'}}</button>
+      <button class="icon-btn" title="{{isDarkMode ? '亮色模式' : '暗色模式'}}" on-click="toggleTheme">{{isDarkMode ? '☀️' : '🌙'}}</button>
+      <button class="icon-btn" title="导出数据" on-click="exportData"> 📥 </button>
+      <button class="icon-btn" title="设置" on-click="showSettings = true"> ⚙️ </button>
+    </div>
+  </header>
+
+  <div class="stats-section">
+    <stat-card s-for="stat in statistics trackby stat.id" key="{{stat.id}}" label="{{stat.label}}" value="{{stat.value}}" icon="{{stat.icon}}" trend="{{stat.trend}}" color="{{stat.color}}" on-click="onStatClick(stat)"/>
+  </div>
+
+  <div class="main-workspace">
+    <div class="tasks-panel">
+      <div class="panel-header">
+        <h2>📋 任务列表</h2>
+        <div class="task-controls">
+          <button class="primary-btn" on-click="openTaskModal"> + 新建任务 </button>
+          <div class="search-box">
+            <input type="text" placeholder="搜索任务..." value="{= searchKeyword =}" on-input="onSearchChange"/>
+            <span class="search-icon">🔍</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="filter-tab" s-for="filter in filters trackby filter.value" key="{{filter.value}}" class="{{'active': currentFilter === filter.value}}" on-click="setFilter(filter.value)">
+          {{filter.label}} 
+          <span class="count">{{getTaskCount(filter.value)}}</span>
+        </button>
+      </div>
+
+      <div class="task-list" on-dragover="" on-drop="onDropToEnd">
+        <task-item s-for="(task, index) in filteredTasks trackby task.id" key="{{task.id}}" task="{{task}}" index="{{index}}" draggable="{{true}}" on-toggle="toggleTaskStatus" on-edit="editTask" on-view="selectTask" on-delete="deleteTask" on-drag-start="onDragStart" on-drag-end="onDragEnd" on-drop-on="onDropOnTask"/>
+        <div class="empty-state" s-if="filteredTasks.length === 0">
+          <span class="empty-icon">📭</span>
+          <p>暂无任务，创建一个吧！</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-panel" s-if="selectedTask">
+      <task-detail task="{{selectedTask}}" on-close="closeDetail" on-update="updateTask" on-comment="addComment"/>
+    </div>
+  </div>
+
+  <div class="modal-overlay" s-if="isModalOpen" on-click="closeModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>{{editingTask ? '编辑任务' : '新建任务'}}</h3>
+        <button class="close-btn" on-click="closeModal">✕</button>
+      </div>
+      <task-form key="{{editingTask ? editingTask.id : 'new-task'}}" task="{{editingTask}}" users="{{users}}" tags="{{availableTags}}" on-submit="handleTaskSubmit" on-cancel="closeModal"/>
+    </div>
+  </div>
+
+  <div class="modal-overlay" s-if="showSettings" on-click="showSettings = false">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>⚙️ 系统设置</h3>
+        <button class="close-btn" on-click="showSettings = false">✕</button>
+      </div>
+      <settings-panel settings="{{settings}}" on-update="updateSettings"/>
+    </div>
+  </div>
+
+  <div class="notification" s-if="notification.show" class="{{notification.type}}">
+    <span>{{notification.message}}</span>
+    <button on-click="hideNotification">✕</button>
+  </div>
+</div>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'TaskManager',
+  components: {
+    'stat-card': require('./StatCard'),
+    'task-item': require('./TaskItem'),
+    'task-detail': require('./TaskDetail'),
+    'task-form': require('./TaskForm'),
+    'settings-panel': require('./SettingsPanel')
+  },
+  initData() {
+    return {
+      isDarkMode: false,
+      isCompactMode: false,
+      showSettings: false,
+      isModalOpen: false,
+      tasks: [],
+      selectedTask: null,
+      editingTask: null,
+      currentFilter: 'all',
+      searchKeyword: '',
+      dragStartIndex: null,
+      users: [
+        { id: 1, name: '张三' },
+        { id: 2, name: '李四' },
+        { id: 3, name: '王五' }
+      ],
+      availableTags: ['工作', '个人', '紧急', '学习', '休闲', '会议'],
+      statistics: [
+        { id: 1, label: '总任务', value: 0, icon: '📊', trend: 12, color: '#3b82f6' },
+        { id: 2, label: '已完成', value: 0, icon: '✅', trend: 8, color: '#10b981' },
+        { id: 3, label: '进行中', value: 0, icon: '🔄', trend: -3, color: '#f59e0b' },
+        { id: 4, label: '逾期任务', value: 0, icon: '⚠️', trend: 5, color: '#ef4444' }
+      ],
+      filters: [
+        { value: 'all', label: '全部' },
+        { value: 'active', label: '进行中' },
+        { value: 'completed', label: '已完成' },
+        { value: 'overdue', label: '已逾期' },
+        { value: 'urgent', label: '紧急' }
+      ],
+      settings: {
+        defaultView: 'list',
+        autoSave: true,
+        notifications: true,
+        syncInterval: 60
+      },
+      notification: {
+        show: false,
+        message: '',
+        type: 'info'
+      },
+      syncTimer: null,
+      storageKey: 'task_manager_data'
+    };
+  },
+
+  computed: {
+    filteredTasks() {
+      const tasks = this.data.get('tasks');
+      const currentFilter = this.data.get('currentFilter');
+      const searchKeyword = this.data.get('searchKeyword');
+
+      let result = [...tasks];
+
+      if (currentFilter !== 'all') {
+        result = result.filter(task => {
+          switch (currentFilter) {
+            case 'active': return !task.completed && !this.isOverdue(task);
+            case 'completed': return task.completed;
+            case 'overdue': return this.isOverdue(task) && !task.completed;
+            case 'urgent': return task.priority === 'high' && !task.completed;
+            default: return true;
+          }
+        });
+      }
+
+      if (searchKeyword) {
+        const keyword = searchKeyword.toLowerCase();
+        result = result.filter(task =>
+          task.title.toLowerCase().includes(keyword) ||
+          (task.description && task.description.toLowerCase().includes(keyword))
+        );
+      }
+
+      return result;
+    }
+  },
+
+  inited() {
+    this.watch('tasks', () => {
+      this.updateStatistics();
+      if (this.data.get('settings').autoSave) {
+        this.saveToLocalStorage();
+      }
+    });
+
+    this.watch('settings', () => {
+      if (this.data.get('settings').autoSave) {
+        this.saveToLocalStorage();
+      }
+      this.updateSyncInterval();
+    });
+  },
+
+  attached() {
+    this.loadInitialData();
+    this.startAutoSync();
+    this.showNotification('系统初始化完成', 'success');
+  },
+
+  disposed() {
+    const syncTimer = this.data.get('syncTimer');
+    if (syncTimer) {
+      clearInterval(syncTimer);
+    }
+    this.saveToLocalStorage();
+  },
+
+  methods: {
+    loadInitialData() {
+      const storageKey = this.data.get('storageKey');
+      const saved = localStorage.getItem(storageKey);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          this.data.set('tasks', data.tasks || this.getSampleTasks());
+          const settings = this.data.get('settings');
+          this.data.set('settings', { ...settings, ...data.settings });
+        } catch (e) {
+          this.data.set('tasks', this.getSampleTasks());
+        }
+      } else {
+        this.data.set('tasks', this.getSampleTasks());
+      }
+      this.updateStatistics();
+    },
+
+    getSampleTasks() {
+      const now = Date.now();
+      const dueDate2 = new Date(now + 2 * 86400000).toISOString().split('T')[0];
+      const dueDate5 = new Date(now + 5 * 86400000).toISOString().split('T')[0];
+      const dueDatePast = new Date(now - 1 * 86400000).toISOString().split('T')[0];
+      return [
+        {
+          id: 1,
+          title: '完成项目报告',
+          description: '编写Q4季度项目总结报告，包含数据分析和改进建议',
+          priority: 'high',
+          dueDate: dueDate2,
+          tags: ['工作', '紧急'],
+          completed: false,
+          comments: [],
+          assignee: '张三'
+        },
+        {
+          id: 2,
+          title: '学习Vue高级特性',
+          description: '深入学习Vue3组合式API和响应式原理',
+          priority: 'medium',
+          dueDate: dueDate5,
+          tags: ['学习'],
+          completed: false,
+          comments: [],
+          assignee: '李四'
+        },
+        {
+          id: 3,
+          title: '团队会议',
+          description: '周例会，讨论项目进展和下周计划',
+          priority: 'medium',
+          dueDate: dueDatePast,
+          tags: ['工作', '会议'],
+          completed: true,
+          comments: [{ user: '张三', text: '会议纪要已更新', time: now - 86400000 }],
+          assignee: '王五'
+        }
+      ];
+    },
+
+    updateStatistics() {
+      const tasks = this.data.get('tasks');
+      const total = tasks.length;
+      const completed = tasks.filter(t => t.completed).length;
+      const active = tasks.filter(t => !t.completed && !this.isOverdue(t)).length;
+      const overdue = tasks.filter(t => this.isOverdue(t) && !t.completed).length;
+
+      const statistics = this.data.get('statistics');
+      this.data.set('statistics', [
+        { ...statistics[0], value: total },
+        { ...statistics[1], value: completed },
+        { ...statistics[2], value: active },
+        { ...statistics[3], value: overdue }
+      ]);
+    },
+
+    isOverdue(task) {
+      if (task.completed || !task.dueDate) return false;
+      const dueDate = new Date(task.dueDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return dueDate < today;
+    },
+
+    openTaskModal() {
+      this.data.set('editingTask', null);
+      this.data.set('isModalOpen', true);
+    },
+
+    editTask(task) {
+      this.data.set('editingTask', { ...task });
+      this.data.set('isModalOpen', true);
+    },
+
+    selectTask(task) {
+      this.data.set('selectedTask', task);
+    },
+
+    handleTaskSubmit(formData) {
+      const editingTask = this.data.get('editingTask');
+      const tasks = this.data.get('tasks');
+      if (editingTask) {
+        const index = tasks.findIndex(t => t.id === editingTask.id);
+        if (index !== -1) {
+          const updatedTask = { ...tasks[index], ...formData, updatedAt: Date.now() };
+          const newTasks = [...tasks];
+          newTasks[index] = updatedTask;
+          this.data.set('tasks', newTasks);
+          this.showNotification('任务更新成功', 'success');
+        }
+      } else {
+        const newTask = {
+          ...formData,
+          id: Date.now(),
+          completed: false,
+          comments: [],
+          createdAt: Date.now()
+        };
+        const newTasks = [newTask, ...tasks];
+        this.data.set('tasks', newTasks);
+        this.showNotification('任务创建成功', 'success');
+      }
+      this.closeModal();
+    },
+
+    toggleTaskStatus(taskId) {
+      const tasks = this.data.get('tasks');
+      const task = tasks.find(t => t.id === taskId);
+      if (task) {
+        const newTasks = tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
+        this.data.set('tasks', newTasks);
+        this.showNotification(task.completed ? '任务已完成' : '任务已恢复', 'info');
+      }
+    },
+
+    deleteTask(taskId) {
+      if (confirm('确定删除此任务吗？')) {
+        const tasks = this.data.get('tasks');
+        const newTasks = tasks.filter(t => t.id !== taskId);
+        this.data.set('tasks', newTasks);
+        const selectedTask = this.data.get('selectedTask');
+        if (selectedTask?.id === taskId) {
+          this.data.set('selectedTask', null);
+        }
+        this.showNotification('任务已删除', 'warning');
+      }
+    },
+
+    updateTask(updatedData) {
+      this.editTask(updatedData);
+    },
+
+    addComment(commentData) {
+      const tasks = this.data.get('tasks');
+      const task = tasks.find(t => t.id === commentData.taskId);
+      if (task) {
+        const comments = task.comments || [];
+        const newComments = [...comments, {
+          user: '当前用户',
+          text: commentData.text,
+          time: Date.now()
+        }];
+        const newTasks = tasks.map(t => t.id === commentData.taskId ? { ...t, comments: newComments } : t);
+        this.data.set('tasks', newTasks);
+        this.showNotification('评论已添加', 'success');
+      }
+    },
+
+    closeDetail() {
+      this.data.set('selectedTask', null);
+    },
+
+    onDragStart(index) {
+      this.data.set('dragStartIndex', index);
+    },
+
+    onDropOnTask(dropIndex) {
+      this.moveTask(this.data.get('dragStartIndex'), dropIndex);
+    },
+
+    onDropToEnd() {
+      const filteredTasks = this.data.get('filteredTasks');
+      this.moveTask(this.data.get('dragStartIndex'), filteredTasks.length - 1, true);
+    },
+
+    onDragEnd() {
+      this.data.set('dragStartIndex', null);
+    },
+
+    moveTask(fromFilteredIndex, toFilteredIndex, insertAfter = false) {
+      if (fromFilteredIndex === null || fromFilteredIndex === undefined) return;
+
+      const filteredTasks = this.data.get('filteredTasks');
+      const draggedTask = filteredTasks[fromFilteredIndex];
+      const isMovingDown = fromFilteredIndex < toFilteredIndex;
+      const targetTask = filteredTasks[toFilteredIndex];
+      if (!draggedTask || !targetTask || draggedTask.id === targetTask.id) return;
+
+      const tasks = this.data.get('tasks');
+      const originalIndex = tasks.findIndex(t => t.id === draggedTask.id);
+      let targetOriginalIndex = tasks.findIndex(t => t.id === targetTask.id);
+
+      if (originalIndex !== -1 && targetOriginalIndex !== -1) {
+        const [movedTask] = tasks.splice(originalIndex, 1);
+        if (originalIndex < targetOriginalIndex) {
+          targetOriginalIndex -= 1;
+        }
+        if (insertAfter || isMovingDown) {
+          targetOriginalIndex += 1;
+        }
+        const newTasks = [...tasks];
+        newTasks.splice(targetOriginalIndex, 0, movedTask);
+        this.data.set('tasks', newTasks);
+        this.data.set('dragStartIndex', null);
+        this.showNotification('任务顺序已更新', 'info');
+      }
+    },
+
+    setFilter(filter) {
+      this.data.set('currentFilter', filter);
+      const filters = this.data.get('filters');
+      const label = filters.find(f => f.value === filter)?.label || '';
+      this.showNotification(`已筛选：${label}`, 'info');
+    },
+
+    onSearchChange() {
+      const searchKeyword = this.data.get('searchKeyword');
+      if (searchKeyword) {
+        this.showNotification(`搜索：${searchKeyword}`, 'info');
+      }
+    },
+
+    getTaskCount(filterValue) {
+      const tasks = this.data.get('tasks');
+      switch (filterValue) {
+        case 'all': return tasks.length;
+        case 'active': return tasks.filter(t => !t.completed && !this.isOverdue(t)).length;
+        case 'completed': return tasks.filter(t => t.completed).length;
+        case 'overdue': return tasks.filter(t => this.isOverdue(t) && !t.completed).length;
+        case 'urgent': return tasks.filter(t => t.priority === 'high' && !t.completed).length;
+        default: return 0;
+      }
+    },
+
+    toggleTheme() {
+      const isDarkMode = this.data.get('isDarkMode');
+      this.data.set('isDarkMode', !isDarkMode);
+      this.showNotification(`已切换到${!isDarkMode ? '暗色' : '亮色'}主题`, 'info');
+    },
+
+    toggleCompactMode() {
+      const isCompactMode = this.data.get('isCompactMode');
+      this.data.set('isCompactMode', !isCompactMode);
+      this.showNotification(`已切换到${!isCompactMode ? '紧凑' : '展开'}模式`, 'info');
+    },
+
+    closeModal() {
+      this.data.set('isModalOpen', false);
+      this.data.set('editingTask', null);
+    },
+
+    onStatClick(stat) {
+      if (stat.id === 1) this.setFilter('all');
+      else if (stat.id === 2) this.setFilter('completed');
+      else if (stat.id === 3) this.setFilter('active');
+      else if (stat.id === 4) this.setFilter('overdue');
+      this.showNotification(`查看${stat.label}`, 'info');
+    },
+
+    updateSettings(key, value) {
+      const settings = this.data.get('settings');
+      const newValue = key === 'syncInterval' ? Number(value) : value;
+      const newSettings = { ...settings, [key]: newValue };
+      this.data.set('settings', newSettings);
+      this.showNotification(`设置已更新：${key}`, 'success');
+    },
+
+    saveToLocalStorage() {
+      const tasks = this.data.get('tasks');
+      const settings = this.data.get('settings');
+      const data = {
+        tasks,
+        settings,
+        lastSave: Date.now()
+      };
+      const storageKey = this.data.get('storageKey');
+      localStorage.setItem(storageKey, JSON.stringify(data));
+    },
+
+    exportData() {
+      const tasks = this.data.get('tasks');
+      const statistics = this.data.get('statistics');
+      const data = {
+        tasks,
+        statistics,
+        exportTime: new Date().toISOString()
+      };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `task_export_${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      this.showNotification('数据已导出', 'success');
+    },
+
+    startAutoSync() {
+      this.updateSyncInterval();
+    },
+
+    updateSyncInterval() {
+      const syncTimer = this.data.get('syncTimer');
+      if (syncTimer) {
+        clearInterval(syncTimer);
+      }
+      const settings = this.data.get('settings');
+      if (settings.syncInterval > 0) {
+        const timer = setInterval(() => {
+          this.autoSync();
+        }, settings.syncInterval * 1000);
+        this.data.set('syncTimer', timer);
+      }
+    },
+
+    async autoSync() {
+      this.showNotification('正在同步云端数据...', 'info');
+      await new Promise(resolve => setTimeout(resolve, 500));
+      this.showNotification('数据同步完成', 'success');
+    },
+
+    showNotification(message, type = 'info') {
+      this.data.set('notification', {
+        show: true,
+        message,
+        type
+      });
+      setTimeout(() => {
+        this.hideNotification();
+      }, 3000);
+    },
+
+    hideNotification() {
+      this.data.set('notification', {
+        ...this.data.get('notification'),
+        show: false
+      });
+    }
+  }
+});
+</script>
+
+<style>
+/* 主容器 */
+.task-manager {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f7f9fc;
+  min-height: 100vh;
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.task-manager.dark-theme {
+  background: #1a1a2e;
+  color: #e0e0e0;
+}
+
+.task-manager.compact-mode {
+  padding: 12px;
+}
+
+/* 头部 */
+.app-header {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.dark-theme .app-header {
+  background: #16213e;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 32px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.version {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  padding: 8px 12px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s;
+}
+
+.dark-theme .icon-btn {
+  background: #1e293b;
+}
+
+.icon-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* 统计卡片 */
+.stats-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dark-theme .stat-card {
+  background: #16213e;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.stat-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.stat-card-content {
+  flex: 1;
+}
+
+.stat-card-label {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.stat-card-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.stat-card-trend {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.stat-card-trend.positive {
+  color: #10b981;
+}
+
+.stat-card-trend.negative {
+  color: #ef4444;
+}
+
+/* 主要工作区 */
+.main-workspace {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 24px;
+}
+
+.tasks-panel, .detail-panel {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.dark-theme .tasks-panel,
+.dark-theme .detail-panel {
+  background: #16213e;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.panel-header h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.task-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.primary-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.2s;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  padding: 8px 12px 8px 32px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  width: 200px;
+}
+
+.dark-theme .search-box input {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e0e0e0;
+}
+
+.search-icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* 过滤标签 */
+.filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  padding: 6px 12px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.dark-theme .filter-tab {
+  background: #1e293b;
+  color: #e0e0e0;
+}
+
+.filter-tab.active {
+  background: #667eea;
+  color: white;
+}
+
+.filter-tab .count {
+  margin-left: 4px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* 任务列表 */
+.task-list {
+  max-height: 600px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-item {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s;
+  cursor: grab;
+}
+
+.dark-theme .task-item {
+  background: #1e293b;
+}
+
+.task-item:active {
+  cursor: grabbing;
+}
+
+.task-item.completed .task-title {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.task-item.urgent {
+  border-left: 4px solid #ef4444;
+}
+
+.task-checkbox {
+  cursor: pointer;
+}
+
+.checkbox {
+  font-size: 20px;
+}
+
+.task-content {
+  flex: 1;
+  cursor: pointer;
+}
+
+.task-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.task-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.task-priority {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.task-priority.high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.task-priority.medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.task-priority.low {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.task-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.task-tag {
+  font-size: 10px;
+  padding: 2px 6px;
+  background: #e2e8f0;
+  border-radius: 4px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.task-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.task-action-btn:hover {
+  background: #e2e8f0;
+}
+
+/* 任务详情 */
+.task-detail {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-header h3 {
+  margin: 0;
+}
+
+.close-detail {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.detail-content {
+  flex: 1;
+}
+
+.detail-field {
+  margin-bottom: 16px;
+}
+
+.detail-field label {
+  font-weight: 600;
+  font-size: 12px;
+  color: #64748b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.field-value {
+  font-size: 14px;
+}
+
+.detail-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 4px;
+}
+
+.comments-section {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.comment-item {
+  padding: 8px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+.comment-item small {
+  color: #94a3b8;
+  margin-left: 8px;
+}
+
+.comment-input {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.comment-input input {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+.comment-input button {
+  padding: 6px 12px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 模态框 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  width: 500px;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.dark-theme .modal-content {
+  background: #1e293b;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 表单 */
+.task-form {
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.dark-theme .form-group input,
+.dark-theme .form-group textarea,
+.dark-theme .form-group select {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e0e0e0;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.tag-selector {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.selectable-tag {
+  padding: 4px 12px;
+  background: #f1f5f9;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.selectable-tag.selected {
+  background: #667eea;
+  color: white;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  padding: 8px 16px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* 设置面板 */
+.settings-panel {
+  padding: 20px;
+}
+
+.setting-group {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.setting-group label {
+  font-weight: 500;
+}
+
+.setting-group select {
+  padding: 6px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+}
+
+/* 消息提示 */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  animation: slideIn 0.3s ease;
+}
+
+.notification.success {
+  background: #10b981;
+  color: white;
+}
+
+.notification.error {
+  background: #ef4444;
+  color: white;
+}
+
+.notification.warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.notification.info {
+  background: #3b82f6;
+  color: white;
+}
+
+.notification button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #94a3b8;
+}
+
+.empty-icon {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .main-workspace {
+    grid-template-columns: 1fr;
+  }
+  .stats-section {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .panel-header {
+    flex-direction: column;
+  }
+  .task-controls {
+    width: 100%;
+    flex-direction: column;
+  }
+  .search-box input {
+    width: 100%;
+  }
+}
+</style>

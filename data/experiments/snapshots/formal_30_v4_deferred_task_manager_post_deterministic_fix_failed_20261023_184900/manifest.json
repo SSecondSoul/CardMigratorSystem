@@ -1,0 +1,70 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_task_manager_post_deterministic_fix_failed_20261023_184900",
+  "created_at": "2026-10-23T18:49:00+08:00",
+  "purpose": "Freeze the TaskManager rerun after deterministic methods-wrapper normalization and San storage-renderer parity, before any further repair change.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "TaskManager",
+  "component_name": "TaskManager",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_post_deterministic_fix_failed_after_max_repair_rounds",
+  "implementation_commit": "3309c77b38c34cbb07fc1a8770cd251f2d2a641e",
+  "result": {
+    "started_at": "2026-10-23T18:39:14+08:00",
+    "finished_at": "2026-10-23T18:49:00+08:00",
+    "elapsed_seconds": 585.86,
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 90876,
+    "repair_tokens": 217314,
+    "total_tokens": 308190,
+    "initial_validation_error_codes": [
+      "missing_data_types",
+      "duplicate_class_attribute",
+      "invalid_s_for_key_binding",
+      "vue_methods_wrapper",
+      "hidden_template_reactive_dependency",
+      "nested_state_mutation"
+    ],
+    "final_validation_error_codes": [
+      "nested_state_mutation"
+    ],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 0.9889,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.5
+  },
+  "repair_audit": {
+    "attempt_1": {
+      "provider": "deterministic",
+      "model": "san_methods_wrapper_normalizer",
+      "total_tokens": 0,
+      "assessment": "The guarded deterministic normalizer removed the final top-level methods wrapper."
+    },
+    "watch_migration": "Both this.watch('tasks', ...) and this.watch('settings', ...) are present in the final artifact.",
+    "render_environment": "San rendering passed in every repair round; no final visual errors remain.",
+    "remaining_defect": "moveTask mutates the array returned by this.data.get('tasks') with splice before creating newTasks.",
+    "decision": "Do not count this rerun as passing. Add and test a narrowly guarded immutable-array repair before another deliberate rerun."
+  },
+  "contents": {
+    "formal_30_v4_deferred_regression.json": "Frozen batch configuration used for the rerun.",
+    "formal_30_v4_deferred_regression_summary.json": "Batch checkpoint immediately after the rerun exhausted three repair rounds.",
+    "source/TaskManager.vue": "Frozen Vue input from the formal_30_v3 protocol.",
+    "pipeline/complex/TaskManager*.san": "Initial generation and all three repair artifacts from this rerun.",
+    "repair_reports/complex/TaskManager_repair_history.json": "Complete rerun history and SSM evidence.",
+    "code": "Extractor, validator, repair loop, prompts, renderers, and tests used for this rerun.",
+    "analysis/protocol.json": "Protocol state immediately before recording this rerun.",
+    "notebooks/2026-10-23_formal_30_v4_deferred_regression.ipynb": "Notebook state immediately before recording this rerun."
+  },
+  "boundaries": [
+    "This is a failed deliberate rerun, not a passing result.",
+    "The two earlier TaskManager failures remain frozen separately and are not overwritten.",
+    "The sample is a reused development case and is not independent holdout evidence.",
+    "No immutable-array repair was made before this snapshot was created."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

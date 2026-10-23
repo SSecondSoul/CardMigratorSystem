@@ -1,5 +1,5 @@
 <template>
-<div class="task-manager {{isDarkMode ? 'dark-theme' : ''}} {{isCompactMode ? 'compact-mode' : ''}}">
+<div class="task-manager" class="{{'dark-theme': isDarkMode, 'compact-mode': isCompactMode}}">
   <header class="app-header">
     <div class="logo-area">
       <span class="logo">✅</span>
@@ -13,9 +13,11 @@
       <button class="icon-btn" title="设置" on-click="showSettings = true"> ⚙️ </button>
     </div>
   </header>
+
   <div class="stats-section">
-    <stat-card s-for="stat in statistics trackby stat.id" label="{{stat.label}}" value="{{stat.value}}" icon="{{stat.icon}}" trend="{{stat.trend}}" color="{{stat.color}}" on-click="onStatClick(stat)"/>
+    <stat-card s-for="stat in statistics trackby stat.id" key="{{stat.id}}" label="{{stat.label}}" value="{{stat.value}}" icon="{{stat.icon}}" trend="{{stat.trend}}" color="{{stat.color}}" on-click="onStatClick(stat)"/>
   </div>
+
   <div class="main-workspace">
     <div class="tasks-panel">
       <div class="panel-header">
@@ -28,23 +30,28 @@
           </div>
         </div>
       </div>
+
       <div class="filter-tabs">
-        <button class="filter-tab {{currentFilter === filter.value ? 'active' : ''}}" s-for="filter in filters trackby filter.value" on-click="setFilter(filter.value)">
-          {{filter.label}} <span class="count">{{getTaskCount(filter.value)}}</span>
+        <button class="filter-tab" s-for="filter in filters trackby filter.value" key="{{filter.value}}" class="{{'active': currentFilter === filter.value}}" on-click="setFilter(filter.value)">
+          {{filter.label}} 
+          <span class="count">{{getTaskCount(filter.value)}}</span>
         </button>
       </div>
+
       <div class="task-list" on-dragover="" on-drop="onDropToEnd">
-        <task-item s-for="(task, index) in filteredTasks trackby task.id" task="{{task}}" index="{{index}}" draggable="{{true}}" on-toggle="toggleTaskStatus" on-edit="editTask" on-view="selectTask" on-delete="deleteTask" on-drag-start="onDragStart" on-drag-end="onDragEnd" on-drop-on="onDropOnTask"/>
+        <task-item s-for="(task, index) in filteredTasks trackby task.id" key="{{task.id}}" task="{{task}}" index="{{index}}" draggable="{{true}}" on-toggle="toggleTaskStatus" on-edit="editTask" on-view="selectTask" on-delete="deleteTask" on-drag-start="onDragStart" on-drag-end="onDragEnd" on-drop-on="onDropOnTask"/>
         <div class="empty-state" s-if="filteredTasks.length === 0">
           <span class="empty-icon">📭</span>
           <p>暂无任务，创建一个吧！</p>
         </div>
       </div>
     </div>
+
     <div class="detail-panel" s-if="selectedTask">
       <task-detail task="{{selectedTask}}" on-close="closeDetail" on-update="updateTask" on-comment="addComment"/>
     </div>
   </div>
+
   <div class="modal-overlay" s-if="isModalOpen" on-click="closeModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -54,6 +61,7 @@
       <task-form key="{{editingTask ? editingTask.id : 'new-task'}}" task="{{editingTask}}" users="{{users}}" tags="{{availableTags}}" on-submit="handleTaskSubmit" on-cancel="closeModal"/>
     </div>
   </div>
+
   <div class="modal-overlay" s-if="showSettings" on-click="showSettings = false">
     <div class="modal-content">
       <div class="modal-header">
@@ -63,7 +71,8 @@
       <settings-panel settings="{{settings}}" on-update="updateSettings"/>
     </div>
   </div>
-  <div class="notification {{notification.type}}" s-if="notification.show">
+
+  <div class="notification" s-if="notification.show" class="{{notification.type}}">
     <span>{{notification.message}}</span>
     <button on-click="hideNotification">✕</button>
   </div>
@@ -83,7 +92,6 @@ module.exports = san.defineComponent({
     'task-form': require('./TaskForm'),
     'settings-panel': require('./SettingsPanel')
   },
-  dataTypes: {},
   initData() {
     return {
       isDarkMode: false,
@@ -130,51 +138,18 @@ module.exports = san.defineComponent({
       storageKey: 'task_manager_data'
     };
   },
-  inited() {
-    const saved = localStorage.getItem(this.data.get('storageKey'));
-    if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        this.data.set('tasks', data.tasks || this.getSampleTasks());
-        this.data.set('settings', { ...this.data.get('settings'), ...data.settings });
-      } catch (e) {
-        this.data.set('tasks', this.getSampleTasks());
-      }
-    } else {
-      this.data.set('tasks', this.getSampleTasks());
-    }
-    this.updateStatistics();
-    this.watch('tasks', () => {
-      this.updateStatistics();
-      if (this.data.get('settings').autoSave) {
-        this.saveToLocalStorage();
-      }
-    });
-    this.watch('settings', () => {
-      if (this.data.get('settings').autoSave) {
-        this.saveToLocalStorage();
-      }
-      this.updateSyncInterval();
-    });
-  },
-  attached() {
-    this.loadInitialData();
-    this.startAutoSync();
-    this.showNotification('系统初始化完成', 'success');
-  },
-  disposed() {
-    if (this.data.get('syncTimer')) {
-      clearInterval(this.data.get('syncTimer'));
-    }
-    this.saveToLocalStorage();
-  },
+
   computed: {
     filteredTasks() {
-      let result = [...this.data.get('tasks')];
+      const tasks = this.data.get('tasks');
+      const currentFilter = this.data.get('currentFilter');
+      const searchKeyword = this.data.get('searchKeyword');
 
-      if (this.data.get('currentFilter') !== 'all') {
+      let result = [...tasks];
+
+      if (currentFilter !== 'all') {
         result = result.filter(task => {
-          switch (this.data.get('currentFilter')) {
+          switch (currentFilter) {
             case 'active': return !task.completed && !this.isOverdue(task);
             case 'completed': return task.completed;
             case 'overdue': return this.isOverdue(task) && !task.completed;
@@ -184,8 +159,8 @@ module.exports = san.defineComponent({
         });
       }
 
-      if (this.data.get('searchKeyword')) {
-        const keyword = this.data.get('searchKeyword').toLowerCase();
+      if (searchKeyword) {
+        const keyword = searchKeyword.toLowerCase();
         result = result.filter(task =>
           task.title.toLowerCase().includes(keyword) ||
           (task.description && task.description.toLowerCase().includes(keyword))
@@ -195,280 +170,384 @@ module.exports = san.defineComponent({
       return result;
     }
   },
-  methods: {
-    loadInitialData() {
-      const saved = localStorage.getItem(this.data.get('storageKey'));
-      if (saved) {
-        try {
-          const data = JSON.parse(saved);
-          this.data.set('tasks', data.tasks || this.getSampleTasks());
-          this.data.set('settings', { ...this.data.get('settings'), ...data.settings });
-        } catch (e) {
-          this.data.set('tasks', this.getSampleTasks());
-        }
-      } else {
+
+  inited() {
+    this.watch('tasks', () => {
+      this.updateStatistics();
+      if (this.data.get('settings').autoSave) {
+        this.saveToLocalStorage();
+      }
+    });
+
+    this.watch('settings', () => {
+      if (this.data.get('settings').autoSave) {
+        this.saveToLocalStorage();
+      }
+      this.updateSyncInterval();
+    });
+  },
+
+  attached() {
+    this.loadInitialData();
+    this.startAutoSync();
+    this.showNotification('系统初始化完成', 'success');
+  },
+
+  disposed() {
+    const syncTimer = this.data.get('syncTimer');
+    if (syncTimer) {
+      clearInterval(syncTimer);
+    }
+    this.saveToLocalStorage();
+  },
+
+  loadInitialData() {
+    const storageKey = this.data.get('storageKey');
+    const saved = localStorage.getItem(storageKey);
+    if (saved) {
+      try {
+        const data = JSON.parse(saved);
+        this.data.set('tasks', data.tasks || this.getSampleTasks());
+        const settings = this.data.get('settings');
+        this.data.set('settings', { ...settings, ...data.settings });
+      } catch (e) {
         this.data.set('tasks', this.getSampleTasks());
       }
-      this.updateStatistics();
-    },
-    getSampleTasks() {
-      return [
-        {
-          id: 1,
-          title: '完成项目报告',
-          description: '编写Q4季度项目总结报告，包含数据分析和改进建议',
-          priority: 'high',
-          dueDate: new Date(Date.now() + 2 * 86400000).toISOString().split('T')[0],
-          tags: ['工作', '紧急'],
-          completed: false,
-          comments: [],
-          assignee: '张三'
-        },
-        {
-          id: 2,
-          title: '学习Vue高级特性',
-          description: '深入学习Vue3组合式API和响应式原理',
-          priority: 'medium',
-          dueDate: new Date(Date.now() + 5 * 86400000).toISOString().split('T')[0],
-          tags: ['学习'],
-          completed: false,
-          comments: [],
-          assignee: '李四'
-        },
-        {
-          id: 3,
-          title: '团队会议',
-          description: '周例会，讨论项目进展和下周计划',
-          priority: 'medium',
-          dueDate: new Date(Date.now() - 1 * 86400000).toISOString().split('T')[0],
-          tags: ['工作', '会议'],
-          completed: true,
-          comments: [{ user: '张三', text: '会议纪要已更新', time: Date.now() - 86400000 }],
-          assignee: '王五'
-        }
-      ];
-    },
-    updateStatistics() {
-      const total = this.data.get('tasks').length;
-      const completed = this.data.get('tasks').filter(t => t.completed).length;
-      const active = this.data.get('tasks').filter(t => !t.completed && !this.isOverdue(t)).length;
-      const overdue = this.data.get('tasks').filter(t => this.isOverdue(t) && !t.completed).length;
-
-      this.data.set('statistics', [
-        { ...this.data.get('statistics')[0], value: total },
-        { ...this.data.get('statistics')[1], value: completed },
-        { ...this.data.get('statistics')[2], value: active },
-        { ...this.data.get('statistics')[3], value: overdue }
-      ]);
-    },
-    isOverdue(task) {
-      if (task.completed || !task.dueDate) return false;
-      const dueDate = new Date(task.dueDate);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return dueDate < today;
-    },
-    openTaskModal() {
-      this.data.set('editingTask', null);
-      this.data.set('isModalOpen', true);
-    },
-    editTask(task) {
-      this.data.set('editingTask', { ...task });
-      this.data.set('isModalOpen', true);
-    },
-    selectTask(task) {
-      this.data.set('selectedTask', task);
-    },
-    handleTaskSubmit(formData) {
-      if (this.data.get('editingTask')) {
-        const tasks = this.data.get('tasks').map(t => t.id === this.data.get('editingTask').id ? { ...t, ...formData, updatedAt: Date.now() } : t);
-        this.data.set('tasks', tasks);
-        this.showNotification('任务更新成功', 'success');
-      } else {
-        const newTask = {
-          ...formData,
-          id: Date.now(),
-          completed: false,
-          comments: [],
-          createdAt: Date.now()
-        };
-        const tasks = [newTask, ...this.data.get('tasks')];
-        this.data.set('tasks', tasks);
-        this.showNotification('任务创建成功', 'success');
-      }
-      this.closeModal();
-    },
-    toggleTaskStatus(taskId) {
-      const tasks = this.data.get('tasks').map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
-      this.data.set('tasks', tasks);
-      const task = tasks.find(t => t.id === taskId);
-      this.showNotification(task.completed ? '任务已完成' : '任务已恢复', 'info');
-    },
-    deleteTask(taskId) {
-      if (confirm('确定删除此任务吗？')) {
-        const tasks = this.data.get('tasks').filter(t => t.id !== taskId);
-        this.data.set('tasks', tasks);
-        if (this.data.get('selectedTask')?.id === taskId) {
-          this.data.set('selectedTask', null);
-        }
-        this.showNotification('任务已删除', 'warning');
-      }
-    },
-    updateTask(updatedData) {
-      this.editTask(updatedData);
-    },
-    addComment(commentData) {
-      const tasks = this.data.get('tasks').map(t => t.id === commentData.taskId ? { ...t, comments: [...(t.comments || []), { user: '当前用户', text: commentData.text, time: Date.now() }] } : t);
-      this.data.set('tasks', tasks);
-      this.showNotification('评论已添加', 'success');
-    },
-    closeDetail() {
-      this.data.set('selectedTask', null);
-    },
-    onDragStart(index) {
-      this.data.set('dragStartIndex', index);
-    },
-    onDropOnTask(dropIndex) {
-      this.moveTask(this.data.get('dragStartIndex'), dropIndex);
-    },
-    onDropToEnd() {
-      const filteredTasks = this.data.get('filteredTasks');
-      this.moveTask(this.data.get('dragStartIndex'), filteredTasks.length - 1, true);
-    },
-    onDragEnd() {
-      this.data.set('dragStartIndex', null);
-    },
-    moveTask(fromFilteredIndex, toFilteredIndex, insertAfter = false) {
-      if (fromFilteredIndex === null || fromFilteredIndex === undefined) return;
-
-      const filteredTasks = this.data.get('filteredTasks');
-      const draggedTask = filteredTasks[fromFilteredIndex];
-      const isMovingDown = fromFilteredIndex < toFilteredIndex;
-      const targetTask = filteredTasks[toFilteredIndex];
-      if (!draggedTask || !targetTask || draggedTask.id === targetTask.id) return;
-
-      const tasks = this.data.get('tasks');
-      const originalIndex = tasks.findIndex(t => t.id === draggedTask.id);
-      let targetOriginalIndex = tasks.findIndex(t => t.id === targetTask.id);
-
-      if (originalIndex !== -1 && targetOriginalIndex !== -1) {
-        const [movedTask] = tasks.splice(originalIndex, 1);
-        if (originalIndex < targetOriginalIndex) {
-          targetOriginalIndex -= 1;
-        }
-        if (insertAfter || isMovingDown) {
-          targetOriginalIndex += 1;
-        }
-        const newTasks = [...tasks.slice(0, targetOriginalIndex), movedTask, ...tasks.slice(targetOriginalIndex)];
-        this.data.set('tasks', newTasks);
-        this.data.set('dragStartIndex', null);
-        this.showNotification('任务顺序已更新', 'info');
-      }
-    },
-    setFilter(filter) {
-      this.data.set('currentFilter', filter);
-      const filters = this.data.get('filters');
-      this.showNotification(`已筛选：${filters.find(f => f.value === filter).label}`, 'info');
-    },
-    onSearchChange() {
-      if (this.data.get('searchKeyword')) {
-        this.showNotification(`搜索：${this.data.get('searchKeyword')}`, 'info');
-      }
-    },
-    getTaskCount(filterValue) {
-      const tasks = this.data.get('tasks');
-      switch (filterValue) {
-        case 'all': return tasks.length;
-        case 'active': return tasks.filter(t => !t.completed && !this.isOverdue(t)).length;
-        case 'completed': return tasks.filter(t => t.completed).length;
-        case 'overdue': return tasks.filter(t => this.isOverdue(t) && !t.completed).length;
-        case 'urgent': return tasks.filter(t => t.priority === 'high' && !t.completed).length;
-        default: return 0;
-      }
-    },
-    toggleTheme() {
-      this.data.set('isDarkMode', !this.data.get('isDarkMode'));
-      this.showNotification(`已切换到${this.data.get('isDarkMode') ? '暗色' : '亮色'}主题`, 'info');
-    },
-    toggleCompactMode() {
-      this.data.set('isCompactMode', !this.data.get('isCompactMode'));
-      this.showNotification(`已切换到${this.data.get('isCompactMode') ? '紧凑' : '展开'}模式`, 'info');
-    },
-    closeModal() {
-      this.data.set('isModalOpen', false);
-      this.data.set('editingTask', null);
-    },
-    onStatClick(stat) {
-      if (stat.id === 1) this.setFilter('all');
-      else if (stat.id === 2) this.setFilter('completed');
-      else if (stat.id === 3) this.setFilter('active');
-      else if (stat.id === 4) this.setFilter('overdue');
-      this.showNotification(`查看${stat.label}`, 'info');
-    },
-    updateSettings(key, value) {
-      const settings = { ...this.data.get('settings') };
-      settings[key] = key === 'syncInterval' ? Number(value) : value;
-      this.data.set('settings', settings);
-      this.showNotification(`设置已更新：${key}`, 'success');
-    },
-    saveToLocalStorage() {
-      const data = {
-        tasks: this.data.get('tasks'),
-        settings: this.data.get('settings'),
-        lastSave: Date.now()
-      };
-      localStorage.setItem(this.data.get('storageKey'), JSON.stringify(data));
-    },
-    exportData() {
-      const data = {
-        tasks: this.data.get('tasks'),
-        statistics: this.data.get('statistics'),
-        exportTime: new Date().toISOString()
-      };
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `task_export_${Date.now()}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      this.showNotification('数据已导出', 'success');
-    },
-    startAutoSync() {
-      this.updateSyncInterval();
-    },
-    updateSyncInterval() {
-      if (this.data.get('syncTimer')) {
-        clearInterval(this.data.get('syncTimer'));
-      }
-      if (this.data.get('settings').syncInterval > 0) {
-        const timer = setInterval(() => {
-          this.autoSync();
-        }, this.data.get('settings').syncInterval * 1000);
-        this.data.set('syncTimer', timer);
-      }
-    },
-    async autoSync() {
-      this.showNotification('正在同步云端数据...', 'info');
-      await new Promise(resolve => setTimeout(resolve, 500));
-      this.showNotification('数据同步完成', 'success');
-    },
-    showNotification(message, type = 'info') {
-      this.data.set('notification', {
-        show: true,
-        message,
-        type
-      });
-      setTimeout(() => {
-        this.hideNotification();
-      }, 3000);
-    },
-    hideNotification() {
-      this.data.set('notification', {
-        ...this.data.get('notification'),
-        show: false
-      });
+    } else {
+      this.data.set('tasks', this.getSampleTasks());
     }
+    this.updateStatistics();
+  },
+
+  getSampleTasks() {
+    const now = Date.now();
+    const dueDate2 = new Date(now + 2 * 86400000).toISOString().split('T')[0];
+    const dueDate5 = new Date(now + 5 * 86400000).toISOString().split('T')[0];
+    const dueDatePast = new Date(now - 1 * 86400000).toISOString().split('T')[0];
+    return [
+      {
+        id: 1,
+        title: '完成项目报告',
+        description: '编写Q4季度项目总结报告，包含数据分析和改进建议',
+        priority: 'high',
+        dueDate: dueDate2,
+        tags: ['工作', '紧急'],
+        completed: false,
+        comments: [],
+        assignee: '张三'
+      },
+      {
+        id: 2,
+        title: '学习Vue高级特性',
+        description: '深入学习Vue3组合式API和响应式原理',
+        priority: 'medium',
+        dueDate: dueDate5,
+        tags: ['学习'],
+        completed: false,
+        comments: [],
+        assignee: '李四'
+      },
+      {
+        id: 3,
+        title: '团队会议',
+        description: '周例会，讨论项目进展和下周计划',
+        priority: 'medium',
+        dueDate: dueDatePast,
+        tags: ['工作', '会议'],
+        completed: true,
+        comments: [{ user: '张三', text: '会议纪要已更新', time: now - 86400000 }],
+        assignee: '王五'
+      }
+    ];
+  },
+
+  updateStatistics() {
+    const tasks = this.data.get('tasks');
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+    const active = tasks.filter(t => !t.completed && !this.isOverdue(t)).length;
+    const overdue = tasks.filter(t => this.isOverdue(t) && !t.completed).length;
+
+    const statistics = this.data.get('statistics');
+    this.data.set('statistics', [
+      { ...statistics[0], value: total },
+      { ...statistics[1], value: completed },
+      { ...statistics[2], value: active },
+      { ...statistics[3], value: overdue }
+    ]);
+  },
+
+  isOverdue(task) {
+    if (task.completed || !task.dueDate) return false;
+    const dueDate = new Date(task.dueDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return dueDate < today;
+  },
+
+  openTaskModal() {
+    this.data.set('editingTask', null);
+    this.data.set('isModalOpen', true);
+  },
+
+  editTask(task) {
+    this.data.set('editingTask', { ...task });
+    this.data.set('isModalOpen', true);
+  },
+
+  selectTask(task) {
+    this.data.set('selectedTask', task);
+  },
+
+  handleTaskSubmit(formData) {
+    const editingTask = this.data.get('editingTask');
+    const tasks = this.data.get('tasks');
+    if (editingTask) {
+      const index = tasks.findIndex(t => t.id === editingTask.id);
+      if (index !== -1) {
+        const updatedTask = { ...tasks[index], ...formData, updatedAt: Date.now() };
+        const newTasks = [...tasks];
+        newTasks[index] = updatedTask;
+        this.data.set('tasks', newTasks);
+        this.showNotification('任务更新成功', 'success');
+      }
+    } else {
+      const newTask = {
+        ...formData,
+        id: Date.now(),
+        completed: false,
+        comments: [],
+        createdAt: Date.now()
+      };
+      const newTasks = [newTask, ...tasks];
+      this.data.set('tasks', newTasks);
+      this.showNotification('任务创建成功', 'success');
+    }
+    this.closeModal();
+  },
+
+  toggleTaskStatus(taskId) {
+    const tasks = this.data.get('tasks');
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+      const newTasks = tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
+      this.data.set('tasks', newTasks);
+      this.showNotification(task.completed ? '任务已完成' : '任务已恢复', 'info');
+    }
+  },
+
+  deleteTask(taskId) {
+    if (confirm('确定删除此任务吗？')) {
+      const tasks = this.data.get('tasks');
+      const newTasks = tasks.filter(t => t.id !== taskId);
+      this.data.set('tasks', newTasks);
+      const selectedTask = this.data.get('selectedTask');
+      if (selectedTask?.id === taskId) {
+        this.data.set('selectedTask', null);
+      }
+      this.showNotification('任务已删除', 'warning');
+    }
+  },
+
+  updateTask(updatedData) {
+    this.editTask(updatedData);
+  },
+
+  addComment(commentData) {
+    const tasks = this.data.get('tasks');
+    const task = tasks.find(t => t.id === commentData.taskId);
+    if (task) {
+      const comments = task.comments || [];
+      const newComments = [...comments, {
+        user: '当前用户',
+        text: commentData.text,
+        time: Date.now()
+      }];
+      const newTasks = tasks.map(t => t.id === commentData.taskId ? { ...t, comments: newComments } : t);
+      this.data.set('tasks', newTasks);
+      this.showNotification('评论已添加', 'success');
+    }
+  },
+
+  closeDetail() {
+    this.data.set('selectedTask', null);
+  },
+
+  onDragStart(index) {
+    this.data.set('dragStartIndex', index);
+  },
+
+  onDropOnTask(dropIndex) {
+    this.moveTask(this.data.get('dragStartIndex'), dropIndex);
+  },
+
+  onDropToEnd() {
+    const filteredTasks = this.data.get('filteredTasks');
+    this.moveTask(this.data.get('dragStartIndex'), filteredTasks.length - 1, true);
+  },
+
+  onDragEnd() {
+    this.data.set('dragStartIndex', null);
+  },
+
+  moveTask(fromFilteredIndex, toFilteredIndex, insertAfter = false) {
+    if (fromFilteredIndex === null || fromFilteredIndex === undefined) return;
+
+    const filteredTasks = this.data.get('filteredTasks');
+    const draggedTask = filteredTasks[fromFilteredIndex];
+    const isMovingDown = fromFilteredIndex < toFilteredIndex;
+    const targetTask = filteredTasks[toFilteredIndex];
+    if (!draggedTask || !targetTask || draggedTask.id === targetTask.id) return;
+
+    const tasks = this.data.get('tasks');
+    const originalIndex = tasks.findIndex(t => t.id === draggedTask.id);
+    let targetOriginalIndex = tasks.findIndex(t => t.id === targetTask.id);
+
+    if (originalIndex !== -1 && targetOriginalIndex !== -1) {
+      const [movedTask] = tasks.splice(originalIndex, 1);
+      if (originalIndex < targetOriginalIndex) {
+        targetOriginalIndex -= 1;
+      }
+      if (insertAfter || isMovingDown) {
+        targetOriginalIndex += 1;
+      }
+      const newTasks = [...tasks];
+      newTasks.splice(targetOriginalIndex, 0, movedTask);
+      this.data.set('tasks', newTasks);
+      this.data.set('dragStartIndex', null);
+      this.showNotification('任务顺序已更新', 'info');
+    }
+  },
+
+  setFilter(filter) {
+    this.data.set('currentFilter', filter);
+    const filters = this.data.get('filters');
+    const label = filters.find(f => f.value === filter)?.label || '';
+    this.showNotification(`已筛选：${label}`, 'info');
+  },
+
+  onSearchChange() {
+    const searchKeyword = this.data.get('searchKeyword');
+    if (searchKeyword) {
+      this.showNotification(`搜索：${searchKeyword}`, 'info');
+    }
+  },
+
+  getTaskCount(filterValue) {
+    const tasks = this.data.get('tasks');
+    switch (filterValue) {
+      case 'all': return tasks.length;
+      case 'active': return tasks.filter(t => !t.completed && !this.isOverdue(t)).length;
+      case 'completed': return tasks.filter(t => t.completed).length;
+      case 'overdue': return tasks.filter(t => this.isOverdue(t) && !t.completed).length;
+      case 'urgent': return tasks.filter(t => t.priority === 'high' && !t.completed).length;
+      default: return 0;
+    }
+  },
+
+  toggleTheme() {
+    const isDarkMode = this.data.get('isDarkMode');
+    this.data.set('isDarkMode', !isDarkMode);
+    this.showNotification(`已切换到${!isDarkMode ? '暗色' : '亮色'}主题`, 'info');
+  },
+
+  toggleCompactMode() {
+    const isCompactMode = this.data.get('isCompactMode');
+    this.data.set('isCompactMode', !isCompactMode);
+    this.showNotification(`已切换到${!isCompactMode ? '紧凑' : '展开'}模式`, 'info');
+  },
+
+  closeModal() {
+    this.data.set('isModalOpen', false);
+    this.data.set('editingTask', null);
+  },
+
+  onStatClick(stat) {
+    if (stat.id === 1) this.setFilter('all');
+    else if (stat.id === 2) this.setFilter('completed');
+    else if (stat.id === 3) this.setFilter('active');
+    else if (stat.id === 4) this.setFilter('overdue');
+    this.showNotification(`查看${stat.label}`, 'info');
+  },
+
+  updateSettings(key, value) {
+    const settings = this.data.get('settings');
+    const newValue = key === 'syncInterval' ? Number(value) : value;
+    const newSettings = { ...settings, [key]: newValue };
+    this.data.set('settings', newSettings);
+    this.showNotification(`设置已更新：${key}`, 'success');
+  },
+
+  saveToLocalStorage() {
+    const tasks = this.data.get('tasks');
+    const settings = this.data.get('settings');
+    const data = {
+      tasks,
+      settings,
+      lastSave: Date.now()
+    };
+    const storageKey = this.data.get('storageKey');
+    localStorage.setItem(storageKey, JSON.stringify(data));
+  },
+
+  exportData() {
+    const tasks = this.data.get('tasks');
+    const statistics = this.data.get('statistics');
+    const data = {
+      tasks,
+      statistics,
+      exportTime: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `task_export_${Date.now()}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    this.showNotification('数据已导出', 'success');
+  },
+
+  startAutoSync() {
+    this.updateSyncInterval();
+  },
+
+  updateSyncInterval() {
+    const syncTimer = this.data.get('syncTimer');
+    if (syncTimer) {
+      clearInterval(syncTimer);
+    }
+    const settings = this.data.get('settings');
+    if (settings.syncInterval > 0) {
+      const timer = setInterval(() => {
+        this.autoSync();
+      }, settings.syncInterval * 1000);
+      this.data.set('syncTimer', timer);
+    }
+  },
+
+  async autoSync() {
+    this.showNotification('正在同步云端数据...', 'info');
+    await new Promise(resolve => setTimeout(resolve, 500));
+    this.showNotification('数据同步完成', 'success');
+  },
+
+  showNotification(message, type = 'info') {
+    this.data.set('notification', {
+      show: true,
+      message,
+      type
+    });
+    setTimeout(() => {
+      this.hideNotification();
+    }, 3000);
+  },
+
+  hideNotification() {
+    this.data.set('notification', {
+      ...this.data.get('notification'),
+      show: false
+    });
   }
 });
 </script>

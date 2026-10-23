@@ -98,6 +98,20 @@ class RepairStage:
         r"\s+([A-Za-z_:][\w:.-]*)\s*=\s*([\"'])(.*?)\2",
         re.DOTALL,
     )
+    METHOD_DEFINITION_PATTERN = re.compile(
+        r"(?m)^([ \t]*)([A-Za-z_$][\w$]*)\s*\([^)]*\)\s*\{"
+    )
+    STATE_ARRAY_ALIAS_PATTERN = re.compile(
+        r"\b(?P<kind>const|let|var)\s+(?P<alias>[A-Za-z_$][\w$]*)\s*=\s*"
+        r"this\.data\.get\s*\(\s*(?P<quote>['\"])(?P<field>[A-Za-z_$][\w$]*)"
+        r"(?P=quote)\s*\)(?P<fallback>\s*\|\|\s*\[\s*\])?\s*;"
+    )
+    MUTATING_ARRAY_METHODS = (
+        "copyWithin", "fill", "pop", "push", "reverse", "shift", "sort", "splice", "unshift"
+    )
+    JAVASCRIPT_CONTROL_KEYWORDS = {
+        "catch", "do", "for", "if", "switch", "while", "with",
+    }
 
     def __init__(self, repair_client=None):
         self.repair_client = repair_client or create_repair_client()
@@ -122,17 +136,17 @@ class RepairStage:
         )
         if deterministic_code != current_code:
             error_codes = {issue.get("code") for issue in stage_input.validation_errors}
-            methods_unwrapped = "vue_methods_wrapper" in error_codes
-            normalizer_model = (
-                "san_methods_wrapper_normalizer"
-                if methods_unwrapped
-                else "san_loop_binding_normalizer"
-            )
-            normalization = (
-                "unwrapped_final_top_level_methods_option"
-                if methods_unwrapped
-                else "removed_redundant_s_for_key_or_trackby_attribute"
-            )
+            methods_code = self._normalize_vue_methods_wrapper(current_code)
+            array_code = self._normalize_mutated_state_array_aliases(current_code)
+            if "vue_methods_wrapper" in error_codes and methods_code == deterministic_code:
+                normalizer_model = "san_methods_wrapper_normalizer"
+                normalization = "unwrapped_final_top_level_methods_option"
+            elif "nested_state_mutation" in error_codes and array_code == deterministic_code:
+                normalizer_model = "san_state_array_clone_normalizer"
+                normalization = "cloned_state_array_before_local_mutation"
+            else:
+                normalizer_model = "san_loop_binding_normalizer"
+                normalization = "removed_redundant_s_for_key_or_trackby_attribute"
             output_path = stage_input.resolve_output_file_path() or ""
             self._ensure_repaired_file(output_path, deterministic_code)
             return RepairStageResult(
@@ -169,6 +183,21 @@ class RepairStage:
             for issue in stage_input.validation_errors
         ):
             result.code = self._normalize_redundant_s_for_attributes(result.code)
+        if any(
+            issue.get("code") == "nested_state_mutation"
+            for issue in stage_input.validation_errors
+        ):
+            normalized_code = self._normalize_mutated_state_array_aliases(result.code)
+            if normalized_code != result.code:
+                result.code = normalized_code
+                if isinstance(result.raw_response, dict):
+                    result.raw_response = {
+                        **result.raw_response,
+                        "pipeline_postprocessing": [
+                            *result.raw_response.get("pipeline_postprocessing", []),
+                            "cloned_state_array_before_local_mutation",
+                        ],
+                    }
         self._ensure_repaired_file(result.saved_file_path, result.code)
         return RepairStageResult.from_repair_result(
             result=result,
@@ -361,6 +390,52 @@ class RepairStage:
         return code
 
     @classmethod
+    def _normalize_mutated_state_array_aliases(cls, code: str) -> str:
+        replacements: list[tuple[int, int, str]] = []
+        mutator_names = "|".join(cls.MUTATING_ARRAY_METHODS)
+
+        for method_match in cls.METHOD_DEFINITION_PATTERN.finditer(code):
+            method_name = method_match.group(2)
+            if method_name in cls.JAVASCRIPT_CONTROL_KEYWORDS:
+                continue
+            opening_index = method_match.end() - 1
+            closing_index = cls._find_matching_js_brace(code, opening_index)
+            if closing_index < 0:
+                continue
+
+            body_start = opening_index + 1
+            method_body = code[body_start:closing_index]
+            for alias_match in cls.STATE_ARRAY_ALIAS_PATTERN.finditer(method_body):
+                alias = alias_match.group("alias")
+                field = alias_match.group("field")
+                mutation = re.compile(
+                    rf"\b{re.escape(alias)}\s*\.\s*(?:{mutator_names})\s*\("
+                )
+                writeback = re.compile(
+                    rf"\bthis\.data\.set\s*\(\s*(['\"]){re.escape(field)}\1\s*,"
+                )
+                trailing_body = method_body[alias_match.end():]
+                if not mutation.search(trailing_body) or not writeback.search(trailing_body):
+                    continue
+
+                get_expression = f"this.data.get({alias_match.group('quote')}{field}{alias_match.group('quote')})"
+                if alias_match.group("fallback"):
+                    get_expression = f"({get_expression} || [])"
+                replacement = (
+                    f"{alias_match.group('kind')} {alias} = [...{get_expression}];"
+                )
+                replacements.append((
+                    body_start + alias_match.start(),
+                    body_start + alias_match.end(),
+                    replacement,
+                ))
+
+        normalized = code
+        for start, end, replacement in reversed(replacements):
+            normalized = normalized[:start] + replacement + normalized[end:]
+        return normalized
+
+    @classmethod
     def _apply_deterministic_repairs(
         cls,
         code: str,
@@ -372,6 +447,8 @@ class RepairStage:
             normalized = cls._normalize_vue_methods_wrapper(code)
             if normalized != code:
                 return normalized
+        if error_codes == {"nested_state_mutation"} and not visual_eval_errors:
+            return cls._normalize_mutated_state_array_aliases(code)
         if error_codes == {"invalid_s_for_key_binding"} and not visual_eval_errors:
             return cls._normalize_redundant_s_for_attributes(code)
         return code
