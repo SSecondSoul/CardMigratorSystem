@@ -1,0 +1,246 @@
+<template>
+<section class="localization-workspace">
+  <header>
+    <div>
+      <p class="muted">{{projectName}} · {{currentLanguageName}}</p>
+      <h2>本地化翻译</h2>
+    </div>
+    <div class="actions">
+      <select value="{{language}}" on-change="updateLanguage">
+        <option s-for="item in languages trackby item.code" value="{{item.code}}">{{item.name}}</option>
+      </select>
+      <button on-click="toggleGlossary">术语表</button>
+      <button class="primary" on-click="submitBatch">提交 {{dirtyKeys.length}} 项</button>
+    </div>
+  </header>
+  <div class="locale-metrics">
+    <span>审核 {{progress}}%</span>
+    <span>缺失 {{missingCount}} 项</span>
+    <span s-if="submittedAt">{{submittedAt}}</span>
+  </div>
+  <div class="{{'locale-layout ' + (showGlossary ? 'with-glossary' : '')}}">
+    <aside class="entry-list">
+      <input placeholder="搜索" value="{{query}}" on-input="updateQuery" />
+      <select value="{{filter}}" on-change="updateFilter">
+        <option value="all">全部</option>
+        <option value="missing">缺失</option>
+        <option value="unreviewed">待审核</option>
+      </select>
+      <button s-for="record in visibleRecords trackby record.key" class="{{{ selected: record.key === selectedKey, reviewed: record.reviewed[language] }}}" on-click="selectRecord(record.key)">
+        <strong>{{record.key}}</strong>
+        <span>{{record.source}}</span>
+        <small>{{translationFor(record)}}</small>
+      </button>
+      <p class="empty" s-if="!visibleRecords.length">无匹配文案</p>
+    </aside>
+    <main s-if="selectedRecord">
+      <div class="source-panel">
+        <span>源文案</span>
+        <strong>{{selectedRecord.source}}</strong>
+        <small>{{selectedRecord.key}}</small>
+      </div>
+      <label>
+        目标译文
+        <textarea value="{{draft}}" on-input="updateDraft"></textarea>
+      </label>
+      <div class="editor-actions">
+        <span>{{draft.length}} 字符</span>
+        <button class="primary" disabled="{{!draft}}" on-click="markReviewed">保存并审核</button>
+      </div>
+    </main>
+    <aside class="glossary" s-if="showGlossary">
+      <h3>推荐术语</h3>
+      <button s-for="term in glossary trackby term.source" on-click="applyTerm(term)">
+        <span>{{term.source}}</span>
+        <strong>{{term.target}}</strong>
+      </button>
+    </aside>
+  </div>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'LocalizationWorkspace',
+  components: {},
+  dataTypes: {
+    projectName: DataTypes.string,
+    languages: DataTypes.array,
+    entries: DataTypes.array,
+    glossary: DataTypes.array
+  },
+  initData() {
+    return {
+      records: [],
+      language: 'en',
+      query: '',
+      filter: 'all',
+      selectedKey: '',
+      draft: '',
+      showGlossary: true,
+      dirtyKeys: [],
+      submittedAt: ''
+    };
+  },
+  inited() {
+    const entries = this.data.get('entries') || [];
+    const languages = this.data.get('languages') || [];
+    const records = entries.map(item => ({
+      key: item.key,
+      source: item.source,
+      translations: Object.assign({}, item.translations),
+      reviewed: Object.assign({}, item.reviewed)
+    }));
+    const initialLanguage = languages[0] ? languages[0].code : '';
+    const initialSelectedKey = entries[0] ? entries[0].key : '';
+    this.data.set('records', records);
+    this.data.set('language', initialLanguage);
+    this.data.set('selectedKey', initialSelectedKey);
+    this.loadDraft();
+  },
+  computed: {
+    visibleRecords() {
+      const q = this.data.get('query').toLowerCase();
+      const records = this.data.get('records');
+      const filter = this.data.get('filter');
+      const language = this.data.get('language');
+      return records.filter(item => (
+        (item.key.toLowerCase().indexOf(q) >= 0 || item.source.indexOf(this.data.get('query')) >= 0) &&
+        (filter === 'all' || (filter === 'missing' ? !item.translations[language] : !item.reviewed[language]))
+      ));
+    },
+    selectedRecord() {
+      const records = this.data.get('records');
+      const selectedKey = this.data.get('selectedKey');
+      return records.find(item => item.key === selectedKey) || null;
+    },
+    progress() {
+      const records = this.data.get('records');
+      if (!records.length) return 0;
+      const language = this.data.get('language');
+      const reviewedCount = records.filter(item => item.reviewed[language]).length;
+      return Math.round(reviewedCount / records.length * 100);
+    },
+    missingCount() {
+      const records = this.data.get('records');
+      const language = this.data.get('language');
+      return records.filter(item => !item.translations[language]).length;
+    },
+    currentLanguageName() {
+      const languages = this.data.get('languages') || [];
+      const language = this.data.get('language');
+      const item = languages.find(row => row.code === language);
+      return item ? item.name : '';
+    }
+  },
+  methods: {
+    setValue(key, value) {
+      this.data.set(key, value);
+    },
+    emitEvent(name, payload) {
+      this.fire(name, payload);
+    },
+    updateLanguage(event) {
+      this.commitDraft();
+      this.data.set('language', event.target.value);
+      this.loadDraft();
+    },
+    updateQuery(event) {
+      this.data.set('query', event.target.value);
+    },
+    updateFilter(event) {
+      this.data.set('filter', event.target.value);
+    },
+    selectRecord(key) {
+      this.commitDraft();
+      this.data.set('selectedKey', key);
+      this.loadDraft();
+    },
+    updateDraft(event) {
+      this.data.set('draft', event.target.value);
+    },
+    loadDraft() {
+      const records = this.data.get('records');
+      const selectedKey = this.data.get('selectedKey');
+      const language = this.data.get('language');
+      const record = records.find(item => item.key === selectedKey);
+      const value = record ? (record.translations[language] || '') : '';
+      this.data.set('draft', value);
+    },
+    commitDraft() {
+      const key = this.data.get('selectedKey');
+      if (!key) return;
+      const language = this.data.get('language');
+      const value = this.data.get('draft');
+      const records = this.data.get('records');
+      const newRecords = records.map(item =>
+        item.key === key
+          ? Object.assign({}, item, {
+              translations: Object.assign({}, item.translations, { [language]: value }),
+              reviewed: Object.assign({}, item.reviewed, { [language]: false })
+            })
+          : item
+      );
+      this.data.set('records', newRecords);
+      const dirtyKeys = this.data.get('dirtyKeys');
+      if (dirtyKeys.indexOf(key) < 0) {
+        this.data.set('dirtyKeys', dirtyKeys.concat(key));
+      }
+      this.emitEvent('translation-change', { key, language, value });
+    },
+    markReviewed() {
+      this.commitDraft();
+      const key = this.data.get('selectedKey');
+      const language = this.data.get('language');
+      const records = this.data.get('records');
+      const newRecords = records.map(item =>
+        item.key === key
+          ? Object.assign({}, item, {
+              reviewed: Object.assign({}, item.reviewed, { [language]: true })
+            })
+          : item
+      );
+      this.data.set('records', newRecords);
+      this.emitEvent('review', { key, language });
+    },
+    applyTerm(term) {
+      const draft = this.data.get('draft');
+      this.data.set('draft', draft + (draft ? ' ' : '') + term.target);
+    },
+    toggleGlossary() {
+      this.data.set('showGlossary', !this.data.get('showGlossary'));
+    },
+    submitBatch() {
+      this.commitDraft();
+      const now = new Date().toLocaleString('zh-CN', { hour12: false });
+      this.data.set('submittedAt', now);
+      const language = this.data.get('language');
+      const dirtyKeys = this.data.get('dirtyKeys');
+      this.emitEvent('submit', { language, keys: dirtyKeys });
+      this.data.set('dirtyKeys', []);
+    },
+    translationFor(record) {
+      const language = this.data.get('language');
+      return record.translations[language] || '未翻译';
+    }
+  }
+});
+</script>
+
+<style>
+.localization-workspace { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.localization-workspace * { box-sizing: border-box; }
+.localization-workspace h2, .localization-workspace h3, .localization-workspace p { margin-top: 0; }
+.localization-workspace h2 { margin-bottom: 14px; font-size: 21px; }
+.localization-workspace button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.localization-workspace button.primary { border-color: #6d28d9; background: #6d28d9; color: #fff; }
+.localization-workspace button:disabled { opacity: .45; cursor: not-allowed; }
+.localization-workspace input, .localization-workspace select, .localization-workspace textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.localization-workspace .toolbar, .localization-workspace .summary, .localization-workspace .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.localization-workspace .muted { color: #71808e; font-size: 12px; }
+.localization-workspace .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+header,.locale-metrics{display:flex;justify-content:space-between}.locale-metrics{padding:10px;background:#f5f3ff}.locale-layout{display:grid;grid-template-columns:220px 1fr;gap:12px;margin-top:12px}.locale-layout.with-glossary{grid-template-columns:220px 1fr 150px}.entry-list{max-height:450px;overflow:auto}.entry-list>button{display:grid;width:100%;margin:6px 0;text-align:left}.entry-list>button.selected{background:#ede9fe}.entry-list>button.reviewed{border-left:4px solid #15803d}.entry-list small{color:#77818e}.locale-layout main{padding:16px;background:#fafafa}.source-panel{display:grid;padding:12px;background:#f1f2f4}.locale-layout main label{display:grid;gap:6px;margin-top:14px}.locale-layout main textarea{min-height:160px}.editor-actions{display:flex;justify-content:space-between}.glossary{padding:10px;background:#f7f5fb}.glossary button{display:grid;width:100%;margin:6px 0}
+</style>

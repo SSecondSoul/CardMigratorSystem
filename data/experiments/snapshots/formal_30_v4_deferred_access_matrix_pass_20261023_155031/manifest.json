@@ -1,0 +1,64 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_access_matrix_pass_20261023_155031",
+  "created_at": "2026-10-23T15:50:31+08:00",
+  "purpose": "Freeze the first passing access_matrix result before correcting a Vue lightweight-renderer defect discovered during result inspection.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "access_matrix",
+  "component_name": "AccessMatrix",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "implementation_commit": "9fcdee3",
+  "status": "frozen_pre_vue_renderer_fix",
+  "result": {
+    "started_at": "2026-10-23T15:46:09+08:00",
+    "finished_at": "2026-10-23T15:50:31+08:00",
+    "elapsed_seconds": 262.562,
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 2,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 47330,
+    "repair_tokens": 111950,
+    "total_tokens": 159280,
+    "final_validation_errors": [],
+    "final_visual_errors": [],
+    "final_structure_similarity": 0.9766,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 2.5,
+    "vue_node_count": 107,
+    "san_node_count": 107
+  },
+  "retained_warning": {
+    "code": "migration_hints_not_landed",
+    "fields": [
+      "lastSaved",
+      "saveState"
+    ],
+    "classification": "non_blocking_validation_warning",
+    "decision": "Retain as a warning; do not reinterpret this passing result as a failure without behavioral evidence."
+  },
+  "residual_difference": {
+    "count": 10,
+    "vue_renderer_class": "granted",
+    "san_renderer_class": "grant-cell granted",
+    "source_contract": "The frozen Vue source declares both class=\"grant-cell\" and :class=\"{ granted: cell.granted }\".",
+    "classification": "vue_lightweight_renderer_false_positive",
+    "decision": "The San output is semantically correct. Preserve it and fix the evaluator-side Vue class merge behavior."
+  },
+  "contents": {
+    "formal_30_v4_deferred_regression.json": "Frozen batch configuration used for the run.",
+    "formal_30_v4_deferred_regression_summary.json": "Batch checkpoint immediately after access_matrix completed.",
+    "pipeline/complex/AccessMatrix.san": "Initial generated San artifact.",
+    "pipeline/complex/AccessMatrix_repaired.san": "First Qwen repair artifact.",
+    "pipeline/complex/AccessMatrix_repaired_repaired.san": "Second Qwen repair and passing final artifact.",
+    "repair_reports/complex/AccessMatrix_repair_history.json": "Full generation, validation, visual-evaluation, and repair history."
+  },
+  "boundaries": [
+    "This snapshot predates the Vue lightweight-renderer correction.",
+    "The 0.9766 structure similarity is an evaluator artifact, not evidence that the final San dropped the static grant-cell class.",
+    "This sample belongs to an internal development regression and must not be reported as independent generalization evidence."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

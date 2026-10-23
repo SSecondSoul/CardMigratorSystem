@@ -345,6 +345,7 @@ function renderTemplate(template, data) {
     const value = evaluateClassBinding(expr, data);
     return value ? ` class="${escapeHtml(value)}"` : '';
   });
+  html = mergeClassAttributes(html);
   html = html.replace(/\s+:([\w:-]+)="([^"]+)"/g, function (_, attr, expr) {
     const value = evaluateExpression(expr, data);
     if (value === false || value == null) {
@@ -363,6 +364,26 @@ function renderTemplate(template, data) {
     return escapeHtml(stringifyValue(evaluateExpression(expr, data)));
   });
   return html;
+}
+
+function mergeClassAttributes(html) {
+  return html.replace(/<([a-zA-Z][\w-]*)([^<>]*)>/g, function (full, tag, attrs) {
+    const classMatches = Array.from(attrs.matchAll(/\s+class="([^"]*)"/g));
+    if (classMatches.length < 2) {
+      return full;
+    }
+    const classValues = [];
+    const remainingAttrs = attrs.replace(/\s+class="([^"]*)"/g, function (_, value) {
+      classValues.push(value);
+      return '';
+    });
+    const mergedClasses = Array.from(new Set(
+      classValues.join(' ').split(/\s+/).filter(Boolean)
+    )).join(' ');
+    const selfClosing = /\/\s*$/.test(remainingAttrs);
+    const normalizedAttrs = selfClosing ? remainingAttrs.replace(/\/\s*$/, '') : remainingAttrs;
+    return `<${tag}${normalizedAttrs}${mergedClasses ? ` class="${mergedClasses}"` : ''}${selfClosing ? ' /' : ''}>`;
+  });
 }
 
 function renderIfBlocks(html, data) {

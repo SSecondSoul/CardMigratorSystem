@@ -387,6 +387,23 @@ module.exports = san.defineComponent({
         self.assertFalse(result.validation_passed)
         self.assertIn("unbalanced_template_interpolation", error_codes)
 
+    def test_validator_rejects_vue_object_style_class_binding_in_san(self):
+        code = self._minimal_san_component(
+            '<button class="{{{ selected: active, reviewed: done }}}">Item</button>',
+            "",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertFalse(result.validation_passed)
+        self.assertIn(
+            "invalid_object_class_binding",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
     def test_validator_rejects_hidden_reactive_dependencies_in_class_method(self):
         code = self._minimal_san_component(
             '<tr class="{{ rowClass(row) }}"><td>{{ row.name }}</td></tr>',
@@ -678,6 +695,20 @@ module.exports = san.defineComponent({
 
         self.assertEqual(vue.dom_snapshot["node_count"], 3)
         self.assertEqual(vue.dom_snapshot, san.dom_snapshot)
+
+    def test_vue_renderer_merges_static_and_dynamic_classes(self):
+        vue_source = """<template><button class="grant-cell" :class="{ granted: enabled }">Allow</button></template>
+<script>module.exports = {data() { return {enabled: true}; }};</script>
+<style></style>
+"""
+
+        result = render_vue_component(vue_source=vue_source)
+
+        self.assertTrue(result.passed, result.diagnostics)
+        self.assertEqual(
+            result.dom_snapshot["tree"]["attrs"]["class"],
+            "grant-cell granted",
+        )
 
     def test_critical_form_attributes_ignore_custom_component_props(self):
         stage = VisualEvalStage()

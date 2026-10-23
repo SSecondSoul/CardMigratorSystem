@@ -93,6 +93,10 @@ class ValidateStage:
         r"\b(?:disabled|checked|selected)\s*=\s*(?:\"[^\"]*\{=[^\"]*=\}[^\"]*\"|'[^']*\{=[^']*=\}[^']*')",
         re.IGNORECASE,
     )
+    OBJECT_CLASS_BINDING_PATTERN = re.compile(
+        r"\bclass\s*=\s*([\"'])\s*\{\{\s*\{[\s\S]*?\}\s*\}\}\s*\1",
+        re.IGNORECASE,
+    )
     S_FOR_OPEN_TAG_PATTERN = re.compile(
         r"<[^>]*\bs-for\s*=\s*(?:\"[^\"]*\"|'[^']*')[^>]*>",
         re.IGNORECASE,
@@ -326,6 +330,27 @@ class ValidateStage:
                 ),
                 location="template",
                 suggestion="例如将 disabled=\"{= page === 1 =}\" 改为 disabled=\"{{ page === 1 }}\"。",
+            ))
+
+        object_class_bindings = self.OBJECT_CLASS_BINDING_PATTERN.findall(template)
+        object_class_passed = not object_class_bindings
+        checks.append(ValidationCheck(
+            name="class_bindings_use_san_string_expressions",
+            passed=object_class_passed,
+            message="Vue object-style class bindings are converted to San string expressions",
+        ))
+        if not object_class_passed:
+            issues.append(ValidationIssue(
+                code="invalid_object_class_binding",
+                message=(
+                    f"San template contains {len(object_class_bindings)} object-style class binding(s) "
+                    "copied from Vue; San class interpolation must evaluate to a string."
+                ),
+                location="template",
+                suggestion=(
+                    "Convert class=\"{{{ selected: condition }}}\" to a string expression such as "
+                    "class=\"{{ condition ? 'selected' : '' }}\"; concatenate multiple conditional classes."
+                ),
             ))
 
         custom_component_two_way_bindings = []

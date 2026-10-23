@@ -28,8 +28,14 @@ class RepairPromptBuilder:
             "Read fields separately, for example const initialGroups = "
             "this.data.get('initialGroups'), then write state with this.data.set(...).\n"
         )
+        class_binding_rule = (
+            "Object-style Vue :class bindings must be converted to a San string expression. "
+            "Never emit class=\"{{{ selected: condition }}}\"; use a ternary string expression "
+            "such as class=\"{{ condition ? 'selected' : '' }}\" and concatenate multiple "
+            "conditional class names.\n"
+        )
 
-        return data_access_rule + (
+        return data_access_rule + class_binding_rule + (
             "你是一个 Vue 到 San 迁移修复专家。请根据 SSM、当前 San 代码和校验报告，修复 San 单文件组件。\n"
             "修复目标：输出必须满足下面列出的 San 结构、语法和渲染一致性规则；不要只生成语义上看起来像 San 的代码。\n\n"
             "输出要求：\n"
@@ -151,6 +157,7 @@ class RepairPromptBuilder:
                 "nested objects and arrays from this.data.get(...) or computed values are updated immutably and written back with this.data.set(...) instead of property assignment or push/splice",
                 "two-way binding only for native form assignable paths originating from Vue v-model; Vue :prop and ordinary custom-component props remain one-way {{ ... }} bindings",
                 "disabled/checked/selected use one-way {{ ... }} interpolation, never {= ... =}",
+                "Vue object-style :class bindings are converted to San string expressions using ternaries and concatenation",
                 "critical value/checked/selected/disabled expressions remain attached to the same source element and never absorb conditions from adjacent elements",
                 "reactive values used by class/style/checked/selected/disabled/s-if/s-for/text method calls must appear in the template expression or be passed explicitly as method arguments",
                 "every loop item/index alias referenced by a loop element is declared in s-for, for example phase, index in phases",
@@ -173,6 +180,7 @@ class RepairPromptBuilder:
                 "reordered DOM children hidden by CSS order or flex layout",
                 "{= methodCall(...) =} or other two-way binding to a derived expression",
                 "disabled=\"{= expression =}\", checked=\"{= expression =}\", or selected=\"{= expression =}\"",
+                "class=\"{{{ selected: condition }}}\" or any other Vue object literal inside a San class interpolation",
                 "template presentation methods that hide reactive this.data.get(...) dependencies",
                 "references to index, idx, $index, or a Vue v-for index alias that is not declared by the corresponding s-for",
                 "unbalanced interpolation delimiters or a separate key attribute on an s-for element",

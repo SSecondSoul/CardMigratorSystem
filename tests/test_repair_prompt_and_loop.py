@@ -241,6 +241,11 @@ class RepairPromptAndLoopTests(unittest.TestCase):
         self.assertIn('disabled=\"{= expression =}\"', prompt)
         self.assertIn("computed values must be read with this.data.get", prompt)
         self.assertIn("two-way binding only for native form assignable paths", prompt)
+        self.assertIn(
+            "Object-style Vue :class bindings must be converted to a San string expression",
+            prompt,
+        )
+        self.assertIn('class="{{{ selected: condition }}}"', prompt)
         self.assertIn("普通自定义组件 props 必须保持单向", prompt)
         self.assertIn("插值必须完整闭合", prompt)
         self.assertIn("s-for 内联 trackby", prompt)
