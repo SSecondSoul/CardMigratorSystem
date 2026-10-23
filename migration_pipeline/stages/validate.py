@@ -353,6 +353,37 @@ class ValidateStage:
                 ),
             ))
 
+        duplicate_class_tags = []
+        for tag_match in re.finditer(r"<([A-Za-z][\w-]*)\b([^>]*)>", template, re.DOTALL):
+            class_count = sum(
+                1
+                for attribute in self.TEMPLATE_ATTRIBUTE_PATTERN.finditer(tag_match.group(2))
+                if attribute.group(1).lower() == "class"
+            )
+            if class_count > 1:
+                duplicate_class_tags.append(tag_match.group(1).lower())
+
+        duplicate_class_passed = not duplicate_class_tags
+        checks.append(ValidationCheck(
+            name="single_class_attribute_per_element",
+            passed=duplicate_class_passed,
+            message="Each template element has exactly one class attribute",
+        ))
+        if not duplicate_class_passed:
+            issues.append(ValidationIssue(
+                code="duplicate_class_attribute",
+                message=(
+                    f"San template contains {len(duplicate_class_tags)} element(s) with duplicate class attributes: "
+                    + ", ".join(f"<{tag}>" for tag in duplicate_class_tags)
+                    + "."
+                ),
+                location="template",
+                suggestion=(
+                    "Merge static and dynamic classes into exactly one class attribute, for example "
+                    "class=\"filter-tab {{ active ? 'active' : '' }}\"."
+                ),
+            ))
+
         custom_component_two_way_bindings = []
         for tag_match in re.finditer(
             r"<([A-Za-z][\w-]*)\b([^>]*)>", template, re.DOTALL
@@ -1692,7 +1723,7 @@ class ValidateStage:
                     continue
                 for key in ("handler", "handler_name", "method", "method_name"):
                     value = event.get(key)
-                    if isinstance(value, str) and value:
+                    if isinstance(value, str) and re.fullmatch(r"[A-Za-z_$][\w$]*", value):
                         handlers.add(value)
 
         template = ssm.get("template", {}) if isinstance(ssm, dict) else {}
@@ -1700,7 +1731,7 @@ class ValidateStage:
             if not isinstance(binding, dict):
                 continue
             value = binding.get("handler") or binding.get("handler_name") or binding.get("method")
-            if isinstance(value, str) and value:
+            if isinstance(value, str) and re.fullmatch(r"[A-Za-z_$][\w$]*", value):
                 handlers.add(value)
         return sorted(handlers)
 

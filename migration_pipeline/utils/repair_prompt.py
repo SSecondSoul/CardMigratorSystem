@@ -32,7 +32,8 @@ class RepairPromptBuilder:
             "Object-style Vue :class bindings must be converted to a San string expression. "
             "Never emit class=\"{{{ selected: condition }}}\"; use a ternary string expression "
             "such as class=\"{{ condition ? 'selected' : '' }}\" and concatenate multiple "
-            "conditional class names.\n"
+            "conditional class names. Each template element must have exactly one class attribute; "
+            "merge static and dynamic classes into that single attribute.\n"
         )
 
         return data_access_rule + class_binding_rule + (
@@ -158,6 +159,7 @@ class RepairPromptBuilder:
                 "two-way binding only for native form assignable paths originating from Vue v-model; Vue :prop and ordinary custom-component props remain one-way {{ ... }} bindings",
                 "disabled/checked/selected use one-way {{ ... }} interpolation, never {= ... =}",
                 "Vue object-style :class bindings are converted to San string expressions using ternaries and concatenation",
+                "each template element has exactly one class attribute, with static and dynamic classes merged",
                 "critical value/checked/selected/disabled expressions remain attached to the same source element and never absorb conditions from adjacent elements",
                 "reactive values used by class/style/checked/selected/disabled/s-if/s-for/text method calls must appear in the template expression or be passed explicitly as method arguments",
                 "every loop item/index alias referenced by a loop element is declared in s-for, for example phase, index in phases",
@@ -181,6 +183,7 @@ class RepairPromptBuilder:
                 "{= methodCall(...) =} or other two-way binding to a derived expression",
                 "disabled=\"{= expression =}\", checked=\"{= expression =}\", or selected=\"{= expression =}\"",
                 "class=\"{{{ selected: condition }}}\" or any other Vue object literal inside a San class interpolation",
+                "duplicate class attributes on the same template element",
                 "template presentation methods that hide reactive this.data.get(...) dependencies",
                 "references to index, idx, $index, or a Vue v-for index alias that is not declared by the corresponding s-for",
                 "unbalanced interpolation delimiters or a separate key attribute on an s-for element",

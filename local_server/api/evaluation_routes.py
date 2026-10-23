@@ -44,7 +44,11 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
         "Read fields separately, for example const initialGroups = "
         "this.data.get('initialGroups'), then write state with this.data.set(...).\n"
     )
-    return data_access_rule + (
+    class_attribute_rule = (
+        "Each template element must have exactly one class attribute: merge static and dynamic classes "
+        "into that single attribute instead of emitting duplicate class attributes.\n"
+    )
+    return data_access_rule + class_attribute_rule + (
         "请仅基于给定 SSM 生成可运行、可直接落盘的 San 单文件组件代码。\n"
         "输出要求：\n"
         "1. 直接输出完整 .san 文件内容，必须包含 <template>、<script>、<style> 三段，不要输出解释或 Markdown 代码围栏。\n"

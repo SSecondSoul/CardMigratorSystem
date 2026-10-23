@@ -1,0 +1,74 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_task_manager_failed_20261023_173104",
+  "created_at": "2026-10-23T17:31:04+08:00",
+  "purpose": "Freeze the completed but non-passing TaskManager run before diagnosing or changing the SSM extractor, validator, or prompts.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "TaskManager",
+  "component_name": "TaskManager",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_failed_after_max_repair_rounds",
+  "implementation_commit": "a3d68f98fd8a10192c913053df6338ac87a8e764",
+  "result": {
+    "started_at": "2026-10-23T17:17:02+08:00",
+    "finished_at": "2026-10-23T17:26:16+08:00",
+    "elapsed_seconds": 553.656,
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 65758,
+    "repair_tokens": 226717,
+    "total_tokens": 292475,
+    "initial_validation_error_codes": [
+      "missing_data_types",
+      "invalid_s_for_key_binding",
+      "vue_methods_wrapper",
+      "hidden_template_reactive_dependency",
+      "missing_datatypes_for_props",
+      "missing_event_handlers",
+      "data_initial_value_mismatch",
+      "missing_event_bindings",
+      "missing_watch_migration"
+    ],
+    "final_validation_error_codes": [
+      "vue_methods_wrapper",
+      "missing_event_handlers",
+      "missing_event_bindings"
+    ],
+    "final_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "final_render_error": "this.showNotification is not a function"
+  },
+  "audit_observations": {
+    "generation_timeout_resolved": true,
+    "vue_methods_wrapper_retained": "The final San artifact still defines showNotification inside a Vue-style methods object, so attached() cannot call this.showNotification.",
+    "suspected_wrong_component_contract": "The repair prompt contract identifies StatCard and its props instead of the default-exported TaskManager in this multi-component Vue SFC.",
+    "invalid_handler_contract": "Inline assignments such as showSettings = true and showSettings = false are represented as expected handler names.",
+    "duplicate_class_attributes": "The final San template contains elements with both a static class attribute and a generated dynamic class attribute, allowing the static class to be lost.",
+    "decision": "Do not count this run as passing. Diagnose and test the extractor and validator before a deliberate forced rerun."
+  },
+  "contents": {
+    "formal_30_v4_deferred_regression.json": "Frozen batch configuration used for the run.",
+    "formal_30_v4_deferred_regression_summary.json": "Batch checkpoint immediately after TaskManager exhausted three repair rounds.",
+    "source/TaskManager.vue": "Frozen Vue input from the formal_30_v3 protocol.",
+    "pipeline/complex/TaskManager*.san": "Initial generation and all three repair artifacts.",
+    "repair_reports/complex/TaskManager_repair_history.json": "Complete generation, validation, visual-evaluation, prompts, and repair history.",
+    "code/SSM/extractors": "SSM extraction implementation used for this run.",
+    "code/local_server/api/evaluation_routes.py": "Generation prompt implementation used for this run.",
+    "code/migration_pipeline": "Validator, repair prompt, and renderers used for this run.",
+    "code/tests": "Relevant regression and SSM extraction tests at run time.",
+    "analysis/protocol.json": "Frozen deferred-regression protocol state.",
+    "notebooks/2026-10-23_formal_30_v4_deferred_regression.ipynb": "Experiment notebook state before this failure was appended."
+  },
+  "boundaries": [
+    "This snapshot is evidence of a failed internal development regression, not a passing result.",
+    "The five deferred samples are reused formal_30_v3 cases and are not independent holdout evidence.",
+    "No extractor, validator, prompt, renderer, or generated artifact was changed before this snapshot was created.",
+    "Any deliberate rerun must use a new checkpoint entry and a new immutable result snapshot."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

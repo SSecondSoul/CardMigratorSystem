@@ -229,6 +229,16 @@ def _find_option(source: str, key: str) -> Optional[str]:
     return None
 
 
+def _extract_exported_options_object(source: str) -> str:
+    """Return the root component object instead of scanning local components."""
+    for pattern in (r'export\s+default\s*\{', r'module\.exports\s*=\s*\{'):
+        match = re.search(pattern, source)
+        if match:
+            brace_start = source.find("{", match.start())
+            return _extract_object_body(source, brace_start)
+    return source
+
+
 # ── Script 提取器主类 ─────────────────────────────────────
 
 class ScriptExtractor:
@@ -386,6 +396,7 @@ class ScriptExtractor:
 
     def _extract_options(self, source: str) -> dict:
         """提取组件各选项。"""
+        source = _extract_exported_options_object(source)
         options: dict[str, Any] = {}
 
         # name

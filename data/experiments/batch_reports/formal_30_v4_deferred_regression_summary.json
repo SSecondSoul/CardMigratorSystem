@@ -2,7 +2,7 @@
   "batch_id": "formal_30_v4_deferred_regression",
   "config_sha256": "6ddf23a789315479d7b55693b6f2023e80eb2692a766ee9f898929d5235c2a49",
   "started_at": "2026-10-23T15:46:09+08:00",
-  "updated_at": "2026-10-23T16:53:33+08:00",
+  "updated_at": "2026-10-23T17:26:16+08:00",
   "samples": [
     {
       "id": "access_matrix",
@@ -208,41 +208,137 @@
       "generation_tokens": 36969,
       "repair_tokens": 44244,
       "total_tokens": 81213
+    },
+    {
+      "id": "TaskManager",
+      "component_name": "TaskManager",
+      "complexity": "complex",
+      "coverage_focus": [
+        "migration.class_binding_conversion",
+        "migration.event_name_conversion",
+        "migration.style_binding_conversion",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "scripts.has_watch",
+        "styles.has_dynamic_class",
+        "styles.has_dynamic_style",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "vue_file": "data/experiments/protocols/formal_30_v3_frozen_20261022/frozen/data/datasets/components/03_complex/TaskManager/vue/TaskManager.vue",
+      "output_file": "data/experiments/pipeline/batches/formal_30_v4_deferred_regression/complex/TaskManager.san",
+      "report_file": "data/experiments/repair_reports/batches/formal_30_v4_deferred_regression/complex/TaskManager_repair_history.json",
+      "final_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_deferred_regression\\complex\\TaskManager_repaired_repaired_repaired.san",
+      "status": "completed",
+      "started_at": "2026-10-23T17:17:02+08:00",
+      "finished_at": "2026-10-23T17:26:16+08:00",
+      "elapsed_seconds": 553.656,
+      "final_passed": false,
+      "stop_reason": "max_repair_rounds_reached",
+      "repair_rounds": 3,
+      "max_repair_rounds": 3,
+      "initial_validation_passed": false,
+      "initial_validation_error_codes": [
+        "missing_data_types",
+        "invalid_s_for_key_binding",
+        "vue_methods_wrapper",
+        "hidden_template_reactive_dependency",
+        "missing_datatypes_for_props",
+        "missing_event_handlers",
+        "data_initial_value_mismatch",
+        "missing_event_bindings",
+        "missing_watch_migration"
+      ],
+      "initial_validation_warning_codes": [
+        "missing_data_fields"
+      ],
+      "initial_visual_eval_passed": false,
+      "initial_visual_error_codes": [
+        "san_render_failed",
+        "san_san_render_error"
+      ],
+      "initial_visual_warning_codes": [],
+      "initial_structure_similarity": 0.0,
+      "final_validation_passed": false,
+      "final_validation_error_codes": [
+        "vue_methods_wrapper",
+        "missing_event_handlers",
+        "missing_event_bindings"
+      ],
+      "final_visual_eval_passed": false,
+      "final_visual_error_codes": [
+        "san_render_failed",
+        "san_san_render_error"
+      ],
+      "final_structure_similarity": 0.0,
+      "final_tag_sequence_similarity": 0.0,
+      "final_text_similarity": 0.0,
+      "final_tree_edit_distance": 0.0,
+      "interaction_eval_passed": null,
+      "interaction_eval_reason": "",
+      "generation_provider": "qwen",
+      "generation_model": "qwen-plus",
+      "generation_tokens": 65758,
+      "repair_tokens": 226717,
+      "total_tokens": 292475
     }
   ],
   "aggregate": {
     "configured": 5,
-    "completed": 3,
+    "completed": 4,
     "passed": 3,
-    "failed": 0,
+    "failed": 1,
     "execution_errors": 0,
-    "pending": 2,
-    "pass_rate_completed": 1.0,
+    "pending": 1,
+    "pass_rate_completed": 0.75,
     "initial_passed": 0,
     "initial_pass_rate_completed": 0.0,
     "repaired_to_pass": 3,
-    "repair_rounds_total": 4,
-    "repair_rounds_average": 1.333,
-    "generation_tokens": 123301,
-    "repair_tokens": 204499,
-    "total_tokens": 327800,
+    "repair_rounds_total": 7,
+    "repair_rounds_average": 1.75,
+    "generation_tokens": 189059,
+    "repair_tokens": 431216,
+    "total_tokens": 620275,
     "stop_reason_counts": {
+      "max_repair_rounds_reached": 1,
       "passed": 3
     },
     "error_code_counts": {
       "initial_validation": {
-        "hidden_template_reactive_dependency": 4,
+        "data_initial_value_mismatch": 1,
+        "hidden_template_reactive_dependency": 5,
+        "invalid_s_for_key_binding": 1,
+        "missing_data_types": 1,
+        "missing_datatypes_for_props": 1,
+        "missing_event_bindings": 1,
+        "missing_event_handlers": 1,
         "missing_prop_defaults": 3,
-        "vue_methods_wrapper": 1
+        "missing_watch_migration": 1,
+        "vue_methods_wrapper": 2
       },
       "initial_visual": {
         "dom_critical_attribute_mismatch": 1,
         "dom_structure_similarity_low": 1,
-        "san_render_failed": 2,
-        "san_san_render_error": 2
+        "san_render_failed": 3,
+        "san_san_render_error": 3
       },
-      "final_validation": {},
-      "final_visual": {}
+      "final_validation": {
+        "missing_event_bindings": 1,
+        "missing_event_handlers": 1,
+        "vue_methods_wrapper": 1
+      },
+      "final_visual": {
+        "san_render_failed": 1,
+        "san_san_render_error": 1
+      }
     },
     "by_complexity": {
       "simple": {
@@ -263,11 +359,11 @@
       },
       "complex": {
         "configured": 5,
-        "completed": 3,
+        "completed": 4,
         "passed": 3,
-        "failed": 0,
+        "failed": 1,
         "execution_errors": 0,
-        "pass_rate_completed": 1.0
+        "pass_rate_completed": 0.75
       }
     }
   },

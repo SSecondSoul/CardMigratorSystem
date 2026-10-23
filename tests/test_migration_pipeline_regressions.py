@@ -404,6 +404,49 @@ module.exports = san.defineComponent({
             {issue["code"] for issue in result.validation_errors},
         )
 
+    def test_validator_rejects_duplicate_class_attributes(self):
+        code = self._minimal_san_component(
+            '<button class="filter-tab" class="{{ active ? \'active\' : \'\' }}">Item</button>',
+            "",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertFalse(result.validation_passed)
+        self.assertIn(
+            "duplicate_class_attribute",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+    def test_inline_assignment_is_not_expected_as_an_event_method(self):
+        code = self._minimal_san_component(
+            '<button on-click="showSettings = true">Open</button>',
+            "",
+        )
+        ssm = {
+            "event_model": {
+                "dom_events": [{
+                    "handler_expression": "showSettings = true",
+                    "handler_type": "inline_expression",
+                    "handler_name": "showSettings = true",
+                }],
+                "custom_events": [],
+            }
+        }
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertNotIn("missing_event_handlers", error_codes)
+        self.assertNotIn("missing_event_bindings", error_codes)
+
     def test_validator_rejects_hidden_reactive_dependencies_in_class_method(self):
         code = self._minimal_san_component(
             '<tr class="{{ rowClass(row) }}"><td>{{ row.name }}</td></tr>',

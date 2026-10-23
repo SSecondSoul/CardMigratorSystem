@@ -68,7 +68,7 @@ function analyzeEventExpression(expression) {
     result.arguments = match[2].split(',').map(item => item.trim()).filter(Boolean);
     return result;
   }
-  if (/=>/.test(expression) || /^\{/.test(expression.trim())) {
+  if (!/^[\w$]+$/.test(expression.trim())) {
     result.handler_type = 'inline_expression';
     result.handler_name = '';
   }
@@ -688,8 +688,12 @@ function buildScriptAnalysis(scriptContent) {
           if (innerName === 'deep' && inner.value.type === 'BooleanLiteral') deep = inner.value.value;
           if (innerName === 'immediate' && inner.value.type === 'BooleanLiteral') immediate = inner.value.value;
           if (innerName === 'handler') {
-            handlerName = inner.value.type === 'Identifier' ? inner.value.name : handlerName;
-            handlerBody = nodeToCode(inner.value, scriptContent);
+            if (inner.type === 'ObjectMethod') {
+              handlerBody = nodeToCode(inner.body, scriptContent);
+            } else if (inner.value) {
+              handlerName = inner.value.type === 'Identifier' ? inner.value.name : handlerName;
+              handlerBody = nodeToCode(inner.value, scriptContent);
+            }
           }
         }
       }
@@ -764,7 +768,8 @@ const template = descriptor.template;
 const script = descriptor.script || descriptor.scriptSetup;
 const styles = descriptor.styles || [];
 
-const componentName = (script && /name\s*:\s*['"]([^'"]+)['"]/.exec(script.content || '')?.[1]) || filename.split('/').pop().replace(/\.vue$/i, '');
+const scriptAnalysis = buildScriptAnalysis(script ? script.content : '');
+const componentName = scriptAnalysis.options?.name || filename.split('/').pop().replace(/\.vue$/i, '');
 const result = {
   component_name: componentName,
   blocks: {
@@ -774,7 +779,7 @@ const result = {
   },
   analysis: {
     template: buildTemplateAnalysis(template ? template.content : ''),
-    script: buildScriptAnalysis(script ? script.content : ''),
+    script: scriptAnalysis,
   },
 };
 

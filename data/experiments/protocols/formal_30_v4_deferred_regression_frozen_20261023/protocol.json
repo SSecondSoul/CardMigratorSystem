@@ -1,7 +1,7 @@
 {
   "protocol_id": "formal_30_v4_deferred_regression_20261023",
   "created_at": "2026-10-23T15:42:23+08:00",
-  "status": "prepared_not_started",
+  "status": "in_progress_task_manager_correction_pending_rerun",
   "batch_id": "formal_30_v4_deferred_regression",
   "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
   "classification": "development_internal_regression",
@@ -89,5 +89,61 @@
     "Classify evaluator defects, migration defects, and infrastructure errors separately.",
     "Do not tune against these five samples and then report them as independent evaluation."
   ],
-  "next_action": "Commit this prepared protocol, then run access_matrix without --force and include full state."
+  "execution_state": {
+    "updated_at": "2026-10-23T17:46:51+08:00",
+    "automatic_checkpoint": {
+      "configured": 5,
+      "completed": 4,
+      "passed": 3,
+      "failed": 1,
+      "pending": 1
+    },
+    "audit_confirmed_passes": [
+      "access_matrix",
+      "localization_workspace",
+      "trip_itinerary_planner"
+    ],
+    "task_manager_first_complete_run": {
+      "status": "failed_after_max_repair_rounds",
+      "started_at": "2026-10-23T17:17:02+08:00",
+      "finished_at": "2026-10-23T17:26:16+08:00",
+      "repair_rounds": 3,
+      "generation_tokens": 65758,
+      "repair_tokens": 226717,
+      "total_tokens": 292475,
+      "final_validation_error_codes": [
+        "vue_methods_wrapper",
+        "missing_event_handlers",
+        "missing_event_bindings"
+      ],
+      "final_visual_error_codes": [
+        "san_render_failed",
+        "san_san_render_error"
+      ],
+      "final_render_error": "this.showNotification is not a function",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_task_manager_failed_20261023_173104"
+    },
+    "task_manager_correction": {
+      "classification": "ssm_extractor_failure_with_validator_and_prompt_gaps",
+      "changes": [
+        "Parse object-method watch handlers without crashing the Node AST bridge.",
+        "Scope fallback script extraction and component-name inference to the root exported component.",
+        "Classify inline assignment event expressions without treating them as handler methods.",
+        "Reject duplicate class attributes and instruct generation/repair prompts to merge static and dynamic classes."
+      ],
+      "post_fix_ssm": {
+        "component_name": "TaskManager",
+        "data_field_count": 18,
+        "method_count": 33,
+        "watch_expressions": [
+          "tasks",
+          "settings"
+        ],
+        "inline_assignment_handler_names_removed": true
+      },
+      "related_tests_passed": 73,
+      "rerun_completed": false
+    }
+  },
+  "next_action": "Commit the TaskManager extractor, validator, prompt, tests, snapshot, and experiment records; then deliberately rerun only TaskManager with --force and include full state."
 }

@@ -204,6 +204,8 @@ class RepairPromptAndLoopTests(unittest.TestCase):
         self.assertIn('!canConnect || previewMode', prompt)
         self.assertIn("never destructure this.data", prompt)
         self.assertIn("this.data.get('initialGroups')", prompt)
+        self.assertIn("exactly one class attribute", prompt)
+        self.assertIn("merge static and dynamic classes", prompt)
 
     def test_prompt_makes_computed_defaults_and_binding_direction_explicit(self):
         prompt = build_repair_prompt(RepairPromptInput(
@@ -290,6 +292,8 @@ class RepairPromptAndLoopTests(unittest.TestCase):
         self.assertIn("every loop item/index alias referenced by a loop element is declared in s-for", prompt)
         self.assertIn("never destructure this.data", prompt)
         self.assertIn("this.data.get('initialGroups')", prompt)
+        self.assertIn("exactly one class attribute", prompt)
+        self.assertIn("merge static and dynamic classes", prompt)
 
     def test_loop_stops_after_two_identical_repair_outcomes(self):
         repair_stage = NoChangeRepairStage()

@@ -1,0 +1,93 @@
+{
+  "protocol_id": "formal_30_v4_deferred_regression_20261023",
+  "created_at": "2026-10-23T15:42:23+08:00",
+  "status": "prepared_not_started",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "implementation": {
+    "commit": "9fcdee3",
+    "snapshot": "data/experiments/snapshots/formal_30_v4_targeted_final_20261023_152047",
+    "related_tests_passed": 49
+  },
+  "configuration": {
+    "path": "migration_pipeline/batch_configs/formal_30_v4_deferred_regression.json",
+    "file_sha256": "883432b67bf39d71c186d8ba625ab033cad90344c21d9f364ea9ba3a38c2fbac",
+    "runner_canonical_sha256": "6ddf23a789315479d7b55693b6f2023e80eb2692a766ee9f898929d5235c2a49",
+    "dry_run_passed": true,
+    "max_repair_rounds": 3
+  },
+  "source": {
+    "batch": "formal_30_v3",
+    "result_snapshot": "data/experiments/snapshots/formal_30_v3_results_20261022_200548",
+    "frozen_protocol": "data/experiments/protocols/formal_30_v3_frozen_20261022",
+    "input_policy": "Read Vue inputs directly from the frozen v3 protocol tree; do not use mutable dataset copies."
+  },
+  "execution_order": [
+    "access_matrix",
+    "localization_workspace",
+    "trip_itinerary_planner",
+    "TaskManager",
+    "MonitoringDashboard"
+  ],
+  "samples": [
+    {
+      "id": "access_matrix",
+      "component_name": "AccessMatrix",
+      "source_sha256": "bfa2ed8fed13245e1aa143d88f34f67551ed189af1d139fa4240fa71edf75ef5",
+      "source_size_bytes": 10715,
+      "v3_outcome": "max_repair_rounds_reached",
+      "v3_errors": [
+        "dom_structure_similarity_low"
+      ]
+    },
+    {
+      "id": "localization_workspace",
+      "component_name": "LocalizationWorkspace",
+      "source_sha256": "0e2dfccb1b63a350cf27f090e0a273406f98776526cf259b00e4a0c1d7cc2f42",
+      "source_size_bytes": 9500,
+      "v3_outcome": "max_repair_rounds_reached",
+      "v3_errors": [
+        "invalid_s_for_key_binding",
+        "dom_structure_similarity_low"
+      ]
+    },
+    {
+      "id": "trip_itinerary_planner",
+      "component_name": "TripItineraryPlanner",
+      "source_sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139",
+      "source_size_bytes": 8578,
+      "v3_outcome": "max_repair_rounds_reached",
+      "v3_errors": [
+        "hidden_template_reactive_dependency",
+        "dom_structure_similarity_low",
+        "dom_critical_attribute_mismatch"
+      ]
+    },
+    {
+      "id": "TaskManager",
+      "component_name": "TaskManager",
+      "source_sha256": "ce3c3d4596792683e1e94a37764fdd542a97b80e4cff0c5ad8ba60c052f9e74c",
+      "source_size_bytes": 39797,
+      "v3_outcome": "generation_timeout",
+      "v3_errors": []
+    },
+    {
+      "id": "MonitoringDashboard",
+      "component_name": "MonitoringDashboard",
+      "source_sha256": "f669fc59619a30ce94cf8188b57124ae7e7084aa65d84604751391e73ab0ae4b",
+      "source_size_bytes": 42275,
+      "v3_outcome": "generation_timeout",
+      "v3_errors": []
+    }
+  ],
+  "execution_policy": [
+    "Run one sample at a time in the fixed order.",
+    "Do not use --force for the first run of a sample.",
+    "Freeze each completed result before any evaluator, Prompt, or pipeline change and before any deliberate rerun.",
+    "Classify evaluator defects, migration defects, and infrastructure errors separately.",
+    "Do not tune against these five samples and then report them as independent evaluation."
+  ],
+  "next_action": "Commit this prepared protocol, then run access_matrix without --force and include full state."
+}

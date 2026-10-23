@@ -175,9 +175,14 @@ class VueSFCParser:
     def _infer_component_name(self, source: str, file_path: str) -> str:
         """从 script 块的 name 选项或文件名推断组件名。"""
         # 尝试从 script 中提取 name: 'xxx'
+        export_match = re.search(
+            r'(?:export\s+default|module\.exports\s*=)\s*\{',
+            source,
+        )
+        component_source = source[export_match.end():] if export_match else source
         name_match = re.search(
             r'(?:name\s*:\s*["\'])([^"\']+)(?:["\'])',
-            source
+            component_source,
         )
         if name_match:
             return name_match.group(1)
