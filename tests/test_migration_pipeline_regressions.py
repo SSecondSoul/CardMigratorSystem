@@ -1158,6 +1158,50 @@ module.exports = san.defineComponent({
         self.assertTrue(visual.visual_eval_passed, visual.visual_eval_errors)
         self.assertEqual(visual.tag_sequence_similarity, 1.0)
 
+    def test_validator_uses_exported_parent_lifecycle_when_inline_child_repeats_hook(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "lifecycle_hooks": [{
+                        "vue_hook": "mounted",
+                        "san_hook": "attached",
+                        "body": "{ this.initData(); this.startPolling(); }",
+                    }],
+                    "methods": [
+                        {"name": "initData", "body_full": "{ this.loadMetrics(); }"},
+                        {"name": "loadMetrics", "body_full": "{}"},
+                        {"name": "startPolling", "body_full": "{}"},
+                    ],
+                }
+            }
+        }
+        code = self._minimal_san_component(
+            '<div></div>',
+            """
+    const child = san.defineComponent({
+        attached() { this.updateWidth(); }
+    });
+    attached() {
+        this.initDataImpl();
+        this.startPolling();
+    },
+    initDataImpl() { this.loadMetrics(); },
+    loadMetrics() {},
+    startPolling() {}
+""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+
+        self.assertNotIn(
+            "lifecycle_behavior_not_landed",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
     def test_validator_rejects_reserved_init_data_business_call(self):
         ssm = {
             "script": {

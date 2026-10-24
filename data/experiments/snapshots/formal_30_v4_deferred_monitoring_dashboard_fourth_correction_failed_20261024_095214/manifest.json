@@ -1,0 +1,38 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_monitoring_dashboard_fourth_correction_failed_20261024_095214",
+  "created_at": "2026-10-24T09:52:14+08:00",
+  "purpose": "Freeze the complete MonitoringDashboard rerun after the fourth correction, before auditing the remaining lifecycle validation error.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "MonitoringDashboard",
+  "component_name": "MonitoringDashboard",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_failed_before_validator_audit",
+  "implementation_commit": "d041dc20ca189699ca28a6a957e0a4f3d8168102",
+  "result": {
+    "started_at": "2026-10-24T09:34:38+08:00",
+    "finished_at": "2026-10-24T09:48:20+08:00",
+    "elapsed_seconds": 821.781,
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 105903,
+    "repair_tokens": 263443,
+    "total_tokens": 369346,
+    "final_validation_error_codes": ["lifecycle_behavior_not_landed"],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 0.9825,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 0.9924,
+    "final_tree_edit_distance": 1.0
+  },
+  "decision": "Preserve this raw failed rerun. The remaining lifecycle error is audited separately because the validator selected an inline child attached hook instead of the exported parent hook.",
+  "boundaries": [
+    "This sample is a reused development case and is not independent holdout evidence.",
+    "The generated San artifacts and repair history are preserved exactly as produced.",
+    "The later validator correction must not modify this snapshot or relabel this raw run as a new LLM pass."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

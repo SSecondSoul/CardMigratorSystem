@@ -1,7 +1,7 @@
 {
   "protocol_id": "formal_30_v4_deferred_regression_20261023",
   "created_at": "2026-10-23T15:42:23+08:00",
-  "status": "in_progress_monitoring_dashboard_fourth_correction_pending_commit",
+  "status": "in_progress_monitoring_dashboard_validator_parent_hook_correction_pending_commit",
   "batch_id": "formal_30_v4_deferred_regression",
   "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
   "classification": "development_internal_regression",
@@ -90,7 +90,7 @@
     "Do not tune against these five samples and then report them as independent evaluation."
   ],
   "execution_state": {
-    "updated_at": "2026-10-23T23:29:37+08:00",
+    "updated_at": "2026-10-24T09:52:14+08:00",
     "automatic_checkpoint": {
       "configured": 5,
       "completed": 5,
@@ -521,7 +521,41 @@
       "related_tests_passed": 103,
       "rerun_completed": false,
       "rerun_status": "pending_after_commit_and_server_restart"
+    },
+    "monitoring_dashboard_fourth_correction_rerun": {
+      "status": "raw_failed_audit_reclassified",
+      "implementation_commit": "d041dc20ca189699ca28a6a957e0a4f3d8168102",
+      "started_at": "2026-10-24T09:34:38+08:00",
+      "finished_at": "2026-10-24T09:48:20+08:00",
+      "elapsed_seconds": 821.781,
+      "repair_rounds": 3,
+      "generation_tokens": 105903,
+      "repair_tokens": 263443,
+      "total_tokens": 369346,
+      "raw_final_validation_error_codes": ["lifecycle_behavior_not_landed"],
+      "raw_final_visual_error_codes": [],
+      "raw_final_structure_similarity": 0.9825,
+      "raw_final_tag_sequence_similarity": 1.0,
+      "raw_final_text_similarity": 0.9924,
+      "raw_final_tree_edit_distance": 1.0,
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_fourth_correction_failed_20261024_095214",
+      "audit_finding": "The validator selected the first attached() from an inline child component instead of the exported parent attached(), so it reported missing parent lifecycle behavior.",
+      "read_only_replay_after_validator_correction": {
+        "validator_correction": "Prefer the final matching lifecycle/helper definition, which belongs to the exported parent component in this generated SFC.",
+        "validation_passed": true,
+        "validation_error_codes": [],
+        "validation_warning_codes": ["migration_hints_not_landed"],
+        "visual_passed": true,
+        "visual_error_codes": [],
+        "vue_node_count": 57,
+        "san_node_count": 57,
+        "structure_similarity": 0.9912,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.5
+      },
+      "interpretation": "The raw automatic result remains frozen as produced. After correcting the validator's multi-component hook selection, the same final artifact passes read-only static and visual replay; this is an audit-confirmed evaluator correction, not a new LLM run."
     }
   },
-  "next_action": "Commit the fourth MonitoringDashboard correction and both new frozen evidence snapshots, restart the local server, then deliberately rerun only MonitoringDashboard with --force and include full state; freeze and audit the result."
+  "next_action": "Commit the validator parent-hook correction and new frozen evidence, restart the local server, then rerun only MonitoringDashboard with --force to obtain a fresh automatic checkpoint."
 }

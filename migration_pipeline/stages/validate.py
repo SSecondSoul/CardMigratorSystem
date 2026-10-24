@@ -1857,10 +1857,16 @@ class ValidateStage:
         return match.group(0) if match else ""
 
     def _extract_function_body(self, script: str, function_name: str) -> str:
-        match = re.search(rf"\b{re.escape(function_name)}\s*\([^)]*\)\s*{{", script)
-        if not match:
+        matches = list(re.finditer(
+            rf"\b{re.escape(function_name)}\s*\([^)]*\)\s*{{",
+            script,
+        ))
+        if not matches:
             return ""
-        return self._extract_braced_body(script, match.end() - 1)
+        # A generated file may contain several inline child components. For
+        # lifecycle and state checks, the exported parent component is the
+        # final san.defineComponent object, so prefer its last matching hook.
+        return self._extract_braced_body(script, matches[-1].end() - 1)
 
     def _extract_braced_body(self, script: str, start: int) -> str:
         depth = 0
