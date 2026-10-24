@@ -218,6 +218,17 @@ class RepairStage:
                         "unwrapped_san_component_methods_options",
                     ],
                 }
+        normalized_code = self._normalize_parent_reserved_init_data(result.code)
+        if normalized_code != result.code:
+            result.code = normalized_code
+            if isinstance(result.raw_response, dict):
+                result.raw_response = {
+                    **result.raw_response,
+                    "pipeline_postprocessing": [
+                        *result.raw_response.get("pipeline_postprocessing", []),
+                        "renamed_parent_business_initData",
+                    ],
+                }
         if any(
             issue.get("code") == "invalid_s_for_key_binding"
             for issue in stage_input.validation_errors
@@ -605,6 +616,53 @@ class RepairStage:
         return normalized
 
     @classmethod
+    def _normalize_parent_reserved_init_data(cls, code: str) -> str:
+        component_matches = list(re.finditer(
+            r"\bmodule\.exports\s*=\s*san\.defineComponent\s*\(\s*\{",
+            code,
+        ))
+        if not component_matches:
+            return code
+        component_match = component_matches[-1]
+        object_open = code.rfind("{", component_match.start(), component_match.end())
+        object_close = cls._find_matching_js_brace(code, object_open)
+        if object_close < 0:
+            return code
+
+        method_match = None
+        for candidate in re.finditer(
+            r"(?m)^([ \t]*)initData\s*\([^)]*\)\s*\{",
+            code,
+        ):
+            if not (object_open < candidate.start() < object_close):
+                continue
+            if cls._js_brace_depth_at(code, object_open + 1, candidate.start()) == 1:
+                method_match = candidate
+        if method_match is None:
+            return code
+
+        replacement_start = method_match.start() + len(method_match.group(1))
+        normalized = (
+            code[:replacement_start]
+            + "initDataImpl"
+            + code[replacement_start + len("initData"):]
+        )
+        # Recompute the exported range after renaming, then update only calls
+        # belonging to that parent component.
+        component_matches = list(re.finditer(
+            r"\bmodule\.exports\s*=\s*san\.defineComponent\s*\(\s*\{",
+            normalized,
+        ))
+        parent_match = component_matches[-1]
+        parent_open = normalized.rfind("{", parent_match.start(), parent_match.end())
+        parent_close = cls._find_matching_js_brace(normalized, parent_open)
+        if parent_close < 0:
+            return code
+        parent = normalized[parent_open:parent_close + 1]
+        parent = re.sub(r"\bthis\.initData\s*\(", "this.initDataImpl(", parent)
+        return normalized[:parent_open] + parent + normalized[parent_close + 1:]
+
+    @classmethod
     def _normalize_mutated_state_array_aliases(cls, code: str) -> str:
         replacements: list[tuple[int, int, str]] = []
         mutator_names = "|".join(cls.MUTATING_ARRAY_METHODS)
@@ -697,6 +755,14 @@ class RepairStage:
                 applied.append((
                     "san_methods_wrapper_normalizer",
                     "unwrapped_san_component_methods_options",
+                ))
+        if "reserved_init_data_method_collision" in error_codes:
+            candidate = cls._normalize_parent_reserved_init_data(normalized)
+            if candidate != normalized:
+                normalized = candidate
+                applied.append((
+                    "san_reserved_init_data_normalizer",
+                    "renamed_parent_business_initData",
                 ))
         if error_codes == {"nested_state_mutation"} and not visual_eval_errors:
             candidate = cls._normalize_mutated_state_array_aliases(normalized)

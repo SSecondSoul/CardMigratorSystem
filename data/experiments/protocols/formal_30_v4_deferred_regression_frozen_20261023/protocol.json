@@ -1,7 +1,7 @@
 {
   "protocol_id": "formal_30_v4_deferred_regression_20261023",
   "created_at": "2026-10-23T15:42:23+08:00",
-  "status": "in_progress_monitoring_dashboard_validator_parent_hook_correction_pending_commit",
+  "status": "in_progress_monitoring_dashboard_reserved_initdata_normalizer_pending_commit",
   "batch_id": "formal_30_v4_deferred_regression",
   "purpose": "Internal regression of five deferred formal_30_v3 non-passing cases after formal_30_v4_targeted remediation.",
   "classification": "development_internal_regression",
@@ -90,7 +90,7 @@
     "Do not tune against these five samples and then report them as independent evaluation."
   ],
   "execution_state": {
-    "updated_at": "2026-10-24T09:52:14+08:00",
+    "updated_at": "2026-10-24T10:32:20+08:00",
     "automatic_checkpoint": {
       "configured": 5,
       "completed": 5,
@@ -555,7 +555,51 @@
         "tree_edit_distance": 0.5
       },
       "interpretation": "The raw automatic result remains frozen as produced. After correcting the validator's multi-component hook selection, the same final artifact passes read-only static and visual replay; this is an audit-confirmed evaluator correction, not a new LLM run."
+    },
+    "monitoring_dashboard_parent_initdata_collision_rerun": {
+      "status": "failed_after_max_repair_rounds",
+      "implementation_commit": "fd95d75659608a4c88dc336ca23b04fdd5015779",
+      "started_at": "2026-10-24T10:17:06+08:00",
+      "finished_at": "2026-10-24T10:31:14+08:00",
+      "elapsed_seconds": 847.985,
+      "repair_rounds": 3,
+      "generation_tokens": 106411,
+      "repair_tokens": 266584,
+      "total_tokens": 372995,
+      "final_validation_error_codes": [
+        "reserved_init_data_method_collision",
+        "san_script_compile_error",
+        "lifecycle_behavior_not_landed"
+      ],
+      "final_visual_error_codes": ["san_render_failed", "san_san_render_error"],
+      "compile_error": "this.updateDateTime is not a function",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_parent_initdata_collision_failed_20261024_103220",
+      "interpretation": "Failed reused-development regression caused by Qwen retaining the parent business initData method; not independent holdout evidence."
+    },
+    "monitoring_dashboard_reserved_initdata_normalizer": {
+      "classification": "deterministic_parent_business_initdata_rename",
+      "changes": [
+        "When reserved_init_data_method_collision is reported, locate only the exported parent san.defineComponent object.",
+        "Rename its top-level business initData method to initDataImpl and update only parent this.initData() call sites.",
+        "Leave inline child initData state factories unchanged.",
+        "Record renamed_parent_business_initData for deterministic and post-LLM repairs."
+      ],
+      "read_only_replay": {
+        "validation_passed": true,
+        "validation_error_codes": [],
+        "visual_passed": true,
+        "visual_error_codes": [],
+        "vue_node_count": 57,
+        "san_node_count": 57,
+        "structure_similarity": 0.9781,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 1.25
+      },
+      "related_tests_passed": 105,
+      "rerun_completed": false,
+      "rerun_status": "pending_after_commit_and_server_restart"
     }
   },
-  "next_action": "Commit the validator parent-hook correction and new frozen evidence, restart the local server, then rerun only MonitoringDashboard with --force to obtain a fresh automatic checkpoint."
+  "next_action": "Commit the reserved-initData deterministic normalizer and new frozen evidence, restart the local server, then rerun only MonitoringDashboard with --force to obtain a fresh automatic checkpoint."
 }

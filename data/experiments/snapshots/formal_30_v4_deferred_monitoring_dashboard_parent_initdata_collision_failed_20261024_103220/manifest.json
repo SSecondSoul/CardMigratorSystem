@@ -1,0 +1,46 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_monitoring_dashboard_parent_initdata_collision_failed_20261024_103220",
+  "created_at": "2026-10-24T10:32:20+08:00",
+  "purpose": "Freeze the complete MonitoringDashboard rerun whose final San retained a business initData method and failed compilation.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "MonitoringDashboard",
+  "component_name": "MonitoringDashboard",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_failed_parent_initdata_collision",
+  "implementation_commit": "fd95d75659608a4c88dc336ca23b04fdd5015779",
+  "result": {
+    "started_at": "2026-10-24T10:17:06+08:00",
+    "finished_at": "2026-10-24T10:31:14+08:00",
+    "elapsed_seconds": 847.985,
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 106411,
+    "repair_tokens": 266584,
+    "total_tokens": 372995,
+    "final_validation_error_codes": [
+      "reserved_init_data_method_collision",
+      "san_script_compile_error",
+      "lifecycle_behavior_not_landed"
+    ],
+    "final_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "compile_error": "this.updateDateTime is not a function",
+    "final_structure_similarity": 0.0,
+    "final_tag_sequence_similarity": 0.0,
+    "final_text_similarity": 0.0,
+    "final_tree_edit_distance": 0.0
+  },
+  "decision": "Preserve this failed rerun and add a guarded deterministic rename for a business initData method in the exported parent component; do not edit the generated artifact directly.",
+  "boundaries": [
+    "This sample is a reused development case and is not independent holdout evidence.",
+    "The generated San artifacts and repair history are preserved exactly as produced.",
+    "Only the exported parent initData method and its parent call sites are eligible for normalization; child component state factories must remain unchanged."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

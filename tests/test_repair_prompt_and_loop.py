@@ -429,6 +429,28 @@ module.exports = san.defineComponent({
         self.assertIn("const childCard = san.defineComponent({", normalized)
         self.assertIn("module.exports = san.defineComponent({", normalized)
 
+    def test_repair_normalizer_renames_only_exported_parent_business_init_data(self):
+        code = '''<script>
+const san = require('san');
+const child = san.defineComponent({
+  initData() { return {value: 1}; }
+});
+module.exports = san.defineComponent({
+  components: {child},
+  initData() { this.loadMetrics(); },
+  attached() { this.initData(); },
+  loadMetrics() {}
+});
+</script>
+'''
+
+        normalized = RepairStage._normalize_parent_reserved_init_data(code)
+
+        self.assertEqual(normalized.count("initData()"), 1)
+        self.assertIn("initDataImpl() { this.loadMetrics(); }", normalized)
+        self.assertIn("attached() { this.initDataImpl(); }", normalized)
+        self.assertIn("const child = san.defineComponent({\n  initData()", normalized)
+
     def test_repair_stage_skips_llm_for_top_level_methods_wrapper(self):
         code = '''<template><button on-click="save">Save</button></template>
 <script>
@@ -527,6 +549,7 @@ module.exports = san.defineComponent({
             [
                 "unwrapped_san_directive_expression",
                 "unwrapped_san_component_methods_options",
+                "renamed_parent_business_initData",
             ],
         )
 
