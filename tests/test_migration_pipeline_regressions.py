@@ -798,6 +798,27 @@ module.exports = san.defineComponent({
         self.assertTrue(result.passed, result.diagnostics)
         self.assertEqual(result.dom_snapshot["text_content"], "stored-session")
 
+    def test_san_renderer_provides_minimal_browser_globals(self):
+        san_source = """<template><div>ok</div></template>
+<script>
+const san = require('san');
+module.exports = san.defineComponent({
+    initData() { return {}; },
+    attached() {
+        if ('Notification' in window) {
+            this.data.set('hasNotification', true);
+        }
+        document.createElement('a').click();
+    }
+});
+</script>
+<style></style>
+"""
+
+        result = render_san_component(san_source=san_source)
+
+        self.assertTrue(result.passed, result.diagnostics)
+
     def test_self_closing_component_loops_expand_in_both_renderers(self):
         vue_source = """<template><section><item-card v-for="item in items" :value="item.value" /></section></template>
 <script>module.exports = {data() { return {items: [{id: 1, value: 'A'}, {id: 2, value: 'B'}]}; }};</script>
@@ -1266,6 +1287,58 @@ module.exports = san.defineComponent({
         error_codes = {issue["code"] for issue in result.validation_errors}
 
         self.assertIn("unresolved_component_registration", error_codes)
+
+    def test_validator_uses_exported_parent_registry_after_inline_child_registries(self):
+        ssm = {
+            "script": {
+                "options": {
+                    "components": [
+                        {
+                            "registered_name": "status-chip",
+                            "source_name": "StatusChip",
+                            "definition_location": "inline",
+                        },
+                        {
+                            "registered_name": "metric-card",
+                            "source_name": "MetricCard",
+                            "definition_location": "inline",
+                        },
+                    ],
+                }
+            }
+        }
+        code = """<template><status-chip></status-chip><metric-card></metric-card></template>
+<script>
+const san = require('san');
+const statusChip = san.defineComponent({
+    components: {},
+    template: '<span>{{label}}</span>'
+});
+const metricCard = san.defineComponent({
+    components: {},
+    template: '<strong>{{value}}</strong>'
+});
+module.exports = san.defineComponent({
+    components: {
+        'status-chip': statusChip,
+        'metric-card': metricCard
+    },
+    dataTypes: {},
+    initData() { return {}; }
+});
+</script>
+<style></style>
+"""
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            ssm=ssm,
+            compile_check=False,
+        ))
+        error_codes = {issue["code"] for issue in result.validation_errors}
+
+        self.assertNotIn("missing_component_registration", error_codes)
+        self.assertNotIn("unresolved_component_registration", error_codes)
 
     def test_monitoring_dashboard_frozen_failure_exposes_component_and_lifecycle_causes(self):
         vue_file = MONITORING_FAILURE_SNAPSHOT / "source/MonitoringDashboard.vue"

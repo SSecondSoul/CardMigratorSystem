@@ -311,11 +311,26 @@ class ValidateStage:
             for item in expected_items if isinstance(item, dict)
             if item.get("registered_name") or item.get("registered_tag")
         }
-        registry_match = re.search(r"\bcomponents\s*:\s*\{", script)
-        registry_body = (
-            self._extract_braced_body(script, registry_match.end() - 1)
-            if registry_match else ""
-        )
+        # Inline child components commonly declare their own `components: {}`
+        # before the exported parent.  The first registry in the script is
+        # therefore not necessarily the registry that owns the Vue template.
+        # Resolve the final exported component object first, then inspect only
+        # its top-level registry.
+        exported_matches = list(re.finditer(
+            r"\bmodule\.exports\s*=\s*san\.defineComponent\s*\(\s*\{",
+            script,
+        ))
+        registry_body = ""
+        if exported_matches:
+            exported_match = exported_matches[-1]
+            exported_open = script.rfind("{", exported_match.start(), exported_match.end())
+            exported_body = self._extract_braced_body(script, exported_open)
+            registry_match = re.search(r"\bcomponents\s*:\s*\{", exported_body)
+            if registry_match:
+                registry_body = self._extract_braced_body(
+                    exported_body,
+                    registry_match.end() - 1,
+                )
         entries = {
             key or bare_key: identifier
             for key, bare_key, identifier in re.findall(

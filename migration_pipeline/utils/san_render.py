@@ -197,6 +197,25 @@ function createStorageStub() {
   };
 }
 
+function createBrowserGlobals() {
+  const windowStub = {};
+  const documentStub = {
+    createElement() {
+      return {
+        style: {},
+        click() {},
+        setAttribute() {},
+        remove() {}
+      };
+    },
+    body: {
+      appendChild() {},
+      removeChild() {}
+    }
+  };
+  return { windowStub, documentStub };
+}
+
 function createDataStore(initial) {
   const store = Object.assign({}, initial || {});
   return {
@@ -234,6 +253,7 @@ function createSanStub() {
 }
 
 function evaluateComponent(script, sourceName) {
+  const browserGlobals = createBrowserGlobals();
   const sandbox = {
     module: { exports: {} },
     exports: {},
@@ -258,6 +278,8 @@ function evaluateComponent(script, sourceName) {
     Boolean,
     RegExp,
     Promise,
+    window: browserGlobals.windowStub,
+    document: browserGlobals.documentStub,
     localStorage: createStorageStub(),
     sessionStorage: createStorageStub()
   };

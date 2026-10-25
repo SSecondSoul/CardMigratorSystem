@@ -451,6 +451,46 @@ module.exports = san.defineComponent({
         self.assertIn("attached() { this.initDataImpl(); }", normalized)
         self.assertIn("const child = san.defineComponent({\n  initData()", normalized)
 
+    def test_repair_normalizer_resolves_duplicate_init_data_impl_names(self):
+        code = '''<script>
+const san = require('san');
+module.exports = san.defineComponent({
+  initDataImpl() { return {settings: {autoRefresh: true}}; },
+  attached() { this.initDataImpl(); },
+  initDataImpl() { this.loadSettings(); },
+  loadSettings() {}
+});
+</script>
+'''
+
+        normalized = RepairStage._normalize_parent_reserved_init_data(code)
+
+        self.assertEqual(normalized.count("initDataImpl()"), 0)
+        self.assertEqual(normalized.count("initData()"), 1)
+        self.assertIn("initializeDashboardData() { this.loadSettings(); }", normalized)
+        self.assertIn("attached() { this.initializeDashboardData(); }", normalized)
+
+    def test_repair_normalizer_registers_defined_inline_components(self):
+        code = '''<script>
+const san = require('san');
+const childCard = san.defineComponent({name: 'child-card'});
+module.exports = san.defineComponent({
+  name: 'Parent',
+  dataTypes: {},
+  initData() { return {}; }
+});
+</script>
+'''
+        ssm = {"script": {"options": {"components": [{
+            "registered_name": "child-card",
+            "source_name": "ChildCard",
+            "definition_location": "inline",
+        }]}}}
+
+        normalized = RepairStage._normalize_missing_component_registration(code, ssm)
+
+        self.assertIn("components: {\n    'child-card': childCard\n  },", normalized)
+
     def test_repair_stage_skips_llm_for_top_level_methods_wrapper(self):
         code = '''<template><button on-click="save">Save</button></template>
 <script>

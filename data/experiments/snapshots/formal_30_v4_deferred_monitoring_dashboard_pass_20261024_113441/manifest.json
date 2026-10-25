@@ -1,0 +1,53 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_monitoring_dashboard_pass_20261024_113441",
+  "created_at": "2026-10-24T11:34:41+08:00",
+  "purpose": "Freeze the audit-confirmed MonitoringDashboard pass after parent component registration, initData collision, and renderer-global fixes.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "MonitoringDashboard",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_audit_confirmed_pass",
+  "implementation_commit": "eafcd3d43805747d5c9665047c260b66b1b4a913",
+  "working_tree_note": "The deterministic fixes and renderer test changes were present in the working tree when this evidence was frozen; generated batch artifacts were not manually edited.",
+  "result": {
+    "started_at": "2026-10-24T11:19:59+08:00",
+    "finished_at": "2026-10-24T11:29:32+08:00",
+    "elapsed_seconds": 572.156,
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 2,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 106390,
+    "repair_tokens": 133692,
+    "total_tokens": 240082,
+    "initial_validation_error_codes": [
+      "missing_data_types",
+      "vue_methods_wrapper",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "missing_lifecycle_mapping"
+    ],
+    "initial_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "final_validation_error_codes": [],
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 0.9912,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.5
+  },
+  "boundaries": [
+    "This is an audit-confirmed pass for a reused development regression case.",
+    "It is not independent holdout or generalization evidence.",
+    "Earlier MonitoringDashboard failures remain frozen separately and were not overwritten.",
+    "Any later reinterpretation or modification requires a new snapshot directory."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

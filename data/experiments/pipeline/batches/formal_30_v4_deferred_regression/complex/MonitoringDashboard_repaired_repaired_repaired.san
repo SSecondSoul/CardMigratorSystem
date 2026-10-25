@@ -1,13 +1,13 @@
 <template>
-<div class="monitoring-dashboard {{ isDarkMode ? 'dark-mode' : '' }}">
+<div class="monitoring-dashboard {{isDarkMode ? 'dark-mode' : ''}}">
   <div class="status-bar">
     <div class="system-status">
-      <span class="status-indicator {{ systemHealth }}"></span>
-      <span class="status-text">系统状态：{{ systemHealthText }}</span>
+      <span class="status-indicator {{systemHealth}}"></span>
+      <span class="status-text">系统状态：{{systemHealthText}}</span>
     </div>
     <div class="time-display">
-      <span>📅 {{ currentDate }}</span>
-      <span>⏰ {{ currentTime }}</span>
+      <span>📅 {{currentDate}}</span>
+      <span>⏰ {{currentTime}}</span>
     </div>
     <div class="action-buttons">
       <button class="icon-btn" on-click="toggleTheme">🌓</button>
@@ -19,14 +19,14 @@
   <div class="kpi-grid">
     <kpi-card
       s-for="kpi in kpiData trackby kpi.id"
-      title="{{ kpi.title }}"
-      value="{{ kpi.value }}"
-      unit="{{ kpi.unit }}"
-      trend="{{ kpi.trend }}"
-      status="{{ kpi.status }}"
-      icon="{{ kpi.icon }}"
+      title="{{kpi.title}}"
+      value="{{kpi.value}}"
+      unit="{{kpi.unit}}"
+      trend="{{kpi.trend}}"
+      status="{{kpi.status}}"
+      icon="{{kpi.icon}}"
       on-click="onKPIClick(kpi)"
-    />
+    ></kpi-card>
   </div>
 
   <div class="charts-grid">
@@ -36,32 +36,32 @@
         <div class="chart-controls">
           <button
             s-for="period in timePeriods trackby period.value"
-            class="{{ selectedPeriod === period.value ? 'active' : '' }}"
+            class="period-btn {{selectedPeriod === period.value ? 'active' : ''}}"
             on-click="changePeriod(period.value)"
-          >{{ period.label }}</button>
+          >{{period.label}}</button>
         </div>
       </div>
       <real-time-chart
-        data="{{ cpuHistory }}"
+        data="{{cpuHistory}}"
         height="250"
         color="#3b82f6"
-        loading="{{ isChartLoading }}"
-      />
+        loading="{{isChartLoading}}"
+      ></real-time-chart>
       <real-time-chart
-        data="{{ memoryHistory }}"
+        data="{{memoryHistory}}"
         height="250"
         color="#10b981"
-        loading="{{ isChartLoading }}"
-      />
+        loading="{{isChartLoading}}"
+      ></real-time-chart>
     </div>
 
     <div class="chart-card">
       <h3>服务请求统计</h3>
       <request-chart
-        data="{{ requestStats }}"
+        data="{{requestStats}}"
         height="300"
-        on-bar-click="onBarClick(data)"
-      />
+        on-bar-click="onBarClick"
+      ></request-chart>
     </div>
   </div>
 
@@ -69,14 +69,10 @@
     <div class="alerts-panel">
       <div class="panel-header">
         <h3>🚨 实时告警</h3>
-        <span class="alert-count">{{ activeAlerts.length }}</span>
-        <button class="clear-btn" s-if="activeAlerts.length" on-click="clearAlerts">清空</button>
+        <span class="alert-count">{{activeAlerts.length}}</span>
+        <button class="clear-btn" on-click="clearAlerts" s-if="activeAlerts.length">清空</button>
       </div>
-      <alert-list
-        alerts="{{ activeAlerts }}"
-        on-acknowledge="acknowledgeAlert(alertId)"
-        on-resolve="resolveAlert(alertId)"
-      />
+      <alert-list alerts="{{activeAlerts}}" on-acknowledge="acknowledgeAlert" on-resolve="resolveAlert"></alert-list>
     </div>
 
     <div class="logs-panel">
@@ -92,23 +88,16 @@
           <button class="clear-btn" on-click="clearLogs">清空</button>
         </div>
       </div>
-      <log-list
-        logs="{{ filteredLogs }}"
-        loading="{{ isLogLoading }}"
-        on-log-click="onLogClick(log)"
-      />
+      <log-list logs="{{filteredLogs}}" loading="{{isLogLoading}}" on-log-click="onLogClick"></log-list>
     </div>
   </div>
 
   <div class="services-panel">
     <div class="panel-header">
       <h3>🔗 服务健康检查</h3>
-      <button class="refresh-btn" disabled="{{ isRefreshingServices }}" on-click="refreshServices">{{ isRefreshingServices ? '刷新中...' : '刷新' }}</button>
+      <button class="refresh-btn" disabled="{{isRefreshingServices}}" on-click="refreshServices">{{isRefreshingServices ? '刷新中...' : '刷新'}}</button>
     </div>
-    <service-grid
-      services="{{ services }}"
-      on-service-click="onServiceClick(service)"
-    />
+    <service-grid services="{{services}}" on-service-click="onServiceClick"></service-grid>
   </div>
 
   <div class="modal-overlay" s-if="showSettings" on-click="showSettings = false">
@@ -117,16 +106,12 @@
         <h3>系统设置</h3>
         <button class="close-btn" on-click="showSettings = false">✕</button>
       </div>
-      <settings-form
-        settings="{{ settings }}"
-        on-save="saveSettings(settings)"
-        on-cancel="showSettings = false"
-      />
+      <settings-form settings="{{settings}}" on-save="saveSettings" on-cancel="showSettings = false"></settings-form>
     </div>
   </div>
 
-  <div class="notification {{ notification.type }}" s-if="notification.show">
-    <span>{{ notification.message }}</span>
+  <div class="notification {{notification.type}}" s-if="notification.show">
+    <span>{{notification.message}}</span>
     <button on-click="hideNotification">✕</button>
   </div>
 </div>
@@ -136,129 +121,111 @@
 const san = require('san');
 const DataTypes = san.DataTypes;
 
-// Inline sub-components
+// Inline component definitions
 const kpiCard = san.defineComponent({
   name: 'kpi-card',
   template: `
-    <div class="kpi-card {{ status }}" on-click="fire('click', {kpi: this.data.get('title')})">
+    <div class="kpi-card {{status}}" on-click="fire('click', {kpi: {title: title, value: value, unit: unit, trend: trend, status: status, icon: icon}})">
       <div class="kpi-icon">{{ icon }}</div>
       <div class="kpi-content">
         <div class="kpi-title">{{ title }}</div>
         <div class="kpi-value">{{ value }}<span class="kpi-unit">{{ unit }}</span></div>
-        <div class="kpi-trend {{ trend >= 0 ? 'up' : 'down' }}">
+        <div class="kpi-trend {{trend >= 0 ? 'up' : 'down'}}">
           {{ trend >= 0 ? '▲' : '▼' }} {{ Math.abs(trend) }}%
         </div>
       </div>
     </div>
   `,
-  initData() {
-    return {
-      title: '',
-      value: 0,
-      unit: '',
-      trend: 0,
-      status: '',
-      icon: ''
-    };
+  components: {},
+  dataTypes: {
+    title: DataTypes.string,
+    value: DataTypes.any,
+    unit: DataTypes.string,
+    trend: DataTypes.number,
+    status: DataTypes.string,
+    icon: DataTypes.string
   }
 });
 
 const realTimeChart = san.defineComponent({
   name: 'real-time-chart',
   template: `
-    <div class="chart-wrapper {{ loading ? 'loading' : '' }}">
-      <svg width="100%" height="{{ height }}" viewBox="0 0 {{ width }} {{ height }}">
+    <div class="chart-wrapper {{loading ? 'loading' : ''}}">
+      <svg width="100%" height="{{height}}" viewBox="0 0 {{width}} {{height}}">
         <defs>
-          <linearGradient id="{{ gradientId }}" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="{{ color }}" stop-opacity="0.3"/>
-            <stop offset="100%" stop-color="{{ color }}" stop-opacity="0.0"/>
+          <linearGradient id="{{gradientId}}" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="{{color}}" stop-opacity="0.3"/>
+            <stop offset="100%" stop-color="{{color}}" stop-opacity="0.0"/>
           </linearGradient>
         </defs>
         <g s-for="i in 4 trackby i">
           <line
-            x1="0" y1="{{ i * (height / 4) }}"
-            x2="{{ width }}" y2="{{ i * (height / 4) }}"
+            x1="0" y1="{{i * (height / 4)}}"
+            x2="{{width}}" y2="{{i * (height / 4)}}"
             stroke="#e2e8f0" stroke-width="0.5" stroke-dasharray="3,3"
           />
         </g>
-        <polygon points="{{ areaPoints }}" fill="{{ 'url(#' + gradientId + ')' }}" />
-        <polyline points="{{ linePoints }}" fill="none" stroke="{{ color }}" stroke-width="2" stroke-linecap="round" />
+        <polygon points="{{areaPoints}}" fill="{{'url(#' + gradientId + ')'}}" />
+        <polyline points="{{linePoints}}" fill="none" stroke="{{color}}" stroke-width="2" stroke-linecap="round" />
         <circle
-          s-for="(point, idx) in dataPoints trackby idx"
-          cx="{{ getX(idx) }}"
-          cy="{{ getY(point) }}"
+          s-for="point in dataPoints trackby $index"
+          cx="{{getX($index)}}"
+          cy="{{getY(point)}}"
           r="3"
-          fill="{{ color }}"
+          fill="{{color}}"
           stroke="white"
           stroke-width="2"
         />
       </svg>
     </div>
   `,
-  initData() {
-    return {
-      width: 600,
-      data: [],
-      height: 250,
-      color: '#3b82f6',
-      loading: false
-    };
+  components: {},
+  dataTypes: {
+    data: DataTypes.array,
+    height: DataTypes.number,
+    color: DataTypes.string,
+    loading: DataTypes.bool
   },
   computed: {
     gradientId() {
-      const c = this.data.get('color').replace('#', '');
-      return `gradient-${c}`;
+      const color = this.data.get('color') || '#3b82f6';
+      return `gradient-${color.replace('#', '')}`;
     },
     dataPoints() {
-      const data = this.data.get('data');
+      const data = this.data.get('data') || [];
       return data.map(d => d.value);
     },
     maxValue() {
-      const points = this.data.get('dataPoints');
-      const max = Math.max(...points, 100);
+      const dataPoints = this.computed.dataPoints();
+      const max = Math.max(...dataPoints, 100);
       return max;
     },
     minValue() {
-      const points = this.data.get('dataPoints');
-      const min = Math.min(...points, 0);
+      const dataPoints = this.computed.dataPoints();
+      const min = Math.min(...dataPoints, 0);
       return min;
     },
     linePoints() {
-      const points = this.data.get('dataPoints');
-      const height = this.data.get('height');
-      const width = this.data.get('width');
-      return points.map((val, idx) => `${this.getX(idx)},${this.getY(val)}`).join(' ');
+      const dataPoints = this.computed.dataPoints();
+      const height = this.data.get('height') || 250;
+      const width = this.data.get('width') || 600;
+      return dataPoints.map((val, idx) => `${this.methods.getX(idx, width)},${this.methods.getY(val, height, this.computed.minValue(), this.computed.maxValue())}`).join(' ');
     },
     areaPoints() {
-      const points = this.data.get('dataPoints');
-      const height = this.data.get('height');
-      const width = this.data.get('width');
-      const str = points.map((val, idx) => `${this.getX(idx)},${this.getY(val)}`).join(' ');
-      return `0,${height} ${str} ${width},${height}`;
+      const dataPoints = this.computed.dataPoints();
+      const height = this.data.get('height') || 250;
+      const width = this.data.get('width') || 600;
+      const points = dataPoints.map((val, idx) => `${this.methods.getX(idx, width)},${this.methods.getY(val, height, this.computed.minValue(), this.computed.maxValue())}`);
+      return `0,${height} ${points.join(' ')} ${width},${height}`;
     }
   },
-  attached() {
-    this.updateWidth();
-    window.addEventListener('resize', this.updateWidth);
+  getX(index, width) {
+    const dataPoints = this.computed.dataPoints();
+    if (dataPoints.length <= 1) return width / 2;
+    return (index / (dataPoints.length - 1)) * width;
   },
-  detached() {
-    window.removeEventListener('resize', this.updateWidth);
-  },
-  updateWidth() {
-    if (this.el) {
-      this.data.set('width', this.el.clientWidth - 20);
-    }
-  },
-  getX(index) {
-    const points = this.data.get('dataPoints');
-    if (points.length <= 1) return this.data.get('width') / 2;
-    return (index / (points.length - 1)) * this.data.get('width');
-  },
-  getY(value) {
-    const maxValue = this.data.get('maxValue');
-    const minValue = this.data.get('minValue');
+  getY(value, height, minValue, maxValue) {
     const range = maxValue - minValue;
-    const height = this.data.get('height');
     if (range === 0) return height / 2;
     return height - ((value - minValue) / range) * height;
   }
@@ -268,19 +235,19 @@ const requestChart = san.defineComponent({
   name: 'request-chart',
   template: `
     <div class="request-chart">
-      <svg width="100%" height="{{ height }}" viewBox="0 0 800 300">
-        <g s-for="(item, idx) in data trackby idx">
+      <svg width="100%" height="{{height}}" viewBox="0 0 800 300">
+        <g s-for="item in data trackby $index">
           <rect
-            x="{{ getX(idx) }}"
+            x="{{getX($index)}}"
             y="0"
-            width="{{ barWidth }}"
-            height="{{ getHeight(item.count) }}"
-            fill="{{ getColor(item.status) }}"
+            width="{{barWidth}}"
+            height="{{getHeight(item.count)}}"
+            fill="{{getColor(item.status)}}"
             on-click="fire('bar-click', item)"
             style="cursor: pointer;"
           />
           <text
-            x="{{ getX(idx) + barWidth / 2 }}"
+            x="{{getX($index) + barWidth / 2}}"
             y="290"
             text-anchor="middle"
             font-size="10"
@@ -292,43 +259,42 @@ const requestChart = san.defineComponent({
       </svg>
       <div class="chart-legend">
         <span s-for="status in statusTypes trackby status.type" class="legend-item">
-          <span class="legend-color" style="{{ 'background: ' + status.color }};"></span>
+          <span class="legend-color" style="{{'background: ' + status.color}}"></span>
           {{ status.label }}
         </span>
       </div>
     </div>
   `,
-  initData() {
-    return {
-      data: [],
-      height: 300,
-      barWidth: 0,
-      maxCount: 100,
-      statusTypes: [
-        { type: 'success', label: '成功', color: '#10b981' },
-        { type: 'warning', label: '警告', color: '#f59e0b' },
-        { type: 'error', label: '错误', color: '#ef4444' }
-      ]
-    };
+  components: {},
+  dataTypes: {
+    data: DataTypes.array,
+    height: DataTypes.number
   },
   computed: {
     barWidth() {
-      const len = this.data.get('data').length;
-      return 800 / len - 4;
+      return 800 / (this.data.get('data')?.length || 1) - 4;
     },
     maxCount() {
-      const data = this.data.get('data');
+      const data = this.data.get('data') || [];
       const counts = data.map(d => d.count);
-      return Math.max(...counts, 100);
+      const max = Math.max(...counts, 100);
+      return max;
+    },
+    statusTypes() {
+      return [
+        { type: 'success', label: '成功', color: '#10b981' },
+        { type: 'warning', label: '警告', color: '#f59e0b' },
+        { type: 'error', label: '错误', color: '#ef4444' }
+      ];
     }
   },
   getX(index) {
-    const len = this.data.get('data').length;
-    return (index * 800) / len + 2;
+    const dataLength = this.data.get('data')?.length || 1;
+    return (index * 800) / dataLength + 2;
   },
   getHeight(count) {
-    const max = this.data.get('maxCount');
-    return (count / max) * 280;
+    const maxCount = this.computed.maxCount();
+    return (count / maxCount) * 280;
   },
   getColor(status) {
     const colors = { success: '#10b981', warning: '#f59e0b', error: '#ef4444' };
@@ -340,7 +306,7 @@ const alertList = san.defineComponent({
   name: 'alert-list',
   template: `
     <div class="alert-list">
-      <div s-for="alert in alerts trackby alert.id" class="alert-item {{ alert.severity }}">
+      <div s-for="alert in alerts trackby alert.id" class="alert-item {{alert.severity}}">
         <div class="alert-icon">
           {{ alert.severity === 'critical' ? '🔴' : (alert.severity === 'warning' ? '🟡' : '🔵') }}
         </div>
@@ -359,10 +325,9 @@ const alertList = san.defineComponent({
       </div>
     </div>
   `,
-  initData() {
-    return {
-      alerts: []
-    };
+  components: {},
+  dataTypes: {
+    alerts: DataTypes.array
   },
   formatTime(timestamp) {
     const date = new Date(timestamp);
@@ -378,7 +343,7 @@ const logList = san.defineComponent({
       <div s-else>
         <div s-for="log in logs trackby log.id" class="log-item" on-click="fire('log-click', log)">
           <span class="log-time">{{ formatTime(log.timestamp) }}</span>
-          <span class="log-level {{ log.level }}">{{ log.level.toUpperCase() }}</span>
+          <span class="log-level {{log.level}}">{{ log.level.toUpperCase() }}</span>
           <span class="log-message">{{ log.message }}</span>
           <span class="log-source">{{ log.source }}</span>
         </div>
@@ -388,11 +353,10 @@ const logList = san.defineComponent({
       </div>
     </div>
   `,
-  initData() {
-    return {
-      logs: [],
-      loading: false
-    };
+  components: {},
+  dataTypes: {
+    logs: DataTypes.array,
+    loading: DataTypes.bool
   },
   formatTime(timestamp) {
     const date = new Date(timestamp);
@@ -407,7 +371,9 @@ const serviceGrid = san.defineComponent({
       <div s-for="service in services trackby service.id" class="service-card" on-click="fire('service-click', service)">
         <div class="service-header">
           <span class="service-name">{{ service.name }}</span>
-          <span class="service-status {{ service.status }}">{{ getStatusText(service.status) }}</span>
+          <span class="service-status {{service.status}}">
+            {{ getStatusText(service.status) }}
+          </span>
         </div>
         <div class="service-metrics">
           <div class="metric">
@@ -420,15 +386,14 @@ const serviceGrid = san.defineComponent({
           </div>
         </div>
         <div class="service-progress">
-          <div class="progress-bar" style="{{ 'width: ' + service.availability + '%; background: ' + getProgressColor(service.availability) }};"></div>
+          <div class="progress-bar" style="{{'width: ' + service.availability + '%; background: ' + getProgressColor(service.availability)}}"></div>
         </div>
       </div>
     </div>
   `,
-  initData() {
-    return {
-      services: []
-    };
+  components: {},
+  dataTypes: {
+    services: DataTypes.array
   },
   getStatusText(status) {
     const texts = { healthy: '健康', warning: '警告', down: '离线' };
@@ -479,23 +444,27 @@ const settingsForm = san.defineComponent({
       </div>
     </form>
   `,
+  components: {},
+  dataTypes: {
+    settings: DataTypes.object
+  },
   initData() {
+    const settings = this.data.get('settings') || {};
     return {
-      localSettings: {}
+      localSettings: {
+        refreshInterval: settings.refreshInterval || 5,
+        alertThreshold: settings.alertThreshold || 80,
+        logRetention: settings.logRetention || '7',
+        autoRefresh: settings.autoRefresh !== undefined ? settings.autoRefresh : true,
+        desktopNotifications: settings.desktopNotifications !== undefined ? settings.desktopNotifications : false
+      }
     };
-  },
-  attached() {
-    const settings = this.data.get('settings');
-    this.data.set('localSettings', { ...settings });
-  },
-  handleSubmit(e) {
-    e.preventDefault();
-    this.fire('save', this.data.get('localSettings'));
   }
 });
 
 module.exports = san.defineComponent({
   name: 'MonitoringDashboard',
+  template: '<template/>',
   components: {
     'kpi-card': kpiCard,
     'real-time-chart': realTimeChart,
@@ -532,7 +501,7 @@ module.exports = san.defineComponent({
     dataGenerator: DataTypes.any,
     alertIdCounter: DataTypes.number
   },
-  initData() {
+  initDataImpl() {
     return {
       isDarkMode: false,
       showSettings: false,
@@ -582,54 +551,71 @@ module.exports = san.defineComponent({
   },
   computed: {
     systemHealth() {
-      const kpiData = this.data.get('kpiData');
-      const avgCpu = kpiData[0].value;
+      const kpiData = this.data.get('kpiData') || [];
+      const avgCpu = kpiData[0]?.value || 0;
       if (avgCpu > 80) return 'critical';
       if (avgCpu > 60) return 'warning';
       return 'healthy';
     },
     systemHealthText() {
       const texts = { healthy: '健康', warning: '警告', critical: '严重' };
-      return texts[this.data.get('systemHealth')];
+      return texts[this.computed.systemHealth()];
     },
     filteredLogs() {
       const logFilter = this.data.get('logFilter');
-      const systemLogs = this.data.get('systemLogs');
+      const systemLogs = this.data.get('systemLogs') || [];
       if (logFilter === 'all') return systemLogs;
       return systemLogs.filter(log => log.level === logFilter);
     }
   },
   inited() {
-    // Watch settings for auto-refresh
-    this.watch('settings', () => {
-      const newVal = this.data.get('settings');
+    // Initialize state from localStorage for settings
+    try {
+      const saved = localStorage.getItem('dashboard_settings');
+      if (saved) {
+        const loaded = JSON.parse(saved);
+        const settings = this.data.get('settings');
+        this.data.set('settings', { ...settings, ...loaded });
+      }
+    } catch (e) {
+      console.error('加载设置失败', e);
+    }
+
+    // Watch settings for auto-refresh changes
+    this.watch('settings', (newVal, oldVal) => {
       if (newVal.autoRefresh && !this.data.get('refreshTimer')) {
         this.startAutoRefresh();
       } else if (!newVal.autoRefresh && this.data.get('refreshTimer')) {
         this.stopAutoRefresh();
       }
-    }, { deep: true });
+    }, { immediate: false });
   },
   attached() {
-    this.initData();
+    this.initDataImpl();
     this.startTimeUpdate();
     this.startDataSimulation();
-    if (this.data.get('settings').autoRefresh) {
+    const settings = this.data.get('settings');
+    if (settings.autoRefresh) {
       this.startAutoRefresh();
     }
     this.showNotification('监控仪表盘已启动', 'success');
+
+    // Request notification permission if needed
+    if ('Notification' in window && settings.desktopNotifications) {
+      Notification.requestPermission();
+    }
   },
   disposed() {
     this.stopAutoRefresh();
     this.stopTimeUpdate();
     this.stopDataSimulation();
-    const timer = this.data.get('notificationTimer');
-    if (timer) {
-      clearTimeout(timer);
+    const notificationTimer = this.data.get('notificationTimer');
+    if (notificationTimer) {
+      clearTimeout(notificationTimer);
       this.data.set('notificationTimer', null);
     }
   },
-  initData() {
+  initDataImpl() {
     this.updateDateTime();
     this.initChartData();
     this.initRequestStats();
@@ -697,7 +683,6 @@ module.exports = san.defineComponent({
       '服务重启', '配置更新', '磁盘空间不足', '网络延迟增加'
     ];
     const sources = ['API Gateway', 'Auth Service', 'Database', 'Cache', 'Worker'];
-
     const systemLogs = [];
     for (let i = 0; i < 50; i++) {
       const level = levels[Math.floor(Math.random() * levels.length)];
@@ -749,28 +734,31 @@ module.exports = san.defineComponent({
     }
   },
   simulateDataUpdate() {
-    const kpiData = this.data.get('kpiData');
-    const newKpiData = [...kpiData];
-    newKpiData[0].value = Math.max(5, Math.min(95, kpiData[0].value + (Math.random() - 0.5) * 3));
-    newKpiData[1].value = Math.max(30, Math.min(90, kpiData[1].value + (Math.random() - 0.5) * 2));
-    newKpiData[2].value = Math.max(95, Math.min(100, kpiData[2].value + (Math.random() - 0.5) * 0.5));
-    newKpiData[3].value = Math.max(50, Math.min(500, kpiData[3].value + (Math.random() - 0.5) * 10));
+    const kpiData = [...(this.data.get('kpiData') || [])];
+    const cpuHistory = [...(this.data.get('cpuHistory') || [])];
+    const memoryHistory = [...(this.data.get('memoryHistory') || [])];
 
+    // Update KPI data
+    kpiData[0].value = Math.max(5, Math.min(95, kpiData[0].value + (Math.random() - 0.5) * 3));
+    kpiData[1].value = Math.max(30, Math.min(90, kpiData[1].value + (Math.random() - 0.5) * 2));
+    kpiData[2].value = Math.max(95, Math.min(100, kpiData[2].value + (Math.random() - 0.5) * 0.5));
+    kpiData[3].value = Math.max(50, Math.min(500, kpiData[3].value + (Math.random() - 0.5) * 10));
+
+    // Update chart data
     const newCpuValue = 30 + Math.random() * 50;
     const newMemoryValue = 40 + Math.random() * 40;
 
-    const cpuHistory = this.data.get('cpuHistory');
-    const newCpuHistory = [...cpuHistory, { time: Date.now(), value: newCpuValue }];
-    if (newCpuHistory.length > 60) newCpuHistory.shift();
+    cpuHistory.push({ time: Date.now(), value: newCpuValue });
+    memoryHistory.push({ time: Date.now(), value: newMemoryValue });
 
-    const memoryHistory = this.data.get('memoryHistory');
-    const newMemoryHistory = [...memoryHistory, { time: Date.now(), value: newMemoryValue }];
-    if (newMemoryHistory.length > 60) newMemoryHistory.shift();
+    if (cpuHistory.length > 60) cpuHistory.shift();
+    if (memoryHistory.length > 60) memoryHistory.shift();
 
-    this.data.set('kpiData', newKpiData);
-    this.data.set('cpuHistory', newCpuHistory);
-    this.data.set('memoryHistory', newMemoryHistory);
+    this.data.set('kpiData', kpiData);
+    this.data.set('cpuHistory', cpuHistory);
+    this.data.set('memoryHistory', memoryHistory);
 
+    // Check and generate alerts
     if (newCpuValue > 85 && Math.random() > 0.7) {
       this.addAlert('CPU使用率异常', `CPU使用率达到 ${newCpuValue.toFixed(1)}%`, 'critical');
     }
@@ -778,6 +766,7 @@ module.exports = san.defineComponent({
       this.addAlert('内存使用率过高', `内存使用率达到 ${newMemoryValue.toFixed(1)}%`, 'warning');
     }
 
+    // Add random log
     if (Math.random() > 0.7) {
       const levels = ['info', 'warning', 'error'];
       const level = levels[Math.floor(Math.random() * levels.length)];
@@ -785,7 +774,7 @@ module.exports = san.defineComponent({
     }
   },
   refreshAllData() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.data.set('isChartLoading', true);
       this.data.set('isRefreshingServices', true);
       this.showNotification('正在刷新数据...', 'info');
@@ -805,10 +794,10 @@ module.exports = san.defineComponent({
   },
   startAutoRefresh() {
     this.stopAutoRefresh();
-    const interval = this.data.get('settings').refreshInterval * 1000;
+    const settings = this.data.get('settings');
     const refreshTimer = setInterval(() => {
       this.refreshAllData();
-    }, interval);
+    }, settings.refreshInterval * 1000);
     this.data.set('refreshTimer', refreshTimer);
   },
   stopAutoRefresh() {
@@ -828,7 +817,6 @@ module.exports = san.defineComponent({
     const timeTimer = this.data.get('timeTimer');
     if (timeTimer) {
       clearInterval(timeTimer);
-      this.data.set('timeTimer', null);
     }
   },
   updateDateTime() {
@@ -849,10 +837,9 @@ module.exports = san.defineComponent({
       severity,
       timestamp: Date.now()
     };
-    const activeAlerts = this.data.get('activeAlerts');
-    const newActiveAlerts = [newAlert, ...activeAlerts];
+    const activeAlerts = [newAlert, ...this.data.get('activeAlerts')];
     this.data.set('alertIdCounter', alertIdCounter);
-    this.data.set('activeAlerts', newActiveAlerts);
+    this.data.set('activeAlerts', activeAlerts);
     this.showNotification(`新告警: ${title}`, 'warning');
 
     const settings = this.data.get('settings');
@@ -861,25 +848,24 @@ module.exports = san.defineComponent({
     }
   },
   acknowledgeAlert(alertId) {
-    const activeAlerts = this.data.get('activeAlerts');
-    const alert = activeAlerts.find(a => a.id === alertId);
-    if (alert) {
-      const newAlert = { ...alert, acknowledged: true };
-      const newActiveAlerts = activeAlerts.map(a => a.id === alertId ? newAlert : a);
-      this.data.set('activeAlerts', newActiveAlerts);
-      this.showNotification(`已确认告警: ${alert.title}`, 'info');
+    const activeAlerts = this.data.get('activeAlerts') || [];
+    const alertIndex = activeAlerts.findIndex(a => a.id === alertId);
+    if (alertIndex !== -1) {
+      const updatedAlerts = [...activeAlerts];
+      updatedAlerts[alertIndex] = { ...updatedAlerts[alertIndex], acknowledged: true };
+      this.data.set('activeAlerts', updatedAlerts);
+      this.showNotification(`已确认告警: ${updatedAlerts[alertIndex].title}`, 'info');
     }
   },
   resolveAlert(alertId) {
-    const activeAlerts = this.data.get('activeAlerts');
+    const activeAlerts = this.data.get('activeAlerts') || [];
     const index = activeAlerts.findIndex(a => a.id === alertId);
     if (index !== -1) {
       const resolved = activeAlerts[index];
-      const newActiveAlerts = [...activeAlerts.slice(0, index), ...activeAlerts.slice(index + 1)];
-      const alertHistory = this.data.get('alertHistory');
-      const newAlertHistory = [...alertHistory, { ...resolved, resolvedAt: Date.now() }];
-      this.data.set('activeAlerts', newActiveAlerts);
-      this.data.set('alertHistory', newAlertHistory);
+      const updatedActiveAlerts = [...activeAlerts.slice(0, index), ...activeAlerts.slice(index + 1)];
+      const alertHistory = [...this.data.get('alertHistory'), { ...resolved, resolvedAt: Date.now() }];
+      this.data.set('activeAlerts', updatedActiveAlerts);
+      this.data.set('alertHistory', alertHistory);
       this.showNotification(`已解决告警: ${resolved.title}`, 'success');
     }
   },
@@ -895,12 +881,11 @@ module.exports = san.defineComponent({
       source,
       timestamp: Date.now()
     };
-    const systemLogs = this.data.get('systemLogs');
-    const newSystemLogs = [newLog, ...systemLogs];
-    if (newSystemLogs.length > 500) {
-      this.data.set('systemLogs', newSystemLogs.slice(0, 500));
+    const systemLogs = [newLog, ...this.data.get('systemLogs')];
+    if (systemLogs.length > 500) {
+      this.data.set('systemLogs', systemLogs.slice(0, 500));
     } else {
-      this.data.set('systemLogs', newSystemLogs);
+      this.data.set('systemLogs', systemLogs);
     }
   },
   filterLogs() {
@@ -961,30 +946,27 @@ module.exports = san.defineComponent({
     this.showNotification(`已切换到${isDarkMode ? '暗色' : '亮色'}模式`, 'info');
   },
   showNotification(message, type) {
-    const timer = this.data.get('notificationTimer');
-    if (timer) {
-      clearTimeout(timer);
+    const notificationTimer = this.data.get('notificationTimer');
+    if (notificationTimer) {
+      clearTimeout(notificationTimer);
     }
     this.data.set('notification', {
       show: true,
       message,
       type
     });
-    const notificationTimer = setTimeout(() => {
+    const timer = setTimeout(() => {
       this.hideNotification();
       this.data.set('notificationTimer', null);
     }, 3000);
-    this.data.set('notificationTimer', notificationTimer);
+    this.data.set('notificationTimer', timer);
   },
   hideNotification() {
-    const notification = this.data.get('notification');
-    this.data.set('notification', {
-      ...notification,
-      show: false
-    });
+    this.data.set('notification.show', false);
   },
   requestNotificationPermission() {
-    if ('Notification' in window && this.data.get('settings').desktopNotifications) {
+    const settings = this.data.get('settings');
+    if ('Notification' in window && settings.desktopNotifications) {
       Notification.requestPermission();
     }
   }
@@ -1695,11 +1677,9 @@ module.exports = san.defineComponent({
   .charts-grid {
     grid-template-columns: 1fr;
   }
-  
   .events-grid {
     grid-template-columns: 1fr;
   }
-  
   .service-grid {
     grid-template-columns: 1fr;
   }
@@ -1710,7 +1690,6 @@ module.exports = san.defineComponent({
     flex-direction: column;
     gap: 12px;
   }
-  
   .kpi-grid {
     grid-template-columns: repeat(2, 1fr);
   }

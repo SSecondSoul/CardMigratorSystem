@@ -1,0 +1,47 @@
+{
+  "snapshot_id": "formal_30_v4_deferred_monitoring_dashboard_missing_registration_failed_20261024_105440",
+  "created_at": "2026-10-24T10:54:40+08:00",
+  "purpose": "Freeze the complete MonitoringDashboard rerun after the parent initData deterministic normalizer, before diagnosing the missing child-component registrations.",
+  "batch_id": "formal_30_v4_deferred_regression",
+  "sample_id": "MonitoringDashboard",
+  "component_name": "MonitoringDashboard",
+  "classification": "development_internal_regression",
+  "not_independent_holdout": true,
+  "status": "frozen_failed_missing_component_registration",
+  "implementation_commit": "eafcd3d43805747d5c9665047c260b66b1b4a913",
+  "result": {
+    "started_at": "2026-10-24T10:39:19+08:00",
+    "finished_at": "2026-10-24T10:53:42+08:00",
+    "elapsed_seconds": 863.093,
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 106671,
+    "repair_tokens": 265399,
+    "total_tokens": 372070,
+    "final_validation_error_codes": ["missing_component_registration"],
+    "final_visual_error_codes": ["san_render_failed", "san_san_render_error"],
+    "missing_components": [
+      "alert-list",
+      "kpi-card",
+      "log-list",
+      "real-time-chart",
+      "request-chart",
+      "service-grid",
+      "settings-form"
+    ],
+    "final_structure_similarity": 0.0,
+    "final_tag_sequence_similarity": 0.0,
+    "final_text_similarity": 0.0,
+    "final_tree_edit_distance": 0.0
+  },
+  "decision": "Preserve this failed rerun and add a guarded deterministic registration repair only when all referenced inline component definitions are present.",
+  "boundaries": [
+    "This sample is a reused development case and is not independent holdout evidence.",
+    "The generated San artifacts and repair history are preserved exactly as produced.",
+    "Registration repair must not invent component definitions or alter unrelated components."
+  ],
+  "integrity_file": "SHA256SUMS.txt"
+}

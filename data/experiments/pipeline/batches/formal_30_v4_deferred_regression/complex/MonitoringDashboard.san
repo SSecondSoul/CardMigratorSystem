@@ -19,14 +19,13 @@
   <div class="kpi-grid">
     <kpi-card
       s-for="kpi in kpiData trackby kpi.id"
-      key="{{ kpi.id }}"
       title="{{ kpi.title }}"
       value="{{ kpi.value }}"
       unit="{{ kpi.unit }}"
       trend="{{ kpi.trend }}"
       status="{{ kpi.status }}"
       icon="{{ kpi.icon }}"
-      on-click="onKPIClick"
+      on-click="onKPIClick(kpi)"
     />
   </div>
 
@@ -37,8 +36,8 @@
         <div class="chart-controls">
           <button
             s-for="period in timePeriods trackby period.value"
-            class="{{ selectedPeriod === period.value ? 'active' : '' }}"
-            on-click="changePeriod"
+            class="period-btn {{ selectedPeriod === period.value ? 'active' : '' }}"
+            on-click="changePeriod(period.value)"
           >{{ period.label }}</button>
         </div>
       </div>
@@ -71,7 +70,7 @@
       <div class="panel-header">
         <h3>🚨 实时告警</h3>
         <span class="alert-count">{{ activeAlerts.length }}</span>
-        <button class="clear-btn" s-if="{{ activeAlerts.length }}" on-click="clearAlerts">清空</button>
+        <button class="clear-btn" s-if="activeAlerts.length" on-click="clearAlerts">清空</button>
       </div>
       <alert-list
         alerts="{{ activeAlerts }}"
@@ -112,7 +111,7 @@
     />
   </div>
 
-  <div class="modal-overlay" s-if="{{ showSettings }}" on-click="showSettings = false">
+  <div class="modal-overlay" s-if="showSettings" on-click="showSettings = false">
     <div class="modal-content">
       <div class="modal-header">
         <h3>系统设置</h3>
@@ -126,7 +125,7 @@
     </div>
   </div>
 
-  <div class="notification" s-if="{{ notification.show }}" class="{{ notification.type }}">
+  <div class="notification {{ notification.type }}" s-if="notification.show">
     <span>{{ notification.message }}</span>
     <button on-click="hideNotification">✕</button>
   </div>
@@ -185,8 +184,8 @@ const realTimeChart = san.defineComponent({
         <polygon points="{{ areaPoints }}" fill="{{ 'url(#' + gradientId + ')' }}" />
         <polyline points="{{ linePoints }}" fill="none" stroke="{{ color }}" stroke-width="2" stroke-linecap="round" />
         <circle
-          s-for="(point, idx) in dataPoints trackby idx"
-          cx="{{ getX(idx) }}"
+          s-for="point in dataPoints trackby $index"
+          cx="{{ getX($index) }}"
           cy="{{ getY(point) }}"
           r="3"
           fill="{{ color }}"
@@ -226,24 +225,38 @@ const realTimeChart = san.defineComponent({
     },
     linePoints() {
       const points = this.data.get('dataPoints');
-      const height = this.data.get('height');
       const width = this.data.get('width');
-      return points.map((val, idx) => `${this.getX(idx)},${this.getY(val)}`).join(' ');
+      const height = this.data.get('height');
+      const max = this.data.get('maxValue');
+      const min = this.data.get('minValue');
+      return points.map((val, idx) => {
+        const x = (idx / (points.length - 1)) * width;
+        const range = max - min;
+        const y = range === 0 ? height / 2 : height - ((val - min) / range) * height;
+        return `${x},${y}`;
+      }).join(' ');
     },
     areaPoints() {
       const points = this.data.get('dataPoints');
-      const height = this.data.get('height');
       const width = this.data.get('width');
-      const str = points.map((val, idx) => `${this.getX(idx)},${this.getY(val)}`).join(' ');
-      return `0,${height} ${str} ${width},${height}`;
+      const height = this.data.get('height');
+      const max = this.data.get('maxValue');
+      const min = this.data.get('minValue');
+      const areaPoints = points.map((val, idx) => {
+        const x = (idx / (points.length - 1)) * width;
+        const range = max - min;
+        const y = range === 0 ? height / 2 : height - ((val - min) / range) * height;
+        return `${x},${y}`;
+      });
+      return `0,${height} ${areaPoints.join(' ')} ${width},${height}`;
     }
   },
   attached() {
     this.updateWidth();
-    window.addEventListener('resize', this.updateWidth);
+    window.addEventListener('resize', this.updateWidth.bind(this));
   },
   detached() {
-    window.removeEventListener('resize', this.updateWidth);
+    window.removeEventListener('resize', this.updateWidth.bind(this));
   },
   methods: {
     updateWidth() {
@@ -257,12 +270,12 @@ const realTimeChart = san.defineComponent({
       return (index / (points.length - 1)) * this.data.get('width');
     },
     getY(value) {
-      const maxValue = this.data.get('maxValue');
-      const minValue = this.data.get('minValue');
-      const range = maxValue - minValue;
+      const max = this.data.get('maxValue');
+      const min = this.data.get('minValue');
+      const range = max - min;
       const height = this.data.get('height');
       if (range === 0) return height / 2;
-      return height - ((value - minValue) / range) * height;
+      return height - ((value - min) / range) * height;
     }
   }
 });
@@ -272,9 +285,9 @@ const requestChart = san.defineComponent({
   template: `
     <div class="request-chart">
       <svg width="100%" height="{{ height }}" viewBox="0 0 800 300">
-        <g s-for="(item, idx) in data trackby idx">
+        <g s-for="item in data trackby $index">
           <rect
-            x="{{ getX(idx) }}"
+            x="{{ getX($index) }}"
             y="0"
             width="{{ barWidth }}"
             height="{{ getHeight(item.count) }}"
@@ -283,14 +296,12 @@ const requestChart = san.defineComponent({
             style="cursor: pointer;"
           />
           <text
-            x="{{ getX(idx) + barWidth / 2 }}"
+            x="{{ getX($index) + barWidth / 2 }}"
             y="290"
             text-anchor="middle"
             font-size="10"
             fill="#64748b"
-          >
-            {{ item.hour }}
-          </text>
+          >{{ item.hour }}</text>
         </g>
       </svg>
       <div class="chart-legend">
@@ -306,7 +317,7 @@ const requestChart = san.defineComponent({
       data: [],
       height: 300,
       barWidth: 0,
-      maxCount: 100,
+      maxCount: 0,
       statusTypes: [
         { type: 'success', label: '成功', color: '#10b981' },
         { type: 'warning', label: '警告', color: '#f59e0b' },
@@ -317,7 +328,7 @@ const requestChart = san.defineComponent({
   computed: {
     barWidth() {
       const len = this.data.get('data').length;
-      return 800 / len - 4;
+      return len > 0 ? 800 / len - 4 : 0;
     },
     maxCount() {
       const data = this.data.get('data');
@@ -328,7 +339,7 @@ const requestChart = san.defineComponent({
   methods: {
     getX(index) {
       const len = this.data.get('data').length;
-      return (index * 800) / len + 2;
+      return len > 0 ? (index * 800) / len + 2 : 0;
     },
     getHeight(count) {
       const max = this.data.get('maxCount');
@@ -359,7 +370,7 @@ const alertList = san.defineComponent({
           <button on-click="fire('resolve', alert.id)" class="alert-btn resolve">解决</button>
         </div>
       </div>
-      <div s-if="{{ alerts.length === 0 }}" class="empty-alerts">
+      <div s-if="alerts.length === 0" class="empty-alerts">
         ✅ 暂无告警，系统运行正常
       </div>
     </div>
@@ -381,7 +392,7 @@ const logList = san.defineComponent({
   name: 'log-list',
   template: `
     <div class="log-list">
-      <div s-if="{{ loading }}" class="log-loading">加载日志中...</div>
+      <div s-if="loading" class="log-loading">加载日志中...</div>
       <div s-else>
         <div s-for="log in logs trackby log.id" class="log-item" on-click="fire('log-click', log)">
           <span class="log-time">{{ formatTime(log.timestamp) }}</span>
@@ -389,7 +400,7 @@ const logList = san.defineComponent({
           <span class="log-message">{{ log.message }}</span>
           <span class="log-source">{{ log.source }}</span>
         </div>
-        <div s-if="{{ logs.length === 0 }}" class="empty-logs">
+        <div s-if="logs.length === 0" class="empty-logs">
           暂无日志记录
         </div>
       </div>
@@ -500,8 +511,7 @@ const settingsForm = san.defineComponent({
     this.data.set('localSettings', { ...settings });
   },
   methods: {
-    handleSubmit(e) {
-      e.preventDefault();
+    handleSubmit() {
       this.fire('save', this.data.get('localSettings'));
     }
   }
@@ -517,33 +527,6 @@ module.exports = san.defineComponent({
     'log-list': logList,
     'service-grid': serviceGrid,
     'settings-form': settingsForm
-  },
-  dataTypes: {
-    isDarkMode: DataTypes.bool,
-    showSettings: DataTypes.bool,
-    selectedPeriod: DataTypes.string,
-    isChartLoading: DataTypes.bool,
-    isLogLoading: DataTypes.bool,
-    isRefreshingServices: DataTypes.bool,
-    currentDate: DataTypes.string,
-    currentTime: DataTypes.string,
-    timePeriods: DataTypes.array,
-    kpiData: DataTypes.array,
-    cpuHistory: DataTypes.array,
-    memoryHistory: DataTypes.array,
-    requestStats: DataTypes.array,
-    activeAlerts: DataTypes.array,
-    alertHistory: DataTypes.array,
-    systemLogs: DataTypes.array,
-    logFilter: DataTypes.string,
-    services: DataTypes.array,
-    settings: DataTypes.object,
-    notification: DataTypes.object,
-    refreshTimer: DataTypes.any,
-    timeTimer: DataTypes.any,
-    notificationTimer: DataTypes.any,
-    dataGenerator: DataTypes.any,
-    alertIdCounter: DataTypes.number
   },
   initData() {
     return {
@@ -613,28 +596,27 @@ module.exports = san.defineComponent({
     }
   },
   inited() {
-    // Watch settings for auto-refresh
+    // Watch settings for deep changes
     this.watch('settings', () => {
       const newVal = this.data.get('settings');
+      const oldVal = this.data.get('__old_settings__');
       if (newVal.autoRefresh && !this.data.get('refreshTimer')) {
         this.startAutoRefresh();
       } else if (!newVal.autoRefresh && this.data.get('refreshTimer')) {
         this.stopAutoRefresh();
       }
-    }, { deep: true });
+      this.data.set('__old_settings__', { ...newVal });
+    }, { immediate: true });
+
+    // Initialize __old_settings__
+    this.data.set('__old_settings__', { ...this.data.get('settings') });
   },
   attached() {
-    this.initData();
-    this.updateDateTime();
-    this.initChartData();
-    this.initRequestStats();
-    this.initAlerts();
-    this.initLogs();
-    this.initServices();
-    this.loadSettings();
+    this.initDataInternal();
     this.startTimeUpdate();
     this.startDataSimulation();
-    if (this.data.get('settings').autoRefresh) {
+    const settings = this.data.get('settings');
+    if (settings.autoRefresh) {
       this.startAutoRefresh();
     }
     this.showNotification('监控仪表盘已启动', 'success');
@@ -643,15 +625,20 @@ module.exports = san.defineComponent({
     this.stopAutoRefresh();
     this.stopTimeUpdate();
     this.stopDataSimulation();
-    const timer = this.data.get('notificationTimer');
-    if (timer) {
-      clearTimeout(timer);
+    if (this.data.get('notificationTimer')) {
+      clearTimeout(this.data.get('notificationTimer'));
       this.data.set('notificationTimer', null);
     }
   },
   methods: {
-    initData() {
-      // Already handled by initData factory
+    initDataInternal() {
+      this.updateDateTime();
+      this.initChartData();
+      this.initRequestStats();
+      this.initAlerts();
+      this.initLogs();
+      this.initServices();
+      this.loadSettings();
     },
     initChartData() {
       const now = Date.now();
@@ -712,7 +699,6 @@ module.exports = san.defineComponent({
         '服务重启', '配置更新', '磁盘空间不足', '网络延迟增加'
       ];
       const sources = ['API Gateway', 'Auth Service', 'Database', 'Cache', 'Worker'];
-
       const systemLogs = [];
       for (let i = 0; i < 50; i++) {
         const level = levels[Math.floor(Math.random() * levels.length)];
@@ -751,15 +737,15 @@ module.exports = san.defineComponent({
       }
     },
     startDataSimulation() {
-      const dataGenerator = setInterval(() => {
+      const timer = setInterval(() => {
         this.simulateDataUpdate();
       }, 2000);
-      this.data.set('dataGenerator', dataGenerator);
+      this.data.set('dataGenerator', timer);
     },
     stopDataSimulation() {
-      const dataGenerator = this.data.get('dataGenerator');
-      if (dataGenerator) {
-        clearInterval(dataGenerator);
+      const timer = this.data.get('dataGenerator');
+      if (timer) {
+        clearInterval(timer);
         this.data.set('dataGenerator', null);
       }
     },
@@ -777,13 +763,8 @@ module.exports = san.defineComponent({
       const memoryHistory = this.data.get('memoryHistory');
       cpuHistory.push({ time: Date.now(), value: newCpuValue });
       memoryHistory.push({ time: Date.now(), value: newMemoryValue });
-
       if (cpuHistory.length > 60) cpuHistory.shift();
       if (memoryHistory.length > 60) memoryHistory.shift();
-
-      this.data.set('kpiData', [...kpiData]);
-      this.data.set('cpuHistory', [...cpuHistory]);
-      this.data.set('memoryHistory', [...memoryHistory]);
 
       if (newCpuValue > 85 && Math.random() > 0.7) {
         this.addAlert('CPU使用率异常', `CPU使用率达到 ${newCpuValue.toFixed(1)}%`, 'critical');
@@ -819,29 +800,30 @@ module.exports = san.defineComponent({
     },
     startAutoRefresh() {
       this.stopAutoRefresh();
-      const interval = this.data.get('settings').refreshInterval * 1000;
-      const refreshTimer = setInterval(() => {
+      const settings = this.data.get('settings');
+      const timer = setInterval(() => {
         this.refreshAllData();
-      }, interval);
-      this.data.set('refreshTimer', refreshTimer);
+      }, settings.refreshInterval * 1000);
+      this.data.set('refreshTimer', timer);
     },
     stopAutoRefresh() {
-      const refreshTimer = this.data.get('refreshTimer');
-      if (refreshTimer) {
-        clearInterval(refreshTimer);
+      const timer = this.data.get('refreshTimer');
+      if (timer) {
+        clearInterval(timer);
         this.data.set('refreshTimer', null);
       }
     },
     startTimeUpdate() {
-      const timeTimer = setInterval(() => {
+      const timer = setInterval(() => {
         this.updateDateTime();
       }, 1000);
-      this.data.set('timeTimer', timeTimer);
+      this.data.set('timeTimer', timer);
     },
     stopTimeUpdate() {
-      const timeTimer = this.data.get('timeTimer');
-      if (timeTimer) {
-        clearInterval(timeTimer);
+      const timer = this.data.get('timeTimer');
+      if (timer) {
+        clearInterval(timer);
+        this.data.set('timeTimer', null);
       }
     },
     updateDateTime() {
@@ -865,11 +847,11 @@ module.exports = san.defineComponent({
       const activeAlerts = this.data.get('activeAlerts');
       activeAlerts.unshift(newAlert);
       this.data.set('alertIdCounter', alertIdCounter);
-      this.data.set('activeAlerts', [...activeAlerts]);
+      this.data.set('activeAlerts', activeAlerts);
       this.showNotification(`新告警: ${title}`, 'warning');
 
       const settings = this.data.get('settings');
-      if (settings.desktopNotifications && Notification.permission === 'granted') {
+      if (settings.desktopNotifications && typeof Notification !== 'undefined' && Notification.permission === 'granted') {
         new Notification(title, { body: description });
       }
     },
@@ -889,8 +871,8 @@ module.exports = san.defineComponent({
         const resolved = activeAlerts.splice(index, 1)[0];
         const alertHistory = this.data.get('alertHistory');
         alertHistory.push({ ...resolved, resolvedAt: Date.now() });
-        this.data.set('activeAlerts', [...activeAlerts]);
-        this.data.set('alertHistory', [...alertHistory]);
+        this.data.set('activeAlerts', activeAlerts);
+        this.data.set('alertHistory', alertHistory);
         this.showNotification(`已解决告警: ${resolved.title}`, 'success');
       }
     },
@@ -911,7 +893,7 @@ module.exports = san.defineComponent({
       if (systemLogs.length > 500) {
         this.data.set('systemLogs', systemLogs.slice(0, 500));
       } else {
-        this.data.set('systemLogs', [...systemLogs]);
+        this.data.set('systemLogs', systemLogs);
       }
     },
     filterLogs() {
@@ -935,16 +917,19 @@ module.exports = san.defineComponent({
       this.showNotification(`服务详情: ${service.name} (${service.status})`, 'info');
     },
     exportReport() {
+      const kpiData = this.data.get('kpiData');
+      const activeAlerts = this.data.get('activeAlerts');
+      const services = this.data.get('services');
       const report = {
         exportTime: new Date().toISOString(),
-        kpi: this.data.get('kpiData'),
-        alerts: this.data.get('activeAlerts'),
-        services: this.data.get('services'),
+        kpi: kpiData,
+        alerts: activeAlerts,
+        services: services,
         summary: {
-          totalAlerts: this.data.get('activeAlerts').length,
-          healthyServices: this.data.get('services').filter(s => s.status === 'healthy').length,
-          avgCpu: this.data.get('kpiData')[0].value,
-          avgMemory: this.data.get('kpiData')[1].value
+          totalAlerts: activeAlerts.length,
+          healthyServices: services.filter(s => s.status === 'healthy').length,
+          avgCpu: kpiData[0].value,
+          avgMemory: kpiData[1].value
         }
       };
 
@@ -990,7 +975,7 @@ module.exports = san.defineComponent({
     hideNotification() {
       const notification = this.data.get('notification');
       notification.show = false;
-      this.data.set('notification', { ...notification });
+      this.data.set('notification', notification);
     },
     requestNotificationPermission() {
       if ('Notification' in window && this.data.get('settings').desktopNotifications) {
@@ -1705,11 +1690,9 @@ module.exports = san.defineComponent({
   .charts-grid {
     grid-template-columns: 1fr;
   }
-  
   .events-grid {
     grid-template-columns: 1fr;
   }
-  
   .service-grid {
     grid-template-columns: 1fr;
   }
@@ -1720,7 +1703,6 @@ module.exports = san.defineComponent({
     flex-direction: column;
     gap: 12px;
   }
-  
   .kpi-grid {
     grid-template-columns: repeat(2, 1fr);
   }

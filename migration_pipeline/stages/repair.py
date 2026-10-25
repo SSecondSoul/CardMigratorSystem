@@ -138,6 +138,7 @@ class RepairStage:
             current_code,
             stage_input.validation_errors,
             stage_input.visual_eval_errors,
+            stage_input.ssm,
         )
         if deterministic_code != current_code:
             normalizer_model = (
@@ -227,6 +228,20 @@ class RepairStage:
                     "pipeline_postprocessing": [
                         *result.raw_response.get("pipeline_postprocessing", []),
                         "renamed_parent_business_initData",
+                    ],
+                }
+        normalized_code = self._normalize_missing_component_registration(
+            result.code,
+            stage_input.ssm,
+        )
+        if normalized_code != result.code:
+            result.code = normalized_code
+            if isinstance(result.raw_response, dict):
+                result.raw_response = {
+                    **result.raw_response,
+                    "pipeline_postprocessing": [
+                        *result.raw_response.get("pipeline_postprocessing", []),
+                        "registered_defined_inline_components",
                     ],
                 }
         if any(
@@ -629,24 +644,79 @@ class RepairStage:
         if object_close < 0:
             return code
 
+        def top_level_methods(name: str) -> list[re.Match[str]]:
+            matches = []
+            for candidate in re.finditer(
+                rf"(?m)^([ \t]*){re.escape(name)}\s*\([^)]*\)\s*\{{",
+                code,
+            ):
+                if object_open < candidate.start() < object_close and cls._js_brace_depth_at(
+                    code,
+                    object_open + 1,
+                    candidate.start(),
+                ) == 1:
+                    matches.append(candidate)
+            return matches
+
+        init_data_matches = top_level_methods("initData")
+        init_impl_matches = top_level_methods("initDataImpl")
         method_match = None
-        for candidate in re.finditer(
-            r"(?m)^([ \t]*)initData\s*\([^)]*\)\s*\{",
-            code,
-        ):
-            if not (object_open < candidate.start() < object_close):
-                continue
-            if cls._js_brace_depth_at(code, object_open + 1, candidate.start()) == 1:
+        old_name = ""
+        extra_renames: list[tuple[int, int, str]] = []
+
+        if len(init_data_matches) > 1:
+            # Keep San's state factory (the first definition) and rename the
+            # later Vue business method.
+            method_match = init_data_matches[-1]
+            old_name = "initData"
+        elif len(init_data_matches) == 1:
+            # A lone method returning an object is already San's state
+            # factory.  A lone imperative method is the Vue business method.
+            candidate = init_data_matches[0]
+            candidate_open = candidate.end() - 1
+            candidate_close = cls._find_matching_js_brace(code, candidate_open)
+            body = code[candidate_open + 1:candidate_close] if candidate_close >= 0 else ""
+            if not re.search(r"\breturn\s*\{", body):
                 method_match = candidate
+                old_name = "initData"
+        elif len(init_impl_matches) > 1:
+            # A previous normalization may have renamed the business method
+            # to initDataImpl while the generated state factory already used
+            # that name.  Restore the first definition to San's reserved
+            # initData() state factory, then rename only the later duplicate.
+            first = init_impl_matches[0]
+            extra_renames.append((
+                first.start() + len(first.group(1)),
+                first.start() + len(first.group(1)) + len("initDataImpl"),
+                "initData",
+            ))
+            method_match = init_impl_matches[-1]
+            old_name = "initDataImpl"
+
         if method_match is None:
             return code
 
+        used_names = {
+            match.group(2)
+            for match in re.finditer(
+                r"(?m)^([ \t]*)([A-Za-z_$][\w$]*)\s*\([^)]*\)\s*\{",
+                code[object_open + 1:object_close],
+            )
+        }
+        new_name = "initDataImpl" if old_name == "initData" else "initializeDashboardData"
+        suffix = 2
+        while new_name in used_names and new_name != old_name:
+            new_name = f"initializeDashboardData{suffix}"
+            suffix += 1
+
         replacement_start = method_match.start() + len(method_match.group(1))
-        normalized = (
-            code[:replacement_start]
-            + "initDataImpl"
-            + code[replacement_start + len("initData"):]
-        )
+        renames = [
+            *extra_renames,
+            (replacement_start, replacement_start + len(old_name), new_name),
+        ]
+        normalized = code
+        for start, end, replacement in sorted(renames, reverse=True):
+            normalized = normalized[:start] + replacement + normalized[end:]
         # Recompute the exported range after renaming, then update only calls
         # belonging to that parent component.
         component_matches = list(re.finditer(
@@ -659,8 +729,107 @@ class RepairStage:
         if parent_close < 0:
             return code
         parent = normalized[parent_open:parent_close + 1]
-        parent = re.sub(r"\bthis\.initData\s*\(", "this.initDataImpl(", parent)
+        parent = re.sub(
+            rf"\bthis\.{re.escape(old_name)}\s*\(",
+            f"this.{new_name}(",
+            parent,
+        )
         return normalized[:parent_open] + parent + normalized[parent_close + 1:]
+
+    @classmethod
+    def _normalize_missing_component_registration(
+        cls,
+        code: str,
+        ssm: dict[str, Any],
+    ) -> str:
+        options = ((ssm.get("script") or {}).get("options") or {}) if isinstance(ssm, dict) else {}
+        component_items = options.get("components") or []
+        if not isinstance(component_items, list) or not component_items:
+            return code
+
+        components: list[tuple[str, str]] = []
+        for item in component_items:
+            if not isinstance(item, dict):
+                continue
+            tag = item.get("registered_name") or item.get("name") or ""
+            source_name = item.get("source_name") or ""
+            if not tag or not source_name:
+                return code
+            candidates = [
+                source_name[:1].lower() + source_name[1:],
+                re.sub(
+                    r"-([a-zA-Z])",
+                    lambda match: match.group(1).upper(),
+                    str(tag),
+                ),
+            ]
+            identifier = next(
+                (
+                    candidate
+                    for candidate in candidates
+                    if re.search(
+                        rf"\bconst\s+{re.escape(candidate)}\s*=\s*san\.defineComponent\s*\(",
+                        code,
+                    )
+                ),
+                None,
+            )
+            if not identifier:
+                return code
+            components.append((str(tag), identifier))
+
+        parent_matches = list(re.finditer(
+            r"\bmodule\.exports\s*=\s*san\.defineComponent\s*\(\s*\{",
+            code,
+        ))
+        if not parent_matches:
+            return code
+        parent_match = parent_matches[-1]
+        parent_open = code.rfind("{", parent_match.start(), parent_match.end())
+        parent_close = cls._find_matching_js_brace(code, parent_open)
+        if parent_close < 0:
+            return code
+
+        components_match = None
+        for candidate in re.finditer(r"(?m)^([ \t]*)components\s*:\s*\{", code):
+            if not (parent_open < candidate.start() < parent_close):
+                continue
+            if cls._js_brace_depth_at(code, parent_open + 1, candidate.start()) == 1:
+                components_match = candidate
+        entries = components
+        if components_match:
+            components_open = code.find("{", components_match.start(), components_match.end())
+            components_close = cls._find_matching_js_brace(code, components_open)
+            if components_close < 0:
+                return code
+            existing_tags = {
+                match.group(1)
+                for match in re.finditer(
+                    r"['\"]([^'\"]+)['\"]\s*:",
+                    code[components_open + 1:components_close],
+                )
+            }
+            entries = [item for item in components if item[0] not in existing_tags]
+            if not entries:
+                return code
+            insertion = "\n" + ",\n".join(
+                f"{components_match.group(1)}  {json_tag!r}: {identifier}"
+                for json_tag, identifier in entries
+            ) + "\n" + components_match.group(1)
+            body = code[components_open + 1:components_close]
+            if body.strip():
+                insertion = "," + insertion
+            return code[:components_close] + insertion + code[components_close:]
+
+        indent_match = re.search(r"(?m)^([ \t]+)\S", code[parent_open + 1:parent_close])
+        indent = indent_match.group(1) if indent_match else "  "
+        block = "\n" + indent + "components: {\n"
+        block += ",\n".join(
+            f"{indent}  {tag!r}: {identifier}"
+            for tag, identifier in entries
+        )
+        block += "\n" + indent + "},"
+        return code[:parent_open + 1] + block + code[parent_open + 1:]
 
     @classmethod
     def _normalize_mutated_state_array_aliases(cls, code: str) -> str:
@@ -727,6 +896,7 @@ class RepairStage:
         code: str,
         validation_errors: list[dict[str, Any]],
         visual_eval_errors: list[dict[str, Any]],
+        ssm: dict[str, Any] | None = None,
     ) -> tuple[str, list[tuple[str, str]]]:
         error_codes = {issue.get("code") for issue in validation_errors}
         normalized = code
@@ -763,6 +933,14 @@ class RepairStage:
                 applied.append((
                     "san_reserved_init_data_normalizer",
                     "renamed_parent_business_initData",
+                ))
+        if "missing_component_registration" in error_codes and ssm:
+            candidate = cls._normalize_missing_component_registration(normalized, ssm)
+            if candidate != normalized:
+                normalized = candidate
+                applied.append((
+                    "san_component_registration_normalizer",
+                    "registered_defined_inline_components",
                 ))
         if error_codes == {"nested_state_mutation"} and not visual_eval_errors:
             candidate = cls._normalize_mutated_state_array_aliases(normalized)
