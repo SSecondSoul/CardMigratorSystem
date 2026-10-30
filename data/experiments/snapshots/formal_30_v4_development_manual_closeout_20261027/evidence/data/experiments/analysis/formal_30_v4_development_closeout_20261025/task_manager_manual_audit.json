@@ -1,0 +1,54 @@
+{
+  "sample_id": "TaskManager",
+  "classification": "development_manual_browser_audit",
+  "reported_on": "2026-10-26",
+  "status": "frozen_automatic_pass_rejected_settings_tags_candidate_user_reported_pass",
+  "user_observation": "Error: 仅支持 require(\"san\")，当前: ./StatCard",
+  "frozen_artifact": "data/experiments/snapshots/formal_30_v4_deferred_task_manager_pass_20261023_190805/pipeline/complex/TaskManager_repaired_repaired_repaired.san",
+  "frozen_artifact_sha256": "0db81097398658b30eea1f321d963de151096ab77355be900d1f2717cd832497",
+  "frozen_vue_source": "data/experiments/protocols/formal_30_v3_frozen_20261022/frozen/data/datasets/components/03_complex/TaskManager/vue/TaskManager.vue",
+  "frozen_vue_sha256": "ce3c3d4596792683e1e94a37764fdd542a97b80e4cff0c5ad8ba60c052f9e74c",
+  "relative_requires": ["./StatCard", "./TaskItem", "./TaskDetail", "./TaskForm", "./SettingsPanel"],
+  "diagnosis": "The frozen standalone San artifact references five absent child modules. The manual runner only allows require('san'), so it cannot load this artifact. The source Vue defines these children inline, but the frozen San output neither inlines nor packages them.",
+  "current_replay_validation_passed": false,
+  "current_replay_validation_error_codes": [
+    "invalid_san_computed_instance_method_call",
+    "missing_component_registration",
+    "san_script_compile_error",
+    "unresolved_component_registration",
+    "unsupported_san_module_require"
+  ],
+  "current_replay_visual_passed": false,
+  "current_replay_visual_error_codes": ["san_render_failed", "san_san_render_error"],
+  "followup_config": "migration_pipeline/batch_configs/formal_30_v4_task_manager_manual_followup.json",
+  "followup_attempts": [
+    {
+      "status": "generation_request_timeout_before_artifact",
+      "started_at": "2026-10-26T20:14:42+08:00",
+      "finished_at": "2026-10-26T20:18:44+08:00",
+      "elapsed_seconds": 242.031,
+      "execution_errors": 1,
+      "completed": 0,
+      "snapshot": "data/experiments/snapshots/formal_30_v4_task_manager_manual_followup_generation_timeout_20261026_201844",
+      "next_action": "Restart local_server with a longer LLM_TIMEOUT, then resume the same checkpoint with a longer MIGRATION_GENERATION_TIMEOUT."
+    },
+    {
+      "status": "completed_automatic_failure_max_repair_rounds_reached",
+      "started_at": "2026-10-26T20:24:04+08:00",
+      "finished_at": "2026-10-26T20:36:25+08:00",
+      "repair_rounds": 3,
+      "generation_tokens": 96864,
+      "repair_tokens": 241266,
+      "total_tokens": 338130,
+      "final_validation_error_codes": ["invalid_san_computed_instance_method_call"],
+      "final_visual_error_codes": [],
+      "snapshot": "data/experiments/snapshots/formal_30_v4_task_manager_manual_followup_failed_20261026_203625"
+    }
+  ],
+  "manual_fix_candidate_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_computed_context.json",
+  "template_syntax_candidate_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_template_syntax.json",
+  "inline_format_candidate_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_inline_format_methods.json",
+  "form_initialization_candidate_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_form_initialization.json",
+  "settings_tags_candidate_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_settings_tags.json",
+  "boundary": "The original automatic result and frozen snapshot remain unchanged. This is post-hoc development review, not independent holdout evidence."
+}

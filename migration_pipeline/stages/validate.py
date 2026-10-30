@@ -6,6 +6,9 @@ from pathlib import Path
 from typing import Any
 
 from migration_pipeline.utils.san_compile import check_san_compile
+from migration_pipeline.utils.source_event_semantics import (
+    native_drag_misbindings, unguarded_self_clicks,
+)
 
 
 @dataclass
@@ -130,6 +133,9 @@ class ValidateStage:
         "video", "wbr",
     }
     TEMPLATE_INTERPOLATION_PATTERN = re.compile(r"\{\{(.*?)\}\}|\{=(.*?)=\}", re.DOTALL)
+    TEMPLATE_MEMBER_CALL_PATTERN = re.compile(
+        r"\b(?:[A-Za-z_$][\w$]*\s*\.\s*)+[A-Za-z_$][\w$]*\s*\("
+    )
     TEMPLATE_METHOD_CALL_PATTERN = re.compile(r"\b([A-Za-z_$][\w$]*)\s*\(([^()]*)\)")
     DATA_GET_PATTERN = re.compile(
         r"\bthis\.data\.get\s*\(\s*(['\"])([A-Za-z_$][\w$]*)\1\s*\)"
@@ -165,6 +171,11 @@ class ValidateStage:
             "invalid_san_data_destructuring",
             "San this.data is a Data store, not a plain object; read each field with this.data.get('field').",
         ),
+        (
+            r"\bthis\.data\.(?:map|filter|reduce|reduceRight|forEach|find|findIndex|some|every|slice|concat|join|sort|includes|indexOf|at|length)\b",
+            "invalid_san_data_store_array_access",
+            "San this.data is a Data store, not an array; read an array prop or state field with this.data.get('field') before using array methods or length (including inside inline child components).",
+        ),
     )
 
     def run(self, stage_input: ValidateStageInput) -> ValidateStageResult:
@@ -176,7 +187,19 @@ class ValidateStage:
         blocks = self._extract_blocks(code)
         self._validate_sfc_blocks(blocks, issues, checks)
         self._validate_san_script(blocks.get("script", ""), issues, checks)
+        self._validate_inline_component_identifiers(blocks.get("script", ""), issues, checks)
+        self._validate_san_watch_listener_shape(blocks.get("script", ""), issues, checks)
+        self._validate_multi_argument_san_fire(blocks.get("script", ""), issues, checks)
+        self._validate_template_parser_syntax(
+            blocks.get("template", ""), blocks.get("script", ""), issues, checks
+        )
+        self._validate_inline_computed_invocations(blocks.get("script", ""), issues, checks)
+        self._validate_init_data_store_access(blocks.get("script", ""), issues, checks)
+        self._validate_inline_prop_dependent_initialization(
+            blocks.get("script", ""), stage_input, issues, checks
+        )
         self._validate_template_rules(blocks.get("template", ""), issues, checks)
+        self._validate_source_event_semantics(blocks, stage_input, issues, checks)
         self._validate_loop_scope_bindings(
             blocks.get("template", ""),
             blocks.get("script", ""),
@@ -186,6 +209,7 @@ class ValidateStage:
             checks,
         )
         self._validate_script_rules(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_computed_direct_access(blocks.get("script", ""), issues, checks)
         self._validate_component_registrations(blocks.get("script", ""), ssm, issues, checks)
         self._validate_reserved_method_collisions(blocks.get("script", ""), ssm, issues, checks)
         self._validate_template_reactive_dependencies(
@@ -193,6 +217,12 @@ class ValidateStage:
             blocks.get("script", ""),
             issues,
             checks,
+        )
+        self._validate_inline_template_reactive_dependencies(
+            blocks.get("script", ""), issues, checks
+        )
+        self._validate_inline_template_duplicate_classes(
+            blocks.get("script", ""), issues, checks
         )
         self._validate_nested_state_mutations(blocks.get("script", ""), issues, checks)
         self._validate_dom_child_order(code, stage_input, issues, checks)
@@ -298,6 +328,235 @@ class ValidateStage:
                 suggestion="将 Vue props 迁移为 San dataTypes。",
             ))
 
+        external_requires = sorted({
+            match.group(2)
+            for match in re.finditer(r"\brequire\s*\(\s*(['\"])([^'\"\r\n]+)\1\s*\)", script)
+            if match.group(2) != "san"
+        })
+        checks.append(ValidationCheck(
+            name="self_contained_san_imports",
+            passed=not external_requires,
+            message="单文件 San 组件仅通过 require('san') 引入运行时",
+        ))
+        if external_requires:
+            issues.append(ValidationIssue(
+                code="unsupported_san_module_require",
+                message="单文件 San 产物包含未打包的 require: " + ", ".join(external_requires),
+                location="script",
+                suggestion=(
+                    "将 Vue 内联子组件迁移为同一 <script> 内的 san.defineComponent 定义，"
+                    "并用这些本地标识符注册；不要 require('./Child')。"
+                ),
+            ))
+
+        inline_templates = [
+            match.group(1)
+            for match in re.finditer(r"\btemplate\s*:\s*`([\s\S]*?)`", script)
+        ]
+        multi_argument_fires = sum(
+            len(re.findall(
+                r"\bon-[\w:-]+\s*=\s*['\"]\s*fire\s*\(\s*['\"][^'\"]+['\"]\s*,[^)]*,[^)]*\)",
+                template,
+            ))
+            for template in inline_templates
+        )
+        checks.append(ValidationCheck(
+            name="inline_custom_events_use_one_payload",
+            passed=multi_argument_fires == 0,
+            message="Inline child custom events carry one payload object",
+        ))
+        if multi_argument_fires:
+            issues.append(ValidationIssue(
+                code="invalid_san_inline_event_payload",
+                message=f"Inline child templates call fire with multiple payload arguments ({multi_argument_fires} occurrences).",
+                location="script.template",
+                suggestion=(
+                    "Call a child method that fires one object such as {key, value}; "
+                    "unpack $event.key and $event.value in the parent binding."
+                ),
+            ))
+        inline_event_assignments = []
+        for template in inline_templates:
+            inline_event_assignments.extend(
+                match.group(0)
+                for match in re.finditer(
+                    r"\bon-[\w:-]+\s*=\s*(['\"])\s*[A-Za-z_$][\w$]*\s*=(?!=)",
+                    template,
+                )
+            )
+        checks.append(ValidationCheck(
+            name="no_inline_event_assignments",
+            passed=not inline_event_assignments,
+            message="Inline child template events call San methods instead of assigning state directly",
+        ))
+        if inline_event_assignments:
+            issues.append(ValidationIssue(
+                code="invalid_san_inline_event_assignment",
+                message="Inline child template events assign state instead of calling a handler: "
+                + ", ".join(sorted(set(inline_event_assignments))),
+                location="script.template",
+                suggestion="Define a top-level child handler such as setHoveredIndex(index) and call this.data.set('hoveredIndex', index) there.",
+            ))
+
+        inline_math_calls = sum(
+            len(re.findall(r"\{\{[^{}]*\bMath\.[A-Za-z_$][\w$]*\s*\(", template))
+            for template in inline_templates
+        )
+        checks.append(ValidationCheck(
+            name="no_inline_template_math_global",
+            passed=inline_math_calls == 0,
+            message="Inline child templates do not call the JavaScript Math global directly",
+        ))
+        if inline_math_calls:
+            issues.append(ValidationIssue(
+                code="unsupported_san_inline_template_math_global",
+                message=f"Inline child templates call Math directly in {inline_math_calls} interpolation(s).",
+                location="script.template",
+                suggestion="Move Math calculations to a child component method or computed value; bind the result through a San expression with explicit reactive arguments.",
+            ))
+
+        member_calls = set()
+        for template in inline_templates:
+            for interpolation in self.TEMPLATE_INTERPOLATION_PATTERN.finditer(template):
+                expression = interpolation.group(1) or interpolation.group(2) or ""
+                expression = re.sub(
+                    r"'(?:\\.|[^'\\])*'|\"(?:\\.|[^\"\\])*\"",
+                    lambda match: " " * len(match.group(0)),
+                    expression,
+                )
+                for match in self.TEMPLATE_MEMBER_CALL_PATTERN.finditer(expression):
+                    call = match.group(0).rstrip("(").strip()
+                    if not re.match(r"Math\s*\.", call):
+                        member_calls.add(call)
+        checks.append(ValidationCheck(
+            name="no_inline_template_member_calls",
+            passed=not member_calls,
+            message="Inline child render bindings call top-level component methods with explicit reactive arguments",
+        ))
+        if member_calls:
+            issues.append(ValidationIssue(
+                code="unsupported_san_inline_template_member_call",
+                message="Inline child render bindings call member methods: " + ", ".join(sorted(member_calls)),
+                location="script.template",
+                suggestion=(
+                    "Move member calls in inline render expressions into top-level child methods; "
+                    "pass every reactive receiver and argument explicitly from the template."
+                ),
+            ))
+
+        inline_style_objects = sum(
+            len(re.findall(r"\bstyle\s*=\s*(['\"])\s*\{\{\s*\{", template))
+            for template in inline_templates
+        )
+        checks.append(ValidationCheck(
+            name="no_inline_style_object_binding",
+            passed=inline_style_objects == 0,
+            message="Inline child templates use CSS strings instead of Vue style objects",
+        ))
+        if inline_style_objects:
+            issues.append(ValidationIssue(
+                code="invalid_san_inline_style_object_binding",
+                message=f"Inline child templates contain {inline_style_objects} Vue-style object binding(s).",
+                location="script.template",
+                suggestion="Use a CSS string such as style=\"{{ 'background-color: ' + insight.color + ';' }}\" instead of a style object.",
+            ))
+
+    def _validate_inline_component_identifiers(
+        self,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        # A custom-element tag is not a JavaScript variable name. Match only
+        # local San component declarations, not dashed tags or string keys.
+        invalid_names = sorted(set(re.findall(
+            r"(?m)^\s*(?:const|let|var)\s+([A-Za-z_$][\w$]*"
+            r"(?:-[A-Za-z_$][\w$]*)+)\s*=\s*san\.defineComponent\s*\(",
+            script,
+        )))
+        checks.append(ValidationCheck(
+            name="inline_component_identifier_syntax",
+            passed=not invalid_names,
+            message="Inline San component declarations use valid JavaScript identifiers.",
+        ))
+        if invalid_names:
+            issues.append(ValidationIssue(
+                code="invalid_inline_component_identifier",
+                message="Dashed custom-element tags used as JavaScript identifiers: "
+                + ", ".join(invalid_names),
+                location="script",
+                suggestion=(
+                    "Use a valid variable such as const StatCard = san.defineComponent(...), "
+                    "then register the quoted tag as components: {'stat-card': StatCard}. "
+                    "Do not rename template tags or invent an undefined registry value."
+                ),
+            ))
+
+    def _validate_san_watch_listener_shape(
+        self,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        # Vue accepts a watch descriptor object, but San's this.watch(path,
+        # listener) invokes listener.call(...). Passing an object compiles and
+        # then fails only when the watched field changes in the browser.
+        fields = sorted(set(re.findall(
+            r"\bthis\.watch\s*\(\s*(['\"])([^'\"]+)\1\s*,\s*\{",
+            script,
+        )))
+        watched_paths = sorted({field for _, field in fields})
+        checks.append(ValidationCheck(
+            name="san_watch_listener_is_callable",
+            passed=not watched_paths,
+            message="San this.watch receives a callable listener, not a Vue descriptor object.",
+        ))
+        if watched_paths:
+            issues.append(ValidationIssue(
+                code="noncallable_san_watch_listener",
+                message="San this.watch receives object listeners for: "
+                + ", ".join(watched_paths),
+                location="script",
+                suggestion=(
+                    "Pass a function or arrow callback as the second argument to this.watch. "
+                    "Migrate Vue handler/immediate/deep semantics explicitly; do not pass "
+                    "the Vue watch descriptor object unchanged."
+                ),
+            ))
+
+    def _validate_multi_argument_san_fire(
+        self,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        # San custom events have one payload argument. Keep this check
+        # deliberately narrow: two simple scalar/identifier payloads are
+        # certainly not an object literal with internal commas.
+        scalar = r"(?:[A-Za-z_$][\w$]*|'[^'\n]*'|\"[^\"\n]*\")"
+        event_names = sorted(set(re.findall(
+            rf"\bthis\.fire\s*\(\s*(['\"])([^'\"\n]+)\1\s*,"
+            rf"\s*{scalar}\s*,\s*{scalar}\s*\)",
+            script,
+        )))
+        names = sorted({name for _, name in event_names})
+        checks.append(ValidationCheck(
+            name="san_custom_event_single_payload",
+            passed=not names,
+            message="San this.fire carries at most one payload argument.",
+        ))
+        if names:
+            issues.append(ValidationIssue(
+                code="invalid_san_multi_argument_fire",
+                message="San this.fire passes multiple payload arguments for: "
+                + ", ".join(names),
+                location="script",
+                suggestion=(
+                    "Fire one payload object such as this.fire('update', {key, value}), "
+                    "then read $event.key and $event.value in the parent binding."
+                ),
+            ))
+
     def _validate_component_registrations(
         self,
         script: str,
@@ -399,6 +658,259 @@ class ValidateStage:
                 location="script",
                 suggestion=(
                     "Rename the Vue business method, update its calls, and keep mounted behavior in attached()."
+                ),
+            ))
+
+    def _validate_template_parser_syntax(
+        self,
+        template: str,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        templates = [template, *(
+            match.group(1)
+            for match in re.finditer(r"\btemplate\s*:\s*`([\s\S]*?)`", script)
+        )]
+        event_findings = []
+        loop_findings = []
+        for component_template in templates:
+            event_findings.extend(
+                match.group(0)
+                for pattern in (
+                    r"\bon-[\w-]+\.[\w-]+(?=\s|=|/?>)",
+                    r"\bon-[\w-]+\s*=\s*(['\"])\s*\1",
+                    r"\bon-[\w-]+\s*=\s*(['\"])\s*[A-Za-z_$][\w$]*\s*=(?!=)",
+                )
+                for match in re.finditer(pattern, component_template)
+            )
+            loop_findings.extend(
+                match.group(0)
+                for match in re.finditer(
+                    r"\bs-for\s*=\s*(['\"])\s*\([^)]*,[^)]*\)\s+in\b",
+                    component_template,
+                )
+            )
+        checks.append(ValidationCheck(
+            name="san_template_event_handler_syntax",
+            passed=not event_findings,
+            message="San event attributes use nonempty method calls and value-based modifiers",
+        ))
+        if event_findings:
+            issues.append(ValidationIssue(
+                code="invalid_san_event_handler_syntax",
+                message=f"San templates contain {len(event_findings)} invalid event binding(s).",
+                location="template",
+                suggestion=(
+                    "Replace empty on-* handlers with named methods; use San value modifiers "
+                    "such as on-click=\"stop:handleClick\", not on-click.stop; "
+                    "move direct state assignments into handlers using this.data.set(...)."
+                ),
+            ))
+        checks.append(ValidationCheck(
+            name="san_for_alias_syntax",
+            passed=not loop_findings,
+            message="San s-for index aliases omit Vue tuple parentheses",
+        ))
+        if loop_findings:
+            issues.append(ValidationIssue(
+                code="invalid_san_for_alias_syntax",
+                message=f"San templates contain {len(loop_findings)} Vue-style tuple loop alias(es).",
+                location="template",
+                suggestion="Write s-for=\"item, index in items trackby item.id\" without parentheses.",
+            ))
+
+    def _validate_inline_computed_invocations(
+        self,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        findings = []
+        for component_match in re.finditer(
+            r"\bconst\s+([A-Za-z_$][\w$]*)\s*=\s*san\.defineComponent\s*\(\s*\{",
+            script,
+        ):
+            component = self._extract_braced_body(script, component_match.end() - 1)
+            template_match = re.search(r"\btemplate\s*:\s*`([\s\S]*?)`", component)
+            computed_match = re.search(r"\bcomputed\s*:\s*\{", component)
+            if not template_match or not computed_match:
+                continue
+            computed_body = self._extract_braced_body(component, computed_match.end() - 1)
+            definitions = list(re.finditer(
+                r"(?m)^([ \t]*)([A-Za-z_$][\w$]*)\s*\([^)]*\)\s*\{",
+                computed_body,
+            ))
+            if not definitions:
+                continue
+            top_indent = min(len(match.group(1)) for match in definitions)
+            for definition in definitions:
+                if len(definition.group(1)) != top_indent:
+                    continue
+                name = definition.group(2)
+                if re.search(rf"\b{re.escape(name)}\s*\(", template_match.group(1)):
+                    findings.append(f"{component_match.group(1)}.{name}")
+        checks.append(ValidationCheck(
+            name="inline_computed_values_not_invoked_as_methods",
+            passed=not findings,
+            message="Inline child templates do not invoke computed values as formatting methods",
+        ))
+        if findings:
+            issues.append(ValidationIssue(
+                code="invalid_san_inline_computed_method_invocation",
+                message="Inline child computed values are called like methods: " + ", ".join(sorted(set(findings))),
+                location="script.template",
+                suggestion=(
+                    "Move parameterized formatters to child component methods and accept the template "
+                    "argument, or interpolate a computed value without calling it."
+                ),
+            ))
+
+    def _validate_init_data_store_access(
+        self,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        findings = []
+        component_pattern = (
+            r"\b(?:const\s+([A-Za-z_$][\w$]*)|module\.exports)\s*=\s*"
+            r"san\.defineComponent\s*\(\s*\{"
+        )
+        for component_match in re.finditer(component_pattern, script):
+            name = component_match.group(1) or "exported component"
+            component = self._extract_braced_body(script, component_match.end() - 1)
+            init_match = re.search(r"\binitData\s*\([^)]*\)\s*\{", component)
+            if not init_match:
+                continue
+            init_body = self._extract_braced_body(component, init_match.end() - 1)
+            if re.search(r"\bthis\.data\b", init_body):
+                findings.append(name)
+        checks.append(ValidationCheck(
+            name="init_data_does_not_access_data_store",
+            passed=not findings,
+            message="San initData does not access this.data before the store exists",
+        ))
+        if findings:
+            issues.append(ValidationIssue(
+                code="invalid_san_init_data_store_access",
+                message="initData accesses this.data before initialization: " + ", ".join(findings),
+                location="script",
+                suggestion=(
+                    "Return stable defaults from initData; synchronize prop-dependent values "
+                    "in inited() using this.data.get/set, including inline child components."
+                ),
+            ))
+
+    def _validate_inline_prop_dependent_initialization(
+        self,
+        script: str,
+        stage_input: ValidateStageInput,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        """Check initial prop copies, not just watchers, for named inline children.
+
+        This intentionally covers only a source Vue `const Child = { props: [...],
+        data() { return { field: <expression using this.prop> } } }` matched to a
+        San `const Child = san.defineComponent(...)`. Other source shapes are
+        left unassessed rather than guessed from generated code alone.
+        """
+        source_name = stage_input.vue_file_path or stage_input.source_file
+        source_path = Path(source_name) if source_name else None
+        if not source_path or not source_path.is_file():
+            return
+        try:
+            source_script = self._extract_block(
+                source_path.read_text(encoding="utf-8"), "script"
+            )
+        except (OSError, UnicodeError):
+            return
+        if not source_script:
+            return
+
+        missing: list[str] = []
+        assessed = 0
+        for source_match in re.finditer(
+            r"\bconst\s+([A-Za-z_$][\w$]*)\s*=\s*\{", source_script
+        ):
+            child_name = source_match.group(1)
+            source_child = self._extract_braced_body(
+                source_script, source_match.end() - 1
+            )
+            props_match = re.search(r"\bprops\s*:\s*\[([^\]]*)\]", source_child)
+            data_match = re.search(r"\bdata\s*\(\s*\)\s*\{", source_child)
+            if not props_match or not data_match:
+                continue
+            prop_names = set(re.findall(r"['\"]([A-Za-z_$][\w$]*)['\"]", props_match.group(1)))
+            if not prop_names:
+                continue
+            data_body = self._extract_braced_body(source_child, data_match.end() - 1)
+            return_match = re.search(r"\breturn\s*\{", data_body)
+            if not return_match:
+                continue
+            fields_body = self._extract_braced_body(data_body, return_match.end() - 1)
+            dependent_fields = []
+            for field_match in re.finditer(
+                r"(?m)^\s*([A-Za-z_$][\w$]*)\s*:\s*([^,\n]+)", fields_body
+            ):
+                dependencies = {
+                    prop for prop in prop_names
+                    if re.search(rf"\bthis\.{re.escape(prop)}\b", field_match.group(2))
+                }
+                if dependencies:
+                    dependent_fields.append((field_match.group(1), dependencies))
+            if not dependent_fields:
+                continue
+
+            san_match = re.search(
+                rf"\bconst\s+{re.escape(child_name)}\s*=\s*san\.defineComponent\s*\(\s*\{{",
+                script,
+            )
+            if not san_match:
+                continue
+            san_child = self._extract_braced_body(script, san_match.end() - 1)
+            inited_match = re.search(r"\binited\s*\(\s*\)\s*\{", san_child)
+            inited_body = (
+                self._extract_braced_body(san_child, inited_match.end() - 1)
+                if inited_match else ""
+            )
+            for field_name, dependencies in dependent_fields:
+                assessed += 1
+                # A watcher callback runs only after a prop change. Require the
+                # first copy before any watcher is registered in this hook.
+                prefix = re.split(r"\bthis\.watch\s*\(", inited_body, maxsplit=1)[0]
+                writes_field = re.search(
+                    rf"\bthis\.data\.set\s*\(\s*['\"]{re.escape(field_name)}['\"]",
+                    prefix,
+                )
+                reads_props = all(
+                    re.search(
+                        rf"\bthis\.data\.get\s*\(\s*['\"]{re.escape(prop)}['\"]",
+                        prefix,
+                    )
+                    for prop in dependencies
+                )
+                if not writes_field or not reads_props:
+                    missing.append(
+                        f"{child_name}.{field_name} <- {', '.join(sorted(dependencies))}"
+                    )
+        if not assessed:
+            return
+        checks.append(ValidationCheck(
+            name="inline_prop_dependent_initial_state",
+            passed=not missing,
+            message="内联子组件的 prop 派生 data 在首次创建时已初始化，而非仅等待 watcher",
+        ))
+        if missing:
+            issues.append(ValidationIssue(
+                code="missing_inline_prop_dependent_initialization",
+                message="以下内联子组件缺少初始 prop 派生状态：" + "; ".join(missing),
+                location="script",
+                suggestion=(
+                    "San initData 返回稳定默认值；在子组件 inited() 注册 this.watch 之前，"
+                    "用 this.data.get('prop') 读取初始 prop，调用原有拷贝逻辑，"
+                    "再 this.data.set('field', value)。保留 watcher 处理后续 prop 变化。"
                 ),
             ))
 
@@ -628,6 +1140,61 @@ class ValidateStage:
                     suggestion=suggestion,
                 ))
 
+    def _validate_computed_direct_access(
+        self,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        findings: set[str] = set()
+        method_calls: set[str] = set()
+        for component_match in re.finditer(r"\bsan\.defineComponent\s*\(\s*\{", script):
+            component = self._extract_braced_body(script, component_match.end() - 1)
+            if not component:
+                continue
+            for computed_match in re.finditer(r"\bcomputed\s*:\s*\{", component):
+                computed_body = self._extract_braced_body(component, computed_match.end() - 1)
+                method_calls.update(
+                    match.group(1)
+                    for match in re.finditer(r"\bthis\.(?!data\b)([A-Za-z_$][\w$]*)\s*\(", computed_body)
+                )
+                definitions = list(re.finditer(
+                    r"(?m)^([ \t]*)([A-Za-z_$][\w$]*)\s*\([^)]*\)\s*\{",
+                    computed_body,
+                ))
+                if not definitions:
+                    continue
+                top_indent = min(len(match.group(1)) for match in definitions)
+                names = {match.group(2) for match in definitions if len(match.group(1)) == top_indent}
+                for name in names:
+                    if re.search(rf"\bthis\.{re.escape(name)}\b(?!\s*\()", component):
+                        findings.add(name)
+        checks.append(ValidationCheck(
+            name="no_direct_computed_instance_access",
+            passed=not findings,
+            message="San computed values are read through this.data.get(...) in every component",
+        ))
+        if findings:
+            issues.append(ValidationIssue(
+                code="invalid_san_computed_direct_access",
+                message="San computed values were read as instance properties: " + ", ".join(sorted(findings)),
+                location="script",
+                suggestion="Use this.data.get('computedName') inside methods and other computed functions, including inline children.",
+            ))
+        checks.append(ValidationCheck(
+            name="no_computed_instance_method_calls",
+            passed=not method_calls,
+            message="San computed callbacks do not call component instance methods",
+        ))
+        if method_calls:
+            issues.append(ValidationIssue(
+                code="invalid_san_computed_instance_method_call",
+                message="San computed callbacks call component methods unavailable in their computed context: "
+                + ", ".join(sorted(method_calls)),
+                location="script",
+                suggestion="Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed.",
+            ))
+
     def _validate_loop_scope_bindings(
         self,
         template: str,
@@ -769,12 +1336,71 @@ class ValidateStage:
                         fields.add(name)
         return fields
 
+    def _validate_inline_template_reactive_dependencies(
+        self,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        for component_match in re.finditer(
+            r"\bconst\s+([A-Za-z_$][\w$]*)\s*=\s*san\.defineComponent\s*\(\s*\{",
+            script,
+        ):
+            component = self._extract_braced_body(script, component_match.end() - 1)
+            template_match = re.search(r"\btemplate\s*:\s*`([\s\S]*?)`", component)
+            if template_match:
+                self._validate_template_reactive_dependencies(
+                    template_match.group(1), component, issues, checks,
+                    component_name=component_match.group(1),
+                )
+
+    def _validate_inline_template_duplicate_classes(
+        self,
+        script: str,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        findings: list[tuple[str, str]] = []
+        for component_match in re.finditer(
+            r"\bconst\s+([A-Za-z_$][\w$]*)\s*=\s*san\.defineComponent\s*\(\s*\{",
+            script,
+        ):
+            component = self._extract_braced_body(script, component_match.end() - 1)
+            template_match = re.search(r"\btemplate\s*:\s*`([\s\S]*?)`", component)
+            if not template_match:
+                continue
+            for tag_match in re.finditer(
+                r"<([A-Za-z][\w-]*)\b([^>]*)>", template_match.group(1), re.DOTALL
+            ):
+                class_count = sum(
+                    1 for attribute in self.TEMPLATE_ATTRIBUTE_PATTERN.finditer(tag_match.group(2))
+                    if attribute.group(1).lower() == "class"
+                )
+                if class_count > 1:
+                    findings.append((component_match.group(1), tag_match.group(1).lower()))
+        checks.append(ValidationCheck(
+            name="single_class_attribute_per_inline_element",
+            passed=not findings,
+            message="Inline child template elements have at most one class attribute",
+        ))
+        for component_name, tag_name in findings:
+            issues.append(ValidationIssue(
+                code="duplicate_class_attribute",
+                message=f"Inline component {component_name} has duplicate class attributes on <{tag_name}>.",
+                location=f"script.{component_name}.template",
+                suggestion=(
+                    "Merge static and dynamic classes into one attribute, for example "
+                    "class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+                ),
+            ))
+
     def _validate_template_reactive_dependencies(
         self,
         template: str,
         script: str,
         issues: list[ValidationIssue],
         checks: list[ValidationCheck],
+        component_name: str = "",
     ) -> None:
         findings: dict[tuple[str, str], set[str]] = {}
 
@@ -815,7 +1441,10 @@ class ValidateStage:
                 inspect_expression("text", expression)
 
         checks.append(ValidationCheck(
-            name="template_reactive_dependencies_visible",
+            name=(
+                f"inline_template_reactive_dependencies_visible:{component_name}"
+                if component_name else "template_reactive_dependencies_visible"
+            ),
             passed=not findings,
             message=(
                 "模板渲染表达式的方法调用没有隐藏 San 响应式字段依赖"
@@ -832,7 +1461,10 @@ class ValidateStage:
                     f"模板 {attribute_name} 渲染表达式调用 {method_name}(...)，但该方法内部隐藏读取响应式字段："
                     f"{field_list}。这些字段变化时，San 可能不会重新计算该绑定。"
                 ),
-                location="template/script",
+                location=(
+                    f"script.{component_name}.template" if component_name
+                    else "template/script"
+                ),
                 suggestion=(
                     f"在模板表达式中直接引用 {field_list}，或将这些字段作为参数显式传给 "
                     f"{method_name}(...)。"
@@ -1854,6 +2486,46 @@ class ValidateStage:
                 severity="warning",
                 location="script/template",
                 suggestion="根据 SSM migration_hints 补齐 San 迁移策略。",
+            ))
+
+    def _validate_source_event_semantics(
+        self,
+        blocks: dict[str, str],
+        stage_input: ValidateStageInput,
+        issues: list[ValidationIssue],
+        checks: list[ValidationCheck],
+    ) -> None:
+        source_path = stage_input.vue_file_path
+        if not source_path or not Path(source_path).is_file():
+            return
+        vue = Path(source_path).read_text(encoding="utf-8")
+        template = blocks.get("template", "")
+        script = blocks.get("script", "")
+        self_clicks = unguarded_self_clicks(vue, template, script)
+        wrong_drag = native_drag_misbindings(vue, script, self.NATIVE_HTML_TAGS)
+        checks.append(ValidationCheck(
+            name="source_self_click_semantics",
+            passed=not self_clicks,
+            message="Vue @click.self remains guarded in San",
+        ))
+        checks.append(ValidationCheck(
+            name="source_native_drag_event_names",
+            passed=not wrong_drag,
+            message="Vue native dragstart/dragend retain DOM event names in San",
+        ))
+        if self_clicks:
+            issues.append(ValidationIssue(
+                code="missing_self_click_guard",
+                message=f"San click handlers on source @click.self overlays are unguarded: {self_clicks}",
+                location="template",
+                suggestion="Guard with event.target === event.currentTarget; inner clicks must not close the overlay.",
+            ))
+        if wrong_drag:
+            issues.append(ValidationIssue(
+                code="native_drag_event_misbound",
+                message=f"Native DOM drag event names incorrectly hyphenated: {wrong_drag}",
+                location="script.inline_component.template",
+                suggestion="Use on-dragstart/on-dragend on native tags; preserve custom component on-drag-start/on-drag-end.",
             ))
 
     def _extract_blocks(self, code: str) -> dict[str, str]:

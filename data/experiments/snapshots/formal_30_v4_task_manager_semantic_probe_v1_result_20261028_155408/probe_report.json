@@ -1,0 +1,64 @@
+{
+  "classification": "reused_development_single_repair_probe",
+  "independent_holdout": false,
+  "created_at": "2026-10-28T15:54:08+08:00",
+  "frozen_input": "formal_30_v4_semantic_focus_v2_TaskManager_automatic_fail_20261028_140129",
+  "pre_run_snapshot": "formal_30_v4_task_manager_semantic_probe_v1_pre_run_20261028",
+  "input_sha256": "4c3175b37007858e5c9c3a529a5334abad23e49301556738002f11c5c507238c",
+  "prompt_sha256": "eee850ad3daec271761f944d801cee3bf78988456ba4d959cf55ff344729cc99",
+  "output_file": "data/experiments/pipeline/probes/formal_30_v4_task_manager_semantic_probe_v1/TaskManager_semantic_probe.san",
+  "output_sha256": "70dbe27932d12401723071926687f67ba12222e1c8ebfb9958c4952bcc91ef02",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "usage": {
+    "completion_tokens": 10965,
+    "prompt_tokens": 12467,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 23432
+  },
+  "validation_passed": false,
+  "validation_errors": [
+    {
+      "code": "invalid_san_event_handler_syntax",
+      "message": "San templates contain 7 invalid event binding(s).",
+      "severity": "error",
+      "location": "template",
+      "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+    },
+    {
+      "code": "missing_event_handlers",
+      "message": "以下 SSM 事件处理函数未在 San 脚本中找到：closeDetail, closeModal, deleteTask, editTask, exportData, hideNotification, onDropOnTask, onDropToEnd, onSearchChange, onStatClick, openTaskModal, selectTask, setFilter, toggleCompactMode, toggleTaskStatus, toggleTheme, updateSettings, updateTask。",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "补齐事件处理方法，并在模板中通过 on-event 绑定。"
+    },
+    {
+      "code": "event_arguments_not_landed",
+      "message": "San 事件绑定未完整保留源事件参数。缺失：click:onStatClick(stat), click:setFilter(filter.value)。",
+      "severity": "error",
+      "location": "template",
+      "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+    },
+    {
+      "code": "lifecycle_behavior_not_landed",
+      "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 loadInitialData()。",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+    },
+    {
+      "code": "missing_event_bindings",
+      "message": "以下事件 handler 在 San template 中没有找到对应 on-* 绑定：addComment, closeDetail, closeModal, deleteTask, editTask, exportData, hideNotification, onDragEnd, onDragStart, onDropOnTask, onDropToEnd, onSearchChange, onStatClick, openTaskModal, selectTask, setFilter, toggleCompactMode, toggleTaskStatus, toggleTheme, updateSettings, updateTask。",
+      "severity": "error",
+      "location": "template",
+      "suggestion": "在模板中补充对应 on-click/on-input 等 San 事件绑定。"
+    }
+  ],
+  "visual_eval_passed": true,
+  "visual_eval_errors": [],
+  "structure_similarity": 0.9889,
+  "tree_edit_distance": 0.5,
+  "browser_manual_review": "not_performed"
+}

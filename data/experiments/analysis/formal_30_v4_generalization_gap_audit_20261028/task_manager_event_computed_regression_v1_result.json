@@ -1,0 +1,51 @@
+{
+  "purpose": "Record the fresh TaskManager development regression after the bounded event/computed probe",
+  "independent_holdout": false,
+  "batch_id": "formal_30_v4_task_manager_event_computed_regression_v1",
+  "pre_run_snapshot": "formal_30_v4_task_manager_event_computed_regression_v1_pre_run_20261029",
+  "result_snapshot": "formal_30_v4_task_manager_event_computed_regression_v1_TaskManager_automatic_fail_20261029_170150",
+  "frozen_payloads_verified": 11,
+  "sample_ids": ["TaskManager"],
+  "completed": 1,
+  "passed": 0,
+  "repair_rounds": 3,
+  "repair_providers": ["deterministic", "deterministic", "qwen"],
+  "stop_reason": "max_repair_rounds_reached",
+  "generation_tokens": 97308,
+  "repair_tokens": 121572,
+  "total_tokens": 218880,
+  "initial_validation_error_codes": [
+    "unsupported_san_inline_template_math_global",
+    "unsupported_san_inline_template_member_call",
+    "invalid_san_multi_argument_fire",
+    "invalid_san_event_handler_syntax",
+    "invalid_san_for_alias_syntax",
+    "invalid_san_init_data_store_access",
+    "missing_inline_prop_dependent_initialization",
+    "invalid_s_for_key_binding",
+    "vue_methods_wrapper",
+    "invalid_san_computed_instance_method_call",
+    "missing_component_registration",
+    "hidden_template_reactive_dependency",
+    "nested_state_mutation",
+    "lifecycle_behavior_not_landed"
+  ],
+  "final_validation_error_codes": [
+    "invalid_san_init_data_store_access",
+    "missing_inline_prop_dependent_initialization",
+    "invalid_san_computed_instance_method_call",
+    "hidden_template_reactive_dependency",
+    "lifecycle_behavior_not_landed"
+  ],
+  "final_visual_eval_passed": true,
+  "final_structure_similarity": 0.9889,
+  "interaction_eval_passed": null,
+  "browser_manual_review": "not_performed_for_this_automatic_output",
+  "diagnosis": [
+    "The first two repair rounds were deterministic. Round 1 normalized broad structure; round 2 converted source-grounded showSettings assignment events after visual rendering became available. Both retained many static error families.",
+    "Only round 3 called qwen. Its broad repair prompt was used, not the exact two-error event/computed specialization, because the input still had 12 static error families.",
+    "The last candidate still reads this.data in TaskForm.initData, lacks first-prop-derived formData initialization, calls the isOverdue instance method from computed, hides tasks inside a template count method, and moves source mounted behavior into inited instead of attached."
+  ],
+  "conclusion": "The bounded local probe passed but did not generalize to this fresh full-batch generation. Static failure and the max-rounds stop prevent automatic acceptance; visual success alone is insufficient.",
+  "next_step": "Use a bounded one-request probe on the frozen round-3 candidate for the five residual static families, with source-verified lifecycle and inline-child initialization constraints. Do not directly edit frozen output, blindly increase repair rounds, or start browser acceptance yet."
+}

@@ -1,0 +1,93 @@
+{
+  "evaluation_id": "formal_30_v4_development_runtime_acceptance_v1",
+  "classification": "reused_development_regression_not_independent_holdout",
+  "purpose": "在真实 San 浏览器运行时检查四个历史上需事后候选修复的样本；默认路径是已人工检查候选，可替换为新流水线复跑产物。",
+  "samples": [
+    {
+      "sample_id": "rule_builder",
+      "component_tag": "rule-builder",
+      "baseline_san_file": "data/experiments/snapshots/formal_30_v4_development_manual_closeout_20261027/reviewed_san/rule_builder.san",
+      "steps": [
+        {"name": "初始条件组高亮", "op": "wait_for", "selector": ".group-tab.active", "expect": "text_includes", "value": "基础条件"},
+        {"name": "条件组高亮背景正确", "op": "wait_for", "selector": ".group-tab.active", "expect": "background_equals", "value": "rgb(204, 251, 241)"},
+        {"name": "初始规则行存在", "op": "wait_for", "selector": ".rule-row", "expect": "count_at_least", "value": 1},
+        {"name": "添加规则", "op": "click", "selector": ".add-rule"},
+        {"name": "新增规则行渲染", "op": "wait_for", "selector": ".rule-row", "expect": "count_at_least", "value": 2},
+        {"name": "新增规则行缺值样式", "op": "wait_for", "selector": ".rule-row.invalid", "expect": "background_equals", "value": "rgb(255, 241, 242)"},
+        {"name": "切换条件组", "op": "click", "selector": ".group-tab", "index": 1},
+        {"name": "新选中的条件组高亮", "op": "wait_for", "selector": ".group-tab.active", "expect": "text_includes", "value": "行为条件"}
+      ]
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "component_tag": "analytics-dashboard",
+      "baseline_san_file": "data/experiments/snapshots/formal_30_v4_development_manual_closeout_20261027/reviewed_san/analytics_dashboard.san",
+      "steps": [
+        {"name": "初始异步加载遮罩出现", "op": "wait_for", "selector": ".loading-overlay", "expect": "exists", "timeout_ms": 3000},
+        {"name": "异步加载遮罩消失", "op": "wait_for", "selector": ".loading-overlay", "expect": "absent", "timeout_ms": 6000},
+        {"name": "统计卡片有数据", "op": "wait_for", "selector": ".stat-card", "expect": "count_at_least", "value": 4},
+        {"name": "统计变化百分比显示", "op": "wait_for", "selector": ".stat-change", "expect": "text_matches", "value": "[0-9]+(?:\\.[0-9]+)?%"},
+        {"name": "趋势折线有点位", "op": "wait_for", "selector": ".trend-chart polyline", "expect": "attribute_nonempty", "attribute": "points"},
+        {"name": "图表点横坐标有效", "op": "wait_for", "selector": ".trend-chart circle", "expect": "attribute_finite_number", "attribute": "cx"},
+        {"name": "图表点纵坐标有效", "op": "wait_for", "selector": ".trend-chart circle", "expect": "attribute_finite_number", "attribute": "cy"},
+        {"name": "洞察数据出现", "op": "wait_for", "selector": ".insight-item", "expect": "count_at_least", "value": 1},
+        {"name": "洞察图标背景显示", "op": "wait_for", "selector": ".insight-item .insight-icon", "expect": "background_visible"},
+        {"name": "活动数据出现", "op": "wait_for", "selector": ".activity-row", "expect": "count_at_least", "value": 1},
+        {"name": "手动刷新", "op": "click", "selector": ".refresh-btn"},
+        {"name": "刷新时遮罩再次出现", "op": "wait_for", "selector": ".loading-overlay", "expect": "exists", "timeout_ms": 3000},
+        {"name": "刷新完成且遮罩消失", "op": "wait_for", "selector": ".loading-overlay", "expect": "absent", "timeout_ms": 6000},
+        {"name": "刷新后图表仍有点位", "op": "wait_for", "selector": ".trend-chart polyline", "expect": "attribute_nonempty", "attribute": "points"}
+      ]
+    },
+    {
+      "sample_id": "TaskManager",
+      "component_tag": "task-manager",
+      "baseline_san_file": "data/experiments/snapshots/formal_30_v4_development_manual_closeout_20261027/reviewed_san/TaskManager.san",
+      "steps": [
+        {"name": "任务列表有初始数据", "op": "wait_for", "selector": ".task-item", "expect": "count_at_least", "value": 1},
+        {"name": "任务优先级显示", "op": "wait_for", "selector": ".task-item .task-priority", "expect": "text_nonempty"},
+        {"name": "任务日期显示", "op": "wait_for", "selector": ".task-item .task-due-date", "expect": "text_nonempty"},
+        {"name": "打开系统设置", "op": "click", "selector": ".header-actions .icon-btn[title='设置']"},
+        {"name": "设置内容显示", "op": "wait_for", "selector": ".modal-overlay .settings-panel", "expect": "exists"},
+        {"name": "切换默认视图", "op": "select", "selector": ".settings-panel .setting-group:first-child select", "value": "board"},
+        {"name": "默认视图保留选择", "op": "wait_for", "selector": ".settings-panel .setting-group:first-child select", "expect": "value_equals", "value": "board"},
+        {"name": "取消自动保存", "op": "set_checked", "selector": ".settings-panel .setting-group:nth-child(2) input[type='checkbox']", "value": false},
+        {"name": "自动保存可取消", "op": "wait_for", "selector": ".settings-panel .setting-group:nth-child(2) input[type='checkbox']", "expect": "checked_equals", "value": false},
+        {"name": "恢复自动保存", "op": "set_checked", "selector": ".settings-panel .setting-group:nth-child(2) input[type='checkbox']", "value": true},
+        {"name": "自动保存可再次勾选", "op": "wait_for", "selector": ".settings-panel .setting-group:nth-child(2) input[type='checkbox']", "expect": "checked_equals", "value": true},
+        {"name": "关闭设置", "op": "click", "selector": ".modal-overlay .close-btn"},
+        {"name": "设置弹窗关闭", "op": "wait_for", "selector": ".modal-overlay", "expect": "absent"},
+        {"name": "打开新建任务", "op": "click", "selector": ".task-controls .primary-btn"},
+        {"name": "新建表单内容显示", "op": "wait_for", "selector": ".modal-overlay .task-form", "expect": "exists"},
+        {"name": "选中表单标签", "op": "click", "selector": ".task-form .selectable-tag"},
+        {"name": "标签选中样式响应", "op": "wait_for", "selector": ".task-form .selectable-tag", "expect": "class_contains", "value": "selected"},
+        {"name": "取消表单标签", "op": "click", "selector": ".task-form .selectable-tag"},
+        {"name": "标签取消样式响应", "op": "wait_for", "selector": ".task-form .selectable-tag", "expect": "class_absent", "value": "selected"},
+        {"name": "关闭新建任务", "op": "click", "selector": ".task-form .cancel-btn"},
+        {"name": "新建弹窗关闭", "op": "wait_for", "selector": ".modal-overlay", "expect": "absent"},
+        {"name": "打开编辑任务", "op": "click", "selector": ".task-item .task-action-btn"},
+        {"name": "编辑弹窗内容显示", "op": "wait_for", "selector": ".modal-overlay .modal-header h3", "expect": "text_includes", "value": "编辑任务"}
+      ]
+    },
+    {
+      "sample_id": "MonitoringDashboard",
+      "component_tag": "monitoring-dashboard",
+      "baseline_san_file": "data/experiments/snapshots/formal_30_v4_development_manual_closeout_20261027/reviewed_san/MonitoringDashboard.san",
+      "steps": [
+        {"name": "KPI 数据显示", "op": "wait_for", "selector": ".kpi-card", "expect": "count_at_least", "value": 1},
+        {"name": "KPI 百分比显示", "op": "wait_for", "selector": ".kpi-card .kpi-trend", "expect": "text_matches", "value": "[0-9]+(?:\\.[0-9]+)?%"},
+        {"name": "日志数据出现", "op": "wait_for", "selector": ".log-item", "expect": "count_at_least", "value": 1},
+        {"name": "日志等级文本显示", "op": "wait_for", "selector": ".log-item .log-level", "expect": "text_nonempty"},
+        {"name": "CPU 与内存图表均有容器", "op": "wait_for", "selector": ".chart-card:first-child .chart-wrapper", "expect": "count_at_least", "value": 2},
+        {"name": "打开设置", "op": "click", "selector": ".status-bar .action-buttons .icon-btn:nth-child(3)"},
+        {"name": "设置表单出现", "op": "wait_for", "selector": ".modal-overlay .settings-form", "expect": "exists"},
+        {"name": "修改日志保留天数", "op": "select", "selector": ".settings-form select", "value": "30"},
+        {"name": "选项保持为 30 天", "op": "wait_for", "selector": ".settings-form select", "expect": "value_equals", "value": "30"},
+        {"name": "保存设置", "op": "click", "selector": ".settings-form .submit-btn"},
+        {"name": "设置弹窗关闭", "op": "wait_for", "selector": ".modal-overlay", "expect": "absent"},
+        {"name": "重新打开设置", "op": "click", "selector": ".status-bar .action-buttons .icon-btn:nth-child(3)"},
+        {"name": "保存值再次出现", "op": "wait_for", "selector": ".settings-form select", "expect": "value_equals", "value": "30"}
+      ]
+    }
+  ]
+}

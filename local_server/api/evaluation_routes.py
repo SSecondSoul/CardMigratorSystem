@@ -42,7 +42,34 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
     data_access_rule = (
         "San data access rule: never destructure this.data or treat it as a plain object. "
         "Read fields separately, for example const initialGroups = "
-        "this.data.get('initialGroups'), then write state with this.data.set(...).\n"
+        "this.data.get('initialGroups'), then write state with this.data.set(...). "
+        "This also applies inside every inline child: if a Vue prop is named data, "
+        "use this.data.get('data').map(...) and this.data.get('data').length, "
+        "never this.data.map(...) or this.data.length. San initData runs before this.data "
+        "exists, including in inline children: never read this.data or prop values there; "
+        "return defaults and copy props into derived state in inited(), watching the prop "
+        "if it can change. Computed values must be read with this.data.get('computedName'), "
+        "not this.computedName. San computed callbacks "
+        "do not receive the full component instance: never call this.getX() or any other "
+        "component method inside computed; use pure helper functions with explicit data arguments. "
+        "In every inline child template, on-* handlers must call component methods, not assign "
+        "state directly: use on-mouseenter=\"setHoveredIndex(index)\" with a method that "
+        "calls this.data.set('hoveredIndex', index), never on-mouseenter=\"hoveredIndex = index\". "
+        "San this.fire(name, payload) carries one payload: do not pass separate key and value "
+        "arguments. Fire {key, value} and unpack $event.key/$event.value in the parent binding. "
+        "San event attributes must have a nonempty method handler. Put modifiers in the event "
+        "value, for example on-submit=\"prevent:handleSubmit\" and "
+        "on-click=\"stop:handleClick\", never on-submit.prevent or on-click.stop. "
+        "For loop item and index aliases use s-for=\"item, index in items trackby item.id\", "
+        "never Vue's parenthesized (item, index) tuple. "
+        "Computed entries are values, not callable formatters: when an inline child template "
+        "uses formatDate(task.dueDate) or formatTrend(trend), define a top-level child method "
+        "accepting that argument, not computed: { formatDate() { ... } }. "
+        "Do not call Math.abs(...) directly inside inline San template interpolation; call a "
+        "component method such as formatChange(change). Avoid member calls in inline child render expressions: "
+        "move collection checks and string formatting into top-level child methods, passing every reactive "
+        "receiver and argument explicitly. Convert Vue object-style bindings "
+        "to CSS strings, for example style=\"{{ 'background-color: ' + insight.color + ';' }}\".\n"
     )
     class_attribute_rule = (
         "Each template element must have exactly one class attribute: merge static and dynamic classes "
@@ -56,13 +83,21 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
     )
     watch_rule = (
         "Register Vue watchers by calling this.watch(...) directly inside San inited() or attached(). "
-        "Never hide this.watch(...) inside an uncalled top-level watch() method.\n"
+        "Never hide this.watch(...) inside an uncalled top-level watch() method. "
+        "San this.watch(path, listener) needs a FUNCTION listener; never pass a Vue object "
+        "descriptor such as {handler() {}, immediate: true, deep: true} directly. Preserve its "
+        "immediate/deep behavior explicitly rather than dropping it.\n"
     )
     component_rule = (
         "Every component in script.options.components must have a defined JavaScript identifier before "
         "the parent san.defineComponent call. For an inline Vue component, migrate its complete "
         "inline_definition.source_code to const SourceName = san.defineComponent({...}) and register "
-        "that exact identifier; never invent an undefined camelCase replacement.\n"
+        "that exact identifier; never invent an undefined camelCase replacement. A hyphenated "
+        "custom-element name is a quoted registry KEY, not a JavaScript variable: write "
+        "const StatCard = san.defineComponent({...}) and components: {'stat-card': StatCard}, "
+        "never const stat-card. Explicitly pass a child custom-event payload with $event in the "
+        "parent handler binding when needed; keep modal-content clicks from closing a backdrop-only modal. "
+        "This is a standalone .san file: do not use require('./Child') or any other external require.\n"
     )
     reserved_method_rule = (
         "If a Vue business method is named initData, rename that business method in San because "
@@ -107,18 +142,29 @@ def _build_repair_prompt(payload: dict[str, Any]) -> str:
     )
     watch_rule = (
         "Register Vue watchers by calling this.watch(...) directly inside San inited() or attached(). "
-        "Never hide this.watch(...) inside an uncalled top-level watch() method.\n"
+        "Never hide this.watch(...) inside an uncalled top-level watch() method. "
+        "The second argument must be a callable function, not a Vue descriptor object with "
+        "handler/immediate/deep fields; preserve those behaviors explicitly.\n"
     )
     component_rule = (
         "Define every identifier used in the San components registry. When SSM marks a component "
         "definition_location as inline, convert inline_definition.source_code into a complete local "
-        "san.defineComponent definition before registering it; never leave an undefined placeholder.\n"
+        "san.defineComponent definition before registering it; never leave an undefined placeholder. "
+        "Use valid JavaScript variable names and quoted dashed tag keys: "
+        "const StatCard = san.defineComponent({...}); components: {'stat-card': StatCard}, "
+        "never const stat-card or {'stat-card': stat-card}. Forward child event payloads explicitly "
+        "with $event when the parent handler consumes them; preserve backdrop-only modal close behavior. "
+        "This is a standalone .san file: do not use require('./Child') or any other external require.\n"
     )
     reserved_method_rule = (
         "A Vue business method named initData conflicts with San's initData state factory. Rename the "
         "business method, update its call sites, and keep source mounted behavior in attached().\n"
     )
-    return directive_rule + watch_rule + component_rule + reserved_method_rule + (
+    inline_render_rule = (
+        "Avoid member calls in inline child render expressions: move collection checks and string "
+        "formatting into top-level child methods with explicit reactive arguments.\n"
+    )
+    return directive_rule + watch_rule + component_rule + reserved_method_rule + inline_render_rule + (
         "你是一个 Vue 到 San 迁移修复专家。请根据 SSM、当前 San 代码和修复报告，输出修复后的完整 .san 文件。\n"
         "要求：只输出代码，不要输出解释或 Markdown 代码围栏。\n\n"
         "--- SSM ---\n"

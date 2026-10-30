@@ -1,0 +1,37 @@
+[
+  {
+    "code": "invalid_san_init_data_store_access",
+    "message": "initData accesses this.data before initialization: TaskForm",
+    "severity": "error",
+    "location": "script",
+    "suggestion": "Return stable defaults from initData; synchronize prop-dependent values in inited() using this.data.get/set, including inline child components."
+  },
+  {
+    "code": "missing_inline_prop_dependent_initialization",
+    "message": "以下内联子组件缺少初始 prop 派生状态：TaskForm.formData <- task",
+    "severity": "error",
+    "location": "script",
+    "suggestion": "San initData 返回稳定默认值；在子组件 inited() 注册 this.watch 之前，用 this.data.get('prop') 读取初始 prop，调用原有拷贝逻辑，再 this.data.set('field', value)。保留 watcher 处理后续 prop 变化。"
+  },
+  {
+    "code": "invalid_san_computed_instance_method_call",
+    "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+    "severity": "error",
+    "location": "script",
+    "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+  },
+  {
+    "code": "hidden_template_reactive_dependency",
+    "message": "模板 text 渲染表达式调用 getTaskCount(...)，但该方法内部隐藏读取响应式字段：tasks。这些字段变化时，San 可能不会重新计算该绑定。",
+    "severity": "error",
+    "location": "template/script",
+    "suggestion": "在模板表达式中直接引用 tasks，或将这些字段作为参数显式传给 getTaskCount(...)。"
+  },
+  {
+    "code": "lifecycle_behavior_not_landed",
+    "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 loadInitialData(), 调用方法 showNotification(), 调用方法 startAutoSync()。",
+    "severity": "error",
+    "location": "script",
+    "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+  }
+]

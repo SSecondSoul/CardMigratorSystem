@@ -1,0 +1,39 @@
+{
+  "purpose": "Record the single LLM repair probe on the five TaskManager semantic residuals",
+  "independent_holdout": false,
+  "source_snapshot": "formal_30_v4_task_manager_semantic_residual_bounded_replay_20261028_224401",
+  "pre_run_snapshot": "formal_30_v4_task_manager_semantic_residual_probe_v1_pre_run_20261028",
+  "result_snapshot": "formal_30_v4_task_manager_semantic_residual_probe_v1_result_20261028_230247",
+  "frozen_payloads_verified": 12,
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "prompt_tokens": 12521,
+  "completion_tokens": 10792,
+  "total_tokens": 23313,
+  "before_validation_error_count": 5,
+  "after_validation_error_count": 2,
+  "resolved_error_families": [
+    "unsupported_san_inline_template_math_global",
+    "hidden_template_reactive_dependency"
+  ],
+  "remaining_validation_error_codes": [
+    "invalid_san_init_data_store_access",
+    "invalid_san_computed_instance_method_call"
+  ],
+  "remaining_details": [
+    "TaskForm.initData still calls this.data.get('task') before the San data store exists.",
+    "The parent filteredTasks computed callback still calls this.isOverdue(task)."
+  ],
+  "visual_eval_passed": true,
+  "structure_similarity": 0.9889,
+  "event_regression_gate": "pass",
+  "retrospective_extended_gate": {
+    "decision": "review",
+    "unjustified_pre_mount_state_writes": ["tasks"],
+    "note": "The original frozen probe report remains unchanged; the later generalized gate now detects a state-timing risk that its event-only predecessor did not assess."
+  },
+  "new_semantic_risk": "The model added this.data.set('tasks', this.getSampleTasks()) in parent inited(), after registering a tasks watcher and before attached() calls loadInitialData(). The Vue source initializes tasks as [] and loads persisted/sample tasks only in mounted(). This extra early write can trigger auto-save and is not source-equivalent; its runtime impact has not been manually verified.",
+  "automatic_passed": false,
+  "browser_manual_review": "not_performed",
+  "conclusion": "The focused prompt improved three reported errors but did not resolve the two remaining static failures and introduced an unrequested state initialization. Do not count this as an automatic or independent-test success; next repair must address both residual errors and remove the unsupported early tasks write, with a regression guard."
+}

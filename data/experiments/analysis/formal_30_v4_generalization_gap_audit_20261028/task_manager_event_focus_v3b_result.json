@@ -1,0 +1,26 @@
+{
+  "purpose": "Diagnosis of frozen TaskManager v3b event-only probe result",
+  "independent_holdout": false,
+  "result_snapshot": "formal_30_v4_task_manager_event_focus_v3b_result_20261028_203015",
+  "pre_run_snapshot": "formal_30_v4_task_manager_event_focus_v3b_pre_run_20261028",
+  "candidate_sha256": "8866bc0ea6d445e90125ee7d01dec3aa852bdccfb99b1e79045a84e519e97449",
+  "frozen_payloads_verified": 12,
+  "model": "qwen-plus",
+  "total_tokens": 24760,
+  "validation_passed": false,
+  "validation_error_codes": ["invalid_san_event_handler_syntax"],
+  "invalid_event_bindings": [
+    {"line": 13, "binding": "on-click=\"showSettings = true\""},
+    {"line": 58, "binding": "on-click=\"showSettings = false\""},
+    {"line": 62, "binding": "on-click=\"showSettings = false\""}
+  ],
+  "visual_eval_passed": true,
+  "structure_similarity": 0.9889,
+  "event_coverage_before": {"exact": 2, "plausible_aliases": 22, "unresolved": 0},
+  "event_coverage_after": {"exact": 24, "plausible_aliases": 0, "unresolved": 0},
+  "event_regression_gate": "reject",
+  "automatic_passed": false,
+  "browser_manual_review": "not_performed",
+  "diagnosis": "Model restored source callable event names and arguments but copied source boolean assignments directly into San event attributes, removing the previously valid settings handler methods. This is a runtime-invalid regression, not a validator false positive.",
+  "next_candidate_fix": "Evaluate a bounded repair-stage normalizer only for source-corroborated top-level boolean data assignments, with negative tests and offline replay before another model call."
+}

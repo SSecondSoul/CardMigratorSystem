@@ -1,0 +1,93 @@
+{
+  "sample_id": "analytics_dashboard",
+  "classification": "development_manual_browser_audit",
+  "reported_on": "2026-10-26",
+  "status": "three_automatic_passes_rejected_visual_bindings_candidate_user_reported_pass",
+  "user_observation": "Error: 仅支持 require(\"san\")，当前: ./StatCard",
+  "frozen_artifact": "data/experiments/snapshots/formal_30_v4_analytics_pass_20261023_152047/pipeline/complex/AnalyticsDashboard_repaired_repaired.san",
+  "frozen_artifact_sha256": "b8b0d9c7913374044ed1db573cc45ffb74a57cc6ff02005142cb58704f6c3e0f",
+  "frozen_vue_source": "data/experiments/protocols/formal_30_v3_frozen_20261022/frozen/data/datasets/components/03_complex/AnalyticsDashboard/vue/AnalyticsDashboard.vue",
+  "frozen_vue_sha256": "a4a5bbfe13f2ed746abb5747339aa3141e1d5ff130afb47d99eb21704aced65b",
+  "diagnosis": "The frozen standalone San artifact requires four absent relative child modules. Older compile/render stubs returned empty objects for unknown require calls, so the automatic pass did not establish browser loadability.",
+  "relative_requires": [
+    "./StatCard",
+    "./TrendChart",
+    "./InsightList",
+    "./ActivityTable"
+  ],
+  "current_replay_validation_error_codes": [
+    "unsupported_san_module_require",
+    "duplicate_class_attribute",
+    "missing_component_registration",
+    "unresolved_component_registration",
+    "san_script_compile_error",
+    "watch_registration_not_in_lifecycle"
+  ],
+  "current_replay_visual_error_codes": [
+    "san_render_failed",
+    "san_san_render_error"
+  ],
+  "correction_scope": [
+    "Reject unsupported module imports in single-file San validation.",
+    "Make the compile and lightweight-render stubs reject unknown require calls instead of returning empty objects.",
+    "State the self-contained inline-child requirement in generation and repair prompts.",
+    "Run an isolated one-sample development follow-up; do not overwrite the frozen automatic result."
+  ],
+  "followup_config": "migration_pipeline/batch_configs/formal_30_v4_analytics_manual_followup.json",
+  "followup_snapshot": "data/experiments/snapshots/formal_30_v4_analytics_manual_followup_automatic_pass_20261026_152546",
+  "runtime_followup_config": "migration_pipeline/batch_configs/formal_30_v4_analytics_runtime_followup.json",
+  "runtime_followup_status": "frozen_automatic_pass_rejected_by_browser_review",
+  "runtime_followup_snapshot": "data/experiments/snapshots/formal_30_v4_analytics_runtime_followup_automatic_pass_20261026_160213",
+  "computed_context_candidate_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_analytics_computed_context.json",
+  "hover_candidate_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_analytics_hover.json",
+  "visual_bindings_candidate_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_analytics_visual_bindings.json",
+  "runtime_followup_automatic_result": {
+    "final_passed": true,
+    "repair_rounds": 3,
+    "generation_tokens": 67292,
+    "repair_tokens": 169392,
+    "total_tokens": 236684,
+    "independent_frozen_replay_validation_passed": true,
+    "independent_frozen_replay_visual_passed": true,
+    "structure_similarity": 1.0,
+    "tag_sequence_similarity": 1.0,
+    "text_similarity": 1.0,
+    "tree_edit_distance": 0.0,
+    "manual_browser_status": "failed_loading_overlay_stuck",
+    "user_observation": "San dashboard keeps showing 正在加载最新数据",
+    "local_browser_reproduction": {
+      "error": "TypeError: this.getX is not a function",
+      "after_two_seconds": {
+        "loading_overlay_visible": true,
+        "chart_points": 30,
+        "insights": 4,
+        "activities": 15
+      }
+    },
+    "diagnosis": "San computed callbacks receive a restricted data context, not the full component instance. TrendChart linePoints and areaPoints call this.getX/this.getY, causing an asynchronous render exception and leaving the overlay visible.",
+    "new_validator_error_code": "invalid_san_computed_instance_method_call"
+  },
+  "followup_automatic_result": {
+    "final_passed": true,
+    "repair_rounds": 2,
+    "generation_tokens": 67101,
+    "repair_tokens": 84831,
+    "total_tokens": 151932,
+    "independent_frozen_replay_validation_passed": true,
+    "independent_frozen_replay_visual_passed": true,
+    "structure_similarity": 1.0,
+    "tag_sequence_similarity": 1.0,
+    "text_similarity": 1.0,
+    "tree_edit_distance": 0.0,
+    "manual_browser_status": "failed_this_data_map_runtime_error",
+    "user_observation": "TypeError: this.data.map is not a function",
+    "diagnosis": "The inline TrendChart migrated a Vue prop named data as this.data.map and this.data.length; in San this.data is the Data store. Four map calls and two length reads must use this.data.get('data'). The chart also reads computed values through this.maxValue/this.minValue, which requires further review before claiming runtime parity.",
+    "new_validator_error_codes": [
+      "invalid_san_data_store_array_access",
+      "invalid_san_computed_direct_access"
+    ],
+    "new_validator_detected_array_access_occurrences": 6,
+    "new_validator_detected_direct_computed_fields": ["maxValue", "minValue"]
+  },
+  "boundary": "This is a post-hoc development audit, not a new independent test result. The frozen snapshot and original batch summary are not modified."
+}

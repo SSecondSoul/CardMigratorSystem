@@ -1,0 +1,40 @@
+{
+  "sample_id": "analytics_dashboard",
+  "classification": "reused_development_regression",
+  "independent_holdout": false,
+  "batch_id": "formal_30_v4_generalization_followup",
+  "snapshot": "data/experiments/snapshots/formal_30_v4_generalization_followup_analytics_dashboard_automatic_fail_20261027_144124",
+  "san_file": "data/experiments/snapshots/formal_30_v4_generalization_followup_analytics_dashboard_automatic_fail_20261027_144124/final.san",
+  "san_sha256": "734a4114615c2bcf5903fdc5801a020af88fffe6ca6a8475b117fdf59f0e1661",
+  "automatic": {
+    "final_passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "initial_validation_passed": false,
+    "initial_visual_passed": false,
+    "final_validation_passed": false,
+    "final_validation_error_codes": [
+      "invalid_san_computed_instance_method_call"
+    ],
+    "final_visual_passed": true,
+    "final_structure_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "generation_tokens": 67902,
+    "repair_tokens": 171409,
+    "total_tokens": 239311,
+    "interaction_eval_passed": null
+  },
+  "finding": {
+    "location": "TrendChart computed.linePoints and computed.areaPoints",
+    "offending_calls": [
+      "this.getX(idx)",
+      "this.getY(point.value)"
+    ],
+    "validator_message": "San computed callbacks call component methods unavailable in their computed context: getX, getY",
+    "existing_prompt_constraint": "San computed callbacks must not call component instance methods; use pure helpers with explicit data arguments.",
+    "interpretation": "The generated code retained the forbidden calls after three repair rounds. Lightweight visual success does not override the static failure and may not exercise the chart after asynchronous data loads."
+  },
+  "manual_vue_san_review": "not_started_due_to_automatic_failure",
+  "next_step": "Improve general repair feedback or add a proven, bounded normalization for computed-to-instance-method calls, test on this frozen artifact without changing it, then run a new development follow-up; do not overwrite the checkpoint with --force.",
+  "boundary": "This is a development regression failure, not an independent formal-test outcome. Browser behavior of this new artifact has not been verified."
+}

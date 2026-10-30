@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>formal_30_v4 开发集运行时验收</title>
+  <script src="https://unpkg.com/san@3.15.3/dist/san.dev.js"></script>
+  <style>
+    body { font: 14px/1.5 system-ui, sans-serif; margin: 16px; }
+    #controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+    #artifact { min-width: 48em; max-width: 100%; }
+    #report { white-space: pre-wrap; background: #f3f4f6; padding: 12px; }
+    #component-host { border: 1px solid #ddd; min-height: 200px; }
+  </style>
+</head>
+<body>
+  <h1>formal_30_v4 开发集运行时验收</h1>
+  <p>此页只检查 San 运行时场景，不生成组件、不调用 LLM，也不代表独立测试或完整 Vue/San 视觉等价。</p>
+  <div id="controls">
+    <label>样本 <select id="sample"></select></label>
+    <label>San 产物路径 <input id="artifact" spellcheck="false"></label>
+    <button id="run" type="button">运行场景</button>
+  </div>
+  <pre id="report" aria-live="polite">选择样本后运行。</pre>
+  <div id="component-host"></div>
+  <script src="formal-30-v4-runtime-acceptance.js"></script>
+</body>
+</html>

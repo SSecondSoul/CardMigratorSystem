@@ -1,0 +1,41 @@
+{
+  "batch_id": "formal_30_v4_task_manager_source_events_regression_v1",
+  "classification": "reused_development_regression_result",
+  "independent_holdout": false,
+  "source_snapshot": "formal_30_v4_task_manager_source_events_regression_v1_pre_run_20261029",
+  "result_snapshot": "formal_30_v4_task_manager_source_events_regression_v1_TaskManager_automatic_fail_20261029_222317",
+  "frozen_payloads_verified": 13,
+  "sample_id": "TaskManager",
+  "automatic_passed": false,
+  "stop_reason": "max_repair_rounds_reached",
+  "repair_rounds": 5,
+  "max_repair_rounds": 5,
+  "repair_providers_in_order": [
+    "deterministic:san_combined_structural_normalizer",
+    "deterministic:san_source_boolean_event_normalizer",
+    "deterministic:source_event_semantics_normalizer",
+    "qwen:qwen-plus",
+    "deterministic:source_event_semantics_normalizer"
+  ],
+  "source_event_gate_observation": {
+    "initial_errors": ["missing_self_click_guard", "native_drag_event_misbound"],
+    "native_drag_error_absent_after_round": 3,
+    "self_click_error_absent_after_round": 5,
+    "final_event_errors": []
+  },
+  "final_validation_error_codes": [
+    "invalid_san_init_data_store_access",
+    "missing_inline_prop_dependent_initialization",
+    "invalid_san_computed_instance_method_call",
+    "hidden_template_reactive_dependency"
+  ],
+  "final_visual_passed": true,
+  "final_structure_similarity": 0.9889,
+  "interaction_eval_passed": null,
+  "manual_browser_review_of_this_output": "not_performed",
+  "generation_tokens": 97543,
+  "repair_tokens": 122381,
+  "total_tokens": 219924,
+  "diagnosis": "The source-event validator and bounded normalizer activated, but two additional deterministic rounds left one model repair round within the five-round cap. Four independent first-prop/computed/reactivity defects remain. This does not establish that a sixth round would pass.",
+  "next_step": "Freeze and analyze the round-5 candidate as a focused four-error development probe before another full generation run; keep all automatic and manual outcomes separate."
+}

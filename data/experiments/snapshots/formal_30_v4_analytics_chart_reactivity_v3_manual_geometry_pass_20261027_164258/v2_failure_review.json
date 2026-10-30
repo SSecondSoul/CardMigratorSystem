@@ -1,0 +1,26 @@
+{
+  "sample_id": "analytics_dashboard",
+  "classification": "reused_development_regression_repair_probe",
+  "independent_holdout": false,
+  "probe_version": "v2",
+  "frozen_input": "data/experiments/snapshots/formal_30_v4_generalization_followup_analytics_dashboard_automatic_fail_20261027_144124/manifest.json",
+  "probe_snapshot": "data/experiments/snapshots/formal_30_v4_analytics_computed_focus_probe_v2_static_pass_20261027_152434/manifest.json",
+  "candidate_sha256": "c0503283250a6467d7a6cb4e8a03caae057197ed9d5b11d82d316994d0d6c647",
+  "prompt_sha256": "7108becceee289ef627e69eb5c6837d1786e638cf53cc6ae823cdbd695aba401",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "total_tokens": 17048,
+  "validation_passed": true,
+  "visual_eval_passed": true,
+  "structure_similarity": 1.0,
+  "tree_edit_distance": 0.0,
+  "code_review": {
+    "template_unchanged": true,
+    "style_unchanged": true,
+    "template_getX_getY_one_argument_contract_preserved": true,
+    "computed_uses_separate_pure_coordinate_helpers": true
+  },
+  "browser_runtime_scenario": "failed_by_user_manual_observation: switching to 7d or 90d leaves San chart circles offset from its polyline; the automated geometry scenario has not yet been run",
+  "manual_vue_san_review": "San failed period-switch geometry review; Vue period-switch behavior was not checked",
+  "boundary": "Static, lightweight visual, and code-inspection results do not establish browser runtime behavior or complete Vue/San parity. This is a repair probe on a reused development artifact, not a fresh generation pass or independent formal-test result."
+}

@@ -3,7 +3,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 
 from SSM.extractors.factory import SSMFactory
-from local_server.api.evaluation_routes import _build_generation_prompt
+from local_server.api.evaluation_routes import _build_generation_prompt, _build_repair_prompt
 from migration_pipeline.orchestrator import MigrationPipelineOrchestrator
 from migration_pipeline.repair_client import RepairResult
 from migration_pipeline.run_pipeline import compact_repair_history_entry
@@ -122,6 +122,37 @@ class StaticRepairClient:
 
 
 class RepairPromptAndLoopTests(unittest.TestCase):
+    def test_computed_method_call_only_uses_focused_repair_prompt(self):
+        code = "<template><div /></template><script>computed: { points() { return this.getX(0); } }</script><style></style>"
+        prompt = build_repair_prompt(RepairPromptInput(
+            ssm={"large_unrelated_contract": "do not repeat"},
+            current_code=code,
+            validation_errors=[{
+                "code": "invalid_san_computed_instance_method_call",
+                "message": "getX",
+            }],
+        ))
+
+        self.assertIn("invalid_san_computed_instance_method_call", prompt)
+        self.assertIn(code, prompt)
+        self.assertIn("Do not merely remove `this.`", prompt)
+        self.assertIn("pure JavaScript helper functions", prompt)
+        self.assertIn("make those dependencies explicit in the template call", prompt)
+        self.assertIn("Never change a method signature without changing every", prompt)
+        self.assertNotIn("large_unrelated_contract", prompt)
+        self.assertNotIn("--- SSM ---", prompt)
+
+        mixed_prompt = build_repair_prompt(RepairPromptInput(
+            ssm={"large_unrelated_contract": "do not repeat"},
+            current_code=code,
+            validation_errors=[
+                {"code": "invalid_san_computed_instance_method_call"},
+                {"code": "missing_prop_defaults"},
+            ],
+        ))
+        self.assertIn("large_unrelated_contract", mixed_prompt)
+        self.assertIn("--- SSM ---", mixed_prompt)
+
     def test_repair_normalizer_unwraps_only_structural_directives(self):
         code = '''<template>
   <div s-if="{{ showSettings }}"></div>
@@ -346,6 +377,117 @@ module.exports = san.defineComponent({
 
         self.assertEqual(with_other_static_error, code)
         self.assertEqual(with_visual_error, code)
+
+    def test_duplicate_static_and_dynamic_classes_are_merged_without_llm(self):
+        code = '''<template>
+<section><button class="group-tab" s-for="group in groups" class="{{selectedGroupId === group.id ? 'active' : ''}}">{{group.name}}</button>
+<article class="rule-row" class="{{!rule.value ? 'invalid' : ''}}">Row</article></section>
+</template>
+<script>module.exports = san.defineComponent({});</script>
+<style>.group-tab.active {color: green}</style>
+'''
+        with TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "RuleBuilder_class_merge.san"
+            result = RepairStage(repair_client=FailIfCalledRepairClient()).run(
+                RepairStageInput(
+                    ssm={},
+                    generated_code=code,
+                    output_file_path=str(output_path),
+                    validation_errors=[{"code": "duplicate_class_attribute"}],
+                )
+            )
+
+            self.assertEqual(result.provider, "deterministic")
+            self.assertEqual(result.model, "san_duplicate_class_normalizer")
+            self.assertIn('class="group-tab {{selectedGroupId === group.id ? \'active\' : \'\'}}"', result.repaired_code)
+            self.assertIn('class="rule-row {{!rule.value ? \'invalid\' : \'\'}}"', result.repaired_code)
+            self.assertEqual(output_path.read_text(encoding="utf-8"), result.repaired_code)
+            self.assertEqual(
+                RepairStage._normalize_duplicate_class_attributes(result.repaired_code),
+                result.repaired_code,
+            )
+            validated = ValidateStage().run(ValidateStageInput(
+                generated_code=result.repaired_code,
+                compile_check=False,
+            ))
+            self.assertNotIn("duplicate_class_attribute", {issue["code"] for issue in validated.validation_errors})
+
+    def test_duplicate_class_normalizer_does_not_guess_ambiguous_bindings(self):
+        code = '''<template><button class="{{a}}" class="{{b}}">Click</button></template>
+<script>module.exports = san.defineComponent({});</script><style></style>'''
+        self.assertEqual(RepairStage._normalize_duplicate_class_attributes(code), code)
+        self.assertEqual(
+            RepairStage._apply_deterministic_repairs(
+                code, [{"code": "duplicate_class_attribute"}], [{"code": "dom_critical_attribute_mismatch"}],
+            ),
+            code,
+        )
+
+    def test_frozen_analytics_inline_duplicate_classes_replay_without_llm(self):
+        frozen = (
+            ROOT / "data/experiments/snapshots"
+            / "formal_30_v4_analytics_chart_reactivity_regression_v1_automatic_pass_20261027_172556"
+            / "AnalyticsDashboard_repaired_repaired_repaired.san"
+        )
+        original = frozen.read_text(encoding="utf-8")
+        before = ValidateStage().run(ValidateStageInput(
+            generated_code=original, compile_check=False,
+        ))
+        duplicate = [issue for issue in before.validation_errors
+                     if issue["code"] == "duplicate_class_attribute"]
+        self.assertEqual(len(duplicate), 4)
+        self.assertEqual({issue["location"] for issue in duplicate}, {
+            "script.StatCard.template",
+            "script.TrendChart.template",
+            "script.InsightList.template",
+        })
+        normalized, repairs = RepairStage._deterministic_repair_plan(
+            original, before.validation_errors, [],
+        )
+        self.assertIn((
+            "san_duplicate_class_normalizer",
+            "merged_static_and_dynamic_class_attributes",
+        ), repairs)
+        self.assertIn('class="trend-chart {{loading ? \'chart-loading\' : \'\'}}"', normalized)
+        self.assertEqual(RepairStage._normalize_duplicate_class_attributes(normalized), normalized)
+        after = ValidateStage().run(ValidateStageInput(
+            generated_code=normalized, compile_check=False,
+        ))
+        self.assertNotIn("duplicate_class_attribute",
+                         {issue["code"] for issue in after.validation_errors})
+
+    def test_rule_builder_frozen_pass_exposes_duplicate_classes(self):
+        frozen = (
+            ROOT / "data/experiments/snapshots"
+            / "formal_30_v4_rule_builder_pass_20261022_233452"
+            / "pipeline/complex/RuleBuilder_repaired.san"
+        )
+        original = frozen.read_text(encoding="utf-8")
+        before = ValidateStage().run(ValidateStageInput(
+            generated_code=original,
+            compile_check=False,
+        ))
+        self.assertEqual(
+            [issue["code"] for issue in before.validation_errors],
+            ["duplicate_class_attribute"],
+        )
+
+        normalized, repairs = RepairStage._deterministic_repair_plan(
+            original, before.validation_errors, [],
+        )
+        self.assertEqual(repairs, [(
+            "san_duplicate_class_normalizer",
+            "merged_static_and_dynamic_class_attributes",
+        )])
+        self.assertIn('class="group-tab {{selectedGroupId === group.id ? \'active\' : \'\'}}"', normalized)
+        self.assertIn('class="rule-row {{!rule.value ? \'invalid\' : \'\'}}"', normalized)
+        self.assertNotIn('class="group-tab"', normalized)
+        self.assertNotIn('class="rule-row"', normalized)
+        after = ValidateStage().run(ValidateStageInput(
+            generated_code=normalized,
+            compile_check=False,
+        ))
+        self.assertTrue(after.validation_passed, after.validation_errors)
 
     def test_repair_stage_skips_llm_for_redundant_loop_key(self):
         code = '''<template>
@@ -716,6 +858,9 @@ module.exports = san.defineComponent({
         self.assertIn('!canConnect || previewMode', prompt)
         self.assertIn("never destructure this.data", prompt)
         self.assertIn("this.data.get('initialGroups')", prompt)
+        self.assertIn("this.data.get('data').map(...)", prompt)
+        self.assertIn("never this.data.map(...) or this.data.length", prompt)
+        self.assertIn("never call this.getX()", prompt)
         self.assertIn("exactly one class attribute", prompt)
         self.assertIn("merge static and dynamic classes", prompt)
         self.assertIn("San s-if/s-else-if/s-for directive values use raw expressions", prompt)
@@ -724,8 +869,17 @@ module.exports = san.defineComponent({
         self.assertIn("this.watch(...) directly inside San inited() or attached()", prompt)
         self.assertIn("uncalled top-level watch() method", prompt)
         self.assertIn("inline_definition.source_code", prompt)
+        self.assertIn("do not use require('./Child')", prompt)
         self.assertIn("never invent an undefined camelCase replacement", prompt)
         self.assertIn("business method is named initData", prompt)
+        self.assertIn("Avoid member calls in inline child render expressions", prompt)
+
+    def test_server_fallback_repair_prompt_restricts_inline_member_calls(self):
+        prompt = _build_repair_prompt({
+            "ssm": {"metadata": {"component_name": "Example"}},
+            "current_code": "<template><div /></template>",
+        })
+        self.assertIn("Avoid member calls in inline child render expressions", prompt)
 
     def test_prompt_makes_computed_defaults_and_binding_direction_explicit(self):
         prompt = build_repair_prompt(RepairPromptInput(
@@ -841,6 +995,7 @@ module.exports = san.defineComponent({
         self.assertIn("this.data.get('initialGroups')", prompt)
         self.assertIn("exactly one class attribute", prompt)
         self.assertIn("merge static and dynamic classes", prompt)
+        self.assertIn("Avoid member calls in inline child render expressions", prompt)
         self.assertIn("San s-if/s-else-if/s-for directive values use raw expressions", prompt)
         self.assertIn('s-if="{{showSettings}}"', prompt)
         self.assertIn('s-for="{{item in items}}"', prompt)

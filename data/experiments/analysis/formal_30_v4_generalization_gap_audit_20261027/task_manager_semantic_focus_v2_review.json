@@ -1,0 +1,38 @@
+{
+  "sample_id": "TaskManager",
+  "batch_id": "formal_30_v4_semantic_focus_v2",
+  "classification": "reused_development_automatic_failure_review",
+  "independent_holdout": false,
+  "result_snapshot": "data/experiments/snapshots/formal_30_v4_semantic_focus_v2_TaskManager_automatic_fail_20261028_140129/manifest.json",
+  "automatic_result": {
+    "passed": false,
+    "stop_reason": "no_repair_progress",
+    "repair_rounds": 3,
+    "generation_tokens": 97259,
+    "repair_tokens": 242604,
+    "total_tokens": 339863,
+    "final_validation_error_codes": [
+      "invalid_san_event_handler_syntax",
+      "invalid_san_computed_instance_method_call",
+      "hidden_template_reactive_dependency",
+      "nested_state_mutation",
+      "lifecycle_behavior_not_landed"
+    ],
+    "final_visual_eval_passed": true,
+    "final_structure_similarity": 0.9889,
+    "interaction_eval_passed": null
+  },
+  "prompt_route_audit": {
+    "focused_semantic_prompt_used": false,
+    "reason": "The v2 output eliminated the inline Math error but also retained nested_state_mutation and lifecycle_behavior_not_landed; both were outside the bounded route, so the final round used the full prompt.",
+    "final_prompt_characters": 442296,
+    "repair_round_1_provider": "deterministic",
+    "repair_round_2_provider": "qwen",
+    "repair_round_3_provider": "qwen",
+    "round_3_same_code_as_round_2": true,
+    "conclusion": "Neither v1 nor v2 TaskManager fresh runs actually evaluated the focused semantic prompt. No improvement claim is justified."
+  },
+  "browser_manual_review": "not_performed_for_failed_automatic_output",
+  "batch_checkpoint": "1/2 completed, 0/1 automatic passes; MonitoringDashboard remains pending.",
+  "next_work": "Use this frozen residual failure to verify a bounded route for lifecycle and immutable nested-state errors, then perform one focused repair probe before another full fresh batch."
+}

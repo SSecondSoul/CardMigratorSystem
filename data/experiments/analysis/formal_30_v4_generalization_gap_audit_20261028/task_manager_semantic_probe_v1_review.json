@@ -1,0 +1,38 @@
+{
+  "sample_id": "TaskManager",
+  "classification": "reused_development_single_repair_probe_review",
+  "independent_holdout": false,
+  "input_batch": "formal_30_v4_semantic_focus_v2",
+  "input_automatic_result": "failed",
+  "result_snapshot": "data/experiments/snapshots/formal_30_v4_task_manager_semantic_probe_v1_result_20261028_155408/manifest.json",
+  "prompt_route": "focused_semantic_residual_prompt_confirmed",
+  "prompt_characters": 43814,
+  "model": "qwen-plus",
+  "probe_total_tokens": 23432,
+  "probe_result": {
+    "validation_passed": false,
+    "visual_eval_passed": true,
+    "structure_similarity": 0.9889,
+    "input_validation_error_codes": [
+      "invalid_san_event_handler_syntax",
+      "invalid_san_computed_instance_method_call",
+      "hidden_template_reactive_dependency",
+      "nested_state_mutation",
+      "lifecycle_behavior_not_landed"
+    ],
+    "output_validation_error_codes": [
+      "invalid_san_event_handler_syntax",
+      "missing_event_handlers",
+      "event_arguments_not_landed",
+      "lifecycle_behavior_not_landed",
+      "missing_event_bindings"
+    ],
+    "browser_manual_review": "not_performed"
+  },
+  "diagnosis": {
+    "positive": "The computed-instance-call, hidden-reactive-dependency, and nested-state-mutation codes are absent from the probe report.",
+    "regressions": "The output introduces missing_event_handlers, missing_event_bindings, and event_arguments_not_landed. Parent event handlers were renamed to handle-prefixed names while source bindings were not preserved; some inline child templates still contain Vue-style .stop/.prevent event attributes.",
+    "limit": "A single post-hoc probe is not a fresh automatic migration pass. The apparent disappearance of some validator codes does not establish semantic or browser equivalence."
+  },
+  "decision": "Reject the candidate as a passing repair; keep it frozen for failure analysis. Do not reclassify the v2 batch. Before another full LLM batch, add a regression guard for source event bindings and use smaller, bounded fixes for residual event syntax and lifecycle behavior."
+}

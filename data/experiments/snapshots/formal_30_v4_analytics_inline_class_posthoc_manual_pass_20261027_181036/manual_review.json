@@ -1,0 +1,40 @@
+{
+  "sample_id": "analytics_dashboard",
+  "classification": "reused_development_source_to_san_regression",
+  "independent_holdout": false,
+  "automatic_result_snapshot": "data/experiments/snapshots/formal_30_v4_analytics_chart_reactivity_regression_v1_automatic_pass_20261027_172556/manifest.json",
+  "automatic_result_under_frozen_old_validator": {
+    "passed": true,
+    "repair_rounds": 3,
+    "initial_hidden_template_reactive_dependency_count": 4,
+    "final_validation_error_count": 0,
+    "final_visual_error_count": 0,
+    "structure_similarity": 1.0,
+    "generation_tokens": 67759,
+    "repair_tokens": 102706,
+    "total_tokens": 170465
+  },
+  "post_freeze_code_review": {
+    "chart_coordinates_use_explicit_reactive_arguments": true,
+    "newly_detected_inline_duplicate_class_attributes": 4,
+    "affected_inline_components": ["StatCard", "TrendChart", "InsightList"],
+    "reason_for_prior_false_pass": "The prior duplicate-class validator and deterministic merger inspected only the outer SFC template; lightweight visual rendering did not expand inline child templates.",
+    "current_validator_result_for_frozen_output": "fails duplicate_class_attribute in inline child templates"
+  },
+  "generic_followup": "The duplicate-class validator and bounded deterministic merger now cover inline san.defineComponent templates; 140/140 unit tests pass.",
+  "posthoc_candidate": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_auto_regression_inline_class_v1/AnalyticsDashboard_repaired.san",
+  "posthoc_candidate_sha256": "1b2c8143e95f6eadbbdd3740bd864879a0d4742c28a08001667a0ae6cfb5bcb0",
+  "posthoc_candidate_static_compile_visual": "passed; structure similarity 1.0",
+  "posthoc_candidate_browser_review": {
+    "status": "user_reported_pass",
+    "reported_at": "2026-10-27",
+    "evidence": "User replied '已通过' after being asked to inspect the San test page",
+    "requested_checks": [
+      "statistics cards and insight styling",
+      "circle/polyline alignment after switching to 7d and 90d",
+      "no browser console errors"
+    ],
+    "automated_browser_scenario": "not_run"
+  },
+  "boundary": "The frozen batch's automatic pass remains an accurate historical result under the prior validator, but is not browser-runtime acceptance. The post-hoc candidate is separate and has not been shown to arise in a fresh source-to-San batch using the new rule."
+}

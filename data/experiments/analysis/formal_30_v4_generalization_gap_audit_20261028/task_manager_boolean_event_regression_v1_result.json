@@ -1,0 +1,36 @@
+{
+  "purpose": "Record the one-sample TaskManager development regression after the bounded boolean-event repair rule",
+  "independent_holdout": false,
+  "batch_id": "formal_30_v4_task_manager_boolean_event_regression_v1",
+  "pre_run_snapshot": "formal_30_v4_task_manager_boolean_event_regression_v1_pre_run_20261028",
+  "result_snapshot": "formal_30_v4_task_manager_boolean_event_regression_v1_TaskManager_automatic_fail_20261028_220158",
+  "frozen_payloads_verified": 11,
+  "sample_id": "TaskManager",
+  "completed": true,
+  "automatic_passed": false,
+  "stop_reason": "max_repair_rounds_reached",
+  "repair_rounds": 3,
+  "repair_sequence": [
+    "deterministic:san_combined_structural_normalizer",
+    "deterministic:san_source_boolean_event_normalizer",
+    "qwen:qwen-plus"
+  ],
+  "boolean_event_rule_observation": "The second deterministic round removed all three direct showSettings assignments. The remaining invalid event syntax is two on-*.prevent attributes, outside the boolean-assignment rule's scope.",
+  "generation_tokens": 97255,
+  "repair_tokens": 121511,
+  "total_tokens": 218766,
+  "final_validation_passed": false,
+  "final_validation_error_codes": [
+    "unsupported_san_inline_template_math_global",
+    "invalid_san_event_handler_syntax",
+    "invalid_san_init_data_store_access",
+    "invalid_san_computed_instance_method_call",
+    "hidden_template_reactive_dependency",
+    "hidden_template_reactive_dependency",
+    "lifecycle_behavior_not_landed"
+  ],
+  "final_visual_passed": true,
+  "final_structure_similarity": 0.9889,
+  "manual_review_performed": false,
+  "conclusion": "The bounded boolean-event rule worked for its intended pattern but did not make the fresh source-to-San migration pass. Do not count the earlier offline replay or this visually passing output as an automatic or independent-test success. Diagnose and address residual error families before another model-backed regression."
+}

@@ -1,0 +1,31 @@
+{
+  "sample_id": "TaskManager",
+  "classification": "development_manual_functional_repair_candidate",
+  "not_independent_holdout": true,
+  "source_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_form_initialization.san",
+  "source_sha256": "7d4a4066419063a350b70e16cd4ea816889b954f9300fade27fad4407ba0ff4c",
+  "candidate_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_settings_tags.san",
+  "candidate_sha256": "7dd1c8684e287ed06918f00d32a1e4d25568beb1f153b73e7f91559328d58810",
+  "replay_script": "migration_pipeline/replay_formal_30_v4_task_manager_settings_tags_fix.py",
+  "defect_codes": ["invalid_san_inline_event_payload", "task_form_tag_selected_style_not_reactive"],
+  "user_reported_differences": [
+    "Settings select becomes blank after choosing an option.",
+    "Settings checkbox cannot be rechecked after unchecking.",
+    "Selected tags in create/edit task form do not change color."
+  ],
+  "diagnosis": "The inline SettingsPanel uses fire('update', key, value) directly in San event expressions, but San custom events carry one payload object; the parent handler does not unpack a key/value payload. The task form class depends on an inline array method expression that did not refresh the selected style after its tag data changed.",
+  "repair": "Use explicit SettingsPanel event handlers that fire one {key, value} payload, unpack $event in the parent binding, and maintain a reactive selectedTagMap alongside formData.tags for tag classes. Keep the previous candidate and all frozen evidence unchanged.",
+  "verification": {
+    "source_validation_error_codes_after_validator_update": ["invalid_san_inline_event_payload"],
+    "candidate_validation_passed": true,
+    "candidate_validation_error_codes": [],
+    "candidate_compile_passed": true,
+    "candidate_visual_passed": true,
+    "candidate_structure_similarity": 0.9889,
+    "san_parser_results": "main and all five inline child templates passed with San 3.15.6",
+    "direct_san_child_checks": "settings emitted {key,value} for select and false/true checkbox changes; tag selection map updated on click and reset when switching to new task",
+    "regression_tests": "103 tests passed",
+    "user_manual_browser_status": "user_reported_pass_2026-10-26"
+  },
+  "boundary": "User confirmed this post-hoc development candidate in the browser on 2026-10-26. This does not change the original automatic checkpoint or independent formal result."
+}

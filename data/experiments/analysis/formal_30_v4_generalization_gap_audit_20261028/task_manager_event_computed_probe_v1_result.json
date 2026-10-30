@@ -1,0 +1,32 @@
+{
+  "purpose": "Record the bounded TaskManager event/computed repair probe before a fresh pipeline regression",
+  "independent_holdout": false,
+  "source_snapshot": "formal_30_v4_task_manager_three_residual_regression_v1_TaskManager_automatic_fail_20261029_155522",
+  "pre_run_snapshot": "formal_30_v4_task_manager_event_computed_probe_v1_pre_run_20261029",
+  "result_snapshot": "formal_30_v4_task_manager_event_computed_probe_v1_result_20261029_164017",
+  "frozen_payloads_verified": 11,
+  "input_sha256": "061da1a253123d3e1065b7d013d5c8870738fa12233e0085fe60d7235c68ed3c",
+  "prompt_sha256": "628b4afa0176800d36d708c5e8be0498917115309d178c7b3cfffc1eccaacfc0",
+  "candidate_sha256": "170dc0ef82cd131eee93ca8d05fc03fee24d0a572930915588ce9bd5f2f84240",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "total_tokens": 22940,
+  "validation_passed": true,
+  "validation_error_codes": [],
+  "visual_eval_passed": true,
+  "structure_similarity": 0.9611,
+  "event_regression_gate": "pass",
+  "automatic_passed": true,
+  "observed_diff": [
+    "The task-list empty on-dragover binding became prevent:noop, with a root no-op method.",
+    "A pure isOverdueHelper was added and substituted for this.isOverdue calls in computed and related count methods.",
+    "Existing modal on-click bindings and close-button handlers were not changed."
+  ],
+  "caveats": [
+    "The original isOverdue component method retains a duplicate copy of the calculation rather than delegating to the helper; both bodies currently match.",
+    "The event gate does not prove runtime equivalence of the pre-existing modal @click.self behavior.",
+    "This result is a local probe from a previously generated round-2 candidate, not a fresh Vue-to-San batch or independent holdout result.",
+    "Browser manual review was not performed."
+  ],
+  "next_step": "Run a fresh, single-sample TaskManager development regression from frozen Vue under the updated two-error repair prompt, then freeze and inspect it before manual review."
+}

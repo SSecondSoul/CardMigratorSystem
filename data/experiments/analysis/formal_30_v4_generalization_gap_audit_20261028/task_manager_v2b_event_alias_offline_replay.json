@@ -1,0 +1,36 @@
+{
+  "classification": "reused_development_offline_rule_replay",
+  "independent_holdout": false,
+  "input_snapshot": "data/experiments/snapshots/formal_30_v4_task_manager_semantic_probe_v2b_result_20261028_181549/manifest.json",
+  "frozen_candidate_changed_on_disk": false,
+  "rule": "Restore a source event handler name only when an outer-template handle-prefixed alias is undeclared, the exact source handler is declared as a top-level parent method, and the SSM contains the matching event/handler pair.",
+  "frozen_candidate_example": {
+    "before": "on-click=\"handleHideNotification\"",
+    "after_in_memory": "on-click=\"hideNotification\"",
+    "other_declared_handle_prefixed_handlers_unchanged": true
+  },
+  "read_only_replay": {
+    "san_compile_passed": true,
+    "source_event_gate_before": "reject",
+    "source_event_gate_after": "review",
+    "additional_unresolved_source_bindings_after": 0,
+    "plausible_aliases_still_requiring_review": 22,
+    "remaining_validation_error_codes": [
+      "nested_state_mutation",
+      "missing_event_handlers",
+      "event_arguments_not_landed",
+      "lifecycle_behavior_not_landed",
+      "missing_event_bindings"
+    ],
+    "existing_array_clone_normalizer_changed_candidate": false
+  },
+  "negative_boundaries_tested": [
+    "Do not change a binding whose handle-prefixed method is already declared",
+    "Do not accept a method declared only in an inline child or computed block as a parent event handler",
+    "Do not change when the SSM event name does not match",
+    "Do not rename the other 22 plausible but declared handle-prefixed methods"
+  ],
+  "verification": "184/184 full unittest tests passed; replay is idempotent and San compilation passes.",
+  "outcome": "The true missing notification handler is resolved in memory, but the candidate remains unaccepted. No model request, browser review, or full-batch rerun was performed.",
+  "next_work": "Treat array mutation and mounted-to-attached ordering as separate contextual repairs. Do not invent a writeback or weaken name-based event validation solely to obtain a pass."
+}

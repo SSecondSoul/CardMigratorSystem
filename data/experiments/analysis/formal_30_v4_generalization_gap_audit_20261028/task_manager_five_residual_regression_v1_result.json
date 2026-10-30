@@ -1,0 +1,33 @@
+{
+  "purpose": "Record the fresh four-round TaskManager development regression after the bounded five-residual probe",
+  "independent_holdout": false,
+  "batch_id": "formal_30_v4_task_manager_five_residual_regression_v1",
+  "pre_run_snapshot": "formal_30_v4_task_manager_five_residual_regression_v1_pre_run_20261029",
+  "result_snapshot": "formal_30_v4_task_manager_five_residual_regression_v1_TaskManager_automatic_pass_20261029_200650",
+  "frozen_payloads_verified": 12,
+  "sample_ids": ["TaskManager"],
+  "completed": 1,
+  "passed": 1,
+  "repair_rounds": 4,
+  "repair_providers": ["deterministic", "deterministic", "qwen", "qwen"],
+  "stop_reason": "passed",
+  "generation_tokens": 97276,
+  "repair_tokens": 145043,
+  "total_tokens": 242319,
+  "initial_validation_error_count": 15,
+  "final_validation_passed": true,
+  "final_validation_error_codes": [],
+  "final_visual_eval_passed": true,
+  "final_structure_similarity": 0.9889,
+  "final_event_regression_gate": "pass",
+  "interaction_eval_passed": null,
+  "browser_manual_review": "not_performed_for_this_automatic_output",
+  "repair_trajectory": [
+    "Rounds 1 and 2 were deterministic structural and source-grounded event normalizations.",
+    "Round 3 used qwen and left invalid_san_computed_instance_method_call plus two hidden_template_reactive_dependency findings.",
+    "Round 4 used qwen with the existing multi-semantic residual prompt and reduced static errors to zero."
+  ],
+  "prompt_attribution": "The newly added exact five-error specialization was not activated in this fresh batch because round 3 left only two error families. The result supports the capped four-round pipeline on this reused development sample, not a causal claim about the five-error specialized prompt.",
+  "boundary": "Automatic validation and visual pass do not imply browser interaction equivalence. This is reused development material, not independent holdout evidence.",
+  "next_step": "Run configured interaction evaluation and human browser comparison against this exact frozen output before accepting runtime equivalence."
+}

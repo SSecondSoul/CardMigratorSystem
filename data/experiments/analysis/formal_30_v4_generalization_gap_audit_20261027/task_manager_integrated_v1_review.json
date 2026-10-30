@@ -1,0 +1,33 @@
+{
+  "sample_id": "TaskManager",
+  "batch_id": "formal_30_v4_generalization_integrated_v1",
+  "classification": "reused_development_automatic_failure_review",
+  "independent_holdout": false,
+  "result_snapshot": "data/experiments/snapshots/formal_30_v4_generalization_integrated_v1_TaskManager_automatic_fail_20261027_223358/manifest.json",
+  "automatic_result": {
+    "passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_tokens": 97223,
+    "repair_tokens": 241901,
+    "total_tokens": 339124,
+    "final_validation_error_codes": [
+      "invalid_san_event_handler_syntax",
+      "invalid_san_init_data_store_access",
+      "invalid_san_computed_instance_method_call",
+      "hidden_template_reactive_dependency"
+    ],
+    "final_visual_eval_passed": true,
+    "final_structure_similarity": 0.9889,
+    "interaction_eval_passed": null
+  },
+  "read_only_diagnosis": {
+    "event_syntax": "The final parent and inline templates still include direct state assignments, an empty on-dragover.prevent, and unsupported Vue .stop/.enter modifiers. The bounded normalizer intentionally leaves ambiguous handlers unchanged.",
+    "initData": "Inline TaskForm calls this.createFormData(this.data.get('task')) inside initData before the San data store exists; the prop-derived form state belongs in inited.",
+    "computed": "Parent filteredTasks computed still calls this.isOverdue(task), which is unavailable in San computed callback context.",
+    "reactivity": "The filter-count template calls getTaskCount(filter.value), but the method reads tasks internally without tasks in the template dependency expression.",
+    "visual_boundary": "The high initial DOM structure score does not cancel semantic validation failures or prove browser interactions."
+  },
+  "browser_manual_review": "not_performed_for_failed_automatic_output",
+  "next_work": "Run MonitoringDashboard with the unchanged frozen integrated-v1 code and checkpoint, freeze its automatic outcome, then design a new bounded repair-prompt/validator version from both failures. Do not edit this batch's code between the two samples or overwrite its checkpoint."
+}

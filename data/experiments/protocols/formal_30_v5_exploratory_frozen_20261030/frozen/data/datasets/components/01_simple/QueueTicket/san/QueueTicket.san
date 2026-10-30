@@ -1,0 +1,52 @@
+<template>
+  <section class="queue-ticket"><p class="muted">{{ counterName }}</p><h2>{{ statusText }}</h2><strong s-if="status === 'waiting'" class="ticket-number">A{{ ticket }}</strong><button s-if="status === 'idle'" class="primary" on-click="takeTicket">立即取号</button><button s-else on-click="cancelTicket">取消排队</button></section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'QueueTicket',
+  dataTypes: {
+    counterName: DataTypes.string
+  },
+  initData() {
+    return {
+      counterName: "业务 A 窗口",
+      status: "idle",
+      ticket: 18
+    };
+  },
+  computed: {
+    statusText() {
+      return this.data.get('status') === 'idle' ? '当前可取号' : '前方还有 ' + (this.data.get('ticket') - 12) + ' 人';
+    }
+  },
+  setValue(key, value) { this.data.set(key, value); },
+  emitEvent(name, payload) { this.fire(name, payload); },
+  takeTicket() {
+    this.setValue('ticket', this.data.get('ticket') + 1); this.setValue('status', 'waiting');
+  },
+  cancelTicket() {
+    this.setValue('status', 'idle');
+  }
+});
+</script>
+
+<style>
+
+.queue-ticket { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.queue-ticket * { box-sizing: border-box; }
+.queue-ticket h2, .queue-ticket h3, .queue-ticket p { margin-top: 0; }
+.queue-ticket h2 { margin-bottom: 14px; font-size: 21px; }
+.queue-ticket button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.queue-ticket button.primary { border-color: #b45309; background: #b45309; color: #fff; }
+.queue-ticket button:disabled { opacity: .45; cursor: not-allowed; }
+.queue-ticket input, .queue-ticket select, .queue-ticket textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.queue-ticket .toolbar, .queue-ticket .summary, .queue-ticket .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.queue-ticket .muted { color: #71808e; font-size: 12px; }
+.queue-ticket .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+.ticket-number{display:block;margin:18px 0;font-size:42px;color:#b45309}
+
+</style>

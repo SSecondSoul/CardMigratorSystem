@@ -1,0 +1,26 @@
+{
+  "sample_id": "MonitoringDashboard",
+  "classification": "development_manual_functional_repair_candidate",
+  "not_independent_holdout": true,
+  "source_artifact": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_pass_20261025_124927/pipeline/complex/MonitoringDashboard_repaired_repaired.san",
+  "source_sha256": "0d2970f176ac8416dab6b99e512e17c5dd3e06628e2ed70ff6a7bd54fd898156",
+  "candidate_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_monitoring_dashboard/MonitoringDashboard_settings_kpi_logs.san",
+  "candidate_sha256": "5fa138592c68b45c676a311a57a75caf358e404214743d40622d3648ea55f64d",
+  "replay_script": "migration_pipeline/replay_formal_30_v4_monitoring_manual_fix.py",
+  "defect_codes": ["invalid_san_event_handler_syntax", "unsupported_san_inline_template_math_global", "inline_log_level_label_missing"],
+  "repair": "Replace settings state assignments with component methods and backdrop-only closing; pass the settings save payload explicitly and prevent native form submission. Move KPI absolute-trend and log-level capitalization into child methods. Do not change chart data generation or add nonexistent per-log icons.",
+  "verification": {
+    "source_validation_error_codes": ["unsupported_san_inline_template_math_global", "invalid_san_event_handler_syntax"],
+    "candidate_validation_passed": true,
+    "candidate_validation_error_codes": [],
+    "candidate_compile_passed": true,
+    "candidate_visual_passed": true,
+    "candidate_structure_similarity": 0.9912,
+    "san_parser_results": "main and all seven inline child templates passed with San 3.15.6",
+    "direct_san_checks": "settings opens; inside modal click keeps it open; backdrop closes it; trend -5 displays 5; warning log level displays WARNING",
+    "regression_tests": "104 tests passed",
+    "user_manual_browser_status": "user_reported_san_pass_2026-10-26",
+    "vue_san_chart_parity": "not_established_vue_manual_runner_renders_one_chart"
+  },
+  "boundary": "The user reported that the San candidate passes manual review. The Vue manual runner rendered only one chart although its source declares two, and the user elected to defer that discrepancy; this is not a claim of full Vue/San chart parity. The candidate does not retroactively change the frozen automatic pass or an independent formal result."
+}

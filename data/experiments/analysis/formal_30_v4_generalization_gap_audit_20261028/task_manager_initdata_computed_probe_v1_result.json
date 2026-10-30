@@ -1,0 +1,31 @@
+{
+  "purpose": "Record the guarded one-request TaskManager initData/computed repair probe and its post-run semantic audit",
+  "independent_holdout": false,
+  "source_snapshot": "formal_30_v4_task_manager_semantic_residual_probe_v1_result_20261028_230247",
+  "pre_run_snapshot": "formal_30_v4_task_manager_initdata_computed_probe_v1_pre_run_20261028",
+  "result_snapshot": "formal_30_v4_task_manager_initdata_computed_probe_v1_result_20261028_233258",
+  "frozen_payloads_verified": 12,
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "prompt_tokens": 12448,
+  "completion_tokens": 10818,
+  "total_tokens": 23266,
+  "reported_validation_passed": true,
+  "independent_static_revalidation_passed": true,
+  "reported_visual_eval_passed": true,
+  "structure_similarity": 0.9889,
+  "reported_regression_gate_decision": "pass",
+  "reported_automatic_passed": true,
+  "post_run_semantic_audit": "review_required",
+  "resolved_errors": [
+    "invalid_san_init_data_store_access",
+    "invalid_san_computed_instance_method_call"
+  ],
+  "resolved_early_parent_write": "The candidate removed this.data.set('tasks', this.getSampleTasks()) from the exported parent's inited() and retained attached() -> loadInitialData().",
+  "unresolved_semantic_risk": "Source Vue TaskForm data() initializes formData from this.createFormData(this.task) on first creation. The candidate San TaskForm initData() now returns an empty/default formData object, and inited() only registers a task watcher; it does not set formData from the initial this.data.get('task'). Editing a task when the conditional modal first mounts therefore starts with a blank form until a later task prop change. The current static and visual evaluators do not establish equivalence for this path.",
+  "isolated_san_runtime_check": "A read-only Node/San instance check passed initial task.title='existing' in constructor data and registered the same task watcher in inited(); formData.title remained ''. The watcher did not initialize from the existing prop.",
+  "source_evidence": "data/datasets/components/03_complex/TaskManager/vue/TaskManager.vue:367-378",
+  "candidate_evidence": "data/experiments/snapshots/formal_30_v4_task_manager_initdata_computed_probe_v1_result_20261028_233258/candidate.san:168-184",
+  "browser_manual_review": "not_performed",
+  "conclusion": "The probe resolves the two reported static failures and the early parent state write, but its reported automatic pass is not accepted as semantic equivalence. Add a bounded prop-derived initial-state check/repair, then rerun a fresh development-set batch before manual review. This result is not independent formal-test evidence."
+}

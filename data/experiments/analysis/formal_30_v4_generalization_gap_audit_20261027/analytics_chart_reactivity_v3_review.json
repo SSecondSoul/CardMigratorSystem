@@ -1,0 +1,26 @@
+{
+  "sample_id": "analytics_dashboard",
+  "classification": "reused_development_regression_manual_repair",
+  "independent_holdout": false,
+  "v2_observation": {
+    "source": "user manual report on 2026-10-27",
+    "san": "After switching to 7d or 90d, circles are offset from the polyline",
+    "vue": "Not checked",
+    "browser_scenario_automated_result": "Not run"
+  },
+  "root_cause_assessment": "TrendChart linePoints recomputes from reactive data, while circle/text render calls getX(idx) and getY(point.value) read data/maxValue/minValue only inside the methods. The inline child template was omitted from the hidden-reactive-dependency validator. The v3 correction was subsequently confirmed by user manual review of the reported period-switch geometry issue.",
+  "generic_prevention": "The hidden-template-reactive-dependency validator now checks inline san.defineComponent templates; the focused computed repair prompt requires explicit reactive arguments in render calls and synchronized method signatures.",
+  "candidate": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_chart_reactivity_v3/AnalyticsDashboard_repaired.san",
+  "candidate_sha256": "4fa173dba666dfe743fdd71fa776b890bb213cd3475146821bde1fbce78080f1",
+  "static_validation": "passed, including San compile check",
+  "lightweight_visual_eval": "passed; structure similarity 1.0",
+  "state_geometry_probe": "30 to 7 to 90 to 30 points finite and aligned; this does not prove DOM reactivity",
+  "browser_runtime": {
+    "status": "user_reported_pass",
+    "reported_at": "2026-10-27",
+    "scope": "San chart circles and polyline remain aligned when switching to 7d and 90d",
+    "evidence": "User replied '通过' after being asked to refresh the San test page and check the two period switches",
+    "automated_browser_scenario": "not run"
+  },
+  "boundary": "This development repair is not a fresh batch generation, a formal independent-test result, or evidence that all Vue/San behavior is equivalent; Vue period-switch behavior was not checked."
+}

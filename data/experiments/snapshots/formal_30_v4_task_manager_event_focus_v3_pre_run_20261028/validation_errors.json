@@ -1,0 +1,23 @@
+[
+  {
+    "code": "missing_event_handlers",
+    "message": "以下 SSM 事件处理函数未在 San 脚本中找到：closeDetail, closeModal, deleteTask, editTask, exportData, onDropOnTask, onDropToEnd, onSearchChange, onStatClick, openTaskModal, selectTask, setFilter, toggleCompactMode, toggleTaskStatus, toggleTheme, updateSettings, updateTask。",
+    "severity": "error",
+    "location": "script",
+    "suggestion": "补齐事件处理方法，并在模板中通过 on-event 绑定。"
+  },
+  {
+    "code": "event_arguments_not_landed",
+    "message": "San 事件绑定未完整保留源事件参数。缺失：click:onStatClick(stat), click:setFilter(filter.value)。",
+    "severity": "error",
+    "location": "template",
+    "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+  },
+  {
+    "code": "missing_event_bindings",
+    "message": "以下事件 handler 在 San template 中没有找到对应 on-* 绑定：addComment, closeDetail, closeModal, deleteTask, editTask, exportData, onDragEnd, onDragStart, onDropOnTask, onDropToEnd, onSearchChange, onStatClick, openTaskModal, selectTask, setFilter, toggleCompactMode, toggleTaskStatus, toggleTheme, updateSettings, updateTask。",
+    "severity": "error",
+    "location": "template",
+    "suggestion": "在模板中补充对应 on-click/on-input 等 San 事件绑定。"
+  }
+]

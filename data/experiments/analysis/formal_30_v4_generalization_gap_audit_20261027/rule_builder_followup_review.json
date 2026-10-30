@@ -1,0 +1,42 @@
+{
+  "sample_id": "rule_builder",
+  "classification": "reused_development_regression",
+  "independent_holdout": false,
+  "batch_id": "formal_30_v4_generalization_followup",
+  "snapshot": "data/experiments/snapshots/formal_30_v4_generalization_followup_rule_builder_automatic_pass_20261027_124838",
+  "san_file": "data/experiments/snapshots/formal_30_v4_generalization_followup_rule_builder_automatic_pass_20261027_124838/final.san",
+  "san_sha256": "1a27ddf483847bcf223b5a797e0b9cc60f01136e2cff7a135c8a66266417d3",
+  "automatic": {
+    "final_passed": true,
+    "initial_validation_passed": false,
+    "initial_visual_passed": false,
+    "repair_rounds": 1,
+    "final_validation_passed": true,
+    "final_visual_passed": true,
+    "final_structure_similarity": 1.0,
+    "final_tree_edit_distance": 0.0,
+    "generation_tokens": 50060,
+    "repair_tokens": 60554,
+    "total_tokens": 110614,
+    "interaction_eval_passed": null
+  },
+  "browser_runtime_scenario": {
+    "result": "passed",
+    "evidence_type": "local_edge_browser_observation",
+    "scenario_config": "migration_pipeline/interaction_configs/formal_30_v4_runtime_acceptance.json",
+    "checks": [
+      "initial_group_active_class_and_background",
+      "add_rule_row_and_invalid_background",
+      "switch_group_and_update_active_class"
+    ]
+  },
+  "manual_vue_san_review": "user_reported_pass",
+  "manual_confirmed_on": "2026-10-27",
+  "manual_evidence_type": "user_chat_confirmation",
+  "manual_review_scope": [
+    "initial_basic_condition_highlight",
+    "added_condition_row_style",
+    "condition_group_switch"
+  ],
+  "boundary": "The user confirmed the requested Vue/San manual comparison for this sample. This targeted review does not establish exhaustive behavioral parity or independent holdout performance. This sample was reused for development tuning."
+}

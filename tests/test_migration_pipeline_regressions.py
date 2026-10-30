@@ -220,6 +220,321 @@ module.exports = san.defineComponent({
             {issue["code"] for issue in result.validation_errors},
         )
 
+    def test_validator_rejects_array_access_on_san_data_store_in_inline_child(self):
+        code = self._minimal_san_component(
+            '<div>{{ title }}</div>',
+            """
+    components: { 'trend-chart': TrendChart },
+""",
+        ).replace(
+            "module.exports = san.defineComponent(",
+            """const TrendChart = san.defineComponent({
+    template: '<div>{{ linePoints }}</div>',
+    initData() { return { data: [] }; },
+    computed: {
+        linePoints() { return this.data.map(point => point.value).join(' '); }
+    },
+    getX() { return this.data.length; }
+});
+module.exports = san.defineComponent(""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+
+        self.assertIn(
+            "invalid_san_data_store_array_access",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+        valid_code = code.replace("this.data.map(", "this.data.get('data').map(").replace(
+            "this.data.length", "this.data.get('data').length"
+        )
+        valid_result = ValidateStage().run(ValidateStageInput(
+            generated_code=valid_code,
+            compile_check=False,
+        ))
+        self.assertNotIn(
+            "invalid_san_data_store_array_access",
+            {issue["code"] for issue in valid_result.validation_errors},
+        )
+
+    def test_validator_rejects_direct_computed_access_in_inline_child(self):
+        code = self._minimal_san_component(
+            '<div>{{ title }}</div>',
+            "",
+        ).replace(
+            "module.exports = san.defineComponent(",
+            """const TrendChart = san.defineComponent({
+    template: '<div>{{ scaled }}</div>',
+    initData() { return { data: [] }; },
+    computed: {
+        maxValue() { return 100; },
+        scaled() { return this.maxValue / 2; }
+    },
+    getY(value) { return value / this.maxValue; }
+});
+module.exports = san.defineComponent(""",
+        )
+
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        self.assertIn(
+            "invalid_san_computed_direct_access",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+        valid_code = code.replace("this.maxValue", "this.data.get('maxValue')")
+        valid_result = ValidateStage().run(ValidateStageInput(
+            generated_code=valid_code,
+            compile_check=False,
+        ))
+        self.assertNotIn(
+            "invalid_san_computed_direct_access",
+            {issue["code"] for issue in valid_result.validation_errors},
+        )
+
+    def test_validator_rejects_component_method_calls_inside_computed(self):
+        code = self._minimal_san_component('<div>{{ points }}</div>', "").replace(
+            "module.exports = san.defineComponent(",
+            """const TrendChart = san.defineComponent({
+    template: '<div>{{ points }}</div>',
+    initData() { return { data: [] }; },
+    computed: {
+        points() { return this.data.get('data').map((item, index) => this.getX(index)).join(' '); }
+    },
+    getX(index) { return index * 10; }
+});
+module.exports = san.defineComponent(""",
+        )
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        self.assertIn(
+            "invalid_san_computed_instance_method_call",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+        fixed = code.replace("this.getX(index)", "index * 10")
+        fixed_result = ValidateStage().run(ValidateStageInput(
+            generated_code=fixed,
+            compile_check=False,
+        ))
+        self.assertNotIn(
+            "invalid_san_computed_instance_method_call",
+            {issue["code"] for issue in fixed_result.validation_errors},
+        )
+
+    def test_validator_rejects_assignment_event_in_inline_child_template(self):
+        code = self._minimal_san_component('<div>{{ title }}</div>', "").replace(
+            "module.exports = san.defineComponent(",
+            """const TrendChart = san.defineComponent({
+    template: `<circle on-mouseenter="hoveredIndex = index" on-mouseleave="hoveredIndex = null" />`,
+    initData() { return { hoveredIndex: null }; }
+});
+module.exports = san.defineComponent(""",
+        )
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        self.assertIn(
+            "invalid_san_inline_event_assignment",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+        fixed = code.replace('on-mouseenter="hoveredIndex = index"', 'on-mouseenter="setHoveredIndex(index)"')
+        fixed = fixed.replace('on-mouseleave="hoveredIndex = null"', 'on-mouseleave="clearHoveredIndex"')
+        fixed_result = ValidateStage().run(ValidateStageInput(
+            generated_code=fixed,
+            compile_check=False,
+        ))
+        self.assertNotIn(
+            "invalid_san_inline_event_assignment",
+            {issue["code"] for issue in fixed_result.validation_errors},
+        )
+
+    def test_validator_rejects_math_global_and_style_object_in_inline_template(self):
+        code = self._minimal_san_component('<div>{{ title }}</div>', "").replace(
+            "module.exports = san.defineComponent(",
+            """const InsightList = san.defineComponent({
+    template: `<div><span>{{ Math.abs(change) }}%</span><i style="{{ { backgroundColor: color } }}">★</i></div>`,
+    initData() { return { change: -2.3, color: '#10b981' }; },
+    formatChange(change) { return Math.abs(change); }
+});
+module.exports = san.defineComponent(""",
+        )
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        codes = {issue["code"] for issue in result.validation_errors}
+        self.assertIn("unsupported_san_inline_template_math_global", codes)
+        self.assertIn("invalid_san_inline_style_object_binding", codes)
+
+        fixed = code.replace("{{ Math.abs(change) }}", "{{ formatChange(change) }}")
+        fixed = fixed.replace(
+            'style="{{ { backgroundColor: color } }}"',
+            'style="{{ \'background-color: \' + color + \';\' }}"',
+        )
+        fixed_result = ValidateStage().run(ValidateStageInput(
+            generated_code=fixed,
+            compile_check=False,
+        ))
+        fixed_codes = {issue["code"] for issue in fixed_result.validation_errors}
+        self.assertNotIn("unsupported_san_inline_template_math_global", fixed_codes)
+        self.assertNotIn("invalid_san_inline_style_object_binding", fixed_codes)
+
+    def test_validator_rejects_member_calls_in_inline_render_bindings(self):
+        code = self._minimal_san_component('<div>{{ title }}</div>', "").replace(
+            "module.exports = san.defineComponent(",
+            """const Child = san.defineComponent({
+    template: `<div class="{{ record.flags.includes(flag) ? 'active' : '' }}">{{ entry.level.toUpperCase() }}</div>`,
+    initData() { return { record: {flags: []}, flag: 'a', entry: {level: 'info'} }; },
+    hasFlag(flags, flag) { return flags.includes(flag); },
+    formatLevel(level) { return String(level).toUpperCase(); }
+});
+module.exports = san.defineComponent(""",
+        )
+        broken = ValidateStage().run(ValidateStageInput(
+            generated_code=code, compile_check=False,
+        ))
+        self.assertIn(
+            "unsupported_san_inline_template_member_call",
+            {issue["code"] for issue in broken.validation_errors},
+        )
+
+        fixed = code.replace(
+            "record.flags.includes(flag)", "hasFlag(record.flags, flag)",
+        ).replace(
+            "entry.level.toUpperCase()", "formatLevel(entry.level)",
+        )
+        repaired = ValidateStage().run(ValidateStageInput(
+            generated_code=fixed, compile_check=False,
+        ))
+        self.assertNotIn(
+            "unsupported_san_inline_template_member_call",
+            {issue["code"] for issue in repaired.validation_errors},
+        )
+
+    def test_inline_member_call_rule_replays_two_development_manual_failures(self):
+        task_root = ROOT / "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup"
+        monitoring_root = ROOT / "data/experiments"
+        cases = (
+            (
+                task_root / "TaskManager_form_initialization.san",
+                task_root / "TaskManager_settings_tags.san",
+            ),
+            (
+                monitoring_root / "snapshots/formal_30_v4_deferred_monitoring_dashboard_pass_20261025_124927/pipeline/complex/MonitoringDashboard_repaired_repaired.san",
+                monitoring_root / "pipeline/manual_fixes/formal_30_v4_monitoring_dashboard/MonitoringDashboard_settings_kpi_logs.san",
+            ),
+        )
+        for broken_path, fixed_path in cases:
+            with self.subTest(broken=broken_path.name):
+                broken = ValidateStage().run(ValidateStageInput(
+                    generated_file_path=str(broken_path), compile_check=False,
+                ))
+                fixed = ValidateStage().run(ValidateStageInput(
+                    generated_file_path=str(fixed_path), compile_check=False,
+                ))
+                self.assertIn(
+                    "unsupported_san_inline_template_member_call",
+                    {issue["code"] for issue in broken.validation_errors},
+                )
+                self.assertNotIn(
+                    "unsupported_san_inline_template_member_call",
+                    {issue["code"] for issue in fixed.validation_errors},
+                )
+
+    def test_inline_member_call_rule_ignores_literals_and_top_level_helpers(self):
+        code = self._minimal_san_component('<div>{{ title }}</div>', "").replace(
+            "module.exports = san.defineComponent(",
+            """const Child = san.defineComponent({
+    template: `<span>{{ 'record.flags.includes(flag)' }} {{ formatLabel(entry.label) }} {{ Math.abs(delta) }}</span>`,
+    initData() { return { entry: {label: 'ok'}, delta: -1 }; },
+    formatLabel(label) { return String(label).toUpperCase(); }
+});
+module.exports = san.defineComponent(""",
+        )
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code, compile_check=False,
+        ))
+        codes = {issue["code"] for issue in result.validation_errors}
+        self.assertNotIn("unsupported_san_inline_template_member_call", codes)
+        self.assertIn("unsupported_san_inline_template_math_global", codes)
+
+    def test_validator_rejects_vue_event_modifiers_and_tuple_loops_in_san_templates(self):
+        code = self._minimal_san_component(
+            '<div on-dragover=""><span s-for="(task, index) in tasks trackby task.id">'
+            '{{ index }}</span></div>',
+            "",
+        ).replace(
+            "module.exports = san.defineComponent(",
+            """const TaskForm = san.defineComponent({
+    template: `<form on-submit.prevent="submit"><button on-click.stop="cancel">Cancel</button></form>`,
+    initData() { return {}; }
+});
+module.exports = san.defineComponent(""",
+        )
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        codes = {issue["code"] for issue in result.validation_errors}
+        self.assertIn("invalid_san_event_handler_syntax", codes)
+        self.assertIn("invalid_san_for_alias_syntax", codes)
+
+        fixed = code.replace('on-dragover=""', 'on-dragover="prevent:handleDragOver"')
+        fixed = fixed.replace('s-for="(task, index) in tasks', 's-for="task, index in tasks')
+        fixed = fixed.replace('on-submit.prevent="submit"', 'on-submit="prevent:submit"')
+        fixed = fixed.replace('on-click.stop="cancel"', 'on-click="stop:cancel"')
+        fixed_result = ValidateStage().run(ValidateStageInput(
+            generated_code=fixed,
+            compile_check=False,
+        ))
+        fixed_codes = {issue["code"] for issue in fixed_result.validation_errors}
+        self.assertNotIn("invalid_san_event_handler_syntax", fixed_codes)
+        self.assertNotIn("invalid_san_for_alias_syntax", fixed_codes)
+
+    def test_validator_rejects_inline_computed_called_as_formatter(self):
+        code = self._minimal_san_component('<div>{{ title }}</div>', "").replace(
+            "module.exports = san.defineComponent(",
+            """const StatCard = san.defineComponent({
+    template: `<span>{{ formatTrend(trend) }}</span>`,
+    computed: {
+      formatTrend() { return '12%'; }
+    }
+});
+module.exports = san.defineComponent(""",
+        )
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=False,
+        ))
+        self.assertIn(
+            "invalid_san_inline_computed_method_invocation",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
+        fixed = code.replace(
+            "computed: {\n      formatTrend() { return '12%'; }\n    }",
+            "formatTrend(trend) { return Math.abs(trend) + '%'; }",
+        )
+        fixed_result = ValidateStage().run(ValidateStageInput(
+            generated_code=fixed,
+            compile_check=False,
+        ))
+        self.assertNotIn(
+            "invalid_san_inline_computed_method_invocation",
+            {issue["code"] for issue in fixed_result.validation_errors},
+        )
+
     def test_form_defaults_and_critical_dom_attributes_cannot_false_pass(self):
         ssm = SSMFactory().build_from_file(str(FORM_RULE_VUE))
         broken_code = FORM_RULE_SAN.read_text(encoding="utf-8").replace(
@@ -472,6 +787,65 @@ module.exports = san.defineComponent({
             {issue["code"] for issue in result.validation_errors},
         )
 
+    def test_validator_rejects_duplicate_classes_in_inline_child_template(self):
+        code = '''<template><section><trend-chart></trend-chart></section></template>
+<script>
+const san = require('san');
+const TrendChart = san.defineComponent({
+  template: `<div class="trend-chart" class="{{ loading ? 'chart-loading' : '' }}"></div>`,
+  initData() { return {loading: false}; }
+});
+module.exports = san.defineComponent({components: {'trend-chart': TrendChart}});
+</script><style></style>'''
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code, compile_check=False,
+        ))
+        duplicate = [issue for issue in result.validation_errors
+                     if issue["code"] == "duplicate_class_attribute"]
+        self.assertEqual(len(duplicate), 1)
+        self.assertEqual(duplicate[0]["location"], "script.TrendChart.template")
+
+    def test_validator_and_runtime_reject_unbundled_san_import(self):
+        code = '''<template><section><stat-card></stat-card></section></template>
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+const StatCard = require('./StatCard');
+module.exports = san.defineComponent({
+  components: {'stat-card': StatCard},
+  dataTypes: {},
+  initData() { return {}; }
+});
+</script>
+<style></style>'''
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code,
+            compile_check=True,
+        ))
+        codes = {issue["code"] for issue in result.validation_errors}
+        self.assertIn("unsupported_san_module_require", codes)
+        self.assertIn("san_script_compile_error", codes)
+
+        rendered = render_san_component(san_source=code)
+        self.assertFalse(rendered.passed)
+
+    def test_frozen_analytics_dashboard_external_children_fail_current_audit(self):
+        vue_file = ROOT / "data/datasets/components/03_complex/AnalyticsDashboard/vue/AnalyticsDashboard.vue"
+        san_file = (
+            ROOT / "data/experiments/snapshots"
+            / "formal_30_v4_analytics_pass_20261023_152047"
+            / "pipeline/complex/AnalyticsDashboard_repaired_repaired.san"
+        )
+        result = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(san_file),
+            vue_file_path=str(vue_file),
+            ssm=SSMFactory().build_from_file(str(vue_file)),
+        ))
+        self.assertIn(
+            "unsupported_san_module_require",
+            {issue["code"] for issue in result.validation_errors},
+        )
+
     def test_inline_assignment_is_not_expected_as_an_event_method(self):
         code = self._minimal_san_component(
             '<button on-click="showSettings = true">Open</button>',
@@ -614,6 +988,50 @@ module.exports = san.defineComponent({
             and "unfinishedOnly" in message
             for message in hidden_messages
         ))
+
+    def test_validator_rejects_hidden_dependencies_in_inline_child_template(self):
+        code = """<template><section><trend-chart data=\"{{ chartData }}\"></trend-chart></section></template>
+<script>
+const san = require('san');
+const TrendChart = san.defineComponent({
+    template: `<svg><g s-for="point, idx in data trackby idx"><circle cx="{{ getX(idx) }}" cy="{{ getY(point.value) }}"/></g></svg>`,
+    initData() { return {data: [], maxValue: 100}; },
+    getX(index) {
+        const data = this.data.get('data');
+        return index / Math.max(1, data.length - 1) * 800;
+    },
+    getY(value) {
+        const maxValue = this.data.get('maxValue');
+        return 300 - value / maxValue * 280;
+    }
+});
+module.exports = san.defineComponent({
+    components: {'trend-chart': TrendChart},
+    initData() { return {chartData: []}; }
+});
+</script><style></style>"""
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=code, compile_check=False,
+        ))
+        hidden = [issue for issue in result.validation_errors
+                  if issue["code"] == "hidden_template_reactive_dependency"]
+        self.assertEqual(len(hidden), 2)
+        self.assertEqual({issue["location"] for issue in hidden},
+                         {"script.TrendChart.template"})
+        self.assertTrue(any("data" in issue["message"] for issue in hidden))
+        self.assertTrue(any("maxValue" in issue["message"] for issue in hidden))
+
+        explicit = code.replace("getX(idx) }", "getX(idx, data.length) }")
+        explicit = explicit.replace("getY(point.value) }", "getY(point.value, maxValue) }")
+        explicit = explicit.replace("getX(index) {", "getX(index, length) {")
+        explicit = explicit.replace("const data = this.data.get('data');", "const data = {length};")
+        explicit = explicit.replace("getY(value) {", "getY(value, maxValue) {")
+        explicit = explicit.replace("const maxValue = this.data.get('maxValue');", "")
+        result = ValidateStage().run(ValidateStageInput(
+            generated_code=explicit, compile_check=False,
+        ))
+        self.assertNotIn("hidden_template_reactive_dependency",
+                         {issue["code"] for issue in result.validation_errors})
 
     def test_validator_rejects_nested_mutation_of_computed_state_objects(self):
         code = self._minimal_san_component(
@@ -1175,7 +1593,21 @@ module.exports = san.defineComponent({
             generated_code=normalized,
         ))
 
-        self.assertTrue(validation.validation_passed, validation.validation_errors)
+        # The methods-wrapper normalization is still valid, but the historical
+        # artifact also contains independent inline template, hidden reactive
+        # coordinate dependencies, and initData defects.
+        self.assertEqual(
+            {issue["code"] for issue in validation.validation_errors},
+            {
+                "unsupported_san_inline_template_math_global",
+                "unsupported_san_inline_template_member_call",
+                "invalid_san_event_handler_syntax",
+                "invalid_san_for_alias_syntax",
+                "invalid_san_init_data_store_access",
+                "hidden_template_reactive_dependency",
+                "missing_self_click_guard",
+            },
+        )
         self.assertTrue(visual.visual_eval_passed, visual.visual_eval_errors)
         self.assertEqual(visual.tag_sequence_similarity, 1.0)
 
@@ -1646,6 +2078,147 @@ module.exports = san.defineComponent({
         self.assertEqual(visual.tag_sequence_similarity, 1.0)
         self.assertEqual(visual.text_similarity, 1.0)
         self.assertEqual(visual.tree_edit_distance, 0.0)
+
+    def test_task_manager_inline_form_does_not_read_data_store_in_init_data(self):
+        candidate_dir = (
+            ROOT
+            / "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup"
+        )
+        broken = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(candidate_dir / "TaskManager_inline_format_methods.san"),
+            compile_check=False,
+        ))
+        fixed = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(candidate_dir / "TaskManager_form_initialization.san"),
+            compile_check=False,
+        ))
+        self.assertIn(
+            "invalid_san_init_data_store_access",
+            {issue["code"] for issue in broken.validation_errors},
+        )
+        self.assertNotIn(
+            "invalid_san_init_data_store_access",
+            {issue["code"] for issue in fixed.validation_errors},
+        )
+
+    def test_task_manager_settings_events_and_tag_selection_replay(self):
+        candidate = (
+            ROOT
+            / "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup"
+            / "TaskManager_settings_tags.san"
+        )
+        script = r"""
+const assert = require('assert');
+const fs = require('fs');
+const san = require('san');
+const source = fs.readFileSync(process.argv[1], 'utf8');
+const script = source.match(/<script>([\s\S]*?)<\/script>/)[1];
+const moduleRef = {exports: {}};
+new Function('module', 'exports', 'require', script)(moduleRef, moduleRef.exports, require);
+const children = moduleRef.exports.prototype.components;
+const form = new children['task-form']({data: {
+  task: {id: 1, title: 'Edit', tags: ['work']}, tags: ['work', 'home']
+}});
+assert.strictEqual(form.data.get('selectedTagMap.work'), true);
+form.toggleTag('home');
+assert.strictEqual(form.data.get('selectedTagMap.home'), true);
+assert.deepStrictEqual(form.data.get('formData.tags'), ['work', 'home']);
+form.data.set('task', null);
+assert.deepStrictEqual(form.data.get('selectedTagMap'), {});
+const panel = new children['settings-panel']({data: {settings: {autoSave: true}}});
+const events = [];
+panel.on('update', payload => events.push(payload));
+panel.updateDefaultView({target: {value: 'board'}});
+panel.updateAutoSave({target: {checked: false}});
+panel.updateAutoSave({target: {checked: true}});
+assert.deepStrictEqual(events, [
+  {key: 'defaultView', value: 'board'},
+  {key: 'autoSave', value: false},
+  {key: 'autoSave', value: true}
+]);
+"""
+        completed = subprocess.run(
+            ["node", "-e", script, str(candidate)],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+
+    def test_validator_rejects_multiple_san_custom_event_payload_arguments(self):
+        candidate_dir = (
+            ROOT
+            / "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup"
+        )
+        broken = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(candidate_dir / "TaskManager_form_initialization.san"),
+            compile_check=False,
+        ))
+        fixed = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(candidate_dir / "TaskManager_settings_tags.san"),
+            compile_check=False,
+        ))
+        self.assertIn(
+            "invalid_san_inline_event_payload",
+            {issue["code"] for issue in broken.validation_errors},
+        )
+        self.assertNotIn(
+            "invalid_san_inline_event_payload",
+            {issue["code"] for issue in fixed.validation_errors},
+        )
+
+    def test_monitoring_dashboard_manual_settings_and_display_replay(self):
+        source = (
+            ROOT / "data/experiments/snapshots"
+            / "formal_30_v4_deferred_monitoring_dashboard_pass_20261025_124927"
+            / "pipeline/complex/MonitoringDashboard_repaired_repaired.san"
+        )
+        candidate = (
+            ROOT / "data/experiments/pipeline/manual_fixes/formal_30_v4_monitoring_dashboard"
+            / "MonitoringDashboard_settings_kpi_logs.san"
+        )
+        before = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(source), compile_check=False,
+        ))
+        after = ValidateStage().run(ValidateStageInput(
+            generated_file_path=str(candidate), compile_check=False,
+        ))
+        before_codes = {issue["code"] for issue in before.validation_errors}
+        after_codes = {issue["code"] for issue in after.validation_errors}
+        self.assertIn("invalid_san_event_handler_syntax", before_codes)
+        self.assertIn("unsupported_san_inline_template_math_global", before_codes)
+        self.assertNotIn("invalid_san_event_handler_syntax", after_codes)
+        self.assertNotIn("unsupported_san_inline_template_math_global", after_codes)
+
+        script = r"""
+const assert = require('assert');
+const fs = require('fs');
+const san = require('san');
+const source = fs.readFileSync(process.argv[1], 'utf8');
+const code = source.match(/<script>([\s\S]*?)<\/script>/)[1];
+const mainTemplate = source.match(/<template>([\s\S]*?)<\/template>/)[1];
+const childTemplates = [...code.matchAll(/template:\s*`([\s\S]*?)`/g)].map(x => x[1]);
+for (const template of [mainTemplate, ...childTemplates]) san.parseTemplate(template);
+assert.strictEqual(childTemplates.length, 7);
+const moduleRef = {exports: {}};
+new Function('module', 'exports', 'require', code)(moduleRef, moduleRef.exports, require);
+const children = moduleRef.exports.prototype.components;
+assert.strictEqual(new children['kpi-card']().formatTrend(-5), 5);
+assert.strictEqual(new children['log-list']().formatLogLevel('warning'), 'WARNING');
+const dashboard = new moduleRef.exports();
+dashboard.openSettings();
+assert.strictEqual(dashboard.data.get('showSettings'), true);
+dashboard.onSettingsOverlayClick({target: 1, currentTarget: 2});
+assert.strictEqual(dashboard.data.get('showSettings'), true);
+dashboard.onSettingsOverlayClick({target: 1, currentTarget: 1});
+assert.strictEqual(dashboard.data.get('showSettings'), false);
+"""
+        completed = subprocess.run(
+            ["node", "-e", script, str(candidate)],
+            cwd=ROOT, capture_output=True, text=True, check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
 
     def test_default_llm_timeout_fits_inside_pipeline_timeout_budget(self):
         env = os.environ.copy()

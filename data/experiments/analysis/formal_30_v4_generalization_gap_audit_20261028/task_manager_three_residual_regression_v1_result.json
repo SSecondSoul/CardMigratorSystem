@@ -1,0 +1,66 @@
+{
+  "purpose": "Record the fresh TaskManager development regression after the focused three-residual probe",
+  "independent_holdout": false,
+  "batch_id": "formal_30_v4_task_manager_three_residual_regression_v1",
+  "pre_run_snapshot": "formal_30_v4_task_manager_three_residual_regression_v1_pre_run_20261029",
+  "result_snapshot": "formal_30_v4_task_manager_three_residual_regression_v1_TaskManager_automatic_fail_20261029_155522",
+  "frozen_payloads_verified": 11,
+  "sample_ids": ["TaskManager"],
+  "completed": 1,
+  "passed": 0,
+  "repair_rounds": 3,
+  "repair_providers": ["deterministic", "qwen", "qwen"],
+  "stop_reason": "repair_event_contract_regression",
+  "generation_tokens": 97216,
+  "repair_tokens": 144863,
+  "total_tokens": 242079,
+  "validation_error_codes_by_stage": {
+    "initial": [
+      "missing_data_types",
+      "unsupported_san_inline_template_math_global",
+      "unsupported_san_inline_template_member_call",
+      "invalid_san_multi_argument_fire",
+      "invalid_san_event_handler_syntax",
+      "invalid_san_for_alias_syntax",
+      "missing_inline_prop_dependent_initialization",
+      "invalid_san_directive_interpolation",
+      "invalid_s_for_key_binding",
+      "vue_methods_wrapper",
+      "invalid_san_computed_instance_method_call",
+      "missing_component_registration",
+      "hidden_template_reactive_dependency",
+      "nested_state_mutation"
+    ],
+    "repair_round_1": [
+      "missing_data_types",
+      "unsupported_san_inline_template_math_global",
+      "unsupported_san_inline_template_member_call",
+      "invalid_san_multi_argument_fire",
+      "invalid_san_event_handler_syntax",
+      "invalid_san_for_alias_syntax",
+      "missing_inline_prop_dependent_initialization",
+      "invalid_s_for_key_binding",
+      "invalid_san_computed_instance_method_call",
+      "hidden_template_reactive_dependency",
+      "nested_state_mutation"
+    ],
+    "repair_round_2": [
+      "invalid_san_event_handler_syntax",
+      "invalid_san_computed_instance_method_call"
+    ],
+    "repair_round_3": ["invalid_san_event_handler_syntax"]
+  },
+  "final_visual_eval_passed": true,
+  "final_structure_similarity": 0.9611,
+  "event_regression_gate": {
+    "decision": "reject",
+    "additional_unresolved_source_bindings": 1,
+    "source_binding": "click:closeModal",
+    "model_change": "One modal overlay on-click=\"closeModal\" was replaced with on-click=\"handleModalOverlayClick\" plus an inner stop handler. The new method delegates to closeModal, but the name-based gate cannot prove equivalence to the source @click.self contract."
+  },
+  "remaining_static_defect": "The outer task-list still has on-dragover=\"\" despite source @dragover.prevent.",
+  "inline_prop_initialization_landed": true,
+  "interaction_eval_passed": null,
+  "browser_manual_review": "not_performed_for_this_automatic_output",
+  "conclusion": "The fresh batch failed both the remaining event syntax check and the conservative event-contract regression gate. Do not count visual success as migration success or manually accept this rejected output. A next probe should start from frozen repair round 2, where only the empty dragover event and computed call remained, and constrain event names and behavior."
+}

@@ -1,0 +1,121 @@
+{
+  "classification": "reused_development_guarded_single_repair_probe_result",
+  "independent_holdout": false,
+  "created_at": "2026-10-28T23:02:47+08:00",
+  "source_snapshot": "formal_30_v4_task_manager_semantic_residual_bounded_replay_20261028_224401",
+  "pre_run_snapshot": "formal_30_v4_task_manager_semantic_residual_probe_v1_pre_run_20261028",
+  "input_sha256": "fd759f5ffb2c751a85064f768f7e8a9177989cf88d625afc539fd86b6da9b205",
+  "prompt_sha256": "a585acb439fa19c908e29f03cda79c452c8a4f63b4a0846c616e907fe33e0d67",
+  "output_file": "data/experiments/pipeline/probes/formal_30_v4_task_manager_semantic_residual_v1/TaskManager_semantic_residual_v1.san",
+  "output_sha256": "248b28865286c076b88ec71a495e21ca566bc8b2db088337a9d446c20d9259d1",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "usage": {
+    "completion_tokens": 10792,
+    "prompt_tokens": 12521,
+    "prompt_tokens_details": {
+      "cached_tokens": 12416
+    },
+    "total_tokens": 23313
+  },
+  "pipeline_postprocessing": [],
+  "validation_passed": false,
+  "validation_errors": [
+    {
+      "code": "invalid_san_init_data_store_access",
+      "message": "initData accesses this.data before initialization: TaskForm",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "Return stable defaults from initData; synchronize prop-dependent values in inited() using this.data.get/set, including inline child components."
+    },
+    {
+      "code": "invalid_san_computed_instance_method_call",
+      "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+    }
+  ],
+  "visual_eval_passed": true,
+  "visual_eval_errors": [],
+  "structure_similarity": 0.9889,
+  "event_regression_gate": {
+    "decision": "pass",
+    "should_stop": false,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "before": {
+      "exact": [
+        "click:toggleCompactMode",
+        "click:toggleTheme",
+        "click:exportData",
+        "click:onStatClick(stat)",
+        "click:openTaskModal",
+        "input:onSearchChange",
+        "click:setFilter(filter.value)",
+        "drop:onDropToEnd",
+        "toggle:toggleTaskStatus",
+        "edit:editTask",
+        "view:selectTask",
+        "delete:deleteTask",
+        "drag-start:onDragStart",
+        "drag-end:onDragEnd",
+        "drop-on:onDropOnTask",
+        "close:closeDetail",
+        "update:updateTask",
+        "comment:addComment",
+        "click:closeModal",
+        "click:closeModal",
+        "submit:handleTaskSubmit",
+        "cancel:closeModal",
+        "update:updateSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false"
+      ]
+    },
+    "after": {
+      "exact": [
+        "click:toggleCompactMode",
+        "click:toggleTheme",
+        "click:exportData",
+        "click:onStatClick(stat)",
+        "click:openTaskModal",
+        "input:onSearchChange",
+        "click:setFilter(filter.value)",
+        "drop:onDropToEnd",
+        "toggle:toggleTaskStatus",
+        "edit:editTask",
+        "view:selectTask",
+        "delete:deleteTask",
+        "drag-start:onDragStart",
+        "drag-end:onDragEnd",
+        "drop-on:onDropOnTask",
+        "close:closeDetail",
+        "update:updateTask",
+        "comment:addComment",
+        "click:closeModal",
+        "click:closeModal",
+        "submit:handleTaskSubmit",
+        "cancel:closeModal",
+        "update:updateSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false"
+      ]
+    },
+    "boundary": "Plausible handle-prefixed aliases are not proof of equivalent behavior; invalid syntax remains a separate validation failure."
+  },
+  "automatic_passed": false,
+  "browser_manual_review": "not_performed"
+}

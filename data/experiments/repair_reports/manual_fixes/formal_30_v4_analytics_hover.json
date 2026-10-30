@@ -1,0 +1,38 @@
+{
+  "sample_id": "analytics_dashboard",
+  "classification": "development_manual_runtime_repair_candidate",
+  "not_independent_holdout": true,
+  "source_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_runtime_followup/AnalyticsDashboard_computed_context.san",
+  "source_sha256": "7b3ca2361caa5c2a2fe4edb78eb0bcc71db68af6b1703d866d4d4f9100ddecf8",
+  "candidate_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_runtime_followup/AnalyticsDashboard_computed_context_and_hover.san",
+  "candidate_sha256": "08f848ec0157583a94690a23de5e813bb3d508abee3cce0c7ba4159b5a274e79",
+  "replay_script": "migration_pipeline/replay_formal_30_v4_analytics_hover_fix.py",
+  "defect_code": "invalid_san_inline_event_assignment",
+  "user_observation": "[SAN WARNING] mouseenter listen fail,\"hoveredIndex\" not exist",
+  "diagnosis": "The inline TrendChart template used on-mouseenter=\"hoveredIndex = index\" and on-mouseleave=\"hoveredIndex = null\"; San event bindings resolve a handler method instead of executing these assignments.",
+  "repair": "Bind mouseenter/mouseleave to setHoveredIndex(index)/clearHoveredIndex and update child state through this.data.set in those methods.",
+  "earlier_artifacts_preserved": true,
+  "verification": {
+    "source_replay_error_codes_after_validator_update": ["invalid_san_inline_event_assignment"],
+    "candidate_validation_passed": true,
+    "candidate_compile_passed": true,
+    "candidate_visual_passed": true,
+    "candidate_structure_similarity": 1.0,
+    "local_browser_san_version": "3.15.6",
+    "local_browser_after_two_seconds": {
+      "uncaught_errors": [],
+      "captured_warnings": [],
+      "loading_overlay_visible": false,
+      "chart_points": 30,
+      "insights": 4,
+      "activities": 15,
+      "hover_text_visible_after_mouseenter": true
+    },
+    "user_manual_browser_status": "failed_visual_differences",
+    "user_reported_differences": [
+      "StatCard percentage magnitude is missing (for example 总访问量).",
+      "InsightList icon/tag background color is missing."
+    ]
+  },
+  "boundary": "This sample-specific candidate is not a new automatic or independent formal pass. The reusable prevention is validator and prompt coverage for inline event assignments."
+}

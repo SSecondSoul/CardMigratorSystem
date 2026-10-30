@@ -1,0 +1,196 @@
+{
+  "classification": "development_manual_browser_review",
+  "recorded_on": "2026-10-26",
+  "updated_on": "2026-10-27",
+  "evidence_type": "user_chat_confirmation",
+  "not_automated_interaction_eval": true,
+  "results": [
+    {
+      "sample_id": "schema_mapping_workbench",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_schema_mapping_pass_20261022_213243/pipeline/complex/SchemaMappingWorkbench_repaired.san",
+      "result": "user_reported_pass"
+    },
+    {
+      "sample_id": "incident_response_board",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_incident_pass_20261022_231831/pipeline/complex/IncidentResponseBoard_repaired.san",
+      "result": "user_reported_pass"
+    },
+    {
+      "sample_id": "rule_builder",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_rule_builder_pass_20261022_233452/pipeline/complex/RuleBuilder_repaired.san",
+      "result": "user_reported_fail",
+      "observations": [
+        "基础条件选中样式与 Vue 不一致",
+        "新增条件行样式与 Vue 不一致"
+      ]
+    },
+    {
+      "sample_id": "rule_builder",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_rule_builder/RuleBuilder_class_merge.san",
+      "result": "user_reported_pass_after_repair",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_rule_builder_class_merge.json"
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_analytics_pass_20261023_152047/pipeline/complex/AnalyticsDashboard_repaired_repaired.san",
+      "result": "user_reported_runtime_error_original_automatic_pass_rejected",
+      "observations": [
+        "测试页加载时触发不受支持的 require('./StatCard')，组件未能进入交互检查"
+      ],
+      "audit_report": "data/experiments/analysis/formal_30_v4_development_closeout_20261025/analytics_dashboard_manual_audit.json"
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_analytics_manual_followup_automatic_pass_20261026_152546/pipeline/complex/AnalyticsDashboard_repaired_repaired.san",
+      "result": "user_reported_runtime_error_followup_automatic_pass_rejected",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_manual_followup_automatic_pass_20261026_152546",
+      "observations": [
+        "Browser runtime error: TypeError: this.data.map is not a function.",
+        "Inline TrendChart treated San's Data store as the Vue data array in four map calls and two length reads."
+      ]
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_analytics_runtime_followup_automatic_pass_20261026_160213/pipeline/complex/AnalyticsDashboard_repaired_repaired_repaired.san",
+      "result": "user_reported_loading_overlay_stuck_runtime_followup_rejected",
+      "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_runtime_followup_automatic_pass_20261026_160213",
+      "observations": [
+        "San browser page continues to show 正在加载最新数据 after simulated data should finish.",
+        "Local browser diagnostic reproduced TypeError: this.getX is not a function in inline TrendChart computed; after two seconds chart, insights, and activities were populated but the overlay remained."
+      ]
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_runtime_followup/AnalyticsDashboard_computed_context.san",
+      "result": "local_browser_replay_pass_superseded_before_user_review",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_analytics_computed_context.json"
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_runtime_followup/AnalyticsDashboard_computed_context_and_hover.san",
+      "result": "user_reported_visual_fail_after_local_replay_pass",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_analytics_hover.json",
+      "observations": [
+        "StatCard percentage number is missing, for example on 总访问量.",
+        "InsightList icon/tag background color is missing."
+      ]
+    },
+    {
+      "sample_id": "analytics_dashboard",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_runtime_followup/AnalyticsDashboard_visual_bindings.san",
+      "result": "user_reported_pass_after_visual_repair",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_analytics_visual_bindings.json"
+    },
+    {
+      "sample_id": "access_matrix",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_deferred_access_matrix_pass_20261023_155031/pipeline/complex/AccessMatrix_repaired_repaired.san",
+      "result": "user_reported_pass"
+    },
+    {
+      "sample_id": "localization_workspace",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_deferred_localization_workspace_pass_20261023_163149/pipeline/complex/LocalizationWorkspace_repaired.san",
+      "result": "user_reported_pass"
+    },
+    {
+      "sample_id": "trip_itinerary_planner",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_deferred_trip_itinerary_planner_pass_20261023_165740/pipeline/complex/TripItineraryPlanner_repaired.san",
+      "result": "user_reported_pass"
+    },
+    {
+      "sample_id": "TaskManager",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_deferred_task_manager_pass_20261023_190805/pipeline/complex/TaskManager_repaired_repaired_repaired.san",
+      "result": "user_reported_browser_load_error_frozen_automatic_pass_rejected",
+      "observations": ["Error: 仅支持 require(\"san\")，当前: ./StatCard"],
+      "audit_report": "data/experiments/analysis/formal_30_v4_development_closeout_20261025/task_manager_manual_audit.json"
+    },
+    {
+      "sample_id": "TaskManager",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_computed_pure_helper.san",
+      "result": "user_reported_san_template_parse_error",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_computed_context.json",
+      "observations": ["Error: [SAN FATAL] expect an ident:"]
+    },
+    {
+      "sample_id": "TaskManager",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_template_syntax.san",
+      "result": "user_reported_missing_inline_display_values",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_template_syntax.json",
+      "observations": [
+        "StatCard trend change values are missing for each status.",
+        "TaskItem priority label and due date are missing."
+      ]
+    },
+    {
+      "sample_id": "TaskManager",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_inline_format_methods.san",
+      "result": "user_reported_task_form_modal_content_mismatch",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_inline_format_methods.json",
+      "observations": [
+        "Settings opens, but the new/edit task modal content does not match Vue."
+      ]
+    },
+    {
+      "sample_id": "TaskManager",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_form_initialization.san",
+      "result": "user_reported_settings_controls_and_task_tag_style_failure",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_form_initialization.json",
+      "observations": [
+        "Settings select becomes blank after choosing an option.",
+        "Settings checkbox cannot be rechecked after unchecking.",
+        "Selected tags in create/edit task form do not change color."
+      ]
+    },
+    {
+      "sample_id": "TaskManager",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_settings_tags.san",
+      "result": "user_reported_pass_after_settings_and_tag_repair",
+      "confirmed_on": "2026-10-26",
+      "candidate_sha256": "7dd1c8684e287ed06918f00d32a1e4d25568beb1f153b73e7f91559328d58810",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_task_manager_settings_tags.json"
+    },
+    {
+      "sample_id": "course_module_accordion",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_course_module_pass_20261022_212133/pipeline/medium/CourseModuleAccordion_repaired.san",
+      "result": "user_reported_pass",
+      "confirmed_on": "2026-10-27",
+      "artifact_sha256": "64f01cde65a8634b4650d0c5b32d254c6e48f9112e89979ec814dc4423454a5b"
+    },
+    {
+      "sample_id": "habit_week_tracker",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_habit_week_tracker_pass_20261022_234318/pipeline/medium/HabitWeekTracker_repaired.san",
+      "result": "user_reported_pass",
+      "confirmed_on": "2026-10-27",
+      "artifact_sha256": "501212846b0bc85bd4d0c6a82c6e5dc119d90579f1f7052fac53b4aa6909bb94"
+    },
+    {
+      "sample_id": "playback_queue",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_playback_queue_pass_20261022_235049/pipeline/medium/PlaybackQueue_repaired.san",
+      "result": "user_reported_pass",
+      "confirmed_on": "2026-10-27",
+      "artifact_sha256": "39dfdd4c35191d6d60e1fea3a39e1929b737a4b91086382aab5c8baa09e23c7b"
+    },
+    {
+      "sample_id": "MonitoringDashboard",
+      "san_artifact": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_pass_20261025_124927/pipeline/complex/MonitoringDashboard_repaired_repaired.san",
+      "result": "user_reported_settings_kpi_log_display_failure",
+      "artifact_sha256": "0d2970f176ac8416dab6b99e512e17c5dd3e06628e2ed70ff6a7bd54fd898156",
+      "audit_report": "data/experiments/analysis/formal_30_v4_development_closeout_20261025/monitoring_dashboard_manual_audit.json",
+      "observations": [
+        "Settings icon cannot open the modal.",
+        "KPI percentage change values are absent.",
+        "Log entry level markers appear absent."
+      ],
+      "non_defect_observation": "CPU and memory chart values/shapes differ only because each page generates independent random data."
+    },
+    {
+      "sample_id": "MonitoringDashboard",
+      "san_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_monitoring_dashboard/MonitoringDashboard_settings_kpi_logs.san",
+      "result": "user_reported_san_pass_after_settings_kpi_log_repair",
+      "confirmed_on": "2026-10-26",
+      "candidate_sha256": "5fa138592c68b45c676a311a57a75caf358e404214743d40622d3648ea55f64d",
+      "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_monitoring_settings_kpi_logs.json",
+      "limitation": "Vue manual runner rendered only one chart despite two charts in Vue source; user deferred the Vue discrepancy, so complete chart parity is not established."
+    }
+  ],
+  "boundary": "User-reported browser checks are not automated interaction evaluations or independent holdout evidence."
+}

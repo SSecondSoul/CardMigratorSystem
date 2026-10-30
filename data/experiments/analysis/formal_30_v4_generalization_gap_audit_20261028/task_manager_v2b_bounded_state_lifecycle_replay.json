@@ -1,0 +1,42 @@
+{
+  "purpose": "TaskManager v2b frozen candidate bounded offline replay; development regression evidence only",
+  "source_snapshot": "data/experiments/snapshots/formal_30_v4_semantic_focus_v2_TaskManager_automatic_fail_20261028_140129",
+  "candidate_snapshot": "data/experiments/snapshots/formal_30_v4_task_manager_semantic_probe_v2b_result_20261028_181549",
+  "candidate_file": "candidate.san",
+  "frozen_candidate_modified": false,
+  "rules": [
+    "restore_unresolved_source_event_handler",
+    "move_source_mounted_first_call_to_attached",
+    "clone_and_commit_source_corroborated_terminal_array_splice"
+  ],
+  "ssm_evidence_note": "methods[].body is truncated at 500 characters; array mutation corroboration reads methods[].body_full where available",
+  "validation_error_codes_before": [
+    "event_arguments_not_landed",
+    "lifecycle_behavior_not_landed",
+    "missing_event_bindings",
+    "missing_event_handlers",
+    "nested_state_mutation"
+  ],
+  "validation_error_codes_after": [
+    "event_arguments_not_landed",
+    "missing_event_bindings",
+    "missing_event_handlers"
+  ],
+  "remaining_event_argument_examples": [
+    "click:onStatClick(stat)",
+    "click:setFilter(filter.value)"
+  ],
+  "remaining_event_handler_examples": [
+    "closeDetail",
+    "deleteTask",
+    "editTask",
+    "toggleTaskStatus",
+    "updateTask"
+  ],
+  "san_compile_after": "passed",
+  "automated_pass": false,
+  "manual_pass": null,
+  "remaining_work": "Event binding and argument semantics still need bounded diagnosis; do not promote this replay to formal independent-test evidence.",
+  "test_command": "python -m unittest discover -s tests -p test_*.py -q",
+  "tests_passed": "189/189"
+}

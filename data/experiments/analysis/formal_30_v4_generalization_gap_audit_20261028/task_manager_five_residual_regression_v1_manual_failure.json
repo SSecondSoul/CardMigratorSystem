@@ -1,0 +1,23 @@
+{
+  "purpose": "Record user-observed runtime regression after an automatic TaskManager pass",
+  "independent_holdout": false,
+  "automatic_result_snapshot": "formal_30_v4_task_manager_five_residual_regression_v1_TaskManager_automatic_pass_20261029_200650",
+  "manual_review_status": "failed",
+  "observer": "user",
+  "observed_issues": [
+    "Clicking inside the settings modal closes it unexpectedly.",
+    "Clicking inside the create-task or edit-task modal closes it unexpectedly.",
+    "Tasks cannot be drag-sorted."
+  ],
+  "source_contract": [
+    "The Vue task and settings overlays use @click.self so only clicks on the overlay itself close the modal.",
+    "The Vue TaskItem uses native @dragstart and @dragend, then emits drag-start and drag-end custom component events."
+  ],
+  "frozen_candidate_evidence": [
+    "The generated San overlay uses on-click=closeModal or on-click=setShowSettingsFalse without a target/currentTarget guard, so bubbled content clicks invoke close handlers.",
+    "The generated San TaskItem template uses on-drag-start and on-drag-end for native DOM events; those hyphenated names belong to the custom component event layer, not the native dragstart/dragend DOM events."
+  ],
+  "prior_reviewed_candidate_evidence": "The previously manually reviewed TaskManager San used target===currentTarget overlay guards and native on-dragstart/on-dragend in TaskItem.",
+  "automatic_validation_boundary": "The 2026-10-29 batch passed static and visual checks but did not run interaction evaluation; interaction_eval_passed was null. The event regression gate matched source handler names but did not verify self-only click or native DOM drag event semantics.",
+  "next_step": "Create source-grounded runtime contract checks for Vue @click.self and native dragstart/dragend, then repair a new non-frozen candidate and rerun interaction and human review. Do not overwrite the frozen automatic-pass artifact or mark this sample manually passed."
+}

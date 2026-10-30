@@ -1,0 +1,41 @@
+{
+  "sample_id": "analytics_dashboard",
+  "classification": "development_manual_visual_repair_candidate",
+  "not_independent_holdout": true,
+  "source_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_runtime_followup/AnalyticsDashboard_computed_context_and_hover.san",
+  "source_sha256": "08f848ec0157583a94690a23de5e813bb3d508abee3cce0c7ba4159b5a274e79",
+  "candidate_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_runtime_followup/AnalyticsDashboard_visual_bindings.san",
+  "candidate_sha256": "e8ae98fa5a31d271fa3c09a15f4ed63976f040c9c37349b27ee3620b6a902273",
+  "replay_script": "migration_pipeline/replay_formal_30_v4_analytics_visual_bindings_fix.py",
+  "defect_codes": [
+    "unsupported_san_inline_template_math_global",
+    "invalid_san_inline_style_object_binding"
+  ],
+  "user_reported_differences": [
+    "StatCard percentage magnitude is missing, for example on total visits.",
+    "InsightList icon/tag background color is missing."
+  ],
+  "diagnosis": "San inline templates do not resolve the JavaScript global Math in {{ Math.abs(change) }}; San's style attribute also does not interpret a Vue-style object expression as CSS.",
+  "repair": "Use a component method to format the absolute change, and serialize the insight background-color as a CSS string.",
+  "earlier_artifacts_preserved": true,
+  "verification": {
+    "source_replay_error_codes_after_validator_update": [
+      "unsupported_san_inline_template_math_global",
+      "invalid_san_inline_style_object_binding"
+    ],
+    "candidate_validation_passed": true,
+    "candidate_compile_passed": true,
+    "candidate_visual_passed": true,
+    "candidate_structure_similarity": 1.0,
+    "local_browser_san_version": "3.15.6",
+    "local_browser_after_two_seconds": {
+      "loading_overlay_visible": false,
+      "stat_changes": ["▲ 12.5%", "▼ 2.3%", "▲ 0.7%", "▲ 18.9%"],
+      "first_insight_inline_style": "background-color: rgb(16, 185, 129);",
+      "first_insight_computed_background": "rgb(16, 185, 129)",
+      "insight_count": 4
+    },
+    "user_manual_browser_status": "user_reported_pass"
+  },
+  "boundary": "This sample-specific repair was manually confirmed by the user on 2026-10-26. It is not a new automatic or independent formal pass."
+}

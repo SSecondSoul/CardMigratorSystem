@@ -1,0 +1,16 @@
+{
+  "purpose": "Source-aware guard and focused one-request repair probe for first-mount prop-derived state in an inline child",
+  "independent_holdout": false,
+  "source_snapshot": "formal_30_v4_task_manager_initdata_computed_probe_v1_result_20261028_233258",
+  "pre_run_snapshot": "formal_30_v4_task_manager_inline_prop_probe_v1_pre_run_20261028",
+  "frozen_payloads_verified": 18,
+  "input_sha256": "6bd3a33b57723399ac8704525f214233661dd823b1eb404b0e592760624e1157",
+  "prompt_sha256": "02f9e57ae4ab3484a9e002fb4fa9c21f5a4e81cef4fdc85f2f6e96ad754716dd",
+  "validation_error_codes": ["missing_inline_prop_dependent_initialization"],
+  "new_guard_scope": "Only named inline Vue child objects with props and a data() field whose initial expression reads this.prop, matched to a same-named San inline component. Require initial this.data.get(prop) and this.data.set(field) before a watcher in inited(). Other source shapes are left unassessed.",
+  "historical_results_unchanged": true,
+  "full_test_suite": "207/207 passed",
+  "model_request_performed": false,
+  "browser_manual_review": "not_performed",
+  "next_step": "Execute the frozen one-request repair probe, then freeze and audit its result before any fresh development batch."
+}

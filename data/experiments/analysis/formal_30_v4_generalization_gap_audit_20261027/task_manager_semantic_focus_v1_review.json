@@ -1,0 +1,40 @@
+{
+  "sample_id": "TaskManager",
+  "batch_id": "formal_30_v4_semantic_focus_v1",
+  "classification": "reused_development_automatic_failure_review",
+  "independent_holdout": false,
+  "result_snapshot": "data/experiments/snapshots/formal_30_v4_semantic_focus_v1_TaskManager_automatic_fail_20261027_232128/manifest.json",
+  "automatic_result": {
+    "passed": false,
+    "stop_reason": "no_repair_progress",
+    "repair_rounds": 3,
+    "generation_tokens": 97702,
+    "repair_tokens": 244333,
+    "total_tokens": 342035,
+    "final_validation_error_count": 6,
+    "final_validation_error_codes": [
+      "unsupported_san_inline_template_math_global",
+      "invalid_san_event_handler_syntax",
+      "invalid_san_init_data_store_access",
+      "invalid_san_computed_instance_method_call",
+      "hidden_template_reactive_dependency",
+      "hidden_template_reactive_dependency"
+    ],
+    "final_visual_eval_passed": true,
+    "final_structure_similarity": 0.9889,
+    "interaction_eval_passed": null
+  },
+  "prompt_route_audit": {
+    "focused_semantic_prompt_used": false,
+    "reason": "unsupported_san_inline_template_math_global was outside the v1 bounded semantic-residual code set; the route fell back to the full repair prompt.",
+    "final_prompt_characters": 444091,
+    "repair_round_1_provider": "deterministic",
+    "repair_round_2_provider": "qwen",
+    "repair_round_3_provider": "qwen",
+    "round_3_same_code_as_round_2": true,
+    "conclusion": "This run does not test the focused semantic prompt's effectiveness for TaskManager."
+  },
+  "browser_manual_review": "not_performed_for_failed_automatic_output",
+  "batch_checkpoint": "1/2 completed, 0/1 automatic passes; MonitoringDashboard remains pending and is not run under this version after discovering the route coverage gap.",
+  "next_work": "Add the generic inline Math template error to the bounded route, test against this exact frozen failure, and use a new frozen batch version. Do not overwrite v1."
+}

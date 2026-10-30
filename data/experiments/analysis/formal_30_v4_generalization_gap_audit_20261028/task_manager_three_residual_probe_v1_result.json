@@ -1,0 +1,35 @@
+{
+  "purpose": "Record the guarded one-request TaskManager three-residual repair probe and post-run audit",
+  "independent_holdout": false,
+  "source_snapshot": "formal_30_v4_task_manager_inline_prop_regression_v1_TaskManager_automatic_fail_20261029_145142",
+  "pre_run_snapshot": "formal_30_v4_task_manager_three_residual_probe_v1_pre_run_20261029",
+  "result_snapshot": "formal_30_v4_task_manager_three_residual_probe_v1_result_20261029_153143",
+  "frozen_payloads_verified": 10,
+  "input_sha256": "8f52867411bae34f05bfd6dc0704a0cfb21dbb26830592bc0c4c057cd590bbbb",
+  "prompt_sha256": "a6d6746189cdc63ab7caaa54d6c65298842da635da04ad3c478298a9379a921a",
+  "output_sha256": "302617f1e03189224bcb5456d54494c1298af175d9cfcc0f4f4c2518fca85d4b",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "prompt_tokens": 12745,
+  "completion_tokens": 11118,
+  "total_tokens": 23863,
+  "pipeline_postprocessing": [],
+  "reported_automatic_passed": true,
+  "independent_static_revalidation_passed": true,
+  "independent_compile_passed": true,
+  "independent_visual_revalidation_passed": true,
+  "structure_similarity": 0.9889,
+  "regression_gate_decision": "pass",
+  "diff_scope": [
+    "Outer task-list dragover changed from an empty handler to on-dragover=\"prevent:noop\", with exported component noop() method.",
+    "The original isOverdue date calculation moved to isOverdueHelper; computed and statistics call the helper, while the component method delegates to it.",
+    "Template passes tasks explicitly to getTaskCount(tasks, filter.value); the method delegates to a helper that uses the supplied array instead of hiding a this.data.get('tasks') read."
+  ],
+  "isolated_san_instance_check": {
+    "first_edit_title": "Existing",
+    "tag_array_is_copied": true,
+    "counts": {"all": 2, "active": 1, "urgent": 1, "completed": 1}
+  },
+  "browser_manual_review": "not_performed",
+  "conclusion": "The focused development probe resolves the three reported residual errors without an observed regression in the bounded checks. It is not a fresh source-to-San batch or independent formal-test result. A new frozen development batch and browser interaction review remain necessary before pipeline-level acceptance."
+}

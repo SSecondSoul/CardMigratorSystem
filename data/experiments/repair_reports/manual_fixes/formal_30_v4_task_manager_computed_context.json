@@ -1,0 +1,28 @@
+{
+  "sample_id": "TaskManager",
+  "classification": "development_manual_runtime_repair_candidate",
+  "not_independent_holdout": true,
+  "source_snapshot": "data/experiments/snapshots/formal_30_v4_task_manager_manual_followup_failed_20261026_203625",
+  "source_artifact": "data/experiments/snapshots/formal_30_v4_task_manager_manual_followup_failed_20261026_203625/pipeline/complex/TaskManager_repaired_repaired_repaired.san",
+  "source_sha256": "c514064153762d3ee3c457d68afb9689618474bdd3f71215399d72088711ef1f",
+  "candidate_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_computed_pure_helper.san",
+  "candidate_sha256": "9d3ac701b1556852b646ef52a45bd388a12d3c941bc3d0fbe6368a999503c65f",
+  "replay_script": "migration_pipeline/replay_formal_30_v4_task_manager_computed_fix.py",
+  "defect_code": "invalid_san_computed_instance_method_call",
+  "diagnosis": "The exported TaskManager filteredTasks computed callback calls this.isOverdue(task). San computed callbacks do not expose the component instance methods; this can fail at runtime when active or overdue filtering is evaluated.",
+  "repair": "Extract the existing overdue calculation into a pure top-level isTaskOverdue(task) function. Call it from filteredTasks and delegate the component's isOverdue method to the same helper, preserving behavior without changing the frozen source.",
+  "earlier_artifacts_preserved": true,
+  "verification": {
+    "source_final_validation_error_codes": ["invalid_san_computed_instance_method_call"],
+    "candidate_validation_passed": true,
+    "candidate_validation_error_codes": [],
+    "candidate_compile_passed": true,
+    "candidate_visual_passed": true,
+    "candidate_structure_similarity": 0.9889,
+    "candidate_tag_sequence_similarity": 1.0,
+    "candidate_text_similarity": 1.0,
+    "user_manual_browser_status": "failed_san_template_parse",
+    "user_observation": "Error: [SAN FATAL] expect an ident:"
+  },
+  "boundary": "This sample-specific candidate failed user browser loading. The earlier static and lightweight visual passes did not establish San template parseability in the manual runner."
+}

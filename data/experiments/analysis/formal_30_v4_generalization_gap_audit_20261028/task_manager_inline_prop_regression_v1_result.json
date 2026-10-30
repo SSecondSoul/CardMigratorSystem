@@ -1,0 +1,50 @@
+{
+  "purpose": "Record the fresh source-to-San TaskManager development regression after the inline-prop guard",
+  "independent_holdout": false,
+  "batch_id": "formal_30_v4_task_manager_inline_prop_regression_v1",
+  "pre_run_snapshot": "formal_30_v4_task_manager_inline_prop_regression_v1_pre_run_20261029",
+  "result_snapshot": "formal_30_v4_task_manager_inline_prop_regression_v1_TaskManager_automatic_fail_20261029_145142",
+  "frozen_payloads_verified": 11,
+  "sample_ids": ["TaskManager"],
+  "completed": 1,
+  "passed": 0,
+  "repair_rounds": 3,
+  "repair_providers": ["deterministic", "deterministic", "qwen"],
+  "stop_reason": "max_repair_rounds_reached",
+  "generation_tokens": 97580,
+  "repair_tokens": 122045,
+  "total_tokens": 219625,
+  "initial_validation_error_codes": [
+    "unsupported_san_inline_template_math_global",
+    "unsupported_san_inline_template_member_call",
+    "invalid_san_multi_argument_fire",
+    "invalid_san_event_handler_syntax",
+    "invalid_san_for_alias_syntax",
+    "invalid_san_init_data_store_access",
+    "missing_inline_prop_dependent_initialization",
+    "invalid_san_directive_interpolation",
+    "invalid_s_for_key_binding",
+    "vue_methods_wrapper",
+    "invalid_san_computed_instance_method_call",
+    "missing_component_registration",
+    "hidden_template_reactive_dependency",
+    "nested_state_mutation"
+  ],
+  "final_validation_error_codes": [
+    "invalid_san_event_handler_syntax",
+    "invalid_san_computed_instance_method_call",
+    "hidden_template_reactive_dependency"
+  ],
+  "inline_prop_initialization_landed": true,
+  "inline_prop_initialization_evidence": "Final San TaskForm.inited() reads this.data.get('task') and writes formData via createFormData before registering the task watcher.",
+  "remaining_details": [
+    "Outer template task-list has on-dragover=\"\" while frozen Vue source has @dragover.prevent.",
+    "Exported parent's filteredTasks computed calls this.isOverdue(task), which is unavailable in San computed context.",
+    "Outer template getTaskCount(filter.value) hides a tasks read inside the method, so task updates may not retrigger that binding."
+  ],
+  "final_visual_eval_passed": true,
+  "final_structure_similarity": 0.9889,
+  "interaction_eval_passed": null,
+  "browser_manual_review": "not_performed_for_this_automatic_output",
+  "conclusion": "The new inline-prop guard was exercised and the model repaired that defect in the full pipeline, but the batch still failed static validation after three rounds. Visual success does not override automatic failure; do not use this as independent formal-test evidence or request manual acceptance of this output."
+}

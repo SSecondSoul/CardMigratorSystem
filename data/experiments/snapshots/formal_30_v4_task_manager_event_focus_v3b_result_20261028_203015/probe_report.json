@@ -1,0 +1,118 @@
+{
+  "classification": "reused_development_guarded_event_only_probe_result",
+  "independent_holdout": false,
+  "created_at": "2026-10-28T20:30:15+08:00",
+  "source_snapshot": "formal_30_v4_semantic_focus_v2_TaskManager_automatic_fail_20261028_140129",
+  "candidate_snapshot": "formal_30_v4_task_manager_semantic_probe_v2b_result_20261028_181549",
+  "pre_run_snapshot": "formal_30_v4_task_manager_event_focus_v3b_pre_run_20261028",
+  "input_sha256": "4f648583ab53bc279cc75862bf3aa677b6d3dd4aaf354e57c47c7aaadc7291b3",
+  "prompt_sha256": "33d70c86b694e7aec439b9cc2c5d80b36a0bc55eb284e941759ac9b92388c631",
+  "output_file": "data/experiments/pipeline/probes/formal_30_v4_task_manager_event_focus_v3b/TaskManager_event_focus_v3b.san",
+  "output_sha256": "8866bc0ea6d445e90125ee7d01dec3aa852bdccfb99b1e79045a84e519e97449",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "usage": {
+    "completion_tokens": 10864,
+    "prompt_tokens": 13896,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 24760
+  },
+  "pipeline_postprocessing": [],
+  "validation_passed": false,
+  "validation_errors": [
+    {
+      "code": "invalid_san_event_handler_syntax",
+      "message": "San templates contain 3 invalid event binding(s).",
+      "severity": "error",
+      "location": "template",
+      "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+    }
+  ],
+  "visual_eval_passed": true,
+  "visual_eval_errors": [],
+  "structure_similarity": 0.9889,
+  "event_regression_gate": {
+    "decision": "reject",
+    "should_stop": true,
+    "introduced_event_error_codes": {
+      "invalid_san_event_handler_syntax": 1
+    },
+    "additional_unresolved_source_bindings": 0,
+    "before": {
+      "exact": [
+        "submit:handleTaskSubmit",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [
+        "click:toggleCompactMode -> handleToggleCompactMode",
+        "click:toggleTheme -> handleToggleTheme",
+        "click:exportData -> handleExportData",
+        "click:onStatClick(stat) -> handleStatClick(stat)",
+        "click:openTaskModal -> handleOpenTaskModal",
+        "input:onSearchChange -> handleSearchChange",
+        "click:setFilter(filter.value) -> handleSetFilter(filter.value)",
+        "drop:onDropToEnd -> handleDropToEnd",
+        "toggle:toggleTaskStatus -> handleToggleTaskStatus",
+        "edit:editTask -> handleEditTask",
+        "view:selectTask -> handleSelectTask",
+        "delete:deleteTask -> handleDeleteTask",
+        "drag-start:onDragStart -> handleDragStart",
+        "drag-end:onDragEnd -> handleDragEnd",
+        "drop-on:onDropOnTask -> handleDropOnTask",
+        "close:closeDetail -> handleCloseDetail",
+        "update:updateTask -> handleUpdateTask",
+        "comment:addComment -> handleAddComment",
+        "click:closeModal -> handleCloseModal",
+        "click:closeModal -> handleCloseModal",
+        "cancel:closeModal -> handleCloseModal",
+        "update:updateSettings -> handleUpdateSettings"
+      ],
+      "unresolved": [],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false"
+      ]
+    },
+    "after": {
+      "exact": [
+        "click:toggleCompactMode",
+        "click:toggleTheme",
+        "click:exportData",
+        "click:onStatClick(stat)",
+        "click:openTaskModal",
+        "input:onSearchChange",
+        "click:setFilter(filter.value)",
+        "drop:onDropToEnd",
+        "toggle:toggleTaskStatus",
+        "edit:editTask",
+        "view:selectTask",
+        "delete:deleteTask",
+        "drag-start:onDragStart",
+        "drag-end:onDragEnd",
+        "drop-on:onDropOnTask",
+        "close:closeDetail",
+        "update:updateTask",
+        "comment:addComment",
+        "click:closeModal",
+        "click:closeModal",
+        "submit:handleTaskSubmit",
+        "cancel:closeModal",
+        "update:updateSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false"
+      ]
+    },
+    "boundary": "Plausible handle-prefixed aliases are not proof of equivalent behavior; invalid syntax remains a separate validation failure."
+  },
+  "automatic_passed": false,
+  "browser_manual_review": "not_performed"
+}

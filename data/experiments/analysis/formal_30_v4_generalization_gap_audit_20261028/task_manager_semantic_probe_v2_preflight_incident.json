@@ -1,0 +1,28 @@
+{
+  "classification": "reused_development_probe_preflight_failure",
+  "independent_holdout": false,
+  "attempt": "formal_30_v4_task_manager_semantic_probe_v2_pre_run_20261028",
+  "error": "Current input/prompt differs from pre-run freeze",
+  "stage": "before_model_request",
+  "cause": "The freeze stored raw-file SHA-256 for CRLF-encoded Windows text files, while execute compared it to SHA-256 of normalized in-memory LF text.",
+  "evidence": {
+    "frozen_input_text_equals_current_input": true,
+    "frozen_prompt_text_equals_current_prompt": true,
+    "frozen_input_crlf_line_endings": 1413,
+    "frozen_prompt_crlf_line_endings": 1573,
+    "v2_output_exists": false,
+    "v2_report_exists": false,
+    "model_request_made": false
+  },
+  "resolution": {
+    "code_change": "Compare frozen raw-file hashes against the same frozen files, compare decoded text separately, and keep implementation checksum verification.",
+    "old_snapshot_preserved": true,
+    "replacement_pre_run_snapshot": "formal_30_v4_task_manager_semantic_probe_v2b_pre_run_20261028",
+    "replacement_payloads_verified": 18,
+    "replacement_preflight_passed": true,
+    "replacement_output_exists": false,
+    "replacement_report_exists": false,
+    "full_unittest": "182/182 passed"
+  },
+  "outcome": "No migration result was produced. The v2b probe has not yet been executed."
+}

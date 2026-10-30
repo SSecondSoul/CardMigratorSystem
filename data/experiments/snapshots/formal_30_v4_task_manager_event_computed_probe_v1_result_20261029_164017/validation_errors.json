@@ -1,0 +1,16 @@
+[
+  {
+    "code": "invalid_san_event_handler_syntax",
+    "message": "San templates contain 1 invalid event binding(s).",
+    "severity": "error",
+    "location": "template",
+    "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+  },
+  {
+    "code": "invalid_san_computed_instance_method_call",
+    "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+    "severity": "error",
+    "location": "script",
+    "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+  }
+]

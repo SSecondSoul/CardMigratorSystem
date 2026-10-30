@@ -1,0 +1,53 @@
+{
+  "sample_id": "TaskManager",
+  "classification": "reused_development_source_to_san_regression_failed",
+  "independent_holdout": false,
+  "result_snapshot": "data/experiments/snapshots/formal_30_v4_generalization_remaining_v1_task_manager_failed_20261027_195349/manifest.json",
+  "automatic_result": {
+    "passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "final_structure_similarity": 0.9889,
+    "final_visual_eval_passed": true,
+    "final_validation_error_codes": [
+      "invalid_san_event_handler_syntax",
+      "invalid_san_computed_instance_method_call"
+    ],
+    "generation_tokens": 96981,
+    "repair_tokens": 240872,
+    "total_tokens": 337853
+  },
+  "read_only_revalidation": "The frozen final San still fails the same two validation codes under current code.",
+  "diagnosis": {
+    "event_syntax": "Seven invalid bindings remain across the parent and inline children, including an empty on-dragover and Vue-style .prevent/.stop/.enter modifiers. Drag-and-drop, form submission, and keyboard semantics must be preserved during repair.",
+    "computed_context": "The parent computed.filteredTasks still calls this.isOverdue(task); San computed callbacks cannot rely on the component instance method context.",
+    "lightweight_visual_boundary": "A high structural similarity and no final visual errors do not override static errors or establish browser interaction correctness."
+  },
+  "manual_browser_review": "not_performed_for_failed_output",
+  "next_work": "Use the frozen failure for a bounded repair probe, verify event behavior and computed overdue semantics, then validate and manually review a separate candidate. Do not overwrite the checkpoint or call this automatic pass.",
+  "monitoring_dashboard_in_same_batch": "pending",
+  "posthoc_bounded_candidate": {
+    "path": "data/experiments/pipeline/manual_fixes/formal_30_v4_remaining_task_manager_bounded_v1/TaskManager_repaired.san",
+    "sha256": "06e1db96c365592fe13f8bd9e92376ae1384ccb3cdc091ffcf612acf3170ca8d",
+    "scope": "Only invalid event syntax and computed overdue instance-method calls were changed; the frozen failed output and batch checkpoint remain untouched.",
+    "static_validation": "passed",
+    "san_compile": "passed",
+    "lightweight_visual": "passed; structure similarity 0.9889",
+    "focused_regression_tests": "3/3 passed",
+    "full_unit_tests": "143/143 passed",
+    "browser_manual_review": "failed; see task_manager_bounded_v1_manual_fail.json",
+    "automatic_batch_status": "failed; post-hoc candidate is not an automatic pass"
+  },
+  "posthoc_runtime_v2_candidate": {
+    "path": "data/experiments/pipeline/manual_fixes/formal_30_v4_remaining_task_manager_runtime_v2/TaskManager_repaired.san",
+    "sha256": "924c33e224776152e9533469e68c32f897a08581a62fee0cc5995ff89e0cbb22",
+    "scope": "Callable San watchers, explicit custom-event payloads, drag index, modal click isolation, task-form initialization, and settings/tag state.",
+    "static_validation": "passed",
+    "san_compile": "passed",
+    "lightweight_visual": "passed; structure similarity 0.9889",
+    "focused_regression_tests": "5/5 passed, including San instance semantics",
+    "full_unit_tests": "145/145 passed",
+    "browser_manual_review": "pending_user_review",
+    "automatic_batch_status": "failed; unchanged"
+  }
+}

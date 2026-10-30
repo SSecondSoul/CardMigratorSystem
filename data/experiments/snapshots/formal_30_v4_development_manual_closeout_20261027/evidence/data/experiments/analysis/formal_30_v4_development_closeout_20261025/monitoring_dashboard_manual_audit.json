@@ -1,0 +1,28 @@
+{
+  "sample_id": "MonitoringDashboard",
+  "classification": "development_manual_browser_audit",
+  "reported_on": "2026-10-26",
+  "status": "frozen_automatic_pass_rejected_manual_fix_candidate_user_reported_san_pass",
+  "frozen_artifact": "data/experiments/snapshots/formal_30_v4_deferred_monitoring_dashboard_pass_20261025_124927/pipeline/complex/MonitoringDashboard_repaired_repaired.san",
+  "frozen_artifact_sha256": "0d2970f176ac8416dab6b99e512e17c5dd3e06628e2ed70ff6a7bd54fd898156",
+  "vue_source_sha256": "f669fc59619a30ce94cf8188b57124ae7e7084aa65d84604751391e73ab0ae4b",
+  "user_observations": [
+    "Settings cannot be opened by clicking the icon.",
+    "KPI change percentages are missing.",
+    "Log entry level markers appear missing.",
+    "CPU and memory line chart values/shapes differ from Vue."
+  ],
+  "diagnosis": {
+    "confirmed_generation_defects": [
+      "Settings button and modal close handlers use state assignments directly in San on-click attributes.",
+      "Inline KPICard calls Math.abs directly in its template, leaving the percentage value blank.",
+      "Inline LogList uses log.level.toUpperCase() in the template; the level label is moved into a child method for reliable San rendering."
+    ],
+    "chart_observation": "Both Vue and San deliberately generate CPU/memory series with Math.random; user confirmed that only random values or resulting line shapes differ, with no blank chart, color, point, or period-switching anomaly reported.",
+    "source_log_entry_icon": "Neither Vue nor San source defines a separate icon inside each log item; the comparable element is the colored INFO/WARNING/ERROR level badge.",
+    "vue_manual_runner_limitation": "The Vue manual page rendered one chart wrapper although the Vue source declares both CPU and memory charts. The user chose not to resolve the Vue runner discrepancy in this round, so full chart visual parity is not established."
+  },
+  "candidate_manual_result": "user_reported_san_pass_2026-10-26",
+  "repair_report": "data/experiments/repair_reports/manual_fixes/formal_30_v4_monitoring_settings_kpi_logs.json",
+  "boundary": "The original frozen automatic pass and its checkpoint remain unchanged. This is a post-hoc development manual finding, not an independent holdout result."
+}

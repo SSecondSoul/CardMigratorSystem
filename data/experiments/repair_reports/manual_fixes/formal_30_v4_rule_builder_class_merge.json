@@ -1,0 +1,91 @@
+{
+  "experiment": "formal_30_v4_rule_builder_manual_class_fix",
+  "classification": "development_manual_repair",
+  "status": "automated_candidate_ready",
+  "user_observation": "San 基础条件选中样式及新增条件行样式与 Vue 不一致",
+  "root_cause": "The frozen San emitted separate static and dynamic class attributes on the group button and rule row.",
+  "frozen_source": "data/experiments/snapshots/formal_30_v4_rule_builder_pass_20261022_233452/pipeline/complex/RuleBuilder_repaired.san",
+  "frozen_source_sha256": "009b6d4e859abdb83d94d3f0db1349d126c6f731ed2718dc50e00ac8cf981907",
+  "vue_source": "data/datasets/components/03_complex/RuleBuilder/vue/RuleBuilder.vue",
+  "vue_source_sha256": "09f26dfd0ab9b3fd2016c25028d92eedf12269352c289abbc2887ab4f3dd886a",
+  "candidate": "data/experiments/pipeline/manual_fixes/formal_30_v4_rule_builder/RuleBuilder_class_merge.san",
+  "candidate_sha256": "829d19eb617b5be11fc4db9c199902d470e3fc92eba09cd8c7e3dc870576b391",
+  "repair_provider": "deterministic",
+  "repair_model": "san_duplicate_class_normalizer",
+  "repair_tokens": 0,
+  "validation_errors_before": [
+    "duplicate_class_attribute"
+  ],
+  "validation_errors_after": [],
+  "san_compile": {
+    "passed": true,
+    "skipped": false,
+    "reason": "san_compile_passed",
+    "diagnostics": [],
+    "initial_data": {
+      "title": "客户分群规则",
+      "availableFields": [
+        {
+          "key": "region",
+          "label": "地区"
+        },
+        {
+          "key": "score",
+          "label": "活跃分"
+        },
+        {
+          "key": "tag",
+          "label": "标签"
+        }
+      ],
+      "initialGroups": [
+        {
+          "id": 1,
+          "name": "基础条件",
+          "mode": "all",
+          "rules": [
+            {
+              "id": 1,
+              "field": "region",
+              "operator": "equals",
+              "value": "西南"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "name": "行为条件",
+          "mode": "any",
+          "rules": [
+            {
+              "id": 2,
+              "field": "score",
+              "operator": "greater",
+              "value": "80"
+            }
+          ]
+        }
+      ],
+      "readonly": false,
+      "groups": [],
+      "selectedGroupId": 0,
+      "previewOpen": false,
+      "errors": [],
+      "nextGroupId": 3,
+      "nextRuleId": 3,
+      "savedAt": "",
+      "autosaveTimer": null,
+      "draftName": "",
+      "testPayload": {}
+    },
+    "stdout": "{\"passed\":true,\"skipped\":false,\"reason\":\"san_compile_passed\",\"diagnostics\":[],\"initialData\":{\"title\":\"客户分群规则\",\"availableFields\":[{\"key\":\"region\",\"label\":\"地区\"},{\"key\":\"score\",\"label\":\"活跃分\"},{\"key\":\"tag\",\"label\":\"标签\"}],\"initialGroups\":[{\"id\":1,\"name\":\"基础条件\",\"mode\":\"all\",\"rules\":[{\"id\":1,\"field\":\"region\",\"operator\":\"equals\",\"value\":\"西南\"}]},{\"id\":2,\"name\":\"行为条件\",\"mode\":\"any\",\"rules\":[{\"id\":2,\"field\":\"score\",\"operator\":\"greater\",\"value\":\"80\"}]}],\"readonly\":false,\"groups\":[],\"selectedGroupId\":0,\"previewOpen\":false,\"errors\":[],\"nextGroupId\":3,\"nextRuleId\":3,\"savedAt\":\"\",\"autosaveTimer\":null,\"draftName\":\"\",\"testPayload\":{}}}\n",
+    "stderr": ""
+  },
+  "visual_eval_passed": true,
+  "visual_eval_error_codes": [],
+  "initial_structure_similarity": 0.9909,
+  "initial_tag_sequence_similarity": 1.0,
+  "initial_text_similarity": 1.0,
+  "initial_tree_edit_distance": 0.5,
+  "boundary": "Initial DOM replay is not an interaction test. Frozen snapshot and original batch summary remain unchanged."
+}

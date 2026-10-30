@@ -1,0 +1,20 @@
+{
+  "purpose": "Bounded repair-stage rule replay of the frozen TaskManager v3b event regression",
+  "independent_holdout": false,
+  "source_failure_snapshot": "formal_30_v4_task_manager_event_focus_v3b_result_20261028_203015",
+  "offline_pass_snapshot": "formal_30_v4_task_manager_event_boolean_offline_pass_20261028_210032",
+  "candidate_sha256": "fdf553870bb55ec8386e00aa13c87cd42af95e5fb9630dbe4d788cbe3f3786f7",
+  "rule_scope": "Only outer-template on-* assignments that match SSM source event name, exact boolean literal, occurrence count, source data name, and initialized parent DataTypes.bool field; reuse an exact existing setter or create a named setter. Other expressions remain untouched.",
+  "model_request_performed": false,
+  "validation_error_codes_before": ["invalid_san_event_handler_syntax"],
+  "validation_error_codes_after": [],
+  "san_compile_passed": true,
+  "visual_eval_passed": true,
+  "structure_similarity": 0.9889,
+  "event_regression_gate": "pass",
+  "offline_replay_passed": true,
+  "full_test_suite": "193/193 passed",
+  "automatic_pipeline_passed": false,
+  "browser_manual_review": "not_performed",
+  "next_step": "Run a new frozen development regression, then request manual review if automatic checks pass; do not count this replay as independent formal test evidence."
+}

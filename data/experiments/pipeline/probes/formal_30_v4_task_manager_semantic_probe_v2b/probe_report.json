@@ -1,0 +1,148 @@
+{
+  "classification": "reused_development_guarded_single_repair_probe_result",
+  "independent_holdout": false,
+  "created_at": "2026-10-28T18:15:49+08:00",
+  "source_snapshot": "formal_30_v4_semantic_focus_v2_TaskManager_automatic_fail_20261028_140129",
+  "pre_run_snapshot": "formal_30_v4_task_manager_semantic_probe_v2b_pre_run_20261028",
+  "input_sha256": "ff7d78aae16174bf1d08e694a5c2e122686fc5544a93725fa6d68b94f9dc063f",
+  "prompt_sha256": "7e1ee5477fcc866580a1179ff2c043dcb1b582bd4a11a769d0a6fc00737a8ee9",
+  "output_file": "data/experiments/pipeline/probes/formal_30_v4_task_manager_semantic_probe_v2b/TaskManager_semantic_probe_v2b.san",
+  "output_sha256": "ec71493bf1984b0de2ce630d36ef2acdf101236f00c4eff05c02d5387644b8c2",
+  "provider": "qwen",
+  "model": "qwen-plus",
+  "usage": {
+    "completion_tokens": 10921,
+    "prompt_tokens": 12647,
+    "prompt_tokens_details": {
+      "cached_tokens": 0
+    },
+    "total_tokens": 23568
+  },
+  "pipeline_postprocessing": [],
+  "validation_passed": false,
+  "validation_errors": [
+    {
+      "code": "nested_state_mutation",
+      "message": "方法 moveTask(...) 直接修改了来自 San data 的对象或数组引用：tasks。原地修改可能绕过响应式更新。",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 tasks；不要直接修改其属性或调用 push/splice。"
+    },
+    {
+      "code": "missing_event_handlers",
+      "message": "以下 SSM 事件处理函数未在 San 脚本中找到：closeDetail, closeModal, deleteTask, editTask, exportData, onDropOnTask, onDropToEnd, onSearchChange, onStatClick, openTaskModal, selectTask, setFilter, toggleCompactMode, toggleTaskStatus, toggleTheme, updateSettings, updateTask。",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "补齐事件处理方法，并在模板中通过 on-event 绑定。"
+    },
+    {
+      "code": "event_arguments_not_landed",
+      "message": "San 事件绑定未完整保留源事件参数。缺失：click:onStatClick(stat), click:setFilter(filter.value)。",
+      "severity": "error",
+      "location": "template",
+      "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+    },
+    {
+      "code": "lifecycle_behavior_not_landed",
+      "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 loadInitialData()。",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+    },
+    {
+      "code": "missing_event_bindings",
+      "message": "以下事件 handler 在 San template 中没有找到对应 on-* 绑定：addComment, closeDetail, closeModal, deleteTask, editTask, exportData, hideNotification, onDragEnd, onDragStart, onDropOnTask, onDropToEnd, onSearchChange, onStatClick, openTaskModal, selectTask, setFilter, toggleCompactMode, toggleTaskStatus, toggleTheme, updateSettings, updateTask。",
+      "severity": "error",
+      "location": "template",
+      "suggestion": "在模板中补充对应 on-click/on-input 等 San 事件绑定。"
+    }
+  ],
+  "visual_eval_passed": true,
+  "visual_eval_errors": [],
+  "structure_similarity": 0.9889,
+  "event_regression_gate": {
+    "decision": "reject",
+    "should_stop": true,
+    "introduced_event_error_codes": {
+      "event_arguments_not_landed": 1,
+      "missing_event_bindings": 1,
+      "missing_event_handlers": 1
+    },
+    "additional_unresolved_source_bindings": 1,
+    "before": {
+      "exact": [
+        "click:toggleCompactMode",
+        "click:toggleTheme",
+        "click:exportData",
+        "click:onStatClick(stat)",
+        "click:openTaskModal",
+        "input:onSearchChange",
+        "click:setFilter(filter.value)",
+        "drop:onDropToEnd",
+        "toggle:toggleTaskStatus",
+        "edit:editTask",
+        "view:selectTask",
+        "delete:deleteTask",
+        "drag-start:onDragStart",
+        "drag-end:onDragEnd",
+        "drop-on:onDropOnTask",
+        "close:closeDetail",
+        "update:updateTask",
+        "comment:addComment",
+        "click:closeModal",
+        "click:closeModal",
+        "submit:handleTaskSubmit",
+        "cancel:closeModal",
+        "update:updateSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false"
+      ]
+    },
+    "after": {
+      "exact": [
+        "submit:handleTaskSubmit"
+      ],
+      "plausible_aliases": [
+        "click:toggleCompactMode -> handleToggleCompactMode",
+        "click:toggleTheme -> handleToggleTheme",
+        "click:exportData -> handleExportData",
+        "click:onStatClick(stat) -> handleStatClick(stat)",
+        "click:openTaskModal -> handleOpenTaskModal",
+        "input:onSearchChange -> handleSearchChange",
+        "click:setFilter(filter.value) -> handleSetFilter(filter.value)",
+        "drop:onDropToEnd -> handleDropToEnd",
+        "toggle:toggleTaskStatus -> handleToggleTaskStatus",
+        "edit:editTask -> handleEditTask",
+        "view:selectTask -> handleSelectTask",
+        "delete:deleteTask -> handleDeleteTask",
+        "drag-start:onDragStart -> handleDragStart",
+        "drag-end:onDragEnd -> handleDragEnd",
+        "drop-on:onDropOnTask -> handleDropOnTask",
+        "close:closeDetail -> handleCloseDetail",
+        "update:updateTask -> handleUpdateTask",
+        "comment:addComment -> handleAddComment",
+        "click:closeModal -> handleCloseModal",
+        "click:closeModal -> handleCloseModal",
+        "cancel:closeModal -> handleCloseModal",
+        "update:updateSettings -> handleUpdateSettings"
+      ],
+      "unresolved": [
+        "click:hideNotification"
+      ],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false"
+      ]
+    },
+    "boundary": "Plausible handle-prefixed aliases are not proof of equivalent behavior; invalid syntax remains a separate validation failure."
+  },
+  "automatic_passed": false,
+  "browser_manual_review": "not_performed"
+}

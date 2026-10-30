@@ -1,0 +1,105 @@
+{
+  "batch_id": "formal_30_v4_task_manager_manual_followup",
+  "config_sha256": "9147a03565227549e4da3d414c6621433af95926e3a392ef3eb1bff9e030fa76",
+  "started_at": "2026-10-26T20:14:42+08:00",
+  "updated_at": "2026-10-26T20:18:44+08:00",
+  "samples": [
+    {
+      "id": "TaskManager",
+      "component_name": "TaskManager",
+      "complexity": "complex",
+      "coverage_focus": [
+        "migration.class_binding_conversion",
+        "migration.event_name_conversion",
+        "migration.style_binding_conversion",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "scripts.has_watch",
+        "styles.has_dynamic_class",
+        "styles.has_dynamic_style",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "vue_file": "data/experiments/protocols/formal_30_v3_frozen_20261022/frozen/data/datasets/components/03_complex/TaskManager/vue/TaskManager.vue",
+      "output_file": "data/experiments/pipeline/batches/formal_30_v4_task_manager_manual_followup/complex/TaskManager.san",
+      "report_file": "data/experiments/repair_reports/batches/formal_30_v4_task_manager_manual_followup/complex/TaskManager_repair_history.json",
+      "status": "error",
+      "started_at": "2026-10-26T20:14:42+08:00",
+      "finished_at": "2026-10-26T20:18:44+08:00",
+      "elapsed_seconds": 242.031,
+      "error_type": "RuntimeError",
+      "error_message": "Generation request failed: HTTP 400 {\"error\":\"The read operation timed out\",\"ok\":false}\n",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\soul\\Desktop\\swu\\毕业设计\\migration_pipeline\\generation_client.py\", line 90, in generate\n    with request.urlopen(req, timeout=self.timeout) as response:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\soul\\AppData\\Local\\miniforge3\\envs\\cardmig\\Lib\\urllib\\request.py\", line 215, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\soul\\AppData\\Local\\miniforge3\\envs\\cardmig\\Lib\\urllib\\request.py\", line 521, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\soul\\AppData\\Local\\miniforge3\\envs\\cardmig\\Lib\\urllib\\request.py\", line 630, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\soul\\AppData\\Local\\miniforge3\\envs\\cardmig\\Lib\\urllib\\request.py\", line 559, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\soul\\AppData\\Local\\miniforge3\\envs\\cardmig\\Lib\\urllib\\request.py\", line 492, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"C:\\Users\\soul\\AppData\\Local\\miniforge3\\envs\\cardmig\\Lib\\urllib\\request.py\", line 639, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 400: BAD REQUEST\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"C:\\Users\\soul\\Desktop\\swu\\毕业设计\\migration_pipeline\\run_batch_pipeline.py\", line 622, in execute_batch\n    result = orchestrator_factory().run_generate_validate_visual_eval_and_repair_loop(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\soul\\Desktop\\swu\\毕业设计\\migration_pipeline\\orchestrator.py\", line 155, in run_generate_validate_visual_eval_and_repair_loop\n    generate_result = self.generate_stage.run(stage_input)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\soul\\Desktop\\swu\\毕业设计\\migration_pipeline\\stages\\generate.py\", line 79, in run\n    result = self.generation_client.generate(request_data)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\Users\\soul\\Desktop\\swu\\毕业设计\\migration_pipeline\\generation_client.py\", line 94, in generate\n    raise RuntimeError(f\"Generation request failed: HTTP {exc.code} {detail}\") from exc\nRuntimeError: Generation request failed: HTTP 400 {\"error\":\"The read operation timed out\",\"ok\":false}\n\n"
+    }
+  ],
+  "aggregate": {
+    "configured": 1,
+    "completed": 0,
+    "passed": 0,
+    "failed": 0,
+    "execution_errors": 1,
+    "pending": 0,
+    "pass_rate_completed": null,
+    "initial_passed": 0,
+    "initial_pass_rate_completed": null,
+    "repaired_to_pass": 0,
+    "repair_rounds_total": 0,
+    "repair_rounds_average": 0.0,
+    "generation_tokens": 0,
+    "repair_tokens": 0,
+    "total_tokens": 0,
+    "stop_reason_counts": {},
+    "error_code_counts": {
+      "initial_validation": {},
+      "initial_visual": {},
+      "final_validation": {},
+      "final_visual": {}
+    },
+    "by_complexity": {
+      "simple": {
+        "configured": 0,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "medium": {
+        "configured": 0,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "complex": {
+        "configured": 1,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 1,
+        "pass_rate_completed": null
+      }
+    }
+  },
+  "description": "Development-only isolated rerun after browser review rejected the frozen TaskManager automatic pass for missing child modules; not independent holdout evidence.",
+  "config_file": "migration_pipeline/batch_configs/formal_30_v4_task_manager_manual_followup.json",
+  "max_repair_rounds": 3,
+  "output_dir": "data/experiments/pipeline/batches/formal_30_v4_task_manager_manual_followup",
+  "report_dir": "data/experiments/repair_reports/batches/formal_30_v4_task_manager_manual_followup",
+  "summary_file": "data/experiments/batch_reports/formal_30_v4_task_manager_manual_followup_summary.json",
+  "local_server": {
+    "model": "qwen-plus",
+    "ok": true,
+    "provider": "qwen",
+    "service": "local_server"
+  }
+}

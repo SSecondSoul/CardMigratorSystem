@@ -1,0 +1,39 @@
+{
+  "sample_id": "TaskManager",
+  "classification": "development_manual_template_repair_candidate",
+  "not_independent_holdout": true,
+  "source_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_computed_pure_helper.san",
+  "source_sha256": "9d3ac701b1556852b646ef52a45bd388a12d3c941bc3d0fbe6368a999503c65f",
+  "candidate_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_template_syntax.san",
+  "candidate_sha256": "9db0ec7696b95accb5f538bf98f220c6a7ed6cd07efc8e476f45596fbb4746c6",
+  "replay_script": "migration_pipeline/replay_formal_30_v4_task_manager_template_fix.py",
+  "defect_codes": ["invalid_san_event_handler_syntax", "invalid_san_for_alias_syntax"],
+  "user_observation": "Error: [SAN FATAL] expect an ident:",
+  "diagnosis": "The first candidate contained an empty on-dragover handler, Vue-style event modifiers in inline templates, and parenthesized Vue tuple aliases in San s-for expressions. San's actual template parser rejected the main template before browser interaction could begin.",
+  "repair": "Use named event handlers and San value-based modifiers, convert item/index loops to San alias syntax, and pass the shared pure overdue helper indirectly through the component's count method rather than through the template.",
+  "earlier_artifacts_preserved": true,
+  "verification": {
+    "source_replay_error_codes_after_validator_update": ["invalid_san_event_handler_syntax", "invalid_san_for_alias_syntax"],
+    "candidate_validation_passed": true,
+    "candidate_validation_error_codes": [],
+    "candidate_compile_passed": true,
+    "candidate_visual_passed": true,
+    "candidate_structure_similarity": 0.9889,
+    "local_san_parser_version": "3.15.6",
+    "local_san_parser_results": {
+      "main": "passed",
+      "stat-card": "passed",
+      "task-item": "passed",
+      "task-detail": "passed",
+      "task-form": "passed",
+      "settings-panel": "passed"
+    },
+    "regression_tests": "99 tests passed",
+    "user_manual_browser_status": "failed_missing_inline_display_values",
+    "user_reported_differences": [
+      "StatCard trend change values are missing for each status.",
+      "TaskItem priority label and due date are missing."
+    ]
+  },
+  "boundary": "The candidate is not an automatic or independent formal pass. It parsed in San but failed user visual review because inline computed values were invoked as formatting functions."
+}

@@ -1,0 +1,77 @@
+{
+  "classification": "reused_development_offline_regression_guard_review",
+  "independent_holdout": false,
+  "input_snapshot": "data/experiments/snapshots/formal_30_v4_semantic_focus_v2_TaskManager_automatic_fail_20261028_140129/manifest.json",
+  "candidate_snapshot": "data/experiments/snapshots/formal_30_v4_task_manager_semantic_probe_v1_result_20261028_155408/manifest.json",
+  "source_event_audit": {
+    "callable_source_bindings": 24,
+    "source_assignment_bindings_not_automatically_matched": 3,
+    "input_exact": 24,
+    "candidate_exact": 1,
+    "candidate_plausible_handle_prefixed_aliases": 22,
+    "candidate_unresolved": ["click:closeModal"],
+    "new_validator_event_codes": [
+      "event_arguments_not_landed",
+      "missing_event_bindings",
+      "missing_event_handlers"
+    ],
+    "interpretation": "Most new exact-name errors are plausibly caused by handle-prefixed renaming, including onStatClick(stat) and setFilter(filter.value) with arguments still present. One repeated closeModal click binding lacks even that static alias coverage. This is a conservative traceability result, not a browser-level proof of lost behavior."
+  },
+  "guard": {
+    "scope": "Focused semantic repair attempts only, after candidate validation; candidate files remain available as evidence.",
+    "behavior": "A new unresolved source event binding is rejected; a plausible alias is marked review; either condition stops further automatic repair and prevents a pass label. Non-focused repair paths are unchanged.",
+    "frozen_probe_decision": "reject",
+    "stop_reason_if_reproduced_in_pipeline": "repair_event_contract_regression",
+    "limitations": [
+      "Only callable SSM event expressions in the outer San template are statically traced; source assignments require separate handling.",
+      "A plausible alias does not prove runtime equivalence, element identity, or payload correctness.",
+      "The guard does not restore a prior code file; a rejected candidate remains a failed artifact with explicit stop reason."
+    ]
+  },
+  "bounded_syntax_normalization": {
+    "added": "Convert simple on-event.stop/prevent method calls and keyboard on-keyup/down/keypress.enter handlers into San value modifiers, preserving their original calls and arguments, including inline fire(name, payload).",
+    "left_unchanged": [
+      "calls containing $event",
+      "dispatch/emit calls",
+      "non-keyboard .enter modifiers",
+      "arbitrary expressions"
+    ],
+    "frozen_probe_candidate_changed_in_memory": true,
+    "frozen_probe_candidate_changed_on_disk": false
+  },
+  "bounded_empty_modifier_normalization": {
+    "added": "Convert bare on-event.stop/prevent attributes with no handler to San value modifiers and add one no-op method in each affected component scope.",
+    "scope": "Only genuinely empty modifier attributes in the outer template or inline san.defineComponent backtick templates; existing valued handlers and non-attribute text are unchanged.",
+    "frozen_probe_read_only_replay": {
+      "bare_attributes_converted": 4,
+      "component_scoped_noop_methods_added": 2,
+      "invalid_event_bindings_before": 7,
+      "invalid_event_bindings_after": 3,
+      "san_compile_passed": true,
+      "other_validation_error_codes_unchanged": true
+    },
+    "remaining_invalid_event_bindings": [
+      "TaskItem: on-click.stop=\"fire('edit', task)\"",
+      "TaskItem: on-click.stop=\"fire('delete', task.id)\"",
+      "TaskDetail: on-keyup.enter=\"addComment\""
+    ],
+    "limitation": "After this empty-only replay, valued fire(...) and key-filter events remain; the combined replay below handles their syntax. Neither replay establishes runtime parity."
+  },
+  "combined_syntax_read_only_replay": {
+    "input": "Frozen v1 probe candidate, unchanged on disk",
+    "invalid_event_bindings_before": 7,
+    "invalid_event_bindings_after": 0,
+    "san_compile_passed": true,
+    "remaining_validation_error_codes": [
+      "missing_event_handlers",
+      "event_arguments_not_landed",
+      "lifecycle_behavior_not_landed",
+      "missing_event_bindings"
+    ],
+    "interpretation": "The three remaining modifier cases were two inline stop:fire(name, payload) calls and one enter:addComment key handler. Earlier frozen development manual-pass evidence used these San value-modifier forms, but this replay alone is not runtime acceptance."
+  },
+  "prompt_constraint": "Focused semantic repair preserves valid source handler names and arguments rather than renaming them; it accepts San enter: value modifiers or declared key guards and requires inline child event forwarding to preserve its payload.",
+  "verification": "180/180 full unittest tests passed, including frozen-probe audit, alias/reject cases, San value-modifier preservation, orchestrator stop behavior, bounded syntax, component scope, idempotence, San compile, and combined read-only replay.",
+  "outcome": "No new model run or automatic pass claim; the existing probe and v2 batch results remain failed.",
+  "next_work": "Investigate source handler aliases and assignments, lifecycle timing, and child-event payload forwarding before any new single-round probe under a newly frozen version."
+}

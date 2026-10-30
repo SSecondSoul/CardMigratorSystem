@@ -1,0 +1,36 @@
+{
+  "sample_id": "TaskManager",
+  "classification": "development_manual_visual_repair_candidate",
+  "not_independent_holdout": true,
+  "source_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_template_syntax.san",
+  "source_sha256": "9db0ec7696b95accb5f538bf98f220c6a7ed6cd07efc8e476f45596fbb4746c6",
+  "candidate_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_inline_format_methods.san",
+  "candidate_sha256": "baaca5fb8dbe1da32704fd672b54b4e2f2f50f4d5a5ac6046f19ec1544d07cc4",
+  "replay_script": "migration_pipeline/replay_formal_30_v4_task_manager_inline_format_fix.py",
+  "defect_code": "invalid_san_inline_computed_method_invocation",
+  "user_reported_differences": [
+    "StatCard trend change values are missing for each status.",
+    "TaskItem priority label and due date are missing."
+  ],
+  "diagnosis": "Inline child templates invoke formatTrend(trend), getPriorityLabel(task.priority), and formatDate(task.dueDate) as parameterized methods, but the migrated definitions are computed values. TaskDetail repeats the same issue and also invokes formatTime(comment.time).",
+  "repair": "Move these parameterized formatting functions from computed into top-level child methods, retaining the Vue argument-dependent behavior. Do not modify the frozen or earlier candidate artifacts.",
+  "earlier_artifacts_preserved": true,
+  "verification": {
+    "source_replay_error_codes_after_validator_update": ["invalid_san_inline_computed_method_invocation"],
+    "candidate_validation_passed": true,
+    "candidate_validation_error_codes": [],
+    "candidate_compile_passed": true,
+    "candidate_visual_passed": true,
+    "candidate_structure_similarity": 0.9889,
+    "local_san_parser_version": "3.15.6",
+    "local_san_parser_results": "main and all five inline child templates passed",
+    "direct_formatter_checks": {
+      "formatTrend_12": "12%",
+      "high_priority_label": "高优先级",
+      "empty_due_date": "无截止日期"
+    },
+    "regression_tests": "100 tests passed",
+    "user_manual_browser_status": "failed_task_form_modal_content_mismatch"
+  },
+  "boundary": "This sample-specific candidate has not yet passed user browser review or an independent interaction evaluation; it is not a new automatic or independent formal pass."
+}

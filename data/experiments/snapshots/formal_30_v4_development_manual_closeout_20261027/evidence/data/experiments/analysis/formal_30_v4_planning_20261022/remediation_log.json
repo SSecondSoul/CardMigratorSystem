@@ -1,0 +1,705 @@
+{
+  "log_id": "formal_30_v4_targeted_remediation",
+  "updated_at": "2026-10-23T15:25:11+08:00",
+  "source_snapshot": "formal_30_v3_results_20261022_200548",
+  "baseline_commit": "df284a3",
+  "status": "formal_30_v4_targeted_complete",
+  "entries": [
+    {
+      "sequence": 1,
+      "sample_id": "course_module_accordion",
+      "observed_v3_errors": [
+        "hidden_template_reactive_dependency",
+        "dom_structure_similarity_low"
+      ],
+      "confirmed_root_cause": "The generated San removed openIds, completedIds, and unfinishedOnly from Vue render-method arguments. The v3 validator checked interpolated presentation attributes but did not inspect raw s-if/s-for expressions or text interpolations, so it reported only part of the reactive dependency loss.",
+      "evidence": {
+        "vue_source": "data/datasets/components/02_medium/CourseModuleAccordion/vue/CourseModuleAccordion.vue",
+        "frozen_final_san": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/pipeline/medium/CourseModuleAccordion_repaired_repaired_repaired.san",
+        "frozen_repair_history": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/repair_reports/medium/CourseModuleAccordion_repair_history.json"
+      },
+      "changes": [
+        "Expanded hidden reactive-dependency validation to interpolated attributes, s-if, s-else-if, s-for, and text interpolation while excluding ordinary event handlers.",
+        "Added a failing-then-passing regression for s-if, s-for, and text render expressions.",
+        "Strengthened repair Prompt examples to preserve explicit render-method dependencies.",
+        "Restored the generation Prompt as readable UTF-8 and added the same dependency-preservation contract; the v3 literal is retained under an explicit legacy name for auditability."
+        ,
+        "Fixed ValidateStage state wiring so source comparisons use vue_file_path while source_file remains the component identifier."
+      ],
+      "changed_files": [
+        "migration_pipeline/stages/validate.py",
+        "migration_pipeline/utils/repair_prompt.py",
+        "local_server/api/evaluation_routes.py",
+        "tests/test_migration_pipeline_regressions.py",
+        "tests/test_repair_prompt_and_loop.py"
+      ],
+      "verification": {
+        "new_regression_failed_before_fix": true,
+        "targeted_validator_tests_passed": 4,
+        "targeted_prompt_tests_passed": 2,
+        "python_compile_passed": true,
+        "targeted_model_run_completed": true,
+        "related_tests_after_wiring_fix_passed": 32
+      },
+      "first_targeted_run": {
+        "started_at": "2026-10-22T21:09:31+08:00",
+        "finished_at": "2026-10-22T21:11:30+08:00",
+        "final_passed": false,
+        "stop_reason": "max_repair_rounds_reached",
+        "repair_rounds": 3,
+        "final_validation_passed": true,
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [
+          "dom_structure_similarity_low"
+        ],
+        "structure_similarity": 0.8889,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 2.0,
+        "total_tokens": 80216,
+        "v3_comparison": "The hidden reactive-dependency errors were eliminated, but the same two-node DOM-order distance remained.",
+        "remaining_difference": "Vue header label orders checkbox before text; generated San orders text before checkbox.",
+        "snapshot": "data/experiments/snapshots/formal_30_v4_course_module_first_run_20261022_211130",
+        "summary_sha256": "733711b379399d75db6faccd2c3b431c25ab607b2dbacd4af37e32ec3e0f5e16",
+        "repair_history_sha256": "bf77c805f1c3d6006ab8957c5b039c9a05c6e777303f96a734f79afae949d98a",
+        "final_san_sha256": "6c33bb5cc6e4214e0e45803860afb02b4c920869b7e937e5d03d1a718f670963"
+      },
+      "follow_up_root_cause": "The child-order validator read source_file, which batch execution populated with CourseModuleAccordion rather than a filesystem path. The actual source path was already present in vue_file_path, so the check silently returned without comparing templates.",
+      "targeted_rerun": {
+        "started_at": "2026-10-22T21:20:35+08:00",
+        "finished_at": "2026-10-22T21:21:33+08:00",
+        "final_passed": true,
+        "stop_reason": "passed",
+        "repair_rounds": 1,
+        "initial_validation_error_codes": [
+          "dom_child_order_mismatch",
+          "missing_prop_defaults"
+        ],
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "total_tokens": 38010,
+        "snapshot": "data/experiments/snapshots/formal_30_v4_course_module_pass_20261022_212133",
+        "summary_sha256": "a1d7db3909653890b38db88944da633c6015596a4821de4f82a375c7a5d38b9b",
+        "repair_history_sha256": "5ea61d716d0f7285680abf34bc254b12edba8c2064b34bf6b6c0a6f2a24a5561",
+        "final_san_sha256": "64f01cde65a8634b4650d0c5b32d254c6e48f9112e89979ec814dc4423454a5b"
+      },
+      "status": "targeted_rerun_passed"
+    },
+    {
+      "sequence": 4,
+      "sample_id": "rule_builder",
+      "observed_v3_errors": [
+        "missing_prop_defaults",
+        "dom_structure_similarity_low",
+        "dom_critical_attribute_mismatch",
+        "max_repair_rounds_reached"
+      ],
+      "confirmed_root_cause": "The final San omitted all four prop defaults from initData and then treated the San Data store as a plain object with const { initialGroups, availableFields } = this.data. Both reads therefore produced undefined, groups was replaced with an empty array, selectedGroup became null, and the editor/rule subtree disappeared from the rendered DOM.",
+      "evidence": {
+        "vue_source": "data/datasets/components/03_complex/RuleBuilder/vue/RuleBuilder.vue",
+        "frozen_final_san": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/pipeline/complex/RuleBuilder_repaired_repaired_repaired.san",
+        "frozen_repair_history": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/repair_reports/complex/RuleBuilder_repair_history.json"
+      },
+      "classification": {
+        "missing_prop_defaults": "confirmed_migration_error",
+        "invalid_san_data_destructuring": "previously_missing_validator_signal_for_confirmed_migration_error",
+        "dom_structure_similarity_low": "downstream_render_consequence",
+        "dom_critical_attribute_mismatch": "no_longer_present_after_prior_renderer_corrections",
+        "max_repair_rounds_reached": "repair_loop_outcome"
+      },
+      "changes": [
+        "Added invalid_san_data_destructuring validation for const/let/var object destructuring directly from this.data.",
+        "Added generation and repair Prompt rules stating that this.data is a San Data store and fields must be read individually with this.data.get(...).",
+        "Added the same requirement and forbidden pattern to the structured repair contract.",
+        "Added focused synthetic and full frozen RuleBuilder regressions."
+      ],
+      "changed_files": [
+        "migration_pipeline/stages/validate.py",
+        "migration_pipeline/utils/repair_prompt.py",
+        "local_server/api/evaluation_routes.py",
+        "tests/test_migration_pipeline_regressions.py",
+        "tests/test_repair_prompt_and_loop.py"
+      ],
+      "verification": {
+        "new_validator_regression_failed_before_fix": true,
+        "generation_prompt_regression_failed_before_fix": true,
+        "repair_prompt_regression_failed_before_fix": true,
+        "related_tests_passed": 38,
+        "frozen_v3_final_validation_error_codes_after_fix": [
+          "invalid_san_data_destructuring",
+          "missing_prop_defaults"
+        ],
+        "frozen_v3_visual_structure_similarity_with_current_renderer": 0.1455,
+        "frozen_v3_visual_tag_sequence_similarity_with_current_renderer": 0.7059,
+        "frozen_v3_visual_text_similarity_with_current_renderer": 0.7479,
+        "frozen_v3_visual_tree_edit_distance_with_current_renderer": 47.0,
+        "frozen_v3_vue_node_count": 55,
+        "frozen_v3_san_node_count": 30,
+        "targeted_model_run_completed": true
+      },
+      "targeted_run": {
+        "started_at": "2026-10-22T23:32:02+08:00",
+        "finished_at": "2026-10-22T23:34:52+08:00",
+        "final_passed": true,
+        "stop_reason": "passed",
+        "repair_rounds": 1,
+        "initial_validation_error_codes": [
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation"
+        ],
+        "initial_visual_error_codes": [],
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "structure_similarity": 0.9909,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.5,
+        "total_tokens": 107232,
+        "residual_difference": "Two San inputs explicitly use type=text while Vue omits type; HTML defines the omitted input type as text.",
+        "snapshot": "data/experiments/snapshots/formal_30_v4_rule_builder_pass_20261022_233452",
+        "summary_sha256": "7b38a27e2835308ed13a7a204fe09d79f7968d4d307e8c4a39a514469adbfe9c",
+        "repair_history_sha256": "6bbaf80eacdf6bc33c1a8aac48365925740dc1317342f70b6d8eba0b6f3e60b3",
+        "final_san_sha256": "009b6d4e859abdb83d94d3f0db1349d126c6f731ed2718dc50e00ac8cf981907"
+      },
+      "status": "targeted_run_passed"
+    },
+    {
+      "sequence": 6,
+      "sample_id": "playback_queue",
+      "observed_v3_errors": [
+        "dom_critical_attribute_mismatch",
+        "max_repair_rounds_reached"
+      ],
+      "confirmed_root_cause": "The frozen v3 San preserved disabled={{index === 0}} correctly. The old lightweight renderers did not expand the valid unparenthesized two-alias loop track, index in queue, so index was evaluated outside loop scope and produced a false disabled-attribute mismatch.",
+      "evidence": {
+        "vue_source": "data/datasets/components/02_medium/PlaybackQueue/vue/PlaybackQueue.vue",
+        "frozen_final_san": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/pipeline/medium/PlaybackQueue_repaired_repaired_repaired.san",
+        "frozen_repair_history": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/repair_reports/medium/PlaybackQueue_repair_history.json"
+      },
+      "reclassification": {
+        "dom_critical_attribute_mismatch": "renderer_false_positive",
+        "max_repair_rounds_reached": "repair_loop_outcome_driven_by_false_error"
+      },
+      "changes": [
+        "Reused the unparenthesized item, index in list renderer correction introduced while diagnosing IncidentResponseBoard.",
+        "Added a full frozen PlaybackQueue regression covering static validation and exact visual equivalence."
+      ],
+      "changed_files": [
+        "migration_pipeline/utils/vue_render.py",
+        "migration_pipeline/utils/san_render.py",
+        "tests/test_migration_pipeline_regressions.py"
+      ],
+      "verification": {
+        "related_tests_passed": 40,
+        "frozen_v3_final_validation_passed_after_fix": true,
+        "frozen_v3_final_visual_eval_passed_after_fix": true,
+        "frozen_v3_final_structure_similarity_after_fix": 1.0,
+        "frozen_v3_final_tag_sequence_similarity_after_fix": 1.0,
+        "frozen_v3_final_text_similarity_after_fix": 1.0,
+        "frozen_v3_final_tree_edit_distance_after_fix": 0.0,
+        "vue_node_count_after_fix": 23,
+        "san_node_count_after_fix": 23,
+        "targeted_model_run_completed": true
+      },
+      "targeted_run": {
+        "started_at": "2026-10-22T23:49:47+08:00",
+        "finished_at": "2026-10-22T23:50:49+08:00",
+        "final_passed": true,
+        "stop_reason": "passed",
+        "repair_rounds": 1,
+        "initial_validation_error_codes": [
+          "missing_prop_defaults"
+        ],
+        "initial_visual_error_codes": [],
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "total_tokens": 38891,
+        "snapshot": "data/experiments/snapshots/formal_30_v4_playback_queue_pass_20261022_235049",
+        "summary_sha256": "2880f939e5017196327b5d9f0392a31238d710312e6068ad56e98d97bbf4bbec",
+        "repair_history_sha256": "5b760eafcd0d9d7b68b3910f72742450e80568d8aa29299870d2f4af91584dd5",
+        "final_san_sha256": "39dfdd4c35191d6d60e1fea3a39e1929b737a4b91086382aab5c8baa09e23c7b"
+      },
+      "status": "targeted_run_passed"
+    },
+    {
+      "sequence": 2,
+      "sample_id": "schema_mapping_workbench",
+      "observed_v3_errors": [
+        "invalid_s_for_key_binding",
+        "dom_critical_attribute_mismatch",
+        "no_repair_progress"
+      ],
+      "confirmed_root_cause": "The invalid_s_for_key_binding result was a validator false positive: a raw regex matched the Key === fragment inside sourceKey and targetKey class expressions. The real migration defect was that the select disabled expression absorbed the adjacent connect button condition, changing previewMode to !canConnect || previewMode.",
+      "evidence": {
+        "vue_source": "data/datasets/components/03_complex/SchemaMappingWorkbench/vue/SchemaMappingWorkbench.vue",
+        "frozen_final_san": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/pipeline/complex/SchemaMappingWorkbench_repaired_repaired.san",
+        "frozen_repair_history": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/repair_reports/complex/SchemaMappingWorkbench_repair_history.json"
+      },
+      "reclassification": {
+        "invalid_s_for_key_binding": "validator_false_positive",
+        "dom_critical_attribute_mismatch": "confirmed_migration_error",
+        "no_repair_progress": "repair_loop_outcome"
+      },
+      "changes": [
+        "Replaced raw key= substring matching with parsed exact attribute-name matching on s-for tags.",
+        "Added a regression proving sourceKey === and targetKey === expressions are not standalone key attributes while the existing true key= regression still fails.",
+        "Strengthened generation and repair Prompt contracts so critical value/checked/selected/disabled expressions stay attached to their original element and cannot absorb a sibling condition."
+      ],
+      "changed_files": [
+        "migration_pipeline/stages/validate.py",
+        "migration_pipeline/utils/repair_prompt.py",
+        "local_server/api/evaluation_routes.py",
+        "tests/test_migration_pipeline_regressions.py",
+        "tests/test_repair_prompt_and_loop.py"
+      ],
+      "verification": {
+        "related_tests_passed": 33,
+        "frozen_v3_final_validation_passed_after_false_positive_fix": true,
+        "frozen_v3_final_validation_error_codes_after_fix": [],
+        "frozen_v3_final_visual_error_codes": [
+          "dom_critical_attribute_mismatch"
+        ],
+        "frozen_v3_final_structure_similarity": 0.9942,
+        "frozen_v3_final_tree_edit_distance": 0.25,
+        "targeted_model_run_completed": true
+      },
+      "targeted_run": {
+        "started_at": "2026-10-22T21:30:52+08:00",
+        "finished_at": "2026-10-22T21:32:43+08:00",
+        "final_passed": true,
+        "stop_reason": "passed",
+        "repair_rounds": 1,
+        "initial_validation_error_codes": [
+          "missing_prop_defaults"
+        ],
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "total_tokens": 77336,
+        "critical_attribute_confirmation": "The select retained disabled={{previewMode}} in both initial and repaired San; no sibling condition was merged.",
+        "snapshot": "data/experiments/snapshots/formal_30_v4_schema_mapping_pass_20261022_213243",
+        "summary_sha256": "f93f8f0c9ee77cd89807cd758da80f37d9b3d1997e4d01887014a025cfff1566",
+        "repair_history_sha256": "b7d24ce077ed5ffa68d058339e9e6a0b95a47595ecaf6e38363f310f61155944",
+        "final_san_sha256": "2cc7aa5dde6b0cf735ec91862cf0c7f2e358d41f9863e3ed24051d3876a3a6f6"
+      },
+      "status": "targeted_run_passed"
+    },
+    {
+      "sequence": 3,
+      "sample_id": "incident_response_board",
+      "observed_v3_errors": [
+        "vue_this_state",
+        "dom_critical_attribute_mismatch",
+        "no_repair_progress"
+      ],
+      "confirmed_root_cause": "Both terminal errors were evaluator defects. vue_this_state counted four legal private timer accesses to this._timer. The Vue and San lightweight renderers both failed to expand the valid unparenthesized two-alias loop syntax stage, index in stages; this broke later loop scopes and made a false checklist checked-attribute mismatch. San also retained an empty class for a compound class interpolation.",
+      "evidence": {
+        "vue_source": "data/datasets/components/03_complex/IncidentResponseBoard/vue/IncidentResponseBoard.vue",
+        "frozen_final_san": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/pipeline/complex/IncidentResponseBoard_repaired_repaired.san",
+        "frozen_repair_history": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/repair_reports/complex/IncidentResponseBoard_repair_history.json"
+      },
+      "reclassification": {
+        "vue_this_state": "validator_false_positive",
+        "dom_critical_attribute_mismatch": "renderer_false_positive",
+        "no_repair_progress": "repair_loop_outcome_driven_by_false_errors"
+      },
+      "changes": [
+        "Excluded underscore-prefixed private instance fields such as this._timer from Vue reactive-state residue detection.",
+        "Added unparenthesized item, index in list support to both Vue and San lightweight renderers.",
+        "Normalized compound San class interpolations and removed class when all interpolated fragments are empty.",
+        "Added regressions for private timer fields and the full frozen IncidentResponseBoard artifact.",
+        "After the first v4 run exposed a new evaluator false negative, normalized explicit const/let/var aliases assigned from this inside lifecycle hook bodies before behavior matching."
+      ],
+      "changed_files": [
+        "migration_pipeline/stages/validate.py",
+        "migration_pipeline/utils/vue_render.py",
+        "migration_pipeline/utils/san_render.py",
+        "tests/test_migration_pipeline_regressions.py"
+      ],
+      "verification": {
+        "related_tests_passed": 36,
+        "frozen_v3_final_validation_passed_after_fix": true,
+        "frozen_v3_final_visual_eval_passed_after_fix": true,
+        "frozen_v3_final_structure_similarity_after_fix": 1.0,
+        "frozen_v3_final_tag_sequence_similarity_after_fix": 1.0,
+        "frozen_v3_final_text_similarity_after_fix": 1.0,
+        "frozen_v3_final_tree_edit_distance_after_fix": 0.0,
+        "vue_node_count_after_fix": 49,
+        "san_node_count_after_fix": 49,
+        "targeted_model_run_completed": true,
+        "lifecycle_alias_regression_failed_before_fix": true,
+        "lifecycle_alias_regression_passed_after_fix": true,
+        "first_v4_final_validation_passed_after_alias_fix": true,
+        "first_v4_final_validation_error_codes_after_alias_fix": []
+      },
+      "first_targeted_run": {
+        "started_at": "2026-10-22T22:50:53+08:00",
+        "finished_at": "2026-10-22T22:54:32+08:00",
+        "final_passed": false,
+        "stop_reason": "no_repair_progress",
+        "repair_rounds": 3,
+        "initial_validation_error_codes": [
+          "invalid_dynamic_attribute_binding",
+          "dom_child_order_mismatch",
+          "missing_prop_defaults",
+          "lifecycle_behavior_not_landed"
+        ],
+        "final_validation_error_codes": [
+          "lifecycle_behavior_not_landed"
+        ],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "total_tokens": 153688,
+        "remaining_difference": "The final San used const self = this and self.data.get/set inside attached(); the validator only matched direct this.data.get/set calls.",
+        "snapshot": "data/experiments/snapshots/formal_30_v4_incident_first_run_20261022_225432",
+        "summary_sha256": "b302e244ed944632dc9080f3ec59cb60a42f69c0b9496ce06172a711593d17db",
+        "repair_history_sha256": "7318a3281511267a3a1d053df815c47813a44ad593708dc96cc59fc3ec1ec225",
+        "final_san_sha256": "856566ee308f14bbc643c62ba5ffbdb15bc4f9beec1f6eedc48615f6e099e05a"
+      },
+      "follow_up_root_cause": "The lifecycle behavior validator did not recognize local aliases declared as const/let/var alias = this, so semantically equivalent self.data.get/set calls were reported as missing.",
+      "targeted_rerun": {
+        "started_at": "2026-10-22T23:16:40+08:00",
+        "finished_at": "2026-10-22T23:18:31+08:00",
+        "final_passed": true,
+        "stop_reason": "passed",
+        "repair_rounds": 1,
+        "initial_validation_error_codes": [
+          "invalid_dynamic_attribute_binding",
+          "dom_child_order_mismatch",
+          "missing_prop_defaults"
+        ],
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "total_tokens": 74328,
+        "snapshot": "data/experiments/snapshots/formal_30_v4_incident_pass_20261022_231831",
+        "summary_sha256": "9e6a3448b77b5a15021866ca7b4baaa3f11cc720e96059f63c6a6fe9ad2c4366",
+        "repair_history_sha256": "3142c80c7fb8cb8216ca5ad86b185c77f50b1bb4094352c67f6126097fb463e8",
+        "final_san_sha256": "f11ca2568584f6876a5a0053e86e0a6daec69a9ad61ec1942e29679197b9d1a5"
+      },
+      "status": "targeted_rerun_passed"
+    },
+    {
+      "sequence": 5,
+      "sample_id": "habit_week_tracker",
+      "observed_v3_errors": [
+        "dom_structure_similarity_low",
+        "max_repair_rounds_reached"
+      ],
+      "confirmed_root_cause": "The frozen v3 San was structurally equivalent. The old lightweight renderers did not expand the valid unparenthesized two-alias loop syntax day, index in dayLabels, so repeated day buttons and their surrounding rows were omitted from comparison.",
+      "evidence": {
+        "vue_source": "data/datasets/components/02_medium/HabitWeekTracker/vue/HabitWeekTracker.vue",
+        "frozen_final_san": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/pipeline/medium/HabitWeekTracker_repaired_repaired_repaired.san",
+        "frozen_repair_history": "data/experiments/snapshots/formal_30_v3_results_20261022_200548/repair_reports/medium/HabitWeekTracker_repair_history.json"
+      },
+      "reclassification": {
+        "dom_structure_similarity_low": "renderer_false_positive",
+        "max_repair_rounds_reached": "repair_loop_outcome_driven_by_false_error"
+      },
+      "changes": [
+        "Reused the unparenthesized item, index in list renderer correction introduced while diagnosing IncidentResponseBoard.",
+        "Added a full frozen HabitWeekTracker regression covering static validation and exact visual equivalence."
+      ],
+      "changed_files": [
+        "migration_pipeline/utils/vue_render.py",
+        "migration_pipeline/utils/san_render.py",
+        "tests/test_migration_pipeline_regressions.py"
+      ],
+      "verification": {
+        "related_tests_passed": 39,
+        "frozen_v3_final_validation_passed_after_fix": true,
+        "frozen_v3_final_visual_eval_passed_after_fix": true,
+        "frozen_v3_final_structure_similarity_after_fix": 1.0,
+        "frozen_v3_final_tag_sequence_similarity_after_fix": 1.0,
+        "frozen_v3_final_text_similarity_after_fix": 1.0,
+        "frozen_v3_final_tree_edit_distance_after_fix": 0.0,
+        "vue_node_count_after_fix": 47,
+        "san_node_count_after_fix": 47,
+        "targeted_model_run_completed": true
+      },
+      "targeted_run": {
+        "started_at": "2026-10-22T23:42:12+08:00",
+        "finished_at": "2026-10-22T23:43:18+08:00",
+        "final_passed": true,
+        "stop_reason": "passed",
+        "repair_rounds": 1,
+        "initial_validation_error_codes": [
+          "missing_prop_defaults"
+        ],
+        "initial_visual_error_codes": [
+          "dom_structure_similarity_low"
+        ],
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "total_tokens": 41525,
+        "snapshot": "data/experiments/snapshots/formal_30_v4_habit_week_tracker_pass_20261022_234318",
+        "summary_sha256": "3e09fb9da9eeb819b2b2669794134b357b342d38c2455f96686383e02982676a",
+        "repair_history_sha256": "6fefcd207a57f9a75ebc352c5994deba1a97338be0ca57a7f4499e7398ef5924",
+        "final_san_sha256": "501212846b0bc85bd4d0c6a82c6e5dc119d90579f1f7052fac53b4aa6909bb94"
+      },
+      "status": "targeted_run_passed"
+    },
+    {
+      "sequence": 7,
+      "sample_id": "analytics_dashboard",
+      "observed_v3_errors": [
+        "generation_timeout"
+      ],
+      "confirmed_root_cause": "AnalyticsDashboard and two other complex samples failed twice at the local server's unchanged 120-second upstream LLM read timeout. The migration client allowed 300 seconds, so the inner service timeout terminated otherwise valid long-running generation requests first.",
+      "evidence": {
+        "vue_source": "data/datasets/components/03_complex/AnalyticsDashboard/vue/AnalyticsDashboard.vue",
+        "v3_summary": "data/experiments/batch_reports/formal_30_v3_summary.json",
+        "v3_execution_notes": "data/experiments/batch_reports/formal_30_v3_execution_notes.json",
+        "source_size_bytes": 29515,
+        "source_line_count": 1152,
+        "reproduced_attempts": 2
+      },
+      "classification": {
+        "generation_timeout": "infrastructure_timeout",
+        "first_v4_dom_structure_similarity_low": "mostly_evaluator_lifecycle_phase_mismatch",
+        "first_v4_nested_state_mutation": "validator_false_positive_for_detached_spread_copy",
+        "first_v4_invalid_s_for_key_binding": "confirmed_migration_error",
+        "first_v4_dom_critical_attribute_mismatch": "downstream_loop_scope_consequence",
+        "second_v4_vue_this_state": "validator_false_positive_for_nonreactive_instance_timer",
+        "second_v4_nested_state_mutation": "validator_false_positive_for_detached_object_spread_copy",
+        "second_v4_dom_critical_attribute_mismatch": "evaluator_false_positive_for_custom_component_prop",
+        "second_v4_component_prop_two_way_binding": "confirmed_migration_error",
+        "third_v4_invalid_s_for_key_binding": "confirmed_redundant_attribute_migration_error",
+        "third_v4_no_repair_progress": "repair_loop_outcome_after_two_identical_model_repairs"
+      },
+      "changes": [
+        "Raised the local server's default upstream LLM read timeout from 120 seconds to 240 seconds.",
+        "Kept the migration client's outer generation timeout at 300 seconds, preserving a 60-second response and error-propagation margin.",
+        "Aligned QwenClient's constructor default with the local server setting.",
+        "Added a regression that verifies the 240/300-second defaults and requires the inner timeout to remain below the outer timeout.",
+        "Aligned Vue mounted execution with San attached execution in the lightweight renderers before DOM capture.",
+        "Recognized array literals containing spread elements as detached copies in nested-mutation validation.",
+        "Extended s-for validation to reject both separate key and separate trackby attributes.",
+        "Strengthened generation and repair Prompts to explicitly forbid standalone trackby attributes.",
+        "Restricted vue_this_state findings to fields known by the SSM to be reactive state, so refreshInterval timer handles are not reported as Vue state residue.",
+        "Recognized object spread literals as detached copies before local property assignment.",
+        "Restricted visual critical-attribute comparison to the relevant native HTML elements instead of custom-component props.",
+        "Expanded self-closing component loops in both lightweight renderers.",
+        "Added invalid_component_prop_two_way_binding validation and Prompt rules requiring ordinary custom-component props to use one-way {{ ... }} bindings.",
+        "Added a deterministic RepairStage normalization that removes standalone key/trackby only when the same s-for already contains an equivalent inline trackby expression.",
+        "Short-circuited the LLM repair call only when invalid_s_for_key_binding is the sole static error, visual evaluation has no errors, and the redundant expression is equivalent; all other cases retain the original LLM repair path."
+      ],
+      "changed_files": [
+        "local_server/config.py",
+        "local_server/client/qwen_client.py",
+        "local_server/api/evaluation_routes.py",
+        "migration_pipeline/stages/validate.py",
+        "migration_pipeline/stages/visual_eval.py",
+        "migration_pipeline/stages/repair.py",
+        "migration_pipeline/utils/vue_render.py",
+        "migration_pipeline/utils/san_render.py",
+        "migration_pipeline/utils/repair_prompt.py",
+        "tests/test_migration_pipeline_regressions.py",
+        "tests/test_repair_prompt_and_loop.py"
+      ],
+      "verification": {
+        "new_regressions_failed_before_fix": 3,
+        "related_unittest_tests_passed": 39,
+        "pytest_available_in_tool_environment": false,
+        "targeted_model_run_completed": true,
+        "frozen_first_run_replay_structure_similarity_after_fix": 0.9934,
+        "frozen_first_run_replay_tag_sequence_similarity_after_fix": 1.0,
+        "frozen_first_run_replay_text_similarity_after_fix": 1.0,
+        "frozen_first_run_replay_tree_edit_distance_after_fix": 0.25,
+        "frozen_first_run_replay_vue_node_count": 38,
+        "frozen_first_run_replay_san_node_count": 38,
+        "first_run_remaining_replay_validation_error_codes": [
+          "invalid_s_for_key_binding"
+        ],
+        "second_run_snapshot_hashes_verified": 8,
+        "second_run_new_regressions_failed_before_fix": 5,
+        "related_unittest_tests_passed_after_second_fix": 44,
+        "second_run_replay_validation_error_codes": [
+          "invalid_component_prop_two_way_binding"
+        ],
+        "second_run_replay_visual_passed": true,
+        "second_run_replay_structure_similarity": 0.9573,
+        "second_run_replay_tag_sequence_similarity": 1.0,
+        "second_run_replay_text_similarity": 1.0,
+        "second_run_replay_tree_edit_distance": 1.75,
+        "second_run_replay_vue_node_count": 41,
+        "second_run_replay_san_node_count": 41,
+        "third_run_snapshot_hashes_verified": 7,
+        "deterministic_normalizer_regressions_failed_before_fix": 4,
+        "related_unittest_tests_passed_after_third_fix": 49,
+        "third_run_replay_removed_bytes": 24,
+        "third_run_replay_validation_passed": true,
+        "third_run_replay_validation_error_codes": [],
+        "third_run_replay_visual_passed": true,
+        "third_run_replay_structure_similarity": 1.0,
+        "third_run_replay_tag_sequence_similarity": 1.0,
+        "third_run_replay_text_similarity": 1.0,
+        "third_run_replay_tree_edit_distance": 0.0,
+        "third_run_replay_vue_node_count": 41,
+        "third_run_replay_san_node_count": 41
+      },
+      "first_targeted_run": {
+        "started_at": "2026-10-23T12:59:17+08:00",
+        "finished_at": "2026-10-23T13:08:53+08:00",
+        "final_passed": false,
+        "stop_reason": "max_repair_rounds_reached",
+        "repair_rounds": 3,
+        "final_validation_error_codes": [
+          "invalid_s_for_key_binding",
+          "nested_state_mutation"
+        ],
+        "final_visual_error_codes": [
+          "dom_structure_similarity_low",
+          "dom_critical_attribute_mismatch"
+        ],
+        "structure_similarity": 0.8421,
+        "tag_sequence_similarity": 0.973,
+        "text_similarity": 0.9434,
+        "tree_edit_distance": 6.0,
+        "total_tokens": 291987,
+        "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_first_run_20261023_130853",
+        "summary_sha256": "d3dba8671018d67e196ca3e09a3f521363fd026bc98371c818945bda8c71a867",
+        "repair_history_sha256": "e32b24dd1805fb6391bd9522c108810b065ea5627cf03cca51f8f48ff91a5799",
+        "final_san_sha256": "7aceea9b4404df00d9d6271a2c599711a49ddc4d9bed67acb7a93f1a9b590a9d"
+      },
+      "second_targeted_run": {
+        "started_at": "2026-10-23T13:23:58+08:00",
+        "finished_at": "2026-10-23T13:33:24+08:00",
+        "final_passed": false,
+        "stop_reason": "max_repair_rounds_reached",
+        "repair_rounds": 3,
+        "final_validation_error_codes": [
+          "vue_this_state",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation"
+        ],
+        "final_visual_error_codes": [
+          "dom_critical_attribute_mismatch"
+        ],
+        "structure_similarity": 0.9737,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 1.0,
+        "total_tokens": 291244,
+        "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_second_run_20261023_133324",
+        "summary_sha256": "7f38c2960767227f196b6a33cc37f12c1c9e5ee2f0e01a65f1a1905fb4f1b116",
+        "repair_history_sha256": "ae4416fdce5911a5f35426be0e728669da213969f734e916f0b1e71c814f912c",
+        "final_san_sha256": "291304f82c3b85da2040a7239611c70fb92b655332eeab46e8c2b4973380f1c4"
+      },
+      "third_targeted_run": {
+        "started_at": "2026-10-23T13:56:30+08:00",
+        "finished_at": "2026-10-23T14:03:40+08:00",
+        "final_passed": false,
+        "stop_reason": "no_repair_progress",
+        "repair_rounds": 2,
+        "final_validation_error_codes": [
+          "invalid_s_for_key_binding"
+        ],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "total_tokens": 213427,
+        "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_third_run_20261023_140340",
+        "summary_sha256": "0f87f2029af6685f1c7adefc899b76ba09cc157757f3d23e6abbed0474a4eb4f",
+        "repair_history_sha256": "a01d310a16bb6730244630f27462414f8c13c5787c4aaf9800d3eb6b9d244e94",
+        "final_san_sha256": "732b71619ed0c4adc6a075a92489c1824dee5ff519e0d27720549d177aec2dca"
+      },
+      "fourth_targeted_run": {
+        "started_at": "2026-10-23T15:13:31+08:00",
+        "finished_at": "2026-10-23T15:20:47+08:00",
+        "final_passed": true,
+        "stop_reason": "passed",
+        "repair_rounds": 2,
+        "initial_validation_error_codes": [
+          "missing_data_types",
+          "invalid_s_for_key_binding",
+          "vue_methods_wrapper",
+          "event_arguments_not_landed"
+        ],
+        "initial_visual_error_codes": [
+          "san_render_failed",
+          "san_san_render_error"
+        ],
+        "final_validation_error_codes": [],
+        "final_visual_error_codes": [],
+        "structure_similarity": 1.0,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0,
+        "tree_edit_distance": 0.0,
+        "generation_tokens": 62744,
+        "repair_tokens": 151104,
+        "total_tokens": 213848,
+        "repair_provenance": [
+          {
+            "attempt": 1,
+            "provider": "qwen",
+            "model": "qwen-plus",
+            "total_tokens": 75685,
+            "remaining_validation_error_codes": [
+              "missing_prop_defaults"
+            ]
+          },
+          {
+            "attempt": 2,
+            "provider": "qwen",
+            "model": "qwen-plus",
+            "total_tokens": 75419,
+            "remaining_validation_error_codes": []
+          }
+        ],
+        "deterministic_repair_triggered": false,
+        "deterministic_repair_reason": "The initial output had multiple static and visual errors. After the first Qwen repair, invalid_s_for_key_binding was already resolved and only missing_prop_defaults remained, so the strict deterministic guard correctly did not trigger.",
+        "snapshot": "data/experiments/snapshots/formal_30_v4_analytics_pass_20261023_152047",
+        "summary_sha256": "0fa3c7df22157f271d346feee5cca405e0ad7aaf12789de977ea71818554bc12",
+        "repair_history_sha256": "99a209e072ffd1e08b3de7c988dca32eabfa8575105a3ae94647918d75e08596",
+        "final_san_sha256": "b8b0d9c7913374044ed1db573cc45ffb74a57cc6ff02005142cb58704f6c3e0f"
+      },
+      "status": "targeted_run_passed"
+    }
+  ],
+  "boundaries": [
+    "No formal_30_v3 source result, generated artifact, repair history, or frozen snapshot was modified.",
+    "formal_30_v4_targeted is a development batch derived from v3 failures and cannot be reported as an independent holdout.",
+    "The first CourseModuleAccordion run is frozen separately before any deliberate --force rerun.",
+    "The passing CourseModuleAccordion rerun is frozen separately and remains development-set evidence.",
+    "The passing SchemaMappingWorkbench run is frozen separately and remains development-set evidence.",
+    "The first IncidentResponseBoard v4 run is frozen separately before the lifecycle-alias evaluator correction.",
+    "The passing IncidentResponseBoard forced rerun is frozen separately and remains development-set evidence.",
+    "The passing RuleBuilder run is frozen separately and remains development-set evidence.",
+    "The passing HabitWeekTracker run is frozen separately and remains development-set evidence.",
+    "The passing PlaybackQueue run is frozen separately and remains development-set evidence.",
+    "AnalyticsDashboard timeout remediation changes only v4 development infrastructure; the frozen v3 120-second protocol remains unchanged.",
+    "The first completed AnalyticsDashboard v4 run is frozen before evaluator and Prompt corrections.",
+    "The second completed AnalyticsDashboard v4 run is frozen before the custom-component binding and evaluator corrections; all eight recorded hashes were verified.",
+    "The third completed AnalyticsDashboard v4 run is frozen before deterministic loop-binding normalization; all seven recorded hashes were verified.",
+    "The passing fourth AnalyticsDashboard v4 run is frozen with two Qwen repair rounds; the guarded deterministic branch correctly did not trigger.",
+    "formal_30_v4_targeted is complete at 7/7 passes, but remains development-set remediation evidence rather than an independent holdout result."
+  ]
+}

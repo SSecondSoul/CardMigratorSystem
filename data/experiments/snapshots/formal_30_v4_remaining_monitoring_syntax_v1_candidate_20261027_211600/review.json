@@ -1,0 +1,44 @@
+{
+  "sample_id": "MonitoringDashboard",
+  "classification": "reused_development_source_to_san_regression_failed",
+  "independent_holdout": false,
+  "result_snapshot": "data/experiments/snapshots/formal_30_v4_generalization_remaining_v1_monitoring_failed_20261027_205900/manifest.json",
+  "final_san_sha256": "aad664bed0f484018d09e2760e8481529bcf864736fa1b83131af9d8f1f5101f",
+  "automatic_result": {
+    "passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "final_validation_error_codes": [
+      "invalid_san_event_handler_syntax",
+      "invalid_san_for_alias_syntax",
+      "duplicate_class_attribute",
+      "san_script_compile_error"
+    ],
+    "final_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "generation_tokens": 106783,
+    "repair_tokens": 266608,
+    "total_tokens": 373391
+  },
+  "diagnosis": {
+    "compile_blocker": "Seven inline child definitions use invalid JavaScript identifiers such as const kpi-card; the parent registry references the same invalid identifiers. Node reports Missing initializer in const declaration at script line 6.",
+    "event_syntax": "Five Vue-style or assignment event bindings remain, including on-click=\"showSettings = true/false\" and on-submit.prevent in the inline settings form.",
+    "loop_aliases": "Two inline chart loops still use Vue tuple aliases: s-for=\"(point, idx) in ...\" and s-for=\"(item, idx) in ...\".",
+    "duplicate_class": "The notification element retains two class attributes.",
+    "visual_boundary": "The San script cannot compile, so San renders zero nodes; the 0.0 structural similarity is not an interpretable visual-fidelity score."
+  },
+  "browser_manual_review": "not_performed_for_uncompilable_output",
+  "batch_checkpoint": "2/2 completed, 0/2 automatic passes; TaskManager has a separate post-hoc manual pass that does not change this count.",
+  "posthoc_bounded_v1_candidate": {
+    "path": "data/experiments/pipeline/manual_fixes/formal_30_v4_remaining_monitoring_syntax_v1/MonitoringDashboard_repaired.san",
+    "sha256": "6a9da9e71e8a0695583d5097dd86425dbe5130b77428075ba57ea1e0138c889c",
+    "static_validation": "passed",
+    "san_compile": "passed",
+    "lightweight_visual": "passed; structure similarity 0.9912",
+    "browser_manual_review": "not_started",
+    "known_pre_browser_gap": "SettingsForm initializes localSettings with hard-coded defaults instead of copying the incoming settings prop, unlike the frozen Vue source. This bounded syntax candidate should not be put in the manual runner without a separate runtime follow-up."
+  },
+  "next_work": "Freeze the bounded syntax probe, then fix the known SettingsForm prop initialization in a separate candidate and run San instance tests. Recheck browser behavior before any manual pass or fresh automatic rerun. Do not overwrite the failed checkpoint."
+}

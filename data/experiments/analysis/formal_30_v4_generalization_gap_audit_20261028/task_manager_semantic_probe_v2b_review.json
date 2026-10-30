@@ -1,0 +1,45 @@
+{
+  "classification": "reused_development_guarded_single_repair_probe_review",
+  "independent_holdout": false,
+  "result_snapshot": "data/experiments/snapshots/formal_30_v4_task_manager_semantic_probe_v2b_result_20261028_181549/manifest.json",
+  "source_snapshot": "formal_30_v4_semantic_focus_v2_TaskManager_automatic_fail_20261028_140129",
+  "pre_run_snapshot": "formal_30_v4_task_manager_semantic_probe_v2b_pre_run_20261028",
+  "model": "qwen-plus",
+  "single_repair_request_tokens": 23568,
+  "automatic_passed": false,
+  "validation_passed": false,
+  "visual_eval_passed": true,
+  "structure_similarity": 0.9889,
+  "event_regression_gate": {
+    "decision": "reject",
+    "additional_unresolved_source_bindings": 1,
+    "unresolved": ["click:hideNotification"],
+    "plausible_handle_prefixed_aliases": 22,
+    "interpretation": "Most exact-name validator event errors are plausibly caused by handle-prefixed renaming while arguments remain in corresponding candidate bindings. This does not prove runtime equivalence. The notification close button calls handleHideNotification, but only hideNotification is defined, so this binding lacks a callable handler."
+  },
+  "validation_error_codes": [
+    "nested_state_mutation",
+    "missing_event_handlers",
+    "event_arguments_not_landed",
+    "lifecycle_behavior_not_landed",
+    "missing_event_bindings"
+  ],
+  "specific_residuals": [
+    "moveTask splices the array returned by this.data.get('tasks') in place without writing a new tasks array back",
+    "Vue mounted() invokes loadInitialData(), startAutoSync(), and showNotification() in order; candidate invokes loadInitialData() from inited() and the latter two from attached()",
+    "Source event expressions onStatClick(stat) and setFilter(filter.value) appear as handleStatClick(stat) and handleSetFilter(filter.value), so exact-name validation reports argument loss despite arguments remaining textually present",
+    "Candidate notification close binding references handleHideNotification, which is not declared; hideNotification is declared instead"
+  ],
+  "comparison_to_probe_v1": {
+    "v1_validation_error_codes": [
+      "invalid_san_event_handler_syntax",
+      "missing_event_handlers",
+      "event_arguments_not_landed",
+      "lifecycle_behavior_not_landed",
+      "missing_event_bindings"
+    ],
+    "v2b_change": "Invalid event syntax was eliminated, but nested_state_mutation is present and the event regression remains; visual similarity was unchanged at 0.9889."
+  },
+  "browser_manual_review": "not_performed",
+  "next_work": "Do not promote this candidate or run the full batch. Diagnose event alias policy separately from real missing handlers, then test bounded state-array and lifecycle corrections against frozen evidence before another model request."
+}

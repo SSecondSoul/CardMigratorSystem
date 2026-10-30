@@ -7,6 +7,7 @@ from migration_pipeline.stages.generate import GenerateStage, GenerateStageInput
 from migration_pipeline.stages.repair import RepairStage
 from migration_pipeline.stages.validate import ValidateStage
 from migration_pipeline.stages.visual_eval import VisualEvalStage
+from migration_pipeline.utils.repair_regression_guard import assess_event_contract_regression
 
 
 @dataclass
@@ -70,6 +71,8 @@ class MigrationPipelineState:
     stop_reason: str = ""
     progress_signature: dict[str, Any] | None = None
     no_repair_progress: bool = False
+    repair_regression_gate: dict[str, Any] | None = None
+    repair_regression_rejected: bool = False
 
 
 @dataclass
@@ -159,6 +162,8 @@ class MigrationPipelineOrchestrator:
         state["repair_rounds"] = 0
         state["progress_signature"] = None
         state["no_repair_progress"] = False
+        state["repair_regression_gate"] = None
+        state["repair_regression_rejected"] = False
 
         validate_update = self.validate_stage.run_from_state(state)
         state.update(validate_update)
@@ -169,6 +174,8 @@ class MigrationPipelineOrchestrator:
         state["initial_visual_eval_result"] = state["visual_eval_result"]
 
         while self._should_continue_repair(state, max_repair_rounds):
+            before_code = state.get("generated_code", "")
+            before_errors = deepcopy(state.get("validation_errors", []))
             repair_update = self.repair_stage.run_from_state(state)
             state.update(repair_update)
             state["repair_rounds"] = state.get("repair_attempt", 0)
@@ -180,6 +187,26 @@ class MigrationPipelineOrchestrator:
             visual_update = self.visual_eval_stage.run_from_state(state)
             state.update(visual_update)
             state["repaired_visual_eval_result"] = state["visual_eval_result"]
+
+            if any(
+                marker in state.get("repair_prompt", "")
+                for marker in (
+                    "ALL listed semantic validation errors",
+                    "Repair ONLY the two remaining validation error families",
+                )
+            ):
+                gate = assess_event_contract_regression(
+                    ssm=state.get("ssm") or {},
+                    before_code=before_code,
+                    after_code=state.get("generated_code", ""),
+                    before_errors=before_errors,
+                    after_errors=state.get("validation_errors", []),
+                )
+                state["repair_regression_gate"] = gate
+                state["repair_regression_rejected"] = gate["should_stop"]
+            else:
+                state["repair_regression_gate"] = None
+                state["repair_regression_rejected"] = False
 
             progress_signature = self._build_progress_signature(state)
             previous_signature = (
@@ -202,7 +229,11 @@ class MigrationPipelineOrchestrator:
         )
 
     def _stage_passed(self, state: dict[str, Any]) -> bool:
-        return bool(state.get("validation_passed") and state.get("visual_eval_passed"))
+        return bool(
+            state.get("validation_passed")
+            and state.get("visual_eval_passed")
+            and not state.get("repair_regression_rejected", False)
+        )
 
     def _build_initial_state(
         self,
@@ -225,6 +256,7 @@ class MigrationPipelineOrchestrator:
         return (
             not self._stage_passed(state)
             and not state.get("no_repair_progress", False)
+            and not state.get("repair_regression_rejected", False)
             and state.get("repair_attempt", 0) < max_repair_rounds
         )
 
@@ -267,6 +299,8 @@ class MigrationPipelineOrchestrator:
             "text_similarity": state.get("text_similarity", 0.0),
             "progress_signature": deepcopy(state.get("progress_signature")),
             "no_progress_detected": state.get("no_repair_progress", False),
+            "repair_regression_gate": deepcopy(state.get("repair_regression_gate")),
+            "repair_regression_rejected": state.get("repair_regression_rejected", False),
             "passed": self._stage_passed(state),
         }
 
@@ -280,6 +314,13 @@ class MigrationPipelineOrchestrator:
 
         if final_passed:
             state["stop_reason"] = "passed"
+        elif state.get("repair_regression_rejected", False):
+            gate = state.get("repair_regression_gate") or {}
+            state["stop_reason"] = (
+                "repair_pre_mount_state_regression"
+                if gate.get("unjustified_pre_mount_state_writes")
+                else "repair_event_contract_regression"
+            )
         elif state.get("no_repair_progress", False):
             state["stop_reason"] = "no_repair_progress"
         elif state.get("repair_attempt", 0) >= max_repair_rounds:

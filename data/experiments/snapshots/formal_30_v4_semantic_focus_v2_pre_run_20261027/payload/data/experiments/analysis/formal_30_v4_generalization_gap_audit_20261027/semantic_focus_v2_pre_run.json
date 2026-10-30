@@ -1,0 +1,24 @@
+{
+  "batch_id": "formal_30_v4_semantic_focus_v2",
+  "classification": "reused_development_regression_design",
+  "independent_holdout": false,
+  "prior_batch": "formal_30_v4_semantic_focus_v1",
+  "prior_checkpoint": {
+    "completed": 1,
+    "passed": 0,
+    "failed": 1,
+    "pending": 1,
+    "TaskManager_result_snapshot": "data/experiments/snapshots/formal_30_v4_semantic_focus_v1_TaskManager_automatic_fail_20261027_232128/manifest.json"
+  },
+  "reason_for_new_version": "TaskManager v1 never entered the focused semantic-prompt route because unsupported_san_inline_template_math_global was not in its bounded error set. The previous run therefore cannot evaluate the focused prompt for this sample.",
+  "intervention": "Add only the generic inline-template Math-global error to the focused semantic residual route; instruct the repair model to move inline Math calls into child methods with explicit reactive arguments. Keep all v1 outcomes immutable.",
+  "pre_run_checks": {
+    "frozen_TaskManager_failure_routes_to_focused_prompt": true,
+    "focused_prompt_characters_on_frozen_failure": 45188,
+    "previous_full_prompt_characters": 444091,
+    "focused_tests": "5/5 passed",
+    "full_unittest_suite": "166/166 passed"
+  },
+  "outcome": "not_yet_run",
+  "boundary": "This is a prompt-route coverage correction, not evidence that semantic or runtime behavior improved. Both components are reused development samples, not independent holdout cases."
+}

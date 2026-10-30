@@ -1,0 +1,9 @@
+[
+  {
+    "code": "missing_inline_prop_dependent_initialization",
+    "message": "以下内联子组件缺少初始 prop 派生状态：TaskForm.formData <- task",
+    "severity": "error",
+    "location": "script",
+    "suggestion": "San initData 返回稳定默认值；在子组件 inited() 注册 this.watch 之前，用 this.data.get('prop') 读取初始 prop，调用原有拷贝逻辑，再 this.data.set('field', value)。保留 watcher 处理后续 prop 变化。"
+  }
+]

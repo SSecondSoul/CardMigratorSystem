@@ -1,0 +1,32 @@
+{
+  "sample_id": "analytics_dashboard",
+  "classification": "development_manual_runtime_repair_candidate",
+  "not_independent_holdout": true,
+  "source_artifact": "data/experiments/snapshots/formal_30_v4_analytics_runtime_followup_automatic_pass_20261026_160213/pipeline/complex/AnalyticsDashboard_repaired_repaired_repaired.san",
+  "source_sha256": "8114fb79591fef950a79d9e154b65d3e8c7bd3047a4ef6ef31eff279e99dfd41",
+  "candidate_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_analytics_runtime_followup/AnalyticsDashboard_computed_context.san",
+  "candidate_sha256": "7b3ca2361caa5c2a2fe4edb78eb0bcc71db68af6b1703d866d4d4f9100ddecf8",
+  "replay_script": "migration_pipeline/replay_formal_30_v4_analytics_computed_context_fix.py",
+  "defect_code": "invalid_san_computed_instance_method_call",
+  "user_observation": "San component keeps showing 正在加载最新数据",
+  "diagnosis": "Inline TrendChart linePoints and areaPoints computed callbacks call this.getX/this.getY. San computed callbacks receive a restricted data context, so these component instance methods are unavailable and the asynchronous render update stops before the loading overlay is removed.",
+  "repair": "Extract pure trendX/trendY helpers with explicit arguments and call them from computed; keep getX/getY as template-facing methods that delegate to the same helpers.",
+  "frozen_artifact_preserved": true,
+  "verification": {
+    "frozen_replay_error_codes_after_validator_update": ["invalid_san_computed_instance_method_call"],
+    "candidate_validation_passed": true,
+    "candidate_compile_passed": true,
+    "candidate_visual_passed": true,
+    "candidate_structure_similarity": 1.0,
+    "local_browser_san_version": "3.15.6",
+    "local_browser_after_two_seconds": {
+      "uncaught_errors": [],
+      "loading_overlay_visible": false,
+      "chart_points": 30,
+      "insights": 4,
+      "activities": 15
+    },
+    "user_manual_browser_status": "superseded_before_user_review_due_to_hover_warning"
+  },
+  "boundary": "This is a sample-specific candidate; the reusable pipeline improvement is validator and prompt coverage for computed instance-method calls. Do not count the candidate as a new automatic or independent formal pass."
+}

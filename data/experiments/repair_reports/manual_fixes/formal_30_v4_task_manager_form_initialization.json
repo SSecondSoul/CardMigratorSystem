@@ -1,0 +1,27 @@
+{
+  "sample_id": "TaskManager",
+  "classification": "development_manual_functional_repair_candidate",
+  "not_independent_holdout": true,
+  "source_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_inline_format_methods.san",
+  "source_sha256": "baaca5fb8dbe1da32704fd672b54b4e2f2f50f4d5a5ac6046f19ec1544d07cc4",
+  "candidate_artifact": "data/experiments/pipeline/manual_fixes/formal_30_v4_task_manager_manual_followup/TaskManager_form_initialization.san",
+  "candidate_sha256": "7d4a4066419063a350b70e16cd4ea816889b954f9300fade27fad4407ba0ff4c",
+  "replay_script": "migration_pipeline/replay_formal_30_v4_task_manager_form_fix.py",
+  "defect_codes": ["invalid_san_init_data_store_access", "task_modal_overlay_event_bubbling"],
+  "user_reported_difference": "Settings opens, but the new/edit task modal content does not match Vue.",
+  "diagnosis": "The inline TaskForm.initData reads this.data before San constructs the store and invokes createFormData as an instance method although it was placed under computed. The modal overlay also closes on clicks that bubble from inside the form, unlike Vue's @click.self behavior.",
+  "repair": "Initialize stable TaskForm defaults in initData; copy the task prop and watch later changes in inited. Keep Vue field structure, bind textarea value, provide an explicit cancel handler, and close overlays only on direct backdrop clicks. Preserve earlier candidates and frozen evidence.",
+  "verification": {
+    "source_validation_error_codes_after_validator_update": ["invalid_san_init_data_store_access"],
+    "candidate_validation_passed": true,
+    "candidate_validation_error_codes": [],
+    "candidate_compile_passed": true,
+    "candidate_visual_passed": true,
+    "candidate_structure_similarity": 0.9889,
+    "san_parser_results": "main and all five inline child templates passed with San 3.15.6",
+    "direct_san_child_constructor": "edit values loaded; switching task prop to null resets new-task defaults",
+    "regression_tests": "101 tests passed",
+    "user_manual_browser_status": "failed_settings_controls_and_task_tag_selected_style"
+  },
+  "boundary": "This is a post-hoc sample-specific candidate; automatic or independent formal pass status is unchanged until user browser verification."
+}

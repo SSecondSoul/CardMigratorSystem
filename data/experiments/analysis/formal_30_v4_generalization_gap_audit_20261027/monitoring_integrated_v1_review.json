@@ -1,0 +1,34 @@
+{
+  "sample_id": "MonitoringDashboard",
+  "batch_id": "formal_30_v4_generalization_integrated_v1",
+  "classification": "reused_development_automatic_failure_review",
+  "independent_holdout": false,
+  "result_snapshot": "data/experiments/snapshots/formal_30_v4_generalization_integrated_v1_MonitoringDashboard_automatic_fail_20261027_225335/manifest.json",
+  "automatic_result": {
+    "passed": false,
+    "stop_reason": "max_repair_rounds_reached",
+    "repair_rounds": 3,
+    "generation_tokens": 106663,
+    "repair_tokens": 266909,
+    "total_tokens": 373572,
+    "final_validation_error_codes": [
+      "invalid_san_event_handler_syntax",
+      "invalid_san_inline_computed_method_invocation",
+      "invalid_san_computed_instance_method_call",
+      "event_arguments_not_landed"
+    ],
+    "final_visual_eval_passed": true,
+    "final_structure_similarity": 0.9956,
+    "interaction_eval_passed": null
+  },
+  "read_only_diagnosis": {
+    "event_syntax": "The final parent template still assigns showSettings = true directly in on-click rather than invoking a San method.",
+    "event_arguments": "Two source arguments are lost: onKPIClick(kpi) and changePeriod(period.value) are bound as bare handler names in the parent template.",
+    "inline_computed": "RequestChart template invokes barWidth(data), but barWidth is defined under computed instead of as an argument-taking method.",
+    "computed_context": "RealTimeChart linePoints and areaPoints computed callbacks still call this.getX/this.getY, unavailable in San computed context.",
+    "visual_boundary": "A 0.9956 structure score and zero final visual errors do not establish event or chart runtime equivalence."
+  },
+  "browser_manual_review": "not_performed_for_failed_automatic_output",
+  "batch_closeout": "2/2 completed, 0/2 automatic passes, 6 repair rounds, 712696 total tokens; both results are reused-development evidence, not independent formal-test evidence.",
+  "next_work": "Design cross-sample focused repair guidance for the residual semantic errors without hardcoding TaskManager or MonitoringDashboard field names; test prompt routing and regression guards in a new version. Do not reclassify this failed checkpoint."
+}

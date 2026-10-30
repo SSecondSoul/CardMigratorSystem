@@ -1,0 +1,20 @@
+{
+  "purpose": "Prepare one guarded repair request for the two remaining TaskManager semantic errors and the early tasks write",
+  "independent_holdout": false,
+  "source_snapshot": "formal_30_v4_task_manager_semantic_residual_probe_v1_result_20261028_230247",
+  "pre_run_snapshot": "formal_30_v4_task_manager_initdata_computed_probe_v1_pre_run_20261028",
+  "frozen_payloads_verified": 19,
+  "input_sha256": "bdfdf4114a1d154afc137806e29d6d557336bb2f6d69dc0052916e8aa8242ec0",
+  "prompt_sha256": "7a8690eadd4bc6a69e030b86f28791d110472bbc8a9b492934bf451a4acd5925",
+  "validation_error_codes": [
+    "invalid_san_init_data_store_access",
+    "invalid_san_computed_instance_method_call"
+  ],
+  "prompt_focus": "Repair only prop-derived initData initialization and computed instance-method calls; preserve other code and remove the source-inconsistent early tasks write.",
+  "regression_gate": "Review/reject an inited write to a parent state field whose source Vue mounted method loads it, whether newly introduced or carried over from the input candidate; unrelated prop-derived child initialization is outside this condition.",
+  "full_test_suite": "202/202 passed",
+  "dry_run_passed": true,
+  "pre_run_reverification_passed": true,
+  "model_request_performed": false,
+  "browser_manual_review": "not_performed"
+}

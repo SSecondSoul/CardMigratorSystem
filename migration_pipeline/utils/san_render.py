@@ -261,7 +261,7 @@ function evaluateComponent(script, sourceName) {
       if (name === 'san') {
         return createSanStub();
       }
-      return {};
+      throw new Error('Unsupported require in standalone San component: ' + name);
     },
     console,
     setTimeout,
