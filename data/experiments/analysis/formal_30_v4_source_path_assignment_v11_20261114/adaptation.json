@@ -1,0 +1,46 @@
+{
+  "san": {
+    "changes": [
+      "experimental_source_raw_property_path_assignment"
+    ],
+    "reviews": [],
+    "production_eligible": false,
+    "proof_scope": "isolated_raw_source_property_path_assignment",
+    "limitations": [
+      "Experimental only: no production deployment, diagnostic waiver or template/style rewrite.",
+      "Descriptor/accessor cases cover pure getters and stable setters; arbitrary accessor side effects remain unproven.",
+      "False Ref markers are ordinary values; actual Ref unwrapping, foreign observers, Proxy and full reflection remain unproven.",
+      "Only explicit raw assignment to static paths without options is mapped; force/silent/dynamic expressions are not source equivalence claims.",
+      "Lifecycle-error routing remains open; the configured test application reporting scope is not a production bridge."
+    ],
+    "writers": [
+      {
+        "method": "updateSettings",
+        "field": "settings",
+        "source_assignment_and_strict_mode_retained": true
+      }
+    ]
+  },
+  "genericSan": {
+    "changes": [
+      "experimental_source_raw_property_path_assignment"
+    ],
+    "reviews": [],
+    "production_eligible": false,
+    "proof_scope": "isolated_raw_source_property_path_assignment",
+    "limitations": [
+      "Experimental only: no production deployment, diagnostic waiver or template/style rewrite.",
+      "Descriptor/accessor cases cover pure getters and stable setters; arbitrary accessor side effects remain unproven.",
+      "False Ref markers are ordinary values; actual Ref unwrapping, foreign observers, Proxy and full reflection remain unproven.",
+      "Only explicit raw assignment to static paths without options is mapped; force/silent/dynamic expressions are not source equivalence claims.",
+      "Lifecycle-error routing remains open; the configured test application reporting scope is not a production bridge."
+    ],
+    "writers": [
+      {
+        "method": "assign",
+        "field": "settings",
+        "source_assignment_and_strict_mode_retained": true
+      }
+    ]
+  }
+}

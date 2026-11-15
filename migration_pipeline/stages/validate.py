@@ -6,6 +6,20 @@ from pathlib import Path
 from typing import Any
 
 from migration_pipeline.utils.san_compile import check_san_compile
+from migration_pipeline.utils.textarea_binding import textarea_binding
+from migration_pipeline.utils.bounded_semantics import inspect_semantics
+from migration_pipeline.utils.parent_prop_semantics import parent_prop_semantics
+from migration_pipeline.utils.source_template_semantics import source_template_semantics
+from migration_pipeline.utils.class_binding_semantics import class_binding_semantics
+from migration_pipeline.utils.source_dom_semantics import source_dom_semantics
+from migration_pipeline.utils.source_payload_semantics import source_payload_semantics
+from migration_pipeline.utils.source_render_call_semantics import source_render_call_semantics
+from migration_pipeline.utils.source_render_dependency_semantics import source_render_dependency_semantics
+from migration_pipeline.utils.source_array_transaction_semantics import source_array_transaction_semantics
+from migration_pipeline.utils.source_child_initialization_semantics import source_child_initialization_semantics
+from migration_pipeline.utils.source_native_drag_semantics import source_native_drag_semantics
+from migration_pipeline.utils.source_parent_watch_semantics import source_parent_watch_semantics
+from migration_pipeline.utils.detached_record_semantics import proven_record_copies
 from migration_pipeline.utils.source_event_semantics import (
     native_drag_misbindings, unguarded_self_clicks,
 )
@@ -18,9 +32,13 @@ class ValidationIssue:
     severity: str = "error"
     location: str = ""
     suggestion: str = ""
+    details: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        result = asdict(self)
+        if not self.details:
+            result.pop("details")
+        return result
 
 
 @dataclass
@@ -94,10 +112,6 @@ class ValidateStage:
     # attribute and the browser can receive the wrong disabled/checked state.
     DERIVED_ATTRIBUTE_TWO_WAY_PATTERN = re.compile(
         r"\b(?:disabled|checked|selected)\s*=\s*(?:\"[^\"]*\{=[^\"]*=\}[^\"]*\"|'[^']*\{=[^']*=\}[^']*')",
-        re.IGNORECASE,
-    )
-    OBJECT_CLASS_BINDING_PATTERN = re.compile(
-        r"\bclass\s*=\s*([\"'])\s*\{\{\s*\{[\s\S]*?\}\s*\}\}\s*\1",
         re.IGNORECASE,
     )
     S_FOR_OPEN_TAG_PATTERN = re.compile(
@@ -194,11 +208,50 @@ class ValidateStage:
             blocks.get("template", ""), blocks.get("script", ""), issues, checks
         )
         self._validate_inline_computed_invocations(blocks.get("script", ""), issues, checks)
+        if re.search(r"<textarea\b[^>]*>[\s\S]*?\{=", code, re.IGNORECASE):
+            analysis = textarea_binding(code)
+            checks.append(ValidationCheck(name="textarea_value_binding", passed=not analysis['findings'] and not analysis.get('error'),
+                                          message="textarea 双向绑定使用 value 属性，不在标签文本中使用 {= ... =}"))
+            if analysis['findings'] or analysis.get('error'):
+                issues.append(ValidationIssue(code="invalid_san_textarea_binding",
+                    message="textarea 文本中存在双向绑定标记，或无法安全分析该绑定。",
+                    location="template/script.template", suggestion='使用 <textarea value="{= assignable.path =}"></textarea>；歧义内容不自动覆盖。'))
         self._validate_init_data_store_access(blocks.get("script", ""), issues, checks)
         self._validate_inline_prop_dependent_initialization(
             blocks.get("script", ""), stage_input, issues, checks
         )
         self._validate_template_rules(blocks.get("template", ""), issues, checks)
+        # Unconditional: static prefixes, bare maps and inline templates must not
+        # depend on another diagnostic (or San's permissive prefix parser).
+        class_vue = (Path(stage_input.vue_file_path).read_text(encoding="utf-8")
+                     if stage_input.vue_file_path and Path(stage_input.vue_file_path).is_file() else "")
+        classes = class_binding_semantics(code, class_vue)
+        checks.append(ValidationCheck(name="class_bindings_use_san_string_expressions",
+            passed=not classes['findings'] and not classes.get('error'),
+            message="Complete parent/inline class expressions preserve proven source conditional maps."))
+        if classes.get('error'):
+            issues.append(ValidationIssue(code='class_binding_analysis_unavailable',
+                location='template/script.template', message='Full class expression analysis unavailable; compile success is not equivalence proof.',
+                suggestion='Restore supported AST analysis before accepting this candidate.'))
+        for finding in classes['findings']:
+            issues.append(ValidationIssue(**finding,
+                suggestion='Preserve every source class token, condition and static class using conditional string expressions; do not guess unsupported scopes.'))
+        api_pattern = r"\bthis\s*\.\s*data\s*\.\s*get\s*\("
+        render_candidates = [blocks.get("template", ""), *re.findall(
+            r'''\btemplate\s*:\s*(?:`[\s\S]*?`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*')''',
+            blocks.get("script", ""))]
+        if any(re.search(api_pattern, text) for text in render_candidates):
+            bindings = source_template_semantics(code)
+            checks.append(ValidationCheck(name="render_bindings_use_fields_not_script_api",
+                passed=not bindings["findings"] and not bindings.get("error"),
+                message="San render bindings use reactive field expressions; unknown parsing does not prove equivalence."))
+            if bindings.get("error"):
+                issues.append(ValidationIssue(code="template_binding_analysis_unavailable",
+                    message="Template Data-store API usage could not be safely analyzed; this is not a passing contract proof.",
+                    location="template/script.template", suggestion="Restore the AST analyzer or repair the syntax before accepting the render binding."))
+            for finding in bindings["findings"]:
+                issues.append(ValidationIssue(**finding,
+                    suggestion="Use source-matched reactive fields in San render bindings; keep this.data.get(...) in script methods, not the template."))
         self._validate_source_event_semantics(blocks, stage_input, issues, checks)
         self._validate_loop_scope_bindings(
             blocks.get("template", ""),
@@ -229,6 +282,86 @@ class ValidateStage:
         self._validate_style_rules(blocks.get("style", ""), issues, checks, strict=stage_input.strict)
         san_compile_result = self._validate_san_compile(code, stage_input, issues, checks)
         self._validate_ssm_consistency(code, blocks, ssm, issues, checks)
+        if stage_input.vue_file_path and Path(stage_input.vue_file_path).is_file():
+            vue = Path(stage_input.vue_file_path).read_text(encoding="utf-8")
+            source_check = inspect_semantics(code, vue, ssm=ssm)
+            for finding in source_check.get('findings', []):
+                issues.append(ValidationIssue(**finding,
+                    suggestion="Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."))
+            source_dom = source_dom_semantics(code, vue, ssm)
+            if source_dom.get('error'):
+                issues.append(ValidationIssue(code='source_dom_analysis_unavailable',
+                    location='template/script.template', message='Source-scoped native event/loop analysis unavailable; equivalence is unproven.',
+                    suggestion='Restore the analyzer or supported syntax; do not waive source modifier or loop contracts.'))
+            for finding in source_dom['findings']:
+                issues.append(ValidationIssue(**finding,
+                    suggestion='Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby.'))
+            payload = source_payload_semantics(code, vue, ssm)
+            if payload.get('error'):
+                issues.append(ValidationIssue(code='source_event_payload_analysis_unavailable',
+                    location='script.components', message='Source custom-event payload analysis unavailable; both ends remain unproven.',
+                    suggestion='Restore supported source analysis; do not waive the sender/receiver contract.'))
+            for finding in payload['findings']:
+                issues.append(ValidationIssue(**finding,
+                    suggestion='Pack source arguments into one object and explicitly unpack the same fields in every parent binding; preserve existing receiver methods.'))
+            render_calls = source_render_call_semantics(code, vue, ssm)
+            if render_calls.get('error'):
+                issues.append(ValidationIssue(code='source_render_call_analysis_unavailable',location='script.components',
+                    message='Source render-call analysis unavailable; explicit operand equivalence is unproven.',
+                    suggestion='Restore supported source analysis; do not waive global/member render call contracts.'))
+            for finding in render_calls['findings']:
+                issues.append(ValidationIssue(**finding,
+                    suggestion='Preserve the complete source expression, loop/conditional scope and class token; lift the supported call to a child method with every operand explicit.'))
+            dependencies = source_render_dependency_semantics(code, vue)
+            if dependencies.get('error'):
+                issues.append(ValidationIssue(code='source_render_dependency_analysis_unavailable',location='template/script',
+                    message='Source render dependency graph analysis unavailable; equivalence is unproven.',
+                    suggestion='Restore supported readonly graph analysis; do not hide or waive reactive dependencies.'))
+            for finding in dependencies['findings']:
+                issues.append(ValidationIssue(**finding,
+                    suggestion='Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy.'))
+            transactions = source_array_transaction_semantics(code, vue)
+            if transactions.get('error'):
+                issues.append(ValidationIssue(code='source_array_transaction_analysis_unavailable',location='script',
+                    message='Source array transaction analysis unavailable; detachment and commit order are unproven.',
+                    suggestion='Restore supported source analysis; do not waive the mutation/commit contract.'))
+            for finding in transactions['findings']:
+                issues.append(ValidationIssue(**finding,
+                    suggestion='Prove the full source move method; detach one local array and commit once immediately after final insertion, before following state writes/notifications.'))
+            child_startup = source_child_initialization_semantics(code, vue)
+            if child_startup.get('error'):
+                issues.append(ValidationIssue(code='source_child_initialization_analysis_unavailable',location='script.components',
+                    message='Registered source child factory and watcher analysis unavailable; startup parity is unproven.',
+                    suggestion='Restore supported source analysis; do not waive first-prop initialization or reserved watch overrides.'))
+            for finding in child_startup['findings']:
+                issues.append(ValidationIssue(**finding,
+                    suggestion='Restore the exact pure source factory as a callable method, initialize from first props in inited, then register the proven shallow watcher using San built-in watch.'))
+            native_drag = source_native_drag_semantics(code, vue)
+            if native_drag.get('error'):
+                issues.append(ValidationIssue(code='source_native_drag_analysis_unavailable', location='script.components',
+                    message='Source native drag analysis unavailable; event argument and dataTransfer side effects remain unproven.',
+                    suggestion='Restore supported source analysis; do not waive native event side effects.'))
+            for finding in native_drag['findings']:
+                issues.append(ValidationIssue(**finding,
+                    suggestion='Prove the complete registered source native handler, guard, event argument, dataTransfer operations and single-payload emit order; do not overwrite unknown effects.'))
+            parent_watch = source_parent_watch_semantics(code, vue)
+            if parent_watch.get('error'):
+                issues.append(ValidationIssue(code='source_parent_watch_analysis_unavailable', location='script',
+                    message='Source async parent watcher analysis unavailable; scheduling and disposal remain unproven.',
+                    suggestion='Restore complete source lifecycle/callback/effect analysis; do not waive watcher timing.'))
+            for finding in parent_watch['findings']:
+                boundary_suggestions = {
+                    'source_parent_watch_exception_policy_unproven': 'Require an evidenced runtime error propagation and continuation contract; do not swallow storage errors or infer exception equivalence from normal-flow tests.',
+                    'source_parent_watch_dynamic_key_unproven': 'Prove the complete dynamic-key and own-property/prototype contract before rewriting. Do not delete unknown keys, force Vue2 new-property reactivity or waive this diagnostic.',
+                }
+                issues.append(ValidationIssue(**finding,
+                    suggestion=boundary_suggestions.get(finding['code'], 'Prove source data, hooks and transitive effects before registering early with per-instance ordered async coalescing, latest reads and disposal cancellation. Do not merely move synchronous watchers.')))
+            if any(issue.code in {"duplicate_class_attribute", "unbalanced_template_interpolation"} for issue in issues):
+                source_classes = source_template_semantics(code, vue)
+                for finding in source_classes["findings"]:
+                    if finding["code"] == "source_class_binding_not_landed":
+                        issues.append(ValidationIssue(**finding,
+                            suggestion="Merge or close only the class binding proven by the source expression and element/loop scope; do not guess delimiters."))
         self._validate_prop_defaults_landing(blocks.get("script", ""), ssm, issues, checks)
         self._validate_prop_dependent_data_initialization(blocks.get("script", ""), ssm, issues, checks)
         self._validate_data_initial_values(san_compile_result, ssm, issues, checks)
@@ -760,6 +893,7 @@ class ValidateStage:
                 code="invalid_san_inline_computed_method_invocation",
                 message="Inline child computed values are called like methods: " + ", ".join(sorted(set(findings))),
                 location="script.template",
+                details={"contract": "inline_computed_calls_v1", "affected_methods": sorted(set(findings))},
                 suggestion=(
                     "Move parameterized formatters to child component methods and accept the template "
                     "argument, or interpolate a computed value without calling it."
@@ -955,27 +1089,6 @@ class ValidateStage:
                 suggestion="例如将 disabled=\"{= page === 1 =}\" 改为 disabled=\"{{ page === 1 }}\"。",
             ))
 
-        object_class_bindings = self.OBJECT_CLASS_BINDING_PATTERN.findall(template)
-        object_class_passed = not object_class_bindings
-        checks.append(ValidationCheck(
-            name="class_bindings_use_san_string_expressions",
-            passed=object_class_passed,
-            message="Vue object-style class bindings are converted to San string expressions",
-        ))
-        if not object_class_passed:
-            issues.append(ValidationIssue(
-                code="invalid_object_class_binding",
-                message=(
-                    f"San template contains {len(object_class_bindings)} object-style class binding(s) "
-                    "copied from Vue; San class interpolation must evaluate to a string."
-                ),
-                location="template",
-                suggestion=(
-                    "Convert class=\"{{{ selected: condition }}}\" to a string expression such as "
-                    "class=\"{{ condition ? 'selected' : '' }}\"; concatenate multiple conditional classes."
-                ),
-            ))
-
         wrapped_directives = self.DIRECTIVE_INTERPOLATION_PATTERN.findall(template)
         directives_passed = not wrapped_directives
         checks.append(ValidationCheck(
@@ -1123,6 +1236,11 @@ class ValidateStage:
         patterns = (*self.VUE_SCRIPT_PATTERNS, *self.SAN_DATA_STORE_PATTERNS)
         for pattern, code, suggestion in patterns:
             matches = re.findall(pattern, script)
+            if code == "vue_methods_wrapper" and "methods" in script:
+                structure = parent_prop_semantics(script)
+                if structure.get("methods_structure_complete") and "methods_wrapper_count" in structure:
+                    matches = [True] * structure["methods_wrapper_count"]
+                # Parse failure retains the old diagnostic; it never becomes a pass.
             if code == "vue_this_state":
                 state_fields = self._known_component_state_fields(script, ssm)
                 matches = [name for name in matches if name in state_fields]
@@ -1480,9 +1598,13 @@ class ValidateStage:
         findings: dict[str, set[str]] = {}
 
         for method_name, method_body in self._iter_method_bodies(script):
+            # Only omit aliases whose complete local use/commit chain is proven.
+            # A map/filter/slice prefix alone is not a record-detachment proof.
+            detached = proven_record_copies(method_body, script) if re.search(r"\.\s*map\s*\(", method_body) else set()
             aliases: dict[str, set[str]] = {
                 match.group(1): {match.group(3)}
                 for match in self.STATE_ALIAS_PATTERN.finditer(method_body)
+                if match.group(1) not in detached
             }
 
             changed = True
@@ -1898,6 +2020,7 @@ class ValidateStage:
         if missing:
             issues.append(ValidationIssue(
                 code="missing_prop_defaults",
+                details={"contract": "prop_defaults_v1", "affected_fields": sorted(set(missing))},
                 message=f"以下带默认值的 Vue props 未在 San initData 中落地：{', '.join(missing)}。",
                 location="script",
                 suggestion="将 SSM props.default 的等价值作为同名字段加入 initData 返回对象。",

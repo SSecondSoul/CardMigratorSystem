@@ -1,0 +1,303 @@
+{
+  "actual_frozen_trip_native_method_replay": {
+    "source": [
+      {
+        "key": "place",
+        "data": {
+          "start": "09:00",
+          "end": "10:00",
+          "place": "test-place",
+          "cost": 0
+        },
+        "newRoot": true,
+        "oldRootUnchanged": true,
+        "returnUndefined": true
+      },
+      {
+        "key": "cost",
+        "data": {
+          "start": "09:00",
+          "end": "10:00",
+          "place": "test-place",
+          "cost": 12
+        },
+        "newRoot": true,
+        "oldRootUnchanged": true,
+        "returnUndefined": true
+      },
+      {
+        "key": "start",
+        "data": {
+          "start": "10:30",
+          "end": "10:00",
+          "place": "test-place",
+          "cost": 12
+        },
+        "newRoot": true,
+        "oldRootUnchanged": true,
+        "returnUndefined": true
+      },
+      {
+        "key": "a.b",
+        "data": {
+          "start": "10:30",
+          "end": "10:00",
+          "place": "test-place",
+          "cost": 12,
+          "a.b": "literal"
+        },
+        "newRoot": true,
+        "oldRootUnchanged": true,
+        "returnUndefined": true
+      }
+    ],
+    "target": [
+      {
+        "key": "place",
+        "data": {
+          "start": "09:00",
+          "end": "10:00",
+          "place": "test-place",
+          "cost": 0
+        },
+        "newRoot": true,
+        "oldRootUnchanged": true,
+        "returnUndefined": true
+      },
+      {
+        "key": "cost",
+        "data": {
+          "start": "09:00",
+          "end": "10:00",
+          "place": "test-place",
+          "cost": 12
+        },
+        "newRoot": true,
+        "oldRootUnchanged": true,
+        "returnUndefined": true
+      },
+      {
+        "key": "start",
+        "data": {
+          "start": "10:30",
+          "end": "10:00",
+          "place": "test-place",
+          "cost": 12
+        },
+        "newRoot": true,
+        "oldRootUnchanged": true,
+        "returnUndefined": true
+      },
+      {
+        "key": "a.b",
+        "data": {
+          "start": "10:30",
+          "end": "10:00",
+          "place": "test-place",
+          "cost": 12,
+          "a.b": "literal"
+        },
+        "newRoot": true,
+        "oldRootUnchanged": true,
+        "returnUndefined": true
+      }
+    ],
+    "equal": true
+  },
+  "generic_native_cases": {
+    "plain": {
+      "source": {
+        "record": {
+          "label": "new",
+          "count": 1,
+          "nested": {
+            "tag": 7
+          }
+        },
+        "newRoot": true,
+        "sameNested": true,
+        "trace": [
+          "event-value"
+        ],
+        "returnUndefined": true
+      },
+      "before": {
+        "record": {
+          "label": "new",
+          "count": 1,
+          "nested": {
+            "tag": 7
+          }
+        },
+        "newRoot": true,
+        "sameNested": false,
+        "trace": [
+          "event-value"
+        ],
+        "returnUndefined": true
+      },
+      "after": {
+        "record": {
+          "label": "new",
+          "count": 1,
+          "nested": {
+            "tag": 7
+          }
+        },
+        "newRoot": true,
+        "sameNested": true,
+        "trace": [
+          "event-value"
+        ],
+        "returnUndefined": true
+      }
+    },
+    "order": {
+      "source": {
+        "record": {
+          "label": "new",
+          "count": 1,
+          "nested": {
+            "tag": 7
+          }
+        },
+        "newRoot": true,
+        "sameNested": true,
+        "trace": [
+          "event-value",
+          "record-copy"
+        ],
+        "returnUndefined": true
+      },
+      "before": {
+        "record": {
+          "label": "new",
+          "count": 1,
+          "nested": {
+            "tag": 7
+          }
+        },
+        "newRoot": true,
+        "sameNested": false,
+        "trace": [
+          "event-value",
+          "record-copy"
+        ],
+        "returnUndefined": true
+      },
+      "after": {
+        "record": {
+          "label": "new",
+          "count": 1,
+          "nested": {
+            "tag": 7
+          }
+        },
+        "newRoot": true,
+        "sameNested": true,
+        "trace": [
+          "event-value",
+          "record-copy"
+        ],
+        "returnUndefined": true
+      }
+    },
+    "dotted": {
+      "source": {
+        "record": {
+          "label": "old",
+          "count": 1,
+          "nested": {
+            "tag": 7
+          },
+          "a.b": "new"
+        },
+        "newRoot": true,
+        "sameNested": true,
+        "trace": [
+          "event-value"
+        ],
+        "returnUndefined": true
+      },
+      "before": {
+        "record": {
+          "label": "old",
+          "count": 1,
+          "nested": {
+            "tag": 7
+          },
+          "a.b": "new"
+        },
+        "newRoot": true,
+        "sameNested": false,
+        "trace": [
+          "event-value"
+        ],
+        "returnUndefined": true
+      },
+      "after": {
+        "record": {
+          "label": "old",
+          "count": 1,
+          "nested": {
+            "tag": 7
+          },
+          "a.b": "new"
+        },
+        "newRoot": true,
+        "sameNested": true,
+        "trace": [
+          "event-value"
+        ],
+        "returnUndefined": true
+      }
+    },
+    "numeric": {
+      "source": {
+        "record": {
+          "label": "old",
+          "count": 4,
+          "nested": {
+            "tag": 7
+          }
+        },
+        "newRoot": true,
+        "sameNested": true,
+        "trace": [
+          "event-value"
+        ],
+        "returnUndefined": true
+      },
+      "before": {
+        "record": {
+          "label": "old",
+          "count": 4,
+          "nested": {
+            "tag": 7
+          }
+        },
+        "newRoot": true,
+        "sameNested": false,
+        "trace": [
+          "event-value"
+        ],
+        "returnUndefined": true
+      },
+      "after": {
+        "record": {
+          "label": "old",
+          "count": 4,
+          "nested": {
+            "tag": 7
+          }
+        },
+        "newRoot": true,
+        "sameNested": true,
+        "trace": [
+          "event-value"
+        ],
+        "returnUndefined": true
+      }
+    }
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "native_environment": {
+  "san_version": "3.15.6",
+  "vue_version": "2.7.16",
+  "vue_runtime_path": "data/experiments/manual_followups/task_manager_async_scope_v7_prepared_20261113/vendor/vue-2.7.16.js",
+  "vue_runtime_sha256": "36b10d3b4920592a4ec26c064c429e9a3dfb4689235fdfc91e1736b681c76786",
+  "usage": "local test oracle only, no production provider or dependency"
+},
+  "source": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/protocol/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+    "sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139"
+  },
+  "candidate_before": {
+    "path": "data/experiments/analysis/formal_30_v4_parent_initialization_v1_20261114/TripItineraryPlanner_initialization_offline.san",
+    "sha256": "163e8172b9edc77014a860ab49d2a886117f12fc559830f6b74dfba5a2e8b672"
+  },
+  "candidate_after_sha256": "6da973e7a68cf7515504e268cec66815bf7ae7bcc7e30dce4688f0cecd1191d2",
+  "classification": "offline_source_computed_collection_partial_closure_reused_development",
+  "date": "2026-11-15",
+  "changes": [
+    "restored_source_native_computed_collection"
+  ],
+  "contracts": [
+    {
+      "contract": "script.computed.dayItems@items",
+      "name": "dayItems",
+      "field": "items",
+      "kind": "filter_slice_sort",
+      "fields": [
+        "items",
+        "activeDayId"
+      ],
+      "landed": true,
+      "repair_eligible": false,
+      "proof": "exact_source_native_collection_body_and_lexically_closed_legacy_bridge",
+      "native_root_alias_proven": false,
+      "sparse_policy": "source_native",
+      "global_helpers_modified": false
+    },
+    {
+      "contract": "script.computed.totalCost@items",
+      "name": "totalCost",
+      "field": "items",
+      "kind": "reduce_sum",
+      "fields": [
+        "items"
+      ],
+      "landed": true,
+      "repair_eligible": false,
+      "proof": "exact_source_native_collection_body_and_lexically_closed_legacy_bridge",
+      "native_root_alias_proven": false,
+      "sparse_policy": "source_native",
+      "global_helpers_modified": false
+    }
+  ],
+  "before": {
+    "validation_passed": false,
+    "validation_errors": [
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_computed_collection_not_landed",
+        "message": "Preserve the complete source native computed collection operation, sparse holes, callback length/order, accumulator and exceptions. A dense helper loop is not native equivalence; do not invent a null guard or alter global helpers.",
+        "severity": "error",
+        "location": "script.computed.dayItems@items",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_computed_collection_not_landed",
+        "message": "Preserve the complete source native computed collection operation, sparse holes, callback length/order, accumulator and exceptions. A dense helper loop is not native equivalence; do not invent a null guard or alter global helpers.",
+        "severity": "error",
+        "location": "script.computed.totalCost@items",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      }
+    ]
+  },
+  "after": {
+    "validation_passed": false,
+    "validation_errors": [
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      }
+    ]
+  },
+  "forward_gate": {
+    "decision": "pass",
+    "should_stop": false,
+    "lost_source_computed_collection_contracts": [],
+    "waived_source_computed_collection_findings": [],
+    "introduced_semantic_findings": []
+  },
+  "reverse_gate": {
+    "decision": "reject",
+    "should_stop": true,
+    "lost_source_computed_collection_contracts": [],
+    "waived_source_computed_collection_findings": [],
+    "introduced_semantic_findings": [
+      {
+        "code": "source_computed_collection_not_landed",
+        "location": "script.computed.dayItems@items",
+        "message": "Preserve the complete source native computed collection operation, sparse holes, callback length/order, accumulator and exceptions. A dense helper loop is not native equivalence; do not invent a null guard or alter global helpers.",
+        "count": 1
+      },
+      {
+        "code": "source_computed_collection_not_landed",
+        "location": "script.computed.totalCost@items",
+        "message": "Preserve the complete source native computed collection operation, sparse holes, callback length/order, accumulator and exceptions. A dense helper loop is not native equivalence; do not invent a null guard or alter global helpers.",
+        "count": 1
+      }
+    ]
+  },
+  "visual": {
+    "before": {
+      "visual_eval_passed": true,
+      "visual_eval_errors": [],
+      "tree_edit_distance": 0,
+      "structure_similarity": 1,
+      "tag_sequence_similarity": 1,
+      "text_similarity": 1
+    },
+    "after": {
+      "visual_eval_passed": true,
+      "visual_eval_errors": [],
+      "tree_edit_distance": 0,
+      "structure_similarity": 1,
+      "tag_sequence_similarity": 1,
+      "text_similarity": 1
+    }
+  },
+  "protection": {
+    "other_script_ast_unchanged": true,
+    "template_css_unchanged": true
+  },
+  "model_calls": 0,
+  "original_batch": {
+    "configured": 30,
+    "passed": 24,
+    "failed": 6,
+    "execution_errors": 0,
+    "total_tokens": 1821544
+  },
+  "generation_prompt_or_server_changed": false,
+  "repair_prompt_changed": true,
+  "validator_entrypoint_changed": false,
+  "nested_alias_checker_relaxed": false,
+  "canonical_generated_files_modified": false,
+  "manual_pages_modified": false,
+  "new_manual_confirmation": false,
+  "server_started": false,
+  "browser_started": false,
+  "whole_component_equivalence_proven": false,
+  "production_eligible": false,
+  "prior_constructor_only_find_interpretation_corrected": true,
+  "remaining_boundary": "days holes/null: source getter also throws TypeError when demanded; San throws at eager construction. Do not invent a fallback or declare lifecycle timing equivalence."
+}

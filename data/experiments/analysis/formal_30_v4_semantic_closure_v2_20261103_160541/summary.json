@@ -1,0 +1,692 @@
+{
+  "snapshot": "data/experiments/snapshots/formal_30_v4_semantic_closure_v2_results_20261103_160541",
+  "verified_files": 297,
+  "summary_sha256": "f0852a0716ac69fd75ac9395d60c6a7fe62da22a0e10cae740cf41148fa46d4e",
+  "classification": "residual_v2_development_regression_analysis",
+  "independent_holdout": false,
+  "model_requests_performed_by_analysis": 0,
+  "aggregate": {
+    "configured": 2,
+    "completed": 2,
+    "passed": 1,
+    "failed": 1,
+    "execution_errors": 0,
+    "pending": 0,
+    "pass_rate_completed": 0.5,
+    "initial_passed": 0,
+    "initial_pass_rate_completed": 0.0,
+    "repaired_to_pass": 1,
+    "repair_rounds_total": 5,
+    "repair_rounds_average": 2.5,
+    "generation_tokens": 203966,
+    "repair_tokens": 449644,
+    "total_tokens": 653610,
+    "stop_reason_counts": {
+      "max_repair_rounds_reached": 1,
+      "passed": 1
+    },
+    "error_code_counts": {
+      "initial_validation": {
+        "duplicate_class_attribute": 6,
+        "event_arguments_not_landed": 1,
+        "hidden_template_reactive_dependency": 5,
+        "invalid_s_for_key_binding": 1,
+        "invalid_san_computed_instance_method_call": 2,
+        "invalid_san_directive_interpolation": 1,
+        "invalid_san_event_handler_syntax": 2,
+        "invalid_san_for_alias_syntax": 2,
+        "invalid_san_multi_argument_fire": 1,
+        "lifecycle_behavior_not_landed": 1,
+        "missing_component_registration": 1,
+        "missing_data_types": 2,
+        "missing_event_handlers": 1,
+        "missing_lifecycle_mapping": 1,
+        "missing_self_click_guard": 2,
+        "native_drag_event_misbound": 1,
+        "nested_state_mutation": 4,
+        "unsupported_san_inline_template_math_global": 1,
+        "unsupported_san_inline_template_member_call": 2,
+        "vue_methods_wrapper": 2
+      },
+      "initial_visual": {
+        "san_render_failed": 2,
+        "san_san_render_error": 2
+      },
+      "final_validation": {
+        "event_arguments_not_landed": 1,
+        "lifecycle_behavior_not_landed": 1
+      },
+      "final_visual": {}
+    },
+    "by_complexity": {
+      "simple": {
+        "configured": 0,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "medium": {
+        "configured": 0,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "complex": {
+        "configured": 2,
+        "completed": 2,
+        "passed": 1,
+        "failed": 1,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.5
+      }
+    }
+  },
+  "samples": [
+    {
+      "id": "TaskManager",
+      "passed": true,
+      "stop_reason": "passed",
+      "elapsed_seconds": 764.781,
+      "llm_repair_calls": 2,
+      "deterministic_steps": 2,
+      "normalization_history": [
+        {
+          "step": 1,
+          "before_llm_call": 1,
+          "normalizations": [
+            "restored_inline_source_prop_schema",
+            "restored_self_click_and_native_drag_semantics",
+            "unwrapped_san_component_methods_options",
+            "registered_defined_inline_components"
+          ],
+          "candidate_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_semantic_closure_v2\\complex\\TaskManager_normalized_1.san",
+          "accepted": true,
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "after": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": [
+                "click:closeModal -> onSelfClickCloseModal($event)"
+              ]
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "introduced_semantic_findings": [],
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "progress_signature": {
+            "generated_code_sha256": "9020ee5c4630ab1cbc857e1a5fd6e7a9e68ff2685ab8a4450c81c56f0f7a47a5",
+            "validation_error_codes": [
+              "hidden_template_reactive_dependency",
+              "invalid_s_for_key_binding",
+              "invalid_san_computed_instance_method_call",
+              "invalid_san_event_handler_syntax",
+              "invalid_san_for_alias_syntax",
+              "invalid_san_multi_argument_fire",
+              "missing_event_handlers",
+              "missing_self_click_guard",
+              "nested_state_mutation",
+              "unsupported_san_inline_template_member_call"
+            ],
+            "visual_error_codes": [],
+            "tree_edit_distance": 0.5,
+            "structure_similarity": 0.9889,
+            "tag_sequence_similarity": 1.0,
+            "text_similarity": 1.0
+          }
+        },
+        {
+          "step": 2,
+          "before_llm_call": 1,
+          "normalizations": [
+            "lifted_self_contained_computed_helper",
+            "normalized_empty_san_modifier_handlers"
+          ],
+          "candidate_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_semantic_closure_v2\\complex\\TaskManager_normalized_1_normalized_2.san",
+          "accepted": true,
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": [
+                "click:closeModal -> onSelfClickCloseModal($event)"
+              ]
+            },
+            "after": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": [
+                "click:closeModal -> onSelfClickCloseModal($event)"
+              ]
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "introduced_semantic_findings": [],
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "progress_signature": {
+            "generated_code_sha256": "71f2e8b736e5f22e9f0f92b2580823a8df1a60e2c7748119d796c1a1efccf41e",
+            "validation_error_codes": [
+              "hidden_template_reactive_dependency",
+              "invalid_s_for_key_binding",
+              "invalid_san_event_handler_syntax",
+              "invalid_san_for_alias_syntax",
+              "invalid_san_multi_argument_fire",
+              "missing_event_handlers",
+              "missing_self_click_guard",
+              "nested_state_mutation",
+              "unsupported_san_inline_template_member_call"
+            ],
+            "visual_error_codes": [],
+            "tree_edit_distance": 0.5,
+            "structure_similarity": 0.9889,
+            "tag_sequence_similarity": 1.0,
+            "text_similarity": 1.0
+          }
+        }
+      ],
+      "rounds": [
+        {
+          "attempt": 1,
+          "errors": [
+            {
+              "code": "invalid_san_event_handler_syntax",
+              "message": "San templates contain 2 invalid event binding(s).",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+            },
+            {
+              "code": "hidden_template_reactive_dependency",
+              "message": "模板 text 渲染表达式调用 getTaskCount(...)，但该方法内部隐藏读取响应式字段：tasks。这些字段变化时，San 可能不会重新计算该绑定。",
+              "severity": "error",
+              "location": "template/script",
+              "suggestion": "在模板表达式中直接引用 tasks，或将这些字段作为参数显式传给 getTaskCount(...)。"
+            }
+          ],
+          "structure_similarity": 0.9889,
+          "gate_should_stop": false,
+          "introduced_semantic_findings": [],
+          "postprocessing": [
+            "normalized_simple_san_template_syntax",
+            "registered_defined_inline_components",
+            "cloned_state_array_before_local_mutation",
+            "lifted_self_contained_computed_helper"
+          ],
+          "prompt_chars": 444438,
+          "focused_prompt": false,
+          "usage": {
+            "completion_tokens": 10928,
+            "prompt_tokens": 110823,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 121751
+          }
+        },
+        {
+          "attempt": 2,
+          "errors": [],
+          "structure_similarity": 0.9889,
+          "gate_should_stop": false,
+          "introduced_semantic_findings": [],
+          "postprocessing": [],
+          "prompt_chars": 57125,
+          "focused_prompt": true,
+          "usage": {
+            "completion_tokens": 11072,
+            "prompt_tokens": 16243,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 27315
+          }
+        }
+      ],
+      "final_errors": [],
+      "final_warnings": [
+        {
+          "code": "migration_hints_not_landed",
+          "message": "data 读取策略未落地：availableTags 应使用 this.data.get('availableTags')；data 写入策略未落地：availableTags 应使用 this.data.set('availableTags', ...)；data 写入策略未落地：filters 应使用 this.data.set('filters', ...)；data 读取策略未落地：isModalOpen 应使用 this.data.get('isModalOpen')；data 读取策略未落地：notification 应使用 this.data.get('notification')；data 写入策略未落地：searchKeyword 应使用 this.data.set('searchKeyword', ...)；data 读取策略未落地：showSettings 应使用 this.data.get('showSettings')；data 写入策略未落地：storageKey 应使用 this.data.set('storageKey', ...)；data 读取策略未落地：users 应使用 this.data.get('users')；data 写入策略未落地：users 应使用 this.data.set('users', ...)",
+          "severity": "warning",
+          "location": "script/template",
+          "suggestion": "根据 SSM migration_hints 补齐 San 迁移策略。"
+        }
+      ],
+      "final_structure_similarity": 0.9889,
+      "final_file": "TaskManager_normalized_1_normalized_2_repaired_repaired.san",
+      "final_sha256": "bc28786c89f8c13476984d56b669f4323432f996cd959b0197bcb6f8fccd20b6",
+      "generation_tokens": 97308,
+      "repair_tokens": 149066,
+      "automatic_interaction_evaluated": false,
+      "manual_verification": "pending"
+    },
+    {
+      "id": "MonitoringDashboard",
+      "passed": false,
+      "stop_reason": "max_repair_rounds_reached",
+      "elapsed_seconds": 1124.688,
+      "llm_repair_calls": 3,
+      "deterministic_steps": 1,
+      "normalization_history": [
+        {
+          "step": 1,
+          "before_llm_call": 1,
+          "normalizations": [
+            "restored_inline_source_prop_schema",
+            "unwrapped_san_directive_expression",
+            "unwrapped_san_component_methods_options"
+          ],
+          "candidate_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_semantic_closure_v2\\complex\\MonitoringDashboard_normalized_1.san",
+          "accepted": true,
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [
+                "click:onKPIClick(kpi)",
+                "click:changePeriod(period.value)"
+              ],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "after": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [
+                "click:onKPIClick(kpi)",
+                "click:changePeriod(period.value)"
+              ],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "introduced_semantic_findings": [],
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "progress_signature": {
+            "generated_code_sha256": "a7a2859449f242df450ca1c75f08fb6fdd9a26a71233dd2eae31ae589f018848",
+            "validation_error_codes": [
+              "duplicate_class_attribute",
+              "duplicate_class_attribute",
+              "duplicate_class_attribute",
+              "duplicate_class_attribute",
+              "duplicate_class_attribute",
+              "duplicate_class_attribute",
+              "event_arguments_not_landed",
+              "hidden_template_reactive_dependency",
+              "hidden_template_reactive_dependency",
+              "hidden_template_reactive_dependency",
+              "hidden_template_reactive_dependency",
+              "invalid_san_computed_instance_method_call",
+              "invalid_san_event_handler_syntax",
+              "invalid_san_for_alias_syntax",
+              "lifecycle_behavior_not_landed",
+              "missing_lifecycle_mapping",
+              "missing_self_click_guard",
+              "nested_state_mutation",
+              "nested_state_mutation",
+              "nested_state_mutation",
+              "unsupported_san_inline_template_math_global",
+              "unsupported_san_inline_template_member_call"
+            ],
+            "visual_error_codes": [],
+            "tree_edit_distance": 1.25,
+            "structure_similarity": 0.9781,
+            "tag_sequence_similarity": 1.0,
+            "text_similarity": 1.0
+          }
+        }
+      ],
+      "rounds": [
+        {
+          "attempt": 1,
+          "errors": [
+            {
+              "code": "invalid_san_event_handler_syntax",
+              "message": "San templates contain 3 invalid event binding(s).",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+            },
+            {
+              "code": "event_arguments_not_landed",
+              "message": "San 事件绑定未完整保留源事件参数。缺失：click:onKPIClick(kpi)。",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+            },
+            {
+              "code": "missing_lifecycle_mapping",
+              "message": "以下生命周期映射未在 San 中找到：beforeDestroy -> disposed。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "将 Vue 生命周期迁移到对应 San 生命周期，或确认逻辑已合并到其他生命周期中。"
+            },
+            {
+              "code": "lifecycle_behavior_not_landed",
+              "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData(), 调用方法 startDataSimulation(), 调用方法 startTimeUpdate()。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+            }
+          ],
+          "structure_similarity": 0.9912,
+          "gate_should_stop": false,
+          "introduced_semantic_findings": [],
+          "postprocessing": [
+            "unwrapped_san_directive_expression",
+            "normalized_simple_san_template_syntax",
+            "merged_static_and_dynamic_class_attributes",
+            "parameterized_computed_to_pure_method",
+            "lifted_self_contained_computed_helper"
+          ],
+          "prompt_chars": 484463,
+          "focused_prompt": false,
+          "usage": {
+            "completion_tokens": 12187,
+            "prompt_tokens": 123364,
+            "prompt_tokens_details": {
+              "cached_tokens": 2944
+            },
+            "total_tokens": 135551
+          }
+        },
+        {
+          "attempt": 2,
+          "errors": [
+            {
+              "code": "invalid_san_event_handler_syntax",
+              "message": "San templates contain 3 invalid event binding(s).",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+            },
+            {
+              "code": "event_arguments_not_landed",
+              "message": "San 事件绑定未完整保留源事件参数。缺失：click:onKPIClick(kpi)。",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+            },
+            {
+              "code": "lifecycle_behavior_not_landed",
+              "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData(), 调用方法 startDataSimulation(), 调用方法 startTimeUpdate()。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+            }
+          ],
+          "structure_similarity": 0.9912,
+          "gate_should_stop": false,
+          "introduced_semantic_findings": [],
+          "postprocessing": [
+            "unwrapped_san_directive_expression"
+          ],
+          "prompt_chars": 477606,
+          "focused_prompt": false,
+          "usage": {
+            "completion_tokens": 12299,
+            "prompt_tokens": 121695,
+            "prompt_tokens_details": {
+              "cached_tokens": 107392
+            },
+            "total_tokens": 133994
+          }
+        },
+        {
+          "attempt": 3,
+          "errors": [
+            {
+              "code": "event_arguments_not_landed",
+              "message": "San 事件绑定未完整保留源事件参数。缺失：click:onKPIClick(kpi)。",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+            },
+            {
+              "code": "lifecycle_behavior_not_landed",
+              "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData(), 调用方法 startDataSimulation(), 调用方法 startTimeUpdate()。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+            }
+          ],
+          "structure_similarity": 0.9825,
+          "gate_should_stop": false,
+          "introduced_semantic_findings": [],
+          "postprocessing": [],
+          "prompt_chars": 63842,
+          "focused_prompt": true,
+          "usage": {
+            "completion_tokens": 12328,
+            "prompt_tokens": 18705,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 31033
+          }
+        }
+      ],
+      "final_errors": [
+        {
+          "code": "event_arguments_not_landed",
+          "message": "San 事件绑定未完整保留源事件参数。缺失：click:onKPIClick(kpi)。",
+          "severity": "error",
+          "location": "template",
+          "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+        },
+        {
+          "code": "lifecycle_behavior_not_landed",
+          "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData(), 调用方法 startDataSimulation(), 调用方法 startTimeUpdate()。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+        }
+      ],
+      "final_warnings": [
+        {
+          "code": "migration_hints_not_landed",
+          "message": "data 读取策略未落地：currentDate 应使用 this.data.get('currentDate')；data 读取策略未落地：currentTime 应使用 this.data.get('currentTime')；data 读取策略未落地：isChartLoading 应使用 this.data.get('isChartLoading')；data 读取策略未落地：isLogLoading 应使用 this.data.get('isLogLoading')；data 写入策略未落地：isLogLoading 应使用 this.data.set('isLogLoading', ...)；data 读取策略未落地：isRefreshingServices 应使用 this.data.get('isRefreshingServices')；data 写入策略未落地：logFilter 应使用 this.data.set('logFilter', ...)；data 读取策略未落地：requestStats 应使用 this.data.get('requestStats')；data 读取策略未落地：selectedPeriod 应使用 this.data.get('selectedPeriod')；data 读取策略未落地：showSettings 应使用 this.data.get('showSettings')；data 读取策略未落地：timePeriods 应使用 this.data.get('timePeriods')；data 写入策略未落地：timePeriods 应使用 this.data.set('timePeriods', ...)",
+          "severity": "warning",
+          "location": "script/template",
+          "suggestion": "根据 SSM migration_hints 补齐 San 迁移策略。"
+        }
+      ],
+      "final_structure_similarity": 0.9825,
+      "final_file": "MonitoringDashboard_normalized_1_repaired_repaired_repaired.san",
+      "final_sha256": "74a28afb53b04aaa204c65aa0b2846bf9b25012bb9c5db74c0f050ddd097568c",
+      "generation_tokens": 106658,
+      "repair_tokens": 300578,
+      "automatic_interaction_evaluated": false,
+      "manual_verification": "pending"
+    }
+  ]
+}

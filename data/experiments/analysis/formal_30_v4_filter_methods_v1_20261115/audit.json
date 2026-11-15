@@ -1,0 +1,300 @@
+{
+  "date": "2026-11-15",
+  "classification": "offline_source_native_filter_partial_closure_reused_development",
+  "source": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/protocol/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+    "sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139"
+  },
+  "candidate_before": {
+    "path": "data/experiments/analysis/formal_30_v4_computed_collections_v1_20261115/TripItineraryPlanner_computed_collections_offline.san",
+    "sha256": "6da973e7a68cf7515504e268cec66815bf7ae7bcc7e30dce4688f0cecd1191d2"
+  },
+  "candidate_after_sha256": "fd845c3a98f6ea2388b8c2eabebee9f2e3455a313797e6c255d36355be934626",
+  "changes": [
+    "restored_source_native_filter_method"
+  ],
+  "before": {
+    "validation_passed": false,
+    "validation_errors": [
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_filter_method_not_landed",
+        "message": "Preserve the complete source native filter method: holes, snapshot length, callbacks, identities, exceptions and ordered root commit / flag / notification. Do not globally replace helpers or erase effects.",
+        "severity": "error",
+        "location": "script.methods.removeItem@items",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_filter_method_not_landed",
+        "message": "Preserve the complete source native filter method: holes, snapshot length, callbacks, identities, exceptions and ordered root commit / flag / notification. Do not globally replace helpers or erase effects.",
+        "severity": "error",
+        "location": "script.methods.dayCount@items",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      }
+    ]
+  },
+  "after": {
+    "validation_passed": false,
+    "validation_errors": [
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      }
+    ]
+  },
+  "contracts": [
+    {
+      "contract": "script.methods.removeItem@items",
+      "name": "removeItem",
+      "field": "items",
+      "kind": "commit",
+      "landed": true,
+      "repair_eligible": false,
+      "proof": "complete_source_native_filter_method_and_closed_legacy_bindings",
+      "global_helpers_modified": false
+    },
+    {
+      "contract": "script.methods.dayCount@items",
+      "name": "dayCount",
+      "field": "items",
+      "kind": "count",
+      "landed": true,
+      "repair_eligible": false,
+      "proof": "complete_source_native_filter_method_and_closed_legacy_bindings",
+      "global_helpers_modified": false
+    }
+  ],
+  "forward_gate": {
+    "decision": "pass",
+    "should_stop": false,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "new_pre_mount_state_writes": [],
+    "unjustified_pre_mount_state_writes": [],
+    "before": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "after": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+    "lost_source_dom_scopes": [],
+    "lost_source_dom_nodes": [],
+    "lost_source_payload_contracts": [],
+    "lost_source_render_bindings": [],
+    "lost_source_dependency_bindings": [],
+    "lost_source_array_contracts": [],
+    "lost_source_child_startup_contracts": [],
+    "lost_source_native_drag_contracts": [],
+    "lost_source_parent_watch_contracts": [],
+    "waived_source_dependency_findings": [],
+    "lost_source_dependency_proofs": [],
+    "source_dependency_analysis_failed": false,
+    "lost_source_record_update_contracts": [],
+    "waived_source_record_update_findings": [],
+    "lost_source_shared_record_contracts": [],
+    "waived_source_shared_record_findings": [],
+    "lost_source_parent_initialization_contracts": [],
+    "waived_source_parent_initialization_findings": [],
+    "lost_source_computed_collection_contracts": [],
+    "waived_source_computed_collection_findings": [],
+    "lost_source_filter_method_contracts": [],
+    "waived_source_filter_method_findings": [],
+    "waived_source_parent_watch_boundaries": [],
+    "lost_source_class_bindings": [],
+    "waived_class_binding_findings": [],
+    "introduced_class_binding_findings": [],
+    "class_binding_analysis_failed": false,
+    "semantic_coverage_assessment": {
+      "status": "not_needed",
+      "proven_pairs": []
+    },
+    "newly_visible_preexisting_semantic_findings": [],
+    "introduced_semantic_findings": [],
+    "introduced_critical_errors": [],
+    "lost_visual_pass": false
+  },
+  "reverse_gate": {
+    "decision": "reject",
+    "should_stop": true,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "new_pre_mount_state_writes": [],
+    "unjustified_pre_mount_state_writes": [],
+    "before": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "after": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+    "lost_source_dom_scopes": [],
+    "lost_source_dom_nodes": [],
+    "lost_source_payload_contracts": [],
+    "lost_source_render_bindings": [],
+    "lost_source_dependency_bindings": [],
+    "lost_source_array_contracts": [],
+    "lost_source_child_startup_contracts": [],
+    "lost_source_native_drag_contracts": [],
+    "lost_source_parent_watch_contracts": [],
+    "waived_source_dependency_findings": [],
+    "lost_source_dependency_proofs": [],
+    "source_dependency_analysis_failed": false,
+    "lost_source_record_update_contracts": [],
+    "waived_source_record_update_findings": [],
+    "lost_source_shared_record_contracts": [],
+    "waived_source_shared_record_findings": [],
+    "lost_source_parent_initialization_contracts": [],
+    "waived_source_parent_initialization_findings": [],
+    "lost_source_computed_collection_contracts": [],
+    "waived_source_computed_collection_findings": [],
+    "lost_source_filter_method_contracts": [],
+    "waived_source_filter_method_findings": [
+      {
+        "code": "source_filter_method_not_landed",
+        "location": "script.methods.removeItem@items",
+        "message": "Preserve the complete source native filter method: holes, snapshot length, callbacks, identities, exceptions and ordered root commit / flag / notification. Do not globally replace helpers or erase effects."
+      },
+      {
+        "code": "source_filter_method_not_landed",
+        "location": "script.methods.dayCount@items",
+        "message": "Preserve the complete source native filter method: holes, snapshot length, callbacks, identities, exceptions and ordered root commit / flag / notification. Do not globally replace helpers or erase effects."
+      }
+    ],
+    "waived_source_parent_watch_boundaries": [],
+    "lost_source_class_bindings": [],
+    "waived_class_binding_findings": [],
+    "introduced_class_binding_findings": [],
+    "class_binding_analysis_failed": false,
+    "semantic_coverage_assessment": {
+      "status": "not_needed",
+      "proven_pairs": []
+    },
+    "newly_visible_preexisting_semantic_findings": [],
+    "introduced_semantic_findings": [],
+    "introduced_critical_errors": [],
+    "lost_visual_pass": false
+  },
+  "only_two_method_bodies_changed": true,
+  "template_css_unchanged": true,
+  "global_helpers_changed": false,
+  "generation_prompt_or_server_changed": false,
+  "repair_prompt_changed": true,
+  "validator_entrypoint_changed": false,
+  "independent_gate_changed": true,
+  "prior_diagnostics_waived": false,
+  "canonical_generated_files_modified": false,
+  "manual_pages_modified": false,
+  "model_calls": 0,
+  "server_started": false,
+  "browser_started": false,
+  "new_manual_confirmation": false,
+  "whole_component_equivalence_proven": false,
+  "production_eligible": false,
+  "source_days_exception_phase_boundary_resolved": false,
+  "external_observer_counts": {
+    "source": 3,
+    "target": 1
+  },
+  "arbitrary_setter_interface_preserved": false,
+  "function_oracle_cases": 22,
+  "original_batch": {
+    "configured": 30,
+    "passed": 24,
+    "failed": 6,
+    "execution_errors": 0,
+    "total_tokens": 1821544
+  },
+  "next_step": "Review the remaining shared-write observer and dynamic setter source contracts without waiving diagnostics; no paid rerun yet."
+}

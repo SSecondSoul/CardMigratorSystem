@@ -1,0 +1,182 @@
+{
+  "proposal_path": "docs/paper/专业学位硕士研究生选题报告4.docx",
+  "status": "audit_and_execution_plan_not_new_run_protocol_or_waiver",
+  "requirements": [
+    {
+      "id": "SSM",
+      "section": "研究内容1.4；目标3.1(1)",
+      "requirement": "四维SSM与自动AST提取；常见语法覆盖90%以上",
+      "current_status": "implemented_structure_coverage_not_quantified",
+      "evidence": [
+        "SSM/schema/v3.py",
+        "SSM/extractors/parse_sfc.cjs"
+      ],
+      "gap": "有模板/绑定/事件/样式结构及AST实现，不能以迁移通过率替代提取准确率或90%语法覆盖。",
+      "next_action": "预先定义语法模式分母和人工标注子集，分别报告字段准确/缺失及覆盖。",
+      "acceptance": "模式清单、分母、抽样及可复算结果齐全。"
+    },
+    {
+      "id": "GEN",
+      "section": "研究内容1.2、1.3(1)",
+      "requirement": "SSM驱动生成与少样本提示策略",
+      "current_status": "generation_pipeline_present_prompt_strategy_review_needed",
+      "evidence": [
+        "migration_pipeline/stages/generate.py",
+        "local_server/api/migration_routes.py"
+      ],
+      "gap": "生成链存在；本次未逐段核实所有模板及few-shot示例进入请求的情况，不宣称全部完成。",
+      "next_action": "冻结实际请求构造、系统/用户Prompt、SSM与示例指纹，避免只核查磁盘模板。",
+      "acceptance": "可追溯真实请求非密钥参数与输入；参考目标San不得泄漏。"
+    },
+    {
+      "id": "LOOP",
+      "section": "研究内容1.3(4)；关键问题2.4",
+      "requirement": "规则与模型修复；保持正确部分；有限轮数",
+      "current_status": "implemented_with_unresolved_source_contracts",
+      "evidence": [
+        "migration_pipeline/stages/repair.py",
+        "migration_pipeline/utils/repair_scheduler.py",
+        "migration_pipeline/utils/repair_prompt.py"
+      ],
+      "gap": "已有确定性/模型修复与候选回退；273测试是规则证据，不是新全30运行。",
+      "next_action": "围绕未决问题做一次有边界修复；不能证明则记失败，停止无目的试跑。",
+      "acceptance": "每类源语义、诊断、修复、反例和保护测试闭合；阻断不豁免。"
+    },
+    {
+      "id": "STRUCT",
+      "section": "研究内容1.3(2)；关键问题2.2",
+      "requirement": "结构一致性校验及节点/属性/事件差异",
+      "current_status": "static_and_dom_checks_present_ast_ted_claim_not_verified",
+      "evidence": [
+        "migration_pipeline/stages/validate.py",
+        "migration_pipeline/stages/visual_eval.py"
+      ],
+      "gap": "静态/语义检查与DOM TED已存在；不能将其直接表述成完成所有源SSM与目标AST树编辑距离要求。",
+      "next_action": "标明每个结构指标比较对象、归一化、阈值和误报样例。",
+      "acceptance": "指标定义与实际执行路径一致；新旧评估器分别记录。"
+    },
+    {
+      "id": "PIXEL",
+      "section": "研究内容1.3(3)；特色3.1；目标3.2(2)",
+      "requirement": "统一环境截图、SSIM/像素差异、计算样式及差异图；视觉通过90%以上",
+      "current_status": "confirmed_pipeline_evidence_gap",
+      "evidence": [
+        "migration_pipeline/stages/visual_eval.py",
+        "migration_pipeline/utils/screenshot.py",
+        "migration_pipeline/utils/image_diff.py"
+      ],
+      "gap": "当前visual_eval为DOM路径；两个辅助文件均0字节，不能称完整像素评估已经接入。",
+      "next_action": "先做固定环境浏览器评估器及已知颜色/间距差异校准，再接入反馈；不先跑模型。",
+      "acceptance": "同图、已知差异、动态干扰控制测试通过；截图、分数、计算样式与差异图可追溯。"
+    },
+    {
+      "id": "BEHAVIOR",
+      "section": "研究特色3.1；目标3.1(3)",
+      "requirement": "行为/功能等价性",
+      "current_status": "partial_lightweight_and_selected_native_manual_evidence",
+      "evidence": [
+        "migration_pipeline/utils/interaction_eval.py",
+        "data/experiments/analysis/formal_30_v4_dynamic_setter_guard_v1_20261115/audit.json"
+      ],
+      "gap": "轻量上下文交互不是浏览器；当前任意键、共享通知、异常阶段仍未证明。",
+      "next_action": "分开标注方法投影、原生实例、真实浏览器和人工确认，预注册代表交互场景。",
+      "acceptance": "预设场景的状态、事件、DOM、样式与异常结果分别留证；不把局部通过当全面等价。"
+    },
+    {
+      "id": "SUCCESS",
+      "section": "目标3.2(1)",
+      "requirement": "测试集编译并运行比例85%以上",
+      "current_status": "historical_composite_scores_not_matching_target_metric",
+      "evidence": [
+        "data/experiments/analysis/formal_30_v4_full_regression_v2_20261104_214821/summary.json"
+      ],
+      "gap": "24/30是历史复用开发集综合结果，不直接等于85%编译运行目标，更不是最新严格口径成绩。",
+      "next_action": "分别报告编译、运行、静态、行为、视觉和综合通过；主分母全部配置样本。",
+      "acceptance": "计数分母、失败/超时、不支持与未测均披露，未达目标如实报告。"
+    },
+    {
+      "id": "AUTOMATION",
+      "section": "目标3.2(3)",
+      "requirement": "无需人工或少量修改小于10行代码占比70%以上",
+      "current_status": "aggregate_manual_intervention_evidence_not_verified",
+      "evidence": [
+        "migration_pipeline/stages/repair.py"
+      ],
+      "gap": "不能用最终人工修补后的通过产物替代自动迁移结果；当前未核实完整人工修改行数台账。",
+      "next_action": "记录自动规则、模型和人工修改、独立人工耗时与修改行数定义。",
+      "acceptance": "自动率分子分母和修改计量可审计；不补造历史数据。"
+    },
+    {
+      "id": "EFFICIENCY",
+      "section": "目标3.2(4)",
+      "requirement": "较手工迁移平均耗时降低70%；较纯规则人工修复耗时降低50%",
+      "current_status": "controlled_baseline_evidence_not_verified",
+      "evidence": [
+        "data/experiments/analysis/formal_30_v4_full_regression_v2_20261104_214821/summary.json"
+      ],
+      "gap": "Token/流水线耗时不等于手工与纯规则对照，现有终态不一定包含全部开发重跑成本。",
+      "next_action": "另设计可比任务和计时规则；缺失历史计时不得估算成达标。",
+      "acceptance": "同任务对照、成本口径和原始计时齐全；否则明示未验证并与导师确认。"
+    },
+    {
+      "id": "COMPARISON",
+      "section": "主要研究方法2、4",
+      "requirement": "控制变量对比、消融及统计分析",
+      "current_status": "final_uniform_comparison_not_verified",
+      "evidence": [
+        "data/experiments/protocols/formal_30_v5_exploratory_frozen_20261030/PROTOCOL.md"
+      ],
+      "gap": "不同版本、模型或评估器的通过率不能直接作为SSM或修复增益；本审计未定位已完成的统一三组比较证据。",
+      "next_action": "新协议预注册源码直生、SSM无修复、SSM完整闭环；统一评价并记录额外修复成本。",
+      "acceptance": "配对样本、请求/产物、初始/终态、成本和合适统计方法可追溯；不是挑最好重跑。"
+    },
+    {
+      "id": "EXPOSURE",
+      "section": "控制变量实验及结论有效性",
+      "requirement": "开发/测试证据边界",
+      "current_status": "exploratory_boundary_already_disclosed",
+      "evidence": [
+        "data/experiments/protocols/formal_30_v5_exploratory_frozen_20261030/PROTOCOL.md"
+      ],
+      "gap": "既有v5明确探索性，23项曾在早期Notebook出现；不能改名成为独立未见测试。",
+      "next_action": "保留探索性披露；如需独立泛化，须另建可审计未用于调参的样本。",
+      "acceptance": "新协议不会继承旧v5冻结配置或伪称独立测试；不覆盖旧包。"
+    },
+    {
+      "id": "SEARCH",
+      "section": "研究背景；SSM搜索约束维度",
+      "requirement": "搜索场景适用性、组件依赖和样式约束；性能/稳定性",
+      "current_status": "component_level_evidence_not_full_search_integration",
+      "evidence": [
+        "docs/ir-design/source-migration-scope-20261114.md"
+      ],
+      "gap": "通用分层组件实验不能直接证明真实搜索整页集成或线上性能收益。",
+      "next_action": "选取范围清楚的搜索卡片案例与必要依赖/样式约束；只声称实际验证范围。",
+      "acceptance": "场景、输入、约束和运行指标明确；不新增运行时互操作。"
+    },
+    {
+      "id": "TOOLS",
+      "section": "研究内容1.1、1.2",
+      "requirement": "LangGraph/LangSmith编排追踪及LoRA技术规划",
+      "current_status": "planned_tools_require_evidence_or_supervisor_scope_confirmation",
+      "evidence": [
+        "migration_pipeline/orchestrator.py"
+      ],
+      "gap": "当前有Python编排；三棵Python代码树静态import未发现langgraph/langsmith/peft，只是限定扫描，不证明外部工作不存在。",
+      "next_action": "与导师核对技术路线调整，说明已实现的编排/追踪；不为补名词现在引入新框架或训练任务。",
+      "acceptance": "实际实现与论文一致；未做的计划经确认调整或如实列为未完成，不擅自宣布免除。"
+    },
+    {
+      "id": "CASES",
+      "section": "主要研究方法3；论文计划2026.10—2027.01",
+      "requirement": "3至5个成功及失败案例分析；形成论文初稿",
+      "current_status": "traceable_case_material_available_writing_can_start",
+      "evidence": [
+        "docs/ir-design/source-migration-scope-20261114.md"
+      ],
+      "gap": "大量冻结证据需凝练到错误类型/通用规则/能力边界，不能只是按日期堆叠。",
+      "next_action": "现在并行撰写SSM与系统方法章节；实验章节保留待补指标；不等待所有复杂组件100%修好。",
+      "acceptance": "案例与冻结证据一一对应，说明人工介入/失败/未测，成果陈述不超证据。"
+    }
+  ]
+}

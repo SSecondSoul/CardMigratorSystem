@@ -2,6 +2,8 @@ import json
 import re
 from dataclasses import dataclass, field
 from typing import Any
+from migration_pipeline.utils.residual_semantics import residual_semantics
+from migration_pipeline.utils.class_binding_contract import CLASS_BINDING_RULE, CLASS_BINDING_CODES
 
 
 @dataclass
@@ -15,6 +17,7 @@ class RepairPromptInput:
     visual_eval_warnings: list[dict[str, Any]] = field(default_factory=list)
     dom_compare_result: dict[str, Any] | None = None
     extra_instruction: str = ""
+    vue_source: str = ""
 
 
 class RepairPromptBuilder:
@@ -50,6 +53,26 @@ class RepairPromptBuilder:
         "event_arguments_not_landed",
     })
     SEMANTIC_RESIDUAL_CODES = frozenset({
+        "source_watch_persistence_not_landed",
+        "source_watch_persistence_unproven",
+        "source_mounted_order_not_landed",
+        "source_startup_phase_not_landed",
+        "source_method_interface_not_landed",
+        "source_dynamic_assignment_unproven",
+        "source_method_trigger_added",
+        "source_record_update_not_landed", "source_shared_record_projection_not_landed",
+        "source_parent_initialization_not_landed",
+        "source_computed_collection_not_landed",
+        "source_filter_method_not_landed",
+        "missing_lifecycle_mapping",
+        "invalid_san_textarea_binding",
+        "missing_data_types",
+        "missing_prop_defaults", "missing_datatypes_for_props", "datatypes_type_mismatch",
+        "missing_self_click_guard",
+        "source_dom_event_not_landed", "source_dom_loop_not_landed", "source_dom_analysis_unavailable",
+        "source_event_payload_not_landed", "source_event_payload_analysis_unavailable",
+        "source_render_call_not_landed", "source_render_call_analysis_unavailable",
+        "source_render_dependency_not_landed", "source_render_dependency_analysis_unavailable",
         "invalid_san_event_handler_syntax",
         "invalid_san_init_data_store_access",
         "invalid_san_computed_instance_method_call",
@@ -64,7 +87,180 @@ class RepairPromptBuilder:
     })
 
     def build(self, prompt_input: RepairPromptInput) -> str:
+        prompt = self._build(prompt_input)
+        if any(e.get('code') == 'source_record_update_not_landed' for e in prompt_input.validation_errors):
+            prompt += ("\nSource literal-record update contract: preserve the source shallow Object.assign copy, "
+                "computed record property and value evaluation before one literal-root data.set commit. "
+                "Do not deep-clone shared nested values, mutate the original record, turn a dotted record key "
+                "into a San path, add commits or restore an arbitrary dynamic instance setter by guessing. "
+                "Unknown helper bodies or effects remain unresolved.\n")
+        if any(e.get('code') in CLASS_BINDING_CODES for e in prompt_input.validation_errors) and CLASS_BINDING_RULE not in prompt:
+            prompt = CLASS_BINDING_RULE + prompt
+        if any(e.get('code') in {'source_parent_watch_exception_policy_unproven', 'source_parent_watch_dynamic_key_unproven'}
+               for e in prompt_input.validation_errors):
+            prompt += ("\nParent watcher scope requires review: normal-flow equality is not an exception-policy "
+                "or arbitrary-key proof. Do not rewrite the watcher queue when source effects access storage "
+                "without an evidenced runtime error/continuation contract, or watched-object writers have "
+                "unconstrained computed keys. Do not invent a catch-and-continue policy, swallow errors, "
+                "drop unknown keys, suppress the diagnostics, or force Vue2 new-property reactivity. "
+                "Keep these boundaries unresolved until a complete source/runtime contract is proved.\n")
+        if any(e.get('code') in {'source_parent_watch_not_landed', 'source_parent_watch_analysis_unavailable'}
+               for e in prompt_input.validation_errors):
+            prompt += ("\nParent default-async watcher contract: compare complete source data, mounted/disposal hooks, "
+                "watch callbacks and transitive effect methods. Moving synchronous San watch registration "
+                "earlier is not sufficient: coalesce per instance/field in source declaration order, "
+                "read latest state at execution, and cancel pending work on disposal. Preserve storage "
+                "and timer effect history, not only final values. Reject special sync/immediate options, "
+                "unknown effects, recursive watched-field writes or unproven hook work. Never overwrite "
+                "business methods to make the scheduling proof pass. Exception policy equivalence and "
+                "arbitrary deep raw-object mutations are not inferred from normal-flow tests.\n")
+        if any(e.get('code') in {'source_native_drag_not_landed', 'source_native_drag_analysis_unavailable'}
+               for e in prompt_input.validation_errors):
+            prompt += ("\nSource native drag contract: preserve the complete registered source handler, "
+                "native dragstart event argument, guard, dataTransfer.setData payload, effectAllowed "
+                "and single-payload custom emit in source order. A custom drag-start notification "
+                "does not replace browser dataTransfer effects. Reject unknown effects, conflicting "
+                "callers or unsupported bindings rather than overwrite the method. Do not change "
+                "watch registration or lifecycle order as a side effect of this repair.\n")
+        if any(e.get('code') in {'source_child_factory_not_landed','source_child_watch_not_landed',
+                                'source_child_initialization_analysis_unavailable'} for e in prompt_input.validation_errors):
+            prompt += ("\nRegistered source child startup contract: distinguish a pure source factory method "
+                "from a computed getter returning a function. Restore only a complete source-matched callable "
+                "factory; initialize the derived object from the first prop in inited before registering "
+                "the exact source root-prop watcher. Never define an option method named watch: preserve "
+                "San built-in watch. Do not delete watcher effects, guess missing factory branches, "
+                "move unknown lifecycle work, add immediate/deep behavior, mutate incoming props, "
+                "or treat nested San change paths as a source shallow root-prop replacement. "
+                "Never globally rewrite computed/template callers. A data.set containing a function is not "
+                "proof of correct initial state. Keep source object/array copy and default semantics.\n")
+        if any(e.get('code') in {'source_array_transaction_not_landed','source_array_transaction_analysis_unavailable',
+                                'nested_state_mutation'} for e in prompt_input.validation_errors):
+            prompt += ("\nSource array transaction contract: compare the complete source guards, parameters, "
+                "filtered/original indices and two-splice move. Detach only a proven closed local array; "
+                "commit exactly once immediately after the final insertion, before clearing drag state "
+                "or notifying source observers. Preserve element identities and source effect order. "
+                "A shallow clone is not proof for nested record mutation or an escaping alias. "
+                "Reject unknown effects/control flow or a changed method body; never invent a missing "
+                "guard, fallback, index or notification. Do not make a source-mismatched method pass "
+                "by deleting the diagnostic or by merely adding a spread.\n")
+        if any(e.get('code') == 'source_dynamic_assignment_unproven' for e in prompt_input.validation_errors):
+            prompt += ("\nSource dynamic instance assignment: callable presence is not semantic proof. "
+                "this[key]=value is not equivalent to data.set(key,value): declared roots, literal dotted keys, "
+                "ToPropertyKey conversion exactly once, symbols, extra instance fields and San runtime namespace "
+                "collisions differ. An empty method, finite-key guard or fallback cannot silently restrict the "
+                "source API. Keep the unresolved diagnostic unless a source-equivalent implementation is proven; "
+                "do not invent a provider, compatibility layer or new caller protocol to force a pass.\n")
+        if any(e.get('code') == 'source_filter_method_not_landed' for e in prompt_input.validation_errors):
+            prompt += ("\nSource native filter methods: preserve the complete source body, sparse holes, snapshot length, "
+                "callback order, record identity, return values and exceptions. Keep root commit / flag / notification "
+                "in source order, including proven public event forwarders. Repair only closed source-backed methods; "
+                "do not globally replace helpers, invent null guards, erase side effects or waive other diagnostics.\n")
+        if any(e.get('code') == 'source_computed_collection_not_landed' for e in prompt_input.validation_errors):
+            prompt += ("\nSource computed collections: restore only a complete source-proven native collection body. "
+                "Dense loops are not native filter/reduce equivalence: preserve sparse holes, snapshot length, "
+                "callback order, accumulator and exceptions. Keep declared dependencies visible via data.get; "
+                "do not globally rewrite helpers or move startup. Compare equal-demand getters: Vue lazy "
+                "versus San eager evaluation is not proof of a value mismatch. Native find visits holes; "
+                "do not invent null guards to hide a source exception or waive unrelated diagnostics.\n")
+        if any(e.get('code') == 'source_parent_initialization_not_landed' for e in prompt_input.validation_errors):
+            prompt += ("\nSource parent initialization: preserve native map / Object.assign shallow record copies, "
+                "fresh array and records with shared nested references, sparse-array behavior and cyclic nested values. "
+                "Preserve the exact source first-element guard and ordered created-to-inited root commits. "
+                "Do not recursively clone, invent fallbacks, relocate startup or duplicate hooks. Only lower "
+                "source-proven literal-root setter calls; do not restore an arbitrary dynamic setter or waive "
+                "nested_state_mutation. Refuse unknown helper effects or lifecycle/watch contexts.\n")
+        if any(e.get('code') == 'source_shared_record_projection_not_landed' for e in prompt_input.validation_errors):
+            prompt += ("\nSource shared-record swap: the source may intentionally mutate records shared by a "
+                "shallow derived array before projecting selected records with Object.assign({}, record). "
+                "Preserve old-record writes, nested-reference identity, unaffected-record identity, guards "
+                "and the exact root commit / flag write / notification order. A recursive deep clone is "
+                "not equivalent; neither is detaching before source-observable writes. Restore only a "
+                "complete source-matched method with proven helper bodies. This projection correction "
+                "does NOT waive nested_state_mutation or prove the computed view / watcher semantics. "
+                "Do not replace an arbitrary this[key] setter with a dotted San path or invent key guards.\n")
+        if any(e.get('code') in {'source_render_dependency_not_landed','source_render_dependency_analysis_unavailable',
+                                'hidden_template_reactive_dependency'} for e in prompt_input.validation_errors):
+            prompt += ("\nClosed source render dependency graph: inspect all transitive instance calls, including "
+                "readonly array callbacks and local Date calculations. Preserve public method signatures, "
+                "bodies and non-template callers. A template-only private copy must pass every reactive "
+                "field explicitly through the complete proven readonly DAG; never just append one field "
+                "while a callee still reads hidden data. Reject recursion, unknown calls, mutation, globals "
+                "or shadowed loop dependencies; preserve argument order, filter branches, date boundaries "
+                "and no-automatic-clock-refresh behavior. Do not invent timers or rewrite lifecycle hooks.\n")
+            prompt += ("Source-derived private render copies may cover conditional class and if bindings. "
+                "A computed value must be a declared, unshadowed explicit dependency boundary, not an "
+                "undeclared template variable. External readonly wrappers require lexical binding and "
+                "complete body checks. A legacy loop is not a native filter/indexOf equivalence proof "
+                "(notably sparse arrays); use the source-native operation in the private copy, never "
+                "silently rename the old public method or claim its full equivalence. Unknown helpers, "
+                "effects, changed arguments and tampered private bodies must remain blocked.\n")
+        if any(e.get('code') in {'source_render_call_not_landed','source_render_call_analysis_unavailable',
+                                'unsupported_san_inline_template_math_global','unsupported_san_inline_template_member_call'}
+               for e in prompt_input.validation_errors):
+            prompt += ("\nSource render operand contract: lift only source-matched Math/native array membership "
+                "calls to top-level child methods. Pass every reactive operand explicitly, including the "
+                "array receiver and loop item; never hide them in this.data.get(...) or a computed-returned "
+                "function. Preserve the complete source expression, percent suffix, single-token class "
+                "condition, argument order and native null/NaN behavior. Do not insert empty-array/zero "
+                "fallbacks, guess a key or shadowed global, lift mutation/unknown calls, or change init hooks. "
+                "A correct helper with a missing/wrong template operand is still a failed source contract.\n")
+        if any(e.get('code') in {'invalid_san_multi_argument_fire', 'source_event_payload_not_landed',
+                               'source_event_payload_analysis_unavailable'} for e in prompt_input.validation_errors):
+            prompt += ("\nTwo-ended source event payload contract: derive payload field names from the actual "
+                "source receiver parameters, never from a component-name special case. Pack every sender "
+                "and explicitly unpack the same fields at every parent instance binding. Keep the original "
+                "receiver method signature/body and its other callers. Do not fix just fire(...) while "
+                "leaving a bare multi-parameter parent handler, drop arguments, rename custom events, or "
+                "guess unknown/dynamic/escaped child contracts. Partial sender-only or receiver-only changes "
+                "are not equivalence proof; retain diagnostics and fail closed when either end is unproven.\n")
+        if any(e.get("code") == "invalid_san_template_data_store_access" for e in prompt_input.validation_errors):
+            prompt += ("\nSan render-binding contract: this.data.get(...) belongs in script methods, not "
+                "template interpolations or dynamic attributes. Restore source-matched reactive field "
+                "expressions, preserving conditions, class tokens, event arguments and loop scopes. "
+                "Do not globally replace script calls or invent undeclared fields; ambiguous source "
+                "mappings require full-context repair. Never guess an unmatched interpolation delimiter.\n")
+        if any(e.get("code") == "source_class_binding_not_landed" for e in prompt_input.validation_errors):
+            prompt += ("\nSource class-binding contract: preserve static class tokens and the source condition "
+                "together in one well-formed San class attribute. Match the element and loop/conditional scope; "
+                "do not delete the dynamic class, rewrite events, or guess an unsupported brace correction.\n")
+        if any(e.get("code") in {"missing_data_types", "missing_prop_defaults",
+                                "missing_datatypes_for_props", "datatypes_type_mismatch"}
+               for e in prompt_input.validation_errors):
+            from migration_pipeline.utils.parent_prop_semantics import parent_prop_semantics
+            evidence = parent_prop_semantics(prompt_input.current_code, prompt_input.vue_source)
+            prompt += ("\nSource parent prop contract evidence (complete source AST; not a truncated SSM default):\n"
+                       + self._to_json(evidence.get("contracts", [])) + "\n"
+                       "Preserve every parent prop type and default. Missing defaults belong in the parent's "
+                       "initData factory, not merely in a later hook. Keep independent fresh array/object "
+                       "factory results per instance and supplied prop overrides. Never drop defaults while "
+                       "fixing another error, use dummy dataTypes, execute opaque source factories, or guess "
+                       "a custom/union type. Existing values and custom validators require source review.\n")
+        if any(e.get("code") in {"source_watch_persistence_not_landed", "source_watch_persistence_unproven"}
+               for e in prompt_input.validation_errors):
+            from migration_pipeline.utils.bounded_semantics import inspect_semantics
+            evidence = inspect_semantics(prompt_input.current_code, prompt_input.vue_source,
+                                         ssm=prompt_input.ssm).get("watcher_contracts", []) if prompt_input.vue_source else []
+            prompt += ("\nSource watcher contract evidence (full AST-extracted source handler, not a truncated "
+                       "SSM preview; do not invent an absent contract):\n" + self._to_json(evidence) + "\n")
+        methods = (((prompt_input.ssm or {}).get("script") or {}).get("options") or {}).get("methods") or []
+        names = [m["name"] for m in methods if isinstance(m, dict) and isinstance(m.get("name"), str)]
+        if names:
+            prompt += ("\nSource method interface preservation: retain callable parent methods even when unused by "
+                "the current template or lifecycle. A renamed body alone does not prove the original public "
+                "interface is retained; preserve a callable wrapper where appropriate. San reserved-name "
+                "collisions require a proven mapping, never overwrite the San initData factory. Do not add "
+                "UI/lifecycle calls to previously unreferenced methods, including permission requests.\n"
+                f"Source method names: {self._to_json(names)}\n")
+        return prompt
+
+    def _build(self, prompt_input: RepairPromptInput) -> str:
         error_codes = {issue.get("code") for issue in prompt_input.validation_errors}
+        parent_contract_errors = {"missing_prop_defaults", "missing_datatypes_for_props", "datatypes_type_mismatch"}
+        complete_parent_contract = False
+        if error_codes & parent_contract_errors and prompt_input.vue_source:
+            from migration_pipeline.utils.parent_prop_semantics import parent_prop_semantics
+            complete_parent_contract = bool(parent_prop_semantics(
+                prompt_input.current_code, prompt_input.vue_source).get("contracts"))
         if (
             len(error_codes) >= 2
             and error_codes <= self.EVENT_RESIDUAL_CODES
@@ -107,8 +303,17 @@ class RepairPromptBuilder:
         ):
             return self._build_inline_init_computed_reactivity_prompt(prompt_input)
         if (
-            len(error_codes) >= 2
+            (len(error_codes) >= 2 or error_codes in (
+                {"missing_data_types"}, {"missing_prop_defaults"}, {"missing_datatypes_for_props"},
+                {"datatypes_type_mismatch"}, {"hidden_template_reactive_dependency"}, {"lifecycle_behavior_not_landed"},
+                {"missing_lifecycle_mapping"}, {"source_watch_persistence_not_landed"},
+                {"source_watch_persistence_unproven"},
+                {"source_mounted_order_not_landed"}, {"source_startup_phase_not_landed"},
+                {"source_method_interface_not_landed"}, {"source_method_trigger_added"}))
             and error_codes <= self.SEMANTIC_RESIDUAL_CODES
+            # Do not discard the full SSM for newly focused parent contracts
+            # when complete source evidence could not be recovered.
+            and (not error_codes & parent_contract_errors or complete_parent_contract)
             and not prompt_input.visual_eval_errors
         ):
             return self._build_semantic_residual_prompt(prompt_input)
@@ -140,22 +345,27 @@ class RepairPromptBuilder:
             "on-click=\"stop:handleClick\", never on-submit.prevent or on-click.stop. "
             "For loop item and index aliases use s-for=\"item, index in items trackby item.id\", "
             "never Vue's parenthesized (item, index) tuple. "
+            "Preserve source-scoped native DOM modifiers: self must check event.target === event.currentTarget "
+            "before the original action, even for a boolean assignment; a modifier-only dragover.prevent "
+            "requires a real no-op handler with prevent, not an empty event. Native drop/dragend names "
+            "must not be confused with custom drag-start/drag-end events. Restore loop alias/key syntax "
+            "only with matching source element and loop/conditional scopes; do not invent identities or "
+            "drop conflicting keys. Binding restoration alone does not prove the drag method's dataTransfer effects. "
+            "San parses unknown enter modifiers but does not enforce Enter-only filtering: use an explicit "
+            "keyboard guard with $event instead of trusting enter:handler. "
             "Computed entries are values, not callable formatters: when an inline child template "
             "uses formatDate(task.dueDate) or formatTrend(trend), define a top-level child method "
             "accepting that argument, not computed: { formatDate() { ... } }. "
+            "For source-backed callable formatters, retain literal lookup tables, empty-value fallbacks "
+            "and date/locale formatting exactly as in the registered Vue child. Preserve all call "
+            "arguments and review script-side computed consumers before changing the contract. "
             "Do not call Math.abs(...) directly inside inline San template interpolation; call a "
             "component method such as formatChange(change). Avoid member calls in inline child render expressions: "
             "move collection checks and string formatting into top-level child methods, passing every reactive "
             "receiver and argument explicitly. Convert Vue object-style bindings "
             "to CSS strings, for example style=\"{{ 'background-color: ' + insight.color + ';' }}\".\n"
         )
-        class_binding_rule = (
-            "Object-style Vue :class bindings must be converted to a San string expression. "
-            "Never emit class=\"{{{ selected: condition }}}\"; use a ternary string expression "
-            "such as class=\"{{ condition ? 'selected' : '' }}\" and concatenate multiple "
-            "conditional class names. Each template element must have exactly one class attribute; "
-            "merge static and dynamic classes into that single attribute.\n"
-        )
+        class_binding_rule = CLASS_BINDING_RULE
         directive_rule = (
             "San s-if/s-else-if/s-for directive values use raw expressions: "
             "s-if=\"showSettings\" and s-for=\"item in items trackby item.id\". "
@@ -649,10 +859,20 @@ class RepairPromptBuilder:
             "must be fixed together. Keep the existing DOM order, text, CSS, component registry, "
             "state defaults, and unrelated behavior unchanged. Return the COMPLETE .san file, "
             "with no explanation or code fence.\n"
+            "Do not reintroduce a diagnostic already absent from the current candidate. "
+            "For missing dataTypes, declare real source prop schemas on the corresponding "
+            "components; an empty dataTypes object is not a substitute for source child props. "
+            "Do not add a fictitious parent prop contract when the parent has no props.\n"
             "1. Every on-* value must be a valid San method invocation. Never leave an empty "
             "handler, a direct assignment such as on-click=\"open = true\", or Vue .stop/.prevent "
             "attributes. Add a top-level component method using this.data.set(...) for state "
-            "changes. Preserve .self/backdrop-only behavior by stopping clicks inside modal content.\n"
+            "changes. Preserve .self/backdrop-only behavior with a source-matched target/currentTarget guard.\n"
+            "When using a backdrop guard wrapper, bind wrapper($event) explicitly and compare "
+            "that parameter's target/currentTarget before calling the original close method. "
+            "A bare San handler gets default $event, but handler() has no arguments; "
+            "never assume the component exposes this.event.\n"
+            "For source textarea v-model, use value=\"{= assignable.path =}\" and an empty textarea body. "
+            "Never put {= path =} in textarea text; do not erase real literal user-facing content.\n"
             "2. Compare each source event expression below with the corresponding San binding. "
             "Keep callable source handler names AND every argument unchanged when the source "
             "expression is valid; do not add a handle- prefix or rename handlers throughout "
@@ -666,6 +886,12 @@ class RepairPromptBuilder:
             "on-click=\"choose\". Pass $event explicitly to a parent method that consumes "
             "a child custom-event payload. San this.fire(name, payload) carries ONE payload; "
             "encode multiple values as an object and unpack them in the parent.\n"
+            "Do not replace source arguments with data-* attributes, getAttribute(), JSON "
+            "round-trips or this.event. Restore the binding AND the method parameters together: "
+            "on-click=\"choose(item)\" requires choose(item), not choose() reading this.event.\n"
+            "A native/custom click event does not imply an index field. If the source passes a loop item, "
+            "preserve that item binding and the matching method parameter together; do not read $event.index "
+            "unless the child actually emits that documented payload.\n"
             "3. San initData runs before this.data exists. Return stable default values there; "
             "copy prop-derived state in inited() with this.data.get/set. Every this.watch(path, "
             "listener) listener must be a function, not a Vue descriptor object.\n"
@@ -673,8 +899,14 @@ class RepairPromptBuilder:
             "component instance method. Move shared math to pure helper functions and pass "
             "reactive inputs explicitly. Preserve chart coordinates and empty-data behavior. "
             "A parameterized formatter called in an inline child template must be a top-level "
-            "child method, not a computed value invoked as a method. Never call Math directly "
-            "inside an inline child template; move the calculation to a child method with "
+            "child method, not a computed value invoked as a method. "
+            "If a computed returns a function such as width() { return n => 800/n-4; }, "
+            "make it a child method width(n) { return 800/n-4; } and preserve all call arguments. "
+            "For source-backed label/date formatters returning a function, retain literal lookup tables, "
+            "empty-value fallbacks and date/locale formatting exactly as in the registered Vue child. "
+            "Do not drop setup statements, move a real computed value, or leave script references to "
+            "the old computed contract. Ambiguous source mapping requires review, not a guessed rewrite. "
+            "Never call Math directly inside an inline child template; move the calculation to a child method with "
             "explicit reactive arguments.\n"
             "5. If a template calls a method for class, text, style, or geometry and that method "
             "reads additional this.data.get(...) fields, add those reactive fields to the template "
@@ -688,13 +920,67 @@ class RepairPromptBuilder:
             "Keep actions from a Vue mounted() hook in the same order in San attached(), "
             "unless a specific data-only initialization must run in inited() and its timing "
             "change is justified. Do not replace those actions with empty lifecycle hooks.\n"
+            "Preserve watcher side effects as well as their registration, including source persistence writes. "
+            "A renamed current-value parameter or an unused old-value parameter does not remove the source "
+            "persistence obligation. Use the target listener's current-value binding in JSON.stringify; "
+            "preserve its existing parameters, conditions and effect order. Do not add duplicate storage "
+            "writes or move persistence into a new UI/lifecycle trigger. If scope/effect equivalence is "
+            "unproven, address the reported watcher contract from source evidence, not a guessed blanket write. "
+            "A source_watch_persistence_unproven diagnostic means a possible write already exists; "
+            "it is not permission to append another write. Compare normal and throwing storage behavior; "
+            "do not silently remove try/catch or declare exception-policy differences equivalent. "
+            "Do not start timers in inited() merely to satisfy startup checks, or run initialization twice. "
+            "If a source initializer runs once in mounted(), its San alias must run once in attached(): "
+            "move a proven misplaced call out of inited(), do not merely append another call in attached(). "
+            "Preserve watcher registrations and unrelated methods; unknown lifecycle effects require review.\n"
             "Before responding, inspect the parent AND every inline child for each reported error "
             "and verify that source event arguments remain present.\n"
             f"Additional instruction: {extra_instruction or 'Preserve source behavior.'}\n"
             f"Validation errors:\n{self._to_json(self._compact_issues(prompt_input.validation_errors))}\n"
             f"Source event expressions:\n{self._to_json(source_events)}\n"
+            f"Source event method bodies:\n{self._to_json(self._source_event_method_bodies(prompt_input))}\n"
+            f"Source prop contracts:\n{self._to_json(residual_semantics(current_code, prompt_input.ssm)['source_prop_contracts'])}\n"
+            f"Source lifecycle actions and called methods:\n{self._to_json(self._source_lifecycle_evidence(prompt_input))}\n"
+            f"Reported source method interface bodies:\n{self._to_json(self._source_interface_evidence(prompt_input))}\n"
             f"Current San code:\n{current_code}\n"
         )
+
+    @staticmethod
+    def _source_interface_evidence(prompt_input: RepairPromptInput) -> list[dict[str, Any]]:
+        names = {i.get('location', '').removeprefix('script.methods.') for i in prompt_input.validation_errors
+                 if i.get('code') in {'source_method_interface_not_landed', 'source_method_trigger_added'}}
+        methods = (((prompt_input.ssm or {}).get('script') or {}).get('options') or {}).get('methods') or []
+        return [{k:m.get(k) for k in ('name','params','body_full','body','is_async')}
+                for m in methods if isinstance(m,dict) and m.get('name') in names]
+
+    @staticmethod
+    def _source_lifecycle_evidence(prompt_input: RepairPromptInput) -> dict[str, Any]:
+        options = ((prompt_input.ssm or {}).get("script") or {}).get("options") or {}
+        hooks = options.get("lifecycle_hooks") or []
+        methods = {m.get("name"): m for m in options.get("methods", []) if isinstance(m, dict)}
+        pending = [name for hook in hooks if isinstance(hook, dict)
+                   for name in re.findall(r"\bthis\.([A-Za-z_$][\w$]*)\s*\(", hook.get("body") or "")]
+        selected = {}
+        while pending:
+            name = pending.pop(0)
+            if name in selected or name not in methods:
+                continue
+            method = methods[name]
+            body = method.get("body_full") or method.get("body") or ""
+            selected[name] = {"name": name, "params": method.get("params"), "body": body}
+            pending.extend(re.findall(r"\bthis\.([A-Za-z_$][\w$]*)\s*\(", body))
+        return {"hooks": hooks, "methods": list(selected.values()),
+                "boundary": "Preserve source hook timing and call order; loading settings in inited instead of attached may change watcher and startup behavior."}
+
+    @staticmethod
+    def _source_event_method_bodies(prompt_input: RepairPromptInput) -> list[dict[str, Any]]:
+        ssm = prompt_input.ssm or {}
+        bindings = (ssm.get("template") or {}).get("event_bindings") or []
+        names = {str(item.get("handler_name") or (item.get("handler_expression") or "").split("(", 1)[0]).strip()
+                 for item in bindings if isinstance(item, dict)}
+        methods = ((ssm.get("script") or {}).get("options") or {}).get("methods") or []
+        return [{"name": m.get("name"), "params": m.get("params"), "body": m.get("body_full") or m.get("body")}
+                for m in methods if isinstance(m, dict) and m.get("name") in names]
 
     def _build_repair_report(self, prompt_input: RepairPromptInput) -> dict[str, Any]:
         return {
@@ -718,6 +1004,7 @@ class RepairPromptBuilder:
                 "severity": issue.get("severity", ""),
                 "location": issue.get("location", ""),
                 "suggestion": issue.get("suggestion", ""),
+                **({"details": issue["details"]} if issue.get("details") else {}),
             })
         return compacted
 

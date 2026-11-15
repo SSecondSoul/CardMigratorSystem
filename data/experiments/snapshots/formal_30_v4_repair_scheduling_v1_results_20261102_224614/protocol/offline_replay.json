@@ -1,0 +1,263 @@
+{
+  "verified_snapshot_files": {
+    "diagnostic": 272,
+    "full": 359
+  },
+  "llm_requests": 0,
+  "checks": {
+    "task_reaches_llm": {
+      "deterministic_steps": 1,
+      "stop_reasons": [
+        "candidate_rejected"
+      ],
+      "remaining_errors": [
+        "unsupported_san_inline_template_math_global",
+        "unsupported_san_inline_template_member_call",
+        "invalid_san_multi_argument_fire",
+        "invalid_san_event_handler_syntax",
+        "invalid_san_for_alias_syntax",
+        "invalid_s_for_key_binding",
+        "missing_self_click_guard",
+        "native_drag_event_misbound",
+        "vue_methods_wrapper",
+        "invalid_san_computed_instance_method_call",
+        "missing_component_registration",
+        "hidden_template_reactive_dependency",
+        "nested_state_mutation"
+      ],
+      "normalization_history": [
+        {
+          "step": 1,
+          "before_llm_call": 1,
+          "normalizations": [
+            "restored_self_click_and_native_drag_semantics",
+            "unwrapped_san_component_methods_options",
+            "registered_defined_inline_components"
+          ],
+          "candidate_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\analysis\\formal_30_v4_repair_scheduling_v1_20261102\\task_prepass\\before_normalized_1.san",
+          "accepted": false,
+          "gate": {
+            "decision": "reject",
+            "should_stop": true,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 1,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ]
+            },
+            "after": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [
+                "click:closeModal"
+              ],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ]
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "progress_signature": {
+            "generated_code_sha256": "e63a0443c292c7b39034afda58a393a5c661cf06e2ed2409ed512712b392f229",
+            "validation_error_codes": [
+              "hidden_template_reactive_dependency",
+              "invalid_s_for_key_binding",
+              "invalid_san_computed_instance_method_call",
+              "invalid_san_event_handler_syntax",
+              "invalid_san_for_alias_syntax",
+              "invalid_san_multi_argument_fire",
+              "missing_self_click_guard",
+              "nested_state_mutation",
+              "unsupported_san_inline_template_math_global",
+              "unsupported_san_inline_template_member_call"
+            ],
+            "visual_error_codes": [],
+            "tree_edit_distance": 0.5,
+            "structure_similarity": 0.9889,
+            "tag_sequence_similarity": 1.0,
+            "text_similarity": 1.0
+          }
+        }
+      ],
+      "prepared_file": "data\\experiments\\analysis\\formal_30_v4_repair_scheduling_v1_20261102\\task_prepass\\before.san",
+      "prepared_sha256": "5624a21ada399573631fbc088205a1a4b06f1f195822386cd734db5647ab75cf"
+    },
+    "monitoring_rollback": {
+      "previous_candidate_retained": true,
+      "final_passed": false,
+      "stop_reason": "repair_candidate_regression_rolled_back",
+      "gate": {
+        "decision": "review",
+        "should_stop": true,
+        "introduced_event_error_codes": {
+          "missing_event_bindings": 1
+        },
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)"
+          ],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ]
+        },
+        "after": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)"
+          ],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ]
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "introduced_critical_errors": [
+          "reserved_init_data_method_collision"
+        ],
+        "lost_visual_pass": true
+      },
+      "final_file": "data\\experiments\\analysis\\formal_30_v4_repair_scheduling_v1_20261102\\monitoring_rollback\\before.san",
+      "final_sha256": "1e9c9c045533e00f05d41ae19c7f8d71d9f6532aa607b6e586e35e7c96c068e7",
+      "rejected_file": "data\\experiments\\analysis\\formal_30_v4_repair_scheduling_v1_20261102\\monitoring_rollback\\rejected.san"
+    },
+    "budget_rollback": {
+      "previous_candidate_retained": true,
+      "final_passed": false,
+      "stop_reason": "repair_candidate_regression_rolled_back",
+      "gate": {
+        "decision": "pass",
+        "should_stop": true,
+        "introduced_event_error_codes": {},
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "input:updateAmount",
+            "click:reset"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": []
+        },
+        "after": {
+          "exact": [
+            "input:updateAmount",
+            "click:reset"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": []
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "introduced_critical_errors": [],
+        "lost_visual_pass": true
+      },
+      "final_file": "data\\experiments\\analysis\\formal_30_v4_repair_scheduling_v1_20261102\\budget_rollback\\before.san",
+      "final_sha256": "1869eed5907aca9a457d9a627cc554bc04b8db706c9778227fda556205d69ee1",
+      "rejected_file": "data\\experiments\\analysis\\formal_30_v4_repair_scheduling_v1_20261102\\budget_rollback\\rejected.san"
+    }
+  }
+}

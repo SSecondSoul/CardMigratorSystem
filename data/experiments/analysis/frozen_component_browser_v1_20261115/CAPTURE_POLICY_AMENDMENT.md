@@ -1,0 +1,5 @@
+# 截图环境修订（保留首轮，不覆盖）
+
+首轮run的复杂页两张PNG像素相同，但原生观察记录不等，尚不把它归为组件自身不稳定。全页截图可能引发滚动条布局测量变化；先增加完整repeatObservation和changedObservationKeys诊断记录，并在v2受控html环境声明scrollbar-gutter:stable，作为待验证的捕获稳定性措施，不修改组件CSS／脚本。
+
+后续仅保存在diagnostic／corrected_run／repeat新目录。首轮输入、结果、PNG及当时实现副本保留；若修订后还有差异，继续记录而不强制stable=true。v1入口与上一轮75payload保持不变。此修订不是放宽像素／样式阈值，不改变Vue源重复key警告的阻断，不将不同页面高度自动缩放。问题根因以新增前后观察对照为准，不能仅凭猜测归因于滚动条。

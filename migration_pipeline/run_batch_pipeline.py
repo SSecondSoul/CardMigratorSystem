@@ -108,6 +108,12 @@ def validate_batch_config(config: dict[str, Any]) -> None:
     max_rounds = config.get("max_repair_rounds", 3)
     if not isinstance(max_rounds, int) or max_rounds < 0:
         raise ValueError("max_repair_rounds must be a non-negative integer")
+    if config.get("repair_policy", "legacy") not in {"legacy", "bounded_prepass_v1"}:
+        raise ValueError("Unsupported repair_policy")
+    if config.get("semantic_rule_set", "bounded_v1") not in {"bounded_v1", "residual_v2"}:
+        raise ValueError("Unsupported semantic_rule_set")
+    if config.get("semantic_rule_set") == "residual_v2" and config.get("repair_policy") != "bounded_prepass_v1":
+        raise ValueError("residual_v2 requires bounded_prepass_v1")
 
     samples = config.get("samples")
     if not isinstance(samples, list) or not samples:
@@ -296,6 +302,12 @@ def compact_sample_result(
         "final_passed": bool(state.get("final_passed")),
         "stop_reason": state.get("stop_reason", ""),
         "repair_rounds": state.get("repair_rounds", 0),
+        "repair_policy": state.get("repair_policy", "legacy"),
+        "semantic_rule_set": state.get("semantic_rule_set", "bounded_v1"),
+        "repair_budget_unit": state.get("repair_budget_unit", "mixed_attempts"),
+        "llm_repair_calls": state.get("llm_repair_calls"),
+        "deterministic_steps": state.get("deterministic_steps"),
+        "retained_previous_candidate": state.get("retained_previous_candidate", False),
         "max_repair_rounds": max_repair_rounds,
         "initial_validation_passed": initial_validate.get("validation_passed"),
         "initial_validation_error_codes": issue_codes(initial_validate, "validation_errors"),
@@ -617,6 +629,8 @@ def execute_batch(
                     "sample_id": item["id"],
                     "complexity": item["complexity"],
                     "coverage_focus": item.get("coverage_focus", []),
+                    "repair_policy": config.get("repair_policy", "legacy"),
+                    "semantic_rule_set": config.get("semantic_rule_set", "bounded_v1"),
                 },
             )
             result = orchestrator_factory().run_generate_validate_visual_eval_and_repair_loop(

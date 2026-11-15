@@ -1,0 +1,33 @@
+{
+  "created_at": "2026-11-03T16:31:03+08:00",
+  "classification": "manual_feedback_triggered_deterministic_followup_not_original_batch_score",
+  "sample": "TaskManager",
+  "source_snapshot": "formal_30_v4_semantic_closure_v2_results_20261103_160541",
+  "source_verified_files": 297,
+  "original_san_sha256": "bc28786c89f8c13476984d56b669f4323432f996cd959b0197bcb6f8fccd20b6",
+  "source_vue": "data/experiments/snapshots/formal_30_v4_semantic_closure_v2_results_20261103_160541/protocol/frozen/data/datasets/components/03_complex/TaskManager/vue/TaskManager.vue",
+  "source_vue_sha256": "ce3c3d4596792683e1e94a37764fdd542a97b80e4cff0c5ad8ba60c052f9e74c",
+  "candidate_sha256": "8286510708e7a273388b205af6217a60f527a535786cdb25ec67f81fdc771b46",
+  "original_frozen_automatic_pass": true,
+  "original_manual_status": "issues_reported_not_passed",
+  "candidate_manual_status": "pending_retest",
+  "llm_calls": 0,
+  "user_reports": [
+    "新建任务的任务描述里面有代码，右下角掏出的提示带英文",
+    "设置已更新：defaultView  更改设置后出现"
+  ],
+  "textarea_issue": {
+    "source": "<textarea v-model=\"formData.description\"></textarea>",
+    "generated": "<textarea>{= formData.description =}</textarea>",
+    "fix": "<textarea value=\"{= formData.description =}\"></textarea>"
+  },
+  "notification_issue": {
+    "message": "设置已更新：defaultView",
+    "classification": "same_as_vue_source_not_san_regression",
+    "changed": false
+  },
+  "applied_rules": [
+    "normalized_textarea_value_binding"
+  ],
+  "batch_summary_modified": false
+}

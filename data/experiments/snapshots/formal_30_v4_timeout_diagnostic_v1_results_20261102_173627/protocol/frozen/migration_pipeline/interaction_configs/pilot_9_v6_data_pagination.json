@@ -1,0 +1,62 @@
+{
+  "evaluation_id": "pilot_9_v6_data_pagination_interactions",
+  "description": "Evaluate sorting, pagination, page-size changes, row selection, computed state, and emitted events against the frozen v6 DataPaginationTable artifact without calling a model.",
+  "vue_file": "data/datasets/components/02_medium/DataPaginationTable/vue/DataPaginationTable.vue",
+  "san_file": "data/experiments/snapshots/pilot_9_v6_targeted_final_20261008_145944/pipeline/pilot_9_v6/medium/DataPaginationTable_repaired.san",
+  "report_file": "data/experiments/interaction_reports/pilot_9_v6_data_pagination_interactions.json",
+  "scenarios": [
+    {
+      "name": "sort_by_score",
+      "steps": [
+        {
+          "op": "call",
+          "method": "setSort",
+          "args": [
+            "score"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "go_to_next_page",
+      "steps": [
+        {
+          "op": "call",
+          "method": "go",
+          "args": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "name": "change_page_size",
+      "steps": [
+        {
+          "op": "call",
+          "method": "updatePageSize",
+          "args": [
+            {
+              "__event": true,
+              "target": {
+                "value": "6"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "select_row",
+      "steps": [
+        {
+          "op": "call",
+          "method": "select",
+          "args": [
+            5
+          ]
+        }
+      ]
+    }
+  ]
+}

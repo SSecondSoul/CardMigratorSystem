@@ -1,0 +1,45 @@
+{
+  "record_id": "native_browser_criteria_adopted_20261115",
+  "date": "2026-11-15",
+  "user_statement": "确认采用",
+  "approval_scope": "Strict visual criteria and source-warning blocking only; not full production readiness or model execution authorization.",
+  "referenced_draft": {
+    "path": "data/experiments/protocols/native_browser_admission_v1_draft_20261115/protocol.json",
+    "sha256": "7f9bc2f82b93e6803d76840fc11857d04098f7977b991172c38d5a8903c6e903"
+  },
+  "status": "criteria_adopted_engineering_pending",
+  "approved": {
+    "native_thresholds": {
+      "pixelTolerance": 0,
+      "maxChangedPixelRatio": 0,
+      "minSSIM": 0.999999999,
+      "critical_style_differences_allowed": 0,
+      "critical_rect_differences_allowed": 0,
+      "dimension_policy": "exact_no_resize_no_crop_no_fabricated_metric",
+      "image_masking_allowed": false
+    },
+    "source_oracle": {
+      "console_errors_block": true,
+      "console_warnings_block": true,
+      "unknown_origin_blocks": true,
+      "warning_waivers": [],
+      "auto_suppress_warnings": false,
+      "auto_edit_source": false
+    }
+  },
+  "authority": {
+    "production_dispatch_allowed": false,
+    "paid_model_calls_allowed": false,
+    "full_30_batch_frozen": false
+  },
+  "development_step": "Bounded local native dual-runtime VolumeControl interaction calibration; does not launch model generation.",
+  "remaining_gaps": [
+    "production_native_feedback_integration",
+    "all_30_scenario_mapping",
+    "native_interaction_execution_and_controls_beyond_bounded_pilot",
+    "current_dependency_graph_rebinding",
+    "new_full_batch_model_and_code_freeze"
+  ],
+  "semantic_boundaries_preserved": true,
+  "old_draft_and_scores_unchanged": true
+}

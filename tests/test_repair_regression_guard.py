@@ -98,7 +98,8 @@ module.exports = san.defineComponent({
     def test_event_v3_probe_prepares_only_frozen_event_residuals(self):
         # This historic event-only probe was frozen under an older validator.
         # The current validator correctly discovers a first-mount prop state
-        # defect, so a fresh event-only preparation must fail closed.
+        # defect and missing parent callable interfaces, so a fresh event-only
+        # preparation must fail closed (the original frozen result is unchanged).
         with self.assertRaisesRegex(RuntimeError, "only the expected event residuals"):
             probe_v3.prepare()
         state = json.loads((probe_v3.SOURCE / "repair_history.json").read_text(encoding="utf-8"))["state"]
@@ -117,8 +118,41 @@ module.exports = san.defineComponent({
                 "missing_inline_prop_dependent_initialization",
                 "missing_self_click_guard",
                 "native_drag_event_misbound",
+                "source_method_interface_not_landed",
+                "source_dom_event_not_landed",
+                "source_render_call_not_landed",
+                "source_render_dependency_not_landed",
+                "source_child_factory_not_landed",
+                "source_child_watch_not_landed",
+                "source_native_drag_not_landed",
+                "source_parent_watch_not_landed",
+                "source_parent_watch_exception_policy_unproven",
+                "source_parent_watch_dynamic_key_unproven",
             },
         )
+        self.assertEqual({item['location'] for item in validation.validation_errors
+                          if item['code'] in {'source_child_factory_not_landed','source_child_watch_not_landed'}}, {
+            'script.task-form.formData@task',
+        })
+        self.assertEqual({item['location'] for item in validation.validation_errors
+                          if item['code'] == 'source_render_dependency_not_landed'}, {
+            'template/div[0]/div[2]/div[0]/div[1]/button[0]/span[0]#text:0@getTaskCount',
+        })
+        self.assertEqual({item['location'] for item in validation.validation_errors
+                          if item['code'] == 'source_render_call_not_landed'}, {
+            'script.task-form.template/form[0]/div[3]/div[1]/span[0]#attr:class:0',
+        })
+        self.assertEqual({item['location'] for item in validation.validation_errors
+                          if item['code'] == 'source_dom_event_not_landed'}, {
+            'template/div[0]/div[4]@click',
+            'script.task-item.template/div[0]@dragstart',
+            'script.task-item.template/div[0]@dragend',
+            'script.task-detail.template/div[0]/div[1]/div[5]/div[1]/div[1]/input[0]@keyup',
+        })
+        missing_api={item['location'] for item in validation.validation_errors
+                     if item['code']=='source_method_interface_not_landed'}
+        self.assertIn('script.methods.isOverdue',missing_api)
+        self.assertIn('script.methods.openTaskModal',missing_api)
         self.assertEqual(
             RepairStage._deterministic_repair_plan(prepared, validation.validation_errors, [], state["ssm"])[0],
             prepared,

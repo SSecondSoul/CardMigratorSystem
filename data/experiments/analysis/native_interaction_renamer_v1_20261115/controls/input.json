@@ -1,0 +1,233 @@
+{
+  "pages": [
+    {
+      "name": "positive_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><input id=\"edit\" value=\"old\" ><p id=\"output\">old</p><script>let value=\"old\";const events=[];document.querySelector(\"input\").addEventListener(\"input\",e=>{value=e.target.value;events.push({trusted:e.isTrusted,value});document.querySelector(\"p\").textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "edit": "#edit",
+        "output": "#output"
+      },
+      "optionalSelectors": {
+        "output": "#output"
+      },
+      "actions": [
+        {
+          "id": "replace",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "img"
+        },
+        {
+          "id": "replace_again",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "final"
+        }
+      ]
+    },
+    {
+      "name": "positive_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><input id=\"edit\" value=\"old\" ><p id=\"output\">old</p><script>let value=\"old\";const events=[];document.querySelector(\"input\").addEventListener(\"input\",e=>{value=e.target.value;events.push({trusted:e.isTrusted,value});document.querySelector(\"p\").textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "edit": "#edit",
+        "output": "#output"
+      },
+      "optionalSelectors": {
+        "output": "#output"
+      },
+      "actions": [
+        {
+          "id": "replace",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "img"
+        },
+        {
+          "id": "replace_again",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "final"
+        }
+      ]
+    },
+    {
+      "name": "mismatch_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><input id=\"edit\" value=\"old\" ><p id=\"output\">old</p><script>let value=\"old\";const events=[];document.querySelector(\"input\").addEventListener(\"input\",e=>{value=e.target.value;events.push({trusted:e.isTrusted,value});document.querySelector(\"p\").textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "edit": "#edit",
+        "output": "#output"
+      },
+      "optionalSelectors": {
+        "output": "#output"
+      },
+      "actions": [
+        {
+          "id": "replace",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "img"
+        },
+        {
+          "id": "replace_again",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "final"
+        }
+      ]
+    },
+    {
+      "name": "mismatch_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><input id=\"edit\" value=\"old\" ><p id=\"output\">old</p><script>let value=\"old\";const events=[];document.querySelector(\"input\").addEventListener(\"input\",e=>{value=e.target.value+ \"!\";events.push({trusted:e.isTrusted,value});document.querySelector(\"p\").textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "edit": "#edit",
+        "output": "#output"
+      },
+      "optionalSelectors": {
+        "output": "#output"
+      },
+      "actions": [
+        {
+          "id": "replace",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "img"
+        },
+        {
+          "id": "replace_again",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "final"
+        }
+      ]
+    },
+    {
+      "name": "warning_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><input id=\"edit\" value=\"old\" ><p id=\"output\">old</p><script>let value=\"old\";const events=[];document.querySelector(\"input\").addEventListener(\"input\",e=>{value=e.target.value;events.push({trusted:e.isTrusted,value});document.querySelector(\"p\").textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});console.warn(\"intentional_source_edit_warning\");window.__visualReady=true;</script>",
+      "selectors": {
+        "edit": "#edit",
+        "output": "#output"
+      },
+      "optionalSelectors": {
+        "output": "#output"
+      },
+      "actions": [
+        {
+          "id": "replace",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "img"
+        },
+        {
+          "id": "replace_again",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "final"
+        }
+      ]
+    },
+    {
+      "name": "warning_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><input id=\"edit\" value=\"old\" ><p id=\"output\">old</p><script>let value=\"old\";const events=[];document.querySelector(\"input\").addEventListener(\"input\",e=>{value=e.target.value;events.push({trusted:e.isTrusted,value});document.querySelector(\"p\").textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "edit": "#edit",
+        "output": "#output"
+      },
+      "optionalSelectors": {
+        "output": "#output"
+      },
+      "actions": [
+        {
+          "id": "replace",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "img"
+        },
+        {
+          "id": "replace_again",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "final"
+        }
+      ]
+    },
+    {
+      "name": "readonly_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><input id=\"edit\" value=\"old\" readonly><p id=\"output\">old</p><script>let value=\"old\";const events=[];document.querySelector(\"input\").addEventListener(\"input\",e=>{value=e.target.value;events.push({trusted:e.isTrusted,value});document.querySelector(\"p\").textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "edit": "#edit",
+        "output": "#output"
+      },
+      "optionalSelectors": {
+        "output": "#output"
+      },
+      "actions": [
+        {
+          "id": "replace",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "img"
+        },
+        {
+          "id": "replace_again",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "final"
+        }
+      ]
+    },
+    {
+      "name": "readonly_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><input id=\"edit\" value=\"old\" readonly><p id=\"output\">old</p><script>let value=\"old\";const events=[];document.querySelector(\"input\").addEventListener(\"input\",e=>{value=e.target.value;events.push({trusted:e.isTrusted,value});document.querySelector(\"p\").textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "edit": "#edit",
+        "output": "#output"
+      },
+      "optionalSelectors": {
+        "output": "#output"
+      },
+      "actions": [
+        {
+          "id": "replace",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "img"
+        },
+        {
+          "id": "replace_again",
+          "op": "replace_text",
+          "selector": "#edit",
+          "value": "final"
+        }
+      ]
+    }
+  ],
+  "pairs": [
+    {
+      "source": "positive_source",
+      "target": "positive_target"
+    },
+    {
+      "source": "mismatch_source",
+      "target": "mismatch_target"
+    },
+    {
+      "source": "warning_source",
+      "target": "warning_target"
+    },
+    {
+      "source": "readonly_source",
+      "target": "readonly_target"
+    }
+  ],
+  "viewport": {
+    "width": 640,
+    "height": 480
+  },
+  "capturePolicy": "full-page",
+  "thresholds": {
+    "pixelTolerance": 0,
+    "maxChangedPixelRatio": 0,
+    "minSSIM": 0.999999999
+  },
+  "outputDir": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\analysis\\native_interaction_renamer_v1_20261115\\controls"
+}

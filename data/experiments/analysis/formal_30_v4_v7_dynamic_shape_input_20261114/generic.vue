@@ -1,0 +1,3 @@
+<template><main/></template><script>export default {data(){return {settings:{enabled:true,extra:{name:'initial',items:[{value:1}]}},count:0};},
+watch:{settings:{deep:true,handler(){this.recount();}}},mounted(){this.load();},beforeDestroy(){},
+methods:{assign(key,value){this.settings[key]=value;}, load(){this.settings={enabled:false,extra:{name:'initial',items:[{value:1}]}};},recount(){this.count=this.settings.enabled?1:0;}}};</script>

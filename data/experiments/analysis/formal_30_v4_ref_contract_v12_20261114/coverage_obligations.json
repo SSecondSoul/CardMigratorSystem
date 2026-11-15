@@ -1,0 +1,52 @@
+[
+  {
+    "id": "REF-BASE",
+    "category": "remaining_risk",
+    "status": "bounded_native_replay_matches",
+    "scope": "Strict boolean marker recognition, one-level object-property unwrapping, non-Ref writeback to old Ref, replacement, frozen/getter-only error behavior; no array-element auto-unwrapping."
+  },
+  {
+    "id": "REF-NATIVE-SCALAR-SHALLOW",
+    "category": "remaining_risk",
+    "status": "bounded_native_replay_matches",
+    "scope": "Genuine pinned ref/scalar and shallowRef input, same-value/NaN/signed-zero, old-alias timing, per-owner cleanup.",
+    "limits": "Pinned Vue2.7.16 input ref/shallowRef; candidate directly subscribes exposed private dep capabilities only for bounded cases. No native Vue parent/watch/effect, Dep.target mutation or prototype patch. This is not a public stable production Ref implementation."
+  },
+  {
+    "id": "REF-NATIVE-DEEP",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "scenarios": [
+      "native_deep_ref_array_element_dependency",
+      "native_deep_ref_array_mutator_dependency",
+      "native_deep_ref_nested_property_dependency"
+    ],
+    "mismatch_pairs": 6,
+    "root_cause": "Ref.dep notifies whole-value writes. Its inner Vue Observer/property deps are distinct and are not collected by the San bridge. Reading those native getters during a private token traversal does not subscribe to their deps.",
+    "repair_requirement": "Design and source-match a foreign-dependency interoperability contract without rewriting original Ref identity, adding duplicate observers, global tracking patches or secretly using a Vue watch/effect as the San implementation."
+  },
+  {
+    "id": "REF-OPEN-1",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "scope": "Whole-root Ref replacement, customRef/computed Ref, arbitrary/spoofed dep providers and foreign observer interoperability"
+  },
+  {
+    "id": "REF-OPEN-2",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "scope": "Lifecycle error routing (one earlier cleanup mismatch)"
+  },
+  {
+    "id": "REF-OPEN-3",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "scope": "Arbitrary accessor effects, Proxy and complete reflection"
+  },
+  {
+    "id": "REF-OPEN-4",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "scope": "Production emitter/validator/candidate gate integration"
+  }
+]

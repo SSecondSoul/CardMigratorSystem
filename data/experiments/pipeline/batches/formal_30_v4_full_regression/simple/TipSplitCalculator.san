@@ -1,0 +1,88 @@
+<template>
+<section class="tip-split-calculator">
+  <h2>聚餐分摊</h2>
+  <label>账单
+    <input type="number" value="{{bill}}" on-input="updateBill" />
+  </label>
+  <button on-click="cycleTip">小费 {{tipRate}}%</button>
+  <div class="people">
+    <button on-click="changePeople(-1)">−</button>
+    <span>{{people}} 人</span>
+    <button on-click="changePeople(1)">＋</button>
+  </div>
+  <output>总计 ¥{{total}} · 每人 ¥{{perPerson}}</output>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+function formatNumber(value) {
+    return Number(value).toFixed(2);
+}
+
+module.exports = san.defineComponent({
+    name: 'TipSplitCalculator',
+    components: {},
+    initData() {
+        return {
+            bill: 268,
+            tipRate: 10,
+            people: 2
+        };
+    },
+    dataTypes: {
+        initialBill: DataTypes.number
+    },
+    inited() {
+        const initialBill = this.data.get('initialBill');
+        if (initialBill != null && !isNaN(Number(initialBill))) {
+            this.data.set('bill', Math.max(0, Number(initialBill)));
+        }
+    },
+    computed: {
+        total() {
+            const bill = this.data.get('bill');
+            const tipRate = this.data.get('tipRate');
+            return formatNumber(bill * (1 + tipRate / 100));
+        },
+        perPerson() {
+            const bill = this.data.get('bill');
+            const tipRate = this.data.get('tipRate');
+            const people = this.data.get('people');
+            return formatNumber((bill * (1 + tipRate / 100)) / people);
+        }
+    },
+    updateBill(event) {
+        const value = event.target.value;
+        const num = Math.max(0, Number(value) || 0);
+        this.data.set('bill', num);
+    },
+    cycleTip() {
+        const rates = [0, 10, 15, 20];
+        const current = this.data.get('tipRate');
+        const index = rates.indexOf(current);
+        const nextIndex = (index + 1) % rates.length;
+        this.data.set('tipRate', rates[nextIndex]);
+    },
+    changePeople(delta) {
+        const current = this.data.get('people');
+        const newValue = Math.max(1, current + Number(delta));
+        this.data.set('people', newValue);
+    }
+});
+</script>
+
+<style>
+.tip-split-calculator{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.tip-split-calculator *{box-sizing:border-box}
+.tip-split-calculator h2,.tip-split-calculator h3,.tip-split-calculator p{margin-top:0}
+.tip-split-calculator button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.tip-split-calculator button.primary{border-color:#0891b2;background:#0891b2;color:#fff}
+.tip-split-calculator button:disabled{opacity:.45;cursor:not-allowed}
+.tip-split-calculator input,.tip-split-calculator select,.tip-split-calculator textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.tip-split-calculator .muted{color:#71808e;font-size:12px}
+.tip-split-calculator .toolbar,.tip-split-calculator .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tip-split-calculator{display:grid;grid-template-columns:1fr auto;gap:10px}.tip-split-calculator label{display:grid}.people{display:flex;align-items:center;gap:8px}.tip-split-calculator output{grid-column:1/-1;padding:14px;background:#ecfeff}
+</style>

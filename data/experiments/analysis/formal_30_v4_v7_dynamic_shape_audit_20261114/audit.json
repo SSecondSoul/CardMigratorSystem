@@ -1,0 +1,74 @@
+{
+  "test_results": [
+    {
+      "suite": "test_v7_dynamic_shape.py",
+      "count": 27,
+      "returncode": 0
+    },
+    {
+      "suite": "test_v7_source_queue_contract.py",
+      "count": 32,
+      "returncode": 0
+    },
+    {
+      "suite": "test_v7_integration_contract.py",
+      "count": 7,
+      "returncode": 0
+    },
+    {
+      "suite": "test_parent_alias_observer_v4.py",
+      "count": 23,
+      "returncode": 0
+    }
+  ],
+  "source_assets_unchanged": true,
+  "code_sha256": {
+    "migration_pipeline/audit_v7_dynamic_shape_runtime.cjs": "cd1ba81e7e524966ab84012b317bc9ec9c429215e96381f1bfc237e0edf90122",
+    "migration_pipeline/audit_v7_dynamic_shape.py": "d99078cb1e8bd7988e776d64b9a80465a2e88a94f73004918466967ddfc11dc9",
+    "tests/test_v7_dynamic_shape.py": "8ba80e407f416e27c92f04696e17414f256d38ebe3785d0eacabb58a5dca23bb",
+    "migration_pipeline/probe_parent_alias_observer_v4.cjs": "b29d56c90811ed60d5964fd29a4474a881181d0da85b2763f60c72131c67f166",
+    "migration_pipeline/probe_async_watcher_scope_v7.cjs": "9972c6f14e76cf180146852b24a474f87067d6d9d99c4bbab2d6057459b4ebfa",
+    "migration_pipeline/probe_source_error_context_v6.cjs": "e4a0b4f98404dc4f426cbc4d8fd443edb28d053fd5e67f468667547e3f734e66",
+    "migration_pipeline/audit_parent_alias_child_runtime.cjs": "a1eae49f63f49248d43f16fdca13dddffac9fa18a87d12aaa7d378d279986b6d"
+  },
+  "scenario_count": 24,
+  "subject_count": 2,
+  "pair_count": 116,
+  "mismatch_pair_count": 39,
+  "mismatch_scenarios": [
+    "coerced_existing_key",
+    "coerced_new_key",
+    "date_value",
+    "delete_then_mutate_detached_alias",
+    "frozen_value",
+    "new_symbol_value",
+    "nonenumerable_then_mutate_alias",
+    "numeric_key",
+    "redefine_then_mutate_detached_alias",
+    "sparse_array_value",
+    "symbol_key",
+    "throwing_key_coercion"
+  ],
+  "production_eligible": false,
+  "model_calls": 0,
+  "original_scores_modified": false,
+  "prior_notebook_cells": 82,
+  "scope": {
+    "nativeRuntimes": true,
+    "browserDetectedViaLimitedDOM": true,
+    "fullBrowser": false,
+    "minimalRootRender": true,
+    "realStorage": false,
+    "realApplicationTimers": false,
+    "sourceESModuleStrict": true,
+    "sanCommonJSPreserved": true,
+    "sourceBusinessCodeChanged": false,
+    "vueMetadataAndFullReflectionEquivalenceClaimed": false
+  },
+  "harness_evidence": [
+    "data/experiments/analysis/formal_30_v4_v7_dynamic_shape_first_observation_20261114",
+    "data/experiments/analysis/formal_30_v4_v7_dynamic_shape_encoder_control_failed_20261114"
+  ],
+  "runtime_prototype_pollution": false,
+  "classification": "remaining_risk_experimental_adapter_counterexamples_not_new_sample_defect_rate"
+}

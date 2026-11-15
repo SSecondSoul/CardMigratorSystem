@@ -1,0 +1,224 @@
+{
+  "batch_id": "formal_30_v4_targeted",
+  "description": "Development-only targeted remediation of representative formal_30_v3 failures; not an independent evaluation.",
+  "source_batch": "formal_30_v3",
+  "source_snapshot": "formal_30_v3_results_20261022_200548",
+  "source_split": "data/datasets/splits/formal_30_v4_targeted_development.json",
+  "source_split_sha256": "05becce9f41d7483864f23ac74a3c24fadaa993b317b91a161266e56fee9c9be",
+  "max_repair_rounds": 3,
+  "expected_counts": {
+    "medium": 3,
+    "complex": 4
+  },
+  "samples": [
+    {
+      "id": "course_module_accordion",
+      "component_name": "CourseModuleAccordion",
+      "complexity": "medium",
+      "vue_file": "data/datasets/components/02_medium/CourseModuleAccordion/vue/CourseModuleAccordion.vue",
+      "coverage_focus": [
+        "migration.attribute_binding_conversion",
+        "migration.data_access_conversion",
+        "migration.event_name_conversion",
+        "migration.props_to_data_types",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "styles.has_dynamic_class",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "selection_role": "semantic_reactivity_representative",
+      "target_defects": [
+        "hidden_template_reactive_dependency",
+        "dom_structure_similarity_low"
+      ]
+    },
+    {
+      "id": "schema_mapping_workbench",
+      "component_name": "SchemaMappingWorkbench",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/SchemaMappingWorkbench/vue/SchemaMappingWorkbench.vue",
+      "coverage_focus": [
+        "migration.attribute_binding_conversion",
+        "migration.class_binding_conversion",
+        "migration.emit_to_fire",
+        "migration.event_name_conversion",
+        "migration.props_to_data_types",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "styles.has_dynamic_class",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "selection_role": "loop_key_and_no_progress_representative",
+      "target_defects": [
+        "invalid_s_for_key_binding",
+        "dom_critical_attribute_mismatch",
+        "no_repair_progress"
+      ]
+    },
+    {
+      "id": "incident_response_board",
+      "component_name": "IncidentResponseBoard",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/IncidentResponseBoard/vue/IncidentResponseBoard.vue",
+      "coverage_focus": [
+        "migration.attribute_binding_conversion",
+        "migration.class_binding_conversion",
+        "migration.emit_to_fire",
+        "migration.event_name_conversion",
+        "migration.lifecycle_mapping",
+        "migration.props_to_data_types",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "styles.has_dynamic_class",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_on"
+      ],
+      "selection_role": "state_access_and_no_progress_representative",
+      "target_defects": [
+        "vue_this_state",
+        "dom_critical_attribute_mismatch",
+        "no_repair_progress"
+      ]
+    },
+    {
+      "id": "rule_builder",
+      "component_name": "RuleBuilder",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/RuleBuilder/vue/RuleBuilder.vue",
+      "coverage_focus": [
+        "migration.class_binding_conversion",
+        "migration.emit_to_fire",
+        "migration.event_name_conversion",
+        "migration.lifecycle_mapping",
+        "migration.props_to_data_types",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "styles.has_dynamic_class",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "selection_role": "prop_default_representative",
+      "target_defects": [
+        "missing_prop_defaults",
+        "dom_structure_similarity_low",
+        "dom_critical_attribute_mismatch"
+      ]
+    },
+    {
+      "id": "habit_week_tracker",
+      "component_name": "HabitWeekTracker",
+      "complexity": "medium",
+      "vue_file": "data/datasets/components/02_medium/HabitWeekTracker/vue/HabitWeekTracker.vue",
+      "coverage_focus": [
+        "migration.attribute_binding_conversion",
+        "migration.data_access_conversion",
+        "migration.event_name_conversion",
+        "migration.props_to_data_types",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "styles.has_dynamic_class",
+        "styles.has_dynamic_style",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_on"
+      ],
+      "selection_role": "structure_only_representative",
+      "target_defects": [
+        "dom_structure_similarity_low"
+      ]
+    },
+    {
+      "id": "playback_queue",
+      "component_name": "PlaybackQueue",
+      "complexity": "medium",
+      "vue_file": "data/datasets/components/02_medium/PlaybackQueue/vue/PlaybackQueue.vue",
+      "coverage_focus": [
+        "migration.attribute_binding_conversion",
+        "migration.class_binding_conversion",
+        "migration.emit_to_fire",
+        "migration.event_name_conversion",
+        "migration.props_to_data_types",
+        "migration.v_for_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "styles.has_dynamic_class",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_on"
+      ],
+      "selection_role": "critical_attribute_only_representative",
+      "target_defects": [
+        "dom_critical_attribute_mismatch"
+      ]
+    },
+    {
+      "id": "analytics_dashboard",
+      "component_name": "AnalyticsDashboard",
+      "complexity": "complex",
+      "vue_file": "data/datasets/components/03_complex/AnalyticsDashboard/vue/AnalyticsDashboard.vue",
+      "coverage_focus": [
+        "migration.class_binding_conversion",
+        "migration.event_name_conversion",
+        "migration.style_binding_conversion",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "scripts.has_watch",
+        "styles.has_dynamic_class",
+        "styles.has_dynamic_style",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "selection_role": "infrastructure_timeout_representative",
+      "target_defects": [
+        "generation_timeout"
+      ]
+    }
+  ]
+}

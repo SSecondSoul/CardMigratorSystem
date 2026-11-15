@@ -1,0 +1,45 @@
+{
+  "batch_id": "formal_30_v4_analytics_runtime_followup",
+  "description": "Development-only isolated rerun after browser review rejected the frozen AnalyticsDashboard follow-up for San Data store array access; not independent holdout evidence.",
+  "source_snapshot": "formal_30_v4_analytics_manual_followup_automatic_pass_20261026_152546",
+  "max_repair_rounds": 3,
+  "expected_counts": {
+    "complex": 1
+  },
+  "samples": [
+    {
+      "id": "analytics_dashboard",
+      "component_name": "AnalyticsDashboard",
+      "complexity": "complex",
+      "vue_file": "data/experiments/protocols/formal_30_v3_frozen_20261022/frozen/data/datasets/components/03_complex/AnalyticsDashboard/vue/AnalyticsDashboard.vue",
+      "coverage_focus": [
+        "migration.class_binding_conversion",
+        "migration.event_name_conversion",
+        "migration.style_binding_conversion",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "scripts.has_watch",
+        "styles.has_dynamic_class",
+        "styles.has_dynamic_style",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "selection_role": "manual_runtime_audit_followup",
+      "target_defects": [
+        "invalid_san_data_store_array_access",
+        "invalid_san_computed_direct_access",
+        "unsupported_san_module_require",
+        "missing_component_registration",
+        "unresolved_component_registration"
+      ]
+    }
+  ]
+}

@@ -7,6 +7,23 @@ from typing import Any
 from migration_pipeline.repair_client import RepairRequest, RepairResult, create_repair_client
 from migration_pipeline.utils.repair_prompt import RepairPromptInput, build_repair_prompt
 from migration_pipeline.utils.source_event_semantics import repair_source_events
+from migration_pipeline.utils.bounded_semantics import inspect_semantics
+from migration_pipeline.utils.parent_prop_semantics import parent_prop_semantics
+from migration_pipeline.utils.source_template_semantics import source_template_semantics
+from migration_pipeline.utils.class_binding_semantics import class_binding_semantics
+from migration_pipeline.utils.class_binding_contract import CLASS_BINDING_CODES
+from migration_pipeline.utils.source_dom_semantics import source_dom_semantics
+from migration_pipeline.utils.source_payload_semantics import source_payload_semantics
+from migration_pipeline.utils.source_render_call_semantics import source_render_call_semantics
+from migration_pipeline.utils.source_render_dependency_semantics import source_render_dependency_semantics
+from migration_pipeline.utils.source_array_transaction_semantics import source_array_transaction_semantics
+from migration_pipeline.utils.source_child_initialization_semantics import source_child_initialization_semantics
+from migration_pipeline.utils.source_native_drag_semantics import source_native_drag_semantics
+from migration_pipeline.utils.source_parent_watch_semantics import source_parent_watch_semantics
+from migration_pipeline.utils.residual_semantics import residual_semantics
+from migration_pipeline.utils.textarea_binding import textarea_binding
+from migration_pipeline.utils.inline_identifier_recovery import recover_inline_identifiers
+from migration_pipeline.utils.stateful_helper_semantics import explicit_helper_dependencies
 from migration_pipeline.stages.validate import ValidateStage
 
 
@@ -127,6 +144,8 @@ class RepairStage:
 
     def run(self, stage_input: RepairStageInput) -> RepairStageResult:
         current_code = stage_input.resolve_current_code()
+        vue = (Path(stage_input.vue_file_path).read_text(encoding="utf-8")
+               if stage_input.vue_file_path and Path(stage_input.vue_file_path).is_file() else "")
         repair_prompt = build_repair_prompt(RepairPromptInput(
             ssm=stage_input.ssm,
             current_code=current_code,
@@ -137,14 +156,18 @@ class RepairStage:
             visual_eval_warnings=stage_input.visual_eval_warnings,
             dom_compare_result=stage_input.dom_compare_result,
             extra_instruction=stage_input.repair_instruction,
+            vue_source=vue,
         ))
-        deterministic_code, deterministic_repairs = self._deterministic_repair_plan(
-            current_code,
-            stage_input.validation_errors,
-            stage_input.visual_eval_errors,
-            stage_input.ssm,
-            stage_input.vue_file_path,
-        )
+        deterministic_code, deterministic_repairs = (current_code, [])
+        if not stage_input.metadata.get("skip_deterministic_prepass", False):
+            deterministic_code, deterministic_repairs = self._deterministic_repair_plan(
+                current_code,
+                stage_input.validation_errors,
+                stage_input.visual_eval_errors,
+                stage_input.ssm,
+                stage_input.vue_file_path,
+                **({"enable_residual_v2": True} if stage_input.metadata.get("semantic_rule_set") == "residual_v2" else {}),
+            )
         if deterministic_code != current_code:
             normalizer_model = (
                 deterministic_repairs[0][0]
@@ -339,7 +362,7 @@ class RepairStage:
             for issue in stage_input.validation_errors
         ):
             result.code = self._normalize_redundant_s_for_attributes(result.code)
-        if any(
+        if stage_input.metadata.get('semantic_rule_set') != 'residual_v2' and any(
             issue.get("code") == "nested_state_mutation"
             for issue in stage_input.validation_errors
         ):
@@ -367,6 +390,106 @@ class RepairStage:
                             "cloned_and_committed_terminal_state_array_splice",
                         ],
                     }
+        if stage_input.metadata.get('semantic_rule_set') == 'residual_v2':
+            for transform in (lambda code: recover_inline_identifiers(code, stage_input.ssm), explicit_helper_dependencies):
+                changed = transform(result.code)
+                if changed['code'] != result.code:
+                    result.code = changed['code']
+                    raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                    result.raw_response = {**raw, 'pipeline_postprocessing': [
+                        *raw.get('pipeline_postprocessing', []), *changed['changes']]}
+        semantic = inspect_semantics(result.code, vue, repair=True, ssm=stage_input.ssm)
+        if semantic["code"] != result.code:
+            result.code = semantic["code"]
+            raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+            result.raw_response = {
+                **raw,
+                "pipeline_postprocessing": [
+                    *raw.get("pipeline_postprocessing", []),
+                    *semantic["changes"],
+                ],
+            }
+        if stage_input.metadata.get("semantic_rule_set") == "residual_v2":
+            template = source_template_semantics(result.code, vue, repair=True)
+            if template["code"] != result.code:
+                result.code = template["code"]
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, "pipeline_postprocessing": [
+                    *raw.get("pipeline_postprocessing", []), *template["changes"]]}
+            props = parent_prop_semantics(result.code, vue, repair=True)
+            if props["code"] != result.code:
+                result.code = props["code"]
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, "pipeline_postprocessing": [
+                    *raw.get("pipeline_postprocessing", []), *props["changes"]]}
+            dom = source_dom_semantics(result.code, vue, stage_input.ssm, repair=True)
+            if dom['code'] != result.code:
+                result.code = dom['code']
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, 'pipeline_postprocessing': [
+                    *raw.get('pipeline_postprocessing', []), *dom['changes']]}
+            payload = source_payload_semantics(result.code, vue, stage_input.ssm, repair=True)
+            if payload['code'] != result.code:
+                result.code = payload['code']
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, 'pipeline_postprocessing': [
+                    *raw.get('pipeline_postprocessing', []), *payload['changes']]}
+            render_calls = source_render_call_semantics(result.code, vue, stage_input.ssm, repair=True)
+            if render_calls['code'] != result.code:
+                result.code = render_calls['code']
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, 'pipeline_postprocessing': [
+                    *raw.get('pipeline_postprocessing', []), *render_calls['changes']]}
+            dependencies = source_render_dependency_semantics(result.code, vue, repair=True)
+            if dependencies['code'] != result.code:
+                result.code = dependencies['code']
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, 'pipeline_postprocessing': [
+                    *raw.get('pipeline_postprocessing', []), *dependencies['changes']]}
+            transactions = source_array_transaction_semantics(result.code, vue, repair=True)
+            if transactions['code'] != result.code:
+                result.code = transactions['code']
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, 'pipeline_postprocessing': [
+                    *raw.get('pipeline_postprocessing', []), *transactions['changes']]}
+            child_startup = source_child_initialization_semantics(result.code, vue, repair=True)
+            if child_startup['code'] != result.code:
+                result.code = child_startup['code']
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, 'pipeline_postprocessing': [
+                    *raw.get('pipeline_postprocessing', []), *child_startup['changes']]}
+            native_drag = source_native_drag_semantics(result.code, vue, repair=True)
+            if native_drag['code'] != result.code:
+                result.code = native_drag['code']
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, 'pipeline_postprocessing': [
+                    *raw.get('pipeline_postprocessing', []), *native_drag['changes']]}
+            parent_watch = source_parent_watch_semantics(result.code, vue, repair=True)
+            if parent_watch['code'] != result.code:
+                result.code = parent_watch['code']
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, 'pipeline_postprocessing': [
+                    *raw.get('pipeline_postprocessing', []), *parent_watch['changes']]}
+            residual = residual_semantics(result.code, stage_input.ssm, repair=True)
+            if residual["code"] != result.code:
+                result.code = residual["code"]
+                raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+                result.raw_response = {**raw, "pipeline_postprocessing": [
+                    *raw.get("pipeline_postprocessing", []), *residual["changes"]]}
+        # A model may reintroduce the same malformed class map. Apply the same
+        # source-proven rule after every response, independent of repair profile.
+        classes = class_binding_semantics(result.code, vue, repair=True)
+        if classes['code'] != result.code:
+            result.code = classes['code']
+            raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+            result.raw_response = {**raw, 'pipeline_postprocessing': [
+                *raw.get('pipeline_postprocessing', []), *classes['changes']]}
+        textarea = textarea_binding(result.code, repair=True) if '<textarea' in result.code.lower() else {'code': result.code}
+        if textarea['code'] != result.code:
+            result.code = textarea['code']
+            raw = result.raw_response if isinstance(result.raw_response, dict) else {}
+            result.raw_response = {**raw, 'pipeline_postprocessing': [
+                *raw.get('pipeline_postprocessing', []), *textarea['changes']]}
         self._ensure_repaired_file(result.saved_file_path, result.code)
         return RepairStageResult.from_repair_result(
             result=result,
@@ -1797,10 +1920,99 @@ class RepairStage:
         visual_eval_errors: list[dict[str, Any]],
         ssm: dict[str, Any] | None = None,
         vue_file_path: str = "",
+        *, enable_residual_v2: bool = False,
     ) -> tuple[str, list[tuple[str, str]]]:
         error_codes = {issue.get("code") for issue in validation_errors}
         normalized = code
         applied: list[tuple[str, str]] = []
+
+        if error_codes & CLASS_BINDING_CODES:
+            class_vue = (Path(vue_file_path).read_text(encoding="utf-8")
+                         if vue_file_path and Path(vue_file_path).is_file() else "")
+            classes = class_binding_semantics(normalized, class_vue, repair=True)
+            if classes['code'] != normalized:
+                normalized = classes['code']
+                applied.extend(('source_class_binding_normalizer', name) for name in classes['changes'])
+
+        if enable_residual_v2:
+            vue = (Path(vue_file_path).read_text(encoding="utf-8")
+                   if vue_file_path and Path(vue_file_path).is_file() else "")
+            template = source_template_semantics(normalized, vue, repair=True)
+            if template["code"] != normalized:
+                normalized = template["code"]
+                applied.extend(("source_template_bindings", name) for name in template["changes"])
+            props = parent_prop_semantics(normalized, vue, repair=True)
+            if props["code"] != normalized:
+                normalized = props["code"]
+                applied.extend(("source_parent_prop_contracts", name) for name in props["changes"])
+            dom = source_dom_semantics(normalized, vue, ssm, repair=True)
+            if dom['code'] != normalized:
+                normalized = dom['code']
+                applied.extend(('source_scoped_dom_contracts', name) for name in dom['changes'])
+            payload = source_payload_semantics(normalized, vue, ssm, repair=True)
+            if payload['code'] != normalized:
+                normalized = payload['code']
+                applied.extend(('source_single_payload_contracts', name) for name in payload['changes'])
+            render_calls = source_render_call_semantics(normalized, vue, ssm, repair=True)
+            if render_calls['code'] != normalized:
+                normalized = render_calls['code']
+                applied.extend(('source_render_operand_contracts', name) for name in render_calls['changes'])
+            dependencies = source_render_dependency_semantics(normalized, vue, repair=True)
+            if dependencies['code'] != normalized:
+                normalized = dependencies['code']
+                applied.extend(('source_readonly_render_graph', name) for name in dependencies['changes'])
+            transactions = source_array_transaction_semantics(normalized, vue, repair=True)
+            if transactions['code'] != normalized:
+                normalized = transactions['code']
+                applied.extend(('source_array_transaction_contracts', name) for name in transactions['changes'])
+            child_startup = source_child_initialization_semantics(normalized, vue, repair=True)
+            if child_startup['code'] != normalized:
+                normalized = child_startup['code']
+                applied.extend(('source_child_startup_contracts', name) for name in child_startup['changes'])
+            native_drag = source_native_drag_semantics(normalized, vue, repair=True)
+            if native_drag['code'] != normalized:
+                normalized = native_drag['code']
+                applied.extend(('source_native_drag_contracts', name) for name in native_drag['changes'])
+            parent_watch = source_parent_watch_semantics(normalized, vue, repair=True)
+            if parent_watch['code'] != normalized:
+                normalized = parent_watch['code']
+                applied.extend(('source_parent_watch_contracts', name) for name in parent_watch['changes'])
+            if 'invalid_inline_component_identifier' in error_codes:
+                recovery = recover_inline_identifiers(normalized, ssm)
+                if recovery['code'] != normalized:
+                    normalized = recovery['code']
+                    applied.extend(('source_registered_identifier_recovery', name) for name in recovery['changes'])
+            if error_codes & {'hidden_template_reactive_dependency', 'invalid_san_computed_instance_method_call'}:
+                helpers = explicit_helper_dependencies(normalized)
+                if helpers['code'] != normalized:
+                    normalized = helpers['code']
+                    applied.extend(('readonly_helper_dependencies', name) for name in helpers['changes'])
+
+        if 'invalid_san_textarea_binding' in error_codes:
+            textarea = textarea_binding(normalized, repair=True)
+            if textarea['code'] != normalized:
+                normalized = textarea['code']
+                applied.append(('textarea_value_normalizer', 'normalized_textarea_value_binding'))
+
+        if enable_residual_v2:
+            residual = residual_semantics(normalized, ssm, repair=True)
+            if residual["code"] != normalized:
+                normalized = residual["code"]
+                applied.extend(("residual_v2_ast", name) for name in residual["changes"])
+
+        if error_codes & {"missing_self_click_guard", "invalid_san_inline_computed_method_invocation", "event_arguments_not_landed",
+                          "lifecycle_behavior_not_landed", "missing_lifecycle_mapping", "source_watch_persistence_not_landed",
+                          "source_watch_persistence_unproven",
+                          "source_mounted_order_not_landed", "source_startup_phase_not_landed",
+                          "source_method_interface_not_landed", "source_method_trigger_added",
+                          "source_record_update_not_landed", "source_shared_record_projection_not_landed",
+                          "source_parent_initialization_not_landed", "source_computed_collection_not_landed", "source_filter_method_not_landed"}:
+            vue = (Path(vue_file_path).read_text(encoding="utf-8")
+                   if vue_file_path and Path(vue_file_path).is_file() else "")
+            semantic = inspect_semantics(normalized, vue, repair=True, ssm=ssm)
+            if semantic["code"] != normalized:
+                normalized = semantic["code"]
+                applied.extend(("bounded_ast_semantics", name) for name in semantic["changes"])
 
         if error_codes & {"missing_self_click_guard", "native_drag_event_misbound"}:
             vue = (Path(vue_file_path).read_text(encoding="utf-8")
@@ -1895,7 +2107,7 @@ class RepairStage:
                     "san_duplicate_class_normalizer",
                     "merged_static_and_dynamic_class_attributes",
                 ))
-        if error_codes == {"nested_state_mutation"} and not visual_eval_errors:
+        if not enable_residual_v2 and error_codes == {"nested_state_mutation"} and not visual_eval_errors:
             candidate = cls._normalize_mutated_state_array_aliases(normalized)
             if candidate != normalized:
                 normalized = candidate

@@ -1,0 +1,260 @@
+<template><main/></template><script>const san=require('san');
+const __sourceErrorContext_v6Create=(function createSourceErrorContext(binding){
+ if(typeof window==='undefined'||!window.document)throw new TypeError('Source v6 probe: browser environment required');
+ if(!binding||binding.environment!=='browser'||binding.trackingPolicy!=='no-reactive-reads-or-writes'
+   ||!['parentOf','hooksOf','globalHandler','logError'].every(k=>typeof binding[k]==='function'))
+  throw new TypeError('Source v6 probe: explicit browser error-context binding required');
+ const globalHandle=(error,subject,info)=>{
+  const handler=binding.globalHandler();
+  if(handler!=null&&typeof handler!=='function')throw new TypeError('Source v6 probe: unsupported global handler');
+  if(handler){
+   try{return handler.call(null,error,subject,info);}
+   catch(next){if(next!==error)binding.logError(next,null,'config.errorHandler');}
+  }
+  binding.logError(error,subject,info);
+ };
+ return {handle(error,subject,info){
+  // No fake pause of framework dependency collection: the selected experimental
+  // profile excludes stateful/reactive hook bodies, not the source public API.
+  const seen=new Set();let current=subject;
+  while((current=binding.parentOf(current))){
+   if(seen.has(current))throw new TypeError('Source v6 probe: cyclic ancestor mapping');
+   seen.add(current);const hooks=binding.hooksOf(current);
+   if(!Array.isArray(hooks)||hooks.some(h=>typeof h!=='function'))throw new TypeError('Source v6 probe: unsupported capture mapping');
+   for(const hook of hooks){
+    try{if(hook.call(current,error,subject,info)===false)return;}
+    catch(next){globalHandle(next,current,'errorCaptured hook');}
+   }
+  }
+  globalHandle(error,subject,info);
+ }};
+});
+const __watcherScope_v7Create=(function createAsyncWatcherScope(sourceFactory,subject,fields){
+ const fail=code=>{const e=new TypeError('Watcher v7 scope: '+code);e.code=code;throw e;};
+ if(typeof sourceFactory!=='function'||!subject||!Array.isArray(fields)||!fields.length
+   ||fields.some(f=>typeof f!=='string'||!f)||new Set(fields).size!==fields.length)fail('INVALID_SCOPE');
+ const names=fields.slice();let context=null,locked=false,disposed=false,pending=false,active=false;
+ return Object.freeze({
+  configure(binding){
+   if(disposed)fail('DISPOSED');if(locked)fail('CONFIGURATION_LOCKED');
+   if(typeof window==='undefined'||window===null||!window.document)fail('BROWSER_REQUIRED');
+   if(!binding||binding.channel!=='async-parent-watch'
+     ||binding.environment!=='browser'||binding.trackingPolicy!=='no-reactive-reads-or-writes')fail('UNSUPPORTED_PROFILE');
+   // Copy capability references: caller cannot replace the binding slots later.
+   // Their implementations remain trusted application code, not purity-proven.
+   const snapshot={environment:binding.environment,trackingPolicy:binding.trackingPolicy};
+   for(const key of ['parentOf','hooksOf','globalHandler','logError']){
+    const fn=binding[key];if(typeof fn!=='function')fail('MISSING_CAPABILITY');snapshot[key]=fn;
+   }
+   const next=sourceFactory(Object.freeze(snapshot));context=next;
+  },
+  schedule(flush){
+   if(disposed)fail('DISPOSED');if(pending||active)fail('REENTRANT_SCHEDULE');
+   if(typeof flush!=='function')fail('INVALID_FLUSH');
+   locked=true;pending=true;
+   return Promise.resolve().then(()=>{
+    pending=false;
+    // Keep the old queue's cancellation/reset path when disposed before tick.
+    if(disposed)return flush();
+    active=true;try{return flush();}finally{active=false;}
+   });
+  },
+  route(error,index){
+   if(disposed)fail('DISPOSED');if(!active)fail('OUTSIDE_ASYNC_DISPATCH');
+   if(!Number.isInteger(index)||index<0||index>=names.length)fail('INVALID_WATCHER_INDEX');
+   if(!context)return false;
+   context.handle(error,subject,'callback for watcher "'+names[index]+'"');return true;
+  },
+  dispose(){disposed=true;context=null;}
+ });
+});
+
+const __aliasBridge_v4=(function createShapeBridge(san){
+ const nodes=new WeakMap(),owners=new Set(),receivers=new WeakMap(),liveReceivers=new Set();
+ const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
+ const scalar=v=>v===null||typeof v!=='object';
+ const mutators=['push','pop','shift','unshift','splice','sort','reverse'];
+ let collecting=null;
+ const isRef=value=>!!(value&&value.__v_isRef===true);
+ const refRecords=new Map();
+ function readRef(value){
+  if(collecting){
+   let record=refRecords.get(value);
+   if(!record){
+    const descriptor=Object.getOwnPropertyDescriptor(value,'dep'),slot=Object.getOwnPropertyDescriptor(value,'value');
+    const dep=descriptor&&own(descriptor,'value')&&descriptor.value;
+    if(dep&&slot&&typeof slot.get==='function'&&typeof slot.set==='function'&&
+       own(value,'__v_isShallow')&&typeof dep.addSub==='function'&&typeof dep.removeSub==='function'){
+     record={token:{},dep,sub:null};refRecords.set(value,record);
+    }
+   }
+   if(record)collecting.add(record.token);
+  }
+  return value.value;
+ }
+ function syncRefSubscriptions(){
+  for(const [value,record] of refRecords){
+   const needed=[...owners].some(owner=>[...owner.dependencies.values()].some(tokens=>tokens.has(record.token)));
+   if(needed&&!record.sub){record.sub={update(){changed(value,record.token);}};record.dep.addSub(record.sub);}
+   else if(!needed){if(record.sub)record.dep.removeSub(record.sub);refRecords.delete(value);}
+  }
+ }
+ const skipped=value=>isRef(value)||!Object.isExtensible(value)||!!value.__v_skip||
+  (!Array.isArray(value)&&Object.prototype.toString.call(value)!=='[object Object]');
+ function allowed(value,seen=new Set()){
+  if(scalar(value)||seen.has(value))return true;seen.add(value);
+  // A structural Ref is accepted but never force-observed as an ordinary object.
+  if(isRef(value))return true;
+  if(own(value,'__ob__'))return false;
+  if(nodes.has(value)||skipped(value))return true;
+  return Object.keys(value).every(key=>{
+   const d=Object.getOwnPropertyDescriptor(value,key);
+   // Vue skips non-configurable slots. Do not pre-read an accessor as a guard.
+   return !d.configurable||!own(d,'value')||allowed(d.value,seen);
+  });
+ }
+ function requireValue(value){if(!allowed(value))throw new TypeError('Ref v12 experiment: unsupported Ref/foreign observer contract');}
+ function children(value){
+  if(scalar(value)||!nodes.has(value)||Object.isFrozen(value))return [];
+  return Object.keys(value).map(k=>value[k]).filter(v=>!scalar(v));
+ }
+ function ancestors(root,target,result,seen=new Set()){
+  if(scalar(root)||seen.has(root)||!nodes.has(root))return false;seen.add(root);
+  let found=root===target;
+  for(const child of children(root))if(ancestors(child,target,result,seen))found=true;
+  if(found)result.add(root);return found;
+ }
+ function dependArray(array,seen=new Set()){
+  if(seen.has(array))return;seen.add(array);
+  for(const value of array){const meta=!scalar(value)&&nodes.get(value);if(meta)collecting.add(meta.dep);
+   if(Array.isArray(value))dependArray(value,seen);}
+ }
+ function traverse(value,seen=new Set()){
+  if(scalar(value)||value.__v_skip||Object.isFrozen(value)||seen.has(value))return;seen.add(value);
+  if(Array.isArray(value)){for(let i=value.length-1;i>=0;i--)traverse(value[i],seen);}
+  else if(isRef(value))traverse(readRef(value),seen);
+  else for(const key of Object.keys(value).reverse())traverse(value[key],seen);
+ }
+ function refresh(owner,row){
+  const previous=collecting,next=new Set();collecting=next;
+  try{const root=owner.instance.data.get(row.field),meta=!scalar(root)&&nodes.get(root);
+   if(meta)next.add(meta.dep);traverse(root);
+  }finally{collecting=previous;owner.dependencies.set(row.queue_index,next);syncRefSubscriptions();}
+ }
+ function changed(node,dependency){
+  const affected=new Set([node]),targets=[],bound=[];
+  for(const owner of owners)for(const row of owner.rows){
+   if(!owner.dependencies.get(row.queue_index)?.has(dependency))continue;
+   const root=owner.instance.data.get(row.field);targets.push([owner,row,root]);
+   if(!scalar(root)&&nodes.has(root))affected.add(root);
+   ancestors(root,node,affected);
+  }
+  for(const receiver of liveReceivers){
+   if(receiver.instance.lifeCycle?.disposed)continue;
+   for(const key of receiver.versions.keys()){
+    const value=receiver.data.get(key);
+    if(targets.some(([, ,root])=>root===value)||ancestors(value,node,affected))bound.push([receiver,key,value]);
+   }
+  }
+  for(const value of affected){const meta=!scalar(value)&&nodes.get(value);if(meta)meta.version++;}
+  for(const [owner,row,root] of targets){owner.instance.data.set(row.field,root,{force:true});owner.enqueue(row.queue_index);}
+  for(const [receiver,key,value] of bound)receiver.data.set(key,value,{force:true});
+ }
+ function observe(value){
+  if(scalar(value))return;
+  const existing=nodes.get(value);if(existing)return existing;
+  if(skipped(value))return;
+  const meta={version:0,dep:{},properties:new Map()};nodes.set(value,meta);
+  if(Array.isArray(value)){
+   value.forEach(observe);
+   for(const name of mutators)Object.defineProperty(value,name,{configurable:true,writable:true,enumerable:false,
+    value:function(...args){
+     const inserted=name==='push'||name==='unshift'?args:name==='splice'?args.slice(2):[];
+     for(const v of inserted)requireValue(v);
+     const result=Array.prototype[name].apply(this,args);
+     inserted.forEach(observe);changed(this,nodes.get(this)?.dep);return result;
+    }});
+  }else for(const key of Object.keys(value)){
+   const descriptor=Object.getOwnPropertyDescriptor(value,key);
+   if(!descriptor.configurable)continue;
+   const originalGetter=descriptor.get,originalSetter=descriptor.set,dependency={};
+   let current;
+   // Getter-only properties are not evaluated during defineReactive initialization.
+   if(!originalGetter||originalSetter)current=value[key];
+   let child=observe(current);
+   const getter=function(){
+    const result=originalGetter?originalGetter.call(value):current;
+    if(collecting){collecting.add(dependency);
+     if(child){collecting.add(child.dep);if(Array.isArray(result))dependArray(result);}}
+    return isRef(result)?readRef(result):result;
+   };
+   meta.properties.set(key,{getter,dependency});
+   Object.defineProperty(value,key,{enumerable:true,configurable:true,get:getter,set(next){
+    'use strict';
+    const before=originalGetter?originalGetter.call(value):current;
+    if(Object.is(before,next))return;
+    if(originalGetter&&!originalSetter)return;
+    requireValue(next);
+    if(originalSetter)originalSetter.call(value,next);
+    else if(isRef(before)&&!isRef(next)){before.value=next;return;}
+    else current=next;
+    child=observe(next);changed(value,dependency);
+   }});
+  }
+  return meta;
+ }
+ function rootName(expr){const parsed=san.parseExpr(expr);
+  return parsed?.paths?.length===1&&typeof parsed.paths[0].value==='string'?parsed.paths[0].value:null;}
+ function receiver(instance){
+  const data=instance.data;if(!data||receivers.has(data))return null;
+  const original=data.set,versions=new Map();
+  for(const key of Object.keys(data.get())){const value=data.get(key),meta=value&&nodes.get(value);if(meta)versions.set(key,{value,version:meta.version});}
+  const wrapped=function(expr,value,option){
+   const key=rootName(expr),meta=value&&nodes.get(value),before=versions.get(key);
+   if(meta&&key&&data.get(expr)===value&&before?.value===value&&before.version!==meta.version)option={...option,force:true};
+   const result=original.call(data,expr,value,option);
+   if(key){if(meta)versions.set(key,{value,version:meta.version});else versions.delete(key);}return result;
+  };
+  const record={instance,data,versions};liveReceivers.add(record);data.set=wrapped;receivers.set(data,wrapped);
+  return ()=>{if(data.set===wrapped)data.set=original;receivers.delete(data);liveReceivers.delete(record);versions.clear();};
+ }
+ function parent(instance,rows,enqueue){
+  if(san.version!=='3.15.6')throw new TypeError('Ref v12 experiment: pinned San required');
+  for(const row of rows){const root=instance.data.get(row.field);requireValue(root);
+   if(!root||Array.isArray(root)||typeof root!=='object')throw new TypeError('Ref v12 experiment: object root required');}
+  for(const row of rows)observe(instance.data.get(row.field));
+  const owner={instance,rows,enqueue,dependencies:new Map()},restores=[];owners.add(owner);
+  for(const row of rows)refresh(owner,row);
+  const data=instance.data,original=data.set;
+  const wrapped=function(expr,value,option){
+   'use strict';
+   const parsed=san.parseExpr(expr),row=rows.find(r=>r.field===parsed?.paths?.[0]?.value);
+   // Explicit experimental mapping only: source raw property assignment, not
+   // Vue.set and not arbitrary native San Data.set semantics. No auto-vivify,
+   // clone, observation or notification for new keys / array indices.
+   if(row&&parsed.paths.length>1&&option===undefined&&parsed.paths.every(p=>typeof p.value==='string'||typeof p.value==='number')){
+    const path=parsed.paths.map(p=>p.value),key=path.pop();let object=data.get(path.shift());
+    for(const part of path)object=object[part];
+    object[key]=value;return;
+   }
+   if(row&&parsed.paths.length===1){requireValue(value);observe(value);}
+   const result=original.call(data,expr,value,option);
+   if(row){const root=data.get(row.field);requireValue(root);observe(root);}return result;
+  };
+  data.set=wrapped;
+  const attachReceivers=()=>{const visit=items=>{for(const child of items||[]){
+   if(child.nodeType===5&&child.data){const undo=receiver(child);if(undo)restores.push(undo);}visit(child.children);}};visit(instance.children);};
+  return {attachReceivers,
+   refresh(index){const row=rows.find(r=>r.queue_index===index);if(row&&owners.has(owner))refresh(owner,row);},
+   write(index,key,value){const object=data.get(rows[index].field);object[key]=value;},
+   dispose(){owners.delete(owner);owner.dependencies.clear();syncRefSubscriptions();for(const undo of restores)undo();restores.length=0;if(data.set===wrapped)data.set=original;}
+  };
+ }
+ return {parent};
+})(san);
+module.exports=san.defineComponent({initData(){return {settings:{enabled:true,extra:{name:'initial',items:[{value:1}]}},count:0};},
+inited(){const __watcherScope_v7Local=__watcherScope_v7Create(__sourceErrorContext_v6Create,this,["settings"]);this.__watcherScope_v7Configure=binding=>__watcherScope_v7Local.configure(binding);let alive=true,waiting=false,flushing=false,cursor=0;const queue=[],pending=[],handlers=[()=>{this.recount();}];const reset=()=>{queue.length=0;pending.length=0;waiting=false;flushing=false;cursor=0;};const flush=()=>{if(!alive){reset();return;}flushing=true;queue.sort((a,b)=>a-b);try{for(cursor=0;cursor<queue.length;cursor++){if(!alive)break;const index=queue[cursor];pending[index]=false;try{this.__aliasBridge_v4Parent.refresh(index);handlers[index]();}catch(__parentWatchError_v5Error){if(!__watcherScope_v7Local.route(__parentWatchError_v5Error,index)){const __parentWatchError_v5Report=this.__parentWatchError_v5Reporter;if(typeof __parentWatchError_v5Report!=='function')throw __parentWatchError_v5Error;__parentWatchError_v5Report.call(null,__parentWatchError_v5Error,this,'callback for watcher "'+["settings"][index]+'"');}}}}finally{reset();}};const enqueue=index=>{if(!alive||pending[index])return;pending[index]=true;if(!flushing)queue.push(index);else{let at=queue.length-1;while(at>cursor&&queue[at]>index)at--;queue.splice(at+1,0,index);}if(!waiting){waiting=true;__watcherScope_v7Local.schedule(flush);}};this.__sourceParentWatchDispose_v1=()=>{alive=false;queue.length=0;pending.length=0;};this.watch("settings",()=>enqueue(0));this.__aliasBridge_v4Parent=__aliasBridge_v4.parent(this,[{"field":"settings","queue_index":0}],enqueue);const __watcherScope_v7Dispose=this.__sourceParentWatchDispose_v1;this.__sourceParentWatchDispose_v1=()=>{__watcherScope_v7Local.dispose();__watcherScope_v7Dispose();};},attached(){this.load();this.__aliasBridge_v4Parent.attachReceivers();},disposed(){this.__aliasBridge_v4Parent.dispose();this.__sourceParentWatchDispose_v1();},
+ assign(key,value){"use strict";this.data.get("settings")[key]=value;},load(){this.data.set('settings',{enabled:false,extra:{name:'initial',items:[{value:1}]}});},recount(){this.data.set('count',this.data.get('settings.enabled')?1:0);},updated(){this.__aliasBridge_v4Parent.attachReceivers();},__parentWatchError_v5Configure(reporter){
+   if(reporter!==null&&typeof reporter!=='function')throw new TypeError('Watcher v5 probe: reporter must be a function or null');
+   this.__parentWatchError_v5Reporter=reporter;
+ }});</script>

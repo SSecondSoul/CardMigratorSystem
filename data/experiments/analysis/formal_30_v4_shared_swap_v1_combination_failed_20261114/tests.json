@@ -1,0 +1,91 @@
+{
+  "total": 168,
+  "all_passed": false,
+  "wall_seconds": 218.501,
+  "workers": 2,
+  "code_unchanged": true,
+  "tested_code_sha256": {
+    "migration_pipeline/utils/source_shared_swap_semantics.cjs": "d47850bb2160588223e773bfcb98b7163672610766ccfd525bb5b757263f33e3",
+    "migration_pipeline/utils/source_phase_semantics.cjs": "e9c5a7e17cce2fa680daed601c92b4a98cfd806d75fe4a9345963106adacde7c",
+    "migration_pipeline/utils/bounded_semantics.cjs": "8ff76643f40ee5a2557508c6cd61f3e3f76913f99161f0cdb92490674f969f6f",
+    "migration_pipeline/stages/repair.py": "b0ca7b42fa32e143744d86f5bf885e8e28f9dd9267578374bf53bacd07507316",
+    "migration_pipeline/utils/repair_scheduler.py": "36c0423decb6ec54b9aef0e18ef87cc6c173a6a27c0078f1b0cd3f070964fb6e",
+    "migration_pipeline/utils/repair_prompt.py": "14ee87f9162db56817ba085fb8554422c2ba33dd5fd308a0356ab5f4ce971b08",
+    "tests/test_source_shared_swap_closure.py": "114ff98897211719941729a75cde9e1daa35db73efe75c3b9bdf3a8e8d7242ef",
+    "tests/test_source_record_update_closure.py": "6cfc2b35288727b417332867f75639fd3433f307f9825e8ae2552858a251e1cf",
+    "tests/test_source_readonly_bridge_closure.py": "3e81d79aae8b7af6c34f8b2d059ea620bc96063c1a8b75cef46a96aedbdaa2a4"
+  },
+  "tests": [
+    {
+      "suite": "test_source_shared_swap_closure.py",
+      "tests": 16,
+      "seconds": 37.538,
+      "exit_code": 0,
+      "log": "................\n----------------------------------------------------------------------\nRan 16 tests in 37.538s\n\nOK\n"
+    },
+    {
+      "suite": "test_source_record_update_closure.py",
+      "tests": 17,
+      "seconds": 38.651,
+      "exit_code": 0,
+      "log": ".................\n----------------------------------------------------------------------\nRan 17 tests in 38.651s\n\nOK\n"
+    },
+    {
+      "suite": "test_source_event_forwarding_interfaces.py",
+      "tests": 17,
+      "seconds": 28.631,
+      "exit_code": 1,
+      "log": ".......F.........\n======================================================================\nFAIL: test_frozen_trip_only_restores_emit_helpers_and_keeps_dynamic_setter_blocked (test_source_event_forwarding_interfaces.SourceEventForwardingInterfaceTests.test_frozen_trip_only_restores_emit_helpers_and_keeps_dynamic_setter_blocked)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"C:\\Users\\soul\\Desktop\\swu\\毕业设计\\tests\\test_source_event_forwarding_interfaces.py\", line 134, in test_frozen_trip_only_restores_emit_helpers_and_keeps_dynamic_setter_blocked\n    self.assertEqual(self.apply(fixed, vue)['code'], fixed)\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: '<tem[9895 chars]ndex,delta){const rows=this.data.get(\"dayItems[3918 chars]e>\\n' != '<tem[9895 chars]ndex, delta) {\\n        const dayItems = this.[4227 chars]e>\\n'\nDiff is 14888 characters long. Set self.maxDiff to None to see it.\n\n----------------------------------------------------------------------\nRan 17 tests in 28.631s\n\nFAILED (failures=1)\n"
+    },
+    {
+      "suite": "test_source_readonly_bridge_closure.py",
+      "tests": 17,
+      "seconds": 54.593,
+      "exit_code": 0,
+      "log": ".................\n----------------------------------------------------------------------\nRan 17 tests in 54.593s\n\nOK\n"
+    },
+    {
+      "suite": "test_evaluator_calibration_v1.py",
+      "tests": 17,
+      "seconds": 39.717,
+      "exit_code": 0,
+      "log": ".................\n----------------------------------------------------------------------\nRan 17 tests in 39.717s\n\nOK\n"
+    },
+    {
+      "suite": "test_repair_regression_guard.py",
+      "tests": 32,
+      "seconds": 52.63,
+      "exit_code": 0,
+      "log": "frozen: C:\\Users\\soul\\AppData\\Local\\Temp\\tmpjmt9vzw4\\pre_run (18 verified payloads)\n................................\n----------------------------------------------------------------------\nRan 32 tests in 52.630s\n\nOK\n"
+    },
+    {
+      "suite": "test_source_phase_semantics.py",
+      "tests": 12,
+      "seconds": 55.97,
+      "exit_code": 0,
+      "log": "............\n----------------------------------------------------------------------\nRan 12 tests in 55.970s\n\nOK\n"
+    },
+    {
+      "suite": "test_bounded_semantic_repairs.py",
+      "tests": 12,
+      "seconds": 24.266,
+      "exit_code": 0,
+      "log": "............\n----------------------------------------------------------------------\nRan 12 tests in 24.266s\n\nOK\n"
+    },
+    {
+      "suite": "test_bounded_repair_scheduler.py",
+      "tests": 9,
+      "seconds": 10.83,
+      "exit_code": 0,
+      "log": ".........\n----------------------------------------------------------------------\nRan 9 tests in 10.830s\n\nOK\n"
+    },
+    {
+      "suite": "test_source_render_dependency_closure.py",
+      "tests": 19,
+      "seconds": 72.242,
+      "exit_code": 0,
+      "log": "...................\n----------------------------------------------------------------------\nRan 19 tests in 72.242s\n\nOK\n"
+    }
+  ],
+  "description": "First stable expanded campaign: 168 tests, one failure. A missing source event wrapper hid the swap projection contract until the next normalization; do not count as complete success. Need source-only detection and atomic reuse of proven planned event forwarders."
+}

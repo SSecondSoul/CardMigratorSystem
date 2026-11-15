@@ -1,0 +1,324 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-14",
+  "classification": "source_event_forwarding_interface_bounded_repair_v1",
+  "component": "TripItineraryPlanner",
+  "complexity": "complex",
+  "input_bundle": "data/experiments/analysis/formal_30_v4_trip_event_interface_v1_input_20261114",
+  "failure_bundle": "data/experiments/analysis/formal_30_v4_trip_event_interface_v1_postprocess_fixture_failed_20261114",
+  "research_scope": "Vue-to-San source migration; no native Ref interoperability",
+  "source": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/protocol/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+    "sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139"
+  },
+  "candidate_before": {
+    "path": "data/experiments/analysis/formal_30_v4_parent_props_closure_v1_20261104/retained_trip_itinerary_planner_parent_props_offline.san",
+    "sha256": "191f5790a01639cc82da8a5ad70544c38c1391f7588e4e690442a73e2e895926"
+  },
+  "candidate_after": "TripItineraryPlanner_event_interfaces_offline.san",
+  "production_changed_file": "migration_pipeline/utils/method_interface_semantics.cjs",
+  "generation_prompt_changed": false,
+  "repair_prompt_changed": false,
+  "pipeline_entry_or_validator_relaxed": false,
+  "canonical_artifacts_modified": false,
+  "manual_pages_modified": false,
+  "source_equivalence_of_whole_component_proven": false,
+  "production_eligible": false,
+  "model_calls": 0,
+  "browser_started": false,
+  "server_started": false,
+  "original_scores_modified": false,
+  "baseline_batch_passed": 24,
+  "baseline_batch_configured": 30,
+  "baseline_total_tokens": 1821544,
+  "not_independent_test_set": true,
+  "before": {
+    "validation_passed": false,
+    "validation_errors": [
+      {
+        "code": "hidden_template_reactive_dependency",
+        "message": "模板 class 渲染表达式调用 isConflict(...)，但该方法内部隐藏读取响应式字段：conflictIds。这些字段变化时，San 可能不会重新计算该绑定。",
+        "severity": "error",
+        "location": "template/script",
+        "suggestion": "在模板表达式中直接引用 conflictIds，或将这些字段作为参数显式传给 isConflict(...)。"
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "message": "模板 s-if 渲染表达式调用 isConflict(...)，但该方法内部隐藏读取响应式字段：conflictIds。这些字段变化时，San 可能不会重新计算该绑定。",
+        "severity": "error",
+        "location": "template/script",
+        "suggestion": "在模板表达式中直接引用 conflictIds，或将这些字段作为参数显式传给 isConflict(...)。"
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "message": "模板 text 渲染表达式调用 dayCount(...)，但该方法内部隐藏读取响应式字段：items。这些字段变化时，San 可能不会重新计算该绑定。",
+        "severity": "error",
+        "location": "template/script",
+        "suggestion": "在模板表达式中直接引用 items，或将这些字段作为参数显式传给 dayCount(...)。"
+      },
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 updateDraft(...) 直接修改了来自 San data 的对象或数组引用：draft。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 draft；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method emitEvent has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.emitEvent",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method notify has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.notify",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_render_dependency_not_landed",
+        "message": "Source readonly render dependency graph or target declared fields are unproven.",
+        "severity": "error",
+        "location": "template/section[0]/div[1]/nav[0]/button[0]/small[0]#text:0@dayCount",
+        "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+      }
+    ],
+    "validation_warnings": [],
+    "validation_summary": "San 静态校验未通过：54/56 项检查通过，9 个错误，0 个警告。"
+  },
+  "after": {
+    "validation_passed": false,
+    "validation_errors": [
+      {
+        "code": "hidden_template_reactive_dependency",
+        "message": "模板 class 渲染表达式调用 isConflict(...)，但该方法内部隐藏读取响应式字段：conflictIds。这些字段变化时，San 可能不会重新计算该绑定。",
+        "severity": "error",
+        "location": "template/script",
+        "suggestion": "在模板表达式中直接引用 conflictIds，或将这些字段作为参数显式传给 isConflict(...)。"
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "message": "模板 s-if 渲染表达式调用 isConflict(...)，但该方法内部隐藏读取响应式字段：conflictIds。这些字段变化时，San 可能不会重新计算该绑定。",
+        "severity": "error",
+        "location": "template/script",
+        "suggestion": "在模板表达式中直接引用 conflictIds，或将这些字段作为参数显式传给 isConflict(...)。"
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "message": "模板 text 渲染表达式调用 dayCount(...)，但该方法内部隐藏读取响应式字段：items。这些字段变化时，San 可能不会重新计算该绑定。",
+        "severity": "error",
+        "location": "template/script",
+        "suggestion": "在模板表达式中直接引用 items，或将这些字段作为参数显式传给 dayCount(...)。"
+      },
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 updateDraft(...) 直接修改了来自 San data 的对象或数组引用：draft。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 draft；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_render_dependency_not_landed",
+        "message": "Source readonly render dependency graph or target declared fields are unproven.",
+        "severity": "error",
+        "location": "template/section[0]/div[1]/nav[0]/button[0]/small[0]#text:0@dayCount",
+        "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+      }
+    ],
+    "validation_warnings": [],
+    "validation_summary": "San 静态校验未通过：54/56 项检查通过，7 个错误，0 个警告。"
+  },
+  "compile_after": {
+    "passed": true,
+    "skipped": false,
+    "reason": "san_compile_passed",
+    "diagnostics": []
+  },
+  "before_visual": {
+    "visual_eval_passed": true,
+    "visual_eval_errors": [],
+    "structure_similarity": 1,
+    "tag_sequence_similarity": 1,
+    "text_similarity": 1,
+    "tree_edit_distance": 0
+  },
+  "after_visual": {
+    "visual_eval_passed": true,
+    "visual_eval_errors": [],
+    "structure_similarity": 1,
+    "tag_sequence_similarity": 1,
+    "text_similarity": 1,
+    "tree_edit_distance": 0
+  },
+  "changes": [
+    [
+      "bounded_ast_semantics",
+      "restored_source_event_forwarding_interfaces"
+    ]
+  ],
+  "fixed_point": true,
+  "second_steps": [],
+  "candidate_gate": {
+    "decision": "pass",
+    "should_stop": false,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "new_pre_mount_state_writes": [],
+    "unjustified_pre_mount_state_writes": [],
+    "before": {
+      "exact": [],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "after": {
+      "exact": [],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+    "lost_source_dom_scopes": [],
+    "lost_source_dom_nodes": [],
+    "lost_source_payload_contracts": [],
+    "lost_source_render_bindings": [],
+    "lost_source_dependency_bindings": [],
+    "lost_source_array_contracts": [],
+    "lost_source_child_startup_contracts": [],
+    "lost_source_native_drag_contracts": [],
+    "lost_source_parent_watch_contracts": [],
+    "waived_source_parent_watch_boundaries": [],
+    "lost_source_class_bindings": [],
+    "waived_class_binding_findings": [],
+    "introduced_class_binding_findings": [],
+    "class_binding_analysis_failed": false,
+    "semantic_coverage_assessment": {
+      "status": "not_needed",
+      "proven_pairs": []
+    },
+    "newly_visible_preexisting_semantic_findings": [],
+    "introduced_semantic_findings": [],
+    "introduced_critical_errors": [],
+    "lost_visual_pass": false
+  },
+  "original_preservation": {
+    "added": [
+      "emitEvent",
+      "notify"
+    ],
+    "original_script_ast_preserved": true
+  },
+  "template_and_style_bytes_unchanged": true,
+  "source_rule_boundary": "Closed synchronous event-only forwarding graphs. Leaf this.$emit(name,payload), exactly two arguments; forwarding arguments are parameters/literals; no extra statements, returns, unknown dependencies, target triggers, overwritten options or recursive graph.",
+  "tests": [
+    {
+      "suite": "test_source_event_forwarding_interfaces.py",
+      "tests": 17,
+      "seconds": 25.488,
+      "exit_code": 0,
+      "kind": "new_tests_including_native_framework_and_prepass_postprocessing"
+    },
+    {
+      "suite": "test_method_interface_closure.py",
+      "tests": 16,
+      "seconds": 111.269,
+      "exit_code": 0,
+      "kind": "existing_regression"
+    },
+    {
+      "suite": "test_source_phase_semantics.py",
+      "tests": 12,
+      "seconds": 48.457,
+      "exit_code": 0,
+      "kind": "existing_regression"
+    }
+  ],
+  "total_targeted_tests": 45,
+  "full_suite_rerun": false,
+  "earlier_failure": {
+    "suite": "test_source_event_forwarding_interfaces.py",
+    "tests": 17,
+    "failures": 1,
+    "seconds": 29.663,
+    "exit_code": 1,
+    "test": "test_model_response_postprocessing_uses_same_rule_without_external_request",
+    "cause": "RepairStage canonical file save appends a newline; direct AST transformer returns the exact no-newline input suffix. Assertion differed only by final newline.",
+    "evidence": "Observed tool terminal output; full original stdout was not saved.",
+    "production_code_relaxed": false,
+    "planned_fixture_correction": "Assert repaired_code equals exact_transformer_result plus newline rather than stripping or weakening AST/interface checks."
+  },
+  "inventory": {
+    "count": 30,
+    "original_passed_count": 24,
+    "changed_ids": [
+      "trip_itinerary_planner"
+    ],
+    "boundary": "Source method/phase AST scan only, not a new full 30 static/DOM/model batch."
+  },
+  "protected_files_sha256": {
+    "migration_pipeline/stages/validate.py": "a919ffa72c6ea1090db31d48bea184e473aa991e627427e6914af3e7b77fc0f5",
+    "migration_pipeline/stages/repair.py": "4ac547edad306677cc542eccec5e0b726821da409efdcd0c61115e24e36af087",
+    "migration_pipeline/utils/repair_scheduler.py": "98cb108380bec3a4766ecbedbcd374daad4f2205380a72a1f29ed34ffa4c694e",
+    "migration_pipeline/utils/repair_prompt.py": "ab51c544c2fccd10363ad0e6bc95f5968b9af5635ceed978fcf419e3dc02bea6",
+    "migration_pipeline/utils/source_parent_watch_semantics.cjs": "b39b624afb370f85a7bfbee2aef5f6659b2648261cb3e7ed05a6f3e5a756a92e",
+    "migration_pipeline/utils/source_parent_watch_semantics.py": "31dfa61a241f1239c2548c2cfe3961b63e77a2605407b6b5c7ce550a1871c4ed",
+    "migration_pipeline/utils/v7_source_queue_contract.cjs": "0d3f6ea092b5d8f8906866a75210afc261cff42e98d35d385643d78d98f972a1",
+    "migration_pipeline/utils/v7_source_queue_contract.py": "77fc7b6534d18390cb5120d7126cf206aac5510fabc77bd5608a96cc085e10d3",
+    "migration_pipeline/utils/repair_regression_guard.py": "f6b4ea29d2115f3b0246de30f6a244f8106dbc0ab919b8ae82c7aaee2545f963",
+    "local_server/api/evaluation_routes.py": "d0a6bb55b5e0366317be5f0bc8047b97dd41b04401918a43cb5e4bec496eafc0",
+    "tests/manual/v7-acceptance-config.json": "99b6bd89fadafa63de8e858bee2eb2bc5f5bbe5a3320f90c6defbdc0448aa0d7",
+    "tests/manual/vue-test-runner.html": "b2e193ef81bd1af84c2e7bd828ac67d4dd18c8f82c4b1100fc298e64a68e0d50",
+    "tests/manual/san-test-runner.html": "5b704c7639d83050b0f5ce4ebcaaca166accf855dd541f43cf7498c2d7c46409",
+    "data/experiments/batch_reports/formal_30_v4_full_regression_v2_summary.json": "2d2137233fd8643dd13c40119d1a59516b0dd13a08ddf7fa5ef244fc4f498a03",
+    "migration_pipeline/utils/method_interface_semantics.cjs": "8ae76b9ddc0d8f15534d2b46dad9d9ed67eef66f3b96d8233e6594370361620f"
+  },
+  "allowed_modified_protected_files": [
+    "migration_pipeline/utils/method_interface_semantics.cjs"
+  ],
+  "notebook_before": {
+    "cells": 103,
+    "cells_sha256": "eba3a68384510d29e09d0269df51efa7fcb6803a8794e9175490939e9dc64a68",
+    "metadata_sha256": "da8e8b42bb4344c317ccdf5038310d76529bda61666c53ff805bcc19dbede418"
+  },
+  "remaining_work": [
+    "Source-matched literal-record updates and cloned-alias detection; do not blindly change shallow shared-object behavior.",
+    "Source-proven private render dependency bindings for isConflict/dayCount; public methods remain intact.",
+    "Dynamic public setValue(key,value) source contract remains unproven; do not replace blindly with a San path setter.",
+    "Full component functional/visual checks after remaining repair closure; no paid rerun yet."
+  ]
+}
+

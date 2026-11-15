@@ -21,6 +21,10 @@ def _classes(attrs: str) -> set[str]:
 
 
 def _method_is_self_guarded(script: str, expression: str) -> bool:
+    # San's parser gives a bare handler the default $event argument; explicit
+    # handler() has no args. Never confuse these two valid syntactic forms.
+    if not re.fullmatch(r"[A-Za-z_$][\w$]*(?:\s*\(\s*\$event\s*\))?", expression.strip()):
+        return False
     name = expression.strip().split("(", 1)[0]
     if not IDENT.fullmatch(name):
         return False

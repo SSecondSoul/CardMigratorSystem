@@ -1,0 +1,544 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-14",
+  "classification": "source_shared_swap_shallow_projection_v1_partial_repair_without_mutation_waiver",
+  "component": "TripItineraryPlanner",
+  "input_bundle": "data/experiments/analysis/formal_30_v4_shared_swap_v1_input_20261114",
+  "additional_input_and_failure_bundles": [
+    "data/experiments/analysis/formal_30_v4_shared_swap_v1_tests_input_20261114",
+    "data/experiments/analysis/formal_30_v4_shared_swap_v1_event_test_input_20261114",
+    "data/experiments/analysis/formal_30_v4_shared_swap_v1_development_failed_20261114",
+    "data/experiments/analysis/formal_30_v4_shared_swap_v1_historical_tests_failed_20261114",
+    "data/experiments/analysis/formal_30_v4_shared_swap_v1_combination_failed_20261114",
+    "data/experiments/analysis/formal_30_v4_shared_swap_v1_atomic_test_failed_20261114"
+  ],
+  "source": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/protocol/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+    "sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139"
+  },
+  "candidate_before": {
+    "path": "data/experiments/analysis/formal_30_v4_render_bridge_v1_20261114/TripItineraryPlanner_render_dependencies_offline.san",
+    "sha256": "756ec06d4614cd8f109ba4a8d8725f72c39b1554668256075d2d9d4286c14cd5"
+  },
+  "candidate_after": "TripItineraryPlanner_shared_swap_offline.san",
+  "candidate_after_sha256": "abc9e277d163a56649977512016ae4af3aab61a5400e522e2c87f61720ba802b",
+  "previous_version_diagnostic_count": 2,
+  "fresh_before": {
+    "validation_passed": false,
+    "validation_errors": [
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_shared_record_projection_not_landed",
+        "message": "Preserve source shared-record writes, shallow selected-record projection, unchanged-record identities and ordered root commit/notification. Do not deep-clone or waive the separate mutation review.",
+        "severity": "error",
+        "location": "script.methods.moveItem@items",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      }
+    ]
+  },
+  "after": {
+    "validation_passed": false,
+    "validation_errors": [
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      }
+    ]
+  },
+  "count_explanation": "The newly detected deep-vs-shallow source projection gap adds one source finding to previous2; current-rule before3 -> after2. Existing nested mutation and dynamic-setter interface diagnostics remain; no error-count-only success.",
+  "contract_before": [
+    {
+      "contract": "script.methods.moveItem@items",
+      "name": "moveItem",
+      "field": "items",
+      "derived_boundary": "dayItems",
+      "landed": false,
+      "repair_eligible": true,
+      "proof": "exact_source_shared_swap_then_shallow_projection_and_ordered_root_commits",
+      "nested_mutation_exemption": false,
+      "reuses_planned_event_forwarders": false
+    }
+  ],
+  "contract_after": [
+    {
+      "contract": "script.methods.moveItem@items",
+      "name": "moveItem",
+      "field": "items",
+      "derived_boundary": "dayItems",
+      "landed": true,
+      "repair_eligible": false,
+      "proof": "exact_source_shared_swap_then_shallow_projection_and_ordered_root_commits",
+      "nested_mutation_exemption": false,
+      "reuses_planned_event_forwarders": false
+    }
+  ],
+  "changes": [
+    [
+      "bounded_ast_semantics",
+      "restored_source_shared_swap_shallow_projection"
+    ]
+  ],
+  "fixed_point": true,
+  "compile": {
+    "passed": true,
+    "skipped": false,
+    "reason": "san_compile_passed",
+    "diagnostics": []
+  },
+  "visual": {
+    "before": {
+      "visual_eval_passed": true,
+      "visual_eval_errors": [],
+      "structure_similarity": 1,
+      "text_similarity": 1,
+      "tag_sequence_similarity": 1,
+      "tree_edit_distance": 0
+    },
+    "after": {
+      "visual_eval_passed": true,
+      "visual_eval_errors": [],
+      "structure_similarity": 1,
+      "text_similarity": 1,
+      "tag_sequence_similarity": 1,
+      "tree_edit_distance": 0
+    }
+  },
+  "preservation": {
+    "changed": [
+      "moveItem"
+    ],
+    "other_script_preserved": true
+  },
+  "template_style_unchanged": true,
+  "accepted_candidate_gate": {
+    "decision": "pass",
+    "should_stop": false,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "new_pre_mount_state_writes": [],
+    "unjustified_pre_mount_state_writes": [],
+    "before": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "after": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+    "lost_source_dom_scopes": [],
+    "lost_source_dom_nodes": [],
+    "lost_source_payload_contracts": [],
+    "lost_source_render_bindings": [],
+    "lost_source_dependency_bindings": [],
+    "lost_source_array_contracts": [],
+    "lost_source_child_startup_contracts": [],
+    "lost_source_native_drag_contracts": [],
+    "lost_source_parent_watch_contracts": [],
+    "waived_source_dependency_findings": [],
+    "lost_source_dependency_proofs": [],
+    "source_dependency_analysis_failed": false,
+    "lost_source_record_update_contracts": [],
+    "waived_source_record_update_findings": [],
+    "lost_source_shared_record_contracts": [],
+    "waived_source_shared_record_findings": [],
+    "waived_source_parent_watch_boundaries": [],
+    "lost_source_class_bindings": [],
+    "waived_class_binding_findings": [],
+    "introduced_class_binding_findings": [],
+    "class_binding_analysis_failed": false,
+    "semantic_coverage_assessment": {
+      "status": "not_needed",
+      "proven_pairs": []
+    },
+    "newly_visible_preexisting_semantic_findings": [],
+    "introduced_semantic_findings": [],
+    "introduced_critical_errors": [],
+    "lost_visual_pass": false
+  },
+  "reverse_candidate_gate": {
+    "decision": "reject",
+    "should_stop": true,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "new_pre_mount_state_writes": [],
+    "unjustified_pre_mount_state_writes": [],
+    "before": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "after": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+    "lost_source_dom_scopes": [],
+    "lost_source_dom_nodes": [],
+    "lost_source_payload_contracts": [],
+    "lost_source_render_bindings": [],
+    "lost_source_dependency_bindings": [],
+    "lost_source_array_contracts": [],
+    "lost_source_child_startup_contracts": [],
+    "lost_source_native_drag_contracts": [],
+    "lost_source_parent_watch_contracts": [],
+    "waived_source_dependency_findings": [],
+    "lost_source_dependency_proofs": [],
+    "source_dependency_analysis_failed": false,
+    "lost_source_record_update_contracts": [],
+    "waived_source_record_update_findings": [],
+    "lost_source_shared_record_contracts": [],
+    "waived_source_shared_record_findings": [],
+    "waived_source_parent_watch_boundaries": [],
+    "lost_source_class_bindings": [],
+    "waived_class_binding_findings": [],
+    "introduced_class_binding_findings": [],
+    "class_binding_analysis_failed": false,
+    "semantic_coverage_assessment": {
+      "status": "not_needed",
+      "proven_pairs": []
+    },
+    "newly_visible_preexisting_semantic_findings": [],
+    "introduced_semantic_findings": [
+      {
+        "code": "source_shared_record_projection_not_landed",
+        "location": "script.methods.moveItem@items",
+        "message": "Preserve source shared-record writes, shallow selected-record projection, unchanged-record identities and ordered root commit/notification. Do not deep-clone or waive the separate mutation review.",
+        "count": 1
+      }
+    ],
+    "introduced_critical_errors": [],
+    "lost_visual_pass": false
+  },
+  "forged_pass_gate": {
+    "decision": "reject",
+    "should_stop": true,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "new_pre_mount_state_writes": [],
+    "unjustified_pre_mount_state_writes": [],
+    "before": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "after": {
+      "exact": [
+        "click:save",
+        "click:selectDay(day.id)",
+        "input:updateBudget",
+        "click:moveItem(index, -1)",
+        "click:moveItem(index, 1)",
+        "click:removeItem(item.id)",
+        "submit:addItem",
+        "input:updateDraft('start', $event)",
+        "input:updateDraft('end', $event)",
+        "input:updateDraft('place', $event)",
+        "input:updateDraft('cost', $event)"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [],
+      "proven_self_wrappers": [],
+      "proven_native_guards": []
+    },
+    "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+    "lost_source_dom_scopes": [],
+    "lost_source_dom_nodes": [],
+    "lost_source_payload_contracts": [],
+    "lost_source_render_bindings": [],
+    "lost_source_dependency_bindings": [],
+    "lost_source_array_contracts": [],
+    "lost_source_child_startup_contracts": [],
+    "lost_source_native_drag_contracts": [],
+    "lost_source_parent_watch_contracts": [],
+    "waived_source_dependency_findings": [],
+    "lost_source_dependency_proofs": [],
+    "source_dependency_analysis_failed": false,
+    "lost_source_record_update_contracts": [],
+    "waived_source_record_update_findings": [],
+    "lost_source_shared_record_contracts": [],
+    "waived_source_shared_record_findings": [
+      {
+        "code": "source_shared_record_projection_not_landed",
+        "location": "script.methods.moveItem@items",
+        "message": "Preserve source shared-record writes, shallow selected-record projection, unchanged-record identities and ordered root commit/notification. Do not deep-clone or waive the separate mutation review."
+      }
+    ],
+    "waived_source_parent_watch_boundaries": [],
+    "lost_source_class_bindings": [],
+    "waived_class_binding_findings": [],
+    "introduced_class_binding_findings": [],
+    "class_binding_analysis_failed": false,
+    "semantic_coverage_assessment": {
+      "status": "not_needed",
+      "proven_pairs": []
+    },
+    "newly_visible_preexisting_semantic_findings": [],
+    "introduced_semantic_findings": [],
+    "introduced_critical_errors": [],
+    "lost_visual_pass": false
+  },
+  "atomic_event_composition": "Source-only detection remains visible before event wrappers exist. During repair, only independently source-proven planned event forwarders from the same AST edit transaction can satisfy helper eligibility; read-only validation requires actual exact methods.",
+  "native_case_names": [
+    "forward",
+    "backward",
+    "negative",
+    "upper",
+    "same",
+    "fraction",
+    "nan",
+    "duplicate-ids",
+    "cycle"
+  ],
+  "native_scope": "Nine method cases after assigning identical items and saved state in installed native Vue2.7.16/San3.15.6. This is not a startup-equivalence, browser or all-interaction proof.",
+  "derived_computed_boundary": "The declared dayItems computed view is read through this.data.get; its implementation is not certified by the source projection matcher.",
+  "nested_mutation_exemption": false,
+  "dynamic_setter_restored": false,
+  "dynamic_setter_probe": {
+    "source": {
+      "oldStart": "09:00",
+      "literalInstanceKey": "literal",
+      "nestedStart": "09:00",
+      "lateInstanceField": 7,
+      "lateDeclared": false
+    },
+    "naiveSan": {
+      "oldStart": "09:00",
+      "literalInstanceKeyPresent": false,
+      "nestedStart": "literal",
+      "lateStoreField": 7
+    },
+    "naiveImplementationInstalled": false
+  },
+  "startup_counterexample": {
+    "source": {
+      "newArray": true,
+      "newRecord": true,
+      "sameNested": true
+    },
+    "target": {
+      "newArray": true,
+      "newRecord": true,
+      "sameNested": false
+    },
+    "scope": "initialization counterexample only; not repaired in swap step"
+  },
+  "remaining_source_fidelity_gap": "Parent created/inited copies initialItems: source shallow record copy retains nested meta identity, target recursive clone loses it. Counterexample confirmed; startup not repaired by this method-only rule.",
+  "known_unresolved": [
+    {
+      "code": "nested_state_mutation",
+      "status": "retained_for_shared_write_commit_and_computed_notification_review"
+    },
+    {
+      "code": "source_method_interface_not_landed",
+      "method": "setValue",
+      "status": "arbitrary_instance_assignment_not_equivalent_to_San_dotted_path"
+    },
+    {
+      "code": "parent_initialization_shallow_alias_gap",
+      "status": "confirmed_native_counterexample_not_yet_a_new_production_diagnostic"
+    }
+  ],
+  "production_eligible": false,
+  "whole_component_equivalence_proven": false,
+  "new_manual_confirmation": false,
+  "browser_started": false,
+  "server_started": false,
+  "model_calls": 0,
+  "canonical_artifacts_modified": false,
+  "original_scores_modified": false,
+  "original_batch": {
+    "configured": 30,
+    "passed": 24,
+    "failed": 6,
+    "execution_errors": 0,
+    "total_tokens": 1821544
+  },
+  "independent_holdout": false,
+  "repair_prompt_changed": true,
+  "generation_prompt_or_server_changed": false,
+  "validator_changed": false,
+  "nested_alias_checker_relaxed": false,
+  "tests": {
+    "total": 169,
+    "all_passed": true,
+    "wall_seconds": 218.102,
+    "workers": 2,
+    "full_repository_suite": false
+  },
+  "tested_code_sha256": {
+    "migration_pipeline/utils/source_shared_swap_semantics.cjs": "4cdabedd29666ea7d832af83445800af9a08d63172415c7bdc37a4d0597f415a",
+    "migration_pipeline/utils/source_phase_semantics.cjs": "e9c5a7e17cce2fa680daed601c92b4a98cfd806d75fe4a9345963106adacde7c",
+    "migration_pipeline/utils/bounded_semantics.cjs": "8ff76643f40ee5a2557508c6cd61f3e3f76913f99161f0cdb92490674f969f6f",
+    "migration_pipeline/stages/repair.py": "b0ca7b42fa32e143744d86f5bf885e8e28f9dd9267578374bf53bacd07507316",
+    "migration_pipeline/utils/repair_scheduler.py": "36c0423decb6ec54b9aef0e18ef87cc6c173a6a27c0078f1b0cd3f070964fb6e",
+    "migration_pipeline/utils/repair_prompt.py": "14ee87f9162db56817ba085fb8554422c2ba33dd5fd308a0356ab5f4ce971b08",
+    "tests/test_source_shared_swap_closure.py": "ebf9e777eb0f4821d3d318779793ed049690bd85c3bbfe3e78083d4a5273bed1",
+    "tests/test_source_record_update_closure.py": "6cfc2b35288727b417332867f75639fd3433f307f9825e8ae2552858a251e1cf",
+    "tests/test_source_readonly_bridge_closure.py": "3e81d79aae8b7af6c34f8b2d059ea620bc96063c1a8b75cef46a96aedbdaa2a4",
+    "tests/test_source_event_forwarding_interfaces.py": "cd56d92d2b28b60cad07b481920e534f0a74393421e4976d26913d09ea860dc7"
+  },
+  "allowed_modified_existing_files": [
+    "migration_pipeline/stages/repair.py",
+    "migration_pipeline/utils/bounded_semantics.cjs",
+    "migration_pipeline/utils/repair_prompt.py",
+    "migration_pipeline/utils/repair_scheduler.py",
+    "migration_pipeline/utils/source_phase_semantics.cjs",
+    "tests/test_source_event_forwarding_interfaces.py",
+    "tests/test_source_readonly_bridge_closure.py",
+    "tests/test_source_record_update_closure.py"
+  ],
+  "new_files": [
+    "migration_pipeline/utils/source_shared_swap_semantics.cjs",
+    "tests/test_source_shared_swap_closure.py"
+  ],
+  "protected_files_sha256": {
+    "data/experiments/batch_reports/formal_30_v4_full_regression_v2_summary.json": "2d2137233fd8643dd13c40119d1a59516b0dd13a08ddf7fa5ef244fc4f498a03",
+    "local_server/api/evaluation_routes.py": "d0a6bb55b5e0366317be5f0bc8047b97dd41b04401918a43cb5e4bec496eafc0",
+    "migration_pipeline/stages/repair.py": "be7044e2618597cd5feabcc75e790274b9b8b57321747c80c10e49575cf0e31e",
+    "migration_pipeline/stages/validate.py": "a919ffa72c6ea1090db31d48bea184e473aa991e627427e6914af3e7b77fc0f5",
+    "migration_pipeline/utils/bounded_semantics.cjs": "4b80b6907e800f0bac71cacbac405227fa3da223da209cd1cb55d5ef90b9c0f3",
+    "migration_pipeline/utils/detached_record_semantics.cjs": "8e567af972eafc68f5e69ea88ebdf0e6f24e4f723aed68c850fbb23c454ce928",
+    "migration_pipeline/utils/method_interface_semantics.cjs": "ecf7feb3959e81e7fa29d87de702d6d2b1c53430df4abf7307721723ec11e967",
+    "migration_pipeline/utils/repair_prompt.py": "691a2f4b81614c02618ea0ad6c7cfb9da9da1aaf1f9456396dab7ce1fa05611b",
+    "migration_pipeline/utils/repair_regression_guard.py": "f6b4ea29d2115f3b0246de30f6a244f8106dbc0ab919b8ae82c7aaee2545f963",
+    "migration_pipeline/utils/repair_scheduler.py": "482d090ed86e2ca977068e8c122b5cafd117e2ae261f1ce100604c291ab00308",
+    "migration_pipeline/utils/source_dom_semantics.cjs": "3eb449584bbe0db053988ad388d7b212c7f669ffa79df9fcb2af80c20aaa7271",
+    "migration_pipeline/utils/source_parent_watch_semantics.cjs": "b39b624afb370f85a7bfbee2aef5f6659b2648261cb3e7ed05a6f3e5a756a92e",
+    "migration_pipeline/utils/source_parent_watch_semantics.py": "31dfa61a241f1239c2548c2cfe3961b63e77a2605407b6b5c7ce550a1871c4ed",
+    "migration_pipeline/utils/source_phase_semantics.cjs": "ab6369b089627ade24861850984191946686727f6d26174c22970002277cc51a",
+    "migration_pipeline/utils/source_readonly_bridge_semantics.cjs": "b9b27cf0dc9380a57aaf6aacb7583327044c87eb777fa4285b471f3ef7dc51c2",
+    "migration_pipeline/utils/source_record_update_semantics.cjs": "c52f8b95726c9ac9e06c1160b7fc9a6470426e98aa092059626d3a3316631cb6",
+    "migration_pipeline/utils/source_render_call_semantics.cjs": "c7b70e6808013d9369cfe896d1d36de3b4a3fe8862d478fdee98e27fdd4e1486",
+    "migration_pipeline/utils/source_render_dependency_semantics.cjs": "44b3e04163be409da29c911bb17ef36240a79466d71fbb92609421c5444a8126",
+    "migration_pipeline/utils/v7_source_queue_contract.cjs": "0d3f6ea092b5d8f8906866a75210afc261cff42e98d35d385643d78d98f972a1",
+    "migration_pipeline/utils/v7_source_queue_contract.py": "77fc7b6534d18390cb5120d7126cf206aac5510fabc77bd5608a96cc085e10d3",
+    "tests/manual/san-test-runner.html": "5b704c7639d83050b0f5ce4ebcaaca166accf855dd541f43cf7498c2d7c46409",
+    "tests/manual/v7-acceptance-config.json": "99b6bd89fadafa63de8e858bee2eb2bc5f5bbe5a3320f90c6defbdc0448aa0d7",
+    "tests/manual/vue-test-runner.html": "b2e193ef81bd1af84c2e7bd828ac67d4dd18c8f82c4b1100fc298e64a68e0d50",
+    "tests/test_source_dom_closure.py": "bb702c9ff5bb891f38ce6070b076be9d63ebba5c96517c4a3cb24c2251fd0a25",
+    "tests/test_source_event_forwarding_interfaces.py": "a87fcfbd6ab7f28c610e5318403f1b3ad1ef6c2071350ce230f46b9b9ee822d0",
+    "tests/test_source_readonly_bridge_closure.py": "fb7a3568fa1af5ffd597a596ff8f37ad7c9954ab800cba6974ab24f046606532",
+    "tests/test_source_record_update_closure.py": "0566feda0920c738e66282d337781bbae471213c59eff6754951d6334279f275",
+    "tests/test_source_render_call_closure.py": "d8f5dc7cdb1a263892ee49a011d614f49364ffe4bc69181b3de8a56a4f12fb4d",
+    "tests/test_source_render_dependency_closure.py": "07e86fa619301a50bbf951cea5d4934555c030f1c6e4c3c0325026f0ab3f67c9"
+  },
+  "protected_unchanged_except_allowed": true,
+  "notebook_before": {
+    "cells": 109,
+    "cells_sha256": "d754fa6be1a8fac1201b3efc9bef5d83e4b68af496f4c41717406c4c15ed591c",
+    "metadata_sha256": "da8e8b42bb4344c317ccdf5038310d76529bda61666c53ff805bcc19dbede418"
+  },
+  "inventory": {
+    "rows": 30,
+    "changed_ids": [
+      "trip_itinerary_planner"
+    ],
+    "original_passed_unchanged": 24,
+    "original_passed_new_shared_findings": 0,
+    "scope": "bounded shared AST scan only, not full validation/generation/DOM rerun"
+  },
+  "next": "First correct source shallow initialization from the confirmed native counterexample; separately prove shared-write/root-commit notification safety and audit dynamic-helper interface scope. Do not rerun LLM to mask these boundaries."
+}

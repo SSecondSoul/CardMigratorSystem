@@ -1,0 +1,306 @@
+{
+  "date": "2026-11-14",
+  "status": "frozen_before_emit_wrapper_fix",
+  "input": {
+    "id": "trip_itinerary_planner",
+    "candidate": {
+      "path": "data/experiments/analysis/formal_30_v4_parent_props_closure_v1_20261104/retained_trip_itinerary_planner_parent_props_offline.san",
+      "sha256": "191f5790a01639cc82da8a5ad70544c38c1391f7588e4e690442a73e2e895926"
+    },
+    "vue": {
+      "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/protocol/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+      "sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139"
+    },
+    "validation_passed": false,
+    "errors": [
+      {
+        "code": "hidden_template_reactive_dependency",
+        "message": "模板 class 渲染表达式调用 isConflict(...)，但该方法内部隐藏读取响应式字段：conflictIds。这些字段变化时，San 可能不会重新计算该绑定。",
+        "severity": "error",
+        "location": "template/script",
+        "suggestion": "在模板表达式中直接引用 conflictIds，或将这些字段作为参数显式传给 isConflict(...)。"
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "message": "模板 s-if 渲染表达式调用 isConflict(...)，但该方法内部隐藏读取响应式字段：conflictIds。这些字段变化时，San 可能不会重新计算该绑定。",
+        "severity": "error",
+        "location": "template/script",
+        "suggestion": "在模板表达式中直接引用 conflictIds，或将这些字段作为参数显式传给 isConflict(...)。"
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "message": "模板 text 渲染表达式调用 dayCount(...)，但该方法内部隐藏读取响应式字段：items。这些字段变化时，San 可能不会重新计算该绑定。",
+        "severity": "error",
+        "location": "template/script",
+        "suggestion": "在模板表达式中直接引用 items，或将这些字段作为参数显式传给 dayCount(...)。"
+      },
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 updateDraft(...) 直接修改了来自 San data 的对象或数组引用：draft。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 draft；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method emitEvent has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.emitEvent",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method notify has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.notify",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "source_render_dependency_not_landed",
+        "message": "Source readonly render dependency graph or target declared fields are unproven.",
+        "severity": "error",
+        "location": "template/section[0]/div[1]/nav[0]/button[0]/small[0]#text:0@dayCount",
+        "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+      }
+    ],
+    "compile": {
+      "passed": true,
+      "skipped": false,
+      "reason": "san_compile_passed"
+    },
+    "visual_reexecuted": false,
+    "model_calls": 0,
+    "lineage": "historical_offline_derivative_not_a_new_batch"
+  },
+  "method_interface_before_base64": "Ly8gUHJlc2VydmUgdGhlIGV4cG9ydGVkIHBhcmVudCdzIGNhbGxhYmxlIHN1cmZhY2U7IG5ldmVyIGV4ZWN1dGUgYSBzb3VyY2UgYm9keS4KY29uc3QgcGFyc2VyID0gcmVxdWlyZSgnQGJhYmVsL3BhcnNlcicpOwpjb25zdCB0ID0gcmVxdWlyZSgnQGJhYmVsL3R5cGVzJyk7CmNvbnN0IGdlbmVyYXRlID0gcmVxdWlyZSgnQGJhYmVsL2dlbmVyYXRvcicpLmRlZmF1bHQ7CmNvbnN0IHRyYXZlcnNlID0gcmVxdWlyZSgnQGJhYmVsL3RyYXZlcnNlJykuZGVmYXVsdDsKY29uc3Qge3BhcnNlfSA9IHJlcXVpcmUoJ0B2dWUvY29tcGlsZXItZG9tJyk7CmNvbnN0IGtleSA9IG4gPT4gIW4uY29tcHV0ZWQgJiYgKG4ua2V5Py5uYW1lIHx8IG4ua2V5Py52YWx1ZSk7CmNvbnN0IG9uZSA9IChvLCBuKSA9PiBvPy5wcm9wZXJ0aWVzPy5maW5kKHAgPT4ga2V5KHApID09PSBuKTsKY29uc3QgY2FsbGFibGUgPSBwID0+IChwPy50eXBlID09PSAnT2JqZWN0TWV0aG9kJyAmJiBwLmtpbmQgPT09ICdtZXRob2QnKQogIHx8IChwPy50eXBlID09PSAnT2JqZWN0UHJvcGVydHknICYmIFsnRnVuY3Rpb25FeHByZXNzaW9uJywnQXJyb3dGdW5jdGlvbkV4cHJlc3Npb24nXS5pbmNsdWRlcyhwLnZhbHVlLnR5cGUpKTsKY29uc3QgZnVuY3Rpb25PZiA9IHAgPT4gcC50eXBlID09PSAnT2JqZWN0TWV0aG9kJyA/IHAgOiBwLnZhbHVlOwpmdW5jdGlvbiBmdW5jdGlvbkJpbmRpbmdzKGFzdCkgewogIGNvbnN0IHJlc3VsdD1uZXcgTWFwKCk7dHJhdmVyc2UoYXN0LHtQcm9ncmFtKHBhdGgpewogICAgZm9yKGNvbnN0IFtuYW1lLGJpbmRpbmddIG9mIE9iamVjdC5lbnRyaWVzKHBhdGguc2NvcGUuYmluZGluZ3MpKXsKICAgICAgaWYoIWJpbmRpbmcuY29uc3RhbnQpY29udGludWU7CiAgICAgIGNvbnN0IG49YmluZGluZy5wYXRoLm5vZGUsZm49bi50eXBlPT09J0Z1bmN0aW9uRGVjbGFyYXRpb24nP246CiAgICAgICAgbi50eXBlPT09J1ZhcmlhYmxlRGVjbGFyYXRvcicmJlsnRnVuY3Rpb25FeHByZXNzaW9uJywnQXJyb3dGdW5jdGlvbkV4cHJlc3Npb24nXS5pbmNsdWRlcyhuLmluaXQ/LnR5cGUpP24uaW5pdDpudWxsOwogICAgICBpZihmbilyZXN1bHQuc2V0KG5hbWUsZm4pOwogICAgfXBhdGguc3RvcCgpOwogIH19KTtyZXR1cm4gcmVzdWx0Owp9CmNvbnN0IHJlc29sdmVkRnVuY3Rpb24gPSAocCwgYmluZGluZ3MpID0+IGNhbGxhYmxlKHApP2Z1bmN0aW9uT2YocCk6CiAgcD8udHlwZT09PSdPYmplY3RQcm9wZXJ0eScmJnAudmFsdWUudHlwZT09PSdJZGVudGlmaWVyJz9iaW5kaW5ncy5nZXQocC52YWx1ZS5uYW1lKTpudWxsOwpjb25zdCBwbGFpbiA9IG8gPT4gbz8udHlwZSA9PT0gJ09iamVjdEV4cHJlc3Npb24nICYmIG8ucHJvcGVydGllcy5ldmVyeShwID0+IGtleShwKSkKICAmJiBuZXcgU2V0KG8ucHJvcGVydGllcy5tYXAoa2V5KSkuc2l6ZSA9PT0gby5wcm9wZXJ0aWVzLmxlbmd0aDsKY29uc3QgcmVzZXJ2ZWQgPSBuZXcgU2V0KFsnaW5pdERhdGEnLCdpbml0ZWQnLCdjb21waWxlZCcsJ2NyZWF0ZWQnLCdhdHRhY2hlZCcsJ3VwZGF0ZWQnLCdkZXRhY2hlZCcsJ2Rpc3Bvc2VkJywKICAnd2F0Y2gnLCdmaXJlJywncmVmJywnc2xvdCcsJ2F0dGFjaCcsJ2RldGFjaCcsJ2Rpc3Bvc2UnLCdkYXRhJywnZWwnLCdjb25zdHJ1Y3RvcicsJ3Byb3RvdHlwZScsJ19fcHJvdG9fXycsCiAgJ3RlbXBsYXRlJywnY29tcG9uZW50cycsJ2NvbXB1dGVkJywnZGF0YVR5cGVzJywnZmlsdGVycycsJ21lc3NhZ2VzJywndGFnTmFtZSddKTsKY29uc3QgZ2xvYmFscyA9IG5ldyBTZXQoWyd3aW5kb3cnLCdOb3RpZmljYXRpb24nLCdNYXRoJywnSlNPTicsJ1N0cmluZycsJ051bWJlcicsJ0Jvb2xlYW4nLCd1bmRlZmluZWQnLCdOYU4nLCdJbmZpbml0eSddKTsKY29uc3QgZGFuZ2Vyb3VzID0gbmV3IFNldChbJ2NvbnN0cnVjdG9yJywncHJvdG90eXBlJywnX19wcm90b19fJ10pOwpjb25zdCBwdXJlQ2FsbHMgPSBuZXcgU2V0KFsnTWF0aC5hYnMnLCdNYXRoLnJvdW5kJywnTWF0aC5mbG9vcicsJ01hdGguY2VpbCcsJ01hdGgubWluJywnTWF0aC5tYXgnLAogICdNYXRoLnBvdycsJ01hdGguc3FydCcsJ0pTT04uc3RyaW5naWZ5JywnSlNPTi5wYXJzZScsJ1N0cmluZycsJ051bWJlcicsJ0Jvb2xlYW4nXSk7CmNvbnN0IGVzY2FwZSA9IHMgPT4gcy5yZXBsYWNlKC9bLiorP14ke30oKXxbXF1cXF0vZywnXFwkJicpOwoKZnVuY3Rpb24gd2Fsayhub2RlLCB2aXNpdCwgcGFyZW50PW51bGwpIHsKICBpZiAoIW5vZGUgfHwgdHlwZW9mIG5vZGUgIT09ICdvYmplY3QnKSByZXR1cm47CiAgaWYgKEFycmF5LmlzQXJyYXkobm9kZSkpIHtub2RlLmZvckVhY2gobj0+d2FsayhuLHZpc2l0LHBhcmVudCkpO3JldHVybjt9CiAgdmlzaXQobm9kZSxwYXJlbnQpOwogIGZvciAoY29uc3QgW2ssdl0gb2YgT2JqZWN0LmVudHJpZXMobm9kZSkpIGlmICghWydsb2MnLCdleHRyYScsJ2NvbW1lbnRzJywndG9rZW5zJ10uaW5jbHVkZXMoaykpIHdhbGsodix2aXNpdCxub2RlKTsKfQpmdW5jdGlvbiByZWZlcmVuY2VzKHBhcmVudCwgdGVtcGxhdGUsIHNvdXJjZSwgbmFtZSkgewogIGxldCBjb3VudD0wLCB1bmNlcnRhaW49ZmFsc2U7CiAgd2FsayhwYXJlbnQsKG4scCk9PnsKICAgIGlmIChbJ01lbWJlckV4cHJlc3Npb24nLCdPcHRpb25hbE1lbWJlckV4cHJlc3Npb24nXS5pbmNsdWRlcyhuLnR5cGUpICYmIG4ub2JqZWN0LnR5cGU9PT0nVGhpc0V4cHJlc3Npb24nKSB7CiAgICAgIGlmIChuLmNvbXB1dGVkKSB1bmNlcnRhaW49dHJ1ZTsKICAgICAgaWYgKCghbi5jb21wdXRlZCAmJiBuLnByb3BlcnR5Lm5hbWU9PT1uYW1lKSB8fCAobi5jb21wdXRlZCAmJiBuLnByb3BlcnR5LnZhbHVlPT09bmFtZSkpIGNvdW50Kys7CiAgICB9CiAgICBpZiAobi50eXBlPT09J1RoaXNFeHByZXNzaW9uJyAmJiAhKHAgJiYgWydNZW1iZXJFeHByZXNzaW9uJywnT3B0aW9uYWxNZW1iZXJFeHByZXNzaW9uJ10uaW5jbHVkZXMocC50eXBlKSAmJiBwLm9iamVjdD09PW4pKSB1bmNlcnRhaW49dHJ1ZTsKICAgIGlmIChuLnR5cGU9PT0nU3RyaW5nTGl0ZXJhbCcgJiYgbi52YWx1ZT09PW5hbWUgJiYgIShwICYmIHAua2V5PT09biAmJiAhcC5jb21wdXRlZCkpIHVuY2VydGFpbj10cnVlOwogIH0pOwogIHRyeSB7CiAgICBjb25zdCByb290PXBhcnNlKHRlbXBsYXRlKSwgcGF0dGVybj1uZXcgUmVnRXhwKCcoXnxbXkEtWmEtejAtOV8kXSknK2VzY2FwZShuYW1lKSsnKD8hW0EtWmEtejAtOV8kXSknKTsKICAgIGNvbnN0IHZpc2l0PW49PnsKICAgICAgaWYobi50eXBlPT09MSlmb3IoY29uc3QgcCBvZiBuLnByb3BzKXsKICAgICAgICBjb25zdCB0ZXh0PXNvdXJjZT8ocC50eXBlPT09NyYmcC5leHA/LmNvbnRlbnQpOgogICAgICAgICAgKHAudHlwZT09PTYmJnAudmFsdWUmJihwLm5hbWUuc3RhcnRzV2l0aCgnb24tJyl8fHAubmFtZS5zdGFydHNXaXRoKCdzLScpfHwvW3tdW3s9XS8udGVzdChwLnZhbHVlLmNvbnRlbnQpKSYmcC52YWx1ZS5jb250ZW50KTsKICAgICAgICBpZih0ZXh0JiZwYXR0ZXJuLnRlc3QodGV4dCkpY291bnQrKzsKICAgICAgfQogICAgICBpZihuLnR5cGU9PT01JiZwYXR0ZXJuLnRlc3Qobi5jb250ZW50LmNvbnRlbnQpKWNvdW50Kys7CiAgICAgIGZvcihjb25zdCBjIG9mIG4uY2hpbGRyZW58fFtdKXZpc2l0KGMpOwogICAgfTt2aXNpdChyb290KTsKICB9IGNhdGNoIChfKSB7dW5jZXJ0YWluPXRydWU7fQogIHJldHVybiB7Y291bnQsdW5jZXJ0YWlufTsKfQpmdW5jdGlvbiBmaWVsZE5hbWVzKHBhcmVudCwgc291cmNlKSB7CiAgY29uc3QgbmFtZXM9bmV3IFNldCgpLCBmYWN0b3J5PW9uZShwYXJlbnQsc291cmNlPydkYXRhJzonaW5pdERhdGEnKTsKICBjb25zdCBmbj1mYWN0b3J5JiZjYWxsYWJsZShmYWN0b3J5KSYmZnVuY3Rpb25PZihmYWN0b3J5KTsKICBmb3IoY29uc3QgcyBvZiBmbj8uYm9keT8uYm9keXx8W10paWYocy50eXBlPT09J1JldHVyblN0YXRlbWVudCcmJnBsYWluKHMuYXJndW1lbnQpKQogICAgZm9yKGNvbnN0IHAgb2Ygcy5hcmd1bWVudC5wcm9wZXJ0aWVzKW5hbWVzLmFkZChrZXkocCkpOwogIGNvbnN0IHNjaGVtYT1vbmUocGFyZW50LHNvdXJjZT8ncHJvcHMnOidkYXRhVHlwZXMnKT8udmFsdWU7CiAgaWYocGxhaW4oc2NoZW1hKSlmb3IoY29uc3QgcCBvZiBzY2hlbWEucHJvcGVydGllcyluYW1lcy5hZGQoa2V5KHApKTsKICBpZihzb3VyY2UmJnNjaGVtYT8udHlwZT09PSdBcnJheUV4cHJlc3Npb24nKWZvcihjb25zdCBwIG9mIHNjaGVtYS5lbGVtZW50c3x8W10paWYocD8udHlwZT09PSdTdHJpbmdMaXRlcmFsJyluYW1lcy5hZGQocC52YWx1ZSk7CiAgY29uc3QgY29tcHV0ZWQ9b25lKHBhcmVudCwnY29tcHV0ZWQnKT8udmFsdWU7CiAgaWYocGxhaW4oY29tcHV0ZWQpKWZvcihjb25zdCBwIG9mIGNvbXB1dGVkLnByb3BlcnRpZXMpbmFtZXMuYWRkKGtleShwKSk7CiAgcmV0dXJuIG5hbWVzOwp9CmZ1bmN0aW9uIHByb2dyYW1CaW5kaW5ncyhhc3QpIHsKICBsZXQgbmFtZXM9bmV3IFNldCgpO3RyYXZlcnNlKGFzdCx7UHJvZ3JhbShwYXRoKXtuYW1lcz1uZXcgU2V0KE9iamVjdC5rZXlzKHBhdGguc2NvcGUuYmluZGluZ3MpKTtwYXRoLnN0b3AoKTt9fSk7cmV0dXJuIG5hbWVzOwp9CmZ1bmN0aW9uIHJlc3RvcmUoc291cmNlLCBjdHgsIHNyYywgbWV0aG9kcykgewogIGNvbnN0IGZuPXJlc29sdmVkRnVuY3Rpb24oc291cmNlLGN0eC5zb3VyY2VfZnVuY3Rpb25fYmluZGluZ3MpLCBuYW1lPWtleShzb3VyY2UpOwogIGlmKGZuLmFzeW5jfHxmbi5nZW5lcmF0b3J8fGZuLmJvZHkudHlwZSE9PSdCbG9ja1N0YXRlbWVudCd8fCEvXlskQS1aX2Etel1bJFx3XSokLy50ZXN0KG5hbWUpCiAgICAgIHx8IGZuLnR5cGU9PT0nQXJyb3dGdW5jdGlvbkV4cHJlc3Npb24nCiAgICAgIHx8IHJlc2VydmVkLmhhcyhuYW1lKXx8bmFtZS5zdGFydHNXaXRoKCdfJykKICAgICAgfHwgZm4ucGFyYW1zLnNvbWUocD0+cC50eXBlIT09J0lkZW50aWZpZXInfHxnbG9iYWxzLmhhcyhwLm5hbWUpKQogICAgICB8fCBuZXcgU2V0KGZuLnBhcmFtcy5tYXAocD0+cC5uYW1lKSkuc2l6ZSE9PWZuLnBhcmFtcy5sZW5ndGgpdGhyb3cgRXJyb3IoJ1Vuc3VwcG9ydGVkIHNpZ25hdHVyZScpOwogIGNvbnN0IHBhcmFtcz1uZXcgU2V0KGZuLnBhcmFtcy5tYXAocD0+cC5uYW1lKSk7CiAgY29uc3QgYT1maWVsZE5hbWVzKHNyYy5vYmplY3QsdHJ1ZSksIGI9ZmllbGROYW1lcyhjdHgucGFyZW50LGZhbHNlKTsKICBjb25zdCBzaGFkb3dlZD1uZXcgU2V0KFsuLi5wcm9ncmFtQmluZGluZ3Moc3JjLmFzdCksLi4ucHJvZ3JhbUJpbmRpbmdzKGN0eC5hc3QpXSk7CiAgY29uc3QgZ2xvYmFsPW49PntpZighZ2xvYmFscy5oYXMobil8fHNoYWRvd2VkLmhhcyhuKXx8cGFyYW1zLmhhcyhuKSl0aHJvdyBFcnJvcignVW5rbm93biBvciBzaGFkb3dlZCBnbG9iYWwnKTt9OwogIGNvbnN0IGV4cHI9KG4sIGNvbnRleHQ9J3ZhbHVlJyk9PnsKICAgIGlmKCFuKXRocm93IEVycm9yKCdNaXNzaW5nIGV4cHJlc3Npb24nKTsKICAgIGlmKFsnU3RyaW5nTGl0ZXJhbCcsJ051bWVyaWNMaXRlcmFsJywnQm9vbGVhbkxpdGVyYWwnLCdOdWxsTGl0ZXJhbCddLmluY2x1ZGVzKG4udHlwZSkpcmV0dXJuIHQuY2xvbmVOb2RlKG4sdHJ1ZSk7CiAgICBpZihuLnR5cGU9PT0nSWRlbnRpZmllcicpewogICAgICBpZihwYXJhbXMuaGFzKG4ubmFtZSkpcmV0dXJuIHQuY2xvbmVOb2RlKG4pOwogICAgICBnbG9iYWwobi5uYW1lKTsKICAgICAgaWYoWyd1bmRlZmluZWQnLCdOYU4nLCdJbmZpbml0eSddLmluY2x1ZGVzKG4ubmFtZSl8fGNvbnRleHQ9PT0nZ2xvYmFsX3JlY2VpdmVyJylyZXR1cm4gdC5jbG9uZU5vZGUobik7CiAgICAgIHRocm93IEVycm9yKCdCYXJlIGdsb2JhbCB2YWx1ZScpOwogICAgfQogICAgaWYobi50eXBlPT09J01lbWJlckV4cHJlc3Npb24nJiYhbi5jb21wdXRlZCl7CiAgICAgIGNvbnN0IGZpZWxkPW4ucHJvcGVydHkubmFtZTtpZihkYW5nZXJvdXMuaGFzKGZpZWxkKSl0aHJvdyBFcnJvcignVW5zYWZlIG1lbWJlcicpOwogICAgICBpZihuLm9iamVjdC50eXBlPT09J1RoaXNFeHByZXNzaW9uJyl7CiAgICAgICAgaWYoIWEuaGFzKGZpZWxkKXx8IWIuaGFzKGZpZWxkKSl0aHJvdyBFcnJvcignVW5rbm93biBzb3VyY2UvdGFyZ2V0IHN0YXRlJyk7CiAgICAgICAgcmV0dXJuIHBhcnNlci5wYXJzZUV4cHJlc3Npb24oYHRoaXMuZGF0YS5nZXQoJHtKU09OLnN0cmluZ2lmeShmaWVsZCl9KWApOwogICAgICB9CiAgICAgIGlmKG4ub2JqZWN0LnR5cGU9PT0nSWRlbnRpZmllcicmJmdsb2JhbHMuaGFzKG4ub2JqZWN0Lm5hbWUpKXsKICAgICAgICBnbG9iYWwobi5vYmplY3QubmFtZSk7CiAgICAgICAgaWYobi5vYmplY3QubmFtZSE9PSdOb3RpZmljYXRpb24nfHxmaWVsZCE9PSdwZXJtaXNzaW9uJyl0aHJvdyBFcnJvcignVW5zdXBwb3J0ZWQgZ2xvYmFsIHJlYWQnKTsKICAgICAgfQogICAgICByZXR1cm4gdC5tZW1iZXJFeHByZXNzaW9uKGV4cHIobi5vYmplY3Qsbi5vYmplY3QubmFtZT09PSdOb3RpZmljYXRpb24nPydnbG9iYWxfcmVjZWl2ZXInOid2YWx1ZScpLHQuY2xvbmVOb2RlKG4ucHJvcGVydHkpKTsKICAgIH0KICAgIGlmKG4udHlwZT09PSdDYWxsRXhwcmVzc2lvbicmJiFuLm9wdGlvbmFsKXsKICAgICAgaWYobi5hcmd1bWVudHMuc29tZSh4PT54LnR5cGU9PT0nU3ByZWFkRWxlbWVudCcpKXRocm93IEVycm9yKCdTcHJlYWQgYXJndW1lbnRzJyk7CiAgICAgIGxldCBjYWxsZWU7CiAgICAgIGlmKG4uY2FsbGVlLnR5cGU9PT0nTWVtYmVyRXhwcmVzc2lvbicmJiFuLmNhbGxlZS5jb21wdXRlZCYmbi5jYWxsZWUub2JqZWN0LnR5cGU9PT0nVGhpc0V4cHJlc3Npb24nKXsKICAgICAgICBjb25zdCBjYWxsZWQ9bi5jYWxsZWUucHJvcGVydHkubmFtZTsKICAgICAgICBpZihyZXNlcnZlZC5oYXMoY2FsbGVkKXx8IXJlc29sdmVkRnVuY3Rpb24ob25lKG1ldGhvZHMsY2FsbGVkKSxjdHguc291cmNlX2Z1bmN0aW9uX2JpbmRpbmdzKQogICAgICAgICAgICB8fCFyZXNvbHZlZEZ1bmN0aW9uKG9uZShjdHgucGFyZW50LGNhbGxlZCksY3R4LnRhcmdldF9mdW5jdGlvbl9iaW5kaW5ncykpdGhyb3cgRXJyb3IoJ1Vua25vd24gbWV0aG9kIGRlcGVuZGVuY3knKTsKICAgICAgICBjYWxsZWU9dC5jbG9uZU5vZGUobi5jYWxsZWUsdHJ1ZSk7CiAgICAgIH1lbHNlewogICAgICAgIGNvbnN0IGM9bi5jYWxsZWUsIHJvb3Q9Yy50eXBlPT09J0lkZW50aWZpZXInP2MubmFtZTpjLnR5cGU9PT0nTWVtYmVyRXhwcmVzc2lvbicmJiFjLmNvbXB1dGVkJiZjLm9iamVjdC50eXBlPT09J0lkZW50aWZpZXInP2Mub2JqZWN0Lm5hbWU6bnVsbDsKICAgICAgICBpZighcm9vdCl0aHJvdyBFcnJvcignVW5rbm93biBjYWxsZWUnKTtnbG9iYWwocm9vdCk7CiAgICAgICAgY29uc3QgcGF0aD1jLnR5cGU9PT0nSWRlbnRpZmllcic/cm9vdDpgJHtyb290fS4ke2MucHJvcGVydHkubmFtZX1gOwogICAgICAgIGlmKCFwdXJlQ2FsbHMuaGFzKHBhdGgpJiYhKHBhdGg9PT0nTm90aWZpY2F0aW9uLnJlcXVlc3RQZXJtaXNzaW9uJyYmIW4uYXJndW1lbnRzLmxlbmd0aCkpdGhyb3cgRXJyb3IoJ1Vuc3VwcG9ydGVkIGV4dGVybmFsIGNhbGwnKTsKICAgICAgICBjYWxsZWU9dC5jbG9uZU5vZGUoYyx0cnVlKTsKICAgICAgfQogICAgICByZXR1cm4gdC5jYWxsRXhwcmVzc2lvbihjYWxsZWUsbi5hcmd1bWVudHMubWFwKHg9PmV4cHIoeCkpKTsKICAgIH0KICAgIGlmKG4udHlwZT09PSdCaW5hcnlFeHByZXNzaW9uJyl7CiAgICAgIGlmKG4ub3BlcmF0b3I9PT0naW5zdGFuY2VvZicpdGhyb3cgRXJyb3IoJ1Vua25vd24gY2xhc3MnKTsKICAgICAgaWYobi5vcGVyYXRvcj09PSdpbicmJm4ucmlnaHQudHlwZT09PSdJZGVudGlmaWVyJyYmbi5yaWdodC5uYW1lPT09J3dpbmRvdycpewogICAgICAgIGdsb2JhbCgnd2luZG93Jyk7aWYobi5sZWZ0LnR5cGUhPT0nU3RyaW5nTGl0ZXJhbCd8fG4ubGVmdC52YWx1ZSE9PSdOb3RpZmljYXRpb24nKXRocm93IEVycm9yKCdVbmtub3duIGNhcGFiaWxpdHknKTsKICAgICAgICByZXR1cm4gdC5jbG9uZU5vZGUobix0cnVlKTsKICAgICAgfQogICAgICByZXR1cm4gdC5iaW5hcnlFeHByZXNzaW9uKG4ub3BlcmF0b3IsZXhwcihuLmxlZnQpLGV4cHIobi5yaWdodCkpOwogICAgfQogICAgaWYobi50eXBlPT09J0xvZ2ljYWxFeHByZXNzaW9uJylyZXR1cm4gdC5sb2dpY2FsRXhwcmVzc2lvbihuLm9wZXJhdG9yLGV4cHIobi5sZWZ0KSxleHByKG4ucmlnaHQpKTsKICAgIGlmKG4udHlwZT09PSdDb25kaXRpb25hbEV4cHJlc3Npb24nKXJldHVybiB0LmNvbmRpdGlvbmFsRXhwcmVzc2lvbihleHByKG4udGVzdCksZXhwcihuLmNvbnNlcXVlbnQpLGV4cHIobi5hbHRlcm5hdGUpKTsKICAgIGlmKG4udHlwZT09PSdVbmFyeUV4cHJlc3Npb24nJiZbJyEnLCcrJywnLScsJ34nLCd2b2lkJywndHlwZW9mJ10uaW5jbHVkZXMobi5vcGVyYXRvcikpewogICAgICBjb25zdCB2YWx1ZT1uLm9wZXJhdG9yPT09J3R5cGVvZicmJm4uYXJndW1lbnQudHlwZT09PSdJZGVudGlmaWVyJyYmZ2xvYmFscy5oYXMobi5hcmd1bWVudC5uYW1lKQogICAgICAgID9leHByKG4uYXJndW1lbnQsJ2dsb2JhbF9yZWNlaXZlcicpOmV4cHIobi5hcmd1bWVudCk7CiAgICAgIHJldHVybiB0LnVuYXJ5RXhwcmVzc2lvbihuLm9wZXJhdG9yLHZhbHVlLHRydWUpOwogICAgfQogICAgaWYobi50eXBlPT09J1RlbXBsYXRlTGl0ZXJhbCcpcmV0dXJuIHQudGVtcGxhdGVMaXRlcmFsKG4ucXVhc2lzLm1hcCh4PT50LmNsb25lTm9kZSh4LHRydWUpKSxuLmV4cHJlc3Npb25zLm1hcCh4PT5leHByKHgpKSk7CiAgICBpZihuLnR5cGU9PT0nQXJyYXlFeHByZXNzaW9uJyYmbi5lbGVtZW50cy5ldmVyeSh4PT54JiZ4LnR5cGUhPT0nU3ByZWFkRWxlbWVudCcpKXJldHVybiB0LmFycmF5RXhwcmVzc2lvbihuLmVsZW1lbnRzLm1hcCh4PT5leHByKHgpKSk7CiAgICBpZihwbGFpbihuKSlyZXR1cm4gdC5vYmplY3RFeHByZXNzaW9uKG4ucHJvcGVydGllcy5tYXAocD0+ewogICAgICBpZihwLnR5cGUhPT0nT2JqZWN0UHJvcGVydHknfHxkYW5nZXJvdXMuaGFzKGtleShwKSkpdGhyb3cgRXJyb3IoJ1Vuc3VwcG9ydGVkIG9iamVjdCcpOwogICAgICByZXR1cm4gdC5vYmplY3RQcm9wZXJ0eSh0LmNsb25lTm9kZShwLmtleSksZXhwcihwLnZhbHVlKSk7CiAgICB9KSk7CiAgICB0aHJvdyBFcnJvcignVW5zdXBwb3J0ZWQgZXhwcmVzc2lvbicpOwogIH07CiAgY29uc3Qgc3RtdD1uPT57CiAgICBpZihuLnR5cGU9PT0nQmxvY2tTdGF0ZW1lbnQnKXJldHVybiB0LmJsb2NrU3RhdGVtZW50KG4uYm9keS5tYXAoc3RtdCkpOwogICAgaWYobi50eXBlPT09J0lmU3RhdGVtZW50JylyZXR1cm4gdC5pZlN0YXRlbWVudChleHByKG4udGVzdCksc3RtdChuLmNvbnNlcXVlbnQpLG4uYWx0ZXJuYXRlP3N0bXQobi5hbHRlcm5hdGUpOm51bGwpOwogICAgaWYobi50eXBlPT09J0V4cHJlc3Npb25TdGF0ZW1lbnQnJiZuLmV4cHJlc3Npb24udHlwZT09PSdDYWxsRXhwcmVzc2lvbicpcmV0dXJuIHQuZXhwcmVzc2lvblN0YXRlbWVudChleHByKG4uZXhwcmVzc2lvbikpOwogICAgaWYobi50eXBlPT09J1JldHVyblN0YXRlbWVudCcpcmV0dXJuIHQucmV0dXJuU3RhdGVtZW50KG4uYXJndW1lbnQ/ZXhwcihuLmFyZ3VtZW50KTpudWxsKTsKICAgIHRocm93IEVycm9yKCdVbnN1cHBvcnRlZCBzdGF0ZW1lbnQgb3Igd3JpdGUnKTsKICB9OwogIHJldHVybiBnZW5lcmF0ZSh0Lm9iamVjdE1ldGhvZCgnbWV0aG9kJyx0LmlkZW50aWZpZXIobmFtZSksZm4ucGFyYW1zLm1hcChwPT50LmNsb25lTm9kZShwKSksc3RtdChmbi5ib2R5KSkse2NvbW1lbnRzOmZhbHNlfSkuY29kZTsKfQoKbW9kdWxlLmV4cG9ydHM9ZnVuY3Rpb24gcHJlc2VydmVNZXRob2RzKGN0eCxzcmMsbWV0aG9kcyl7CiAgY29uc3QgY29udHJhY3RzPWN0eC5tZXRob2RfY29udHJhY3RzOwogIGlmKCFwbGFpbihtZXRob2RzKXx8IXBsYWluKHNyYy5vYmplY3QpfHwhcGxhaW4oY3R4LnBhcmVudCl8fG9uZShjdHgucGFyZW50LCdtaXhpbnMnKXx8b25lKGN0eC5wYXJlbnQsJ2V4dGVuZHMnKSl7CiAgICBjb250cmFjdHM/LnB1c2goe3N0YXR1czondW5hc3Nlc3NlZCcscmVhc29uOidhbWJpZ3VvdXNfb3B0aW9ucyd9KTtyZXR1cm47CiAgfQogIGNvbnN0IGxlZ2FjeT0hIW9uZShjdHgucGFyZW50LCdtZXRob2RzJyk7CiAgY29uc3Qgb3V0ZXI9Lzx0ZW1wbGF0ZVxiW14+XSo+KFtcc1xTXSo/KTxcL3RlbXBsYXRlXHMqPi9pLmV4ZWMoY3R4LmlucHV0LmNvZGUpOwogIGN0eC5zb3VyY2VfZnVuY3Rpb25fYmluZGluZ3M9ZnVuY3Rpb25CaW5kaW5ncyhzcmMuYXN0KTsKICBjdHgudGFyZ2V0X2Z1bmN0aW9uX2JpbmRpbmdzPWZ1bmN0aW9uQmluZGluZ3MoY3R4LmFzdCk7CiAgY29uc3QgYWRkaXRpb25zPVtdOwogIGZvcihjb25zdCBzb3VyY2Ugb2YgbWV0aG9kcy5wcm9wZXJ0aWVzKXsKICAgIGlmKCFyZXNvbHZlZEZ1bmN0aW9uKHNvdXJjZSxjdHguc291cmNlX2Z1bmN0aW9uX2JpbmRpbmdzKSljb250aW51ZTsKICAgIGNvbnN0IG5hbWU9a2V5KHNvdXJjZSksIHRhcmdldD1vbmUoY3R4LnBhcmVudCxuYW1lKSwgZXhpc3RzPSEhcmVzb2x2ZWRGdW5jdGlvbih0YXJnZXQsY3R4LnRhcmdldF9mdW5jdGlvbl9iaW5kaW5ncyk7CiAgICAvLyBFeGlzdGluZyByZXNlcnZlZC1uYW1lIG5vcm1hbGl6YXRpb24gb3ducyB0aGlzIHVuYXZvaWRhYmxlIFNhbiBmYWN0b3J5CiAgICAvLyBjb2xsaXNpb247IGFuIGludGVyZmFjZSBjaGVjayBtdXN0IG5vdCBvdmVyd3JpdGUgaW5pdERhdGEgd2l0aCBidXNpbmVzcyBsb2dpYy4KICAgIGlmKG5hbWU9PT0naW5pdERhdGEnKXtjb250cmFjdHM/LnB1c2goe25hbWUsc3RhdHVzOidyZXNlcnZlZF9mYWN0b3J5X21hcHBpbmdfZGVsZWdhdGVkJ30pO2NvbnRpbnVlO30KICAgIGNvbnN0IGE9cmVmZXJlbmNlcyhzcmMub2JqZWN0LHNyYy50ZW1wbGF0ZSx0cnVlLG5hbWUpLCBiPXJlZmVyZW5jZXMoY3R4LnBhcmVudCxvdXRlcj8uWzFdfHwnJyxmYWxzZSxuYW1lKTsKICAgIGNvbnN0IGNvbnRyYWN0PXtuYW1lLHN0YXR1czpleGlzdHM/J2NhbGxhYmxlX3ByZXNlbnQnOnRhcmdldD8nbm9uY2FsbGFibGVfb3JfdW5wcm92ZW4nOidtaXNzaW5nJyxsZWdhY3lfd3JhcHBlcjpsZWdhY3ksCiAgICAgIHNvdXJjZV9yZWZlcmVuY2VzOmEsdGFyZ2V0X3JlZmVyZW5jZXM6YixyZXN0b3JlX2VsaWdpYmxlOmZhbHNlfTtjb250cmFjdHM/LnB1c2goY29udHJhY3QpOwogICAgaWYoIWEudW5jZXJ0YWluJiYhYS5jb3VudCYmYi5jb3VudCl7CiAgICAgIGN0eC5maW5kaW5ncy5wdXNoKHtjb2RlOidzb3VyY2VfbWV0aG9kX3RyaWdnZXJfYWRkZWQnLGxvY2F0aW9uOmBzY3JpcHQubWV0aG9kcy4ke25hbWV9YCwKICAgICAgICBtZXNzYWdlOmBTb3VyY2UgbWV0aG9kICR7bmFtZX0gaGFzIG5vIGludGVybmFsIHNvdXJjZSByZWZlcmVuY2VzLCBidXQgdGFyZ2V0IGFkZHMgJHtiLmNvdW50fSBleHBsaWNpdCByZWZlcmVuY2Uocyk7IGRvIG5vdCBpbnZlbnQgVUkgb3IgbGlmZWN5Y2xlIHRyaWdnZXJzLmB9KTsKICAgIH0KICAgIGlmKGV4aXN0cyljb250aW51ZTsKICAgIGN0eC5maW5kaW5ncy5wdXNoKHtjb2RlOidzb3VyY2VfbWV0aG9kX2ludGVyZmFjZV9ub3RfbGFuZGVkJyxsb2NhdGlvbjpgc2NyaXB0Lm1ldGhvZHMuJHtuYW1lfWAsCiAgICAgIG1lc3NhZ2U6YFNvdXJjZSBtZXRob2QgJHtuYW1lfSBoYXMgbm8gcHJvdmVuIGNhbGxhYmxlIG1ldGhvZCBvbiB0aGUgZXhwb3J0ZWQgU2FuIHBhcmVudC5gfSk7CiAgICAvLyBOZXZlciBvdmVyd3JpdGUgYW4gZXhpc3Rpbmcgb3B0aW9uIG9yIHJlc3RvcmUgYW4gaW50ZXJuYWxseSB1c2VkIG1ldGhvZAogICAgLy8gd2hvc2UgbmV3IGNhbGwgdGltaW5nL2VmZmVjdHMgY2Fubm90IGJlIGVzdGFibGlzaGVkIGhlcmUuCiAgICBpZihsZWdhY3l8fHRhcmdldHx8YS5jb3VudHx8Yi5jb3VudHx8YS51bmNlcnRhaW58fGIudW5jZXJ0YWlufHxyZXNlcnZlZC5oYXMobmFtZSkpY29udGludWU7CiAgICBsZXQgdGV4dDt0cnl7dGV4dD1yZXN0b3JlKHNvdXJjZSxjdHgsc3JjLG1ldGhvZHMpO31jYXRjaChlKXtjb250cmFjdC5yZWZ1c2FsPWUubWVzc2FnZTtjb250aW51ZTt9CiAgICBjb250cmFjdC5yZXN0b3JlX2VsaWdpYmxlPXRydWU7CiAgICBpZihjdHguaW5wdXQucmVwYWlyKWFkZGl0aW9ucy5wdXNoKHRleHQpOwogIH0KICBpZihhZGRpdGlvbnMubGVuZ3RoKXsKICAgIGNvbnN0IGxhc3Q9Y3R4LnBhcmVudC5wcm9wZXJ0aWVzLmF0KC0xKSxwb3NpdGlvbj1sYXN0P2xhc3QuZW5kOmN0eC5wYXJlbnQuc3RhcnQrMTsKICAgIGN0eC5lZGl0KGN0eC5vZmZzZXQrcG9zaXRpb24sY3R4Lm9mZnNldCtwb3NpdGlvbiwobGFzdD8nLCc6JycpKydcbicrYWRkaXRpb25zLmpvaW4oJyxcbicpKydcbicpOwogICAgY3R4LmNoYW5nZXMucHVzaCgncmVzdG9yZWRfc291cmNlX3VucmVmZXJlbmNlZF9tZXRob2RfaW50ZXJmYWNlcycpOwogIH0KfTsK",
+  "protected_files_sha256": {
+    "migration_pipeline/stages/validate.py": "a919ffa72c6ea1090db31d48bea184e473aa991e627427e6914af3e7b77fc0f5",
+    "migration_pipeline/stages/repair.py": "4ac547edad306677cc542eccec5e0b726821da409efdcd0c61115e24e36af087",
+    "migration_pipeline/utils/repair_scheduler.py": "98cb108380bec3a4766ecbedbcd374daad4f2205380a72a1f29ed34ffa4c694e",
+    "migration_pipeline/utils/repair_prompt.py": "ab51c544c2fccd10363ad0e6bc95f5968b9af5635ceed978fcf419e3dc02bea6",
+    "migration_pipeline/utils/source_parent_watch_semantics.cjs": "b39b624afb370f85a7bfbee2aef5f6659b2648261cb3e7ed05a6f3e5a756a92e",
+    "migration_pipeline/utils/source_parent_watch_semantics.py": "31dfa61a241f1239c2548c2cfe3961b63e77a2605407b6b5c7ce550a1871c4ed",
+    "migration_pipeline/utils/v7_source_queue_contract.cjs": "0d3f6ea092b5d8f8906866a75210afc261cff42e98d35d385643d78d98f972a1",
+    "migration_pipeline/utils/v7_source_queue_contract.py": "77fc7b6534d18390cb5120d7126cf206aac5510fabc77bd5608a96cc085e10d3",
+    "migration_pipeline/utils/repair_regression_guard.py": "f6b4ea29d2115f3b0246de30f6a244f8106dbc0ab919b8ae82c7aaee2545f963",
+    "local_server/api/evaluation_routes.py": "d0a6bb55b5e0366317be5f0bc8047b97dd41b04401918a43cb5e4bec496eafc0",
+    "tests/manual/v7-acceptance-config.json": "99b6bd89fadafa63de8e858bee2eb2bc5f5bbe5a3320f90c6defbdc0448aa0d7",
+    "tests/manual/vue-test-runner.html": "b2e193ef81bd1af84c2e7bd828ac67d4dd18c8f82c4b1100fc298e64a68e0d50",
+    "tests/manual/san-test-runner.html": "5b704c7639d83050b0f5ce4ebcaaca166accf855dd541f43cf7498c2d7c46409",
+    "data/experiments/batch_reports/formal_30_v4_full_regression_v2_summary.json": "2d2137233fd8643dd13c40119d1a59516b0dd13a08ddf7fa5ef244fc4f498a03",
+    "migration_pipeline/utils/method_interface_semantics.cjs": "8ae76b9ddc0d8f15534d2b46dad9d9ed67eef66f3b96d8233e6594370361620f"
+  },
+  "notebook_before": {
+    "cells": 103,
+    "cells_sha256": "eba3a68384510d29e09d0269df51efa7fcb6803a8794e9175490939e9dc64a68",
+    "metadata_sha256": "da8e8b42bb4344c317ccdf5038310d76529bda61666c53ff805bcc19dbede418"
+  },
+  "bounded_before": {
+    "code": "<template>\n<section class=\"trip-itinerary-planner\">\n  <header>\n    <div>\n      <p class=\"muted\">{{saved ? '已保存' : '有未保存更改'}}</p>\n      <h2>{{tripName}}</h2>\n    </div>\n    <button class=\"primary\" on-click=\"save\">保存行程</button>\n  </header>\n  <div class=\"trip-layout\">\n    <nav>\n      <button s-for=\"day in days trackby day.id\" class=\"{{day.id === activeDayId ? 'active' : ''}}\" on-click=\"selectDay(day.id)\">{{day.label}}<small>{{dayCount(day.id)}} 项</small></button>\n      <label>预算\n        <input type=\"number\" value=\"{{budgetLimit}}\" on-input=\"updateBudget\"/>\n      </label>\n      <p class=\"{{remainingBudget < 0 ? 'over' : ''}}\">余额 {{remainingBudget}} 元</p>\n    </nav>\n    <main>\n      <h3>{{activeDayLabel}}安排</h3>\n      <ol>\n        <li s-for=\"item, index in dayItems trackby item.id\" class=\"{{isConflict(item.id) ? 'conflict' : ''}}\">\n          <time>{{item.start}}<br/>{{item.end}}</time>\n          <div>\n            <strong>{{item.place}}</strong>\n            <span>¥{{item.cost}}</span>\n            <small s-if=\"isConflict(item.id)\">时间冲突</small>\n          </div>\n          <div>\n            <button on-click=\"moveItem(index, -1)\" disabled=\"{{index === 0}}\">↑</button>\n            <button on-click=\"moveItem(index, 1)\" disabled=\"{{index === dayItems.length - 1}}\">↓</button>\n            <button on-click=\"removeItem(item.id)\">删除</button>\n          </div>\n        </li>\n      </ol>\n      <form on-submit=\"addItem\">\n        <input type=\"time\" value=\"{{draft.start}}\" on-input=\"updateDraft('start', $event)\"/>\n        <input type=\"time\" value=\"{{draft.end}}\" on-input=\"updateDraft('end', $event)\"/>\n        <input placeholder=\"地点\" value=\"{{draft.place}}\" on-input=\"updateDraft('place', $event)\"/>\n        <input type=\"number\" placeholder=\"费用\" value=\"{{draft.cost}}\" on-input=\"updateDraft('cost', $event)\"/>\n        <button class=\"primary\" type=\"submit\">添加</button>\n      </form>\n    </main>\n  </div>\n</section>\n</template>\n\n<script>\nconst san = require('san');\nconst DataTypes = san.DataTypes;\n\nfunction clone(obj) {\n    if (obj === null || typeof obj !== 'object') return obj;\n    if (Array.isArray(obj)) return obj.map(clone);\n    const result = {};\n    for (let key in obj) {\n        if (obj.hasOwnProperty(key)) {\n            result[key] = clone(obj[key]);\n        }\n    }\n    return result;\n}\n\nfunction filter(items, predicate) {\n    const result = [];\n    for (let i = 0; i < items.length; i++) {\n        if (predicate(items[i], i, items)) {\n            result.push(items[i]);\n        }\n    }\n    return result;\n}\n\nfunction reduce(items, callback, initialValue) {\n    let accumulator = initialValue;\n    for (let i = 0; i < items.length; i++) {\n        accumulator = callback(accumulator, items[i], i, items);\n    }\n    return accumulator;\n}\n\nfunction sort(items, compareFn) {\n    const arr = items.slice();\n    arr.sort(compareFn);\n    return arr;\n}\n\nfunction find(items, predicate) {\n    for (let i = 0; i < items.length; i++) {\n        if (predicate(items[i], i, items)) {\n            return items[i];\n        }\n    }\n    return undefined;\n}\n\nfunction slice(arr, start, end) {\n    const result = [];\n    const len = arr.length;\n    const s = start == null ? 0 : (start < 0 ? Math.max(len + start, 0) : Math.min(start, len));\n    const e = end == null ? len : (end < 0 ? Math.max(len + end, 0) : Math.min(end, len));\n    for (let i = s; i < e; i++) {\n        result.push(arr[i]);\n    }\n    return result;\n}\n\nfunction concat(arr1, arr2) {\n    const result = arr1.slice();\n    for (let i = 0; i < arr2.length; i++) {\n        result.push(arr2[i]);\n    }\n    return result;\n}\n\nfunction map(arr, callback) {\n    const result = [];\n    for (let i = 0; i < arr.length; i++) {\n        result.push(callback(arr[i], i, arr));\n    }\n    return result;\n}\n\nfunction indexOf(arr, searchElement) {\n    for (let i = 0; i < arr.length; i++) {\n        if (arr[i] === searchElement) {\n            return i;\n        }\n    }\n    return -1;\n}\n\nfunction fromSet(set) {\n    const result = [];\n    set.forEach(item => result.push(item));\n    return result;\n}\n\nfunction dayItemsGetter(items, activeDayId) {\n    return sort(filter(items, item => item.dayId === activeDayId), (a, b) => a.start.localeCompare(b.start));\n}\n\nfunction totalCostGetter(items) {\n    return reduce(items, (sum, item) => sum + item.cost, 0);\n}\n\nfunction remainingBudgetGetter(budgetLimit, totalCost) {\n    return budgetLimit - totalCost;\n}\n\nfunction conflictIdsGetter(dayItems) {\n    const rows = dayItems;\n    const ids = [];\n    for (let index = 0; index < rows.length; index++) {\n        const item = rows[index];\n        for (let j = index + 1; j < rows.length; j++) {\n            const other = rows[j];\n            if (item.start < other.end && other.start < item.end) {\n                ids.push(item.id, other.id);\n            }\n        }\n    }\n    return fromSet(new Set(ids));\n}\n\nfunction activeDayLabelGetter(days, activeDayId) {\n    const day = find(days, item => item.id === activeDayId);\n    return day ? day.label : '';\n}\n\nfunction isConflictGetter(conflictIds, id) {\n    return indexOf(conflictIds, id) >= 0;\n}\n\nfunction dayCountGetter(items, id) {\n    return filter(items, item => item.dayId === id).length;\n}\n\nmodule.exports = san.defineComponent({\ndataTypes: {\ntripName: DataTypes.string,\ndays: DataTypes.array,\ninitialItems: DataTypes.array\n},\n\n    name: 'TripItineraryPlanner',\n    components: {},\n    initData() {\n        return {\n            tripName: '杭州周末行',\n            days: [\n                {\n                    \"id\": \"d1\",\n                    \"label\": \"周六\"\n                },\n                {\n                    \"id\": \"d2\",\n                    \"label\": \"周日\"\n                }\n            ],\n            initialItems: [\n                {\n                    \"id\": 1,\n                    \"dayId\": \"d1\",\n                    \"start\": \"09:00\",\n                    \"end\": \"11:00\",\n                    \"place\": \"西湖\",\n                    \"cost\": 0\n                },\n                {\n                    \"id\": 2,\n                    \"dayId\": \"d1\",\n                    \"start\": \"10:30\",\n                    \"end\": \"12:00\",\n                    \"place\": \"博物馆\",\n                    \"cost\": 30\n                },\n                {\n                    \"id\": 3,\n                    \"dayId\": \"d2\",\n                    \"start\": \"14:00\",\n                    \"end\": \"17:00\",\n                    \"place\": \"湿地公园\",\n                    \"cost\": 80\n                }\n            ],\n            items: [],\n            activeDayId: 'd1',\n            draft: {\n                \"start\": \"09:00\",\n                \"end\": \"10:00\",\n                \"place\": \"\",\n                \"cost\": 0\n            },\n            budgetLimit: 500,\n            saved: false,\n            nextId: 10\n        };\n    },\n    inited() {\n        const initialItems = this.data.get('initialItems');\n        const items = map(initialItems, item => clone(item));\n        this.data.set('items', items);\n        const days = this.data.get('days');\n        const firstDayId = days.length > 0 ? days[0].id : '';\n        this.data.set('activeDayId', firstDayId);\n    },\n    computed: {\n        dayItems() {\n            const items = this.data.get('items');\n            const activeDayId = this.data.get('activeDayId');\n            return dayItemsGetter(items, activeDayId);\n        },\n        totalCost() {\n            const items = this.data.get('items');\n            return totalCostGetter(items);\n        },\n        remainingBudget() {\n            const budgetLimit = this.data.get('budgetLimit');\n            const totalCost = this.data.get('totalCost');\n            return remainingBudgetGetter(budgetLimit, totalCost);\n        },\n        conflictIds() {\n            const dayItems = this.data.get('dayItems');\n            return conflictIdsGetter(dayItems);\n        },\n        activeDayLabel() {\n            const days = this.data.get('days');\n            const activeDayId = this.data.get('activeDayId');\n            return activeDayLabelGetter(days, activeDayId);\n        }\n    },\n    selectDay(id) {\n        this.data.set('activeDayId', id);\n    },\n    updateDraft(field, event) {\n        const draft = this.data.get('draft');\n        const value = field === 'cost' ? (Number(event.target.value) || 0) : event.target.value;\n        const newDraft = clone(draft);\n        newDraft[field] = value;\n        this.data.set('draft', newDraft);\n    },\n    addItem(event) {\n        event.preventDefault();\n        const draft = this.data.get('draft');\n        if (!draft.place.trim() || draft.start >= draft.end) return;\n        const items = this.data.get('items');\n        const nextId = this.data.get('nextId');\n        const activeDayId = this.data.get('activeDayId');\n        const newItem = {\n            id: nextId,\n            dayId: activeDayId,\n            start: draft.start,\n            end: draft.end,\n            place: draft.place.trim(),\n            cost: draft.cost\n        };\n        const nextItems = concat(items, [newItem]);\n        this.data.set('items', nextItems);\n        this.data.set('nextId', nextId + 1);\n        const newDraft = {\n            start: draft.end,\n            end: '18:00',\n            place: '',\n            cost: 0\n        };\n        this.data.set('draft', newDraft);\n        this.data.set('saved', false);\n        this.fire('itinerary-change', nextItems);\n    },\n    removeItem(id) {\n        const items = this.data.get('items');\n        const nextItems = filter(items, item => item.id !== id);\n        this.data.set('items', nextItems);\n        this.data.set('saved', false);\n        this.fire('itinerary-change', nextItems);\n    },\n    moveItem(index, delta) {\n        const dayItems = this.data.get('dayItems');\n        const rows = slice(dayItems, 0);\n        const target = index + delta;\n        if (target < 0 || target >= rows.length) return;\n        const temp = rows[index].start;\n        rows[index].start = rows[target].start;\n        rows[target].start = temp;\n        const mapped = {};\n        for (let i = 0; i < rows.length; i++) {\n            mapped[rows[i].id] = rows[i];\n        }\n        const items = this.data.get('items');\n        const nextItems = map(items, item => mapped[item.id] ? clone(mapped[item.id]) : item);\n        this.data.set('items', nextItems);\n        this.data.set('saved', false);\n        this.fire('itinerary-change', nextItems);\n    },\n    updateBudget(event) {\n        const value = Number(event.target.value) || 0;\n        this.data.set('budgetLimit', value);\n    },\n    save() {\n        this.data.set('saved', true);\n        const items = this.data.get('items');\n        const budget = this.data.get('budgetLimit');\n        this.fire('save', { items, budget });\n    },\n    isConflict(id) {\n        const conflictIds = this.data.get('conflictIds');\n        return isConflictGetter(conflictIds, id);\n    },\n    dayCount(id) {\n        const items = this.data.get('items');\n        return dayCountGetter(items, id);\n    }\n});\n</script>\n\n<style>\n.trip-itinerary-planner { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }\n.trip-itinerary-planner * { box-sizing: border-box; }\n.trip-itinerary-planner h2, .trip-itinerary-planner h3, .trip-itinerary-planner p { margin-top: 0; }\n.trip-itinerary-planner h2 { margin-bottom: 14px; font-size: 21px; }\n.trip-itinerary-planner button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }\n.trip-itinerary-planner button.primary { border-color: #0369a1; background: #0369a1; color: #fff; }\n.trip-itinerary-planner button:disabled { opacity: .45; cursor: not-allowed; }\n.trip-itinerary-planner input, .trip-itinerary-planner select, .trip-itinerary-planner textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }\n.trip-itinerary-planner .toolbar, .trip-itinerary-planner .summary, .trip-itinerary-planner .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }\n.trip-itinerary-planner .muted { color: #71808e; font-size: 12px; }\n.trip-itinerary-planner .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }\n.trip-itinerary-planner > header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.trip-layout{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}.trip-layout>nav,.trip-layout>main{min-width:0}.trip-layout>nav{display:grid;align-content:start;gap:7px;padding:10px;background:#f4f7f9;flex:1 1 140px}.trip-layout>main{flex:999 1 420px}.trip-layout>nav input{width:100%;min-width:0}.trip-layout>nav button.active{background:#e0f2fe;border-color:#0369a1}.trip-layout>nav button small{display:block}.over{color:#b91c1c}.trip-layout ol{padding:0;list-style:none}.trip-layout li{display:flex;align-items:flex-start;gap:10px;padding:11px;border-left:3px solid #7aa8c4;border-bottom:1px solid #e2e7eb;flex-wrap:wrap}.trip-layout li.conflict{border-left-color:#dc2626;background:#fef2f2}.trip-layout li>time{flex:0 0 54px}.trip-layout li>div:nth-child(2){min-width:0;flex:1 1 120px}.trip-layout li span,.trip-layout li small{display:block}.trip-layout li small{color:#b91c1c}.trip-layout li>div:last-child{display:flex;justify-content:flex-end;align-items:center;gap:6px;flex:0 1 auto;flex-wrap:wrap}.trip-layout form{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}.trip-layout form input{width:auto;min-width:0;flex:1 1 120px}.trip-layout form input:nth-child(3){flex:2 1 180px}.trip-layout form input:nth-child(4){flex:1 1 100px}.trip-layout form button{flex:0 1 auto}\n</style>\n",
+    "changes": [],
+    "wrappers": {},
+    "findings": [
+      {
+        "code": "source_method_interface_not_landed",
+        "location": "script.methods.setValue",
+        "message": "Source method setValue has no proven callable method on the exported San parent."
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "location": "script.methods.emitEvent",
+        "message": "Source method emitEvent has no proven callable method on the exported San parent."
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "location": "script.methods.notify",
+        "message": "Source method notify has no proven callable method on the exported San parent."
+      }
+    ],
+    "startup_contracts": [],
+    "method_contracts": [
+      {
+        "name": "setValue",
+        "status": "missing",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 14,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "emitEvent",
+        "status": "missing",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "selectDay",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "updateDraft",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 4,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 4,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "addItem",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "removeItem",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "moveItem",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "updateBudget",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "save",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "notify",
+        "status": "missing",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 3,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "isConflict",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      {
+        "name": "dayCount",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      }
+    ],
+    "watcher_contracts": []
+  }
+}

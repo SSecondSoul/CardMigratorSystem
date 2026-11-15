@@ -1,0 +1,47 @@
+{
+  "production_eligible": false,
+  "model_calls": 0,
+  "tests": [
+    {
+      "suite": "test_source_property_assignment_v8.py",
+      "count": 16,
+      "returncode": 1
+    },
+    {
+      "suite": "test_v7_dynamic_shape.py",
+      "count": 27,
+      "returncode": 0
+    },
+    {
+      "suite": "test_v7_source_queue_contract.py",
+      "count": 32,
+      "returncode": 0
+    }
+  ],
+  "baseline_mismatches": 39,
+  "remaining_mismatches": 18,
+  "remaining_scenarios": [
+    "date_value",
+    "delete_then_mutate_detached_alias",
+    "frozen_value",
+    "nonenumerable_then_mutate_alias",
+    "redefine_then_mutate_detached_alias",
+    "sparse_array_value"
+  ],
+  "regressions": [],
+  "pair_count": 116,
+  "code_sha256": {
+    "migration_pipeline/probe_source_property_assignment_v8.cjs": "64834c0fea19226790e6dfb65a4859548aab0e846999c0addbaea30b03c61557",
+    "migration_pipeline/audit_source_property_assignment_v8.py": "ebf89da1292d47d33571444f4e8915394fa2ac7397d8582cc01f1e9cd9a55c98",
+    "tests/test_source_property_assignment_v8.py": "12deb35ab5eb5b2c5be2d51048a9512476e22d27c52bfaa382cad24023564a98",
+    "migration_pipeline/audit_v7_dynamic_shape_runtime.cjs": "cd1ba81e7e524966ab84012b317bc9ec9c429215e96381f1bfc237e0edf90122"
+  },
+  "production_files_changed": false,
+  "original_scores_modified": false,
+  "prior_notebook_cells": 84,
+  "open_obligations": [
+    "DYNVALUE-02 observed-value acceptance",
+    "DYNSUB-03 subscription recollection",
+    "restricted error bridge and production composition matching"
+  ]
+}

@@ -186,6 +186,13 @@ def build_report(
     }
     if args.include_state:
         report["state"] = state
+    if state.get("repair_policy") == "bounded_prepass_v1":
+        report["summary"].update({key: state.get(key) for key in (
+            "repair_policy", "semantic_rule_set", "repair_budget_unit", "llm_repair_calls", "deterministic_steps",
+            "retained_previous_candidate", "rejected_candidate_file",
+        )})
+        report["normalization_history"] = state.get("normalization_history", [])
+        report["normalization_stop_reasons"] = state.get("normalization_stop_reasons", [])
     return report
 
 

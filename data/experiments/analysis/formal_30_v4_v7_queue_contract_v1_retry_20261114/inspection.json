@@ -1,0 +1,42 @@
+{
+  "queue_lifecycle_structure_matched": true,
+  "source_equivalence_proven": false,
+  "production_eligible": false,
+  "changes": [],
+  "reviews": [],
+  "checks": {
+    "queue_and_private_scope": true,
+    "source_data_and_lifecycle": true,
+    "source_transitive_effects": true,
+    "writer_invocation_structure_only": true,
+    "exact_factory_definitions_and_references": true,
+    "closed_known_control_references": true
+  },
+  "remaining_production_codes": [
+    "source_parent_watch_dynamic_key_unproven",
+    "source_parent_watch_exception_policy_unproven",
+    "source_parent_watch_not_landed"
+  ],
+  "limitations": [
+    "Read-only experimental structural inspection, not a production semantic proof or automatic diagnostic waiver.",
+    "Dynamic key/shape/alias observer behavior and application error binding/purity are NOT proven.",
+    "Assumes pinned ordinary framework/global runtime; arbitrary JS side channels or monkey patches are outside this inspection."
+  ],
+  "fields": [
+    "tasks",
+    "settings"
+  ],
+  "contract": "script.parent.watch@tasks,settings",
+  "effect_methods": [
+    "autoSync",
+    "getSampleTasks",
+    "hideNotification",
+    "isOverdue",
+    "loadInitialData",
+    "saveToLocalStorage",
+    "showNotification",
+    "startAutoSync",
+    "updateStatistics",
+    "updateSyncInterval"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "first_browser_attempt": {
+    "directory": "run",
+    "implementation": "first_attempt_implementation.json",
+    "status": "blocked_before_observations",
+    "message": "CDP connection closed; temporary profile cleanup EPERM",
+    "cause_determined": false,
+    "later_retry_with_isolated_elevated_process_succeeded": true,
+    "failed_temporary_profile_later_verified_unused_and_removed": true,
+    "user_profile_affected": false
+  },
+  "first_unit_test_attempt": {
+    "passed_metric_tests": 14,
+    "recorded_browser_class_setup_errors": 1,
+    "cause": "Tests still pointed to failed first run/calibration.json, which did not exist",
+    "resolution": "Explicitly reference successful run2 evidence, retain failed run; then add independent PNG/SSIM references, repeat-run and fail-closed tests",
+    "subsequent_18_tests_passed_before_expansion": true,
+    "final_new_suite_tests": 27,
+    "failure_replaced_or_hidden": false
+  },
+  "additional_instrumentation": {
+    "change": "Enable CDP Log domain to count CSP/network denial messages as errors as well as Runtime exceptions and console.error",
+    "applied_before_successful_run2_and_repeat": true,
+    "production_evaluator_modified": false
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "proposal_id": "native_ref_dependency_interop_v1_draft_20261114",
+  "status": "excluded_by_user_scope_decision",
+  "user_approval": "not_approved_out_of_scope",
+  "execution_enabled": false,
+  "required_for_source_migration": false,
+  "scope_decision": {
+    "date": "2026-11-14",
+    "document": "docs/ir-design/source-migration-scope-20261114.md",
+    "reason": "User requires proposal-aligned Vue-to-San source migration only, without runtime interoperability or additional features.",
+    "historical_gates_and_vectors": "Retained as originally proposed, not an active work queue or passing evidence."
+  },
+  "implementation_status": "not_implemented",
+  "production_eligible": false,
+  "source_equivalence_proven": false,
+  "scope": "isolated_explicit_input_provider_public_api_feasibility_only",
+  "existing_application_scope_unchanged": true,
+  "baseline_bundle": "data/experiments/analysis/formal_30_v4_native_ref_structure_v13_20261114",
+  "baseline": {"ref_pairs": 192, "ref_mismatches": 4, "structure_pairs": 116, "structure_mismatches": 2, "lifecycle_cleanup_mismatches": 1},
+  "roles": ["input_provider", "san_consumer", "host_and_independent_gate"],
+  "conceptual_operations": ["describe", "open", "capture", "dispose"],
+  "feasibility_claim": "unproven_for_vue_2_7_public_apis",
+  "forbidden_shortcuts": ["global_tracking_patch", "framework_prototype_patch", "duplicate_observer", "input_clone_or_proxy", "polling", "hidden_vue_watch_or_effect", "shape_as_authority", "silent_public_input_narrowing", "automatic_diagnostic_waiver"],
+  "approval_request": "Withdrawn following explicit user scope decision; do not implement or run the provider prototype.",
+  "gates": [
+    {"id": "P0", "purpose": "design_approval", "status": "pending"},
+    {"id": "P1", "purpose": "provider_public_api_feasibility", "status": "not_run"},
+    {"id": "P2", "purpose": "private_property_counterexamples", "status": "not_run"},
+    {"id": "P3", "purpose": "scope_cleanup_and_isolation", "status": "not_run"},
+    {"id": "P4", "purpose": "native_parent_child_binding_and_caches", "status": "not_run"},
+    {"id": "P5", "purpose": "errors_and_independent_production_gate", "status": "not_run"}
+  ],
+  "acceptance_vectors": [
+    {"id": "DEP-01", "gate": "P2", "case": "native_deep_ref_nested_property_dependency", "status": "not_run", "prior_evidence": "refs_observations.json", "criterion": "Both subjects' action_1_tick callbacks and side effects match; no omitted frames."},
+    {"id": "DEP-02", "gate": "P2", "case": "native_deep_ref_array_element_dependency", "status": "not_run", "prior_evidence": "refs_observations.json", "criterion": "Native array element property writes notify with source timing and identities."},
+    {"id": "DEP-03", "gate": "P2", "case": "native_new_property_dependency_still_private", "status": "not_run", "prior_evidence": "structure_observations.json", "criterion": "Vue.set addition then ordinary property write both match; retain both subjects."},
+    {"id": "DEP-04", "gate": "P1", "case": "old_alias_before_dispatch_and_cleanup_after", "status": "not_run", "criterion": "Retain old subscriptions until source-matched capture; test two writes before tick and one after."},
+    {"id": "DEP-05", "gate": "P1", "case": "read_count_order_and_capture_error_partial_dependencies", "status": "not_run", "criterion": "Compare source getter reads, synchronous/async faults and finally cleanup; no assumed atomic rollback."},
+    {"id": "DEP-06", "gate": "P3", "case": "shallow_raw_array_vs_existing_observed_array", "status": "not_run", "prior_evidence": "structure_observations.json", "criterion": "No over-collection; source raw index/new-property behavior remains raw."},
+    {"id": "DEP-07", "gate": "P3", "case": "multiple_owners_nested_aliases_and_late_events", "status": "not_run", "criterion": "Disposing one owner leaves others active; last dispose stops callbacks; stale generations do not revive state."},
+    {"id": "DEP-08", "gate": "P3", "case": "single_native_domain_owner_no_dual_v13_subscriptions", "status": "not_run", "criterion": "No duplicate provider/V13 installation; dedup may not mask leaked subscriptions."},
+    {"id": "DEP-09", "gate": "P3", "case": "unknown_spoofed_or_wrong_runtime_provider", "status": "not_run", "criterion": "Host registry and fingerprints required; missing support stays an unfulfilled source contract, not a pass."},
+    {"id": "DEP-10", "gate": "P4", "case": "native_ref_real_parent_child_computed_and_dom", "status": "not_run", "criterion": "Framework-owned mounted bindings update same-identity values; no test-side child.set substitution."},
+    {"id": "DEP-11", "gate": "P1", "case": "dual_scheduler_reentrancy_order_and_cancellation", "status": "not_run", "criterion": "No eager provider recollection or extra business callbacks; source queue ordering and cancellation match."},
+    {"id": "DEP-12", "gate": "P5", "case": "lifecycle_serialization_and_provider_fault_routing", "status": "not_run", "prior_evidence": "expanded_observations.json", "criterion": "Resolve, do not suppress, the source beforeDestroy/report-only vs San dispose difference; distinguish provider phases."},
+    {"id": "DEP-13", "gate": "P3", "case": "all_frozen_control_matrices", "status": "not_run", "criterion": "116/152/104/172 controls and structural/scalar Ref cases do not regress; keep immutable baselines."},
+    {"id": "DEP-14", "gate": "P5", "case": "emitter_validator_and_forged_candidate_pass", "status": "not_run", "criterion": "Independent revalidation; declarations, labels and cleared validation_errors cannot waive blockers."}
+  ]
+}

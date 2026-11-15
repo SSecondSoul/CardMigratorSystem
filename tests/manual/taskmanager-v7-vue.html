@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TaskManager · Vue 2.7.16 · 独立人工验收</title>
+  <style>
+    .audit-shell{font:14px/1.6 system-ui,sans-serif;padding:14px;background:#f1f5f9;color:#0f172a;border-bottom:1px solid #cbd5e1}
+    .audit-shell h1{font-size:18px;margin:0 0 8px}.audit-shell button{margin:4px;padding:6px 10px;cursor:pointer}
+    .audit-shell pre{max-height:180px;overflow:auto;white-space:pre-wrap;background:#fff;padding:8px}.audit-shell a{color:#1d4ed8}
+  </style>
+</head>
+<body data-framework="vue">
+  <section class="audit-shell" aria-label="独立验收说明">
+    <h1>TaskManager · Vue 对照页</h1>
+    <p>完整模板与内联子组件；本地固定版本、独立存储命名空间、真实业务计时器。未人工确认通过。</p>
+    <p><a href="taskmanager-v7-san.html" target="_blank" rel="noopener">打开 San 对照页</a> · <a href="../../data/experiments/manual_followups/task_manager_async_scope_v7_prepared_20261113/MANUAL_CHECKLIST.md" target="_blank" rel="noopener">验收清单</a></p>
+    <div id="audit-status" role="status">正在校验文件与版本…</div>
+    <button id="audit-reset" type="button" disabled>清空本页隔离数据并重新加载</button>
+    <button id="audit-fail" type="button" disabled>让下一次保存故意失败（可选异常验收）</button>
+    <button id="audit-clear-log" type="button">清空验收日志</button>
+    <pre id="audit-log" aria-label="验收日志">尚无日志。</pre>
+  </section>
+  <div id="component-host"></div>
+  <script src="taskmanager-v7-manual.js"></script>
+</body>
+</html>

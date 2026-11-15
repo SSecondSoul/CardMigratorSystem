@@ -1,0 +1,32 @@
+{
+  "classification": "read_only_original_frozen_history_trace",
+  "finding": "The malformed root class map existed in initial generation. A later LLM repair fixed that root binding, but the complete candidate was rejected for a separate new hidden reactive dependency. The retained candidate and subsequent watcher-only probes inherited the malformed root map.",
+  "generation": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/pipeline/complex/TaskManager.san",
+    "sha256": "f9256e26afd003cef6022be20456d6d458b707e54766bf7bf0a83a80254a9647",
+    "root_class": "task-manager {{ 'dark-theme': isDarkMode, 'compact-mode': isCompactMode }}"
+  },
+  "retained_candidate": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/pipeline/complex/TaskManager_normalized_1_normalized_2.san",
+    "sha256": "7342a138df3343d69a9949b83a5046580d2cde9c9108968b3fdee89952aa8b04",
+    "root_class": "task-manager {{ 'dark-theme': isDarkMode, 'compact-mode': isCompactMode }}"
+  },
+  "rejected_candidate": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/pipeline/complex/TaskManager_normalized_1_normalized_2_repaired.san",
+    "sha256": "757d6a4c89b6f1a39812aa8bc1cb7c93ff9a71a706efd5c6ad24e7e3c967ae4d",
+    "root_class": "task-manager {{ isDarkMode ? 'dark-theme' : '' }} {{ isCompactMode ? 'compact-mode' : '' }}",
+    "rejection": {
+      "code": "hidden_template_reactive_dependency",
+      "location": "script.TaskForm.template",
+      "method": "isTagSelected",
+      "hidden_field": "formData"
+    }
+  },
+  "repair_history": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/repair_reports/complex/TaskManager_repair_history.json",
+    "sha256": "d401d6bc56bb7696d7672a743cb953910fd4e612d4ad9174daa5f1f71e5282b5",
+    "retained_previous_candidate": true,
+    "stop_reason": "repair_candidate_regression_rolled_back"
+  },
+  "resolution": "Keep the original rollback. Add unconditional class diagnostics plus a source-proven prepass on the retained candidate and independent class regression gates. Do not merge arbitrary pieces from the rejected LLM output or waive its separate reactive dependency."
+}

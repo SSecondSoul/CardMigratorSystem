@@ -1,0 +1,80 @@
+test_bad_input_and_analysis_failure_fail_closed (test_v7_source_queue_contract.V7SourceQueueContractTests.test_bad_input_and_analysis_failure_fail_closed) ... ok
+test_declaration_order_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_declaration_order_mutation) ... ok
+test_dedup_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_dedup_mutation) ... ok
+test_dispose_scope_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_dispose_scope_mutation) ... ok
+test_escaped_component_control_rejected (test_v7_source_queue_contract.V7SourceQueueContractTests.test_escaped_component_control_rejected) ... FAIL
+test_extra_factory_reference_rejected (test_v7_source_queue_contract.V7SourceQueueContractTests.test_extra_factory_reference_rejected) ... FAIL
+test_factory_body_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_factory_body_mutation) ... ok
+test_frozen_candidate_complete_structure_matches_not_production (test_v7_source_queue_contract.V7SourceQueueContractTests.test_frozen_candidate_complete_structure_matches_not_production) ... ok
+test_generic_renamed_source_group_not_component_specific (test_v7_source_queue_contract.V7SourceQueueContractTests.test_generic_renamed_source_group_not_component_specific) ... ok
+test_global_shadow_rejected (test_v7_source_queue_contract.V7SourceQueueContractTests.test_global_shadow_rejected) ... FAIL
+test_handler_body_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_handler_body_mutation) ... ok
+test_latest_source_read_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_latest_source_read_mutation) ... ok
+test_missing_queue_disposal (test_v7_source_queue_contract.V7SourceQueueContractTests.test_missing_queue_disposal) ... ok
+test_old_source_matcher_diagnostics_and_repairs_unchanged (test_v7_source_queue_contract.V7SourceQueueContractTests.test_old_source_matcher_diagnostics_and_repairs_unchanged) ... ok
+test_pending_cleared_before_callback (test_v7_source_queue_contract.V7SourceQueueContractTests.test_pending_cleared_before_callback) ... ok
+test_private_scope_bypassed (test_v7_source_queue_contract.V7SourceQueueContractTests.test_private_scope_bypassed) ... ok
+test_registration_index_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_registration_index_mutation) ... ok
+test_reset_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_reset_mutation) ... ok
+test_route_index_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_route_index_mutation) ... ok
+test_source_initial_data_drift (test_v7_source_queue_contract.V7SourceQueueContractTests.test_source_initial_data_drift) ... ok
+test_source_startup_drift (test_v7_source_queue_contract.V7SourceQueueContractTests.test_source_startup_drift) ... ok
+test_startup_order_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_startup_order_mutation) ... ok
+test_transitive_effect_drift (test_v7_source_queue_contract.V7SourceQueueContractTests.test_transitive_effect_drift) ... ok
+test_unknown_hook_rejected (test_v7_source_queue_contract.V7SourceQueueContractTests.test_unknown_hook_rejected) ... FAIL
+test_unknown_inited_work (test_v7_source_queue_contract.V7SourceQueueContractTests.test_unknown_inited_work) ... ok
+test_writer_rhs_must_preserve_number_conversion (test_v7_source_queue_contract.V7SourceQueueContractTests.test_writer_rhs_must_preserve_number_conversion) ... ok
+test_writer_tail_mutation (test_v7_source_queue_contract.V7SourceQueueContractTests.test_writer_tail_mutation) ... ok
+
+======================================================================
+FAIL: test_escaped_component_control_rejected (test_v7_source_queue_contract.V7SourceQueueContractTests.test_escaped_component_control_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\tests\test_v7_source_queue_contract.py", line 72, in test_escaped_component_control_rejected
+    def test_escaped_component_control_rejected(self): self.reject_change('module.exports=san.defineComponent({', 'module.exports=san.defineComponent({escape(){return this.__watcherScope_v7Configure;},')
+                                                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\soul\Desktop\swu\毕业设计\tests\test_v7_source_queue_contract.py", line 26, in reject_change
+    self.assertTrue(changed != text, 'Mutation fixture did not match: ' + before)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : Mutation fixture did not match: module.exports=san.defineComponent({
+
+======================================================================
+FAIL: test_extra_factory_reference_rejected (test_v7_source_queue_contract.V7SourceQueueContractTests.test_extra_factory_reference_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\tests\test_v7_source_queue_contract.py", line 69, in test_extra_factory_reference_rejected
+    def test_extra_factory_reference_rejected(self): self.reject_change('module.exports=san.defineComponent', 'const stolen=__watcherScope_v7Create;module.exports=san.defineComponent')
+                                                     ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\soul\Desktop\swu\毕业设计\tests\test_v7_source_queue_contract.py", line 26, in reject_change
+    self.assertTrue(changed != text, 'Mutation fixture did not match: ' + before)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : Mutation fixture did not match: module.exports=san.defineComponent
+
+======================================================================
+FAIL: test_global_shadow_rejected (test_v7_source_queue_contract.V7SourceQueueContractTests.test_global_shadow_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\tests\test_v7_source_queue_contract.py", line 71, in test_global_shadow_rejected
+    def test_global_shadow_rejected(self): self.reject_change("const san=require('san');", "const Promise=other;const san=require('san');")
+                                           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\soul\Desktop\swu\毕业设计\tests\test_v7_source_queue_contract.py", line 26, in reject_change
+    self.assertTrue(changed != text, 'Mutation fixture did not match: ' + before)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : Mutation fixture did not match: const san=require('san');
+
+======================================================================
+FAIL: test_unknown_hook_rejected (test_v7_source_queue_contract.V7SourceQueueContractTests.test_unknown_hook_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\tests\test_v7_source_queue_contract.py", line 70, in test_unknown_hook_rejected
+    def test_unknown_hook_rejected(self): self.reject_change('module.exports=san.defineComponent({', 'module.exports=san.defineComponent({created(){},')
+                                          ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\soul\Desktop\swu\毕业设计\tests\test_v7_source_queue_contract.py", line 26, in reject_change
+    self.assertTrue(changed != text, 'Mutation fixture did not match: ' + before)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : Mutation fixture did not match: module.exports=san.defineComponent({
+
+----------------------------------------------------------------------
+Ran 27 tests in 27.152s
+
+FAILED (failures=4)

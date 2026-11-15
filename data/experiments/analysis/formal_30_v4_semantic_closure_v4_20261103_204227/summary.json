@@ -1,0 +1,624 @@
+{
+  "classification": "frozen_automatic_pass_with_separate_lifecycle_review_defect",
+  "snapshot": "data/experiments/snapshots/formal_30_v4_semantic_closure_v4_results_20261103_204227",
+  "verified_files": 342,
+  "summary_sha256": "ab5aedfb88b05fd68e4e2bea3d13772cf819310ef15238832347d5c8e1ae75d9",
+  "history_sha256": "96c0eede2b5ebdfa32f1a66dd1a417b57901f980c881612d8033fe92414837de",
+  "final_file": "MonitoringDashboard_normalized_1_normalized_2_repaired_repaired.san",
+  "final_sha256": "e013c2925374ff3fb43e7236467ea7d094c0bc818fb36fd30d605c1caac211e3",
+  "sample": {
+    "id": "MonitoringDashboard",
+    "component_name": "MonitoringDashboard",
+    "complexity": "complex",
+    "coverage_focus": [
+      "migration.class_binding_conversion",
+      "migration.event_name_conversion",
+      "migration.style_binding_conversion",
+      "migration.v_for_conversion",
+      "migration.v_if_conversion",
+      "scripts.has_computed",
+      "scripts.has_data",
+      "scripts.has_lifecycle",
+      "scripts.has_methods",
+      "scripts.has_props",
+      "scripts.has_watch",
+      "styles.has_dynamic_class",
+      "styles.has_dynamic_style",
+      "styles.has_scoped",
+      "templates.has_v_bind",
+      "templates.has_v_for",
+      "templates.has_v_if",
+      "templates.has_v_on"
+    ],
+    "vue_file": "data/datasets/components/03_complex/MonitoringDashboard/vue/MonitoringDashboard.vue",
+    "output_file": "data/experiments/pipeline/batches/formal_30_v4_semantic_closure_v4/complex/MonitoringDashboard.san",
+    "report_file": "data/experiments/repair_reports/batches/formal_30_v4_semantic_closure_v4/complex/MonitoringDashboard_repair_history.json",
+    "final_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_semantic_closure_v4\\complex\\MonitoringDashboard_normalized_1_normalized_2_repaired_repaired.san",
+    "status": "completed",
+    "started_at": "2026-11-03T19:40:56+08:00",
+    "finished_at": "2026-11-03T19:55:09+08:00",
+    "elapsed_seconds": 853.422,
+    "final_passed": true,
+    "stop_reason": "passed",
+    "repair_rounds": 2,
+    "repair_policy": "bounded_prepass_v1",
+    "semantic_rule_set": "residual_v2",
+    "repair_budget_unit": "llm_calls",
+    "llm_repair_calls": 2,
+    "deterministic_steps": 2,
+    "retained_previous_candidate": false,
+    "max_repair_rounds": 3,
+    "initial_validation_passed": false,
+    "initial_validation_error_codes": [
+      "missing_data_types",
+      "unsupported_san_inline_template_math_global",
+      "unsupported_san_inline_template_member_call",
+      "invalid_san_event_handler_syntax",
+      "invalid_san_for_alias_syntax",
+      "invalid_san_directive_interpolation",
+      "duplicate_class_attribute",
+      "missing_self_click_guard",
+      "vue_methods_wrapper",
+      "reserved_init_data_method_collision",
+      "hidden_template_reactive_dependency",
+      "hidden_template_reactive_dependency",
+      "hidden_template_reactive_dependency",
+      "hidden_template_reactive_dependency",
+      "duplicate_class_attribute",
+      "duplicate_class_attribute",
+      "duplicate_class_attribute",
+      "duplicate_class_attribute",
+      "duplicate_class_attribute",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "nested_state_mutation",
+      "event_arguments_not_landed",
+      "missing_lifecycle_mapping",
+      "lifecycle_behavior_not_landed"
+    ],
+    "initial_validation_warning_codes": [
+      "migration_hints_not_landed"
+    ],
+    "initial_visual_eval_passed": false,
+    "initial_visual_error_codes": [
+      "san_render_failed",
+      "san_san_render_error"
+    ],
+    "initial_visual_warning_codes": [],
+    "initial_structure_similarity": 0.0,
+    "final_validation_passed": true,
+    "final_validation_error_codes": [],
+    "final_visual_eval_passed": true,
+    "final_visual_error_codes": [],
+    "final_structure_similarity": 0.9912,
+    "final_tag_sequence_similarity": 1.0,
+    "final_text_similarity": 1.0,
+    "final_tree_edit_distance": 0.5,
+    "interaction_eval_passed": null,
+    "interaction_eval_reason": "",
+    "generation_provider": "qwen",
+    "generation_model": "qwen-plus",
+    "generation_tokens": 106577,
+    "repair_tokens": 166226,
+    "total_tokens": 272803
+  },
+  "aggregate": {
+    "configured": 1,
+    "completed": 1,
+    "passed": 1,
+    "failed": 0,
+    "execution_errors": 0,
+    "pending": 0,
+    "pass_rate_completed": 1.0,
+    "initial_passed": 0,
+    "initial_pass_rate_completed": 0.0,
+    "repaired_to_pass": 1,
+    "repair_rounds_total": 2,
+    "repair_rounds_average": 2.0,
+    "generation_tokens": 106577,
+    "repair_tokens": 166226,
+    "total_tokens": 272803,
+    "stop_reason_counts": {
+      "passed": 1
+    },
+    "error_code_counts": {
+      "initial_validation": {
+        "duplicate_class_attribute": 6,
+        "event_arguments_not_landed": 1,
+        "hidden_template_reactive_dependency": 4,
+        "invalid_san_directive_interpolation": 1,
+        "invalid_san_event_handler_syntax": 1,
+        "invalid_san_for_alias_syntax": 1,
+        "lifecycle_behavior_not_landed": 1,
+        "missing_data_types": 1,
+        "missing_lifecycle_mapping": 1,
+        "missing_self_click_guard": 1,
+        "nested_state_mutation": 6,
+        "reserved_init_data_method_collision": 1,
+        "unsupported_san_inline_template_math_global": 1,
+        "unsupported_san_inline_template_member_call": 1,
+        "vue_methods_wrapper": 1
+      },
+      "initial_visual": {
+        "san_render_failed": 1,
+        "san_san_render_error": 1
+      },
+      "final_validation": {},
+      "final_visual": {}
+    },
+    "by_complexity": {
+      "simple": {
+        "configured": 0,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "medium": {
+        "configured": 0,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "complex": {
+        "configured": 1,
+        "completed": 1,
+        "passed": 1,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": 1.0
+      }
+    }
+  },
+  "model_requests_performed_by_analysis": 0,
+  "runtime_or_browser_test_performed": false,
+  "manual_status": "not_started_lifecycle_review_required",
+  "original_automatic_score_modified": false,
+  "independent_holdout": false,
+  "normalizations": [
+    {
+      "step": 1,
+      "before_llm_call": 1,
+      "rules": [
+        "restored_inline_source_prop_schema",
+        "unwrapped_san_directive_expression",
+        "unwrapped_san_component_methods_options",
+        "renamed_parent_business_initData"
+      ],
+      "accepted": true,
+      "progress_signature": {
+        "generated_code_sha256": "18bda53c5bdd037b53e6ddf2f3e9ff46252c9543b106914eec20a7511c6600b0",
+        "validation_error_codes": [
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "event_arguments_not_landed",
+          "hidden_template_reactive_dependency",
+          "hidden_template_reactive_dependency",
+          "hidden_template_reactive_dependency",
+          "hidden_template_reactive_dependency",
+          "invalid_san_event_handler_syntax",
+          "invalid_san_for_alias_syntax",
+          "lifecycle_behavior_not_landed",
+          "missing_lifecycle_mapping",
+          "missing_self_click_guard",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "unsupported_san_inline_template_math_global",
+          "unsupported_san_inline_template_member_call"
+        ],
+        "visual_error_codes": [],
+        "tree_edit_distance": 1.25,
+        "structure_similarity": 0.9781,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 1.0
+      }
+    },
+    {
+      "step": 2,
+      "before_llm_call": 1,
+      "rules": [
+        "explicit_readonly_inline_helper_dependencies"
+      ],
+      "accepted": true,
+      "progress_signature": {
+        "generated_code_sha256": "fc9945a2951b23a281d7e395b88d763004f7d4c56e90d8679d272df96066f8a5",
+        "validation_error_codes": [
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "duplicate_class_attribute",
+          "event_arguments_not_landed",
+          "hidden_template_reactive_dependency",
+          "hidden_template_reactive_dependency",
+          "invalid_san_event_handler_syntax",
+          "invalid_san_for_alias_syntax",
+          "lifecycle_behavior_not_landed",
+          "missing_lifecycle_mapping",
+          "missing_self_click_guard",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "nested_state_mutation",
+          "unsupported_san_inline_template_math_global",
+          "unsupported_san_inline_template_member_call"
+        ],
+        "visual_error_codes": [],
+        "tree_edit_distance": 1.75,
+        "structure_similarity": 0.9693,
+        "tag_sequence_similarity": 1.0,
+        "text_similarity": 0.9923
+      }
+    }
+  ],
+  "repairs": [
+    {
+      "attempt": 1,
+      "passed": false,
+      "validation_error_codes": [
+        "lifecycle_behavior_not_landed"
+      ],
+      "usage": {
+        "completion_tokens": 12119,
+        "prompt_tokens": 123472,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 135591
+      },
+      "gate": {
+        "decision": "pass",
+        "should_stop": false,
+        "introduced_event_error_codes": {},
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)"
+          ],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "after": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "semantic_coverage_assessment": {
+          "status": "not_needed",
+          "proven_pairs": []
+        },
+        "newly_visible_preexisting_semantic_findings": [],
+        "introduced_semantic_findings": [],
+        "introduced_critical_errors": [],
+        "lost_visual_pass": false
+      },
+      "postprocessing": [
+        "unwrapped_san_directive_expression",
+        "normalized_simple_san_template_syntax",
+        "merged_static_and_dynamic_class_attributes",
+        "restored_source_watch_persistence",
+        "restored_unique_source_boolean_event_bindings"
+      ]
+    },
+    {
+      "attempt": 2,
+      "passed": true,
+      "validation_error_codes": [],
+      "usage": {
+        "completion_tokens": 12131,
+        "prompt_tokens": 18504,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "total_tokens": 30635
+      },
+      "gate": {
+        "decision": "pass",
+        "should_stop": false,
+        "introduced_event_error_codes": {},
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "after": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "semantic_coverage_assessment": {
+          "status": "not_needed",
+          "proven_pairs": []
+        },
+        "newly_visible_preexisting_semantic_findings": [],
+        "introduced_semantic_findings": [],
+        "introduced_critical_errors": [],
+        "lost_visual_pass": false
+      },
+      "postprocessing": []
+    }
+  ],
+  "final_warnings": [
+    {
+      "code": "migration_hints_not_landed",
+      "message": "data 读取策略未落地：currentDate 应使用 this.data.get('currentDate')；data 读取策略未落地：currentTime 应使用 this.data.get('currentTime')；data 读取策略未落地：isChartLoading 应使用 this.data.get('isChartLoading')；data 读取策略未落地：isLogLoading 应使用 this.data.get('isLogLoading')；data 写入策略未落地：isLogLoading 应使用 this.data.set('isLogLoading', ...)；data 读取策略未落地：isRefreshingServices 应使用 this.data.get('isRefreshingServices')；data 写入策略未落地：logFilter 应使用 this.data.set('logFilter', ...)；data 读取策略未落地：requestStats 应使用 this.data.get('requestStats')；data 读取策略未落地：selectedPeriod 应使用 this.data.get('selectedPeriod')；data 读取策略未落地：showSettings 应使用 this.data.get('showSettings')；data 读取策略未落地：timePeriods 应使用 this.data.get('timePeriods')；data 写入策略未落地：timePeriods 应使用 this.data.set('timePeriods', ...)",
+      "severity": "warning",
+      "location": "script/template",
+      "suggestion": "根据 SSM migration_hints 补齐 San 迁移策略。"
+    }
+  ],
+  "lifecycle_review": {
+    "source": {
+      "created": [],
+      "beforeMount": [],
+      "mounted": [
+        {
+          "method": "initData",
+          "args": 0,
+          "line": 614,
+          "statement": "this.initData();"
+        },
+        {
+          "method": "startTimeUpdate",
+          "args": 0,
+          "line": 615,
+          "statement": "this.startTimeUpdate();"
+        },
+        {
+          "method": "startDataSimulation",
+          "args": 0,
+          "line": 616,
+          "statement": "this.startDataSimulation();"
+        },
+        {
+          "method": "showNotification",
+          "args": 2,
+          "line": 620,
+          "statement": "this.showNotification('监控仪表盘已启动', 'success');"
+        }
+      ]
+    },
+    "target": {
+      "inited": [
+        {
+          "method": "watch",
+          "args": 2,
+          "line": 430,
+          "statement": "this.watch('settings', (newVal) => {\n      if (newVal.autoRefresh && !this.data.get('refreshTimer')) {\n        this.startAutoRefresh();\n      } else if (!newVal.autoRefresh && this.data.get('refreshTimer')) {\n        this.stopAutoRefresh();\n      }\n    \nlocalStorage.setItem('dashboard_settings', JSON.stringify(newVal));\n});"
+        },
+        {
+          "method": "initDataImpl",
+          "args": 0,
+          "line": 441,
+          "statement": "this.initDataImpl();"
+        }
+      ],
+      "attached": [
+        {
+          "method": "initDataImpl",
+          "args": 0,
+          "line": 444,
+          "statement": "this.initDataImpl();"
+        },
+        {
+          "method": "startTimeUpdate",
+          "args": 0,
+          "line": 445,
+          "statement": "this.startTimeUpdate();"
+        },
+        {
+          "method": "startDataSimulation",
+          "args": 0,
+          "line": 446,
+          "statement": "this.startDataSimulation();"
+        },
+        {
+          "method": "showNotification",
+          "args": 2,
+          "line": 451,
+          "statement": "this.showNotification('监控仪表盘已启动', 'success');"
+        }
+      ]
+    },
+    "source_business_initializer": "initData",
+    "target_business_initializer": "initDataImpl",
+    "source_initializer_calls": 1,
+    "target_initializer_calls": 2,
+    "duplicated_startup": true,
+    "source_notification_permission_method_exists": true,
+    "target_notification_permission_method_exists": false,
+    "boundary": "Read-only AST inspection of direct parent calls, not execution or arbitrary call-graph equivalence."
+  },
+  "first_repair_lifecycle_review": {
+    "source": {
+      "created": [],
+      "beforeMount": [],
+      "mounted": [
+        {
+          "method": "initData",
+          "args": 0,
+          "line": 614,
+          "statement": "this.initData();"
+        },
+        {
+          "method": "startTimeUpdate",
+          "args": 0,
+          "line": 615,
+          "statement": "this.startTimeUpdate();"
+        },
+        {
+          "method": "startDataSimulation",
+          "args": 0,
+          "line": 616,
+          "statement": "this.startDataSimulation();"
+        },
+        {
+          "method": "showNotification",
+          "args": 2,
+          "line": 620,
+          "statement": "this.showNotification('监控仪表盘已启动', 'success');"
+        }
+      ]
+    },
+    "target": {
+      "inited": [
+        {
+          "method": "watch",
+          "args": 2,
+          "line": 433,
+          "statement": "this.watch('settings', (newVal) => {\n      if (newVal.autoRefresh && !this.data.get('refreshTimer')) {\n        this.startAutoRefresh();\n      } else if (!newVal.autoRefresh && this.data.get('refreshTimer')) {\n        this.stopAutoRefresh();\n      }\n    \nlocalStorage.setItem('dashboard_settings', JSON.stringify(newVal));\n});"
+        },
+        {
+          "method": "initDataImpl",
+          "args": 0,
+          "line": 444,
+          "statement": "this.initDataImpl();"
+        }
+      ],
+      "attached": [
+        {
+          "method": "startTimeUpdate",
+          "args": 0,
+          "line": 447,
+          "statement": "this.startTimeUpdate();"
+        },
+        {
+          "method": "startDataSimulation",
+          "args": 0,
+          "line": 448,
+          "statement": "this.startDataSimulation();"
+        },
+        {
+          "method": "showNotification",
+          "args": 2,
+          "line": 453,
+          "statement": "this.showNotification('监控仪表盘已启动', 'success');"
+        }
+      ]
+    },
+    "source_business_initializer": "initData",
+    "target_business_initializer": "initDataImpl",
+    "source_initializer_calls": 1,
+    "target_initializer_calls": 1,
+    "duplicated_startup": false,
+    "source_notification_permission_method_exists": true,
+    "target_notification_permission_method_exists": true,
+    "boundary": "Read-only AST inspection of direct parent calls, not execution or arbitrary call-graph equivalence."
+  },
+  "next_step": "Offline source-proven lifecycle multiplicity/phase detection and bounded repair; counterexamples and candidate gate tests before any new model protocol or manual acceptance."
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "id": "DYNKEY-01",
+    "category": "remaining_risk",
+    "phase": "experimental_observer",
+    "root_cause": "write() rejects non-string keys before native ToPropertyKey conversion; source raw property assignment accepts/coerces them and preserves coercion throws.",
+    "scenarios": [
+      "numeric_key",
+      "symbol_key",
+      "coerced_existing_key",
+      "coerced_new_key",
+      "throwing_key_coercion"
+    ],
+    "source_reference": "input.vue updateSettings: raw this.settings[key] assignment; ECMAScript evaluation order must remain intact.",
+    "repair_requirement": "Preserve native source LHS/RHS conversion, assignment and synchronous notification order; no UI-key whitelist or silent catch.",
+    "status": "unresolved"
+  },
+  {
+    "id": "DYNVALUE-02",
+    "category": "remaining_risk",
+    "phase": "experimental_observer",
+    "root_cause": "requireValue/allowed rejects Date, frozen values, sparse arrays and Symbols that the source assignment accepts; Vue observe can skip unsupported observation without rejecting assignment.",
+    "scenarios": [
+      "date_value",
+      "frozen_value",
+      "sparse_array_value",
+      "new_symbol_value"
+    ],
+    "source_reference": "vue.js observe/defineReactive; source does not declare the adapter value guard.",
+    "repair_requirement": "Separate native assignment acceptance from observer eligibility. Do not clone/coerce/drop values to satisfy observer constraints.",
+    "status": "unresolved"
+  },
+  {
+    "id": "DYNSUB-03",
+    "category": "remaining_risk",
+    "phase": "experimental_observer",
+    "root_cause": "children()/ancestors() follows stale meta.values after raw deletion, descriptor replacement or enumerability change. Unlike Vue watcher traverse/cleanupDeps, subscriptions are not recollected after a flush.",
+    "scenarios": [
+      "delete_then_mutate_detached_alias",
+      "redefine_then_mutate_detached_alias",
+      "nonenumerable_then_mutate_alias"
+    ],
+    "source_reference": "vue.js _traverse uses current Object.keys; Watcher.get finally cleanupDeps removes stale subscriptions.",
+    "repair_requirement": "Match subscription timing as well as current shape. Preserve first-tick pending notification and remove obsolete dependencies after recollection; simply skipping deleted children would lose the first valid notification.",
+    "status": "unresolved"
+  }
+]

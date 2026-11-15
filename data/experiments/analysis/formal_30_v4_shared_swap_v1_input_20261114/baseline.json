@@ -1,0 +1,75 @@
+{
+  "source": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/protocol/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+    "sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139"
+  },
+  "candidate_before": {
+    "path": "data/experiments/analysis/formal_30_v4_render_bridge_v1_20261114/TripItineraryPlanner_render_dependencies_offline.san",
+    "sha256": "756ec06d4614cd8f109ba4a8d8725f72c39b1554668256075d2d9d4286c14cd5"
+  },
+  "before_validation": {
+    "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_full_regression_v2_results_20261104_214821\\protocol\\frozen\\data\\datasets\\components\\03_complex\\TripItineraryPlanner\\vue\\TripItineraryPlanner.vue",
+    "validation_passed": false,
+    "validation_errors": [
+      {
+        "code": "nested_state_mutation",
+        "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "message": "Source method setValue has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "location": "script.methods.setValue",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      }
+    ],
+    "visual_eval_passed": true
+  },
+  "allowed_changes": [
+    "migration_pipeline/utils/source_phase_semantics.cjs",
+    "migration_pipeline/utils/bounded_semantics.cjs",
+    "migration_pipeline/stages/repair.py",
+    "migration_pipeline/utils/repair_prompt.py",
+    "migration_pipeline/utils/repair_scheduler.py"
+  ],
+  "protected_files_sha256": {
+    "data/experiments/batch_reports/formal_30_v4_full_regression_v2_summary.json": "2d2137233fd8643dd13c40119d1a59516b0dd13a08ddf7fa5ef244fc4f498a03",
+    "local_server/api/evaluation_routes.py": "d0a6bb55b5e0366317be5f0bc8047b97dd41b04401918a43cb5e4bec496eafc0",
+    "migration_pipeline/stages/repair.py": "be7044e2618597cd5feabcc75e790274b9b8b57321747c80c10e49575cf0e31e",
+    "migration_pipeline/stages/validate.py": "a919ffa72c6ea1090db31d48bea184e473aa991e627427e6914af3e7b77fc0f5",
+    "migration_pipeline/utils/bounded_semantics.cjs": "4b80b6907e800f0bac71cacbac405227fa3da223da209cd1cb55d5ef90b9c0f3",
+    "migration_pipeline/utils/detached_record_semantics.cjs": "8e567af972eafc68f5e69ea88ebdf0e6f24e4f723aed68c850fbb23c454ce928",
+    "migration_pipeline/utils/method_interface_semantics.cjs": "ecf7feb3959e81e7fa29d87de702d6d2b1c53430df4abf7307721723ec11e967",
+    "migration_pipeline/utils/repair_prompt.py": "691a2f4b81614c02618ea0ad6c7cfb9da9da1aaf1f9456396dab7ce1fa05611b",
+    "migration_pipeline/utils/repair_regression_guard.py": "f6b4ea29d2115f3b0246de30f6a244f8106dbc0ab919b8ae82c7aaee2545f963",
+    "migration_pipeline/utils/repair_scheduler.py": "482d090ed86e2ca977068e8c122b5cafd117e2ae261f1ce100604c291ab00308",
+    "migration_pipeline/utils/source_dom_semantics.cjs": "3eb449584bbe0db053988ad388d7b212c7f669ffa79df9fcb2af80c20aaa7271",
+    "migration_pipeline/utils/source_parent_watch_semantics.cjs": "b39b624afb370f85a7bfbee2aef5f6659b2648261cb3e7ed05a6f3e5a756a92e",
+    "migration_pipeline/utils/source_parent_watch_semantics.py": "31dfa61a241f1239c2548c2cfe3961b63e77a2605407b6b5c7ce550a1871c4ed",
+    "migration_pipeline/utils/source_phase_semantics.cjs": "ab6369b089627ade24861850984191946686727f6d26174c22970002277cc51a",
+    "migration_pipeline/utils/source_readonly_bridge_semantics.cjs": "b9b27cf0dc9380a57aaf6aacb7583327044c87eb777fa4285b471f3ef7dc51c2",
+    "migration_pipeline/utils/source_record_update_semantics.cjs": "c52f8b95726c9ac9e06c1160b7fc9a6470426e98aa092059626d3a3316631cb6",
+    "migration_pipeline/utils/source_render_call_semantics.cjs": "c7b70e6808013d9369cfe896d1d36de3b4a3fe8862d478fdee98e27fdd4e1486",
+    "migration_pipeline/utils/source_render_dependency_semantics.cjs": "44b3e04163be409da29c911bb17ef36240a79466d71fbb92609421c5444a8126",
+    "migration_pipeline/utils/v7_source_queue_contract.cjs": "0d3f6ea092b5d8f8906866a75210afc261cff42e98d35d385643d78d98f972a1",
+    "migration_pipeline/utils/v7_source_queue_contract.py": "77fc7b6534d18390cb5120d7126cf206aac5510fabc77bd5608a96cc085e10d3",
+    "tests/manual/san-test-runner.html": "5b704c7639d83050b0f5ce4ebcaaca166accf855dd541f43cf7498c2d7c46409",
+    "tests/manual/v7-acceptance-config.json": "99b6bd89fadafa63de8e858bee2eb2bc5f5bbe5a3320f90c6defbdc0448aa0d7",
+    "tests/manual/vue-test-runner.html": "b2e193ef81bd1af84c2e7bd828ac67d4dd18c8f82c4b1100fc298e64a68e0d50",
+    "tests/test_source_dom_closure.py": "bb702c9ff5bb891f38ce6070b076be9d63ebba5c96517c4a3cb24c2251fd0a25",
+    "tests/test_source_event_forwarding_interfaces.py": "a87fcfbd6ab7f28c610e5318403f1b3ad1ef6c2071350ce230f46b9b9ee822d0",
+    "tests/test_source_readonly_bridge_closure.py": "fb7a3568fa1af5ffd597a596ff8f37ad7c9954ab800cba6974ab24f046606532",
+    "tests/test_source_record_update_closure.py": "0566feda0920c738e66282d337781bbae471213c59eff6754951d6334279f275",
+    "tests/test_source_render_call_closure.py": "d8f5dc7cdb1a263892ee49a011d614f49364ffe4bc69181b3de8a56a4f12fb4d",
+    "tests/test_source_render_dependency_closure.py": "07e86fa619301a50bbf951cea5d4934555c030f1c6e4c3c0325026f0ab3f67c9"
+  },
+  "notebook_before": {
+    "cells": 109,
+    "cells_sha256": "d754fa6be1a8fac1201b3efc9bef5d83e4b68af496f4c41717406c4c15ed591c",
+    "metadata_sha256": "da8e8b42bb4344c317ccdf5038310d76529bda61666c53ff805bcc19dbede418"
+  },
+  "scope": "Source swap shallow projection closure, preserve shared source mutation; no arbitrary dynamic setter restoration; no model/manual pass"
+}

@@ -1,0 +1,104 @@
+<template>
+<section class="{{ 'stock-reservation-badge ' + (this.data.get('level') || '') }}">
+  <h2>演示设备库存</h2>
+  <strong>可用 {{this.data.get('remaining')}}</strong>
+  <span>已预留 {{this.data.get('reserved')}}</span>
+  <div class="actions">
+    <button on-click="release" disabled="{{ this.data.get('reserved') === 0 }}">释放</button>
+    <button class="primary" on-click="reserve" disabled="{{ this.data.get('remaining') === 0 }}">预留一件</button>
+  </div>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'StockReservationBadge',
+  components: {},
+
+  // Props declared with DataTypes
+  dataTypes: {
+    available: DataTypes.number,
+    warningAt: DataTypes.number
+  },
+
+  // initData returns initial state — no `this` access allowed here
+  initData() {
+    return {
+available: 12,
+warningAt: 3,
+
+      reserved: 0
+    };
+  },
+
+  // Computed values are implemented as methods that read from this.data
+  // and must be accessed via this.data.get('name')
+  computed: {
+    remaining() {
+      const available = this.data.get('available');
+      const reserved = this.data.get('reserved');
+      return available - reserved;
+    },
+    level() {
+      const remaining = this.data.get('remaining');
+      const warningAt = this.data.get('warningAt');
+      return remaining === 0 ? 'empty' : remaining <= warningAt ? 'low' : 'ok';
+    }
+  },
+
+  // Methods defined at top level, not inside a `methods: {}` object
+  setValue(key, value) {
+    this.data.set(key, value);
+  },
+
+  emitEvent(name, payload) {
+    this.fire(name, payload);
+  },
+
+  reserve() {
+    const available = this.data.get('available');
+    const reserved = this.data.get('reserved');
+    this.data.set('reserved', Math.min(available, reserved + 1));
+  },
+
+  release() {
+    const reserved = this.data.get('reserved');
+    this.data.set('reserved', Math.max(0, reserved - 1));
+  },
+
+  // inited is called after data is initialized and before attached
+  inited() {
+    // Sync props to internal state if needed; defaults already set in initData
+    // But Vue props default values must be copied into data for runtime use
+    const available = this.data.get('available');
+    const warningAt = this.data.get('warningAt');
+    if (available == null) {
+      this.data.set('available', 12);
+    }
+    if (warningAt == null) {
+      this.data.set('warningAt', 3);
+    }
+  },
+
+  // attached is called after component is mounted into DOM
+  attached() {
+    // No side effects required at mount time per SSM
+  }
+});
+</script>
+
+<style>
+.stock-reservation-badge{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.stock-reservation-badge *{box-sizing:border-box}
+.stock-reservation-badge h2,.stock-reservation-badge h3,.stock-reservation-badge p{margin-top:0}
+.stock-reservation-badge button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.stock-reservation-badge button.primary{border-color:#0f766e;background:#0f766e;color:#fff}
+.stock-reservation-badge button:disabled{opacity:.45;cursor:not-allowed}
+.stock-reservation-badge input,.stock-reservation-badge select,.stock-reservation-badge textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.stock-reservation-badge .muted{color:#71808e;font-size:12px}
+.stock-reservation-badge .toolbar,.stock-reservation-badge .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.stock-reservation-badge>strong{display:block;font-size:32px}.stock-reservation-badge.low>strong{color:#d97706}.stock-reservation-badge.empty>strong{color:#dc2626}.stock-reservation-badge .actions{margin-top:12px}
+</style>

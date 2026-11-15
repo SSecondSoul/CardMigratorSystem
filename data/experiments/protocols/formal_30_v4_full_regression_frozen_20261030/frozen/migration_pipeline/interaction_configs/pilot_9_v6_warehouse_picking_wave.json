@@ -1,0 +1,127 @@
+{
+  "evaluation_id": "pilot_9_v6_warehouse_picking_wave_interactions",
+  "description": "Evaluate picker changes, wave creation, picking completion, and exception blocking against the pilot_9_v6 WarehousePickingWave artifact without calling a model.",
+  "vue_file": "data/datasets/components/03_complex/WarehousePickingWave/vue/WarehousePickingWave.vue",
+  "san_file": "data/experiments/pipeline/batches/pilot_9_v6/complex/WarehousePickingWave_repaired.san",
+  "report_file": "data/experiments/interaction_reports/pilot_9_v6_warehouse_picking_wave_interactions.json",
+  "fixed_now_ms": 1791447300000,
+  "scenarios": [
+    {
+      "name": "change_picker",
+      "steps": [
+        {
+          "op": "call",
+          "method": "setPicker",
+          "args": [
+            {
+              "__event": true,
+              "target": {
+                "value": "宋宁"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "create_wave",
+      "steps": [
+        {
+          "op": "call",
+          "method": "toggleOrder",
+          "args": [
+            "W201"
+          ]
+        },
+        {
+          "op": "call",
+          "method": "toggleOrder",
+          "args": [
+            "W202"
+          ]
+        },
+        {
+          "op": "call",
+          "method": "createWave"
+        }
+      ]
+    },
+    {
+      "name": "complete_wave",
+      "steps": [
+        {
+          "op": "call",
+          "method": "toggleOrder",
+          "args": [
+            "W202"
+          ]
+        },
+        {
+          "op": "call",
+          "method": "createWave"
+        },
+        {
+          "op": "call",
+          "method": "togglePicked",
+          "args": [
+            "W202",
+            "W202-0"
+          ]
+        },
+        {
+          "op": "call",
+          "method": "completeWave"
+        }
+      ]
+    },
+    {
+      "name": "exception_blocks_then_allows_completion",
+      "steps": [
+        {
+          "op": "call",
+          "method": "toggleOrder",
+          "args": [
+            "W202"
+          ]
+        },
+        {
+          "op": "call",
+          "method": "createWave"
+        },
+        {
+          "op": "call",
+          "method": "togglePicked",
+          "args": [
+            "W202",
+            "W202-0"
+          ]
+        },
+        {
+          "op": "call",
+          "method": "reportException",
+          "args": [
+            {
+              "orderId": "W202",
+              "id": "W202-0"
+            }
+          ]
+        },
+        {
+          "op": "call",
+          "method": "completeWave"
+        },
+        {
+          "op": "call",
+          "method": "resolveException",
+          "args": [
+            1791447300000
+          ]
+        },
+        {
+          "op": "call",
+          "method": "completeWave"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,377 @@
+{
+  "date": "2026-11-15",
+  "classification": "dynamic_assignment_validation_gate_hardening_not_setter_repair",
+  "source": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/protocol/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+    "sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139"
+  },
+  "candidate": {
+    "path": "data/experiments/analysis/formal_30_v4_filter_methods_v1_20261115/TripItineraryPlanner_filter_methods_offline.san",
+    "sha256": "fd845c3a98f6ea2388b8c2eabebee9f2e3455a313797e6c255d36355be934626"
+  },
+  "validation_passed": false,
+  "current_errors": [
+    {
+      "code": "nested_state_mutation",
+      "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+    },
+    {
+      "code": "source_method_interface_not_landed",
+      "message": "Source method setValue has no proven callable method on the exported San parent.",
+      "severity": "error",
+      "location": "script.methods.setValue",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    }
+  ],
+  "variant_checks": {
+    "missing": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        },
+        {
+          "code": "source_method_interface_not_landed",
+          "message": "Source method setValue has no proven callable method on the exported San parent.",
+          "severity": "error",
+          "location": "script.methods.setValue",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        }
+      ],
+      "gate_should_stop": false,
+      "forged_gate_should_stop": true,
+      "waived_findings": [
+        {
+          "code": "source_method_interface_not_landed",
+          "location": "script.methods.setValue",
+          "message": "Source method setValue has no proven callable method on the exported San parent."
+        }
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "missing",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 14,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "missing"
+          }
+        }
+      ],
+      "code_unchanged": true
+    },
+    "no_op": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        },
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof.",
+          "severity": "error",
+          "location": "script.methods.setValue",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        }
+      ],
+      "gate_should_stop": true,
+      "forged_gate_should_stop": true,
+      "waived_findings": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "location": "script.methods.setValue",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof."
+        }
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "callable_semantics_unproven",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 14,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "callable_unproven"
+          }
+        }
+      ],
+      "code_unchanged": true
+    },
+    "instance": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        },
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof.",
+          "severity": "error",
+          "location": "script.methods.setValue",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        }
+      ],
+      "gate_should_stop": true,
+      "forged_gate_should_stop": true,
+      "waived_findings": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "location": "script.methods.setValue",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof."
+        }
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "callable_semantics_unproven",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 14,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": true
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "callable_unproven"
+          }
+        }
+      ],
+      "code_unchanged": true
+    },
+    "path": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        },
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof.",
+          "severity": "error",
+          "location": "script.methods.setValue",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        }
+      ],
+      "gate_should_stop": true,
+      "forged_gate_should_stop": true,
+      "waived_findings": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "location": "script.methods.setValue",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof."
+        }
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "callable_semantics_unproven",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 14,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "callable_unproven"
+          }
+        }
+      ],
+      "code_unchanged": true
+    },
+    "finite_fallback": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        },
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof.",
+          "severity": "error",
+          "location": "script.methods.setValue",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        }
+      ],
+      "gate_should_stop": true,
+      "forged_gate_should_stop": true,
+      "waived_findings": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "location": "script.methods.setValue",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof."
+        }
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "callable_semantics_unproven",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 14,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": true
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "callable_unproven"
+          }
+        }
+      ],
+      "code_unchanged": true
+    },
+    "coerced_finite_fallback": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        },
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof.",
+          "severity": "error",
+          "location": "script.methods.setValue",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        }
+      ],
+      "gate_should_stop": true,
+      "forged_gate_should_stop": true,
+      "waived_findings": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "location": "script.methods.setValue",
+          "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof."
+        }
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "callable_semantics_unproven",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 14,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": true
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "callable_unproven"
+          }
+        }
+      ],
+      "code_unchanged": true
+    }
+  },
+  "new_diagnostic": "source_dynamic_assignment_unproven",
+  "no_op_can_clear_interface_error_alone_before": true,
+  "previous_whole_component_passed": false,
+  "known_bad_or_unproven_callable_proposals_rejected": 5,
+  "native_case_count": 15,
+  "native_variant_count": 6,
+  "production_implementation_changed": true,
+  "repair_prompt_changed": true,
+  "generation_prompt_or_server_changed": false,
+  "automatic_setter_repair_implemented": false,
+  "acceptance_scope_changed": false,
+  "compatibility_layer_added": false,
+  "canonical_generated_files_modified": false,
+  "manual_pages_modified": false,
+  "model_calls": 0,
+  "new_manual_confirmation": false,
+  "browser_started": false,
+  "server_started": false,
+  "whole_component_equivalence_proven": false,
+  "production_eligible": false,
+  "original_batch": {
+    "configured": 30,
+    "passed": 24,
+    "failed": 6,
+    "execution_errors": 0,
+    "total_tokens": 1821544
+  },
+  "next_step": "User must explicitly decide source-reachable calls versus arbitrary external-key interface before any narrowing; keep old failures and do not install an adapter to force a pass."
+}

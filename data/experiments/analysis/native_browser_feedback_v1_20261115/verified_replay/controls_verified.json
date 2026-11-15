@@ -1,0 +1,623 @@
+{
+  "schema_version": 2,
+  "recording_schema": 3,
+  "scope": "offline_native_browser_feedback_not_production_admission",
+  "evidence": {
+    "seal_sha256": "a9f6b0b4e39f83cf88415f3658903f13d07f426af0799726d13b9cff09d5b15c",
+    "recording": "controls_verified",
+    "input_sha256": "5df155fd9b8d1e12b8a7614ef79e5183ff351e9a627fbd46bc4dd1b931280e90",
+    "result_sha256": "ebd457959b47e03d158e5392beceae88aca553b246562f8e469086e8880da6e3",
+    "binding": null
+  },
+  "thresholds": {
+    "pixelTolerance": 0,
+    "maxChangedPixelRatio": 0,
+    "minSSIM": 0.999999999
+  },
+  "scenes": [
+    {
+      "source": "storage_source",
+      "target": "storage_target",
+      "issues": [
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_transport_registry_or_cleanup_blocked",
+          "message": "Native evidence needs review; do not repair component code from it.",
+          "details": {}
+        },
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_event_origin_unproven",
+          "message": "Unknown/conflicting native event; no owner inferred from message or stack.",
+          "details": {
+            "kind": "blocked_request",
+            "page": "cross_page",
+            "session": "CF8F48C067B61F7130D61B5572BED2FB",
+            "provenance": "native_session_registry",
+            "origin_verified": false,
+            "reasons": [
+              "foreign_or_unproven_document_url",
+              "recorded_attribution_concern"
+            ],
+            "event": {
+              "sequence": 3,
+              "kind": "blocked_request",
+              "sessionId": "CF8F48C067B61F7130D61B5572BED2FB",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "cross_page",
+                "index": 5,
+                "targetId": "5981F61E0F0B8FBE66E24B71227212EF",
+                "contextId": "9CE47FE15949857D35ADAC1BF22D7C26",
+                "sessionId": "CF8F48C067B61F7130D61B5572BED2FB"
+              },
+              "attribution": "unverified",
+              "reasons": [
+                "foreign_document_url"
+              ],
+              "details": {
+                "url": "http://127.0.0.1:56319/page/0",
+                "method": "GET"
+              }
+            }
+          }
+        },
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_event_origin_unproven",
+          "message": "Unknown/conflicting native event; no owner inferred from message or stack.",
+          "details": {
+            "kind": "browser_log",
+            "page": "cross_page",
+            "session": "CF8F48C067B61F7130D61B5572BED2FB",
+            "provenance": "native_session_registry",
+            "origin_verified": false,
+            "reasons": [
+              "foreign_or_unproven_document_url",
+              "recorded_attribution_concern"
+            ],
+            "event": {
+              "sequence": 4,
+              "kind": "browser_log",
+              "sessionId": "CF8F48C067B61F7130D61B5572BED2FB",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "cross_page",
+                "index": 5,
+                "targetId": "5981F61E0F0B8FBE66E24B71227212EF",
+                "contextId": "9CE47FE15949857D35ADAC1BF22D7C26",
+                "sessionId": "CF8F48C067B61F7130D61B5572BED2FB"
+              },
+              "attribution": "unverified",
+              "reasons": [
+                "foreign_document_url"
+              ],
+              "details": {
+                "log": {
+                  "source": "network",
+                  "level": "error",
+                  "text": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+                  "timestamp": 1794743604599.545,
+                  "url": "http://127.0.0.1:56319/page/0",
+                  "networkRequestId": "24628.2"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "observation": {
+        "style_changes": [],
+        "dimensions": {
+          "source": [
+            640,
+            480
+          ],
+          "target": [
+            640,
+            480
+          ]
+        },
+        "metrics": {
+          "width": 640,
+          "height": 480,
+          "totalPixels": 307200,
+          "changedPixels": 0,
+          "changedPixelRatio": 0,
+          "rgbMeanAbsoluteError": 0,
+          "maxChannelDelta": 0,
+          "ssim": 0.999999999999999
+        }
+      },
+      "recommended_action": "review_evaluator_or_evidence",
+      "binding": {
+        "source": null,
+        "target": null
+      },
+      "component_pair_bound": false,
+      "target_feedback_eligible": false,
+      "repair_dispatch_allowed": false,
+      "migration_pass_certified": false,
+      "provenance_note": "Native session/context/frame observations from a trusted pinned recorder, not arbitrary-producer authentication."
+    },
+    {
+      "source": "source_warning",
+      "target": "clean_peer",
+      "issues": [
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_transport_registry_or_cleanup_blocked",
+          "message": "Native evidence needs review; do not repair component code from it.",
+          "details": {}
+        },
+        {
+          "channel": "source_oracle",
+          "code": "source_oracle_console_error",
+          "message": "Diagnostic bound to native page session; retain raw details.",
+          "details": {
+            "kind": "console_error",
+            "page": "source_warning",
+            "session": "2B54173F16F2460B28AA033184B9D75F",
+            "provenance": "native_session_registry",
+            "origin_verified": true,
+            "reasons": [],
+            "event": {
+              "sequence": 1,
+              "kind": "console_error",
+              "sessionId": "2B54173F16F2460B28AA033184B9D75F",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "source_warning",
+                "index": 2,
+                "targetId": "9ED7DD8FC942875601DA9400C03161A8",
+                "contextId": "51E8473DA6514CFDE1DB8A3E26C109FE",
+                "sessionId": "2B54173F16F2460B28AA033184B9D75F"
+              },
+              "attribution": "native_session",
+              "reasons": [],
+              "details": {
+                "type": "error",
+                "args": [
+                  {
+                    "type": "string",
+                    "value": "San misleading target wording"
+                  }
+                ],
+                "executionContextId": 2,
+                "timestamp": 1794743599622.481,
+                "stackTrace": {
+                  "callFrames": [
+                    {
+                      "functionName": "",
+                      "scriptId": "4",
+                      "url": "http://127.0.0.1:56319/page/2",
+                      "lineNumber": 0,
+                      "columnNumber": 197
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_event_origin_unproven",
+          "message": "Unknown/conflicting native event; no owner inferred from message or stack.",
+          "details": {
+            "kind": "blocked_request",
+            "page": "cross_page",
+            "session": "CF8F48C067B61F7130D61B5572BED2FB",
+            "provenance": "native_session_registry",
+            "origin_verified": false,
+            "reasons": [
+              "foreign_or_unproven_document_url",
+              "recorded_attribution_concern"
+            ],
+            "event": {
+              "sequence": 3,
+              "kind": "blocked_request",
+              "sessionId": "CF8F48C067B61F7130D61B5572BED2FB",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "cross_page",
+                "index": 5,
+                "targetId": "5981F61E0F0B8FBE66E24B71227212EF",
+                "contextId": "9CE47FE15949857D35ADAC1BF22D7C26",
+                "sessionId": "CF8F48C067B61F7130D61B5572BED2FB"
+              },
+              "attribution": "unverified",
+              "reasons": [
+                "foreign_document_url"
+              ],
+              "details": {
+                "url": "http://127.0.0.1:56319/page/0",
+                "method": "GET"
+              }
+            }
+          }
+        },
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_event_origin_unproven",
+          "message": "Unknown/conflicting native event; no owner inferred from message or stack.",
+          "details": {
+            "kind": "browser_log",
+            "page": "cross_page",
+            "session": "CF8F48C067B61F7130D61B5572BED2FB",
+            "provenance": "native_session_registry",
+            "origin_verified": false,
+            "reasons": [
+              "foreign_or_unproven_document_url",
+              "recorded_attribution_concern"
+            ],
+            "event": {
+              "sequence": 4,
+              "kind": "browser_log",
+              "sessionId": "CF8F48C067B61F7130D61B5572BED2FB",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "cross_page",
+                "index": 5,
+                "targetId": "5981F61E0F0B8FBE66E24B71227212EF",
+                "contextId": "9CE47FE15949857D35ADAC1BF22D7C26",
+                "sessionId": "CF8F48C067B61F7130D61B5572BED2FB"
+              },
+              "attribution": "unverified",
+              "reasons": [
+                "foreign_document_url"
+              ],
+              "details": {
+                "log": {
+                  "source": "network",
+                  "level": "error",
+                  "text": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+                  "timestamp": 1794743604599.545,
+                  "url": "http://127.0.0.1:56319/page/0",
+                  "networkRequestId": "24628.2"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "observation": {
+        "style_changes": [],
+        "dimensions": {
+          "source": [
+            640,
+            480
+          ],
+          "target": [
+            640,
+            480
+          ]
+        },
+        "metrics": {
+          "width": 640,
+          "height": 480,
+          "totalPixels": 307200,
+          "changedPixels": 0,
+          "changedPixelRatio": 0,
+          "rgbMeanAbsoluteError": 0,
+          "maxChannelDelta": 0,
+          "ssim": 0.999999999999999
+        }
+      },
+      "recommended_action": "review_evaluator_or_evidence",
+      "binding": {
+        "source": null,
+        "target": null
+      },
+      "component_pair_bound": false,
+      "target_feedback_eligible": false,
+      "repair_dispatch_allowed": false,
+      "migration_pass_certified": false,
+      "provenance_note": "Native session/context/frame observations from a trusted pinned recorder, not arbitrary-producer authentication."
+    },
+    {
+      "source": "clean_peer",
+      "target": "target_warning",
+      "issues": [
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_transport_registry_or_cleanup_blocked",
+          "message": "Native evidence needs review; do not repair component code from it.",
+          "details": {}
+        },
+        {
+          "channel": "target_runtime",
+          "code": "target_runtime_console_warning",
+          "message": "Diagnostic bound to native page session; retain raw details.",
+          "details": {
+            "kind": "console_warning",
+            "page": "target_warning",
+            "session": "BBBFC50E796FE7575488414926E71780",
+            "provenance": "native_session_registry",
+            "origin_verified": true,
+            "reasons": [],
+            "event": {
+              "sequence": 2,
+              "kind": "console_warning",
+              "sessionId": "BBBFC50E796FE7575488414926E71780",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "target_warning",
+                "index": 4,
+                "targetId": "538F74CC509A17A83A5DC1BCE69576FE",
+                "contextId": "39EA450EC1B8CEA20FB672776C2AA3C6",
+                "sessionId": "BBBFC50E796FE7575488414926E71780"
+              },
+              "attribution": "native_session",
+              "reasons": [],
+              "details": {
+                "type": "warning",
+                "args": [
+                  {
+                    "type": "string",
+                    "value": "Vue misleading source wording"
+                  }
+                ],
+                "executionContextId": 2,
+                "timestamp": 1794743602915.274,
+                "stackTrace": {
+                  "callFrames": [
+                    {
+                      "functionName": "",
+                      "scriptId": "4",
+                      "url": "http://127.0.0.1:56319/page/4",
+                      "lineNumber": 0,
+                      "columnNumber": 197
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_event_origin_unproven",
+          "message": "Unknown/conflicting native event; no owner inferred from message or stack.",
+          "details": {
+            "kind": "blocked_request",
+            "page": "cross_page",
+            "session": "CF8F48C067B61F7130D61B5572BED2FB",
+            "provenance": "native_session_registry",
+            "origin_verified": false,
+            "reasons": [
+              "foreign_or_unproven_document_url",
+              "recorded_attribution_concern"
+            ],
+            "event": {
+              "sequence": 3,
+              "kind": "blocked_request",
+              "sessionId": "CF8F48C067B61F7130D61B5572BED2FB",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "cross_page",
+                "index": 5,
+                "targetId": "5981F61E0F0B8FBE66E24B71227212EF",
+                "contextId": "9CE47FE15949857D35ADAC1BF22D7C26",
+                "sessionId": "CF8F48C067B61F7130D61B5572BED2FB"
+              },
+              "attribution": "unverified",
+              "reasons": [
+                "foreign_document_url"
+              ],
+              "details": {
+                "url": "http://127.0.0.1:56319/page/0",
+                "method": "GET"
+              }
+            }
+          }
+        },
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_event_origin_unproven",
+          "message": "Unknown/conflicting native event; no owner inferred from message or stack.",
+          "details": {
+            "kind": "browser_log",
+            "page": "cross_page",
+            "session": "CF8F48C067B61F7130D61B5572BED2FB",
+            "provenance": "native_session_registry",
+            "origin_verified": false,
+            "reasons": [
+              "foreign_or_unproven_document_url",
+              "recorded_attribution_concern"
+            ],
+            "event": {
+              "sequence": 4,
+              "kind": "browser_log",
+              "sessionId": "CF8F48C067B61F7130D61B5572BED2FB",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "cross_page",
+                "index": 5,
+                "targetId": "5981F61E0F0B8FBE66E24B71227212EF",
+                "contextId": "9CE47FE15949857D35ADAC1BF22D7C26",
+                "sessionId": "CF8F48C067B61F7130D61B5572BED2FB"
+              },
+              "attribution": "unverified",
+              "reasons": [
+                "foreign_document_url"
+              ],
+              "details": {
+                "log": {
+                  "source": "network",
+                  "level": "error",
+                  "text": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+                  "timestamp": 1794743604599.545,
+                  "url": "http://127.0.0.1:56319/page/0",
+                  "networkRequestId": "24628.2"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "observation": {
+        "style_changes": [],
+        "dimensions": {
+          "source": [
+            640,
+            480
+          ],
+          "target": [
+            640,
+            480
+          ]
+        },
+        "metrics": {
+          "width": 640,
+          "height": 480,
+          "totalPixels": 307200,
+          "changedPixels": 0,
+          "changedPixelRatio": 0,
+          "rgbMeanAbsoluteError": 0,
+          "maxChannelDelta": 0,
+          "ssim": 0.999999999999999
+        }
+      },
+      "recommended_action": "review_evaluator_or_evidence",
+      "binding": {
+        "source": null,
+        "target": null
+      },
+      "component_pair_bound": false,
+      "target_feedback_eligible": false,
+      "repair_dispatch_allowed": false,
+      "migration_pass_certified": false,
+      "provenance_note": "Native session/context/frame observations from a trusted pinned recorder, not arbitrary-producer authentication."
+    },
+    {
+      "source": "clean_peer",
+      "target": "cross_page",
+      "issues": [
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_transport_registry_or_cleanup_blocked",
+          "message": "Native evidence needs review; do not repair component code from it.",
+          "details": {}
+        },
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_event_origin_unproven",
+          "message": "Unknown/conflicting native event; no owner inferred from message or stack.",
+          "details": {
+            "kind": "blocked_request",
+            "page": "cross_page",
+            "session": "CF8F48C067B61F7130D61B5572BED2FB",
+            "provenance": "native_session_registry",
+            "origin_verified": false,
+            "reasons": [
+              "foreign_or_unproven_document_url",
+              "recorded_attribution_concern"
+            ],
+            "event": {
+              "sequence": 3,
+              "kind": "blocked_request",
+              "sessionId": "CF8F48C067B61F7130D61B5572BED2FB",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "cross_page",
+                "index": 5,
+                "targetId": "5981F61E0F0B8FBE66E24B71227212EF",
+                "contextId": "9CE47FE15949857D35ADAC1BF22D7C26",
+                "sessionId": "CF8F48C067B61F7130D61B5572BED2FB"
+              },
+              "attribution": "unverified",
+              "reasons": [
+                "foreign_document_url"
+              ],
+              "details": {
+                "url": "http://127.0.0.1:56319/page/0",
+                "method": "GET"
+              }
+            }
+          }
+        },
+        {
+          "channel": "evaluation_integrity",
+          "code": "native_event_origin_unproven",
+          "message": "Unknown/conflicting native event; no owner inferred from message or stack.",
+          "details": {
+            "kind": "browser_log",
+            "page": "cross_page",
+            "session": "CF8F48C067B61F7130D61B5572BED2FB",
+            "provenance": "native_session_registry",
+            "origin_verified": false,
+            "reasons": [
+              "foreign_or_unproven_document_url",
+              "recorded_attribution_concern"
+            ],
+            "event": {
+              "sequence": 4,
+              "kind": "browser_log",
+              "sessionId": "CF8F48C067B61F7130D61B5572BED2FB",
+              "owner": {
+                "runId": "6f8219f7-bf48-4903-96bc-585cfef83074",
+                "page": "cross_page",
+                "index": 5,
+                "targetId": "5981F61E0F0B8FBE66E24B71227212EF",
+                "contextId": "9CE47FE15949857D35ADAC1BF22D7C26",
+                "sessionId": "CF8F48C067B61F7130D61B5572BED2FB"
+              },
+              "attribution": "unverified",
+              "reasons": [
+                "foreign_document_url"
+              ],
+              "details": {
+                "log": {
+                  "source": "network",
+                  "level": "error",
+                  "text": "Failed to load resource: net::ERR_BLOCKED_BY_CLIENT.Inspector",
+                  "timestamp": 1794743604599.545,
+                  "url": "http://127.0.0.1:56319/page/0",
+                  "networkRequestId": "24628.2"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "observation": {
+        "style_changes": [],
+        "dimensions": {
+          "source": [
+            640,
+            480
+          ],
+          "target": [
+            640,
+            480
+          ]
+        },
+        "metrics": {
+          "width": 640,
+          "height": 480,
+          "totalPixels": 307200,
+          "changedPixels": 0,
+          "changedPixelRatio": 0,
+          "rgbMeanAbsoluteError": 0,
+          "maxChannelDelta": 0,
+          "ssim": 0.999999999999999
+        }
+      },
+      "recommended_action": "review_evaluator_or_evidence",
+      "binding": {
+        "source": null,
+        "target": null
+      },
+      "component_pair_bound": false,
+      "target_feedback_eligible": false,
+      "repair_dispatch_allowed": false,
+      "migration_pass_certified": false,
+      "provenance_note": "Native session/context/frame observations from a trusted pinned recorder, not arbitrary-producer authentication."
+    }
+  ],
+  "repair_dispatch_allowed": false,
+  "production_protocol_frozen": false,
+  "semantic_gate_bypass_allowed": false,
+  "model_calls": 0
+}

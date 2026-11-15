@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vue / San · v7 通用人工验收</title>
+  <style>
+    #acceptance-panel{font:14px/1.6 system-ui,sans-serif;padding:16px;background:#f1f5f9;color:#0f172a;border-bottom:1px solid #cbd5e1}
+    #acceptance-panel h1{font-size:20px;margin:0 0 8px}#acceptance-panel p{margin:8px 0}
+    #acceptance-panel .acceptance-controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+    #acceptance-panel select,#acceptance-panel button{font:inherit;padding:6px 10px;margin:4px 0}
+    #acceptance-panel button{cursor:pointer}#acceptance-panel button:disabled{cursor:default}
+    #acceptance-panel a{color:#1d4ed8}#acceptance-panel pre{max-height:200px;overflow:auto;white-space:pre-wrap;background:#fff;color:#0f172a;padding:10px}
+    #acceptance-panel .acceptance-warning{background:#fff7ed;border-left:3px solid #ea580c;padding:8px}
+    #acceptance-status{font-weight:600}#acceptance-identity{overflow-wrap:anywhere}
+  </style>
+</head>
+<body>
+  <section id="acceptance-panel" aria-label="v7 人工验收工具栏">
+    <h1 id="acceptance-title">Vue / San · v7 通用人工验收</h1>
+    <div class="acceptance-controls">
+      <label>验收项 <select id="acceptance-case" disabled></select></label>
+      <label>框架 <select id="acceptance-framework" disabled><option value="san">San</option><option value="vue">Vue</option></select></label>
+      <a id="acceptance-counterpart" hidden target="_blank" rel="noopener">打开另一框架对照页</a>
+      <a id="acceptance-checklist" hidden target="_blank" rel="noopener">验收清单</a>
+      <a id="acceptance-manifest" hidden target="_blank" rel="noopener">本次版本与文件指纹</a>
+    </div>
+    <p class="acceptance-warning" id="acceptance-boundary">开发验收入口。页面加载成功不代表交互通过，也不改变历史批次成绩。</p>
+    <div id="acceptance-status" role="status" aria-live="polite">正在读取验收配置…</div>
+    <p id="acceptance-identity"></p>
+    <div class="acceptance-controls">
+      <button id="acceptance-reset" type="button" disabled>清空本页隔离数据并重新加载</button>
+      <button id="acceptance-fail" type="button" disabled>让下一次保存故意失败（可选）</button>
+      <button id="acceptance-copy-log" type="button">复制验收信息与日志</button>
+      <button id="acceptance-clear-log" type="button">清空日志</button>
+    </div>
+    <details><summary>操作建议</summary><p>先分别重置 Vue 和 San 的隔离数据；先查默认主题及主题／紧凑模式切换，再查任务、设置、弹窗、拖拽和刷新后的数据。故障注入仅在正常交互检查后按需启用。结果请反馈给维护者，页面不会自动判定“通过”。</p></details>
+    <pre id="acceptance-log" aria-label="验收日志">尚无日志。</pre>
+  </section>
+  <div id="component-host"></div>
+  <script src="v7-acceptance.js"></script>
+</body>
+</html>

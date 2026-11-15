@@ -1,0 +1,40 @@
+{
+  "findings": [
+    {
+      "code": "source_parent_watch_exception_policy_unproven",
+      "location": "script.parent.watch@tasks,settings/exception-policy",
+      "message": "Source watcher effects access localStorage (saveToLocalStorage); normal-flow matching does not prove storage-failure propagation or continuation policy. Automatic watcher rewriting requires review."
+    },
+    {
+      "code": "source_parent_watch_dynamic_key_unproven",
+      "location": "script.parent.watch@tasks,settings/dynamic-keys",
+      "message": "Source watched-object writes have unproven key/shape or deletion semantics (updateSettings:settings); cloning and same-value guards do not prove new, undefined, inherited or prototype-key semantics. Automatic watcher rewriting requires review."
+    },
+    {
+      "code": "source_parent_watch_not_landed",
+      "location": "script.parent.watch@tasks,settings",
+      "message": "Default-async source root deep watchers must register before startup, coalesce in declaration order, read latest state and cancel pending work on disposal."
+    }
+  ],
+  "changes": [],
+  "proofs": [],
+  "reviews": [
+    {
+      "contract": "script.parent.watch@tasks,settings",
+      "reason": "unknown_phase_registration_scope_or_source_body"
+    }
+  ],
+  "mapped_contracts": [
+    "script.parent.watch@tasks,settings"
+  ],
+  "blocked_boundaries": [
+    {
+      "code": "source_parent_watch_exception_policy_unproven",
+      "location": "script.parent.watch@tasks,settings/exception-policy"
+    },
+    {
+      "code": "source_parent_watch_dynamic_key_unproven",
+      "location": "script.parent.watch@tasks,settings/dynamic-keys"
+    }
+  ]
+}

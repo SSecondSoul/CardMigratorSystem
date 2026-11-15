@@ -1,0 +1,376 @@
+<template>
+<section class="trip-itinerary-planner">
+  <header>
+    <div>
+      <p class="muted">{{saved ? '已保存' : '有未保存更改'}}</p>
+      <h2>{{tripName}}</h2>
+    </div>
+    <button class="primary" on-click="save">保存行程</button>
+  </header>
+  <div class="trip-layout">
+    <nav>
+      <button s-for="day in days trackby day.id" class="{{day.id === activeDayId ? 'active' : ''}}" on-click="selectDay(day.id)">{{day.label}}<small>{{dayCount(day.id)}} 项</small></button>
+      <label>预算
+        <input type="number" value="{{budgetLimit}}" on-input="updateBudget"/>
+      </label>
+      <p class="{{remainingBudget < 0 ? 'over' : ''}}">余额 {{remainingBudget}} 元</p>
+    </nav>
+    <main>
+      <h3>{{activeDayLabel}}安排</h3>
+      <ol>
+        <li s-for="item, index in dayItems trackby item.id" class="{{isConflict(item.id) ? 'conflict' : ''}}">
+          <time>{{item.start}}<br/>{{item.end}}</time>
+          <div>
+            <strong>{{item.place}}</strong>
+            <span>¥{{item.cost}}</span>
+            <small s-if="isConflict(item.id)">时间冲突</small>
+          </div>
+          <div>
+            <button on-click="moveItem(index, -1)" disabled="{{index === 0}}">↑</button>
+            <button on-click="moveItem(index, 1)" disabled="{{index === dayItems.length - 1}}">↓</button>
+            <button on-click="removeItem(item.id)">删除</button>
+          </div>
+        </li>
+      </ol>
+      <form on-submit="addItem">
+        <input type="time" value="{{draft.start}}" on-input="updateDraft('start', $event)"/>
+        <input type="time" value="{{draft.end}}" on-input="updateDraft('end', $event)"/>
+        <input placeholder="地点" value="{{draft.place}}" on-input="updateDraft('place', $event)"/>
+        <input type="number" placeholder="费用" value="{{draft.cost}}" on-input="updateDraft('cost', $event)"/>
+        <button class="primary" type="submit">添加</button>
+      </form>
+    </main>
+  </div>
+</section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+function clone(obj) {
+    if (obj === null || typeof obj !== 'object') return obj;
+    if (Array.isArray(obj)) return obj.map(clone);
+    const result = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            result[key] = clone(obj[key]);
+        }
+    }
+    return result;
+}
+
+function filter(items, predicate) {
+    const result = [];
+    for (let i = 0; i < items.length; i++) {
+        if (predicate(items[i], i, items)) {
+            result.push(items[i]);
+        }
+    }
+    return result;
+}
+
+function reduce(items, callback, initialValue) {
+    let accumulator = initialValue;
+    for (let i = 0; i < items.length; i++) {
+        accumulator = callback(accumulator, items[i], i, items);
+    }
+    return accumulator;
+}
+
+function sort(items, compareFn) {
+    const arr = items.slice();
+    arr.sort(compareFn);
+    return arr;
+}
+
+function find(items, predicate) {
+    for (let i = 0; i < items.length; i++) {
+        if (predicate(items[i], i, items)) {
+            return items[i];
+        }
+    }
+    return undefined;
+}
+
+function slice(arr, start, end) {
+    const result = [];
+    const len = arr.length;
+    const s = start == null ? 0 : (start < 0 ? Math.max(len + start, 0) : Math.min(start, len));
+    const e = end == null ? len : (end < 0 ? Math.max(len + end, 0) : Math.min(end, len));
+    for (let i = s; i < e; i++) {
+        result.push(arr[i]);
+    }
+    return result;
+}
+
+function concat(arr1, arr2) {
+    const result = arr1.slice();
+    for (let i = 0; i < arr2.length; i++) {
+        result.push(arr2[i]);
+    }
+    return result;
+}
+
+function map(arr, callback) {
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+        result.push(callback(arr[i], i, arr));
+    }
+    return result;
+}
+
+function indexOf(arr, searchElement) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === searchElement) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+function fromSet(set) {
+    const result = [];
+    set.forEach(item => result.push(item));
+    return result;
+}
+
+function dayItemsGetter(items, activeDayId) {
+    return sort(filter(items, item => item.dayId === activeDayId), (a, b) => a.start.localeCompare(b.start));
+}
+
+function totalCostGetter(items) {
+    return reduce(items, (sum, item) => sum + item.cost, 0);
+}
+
+function remainingBudgetGetter(budgetLimit, totalCost) {
+    return budgetLimit - totalCost;
+}
+
+function conflictIdsGetter(dayItems) {
+    const rows = dayItems;
+    const ids = [];
+    for (let index = 0; index < rows.length; index++) {
+        const item = rows[index];
+        for (let j = index + 1; j < rows.length; j++) {
+            const other = rows[j];
+            if (item.start < other.end && other.start < item.end) {
+                ids.push(item.id, other.id);
+            }
+        }
+    }
+    return fromSet(new Set(ids));
+}
+
+function activeDayLabelGetter(days, activeDayId) {
+    const day = find(days, item => item.id === activeDayId);
+    return day ? day.label : '';
+}
+
+function isConflictGetter(conflictIds, id) {
+    return indexOf(conflictIds, id) >= 0;
+}
+
+function dayCountGetter(items, id) {
+    return filter(items, item => item.dayId === id).length;
+}
+
+module.exports = san.defineComponent({
+dataTypes: {
+tripName: DataTypes.string,
+days: DataTypes.array,
+initialItems: DataTypes.array
+},
+
+    name: 'TripItineraryPlanner',
+    components: {},
+    initData() {
+        return {
+            tripName: '杭州周末行',
+            days: [
+                {
+                    "id": "d1",
+                    "label": "周六"
+                },
+                {
+                    "id": "d2",
+                    "label": "周日"
+                }
+            ],
+            initialItems: [
+                {
+                    "id": 1,
+                    "dayId": "d1",
+                    "start": "09:00",
+                    "end": "11:00",
+                    "place": "西湖",
+                    "cost": 0
+                },
+                {
+                    "id": 2,
+                    "dayId": "d1",
+                    "start": "10:30",
+                    "end": "12:00",
+                    "place": "博物馆",
+                    "cost": 30
+                },
+                {
+                    "id": 3,
+                    "dayId": "d2",
+                    "start": "14:00",
+                    "end": "17:00",
+                    "place": "湿地公园",
+                    "cost": 80
+                }
+            ],
+            items: [],
+            activeDayId: 'd1',
+            draft: {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+            },
+            budgetLimit: 500,
+            saved: false,
+            nextId: 10
+        };
+    },
+    inited() {
+        const initialItems = this.data.get('initialItems');
+        const items = map(initialItems, item => clone(item));
+        this.data.set('items', items);
+        const days = this.data.get('days');
+        const firstDayId = days.length > 0 ? days[0].id : '';
+        this.data.set('activeDayId', firstDayId);
+    },
+    computed: {
+        dayItems() {
+            const items = this.data.get('items');
+            const activeDayId = this.data.get('activeDayId');
+            return dayItemsGetter(items, activeDayId);
+        },
+        totalCost() {
+            const items = this.data.get('items');
+            return totalCostGetter(items);
+        },
+        remainingBudget() {
+            const budgetLimit = this.data.get('budgetLimit');
+            const totalCost = this.data.get('totalCost');
+            return remainingBudgetGetter(budgetLimit, totalCost);
+        },
+        conflictIds() {
+            const dayItems = this.data.get('dayItems');
+            return conflictIdsGetter(dayItems);
+        },
+        activeDayLabel() {
+            const days = this.data.get('days');
+            const activeDayId = this.data.get('activeDayId');
+            return activeDayLabelGetter(days, activeDayId);
+        }
+    },
+    selectDay(id) {
+        this.data.set('activeDayId', id);
+    },
+    updateDraft(field, event) {
+        const draft = this.data.get('draft');
+        const value = field === 'cost' ? (Number(event.target.value) || 0) : event.target.value;
+        const newDraft = clone(draft);
+        newDraft[field] = value;
+        this.data.set('draft', newDraft);
+    },
+    addItem(event) {
+        event.preventDefault();
+        const draft = this.data.get('draft');
+        if (!draft.place.trim() || draft.start >= draft.end) return;
+        const items = this.data.get('items');
+        const nextId = this.data.get('nextId');
+        const activeDayId = this.data.get('activeDayId');
+        const newItem = {
+            id: nextId,
+            dayId: activeDayId,
+            start: draft.start,
+            end: draft.end,
+            place: draft.place.trim(),
+            cost: draft.cost
+        };
+        const nextItems = concat(items, [newItem]);
+        this.data.set('items', nextItems);
+        this.data.set('nextId', nextId + 1);
+        const newDraft = {
+            start: draft.end,
+            end: '18:00',
+            place: '',
+            cost: 0
+        };
+        this.data.set('draft', newDraft);
+        this.data.set('saved', false);
+        this.fire('itinerary-change', nextItems);
+    },
+    removeItem(id) {
+        const items = this.data.get('items');
+        const nextItems = filter(items, item => item.id !== id);
+        this.data.set('items', nextItems);
+        this.data.set('saved', false);
+        this.fire('itinerary-change', nextItems);
+    },
+    moveItem(index, delta) {
+        const dayItems = this.data.get('dayItems');
+        const rows = slice(dayItems, 0);
+        const target = index + delta;
+        if (target < 0 || target >= rows.length) return;
+        const temp = rows[index].start;
+        rows[index].start = rows[target].start;
+        rows[target].start = temp;
+        const mapped = {};
+        for (let i = 0; i < rows.length; i++) {
+            mapped[rows[i].id] = rows[i];
+        }
+        const items = this.data.get('items');
+        const nextItems = map(items, item => mapped[item.id] ? clone(mapped[item.id]) : item);
+        this.data.set('items', nextItems);
+        this.data.set('saved', false);
+        this.fire('itinerary-change', nextItems);
+    },
+    updateBudget(event) {
+        const value = Number(event.target.value) || 0;
+        this.data.set('budgetLimit', value);
+    },
+    save() {
+        this.data.set('saved', true);
+        const items = this.data.get('items');
+        const budget = this.data.get('budgetLimit');
+        this.fire('save', { items, budget });
+    },
+    isConflict(id) {
+        const conflictIds = this.data.get('conflictIds');
+        return isConflictGetter(conflictIds, id);
+    },
+    dayCount(id) {
+        const items = this.data.get('items');
+        return dayCountGetter(items, id);
+    },
+emitEvent(name, payload) {
+  this.fire(name, payload);
+},
+notify(items) {
+  this.emitEvent('itinerary-change', items);
+}
+
+});
+</script>
+
+<style>
+.trip-itinerary-planner { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.trip-itinerary-planner * { box-sizing: border-box; }
+.trip-itinerary-planner h2, .trip-itinerary-planner h3, .trip-itinerary-planner p { margin-top: 0; }
+.trip-itinerary-planner h2 { margin-bottom: 14px; font-size: 21px; }
+.trip-itinerary-planner button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.trip-itinerary-planner button.primary { border-color: #0369a1; background: #0369a1; color: #fff; }
+.trip-itinerary-planner button:disabled { opacity: .45; cursor: not-allowed; }
+.trip-itinerary-planner input, .trip-itinerary-planner select, .trip-itinerary-planner textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.trip-itinerary-planner .toolbar, .trip-itinerary-planner .summary, .trip-itinerary-planner .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.trip-itinerary-planner .muted { color: #71808e; font-size: 12px; }
+.trip-itinerary-planner .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+.trip-itinerary-planner > header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}.trip-layout{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}.trip-layout>nav,.trip-layout>main{min-width:0}.trip-layout>nav{display:grid;align-content:start;gap:7px;padding:10px;background:#f4f7f9;flex:1 1 140px}.trip-layout>main{flex:999 1 420px}.trip-layout>nav input{width:100%;min-width:0}.trip-layout>nav button.active{background:#e0f2fe;border-color:#0369a1}.trip-layout>nav button small{display:block}.over{color:#b91c1c}.trip-layout ol{padding:0;list-style:none}.trip-layout li{display:flex;align-items:flex-start;gap:10px;padding:11px;border-left:3px solid #7aa8c4;border-bottom:1px solid #e2e7eb;flex-wrap:wrap}.trip-layout li.conflict{border-left-color:#dc2626;background:#fef2f2}.trip-layout li>time{flex:0 0 54px}.trip-layout li>div:nth-child(2){min-width:0;flex:1 1 120px}.trip-layout li span,.trip-layout li small{display:block}.trip-layout li small{color:#b91c1c}.trip-layout li>div:last-child{display:flex;justify-content:flex-end;align-items:center;gap:6px;flex:0 1 auto;flex-wrap:wrap}.trip-layout form{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap}.trip-layout form input{width:auto;min-width:0;flex:1 1 120px}.trip-layout form input:nth-child(3){flex:2 1 180px}.trip-layout form input:nth-child(4){flex:1 1 100px}.trip-layout form button{flex:0 1 auto}
+</style>

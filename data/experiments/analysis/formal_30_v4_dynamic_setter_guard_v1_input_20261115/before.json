@@ -1,0 +1,5092 @@
+{
+  "validator_before": {
+    "missing": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        },
+        {
+          "code": "source_method_interface_not_landed",
+          "message": "Source method setValue has no proven callable method on the exported San parent.",
+          "severity": "error",
+          "location": "script.methods.setValue",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        }
+      ],
+      "gate_should_stop": false
+    },
+    "no_op": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        }
+      ],
+      "gate_should_stop": false
+    },
+    "instance": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        }
+      ],
+      "gate_should_stop": false
+    },
+    "path": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        }
+      ],
+      "gate_should_stop": false
+    },
+    "finite_fallback": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        }
+      ],
+      "gate_should_stop": false
+    },
+    "coerced_finite_fallback": {
+      "validation_passed": false,
+      "errors": [
+        {
+          "code": "nested_state_mutation",
+          "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+        }
+      ],
+      "gate_should_stop": false
+    }
+  },
+  "native": {
+    "scope": "mapped declared-state + literal extra property projection, not complete instance/API equivalence",
+    "cases": [
+      "root:items",
+      "root:activeDayId",
+      "root:draft",
+      "root:budgetLimit",
+      "root:saved",
+      "root:nextId",
+      "dotted-literal",
+      "late-instance",
+      "coerced-root",
+      "coerced-dotted",
+      "throwing-key",
+      "symbol-literal",
+      "runtime-data-collision",
+      "numeric-literal",
+      "undefined-literal"
+    ],
+    "variants": {
+      "missing": {
+        "root:items": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:activeDayId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d2",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:draft": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "12:00",
+                "end": "13:00",
+                "place": "A",
+                "cost": 2
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:budgetLimit": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 123,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:saved": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:nextId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 42
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "dotted-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "late-instance": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "coerced-root": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "coerced-dotted": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "throwing-key": {
+          "source": {
+            "error": "RangeError",
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "symbol-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "runtime-data-collision": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "numeric-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "undefined-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        }
+      },
+      "no_op": {
+        "root:items": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:activeDayId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d2",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:draft": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "12:00",
+                "end": "13:00",
+                "place": "A",
+                "cost": 2
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:budgetLimit": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 123,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:saved": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:nextId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 42
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "dotted-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "late-instance": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "coerced-root": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "coerced-dotted": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "throwing-key": {
+          "source": {
+            "error": "RangeError",
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "symbol-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "runtime-data-collision": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "numeric-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "undefined-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        }
+      },
+      "instance": {
+        "root:items": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:activeDayId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d2",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:draft": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "12:00",
+                "end": "13:00",
+                "place": "A",
+                "cost": 2
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:budgetLimit": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 123,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:saved": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "root:nextId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 42
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "dotted-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "late-instance": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "coerced-root": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "coerced-dotted": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "throwing-key": {
+          "source": {
+            "error": "RangeError",
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "RangeError",
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "symbol-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "runtime-data-collision": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": false
+          },
+          "mappedProjectionEqual": false
+        },
+        "numeric-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "undefined-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        }
+      },
+      "path": {
+        "root:items": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:activeDayId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d2",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d2",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:draft": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "12:00",
+                "end": "13:00",
+                "place": "A",
+                "cost": 2
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "12:00",
+                "end": "13:00",
+                "place": "A",
+                "cost": 2
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:budgetLimit": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 123,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 123,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:saved": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:nextId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 42
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 42
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "dotted-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "literal",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "late-instance": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": true,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "coerced-root": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "coerced-dotted": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "throwing-key": {
+          "source": {
+            "error": "RangeError",
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "symbol-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "runtime-data-collision": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": true,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "numeric-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "undefined-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "TypeError",
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        }
+      },
+      "finite_fallback": {
+        "root:items": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:activeDayId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d2",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d2",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:draft": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "12:00",
+                "end": "13:00",
+                "place": "A",
+                "cost": 2
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "12:00",
+                "end": "13:00",
+                "place": "A",
+                "cost": 2
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:budgetLimit": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 123,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 123,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:saved": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:nextId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 42
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 42
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "dotted-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "late-instance": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "coerced-root": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": false,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": false
+        },
+        "coerced-dotted": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "throwing-key": {
+          "source": {
+            "error": "RangeError",
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "RangeError",
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "symbol-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "runtime-data-collision": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": false
+          },
+          "mappedProjectionEqual": false
+        },
+        "numeric-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "undefined-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        }
+      },
+      "coerced_finite_fallback": {
+        "root:items": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:activeDayId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d2",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d2",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:draft": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "12:00",
+                "end": "13:00",
+                "place": "A",
+                "cost": 2
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "12:00",
+                "end": "13:00",
+                "place": "A",
+                "cost": 2
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:budgetLimit": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 123,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 123,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:saved": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "root:nextId": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 42
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 42
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "dotted-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "late-instance": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "coerced-root": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": true,
+              "next": 10
+            },
+            "mappedRootIsInput": true,
+            "extraInstancePropertyIsInput": null,
+            "extraStorePropertyPresent": null,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "coerced-dotted": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "throwing-key": {
+          "source": {
+            "error": "RangeError",
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": "RangeError",
+            "returnUndefined": true,
+            "coercions": [
+              "string"
+            ],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": false,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "symbol-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "runtime-data-collision": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": false
+          },
+          "mappedProjectionEqual": false
+        },
+        "numeric-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        },
+        "undefined-literal": {
+          "source": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "target": {
+            "error": null,
+            "returnUndefined": true,
+            "coercions": [],
+            "state": {
+              "ids": [
+                1,
+                2,
+                3
+              ],
+              "active": "d1",
+              "draft": {
+                "start": "09:00",
+                "end": "10:00",
+                "place": "",
+                "cost": 0
+              },
+              "budget": 500,
+              "saved": false,
+              "next": 10
+            },
+            "mappedRootIsInput": null,
+            "extraInstancePropertyIsInput": true,
+            "extraStorePropertyPresent": false,
+            "frameworkStorePointerIntact": true
+          },
+          "mappedProjectionEqual": true
+        }
+      }
+    },
+    "production_adapter_installed": false
+  }
+}

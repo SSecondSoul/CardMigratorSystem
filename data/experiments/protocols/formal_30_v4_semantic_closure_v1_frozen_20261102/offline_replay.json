@@ -1,0 +1,297 @@
+{
+  "verified_raw_files": 283,
+  "source_snapshot": "formal_30_v4_repair_scheduling_v1_results_20261102_224614",
+  "llm_requests": 0,
+  "classification": "frozen_failure_development_replay_not_model_regression",
+  "cases": [
+    {
+      "case": "TaskManager_final",
+      "input_sha256": "a5209b34afc626048c34b224a497be043696ce7c81c49807e8ab84aafb838325",
+      "output_sha256": "16d900622e4f1a36645589eaea99b0af8dba5a9f747ea19e361da894efe4782f",
+      "steps": [
+        {
+          "repairs": [
+            "restored_self_click_and_native_drag_semantics"
+          ],
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "after": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": [
+                "click:closeModal -> onSelfClickCloseModal($event)"
+              ]
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "validation_errors": [
+            {
+              "code": "invalid_san_event_handler_syntax",
+              "message": "San templates contain 4 invalid event binding(s).",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+            },
+            {
+              "code": "missing_self_click_guard",
+              "message": "San click handlers on source @click.self overlays are unguarded: [('modal-overlay', 38)]",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "Guard with event.target === event.currentTarget; inner clicks must not close the overlay."
+            },
+            {
+              "code": "invalid_san_computed_instance_method_call",
+              "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+            },
+            {
+              "code": "hidden_template_reactive_dependency",
+              "message": "模板 text 渲染表达式调用 getTaskCount(...)，但该方法内部隐藏读取响应式字段：tasks。这些字段变化时，San 可能不会重新计算该绑定。",
+              "severity": "error",
+              "location": "template/script",
+              "suggestion": "在模板表达式中直接引用 tasks，或将这些字段作为参数显式传给 getTaskCount(...)。"
+            }
+          ],
+          "structure_similarity": 0.9889
+        }
+      ],
+      "before_error_codes": [
+        "hidden_template_reactive_dependency",
+        "invalid_san_computed_instance_method_call",
+        "invalid_san_event_handler_syntax",
+        "missing_self_click_guard"
+      ],
+      "remaining_errors": [
+        {
+          "code": "invalid_san_event_handler_syntax",
+          "message": "San templates contain 4 invalid event binding(s).",
+          "severity": "error",
+          "location": "template",
+          "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+        },
+        {
+          "code": "missing_self_click_guard",
+          "message": "San click handlers on source @click.self overlays are unguarded: [('modal-overlay', 38)]",
+          "severity": "error",
+          "location": "template",
+          "suggestion": "Guard with event.target === event.currentTarget; inner clicks must not close the overlay."
+        },
+        {
+          "code": "invalid_san_computed_instance_method_call",
+          "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+        },
+        {
+          "code": "hidden_template_reactive_dependency",
+          "message": "模板 text 渲染表达式调用 getTaskCount(...)，但该方法内部隐藏读取响应式字段：tasks。这些字段变化时，San 可能不会重新计算该绑定。",
+          "severity": "error",
+          "location": "template/script",
+          "suggestion": "在模板表达式中直接引用 tasks，或将这些字段作为参数显式传给 getTaskCount(...)。"
+        }
+      ],
+      "visual_eval_passed": true,
+      "structure_similarity": 0.9889,
+      "validation_passed": false,
+      "passed_replay": false
+    },
+    {
+      "case": "TaskManager_rejected",
+      "input_sha256": "03360eb6cc21aac16f29ada402213adb19b621b56eabfd1e0edb55746cdffc4c",
+      "output_sha256": "03360eb6cc21aac16f29ada402213adb19b621b56eabfd1e0edb55746cdffc4c",
+      "steps": [],
+      "before_error_codes": [
+        "invalid_san_computed_instance_method_call",
+        "invalid_san_event_handler_syntax"
+      ],
+      "remaining_errors": [
+        {
+          "code": "invalid_san_event_handler_syntax",
+          "message": "San templates contain 1 invalid event binding(s).",
+          "severity": "error",
+          "location": "template",
+          "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+        },
+        {
+          "code": "invalid_san_computed_instance_method_call",
+          "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+        }
+      ],
+      "visual_eval_passed": true,
+      "structure_similarity": 0.9889,
+      "validation_passed": false,
+      "passed_replay": false
+    },
+    {
+      "case": "MonitoringDashboard_final",
+      "input_sha256": "a621789463cefe4cb20beb98edc1a7a46816cf03353a1b4f90593561da2d7132",
+      "output_sha256": "2954b3e85deb58bf6dfd0249801657582fbf9f850902d05ab33c7b3388f488da",
+      "steps": [
+        {
+          "repairs": [
+            "restored_source_parameterized_event_handler",
+            "parameterized_computed_to_pure_method"
+          ],
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [
+                "click:onKPIClick(kpi)",
+                "click:changePeriod(period.value)"
+              ],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "after": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "click:onKPIClick(kpi)",
+                "click:changePeriod(period.value)",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "validation_errors": [],
+          "structure_similarity": 0.9518
+        }
+      ],
+      "before_error_codes": [
+        "event_arguments_not_landed",
+        "invalid_san_inline_computed_method_invocation"
+      ],
+      "remaining_errors": [],
+      "visual_eval_passed": true,
+      "structure_similarity": 0.9518,
+      "validation_passed": true,
+      "passed_replay": true
+    }
+  ]
+}

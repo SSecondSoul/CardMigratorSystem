@@ -1,0 +1,32 @@
+[
+  {
+    "id": "EXP-ACCESSOR",
+    "category": "remaining_risk",
+    "scope": "getter/setter and non-configurable descriptors",
+    "requirement": "Native Vue descriptor/observation behavior and original accessor receiver/order must be preserved; rejecting all accessor inputs is not equivalent."
+  },
+  {
+    "id": "EXP-METADATA",
+    "category": "remaining_risk",
+    "scope": "Ref/skip markers, Symbol properties and non-standard prototypes",
+    "requirement": "Distinguish false markers, raw-skipped values and actual Ref unwrapping. No key/marker blacklist may silently waive the source API contract."
+  },
+  {
+    "id": "EXP-OPAQUE",
+    "category": "remaining_risk",
+    "scope": "Map, Set and RegExp values",
+    "requirement": "Separate native assignment acceptance and observation eligibility; retain object identity, no cloning to empty objects."
+  },
+  {
+    "id": "EXP-DATA-PATH",
+    "category": "remaining_risk",
+    "scope": "external deep/root Data.set mappings",
+    "requirement": "For the explicitly tested raw-assignment mapping, preserve identity and notification policy for new keys. San-specific silent/force policies have no assumed source counterpart."
+  },
+  {
+    "id": "EXP-LIFECYCLE-ERROR",
+    "category": "remaining_risk",
+    "scope": "cyclic serialization on destruction",
+    "requirement": "Cleanup is compared separately, not dropped. Source beforeDestroy reports through its framework; San disposal may escape directly. Async watcher reporting scope alone does not prove lifecycle-error equivalence."
+  }
+]

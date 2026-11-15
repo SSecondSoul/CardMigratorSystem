@@ -1,0 +1,227 @@
+{
+  "pages": [
+    {
+      "name": "positive_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" >0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=1;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#action"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    },
+    {
+      "name": "positive_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" >0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=1;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#action"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    },
+    {
+      "name": "mismatch_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" >0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=1;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#action"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    },
+    {
+      "name": "mismatch_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" >0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=2;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#action"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    },
+    {
+      "name": "warning_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" >0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=1;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});console.warn(\"intentional_source_warning_control\");window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#action"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    },
+    {
+      "name": "warning_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" >0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=1;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#action"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    },
+    {
+      "name": "missing_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" >0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=1;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#absent"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    },
+    {
+      "name": "missing_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" >0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=1;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#absent"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    },
+    {
+      "name": "disabled_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" disabled>0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=1;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#action"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    },
+    {
+      "name": "disabled_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><button id=\"action\" disabled>0</button><script>let value=0;const events=[];document.querySelector(\"button\").addEventListener(\"click\",event=>{value+=1;events.push({trusted:event.isTrusted,value});event.target.textContent=value;});window.__componentEvidence=()=>({fields:{value},events:events.slice()});window.__visualReady=true;</script>",
+      "selectors": {
+        "button": "#action"
+      },
+      "actions": [
+        {
+          "id": "first",
+          "op": "click",
+          "selector": "#action"
+        },
+        {
+          "id": "second",
+          "op": "click",
+          "selector": "#action"
+        }
+      ]
+    }
+  ],
+  "pairs": [
+    {
+      "source": "positive_source",
+      "target": "positive_target"
+    },
+    {
+      "source": "mismatch_source",
+      "target": "mismatch_target"
+    },
+    {
+      "source": "warning_source",
+      "target": "warning_target"
+    },
+    {
+      "source": "missing_source",
+      "target": "missing_target"
+    },
+    {
+      "source": "disabled_source",
+      "target": "disabled_target"
+    }
+  ],
+  "viewport": {
+    "width": 640,
+    "height": 480
+  },
+  "capturePolicy": "full-page",
+  "thresholds": {
+    "pixelTolerance": 0,
+    "maxChangedPixelRatio": 0,
+    "minSSIM": 0.999999999
+  },
+  "outputDir": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\analysis\\native_interaction_volume_v1_20261115\\controls"
+}

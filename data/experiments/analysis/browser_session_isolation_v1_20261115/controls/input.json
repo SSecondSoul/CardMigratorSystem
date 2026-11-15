@@ -1,0 +1,75 @@
+{
+  "outputDir": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\analysis\\browser_session_isolation_v1_20261115\\controls",
+  "pages": [
+    {
+      "name": "storage_source",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><style>body{margin:0}main{width:500px;height:100px;background:#ddeeff}</style><main>native session control</main><script>\n(async()=>{\n const key='cardmig_isolation_probe', phase=sessionStorage.getItem(key+'_phase');\n const database=()=>new Promise((resolve,reject)=>{const q=indexedDB.open(key,1);q.onupgradeneeded=()=>q.result.createObjectStore('items');q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error);});\n const get=async()=>{const db=await database();try{return await new Promise((resolve,reject)=>{const q=db.transaction('items').objectStore('items').get('value');q.onsuccess=()=>resolve(q.result??null);q.onerror=()=>reject(q.error);});}finally{db.close();}};\n if(!phase){\n   const empty={local:localStorage.length===0,session:sessionStorage.length===0,cookie:document.cookie==='',indexedDB:(await indexedDB.databases()).length===0,cache:(await caches.keys()).length===0};\n   localStorage.setItem(key,'local');document.cookie=key+'=cookie;path=/;SameSite=Strict';\n   const db=await database();await new Promise((resolve,reject)=>{const t=db.transaction('items','readwrite');t.objectStore('items').put('indexed','value');t.oncomplete=resolve;t.onerror=()=>reject(t.error);});db.close();\n   await (await caches.open(key)).put(location.href,new Response('cached'));\n   sessionStorage.setItem(key+'_empty',JSON.stringify(empty));sessionStorage.setItem(key+'_phase','reload');location.reload();return;\n }\n const cache=await caches.open(key),response=await cache.match(location.href);\n const persisted={local:localStorage.getItem(key)==='local',session:phase==='reload',cookie:document.cookie===key+'=cookie',indexedDB:await get()==='indexed',cache:!!response&&(await response.text())==='cached'};\n const evidence={initialEmpty:JSON.parse(sessionStorage.getItem(key+'_empty')),samePageReloadPersisted:persisted};\n window.__componentEvidence=()=>evidence;document.querySelector('main').textContent='storage isolated / reload preserved';window.__visualReady=true;\n})().catch(e=>console.error(e));\n</script>",
+      "selectors": {
+        "root": "main"
+      }
+    },
+    {
+      "name": "storage_target",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><style>body{margin:0}main{width:500px;height:100px;background:#ddeeff}</style><main>native session control</main><script>\n(async()=>{\n const key='cardmig_isolation_probe', phase=sessionStorage.getItem(key+'_phase');\n const database=()=>new Promise((resolve,reject)=>{const q=indexedDB.open(key,1);q.onupgradeneeded=()=>q.result.createObjectStore('items');q.onsuccess=()=>resolve(q.result);q.onerror=()=>reject(q.error);});\n const get=async()=>{const db=await database();try{return await new Promise((resolve,reject)=>{const q=db.transaction('items').objectStore('items').get('value');q.onsuccess=()=>resolve(q.result??null);q.onerror=()=>reject(q.error);});}finally{db.close();}};\n if(!phase){\n   const empty={local:localStorage.length===0,session:sessionStorage.length===0,cookie:document.cookie==='',indexedDB:(await indexedDB.databases()).length===0,cache:(await caches.keys()).length===0};\n   localStorage.setItem(key,'local');document.cookie=key+'=cookie;path=/;SameSite=Strict';\n   const db=await database();await new Promise((resolve,reject)=>{const t=db.transaction('items','readwrite');t.objectStore('items').put('indexed','value');t.oncomplete=resolve;t.onerror=()=>reject(t.error);});db.close();\n   await (await caches.open(key)).put(location.href,new Response('cached'));\n   sessionStorage.setItem(key+'_empty',JSON.stringify(empty));sessionStorage.setItem(key+'_phase','reload');location.reload();return;\n }\n const cache=await caches.open(key),response=await cache.match(location.href);\n const persisted={local:localStorage.getItem(key)==='local',session:phase==='reload',cookie:document.cookie===key+'=cookie',indexedDB:await get()==='indexed',cache:!!response&&(await response.text())==='cached'};\n const evidence={initialEmpty:JSON.parse(sessionStorage.getItem(key+'_empty')),samePageReloadPersisted:persisted};\n window.__componentEvidence=()=>evidence;document.querySelector('main').textContent='storage isolated / reload preserved';window.__visualReady=true;\n})().catch(e=>console.error(e));\n</script>",
+      "selectors": {
+        "root": "main"
+      }
+    },
+    {
+      "name": "source_warning",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><style>body{margin:0}main{width:500px;height:100px;background:#ddeeff}</style><main>native session control</main><script>console.error('San misleading target wording');window.__visualReady=true;</script>",
+      "selectors": {
+        "root": "main"
+      }
+    },
+    {
+      "name": "clean_peer",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><style>body{margin:0}main{width:500px;height:100px;background:#ddeeff}</style><main>native session control</main><script>window.__visualReady=true;</script>",
+      "selectors": {
+        "root": "main"
+      }
+    },
+    {
+      "name": "target_warning",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><style>body{margin:0}main{width:500px;height:100px;background:#ddeeff}</style><main>native session control</main><script>console.warn('Vue misleading source wording');window.__visualReady=true;</script>",
+      "selectors": {
+        "root": "main"
+      }
+    },
+    {
+      "name": "cross_page",
+      "html": "<!doctype html><meta charset=\"utf-8\"><link rel=\"icon\" href=\"data:,\"><style>body{margin:0}main{width:500px;height:100px;background:#ddeeff}</style><main>native session control</main><script>fetch('/page/0').catch(()=>{});window.__visualReady=true;</script>",
+      "selectors": {
+        "root": "main"
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "source": "storage_source",
+      "target": "storage_target"
+    },
+    {
+      "source": "source_warning",
+      "target": "clean_peer"
+    },
+    {
+      "source": "clean_peer",
+      "target": "target_warning"
+    },
+    {
+      "source": "clean_peer",
+      "target": "cross_page"
+    }
+  ],
+  "viewport": {
+    "width": 640,
+    "height": 480
+  },
+  "capturePolicy": "viewport",
+  "thresholds": {
+    "pixelTolerance": 0,
+    "maxChangedPixelRatio": 0,
+    "minSSIM": 0.999999999
+  }
+}

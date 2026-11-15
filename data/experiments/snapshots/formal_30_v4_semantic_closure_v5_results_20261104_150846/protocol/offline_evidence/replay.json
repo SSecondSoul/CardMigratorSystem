@@ -1,0 +1,687 @@
+{
+  "created_at": "2026-11-03T22:21:36+08:00",
+  "classification": "offline_source_method_interface_preservation_development_closure_not_fresh_model_score",
+  "source_snapshot": "formal_30_v4_semantic_closure_v4_results_20261103_204227",
+  "raw_verified_files": 342,
+  "prior_startup_verified_files": 24,
+  "source_summary_sha256": "ab5aedfb88b05fd68e4e2bea3d13772cf819310ef15238832347d5c8e1ae75d9",
+  "source_history_sha256": "96c0eede2b5ebdfa32f1a66dd1a417b57901f980c881612d8033fe92414837de",
+  "original_automatic_passed": true,
+  "original_summary_modified": false,
+  "model_requests": 0,
+  "browser_interaction_test_performed": false,
+  "browser_permission_request_performed": false,
+  "cases": [
+    {
+      "case": "first_repair",
+      "before": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v4_results_20261103_204227\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [
+          {
+            "code": "source_startup_phase_not_landed",
+            "message": "Source mounted initializer initData (San initDataImpl) must run exactly once in attached; found inited=1, attached=0.",
+            "severity": "error",
+            "location": "script.startup.initData",
+            "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+          },
+          {
+            "code": "lifecycle_behavior_not_landed",
+            "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData()。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+          }
+        ],
+        "visual_eval_errors": [],
+        "visual_eval_passed": true,
+        "validation_passed": false,
+        "structure_similarity": 0.9912
+      },
+      "after": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v4_results_20261103_204227\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [],
+        "visual_eval_errors": [],
+        "visual_eval_passed": true,
+        "validation_passed": true,
+        "structure_similarity": 0.9912
+      },
+      "rules": [
+        "relocated_source_proven_startup_wrapper"
+      ],
+      "gate": {
+        "decision": "pass",
+        "should_stop": false,
+        "introduced_event_error_codes": {},
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "after": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "semantic_coverage_assessment": {
+          "status": "not_needed",
+          "proven_pairs": []
+        },
+        "newly_visible_preexisting_semantic_findings": [],
+        "introduced_semantic_findings": [],
+        "introduced_critical_errors": [],
+        "lost_visual_pass": false
+      },
+      "reverse_gate": {
+        "decision": "reject",
+        "should_stop": true,
+        "introduced_event_error_codes": {},
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "after": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "semantic_coverage_assessment": {
+          "status": "not_needed",
+          "proven_pairs": []
+        },
+        "newly_visible_preexisting_semantic_findings": [],
+        "introduced_semantic_findings": [
+          {
+            "code": "lifecycle_behavior_not_landed",
+            "location": "script",
+            "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData()。",
+            "count": 1
+          },
+          {
+            "code": "source_startup_phase_not_landed",
+            "location": "script.startup.initData",
+            "message": "Source mounted initializer initData (San initDataImpl) must run exactly once in attached; found inited=1, attached=0.",
+            "count": 1
+          }
+        ],
+        "introduced_critical_errors": [],
+        "lost_visual_pass": false
+      },
+      "method_contract": {
+        "name": "requestNotificationPermission",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 0,
+          "uncertain": false
+        },
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      "startup_contract": {
+        "source_method": "initData",
+        "target_method": "initDataImpl",
+        "expected_phase": "attached",
+        "expected_count": 1,
+        "inited_direct_calls": 0,
+        "attached_direct_calls": 1,
+        "assessment": "source_wrapper_body_and_unique_parent_alias",
+        "repairable": false
+      },
+      "output_sha256": "2c7697c35bbf51069403473e13847fbe9f3aad7784888d02dd27aa3a7492c44b"
+    },
+    {
+      "case": "final_raw",
+      "before": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v4_results_20261103_204227\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [
+          {
+            "code": "source_startup_phase_not_landed",
+            "message": "Source mounted initializer initData (San initDataImpl) must run exactly once in attached; found inited=1, attached=1.",
+            "severity": "error",
+            "location": "script.startup.initData",
+            "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+          },
+          {
+            "code": "source_method_interface_not_landed",
+            "message": "Source method requestNotificationPermission has no proven callable method on the exported San parent.",
+            "severity": "error",
+            "location": "script.methods.requestNotificationPermission",
+            "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+          }
+        ],
+        "visual_eval_errors": [],
+        "visual_eval_passed": true,
+        "validation_passed": false,
+        "structure_similarity": 0.9912
+      },
+      "after": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v4_results_20261103_204227\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [],
+        "visual_eval_errors": [],
+        "visual_eval_passed": true,
+        "validation_passed": true,
+        "structure_similarity": 0.9825
+      },
+      "rules": [
+        "removed_source_proven_duplicate_startup",
+        "restored_source_unreferenced_method_interfaces"
+      ],
+      "gate": {
+        "decision": "pass",
+        "should_stop": false,
+        "introduced_event_error_codes": {},
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "after": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "semantic_coverage_assessment": {
+          "status": "not_needed",
+          "proven_pairs": []
+        },
+        "newly_visible_preexisting_semantic_findings": [],
+        "introduced_semantic_findings": [],
+        "introduced_critical_errors": [],
+        "lost_visual_pass": false
+      },
+      "reverse_gate": {
+        "decision": "reject",
+        "should_stop": true,
+        "introduced_event_error_codes": {},
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "after": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "semantic_coverage_assessment": {
+          "status": "unproven",
+          "pairs": [],
+          "before_parse_status": "parsed"
+        },
+        "newly_visible_preexisting_semantic_findings": [],
+        "introduced_semantic_findings": [
+          {
+            "code": "source_method_interface_not_landed",
+            "location": "script.methods.requestNotificationPermission",
+            "message": "Source method requestNotificationPermission has no proven callable method on the exported San parent.",
+            "count": 1
+          },
+          {
+            "code": "source_startup_phase_not_landed",
+            "location": "script.startup.initData",
+            "message": "Source mounted initializer initData (San initDataImpl) must run exactly once in attached; found inited=1, attached=1.",
+            "count": 1
+          }
+        ],
+        "introduced_critical_errors": [],
+        "lost_visual_pass": false
+      },
+      "method_contract": {
+        "name": "requestNotificationPermission",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 0,
+          "uncertain": false
+        },
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      "startup_contract": {
+        "source_method": "initData",
+        "target_method": "initDataImpl",
+        "expected_phase": "attached",
+        "expected_count": 1,
+        "inited_direct_calls": 0,
+        "attached_direct_calls": 1,
+        "assessment": "source_wrapper_body_and_unique_parent_alias",
+        "repairable": false
+      },
+      "output_sha256": "119360600912a8851ba01035ff639eb477aa7c6b63edaac20235b0fa05a6283e"
+    },
+    {
+      "case": "startup_fixed_final",
+      "before": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v4_results_20261103_204227\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [
+          {
+            "code": "source_method_interface_not_landed",
+            "message": "Source method requestNotificationPermission has no proven callable method on the exported San parent.",
+            "severity": "error",
+            "location": "script.methods.requestNotificationPermission",
+            "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+          }
+        ],
+        "visual_eval_errors": [],
+        "visual_eval_passed": true,
+        "validation_passed": false,
+        "structure_similarity": 0.9912
+      },
+      "after": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v4_results_20261103_204227\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [],
+        "visual_eval_errors": [],
+        "visual_eval_passed": true,
+        "validation_passed": true,
+        "structure_similarity": 0.9912
+      },
+      "rules": [
+        "restored_source_unreferenced_method_interfaces"
+      ],
+      "gate": {
+        "decision": "pass",
+        "should_stop": false,
+        "introduced_event_error_codes": {},
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "after": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "semantic_coverage_assessment": {
+          "status": "not_needed",
+          "proven_pairs": []
+        },
+        "newly_visible_preexisting_semantic_findings": [],
+        "introduced_semantic_findings": [],
+        "introduced_critical_errors": [],
+        "lost_visual_pass": false
+      },
+      "reverse_gate": {
+        "decision": "reject",
+        "should_stop": true,
+        "introduced_event_error_codes": {},
+        "additional_unresolved_source_bindings": 0,
+        "new_pre_mount_state_writes": [],
+        "unjustified_pre_mount_state_writes": [],
+        "before": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "after": {
+          "exact": [
+            "click:toggleTheme",
+            "click:exportReport",
+            "click:onKPIClick(kpi)",
+            "click:changePeriod(period.value)",
+            "bar-click:onBarClick",
+            "click:clearAlerts",
+            "acknowledge:acknowledgeAlert",
+            "resolve:resolveAlert",
+            "change:filterLogs",
+            "click:clearLogs",
+            "log-click:onLogClick",
+            "click:refreshServices",
+            "service-click:onServiceClick",
+            "save:saveSettings",
+            "click:hideNotification"
+          ],
+          "plausible_aliases": [],
+          "unresolved": [],
+          "unassessed_source_expressions": [
+            "click:showSettings = true",
+            "click:showSettings = false",
+            "click:showSettings = false",
+            "cancel:showSettings = false"
+          ],
+          "proven_self_wrappers": []
+        },
+        "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+        "semantic_coverage_assessment": {
+          "status": "unproven",
+          "pairs": [],
+          "before_parse_status": "parsed"
+        },
+        "newly_visible_preexisting_semantic_findings": [],
+        "introduced_semantic_findings": [
+          {
+            "code": "source_method_interface_not_landed",
+            "location": "script.methods.requestNotificationPermission",
+            "message": "Source method requestNotificationPermission has no proven callable method on the exported San parent.",
+            "count": 1
+          }
+        ],
+        "introduced_critical_errors": [],
+        "lost_visual_pass": false
+      },
+      "method_contract": {
+        "name": "requestNotificationPermission",
+        "status": "callable_present",
+        "legacy_wrapper": false,
+        "source_references": {
+          "count": 0,
+          "uncertain": false
+        },
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        },
+        "restore_eligible": false
+      },
+      "startup_contract": {
+        "source_method": "initData",
+        "target_method": "initDataImpl",
+        "expected_phase": "attached",
+        "expected_count": 1,
+        "inited_direct_calls": 0,
+        "attached_direct_calls": 1,
+        "assessment": "source_wrapper_body_and_unique_parent_alias",
+        "repairable": false
+      },
+      "output_sha256": "119360600912a8851ba01035ff639eb477aa7c6b63edaac20235b0fa05a6283e"
+    }
+  ],
+  "boundary": "Exported parent callable surface, not complete equivalence of existing method bodies. Only internally unreferenced, unambiguous, synchronous simple methods with understood expressions and unshadowed whitelisted dependencies can be restored. Source guards remain unchanged. No new UI/lifecycle invocation, unknown dependency guessing, global permission execution, or overwrite of existing options. Reserved initData mapping remains delegated to its existing rules. Unknown/missing interfaces stay diagnostics; controlled Node permission stubs are unit tests, not browser verification.",
+  "unit_tests": {
+    "passed": 364,
+    "failed": 0,
+    "elapsed_seconds": 219.653
+  },
+  "changed_prior_live_files": [
+    "migration_pipeline/stages/repair.py",
+    "migration_pipeline/stages/validate.py",
+    "migration_pipeline/utils/bounded_semantics.cjs",
+    "migration_pipeline/utils/repair_prompt.py",
+    "migration_pipeline/utils/repair_scheduler.py",
+    "migration_pipeline/utils/semantic_coverage.py",
+    "migration_pipeline/utils/source_phase_semantics.cjs",
+    "tests/test_repair_regression_guard.py",
+    "tests/test_startup_phase_closure.py"
+  ],
+  "frozen_code_files": 24
+}

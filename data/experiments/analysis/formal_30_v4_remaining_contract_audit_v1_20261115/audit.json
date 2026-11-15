@@ -1,0 +1,72 @@
+{
+  "date": "2026-11-15",
+  "classification": "offline_source_call_scope_and_notifications_audit_not_repair_or_new_acceptance",
+  "source": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/protocol/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+    "sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139"
+  },
+  "candidate": {
+    "path": "data/experiments/analysis/formal_30_v4_computed_collections_v1_20261115/TripItineraryPlanner_computed_collections_offline.san",
+    "sha256": "6da973e7a68cf7515504e268cec66815bf7ae7bcc7e30dce4688f0cecd1191d2"
+  },
+  "validation_passed": false,
+  "validation_errors": [
+    {
+      "code": "nested_state_mutation",
+      "message": "方法 moveItem(...) 直接修改了来自 San data 的对象或数组引用：dayItems。原地修改可能绕过响应式更新。",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 dayItems；不要直接修改其属性或调用 push/splice。"
+    },
+    {
+      "code": "source_method_interface_not_landed",
+      "message": "Source method setValue has no proven callable method on the exported San parent.",
+      "severity": "error",
+      "location": "script.methods.setValue",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    }
+  ],
+  "component_projection_equal": {
+    "forward": true,
+    "backward": true,
+    "noop": true,
+    "lower": true,
+    "upper": true
+  },
+  "projection_definition": "Program root commits, notify, event, state, reference identities and nextTick values; raw San computed-store traffic preserved separately.",
+  "raw_runtime_traces_equal": false,
+  "all_observers_equivalent": false,
+  "extra_observer_counts": {
+    "source": 3,
+    "target": 1
+  },
+  "source_literal_root_call_count": 14,
+  "site_counts_match": true,
+  "all_setter_rhs_or_timing_equivalent": false,
+  "arbitrary_setter_interface_preserved": false,
+  "acceptance_scope_changed": false,
+  "validation_exemption_granted": false,
+  "supplied_source_remove_click_sparse_failure_confirmed": true,
+  "public_counter_helper_extra_surface_mismatch_confirmed": true,
+  "sparse_filter_issue_promoted_to_production_diagnostic": false,
+  "production_code_changed": false,
+  "generation_or_repair_prompt_changed": false,
+  "canonical_san_changed": false,
+  "manual_pages_changed": false,
+  "protected_implementation_files_verified": 25,
+  "previous_233_tests_rerun": false,
+  "model_calls": 0,
+  "new_manual_confirmation": false,
+  "browser_started": false,
+  "server_started": false,
+  "whole_component_equivalence_proven": false,
+  "production_eligible": false,
+  "original_batch": {
+    "configured": 30,
+    "passed": 24,
+    "failed": 6,
+    "execution_errors": 0,
+    "total_tokens": 1821544
+  },
+  "next_step": "Close the actual source removeItem/filter path with a source-proven diagnostic, bounded repair and regression; do not first drop the two remaining diagnostics."
+}

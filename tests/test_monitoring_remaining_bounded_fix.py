@@ -48,6 +48,14 @@ class MonitoringRemainingBoundedFixTests(unittest.TestCase):
                 # written into the frozen automatic checkpoint.
                 "invalid_inline_component_identifier",
                 "missing_self_click_guard",
+                "source_dom_analysis_unavailable",
+                "source_event_payload_analysis_unavailable",
+                "source_render_call_analysis_unavailable",
+                "source_render_dependency_analysis_unavailable",
+                "source_array_transaction_analysis_unavailable",
+                "source_child_initialization_analysis_unavailable",
+                "source_native_drag_analysis_unavailable",
+                "source_parent_watch_analysis_unavailable",
             },
         )
         self.assertIn(
@@ -65,8 +73,13 @@ class MonitoringRemainingBoundedFixTests(unittest.TestCase):
         # settings replay below fixes it; do not rewrite the frozen v1 result.
         self.assertEqual(
             {issue["code"] for issue in validation.validation_errors},
-            {"missing_inline_prop_dependent_initialization", "missing_self_click_guard"},
+            {"missing_inline_prop_dependent_initialization", "missing_self_click_guard",
+             "source_watch_persistence_not_landed", "source_dom_event_not_landed"},
         )
+        # The no-parameter watcher also omitted persistence. This new diagnostic
+        # does not rewrite the frozen v1 score or authorize guessing a repair.
+        self.assertIn("script.watch.settings", [issue.get("location") for issue in validation.validation_errors
+                      if issue["code"] == "source_watch_persistence_not_landed"])
         self.assertTrue(visual.visual_eval_passed, visual.visual_eval_errors)
         self.assertEqual(candidate.count("= san.defineComponent({"), 8)
         self.assertNotIn("const kpi-card =", candidate)

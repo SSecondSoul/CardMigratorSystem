@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-03",
+  "sample": "TaskManager",
+  "batch_id": "formal_30_v4_semantic_closure_v2",
+  "classification": "manual_feedback_after_frozen_automatic_result",
+  "original_frozen_automatic_pass": true,
+  "manual_status": "not_passed_due_to_reported_textarea_issue",
+  "textarea": {
+    "user_observation": "新建任务的任务描述里面有代码",
+    "confirmed_generated_pattern": "<textarea>{= formData.description =}</textarea>",
+    "source_vue_pattern": "<textarea v-model=\"formData.description\"></textarea>",
+    "root_cause": "San two-way binding marker was emitted as textarea body text rather than a value property",
+    "new_validation_error": "invalid_san_textarea_binding",
+    "regression_rule": "normalized_textarea_value_binding"
+  },
+  "notification": {
+    "user_observation": "设置已更新：defaultView  更改设置后出现",
+    "vue_source_has_same_template": true,
+    "message_template": "设置已更新：${key}",
+    "classification": "existing_source_wording_not_san_migration_regression",
+    "changed": false
+  },
+  "followup": "data/experiments/manual_followups/formal_30_v4_semantic_closure_v2_TaskManager_textarea_v1_20261103",
+  "candidate": "TaskManager_textarea_fixed.san",
+  "candidate_static_validation_passed": true,
+  "candidate_manual_status": "passed_by_user",
+  "candidate_manual_acceptance_date": "2026-11-03",
+  "candidate_manual_acceptance_record": "data/experiments/analysis/formal_30_v4_semantic_closure_v2_20261103_160541/TaskManager_manual_acceptance_20261103.json",
+  "manual_status_scope": "manual_status describes the original unfixed artifact; candidate_manual_status describes the separate textarea-fixed candidate",
+  "unit_tests": {"passed": 279, "failed": 0, "textarea_boundary_tests": 10},
+  "llm_calls": 0,
+  "original_batch_summary_modified": false,
+  "boundary": "Deterministic repair after manual feedback is separate evidence, not an extra automatic repair round or a rewrite of the frozen batch result. No browser interaction test was performed by the assistant."
+}

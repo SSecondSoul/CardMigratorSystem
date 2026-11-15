@@ -1,0 +1,44 @@
+{
+  "san": {
+    "changes": [
+      "experimental_restored_source_native_property_assignment"
+    ],
+    "reviews": [],
+    "production_eligible": false,
+    "proof_scope": "source_assignment_statement_only_not_observer_or_error_equivalence",
+    "writers": [
+      {
+        "method": "updateSettings",
+        "field": "settings",
+        "source_assignment_and_strict_mode_retained": true
+      }
+    ],
+    "limitations": [
+      "Experimental opt-in only; no source API/key whitelist and no global/framework patch.",
+      "Restores native source property-key conversion, assignment and strict method execution; matched notification tail is retained.",
+      "Existing observed-value setters still reject some source-supported values; stale observer subscription and error bridge gaps remain.",
+      "No production diagnostic waiver, no complete dynamic-shape/reflection equivalence claim."
+    ]
+  },
+  "genericSan": {
+    "changes": [
+      "experimental_restored_source_native_property_assignment"
+    ],
+    "reviews": [],
+    "production_eligible": false,
+    "proof_scope": "source_assignment_statement_only_not_observer_or_error_equivalence",
+    "writers": [
+      {
+        "method": "assign",
+        "field": "settings",
+        "source_assignment_and_strict_mode_retained": true
+      }
+    ],
+    "limitations": [
+      "Experimental opt-in only; no source API/key whitelist and no global/framework patch.",
+      "Restores native source property-key conversion, assignment and strict method execution; matched notification tail is retained.",
+      "Existing observed-value setters still reject some source-supported values; stale observer subscription and error bridge gaps remain.",
+      "No production diagnostic waiver, no complete dynamic-shape/reflection equivalence claim."
+    ]
+  }
+}

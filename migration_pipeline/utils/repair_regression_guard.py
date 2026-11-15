@@ -10,6 +10,10 @@ import re
 from collections import Counter
 from typing import Any
 
+from migration_pipeline.utils.bounded_semantics import inspect_semantics
+from migration_pipeline.utils.source_dom_semantics import source_dom_semantics
+from migration_pipeline.utils.source_payload_semantics import source_payload_semantics
+
 
 EVENT_CONTRACT_CODES = frozenset({
     "invalid_san_event_handler_syntax",
@@ -118,7 +122,7 @@ def _aliases(name: str) -> list[str]:
     return list(dict.fromkeys(alias for alias in aliases if alias != name))
 
 
-def _binding_coverage(code: str, ssm: dict[str, Any]) -> dict[str, Any]:
+def _binding_coverage(code: str, ssm: dict[str, Any], vue_source: str = "") -> dict[str, Any]:
     match = OUTER_TEMPLATE.search(code)
     template = match.group(1) if match else ""
     script = code.split("<script", 1)[-1] if "<script" in code else ""
@@ -132,6 +136,12 @@ def _binding_coverage(code: str, ssm: dict[str, Any]) -> dict[str, Any]:
     aliases: list[str] = []
     unresolved: list[str] = []
     unassessed: list[str] = []
+    traced_wrappers: list[str] = []
+    traced_native_guards: list[str] = []
+    wrappers = inspect_semantics(code)["wrappers"]
+    native_guards = None
+    payload_bindings = None
+    self_targets = {m[1] for m in re.findall(r'@click\.self\s*=\s*(["\'])([\w$]+)\1', vue_source)}
     for item in bindings if isinstance(bindings, list) else []:
         if not isinstance(item, dict):
             continue
@@ -149,7 +159,38 @@ def _binding_coverage(code: str, ssm: dict[str, Any]) -> dict[str, Any]:
             available[key] -= 1
             exact.append(label)
             continue
+        if payload_bindings is None:
+            payload_bindings = source_payload_semantics(code, vue_source, ssm).get('proven_bindings', []) if vue_source else []
+        payload = next((b for b in payload_bindings if b['event'] == event_name
+                        and b['source_handler'] == source_expression
+                        and available[(event_name, b['target_handler'])]), None)
+        if payload:
+            available[(event_name, payload['target_handler'])] -= 1
+            exact.append(f"{label} -> source-proven single payload: {payload['target_handler']}")
+            continue
+        if native_guards is None:
+            native_guards = source_dom_semantics(code, vue_source, ssm).get('native_guards', []) if vue_source else []
+        guarded = next((g for g in native_guards if g['scope'] == 'template'
+                        and g['event'] == event_name and g['source_handler'] == source_expression
+                        and available[(event_name, g['target_handler'])]), None)
+        if guarded:
+            available[(event_name, guarded['target_handler'])] -= 1
+            traced_native_guards.append(f"{label} -> {guarded['target_handler']}")
+            if guarded['kind'] == 'self':
+                traced_wrappers.append(f"{label} -> {guarded['target_handler']}")
+            continue
         name, arguments = parsed.group(1), parsed.group(2) or ""
+        # Only a source-proven .self contract and an AST-verified single
+        # guarded call can replace a direct binding. A bare handler gets San's
+        # default $event; explicit handler() does not. Side effects stay rejected.
+        proven = next(((wrapper, expression) for wrapper, target in wrappers.items()
+                       if target == name and not arguments and event_name == "click"
+                       and name in self_targets for expression in (wrapper, wrapper + "($event)")
+                       if available[(event_name, expression)]), None)
+        if proven:
+            available[(event_name, proven[1])] -= 1
+            traced_wrappers.append(f"{label} -> {proven[1]}")
+            continue
         for alias in _aliases(name):
             alias_key = (event_name, alias + arguments)
             method_declared = re.search(
@@ -166,6 +207,8 @@ def _binding_coverage(code: str, ssm: dict[str, Any]) -> dict[str, Any]:
         "plausible_aliases": aliases,
         "unresolved": unresolved,
         "unassessed_source_expressions": unassessed,
+        "proven_self_wrappers": traced_wrappers,
+        "proven_native_guards": traced_native_guards,
     }
 
 
@@ -176,10 +219,11 @@ def assess_event_contract_regression(
     after_code: str,
     before_errors: list[dict[str, Any]],
     after_errors: list[dict[str, Any]],
+    vue_source: str = "",
 ) -> dict[str, Any]:
     """Return pass/review/reject; review and reject must never auto-pass."""
-    before = _binding_coverage(before_code, ssm)
-    after = _binding_coverage(after_code, ssm)
+    before = _binding_coverage(before_code, ssm, vue_source)
+    after = _binding_coverage(after_code, ssm, vue_source)
     before_counts = _issue_counts(before_errors)
     after_counts = _issue_counts(after_errors)
     introduced = {

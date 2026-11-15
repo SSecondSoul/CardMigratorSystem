@@ -1,0 +1,46 @@
+{
+  "san": {
+    "changes": [
+      "experimental_source_native_writer_and_shape_observer_recollection"
+    ],
+    "reviews": [],
+    "production_eligible": false,
+    "proof_scope": "isolated_source_skipped_values_and_dependency_recollection",
+    "limitations": [
+      "Experimental only: no production diagnostic waiver, template rewrite or default deployment.",
+      "Frozen/non-extensible and Date values are retained without observing; sparse array holes remain holes.",
+      "Subscriptions are captured at initialization and before real callback dispatch, not guessed from current ancestry at mutation time.",
+      "Custom accessors/prototypes, Ref/skip metadata, arbitrary external San Data APIs, Proxy and full reflection equivalence remain unproven.",
+      "The experimental browser reporting scope remains explicitly configured by the test application, not a production bridge."
+    ],
+    "writers": [
+      {
+        "method": "updateSettings",
+        "field": "settings",
+        "source_assignment_and_strict_mode_retained": true
+      }
+    ]
+  },
+  "genericSan": {
+    "changes": [
+      "experimental_source_native_writer_and_shape_observer_recollection"
+    ],
+    "reviews": [],
+    "production_eligible": false,
+    "proof_scope": "isolated_source_skipped_values_and_dependency_recollection",
+    "limitations": [
+      "Experimental only: no production diagnostic waiver, template rewrite or default deployment.",
+      "Frozen/non-extensible and Date values are retained without observing; sparse array holes remain holes.",
+      "Subscriptions are captured at initialization and before real callback dispatch, not guessed from current ancestry at mutation time.",
+      "Custom accessors/prototypes, Ref/skip metadata, arbitrary external San Data APIs, Proxy and full reflection equivalence remain unproven.",
+      "The experimental browser reporting scope remains explicitly configured by the test application, not a production bridge."
+    ],
+    "writers": [
+      {
+        "method": "assign",
+        "field": "settings",
+        "source_assignment_and_strict_mode_retained": true
+      }
+    ]
+  }
+}

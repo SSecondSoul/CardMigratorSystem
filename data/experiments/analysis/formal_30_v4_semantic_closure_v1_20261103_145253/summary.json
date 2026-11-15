@@ -1,0 +1,847 @@
+{
+  "snapshot": "data/experiments/snapshots/formal_30_v4_semantic_closure_v1_results_20261103_145253",
+  "verified_files": 290,
+  "summary_sha256": "c4d4e47495ac84f83ec6cb42d9d4ee63239d15547e73018fd7afe043251d409b",
+  "classification": "bounded_semantic_closure_development_regression_analysis",
+  "independent_holdout": false,
+  "model_requests_performed_by_analysis": 0,
+  "aggregate": {
+    "configured": 2,
+    "completed": 2,
+    "passed": 0,
+    "failed": 2,
+    "execution_errors": 0,
+    "pending": 0,
+    "pass_rate_completed": 0.0,
+    "initial_passed": 0,
+    "initial_pass_rate_completed": 0.0,
+    "repaired_to_pass": 0,
+    "repair_rounds_total": 6,
+    "repair_rounds_average": 3.0,
+    "generation_tokens": 204621,
+    "repair_tokens": 554944,
+    "total_tokens": 759565,
+    "stop_reason_counts": {
+      "max_repair_rounds_reached": 2
+    },
+    "error_code_counts": {
+      "initial_validation": {
+        "duplicate_class_attribute": 1,
+        "event_arguments_not_landed": 1,
+        "hidden_template_reactive_dependency": 1,
+        "invalid_inline_component_identifier": 1,
+        "invalid_s_for_key_binding": 1,
+        "invalid_san_computed_instance_method_call": 2,
+        "invalid_san_directive_interpolation": 2,
+        "invalid_san_event_handler_syntax": 2,
+        "invalid_san_for_alias_syntax": 1,
+        "invalid_san_multi_argument_fire": 1,
+        "lifecycle_behavior_not_landed": 1,
+        "missing_component_registration": 1,
+        "missing_data_types": 2,
+        "missing_inline_prop_dependent_initialization": 1,
+        "missing_lifecycle_mapping": 1,
+        "missing_self_click_guard": 2,
+        "native_drag_event_misbound": 1,
+        "nested_state_mutation": 7,
+        "reserved_init_data_method_collision": 1,
+        "san_script_compile_error": 1,
+        "unsupported_san_inline_template_math_global": 2,
+        "unsupported_san_inline_template_member_call": 2,
+        "vue_methods_wrapper": 2
+      },
+      "initial_visual": {
+        "san_render_failed": 2,
+        "san_san_render_error": 2
+      },
+      "final_validation": {
+        "hidden_template_reactive_dependency": 1,
+        "invalid_san_computed_instance_method_call": 2,
+        "lifecycle_behavior_not_landed": 1,
+        "missing_data_types": 1
+      },
+      "final_visual": {}
+    },
+    "by_complexity": {
+      "simple": {
+        "configured": 0,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "medium": {
+        "configured": 0,
+        "completed": 0,
+        "passed": 0,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": null
+      },
+      "complex": {
+        "configured": 2,
+        "completed": 2,
+        "passed": 0,
+        "failed": 2,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.0
+      }
+    }
+  },
+  "samples": [
+    {
+      "id": "TaskManager",
+      "passed": false,
+      "elapsed_seconds": 991.61,
+      "stop_reason": "max_repair_rounds_reached",
+      "llm_repair_calls": 3,
+      "deterministic_steps": 2,
+      "accepted_deterministic_steps": 2,
+      "normalization_history": [
+        {
+          "step": 1,
+          "before_llm_call": 1,
+          "normalizations": [
+            "restored_self_click_and_native_drag_semantics",
+            "unwrapped_san_directive_expression",
+            "unwrapped_san_component_methods_options",
+            "registered_defined_inline_components"
+          ],
+          "candidate_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_semantic_closure_v1\\complex\\TaskManager_normalized_1.san",
+          "accepted": true,
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "after": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": [
+                "click:closeModal -> onSelfClickCloseModal($event)"
+              ]
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "progress_signature": {
+            "generated_code_sha256": "5b8f558b4f7cff430d1778457af6aba266968f7f16a4b04fda5a05895b6034a6",
+            "validation_error_codes": [
+              "hidden_template_reactive_dependency",
+              "invalid_s_for_key_binding",
+              "invalid_san_computed_instance_method_call",
+              "invalid_san_event_handler_syntax",
+              "invalid_san_for_alias_syntax",
+              "invalid_san_multi_argument_fire",
+              "missing_data_types",
+              "missing_inline_prop_dependent_initialization",
+              "missing_self_click_guard",
+              "nested_state_mutation",
+              "unsupported_san_inline_template_math_global",
+              "unsupported_san_inline_template_member_call"
+            ],
+            "visual_error_codes": [],
+            "tree_edit_distance": 0.5,
+            "structure_similarity": 0.9889,
+            "tag_sequence_similarity": 1.0,
+            "text_similarity": 1.0
+          }
+        },
+        {
+          "step": 2,
+          "before_llm_call": 1,
+          "normalizations": [
+            "normalized_empty_san_modifier_handlers"
+          ],
+          "candidate_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_semantic_closure_v1\\complex\\TaskManager_normalized_1_normalized_2.san",
+          "accepted": true,
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": [
+                "click:closeModal -> onSelfClickCloseModal($event)"
+              ]
+            },
+            "after": {
+              "exact": [
+                "click:toggleCompactMode",
+                "click:toggleTheme",
+                "click:exportData",
+                "click:onStatClick(stat)",
+                "click:openTaskModal",
+                "input:onSearchChange",
+                "click:setFilter(filter.value)",
+                "drop:onDropToEnd",
+                "toggle:toggleTaskStatus",
+                "edit:editTask",
+                "view:selectTask",
+                "delete:deleteTask",
+                "drag-start:onDragStart",
+                "drag-end:onDragEnd",
+                "drop-on:onDropOnTask",
+                "close:closeDetail",
+                "update:updateTask",
+                "comment:addComment",
+                "click:closeModal",
+                "submit:handleTaskSubmit",
+                "cancel:closeModal",
+                "update:updateSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false"
+              ],
+              "proven_self_wrappers": [
+                "click:closeModal -> onSelfClickCloseModal($event)"
+              ]
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "progress_signature": {
+            "generated_code_sha256": "cc645976b21f3215682e04395942a77105e29d3c36e3cffba18359f33f2a191c",
+            "validation_error_codes": [
+              "hidden_template_reactive_dependency",
+              "invalid_s_for_key_binding",
+              "invalid_san_computed_instance_method_call",
+              "invalid_san_event_handler_syntax",
+              "invalid_san_for_alias_syntax",
+              "invalid_san_multi_argument_fire",
+              "missing_data_types",
+              "missing_inline_prop_dependent_initialization",
+              "missing_self_click_guard",
+              "nested_state_mutation",
+              "unsupported_san_inline_template_math_global",
+              "unsupported_san_inline_template_member_call"
+            ],
+            "visual_error_codes": [],
+            "tree_edit_distance": 0.5,
+            "structure_similarity": 0.9889,
+            "tag_sequence_similarity": 1.0,
+            "text_similarity": 1.0
+          }
+        }
+      ],
+      "rounds": [
+        {
+          "attempt": 1,
+          "validation_errors": [
+            {
+              "code": "missing_data_types",
+              "message": "San 组件未使用 dataTypes。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "将 Vue props 迁移为 San dataTypes。"
+            },
+            {
+              "code": "invalid_san_computed_instance_method_call",
+              "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+            },
+            {
+              "code": "hidden_template_reactive_dependency",
+              "message": "模板 text 渲染表达式调用 getTaskCount(...)，但该方法内部隐藏读取响应式字段：tasks。这些字段变化时，San 可能不会重新计算该绑定。",
+              "severity": "error",
+              "location": "template/script",
+              "suggestion": "在模板表达式中直接引用 tasks，或将这些字段作为参数显式传给 getTaskCount(...)。"
+            },
+            {
+              "code": "hidden_template_reactive_dependency",
+              "message": "模板 class 渲染表达式调用 isTagSelected(...)，但该方法内部隐藏读取响应式字段：formData。这些字段变化时，San 可能不会重新计算该绑定。",
+              "severity": "error",
+              "location": "script.TaskForm.template",
+              "suggestion": "在模板表达式中直接引用 formData，或将这些字段作为参数显式传给 isTagSelected(...)。"
+            }
+          ],
+          "error_code_counts": {
+            "missing_data_types": 1,
+            "invalid_san_computed_instance_method_call": 1,
+            "hidden_template_reactive_dependency": 2
+          },
+          "increased_error_code_counts_vs_previous_llm": {},
+          "structure_similarity": 0.9889,
+          "gate_should_stop": false,
+          "proven_self_wrappers": [
+            "click:closeModal -> onModalOverlayClick($event)"
+          ],
+          "postprocessing": [
+            "normalized_simple_san_template_syntax",
+            "unwrapped_san_component_methods_options",
+            "registered_defined_inline_components",
+            "cloned_state_array_before_local_mutation"
+          ],
+          "prompt_chars": 444102,
+          "prompt_sha256": "f1f3a4d5aaf298c7f478cee83894e946dad045ae0e9c27d5ddc9840d1252fb3e",
+          "generic_full_prompt": true,
+          "semantic_focus_prompt": false,
+          "usage": {
+            "completion_tokens": 10687,
+            "prompt_tokens": 110669,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 121356
+          }
+        },
+        {
+          "attempt": 2,
+          "validation_errors": [
+            {
+              "code": "missing_data_types",
+              "message": "San 组件未使用 dataTypes。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "将 Vue props 迁移为 San dataTypes。"
+            },
+            {
+              "code": "invalid_san_computed_instance_method_call",
+              "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+            }
+          ],
+          "error_code_counts": {
+            "missing_data_types": 1,
+            "invalid_san_computed_instance_method_call": 1
+          },
+          "increased_error_code_counts_vs_previous_llm": {},
+          "structure_similarity": 0.9889,
+          "gate_should_stop": false,
+          "proven_self_wrappers": [
+            "click:closeModal -> onModalOverlayClick($event)"
+          ],
+          "postprocessing": [
+            "registered_defined_inline_components"
+          ],
+          "prompt_chars": 441333,
+          "prompt_sha256": "019e4027cfe8f3d6520ad1d9a1d4dadcf267fabc9caf114c2d81e9d55840011b",
+          "generic_full_prompt": true,
+          "semantic_focus_prompt": false,
+          "usage": {
+            "completion_tokens": 10679,
+            "prompt_tokens": 109988,
+            "prompt_tokens_details": {
+              "cached_tokens": 98048
+            },
+            "total_tokens": 120667
+          }
+        },
+        {
+          "attempt": 3,
+          "validation_errors": [
+            {
+              "code": "missing_data_types",
+              "message": "San 组件未使用 dataTypes。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "将 Vue props 迁移为 San dataTypes。"
+            },
+            {
+              "code": "invalid_san_computed_instance_method_call",
+              "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+            },
+            {
+              "code": "hidden_template_reactive_dependency",
+              "message": "模板 text 渲染表达式调用 getTaskCount(...)，但该方法内部隐藏读取响应式字段：tasks。这些字段变化时，San 可能不会重新计算该绑定。",
+              "severity": "error",
+              "location": "template/script",
+              "suggestion": "在模板表达式中直接引用 tasks，或将这些字段作为参数显式传给 getTaskCount(...)。"
+            }
+          ],
+          "error_code_counts": {
+            "missing_data_types": 1,
+            "invalid_san_computed_instance_method_call": 1,
+            "hidden_template_reactive_dependency": 1
+          },
+          "increased_error_code_counts_vs_previous_llm": {
+            "hidden_template_reactive_dependency": 1
+          },
+          "structure_similarity": 0.9889,
+          "gate_should_stop": false,
+          "proven_self_wrappers": [
+            "click:closeModal -> onModalOverlayClick($event)"
+          ],
+          "postprocessing": [
+            "registered_defined_inline_components"
+          ],
+          "prompt_chars": 440664,
+          "prompt_sha256": "ca44bb29338342f296dd06f590287df740efdff16f2066a6414a7db27b49eaa6",
+          "generic_full_prompt": true,
+          "semantic_focus_prompt": false,
+          "usage": {
+            "completion_tokens": 10679,
+            "prompt_tokens": 109771,
+            "prompt_tokens_details": {
+              "cached_tokens": 98304
+            },
+            "total_tokens": 120450
+          }
+        }
+      ],
+      "final_file": "TaskManager_normalized_1_normalized_2_repaired_repaired_repaired.san",
+      "final_sha256": "143ba8f313ecf8761627bb2368c9ccac14d130b4ee621cdfcc61e7ad878b60df",
+      "final_errors": [
+        {
+          "code": "missing_data_types",
+          "message": "San 组件未使用 dataTypes。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "将 Vue props 迁移为 San dataTypes。"
+        },
+        {
+          "code": "invalid_san_computed_instance_method_call",
+          "message": "San computed callbacks call component methods unavailable in their computed context: isOverdue",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+        },
+        {
+          "code": "hidden_template_reactive_dependency",
+          "message": "模板 text 渲染表达式调用 getTaskCount(...)，但该方法内部隐藏读取响应式字段：tasks。这些字段变化时，San 可能不会重新计算该绑定。",
+          "severity": "error",
+          "location": "template/script",
+          "suggestion": "在模板表达式中直接引用 tasks，或将这些字段作为参数显式传给 getTaskCount(...)。"
+        }
+      ],
+      "final_structure_similarity": 0.9889,
+      "generation_tokens": 97166,
+      "repair_tokens": 362473,
+      "automatic_interaction_evaluated": false,
+      "manual_verification": "not_performed_in_this_workflow"
+    },
+    {
+      "id": "MonitoringDashboard",
+      "passed": false,
+      "elapsed_seconds": 1180.015,
+      "stop_reason": "max_repair_rounds_reached",
+      "llm_repair_calls": 3,
+      "deterministic_steps": 1,
+      "accepted_deterministic_steps": 1,
+      "normalization_history": [
+        {
+          "step": 1,
+          "before_llm_call": 1,
+          "normalizations": [
+            "unwrapped_san_directive_expression",
+            "unwrapped_san_component_methods_options",
+            "renamed_parent_business_initData"
+          ],
+          "candidate_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\pipeline\\batches\\formal_30_v4_semantic_closure_v1\\complex\\MonitoringDashboard_normalized_1.san",
+          "accepted": true,
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [
+                "click:onKPIClick(kpi)",
+                "click:changePeriod(period.value)"
+              ],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "after": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [
+                "click:onKPIClick(kpi)",
+                "click:changePeriod(period.value)"
+              ],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "progress_signature": {
+            "generated_code_sha256": "12db85f38a69b898f521615242c7dba55607b44a239ffca7fedbba0ac604ea93",
+            "validation_error_codes": [
+              "duplicate_class_attribute",
+              "event_arguments_not_landed",
+              "invalid_inline_component_identifier",
+              "invalid_san_computed_instance_method_call",
+              "invalid_san_event_handler_syntax",
+              "missing_data_types",
+              "missing_lifecycle_mapping",
+              "missing_self_click_guard",
+              "nested_state_mutation",
+              "nested_state_mutation",
+              "nested_state_mutation",
+              "nested_state_mutation",
+              "nested_state_mutation",
+              "nested_state_mutation",
+              "san_script_compile_error",
+              "unsupported_san_inline_template_math_global",
+              "unsupported_san_inline_template_member_call"
+            ],
+            "visual_error_codes": [
+              "san_render_failed",
+              "san_san_render_error"
+            ],
+            "tree_edit_distance": 0.0,
+            "structure_similarity": 0.0,
+            "tag_sequence_similarity": 0.0,
+            "text_similarity": 0.0
+          }
+        }
+      ],
+      "rounds": [
+        {
+          "attempt": 1,
+          "validation_errors": [
+            {
+              "code": "invalid_san_event_handler_syntax",
+              "message": "San templates contain 3 invalid event binding(s).",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+            },
+            {
+              "code": "invalid_san_computed_instance_method_call",
+              "message": "San computed callbacks call component methods unavailable in their computed context: getX, getY",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+            },
+            {
+              "code": "hidden_template_reactive_dependency",
+              "message": "模板 cx 渲染表达式调用 getX(...)，但该方法内部隐藏读取响应式字段：dataPoints, width。这些字段变化时，San 可能不会重新计算该绑定。",
+              "severity": "error",
+              "location": "script.RealTimeChart.template",
+              "suggestion": "在模板表达式中直接引用 dataPoints, width，或将这些字段作为参数显式传给 getX(...)。"
+            },
+            {
+              "code": "hidden_template_reactive_dependency",
+              "message": "模板 cy 渲染表达式调用 getY(...)，但该方法内部隐藏读取响应式字段：height, maxValue, minValue。这些字段变化时，San 可能不会重新计算该绑定。",
+              "severity": "error",
+              "location": "script.RealTimeChart.template",
+              "suggestion": "在模板表达式中直接引用 height, maxValue, minValue，或将这些字段作为参数显式传给 getY(...)。"
+            },
+            {
+              "code": "hidden_template_reactive_dependency",
+              "message": "模板 height 渲染表达式调用 getHeight(...)，但该方法内部隐藏读取响应式字段：maxCount。这些字段变化时，San 可能不会重新计算该绑定。",
+              "severity": "error",
+              "location": "script.RequestChart.template",
+              "suggestion": "在模板表达式中直接引用 maxCount，或将这些字段作为参数显式传给 getHeight(...)。"
+            },
+            {
+              "code": "hidden_template_reactive_dependency",
+              "message": "模板 x 渲染表达式调用 getX(...)，但该方法内部隐藏读取响应式字段：data。这些字段变化时，San 可能不会重新计算该绑定。",
+              "severity": "error",
+              "location": "script.RequestChart.template",
+              "suggestion": "在模板表达式中直接引用 data，或将这些字段作为参数显式传给 getX(...)。"
+            },
+            {
+              "code": "event_arguments_not_landed",
+              "message": "San 事件绑定未完整保留源事件参数。缺失：click:changePeriod(period.value)。",
+              "severity": "error",
+              "location": "template",
+              "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+            },
+            {
+              "code": "lifecycle_behavior_not_landed",
+              "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData()。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+            }
+          ],
+          "error_code_counts": {
+            "invalid_san_event_handler_syntax": 1,
+            "invalid_san_computed_instance_method_call": 1,
+            "hidden_template_reactive_dependency": 4,
+            "event_arguments_not_landed": 1,
+            "lifecycle_behavior_not_landed": 1
+          },
+          "increased_error_code_counts_vs_previous_llm": {},
+          "structure_similarity": 0.9518,
+          "gate_should_stop": false,
+          "proven_self_wrappers": [],
+          "postprocessing": [
+            "unwrapped_san_directive_expression",
+            "normalized_simple_san_template_syntax",
+            "merged_static_and_dynamic_class_attributes",
+            "restored_source_parameterized_event_handler"
+          ],
+          "prompt_chars": 479751,
+          "prompt_sha256": "bd30367149571216bf5eb3b269b113d7b37148bc5a6c9dfa611d6beea04c59db",
+          "generic_full_prompt": true,
+          "semantic_focus_prompt": false,
+          "usage": {
+            "completion_tokens": 12873,
+            "prompt_tokens": 122342,
+            "prompt_tokens_details": {
+              "cached_tokens": 2944
+            },
+            "total_tokens": 135215
+          }
+        },
+        {
+          "attempt": 2,
+          "validation_errors": [
+            {
+              "code": "invalid_san_computed_instance_method_call",
+              "message": "San computed callbacks call component methods unavailable in their computed context: getX, getY",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+            },
+            {
+              "code": "lifecycle_behavior_not_landed",
+              "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData()。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+            }
+          ],
+          "error_code_counts": {
+            "invalid_san_computed_instance_method_call": 1,
+            "lifecycle_behavior_not_landed": 1
+          },
+          "increased_error_code_counts_vs_previous_llm": {},
+          "structure_similarity": 0.9518,
+          "gate_should_stop": false,
+          "proven_self_wrappers": [],
+          "postprocessing": [],
+          "prompt_chars": 55824,
+          "prompt_sha256": "ad74ef9b93537463b7b8ac61e177cfa5819e1dee39c5a6edd9e723ac7d5442c9",
+          "generic_full_prompt": false,
+          "semantic_focus_prompt": true,
+          "usage": {
+            "completion_tokens": 12830,
+            "prompt_tokens": 16084,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 28914
+          }
+        },
+        {
+          "attempt": 3,
+          "validation_errors": [
+            {
+              "code": "invalid_san_computed_instance_method_call",
+              "message": "San computed callbacks call component methods unavailable in their computed context: getX, getY",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+            },
+            {
+              "code": "lifecycle_behavior_not_landed",
+              "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData()。",
+              "severity": "error",
+              "location": "script",
+              "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+            }
+          ],
+          "error_code_counts": {
+            "invalid_san_computed_instance_method_call": 1,
+            "lifecycle_behavior_not_landed": 1
+          },
+          "increased_error_code_counts_vs_previous_llm": {},
+          "structure_similarity": 0.9605,
+          "gate_should_stop": false,
+          "proven_self_wrappers": [],
+          "postprocessing": [],
+          "prompt_chars": 54074,
+          "prompt_sha256": "acc931c7b9c92848af8cf8a5c1a4145198d6816cbb3687da1579eaf85dc0713d",
+          "generic_full_prompt": false,
+          "semantic_focus_prompt": true,
+          "usage": {
+            "completion_tokens": 12830,
+            "prompt_tokens": 15512,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 28342
+          }
+        }
+      ],
+      "final_file": "MonitoringDashboard_normalized_1_repaired_repaired_repaired.san",
+      "final_sha256": "543ec8a981ede1381c9b39a0fd671ed46af3d94c7e1858a24bf00003507d22a6",
+      "final_errors": [
+        {
+          "code": "invalid_san_computed_instance_method_call",
+          "message": "San computed callbacks call component methods unavailable in their computed context: getX, getY",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+        },
+        {
+          "code": "lifecycle_behavior_not_landed",
+          "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData()。",
+          "severity": "error",
+          "location": "script",
+          "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+        }
+      ],
+      "final_structure_similarity": 0.9605,
+      "generation_tokens": 107455,
+      "repair_tokens": 192471,
+      "automatic_interaction_evaluated": false,
+      "manual_verification": "not_performed_in_this_workflow"
+    }
+  ]
+}

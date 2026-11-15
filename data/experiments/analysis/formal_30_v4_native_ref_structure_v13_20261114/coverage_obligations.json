@@ -1,0 +1,39 @@
+[
+  {
+    "id": "NATIVE-STRUCTURE",
+    "category": "remaining_risk",
+    "status": "bounded_native_replay_matches",
+    "scope": "Pinned native Ref value child observer dep and native array dependArray structural tokens; exact raw-shallow-array exclusion, old-alias timing and disposal."
+  },
+  {
+    "id": "NATIVE-PRIVATE-PROPERTY",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "root_cause": "Native Observer.dep is separate from per-property deps captured in defineReactive closures. Structural subscriptions cannot substitute for those property deps.",
+    "repair_requirement": "Review an explicit producer-owned dependency interoperability contract before implementing it. Preserve identity, notification timing, error routing and cleanup. Do not silently use global tracking patches, duplicate observation, polling or a Vue watch/effect as the San implementation."
+  },
+  {
+    "id": "NATIVE-OPEN-1",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "scope": "Native Ref value propagation to child computed/render caches not established by the structural-only tests"
+  },
+  {
+    "id": "NATIVE-OPEN-2",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "scope": "Whole-root Ref, custom/computed Ref, arbitrary/spoofed dep providers and foreign observer interoperability"
+  },
+  {
+    "id": "NATIVE-OPEN-3",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "scope": "Lifecycle error routing (one earlier mismatch)"
+  },
+  {
+    "id": "NATIVE-OPEN-4",
+    "category": "remaining_risk",
+    "status": "unresolved",
+    "scope": "Arbitrary accessor effects, Proxy/reflection and production contract integration"
+  }
+]

@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-15",
+  "stage": "S2 native browser identity and per-page storage isolation development calibration",
+  "new_implementation_files": 6,
+  "new_tests": 53,
+  "targeted_tests": 188,
+  "controls_per_final_launch": 15,
+  "final_control_launches": 2,
+  "synthetic_pages_per_control_launch": 6,
+  "frozen_component_pairs": 3,
+  "frozen_static_scenes": 5,
+  "frozen_page_captures": 10,
+  "frozen_native_registry_complete": true,
+  "raw_native_observations_per_real_page": 2,
+  "old_screenshots_and_business_observations_unchanged": true,
+  "source_diagnostics_preserved": 10,
+  "target_runtime_diagnostics": 0,
+  "analytics_rect_differences": 7,
+  "analytics_dimensions": {
+    "source": [
+      1280,
+      1326
+    ],
+    "target": [
+      1280,
+      1625
+    ]
+  },
+  "new_model_calls": 0,
+  "production_auto_dispatch_enabled": false,
+  "legacy_feedback_schema_adapter_updated": false,
+  "production_rules_scheduler_prompt_or_artifacts_changed": false,
+  "manual_pages_changed": false,
+  "protected_files_unchanged": 69,
+  "manual_files_unchanged": 3,
+  "frozen_inputs_unchanged": 6,
+  "prior_sealed_payloads": 21,
+  "old_notebook_cells": 135,
+  "original_batch": {
+    "configured": 30,
+    "passed": 24,
+    "failed": 6,
+    "execution_errors": 0,
+    "total_tokens": 1821544
+  },
+  "storage_apis_verified": [
+    "localStorage",
+    "sessionStorage",
+    "Cookie",
+    "IndexedDB",
+    "Cache Storage"
+  ],
+  "same_page_reload_preserves_storage": true,
+  "inter_page_shared_storage": false,
+  "failure_evidence": {
+    "controls": "sandbox browser CDP lost; six pages blocked; early calibration reporter KeyError; no pass claim",
+    "context_smoke": "GPU process access-denied failures and browser FATAL, exit2147483651; native context issue not inferred as root cause",
+    "controls_retry": "fetch control was blocked by existing CSP before Fetch interception; 3/15 checks not established; corrected to image request",
+    "debug_inventory": "Win32 process inventory denied, no permissions changed",
+    "debug_endpoint_read": "task temporary endpoint had already been cleaned; ENOENT, no browser state changed"
+  },
+  "normal_host_permission_required_for_browser_runs": true,
+  "browser_sandbox_disabled": false,
+  "temporary_cleanup": {
+    "exact_task_created_profile": "C:/Users/soul/AppData/Local/Temp/cardmig-pixel-v3-OLR42L",
+    "removed_after_crash": true,
+    "user_profiles_touched": false,
+    "recoverable": false
+  },
+  "dynamic_arbitrary_public_key_block_retained": true,
+  "notification_or_exception_boundary_resolved": false,
+  "independent_holdout_claim": false,
+  "new_manual_acceptance": false,
+  "new_dependencies": false,
+  "commit": false,
+  "push": false,
+  "limits": [
+    "Empty-storage initial state only",
+    "Five storage APIs and explicit local controls; not all browser states",
+    "No full interaction validation",
+    "Known trusted evaluator; not authenticity/security proof of arbitrary records",
+    "Legacy v2 feedback bridge deliberately rejects schema3; native sealed adapter not yet implemented",
+    "Error severity/scenario/threshold production protocol not frozen"
+  ],
+  "next_step": "Sealed native-registry feedback adapter and fail-closed tests, then freeze bounded production protocol before batch repair integration"
+}

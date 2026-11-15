@@ -1595,7 +1595,8 @@ module.exports = san.defineComponent({
 
         # The methods-wrapper normalization is still valid, but the historical
         # artifact also contains independent inline template, hidden reactive
-        # coordinate dependencies, and initData defects.
+        # coordinate dependencies, initData defects and a missing watcher
+        # persistence write exposed by the newer two-parameter contract check.
         self.assertEqual(
             {issue["code"] for issue in validation.validation_errors},
             {
@@ -1606,8 +1607,18 @@ module.exports = san.defineComponent({
                 "invalid_san_init_data_store_access",
                 "hidden_template_reactive_dependency",
                 "missing_self_click_guard",
+                "source_watch_persistence_not_landed",
+                "source_dom_event_not_landed",
+                "source_dom_loop_not_landed",
+                "source_render_call_not_landed",
             },
         )
+        self.assertEqual({issue['location'] for issue in validation.validation_errors
+                          if issue['code']=='source_render_call_not_landed'}, {
+            'script.kpi-card.template/div[0]/div[1]/div[2]#text:1',
+        })
+        self.assertIn("script.watch.settings", [issue.get("location") for issue in validation.validation_errors
+                      if issue["code"] == "source_watch_persistence_not_landed"])
         self.assertTrue(visual.visual_eval_passed, visual.visual_eval_errors)
         self.assertEqual(visual.tag_sequence_similarity, 1.0)
 

@@ -1,0 +1,224 @@
+<template><main/></template><script>const san=require('san');
+const __sourceErrorContext_v6Create=(function createSourceErrorContext(binding){
+ if(typeof window==='undefined'||!window.document)throw new TypeError('Source v6 probe: browser environment required');
+ if(!binding||binding.environment!=='browser'||binding.trackingPolicy!=='no-reactive-reads-or-writes'
+   ||!['parentOf','hooksOf','globalHandler','logError'].every(k=>typeof binding[k]==='function'))
+  throw new TypeError('Source v6 probe: explicit browser error-context binding required');
+ const globalHandle=(error,subject,info)=>{
+  const handler=binding.globalHandler();
+  if(handler!=null&&typeof handler!=='function')throw new TypeError('Source v6 probe: unsupported global handler');
+  if(handler){
+   try{return handler.call(null,error,subject,info);}
+   catch(next){if(next!==error)binding.logError(next,null,'config.errorHandler');}
+  }
+  binding.logError(error,subject,info);
+ };
+ return {handle(error,subject,info){
+  // No fake pause of framework dependency collection: the selected experimental
+  // profile excludes stateful/reactive hook bodies, not the source public API.
+  const seen=new Set();let current=subject;
+  while((current=binding.parentOf(current))){
+   if(seen.has(current))throw new TypeError('Source v6 probe: cyclic ancestor mapping');
+   seen.add(current);const hooks=binding.hooksOf(current);
+   if(!Array.isArray(hooks)||hooks.some(h=>typeof h!=='function'))throw new TypeError('Source v6 probe: unsupported capture mapping');
+   for(const hook of hooks){
+    try{if(hook.call(current,error,subject,info)===false)return;}
+    catch(next){globalHandle(next,current,'errorCaptured hook');}
+   }
+  }
+  globalHandle(error,subject,info);
+ }};
+});
+const __watcherScope_v7Create=(function createAsyncWatcherScope(sourceFactory,subject,fields){
+ const fail=code=>{const e=new TypeError('Watcher v7 scope: '+code);e.code=code;throw e;};
+ if(typeof sourceFactory!=='function'||!subject||!Array.isArray(fields)||!fields.length
+   ||fields.some(f=>typeof f!=='string'||!f)||new Set(fields).size!==fields.length)fail('INVALID_SCOPE');
+ const names=fields.slice();let context=null,locked=false,disposed=false,pending=false,active=false;
+ return Object.freeze({
+  configure(binding){
+   if(disposed)fail('DISPOSED');if(locked)fail('CONFIGURATION_LOCKED');
+   if(typeof window==='undefined'||window===null||!window.document)fail('BROWSER_REQUIRED');
+   if(!binding||binding.channel!=='async-parent-watch'
+     ||binding.environment!=='browser'||binding.trackingPolicy!=='no-reactive-reads-or-writes')fail('UNSUPPORTED_PROFILE');
+   // Copy capability references: caller cannot replace the binding slots later.
+   // Their implementations remain trusted application code, not purity-proven.
+   const snapshot={environment:binding.environment,trackingPolicy:binding.trackingPolicy};
+   for(const key of ['parentOf','hooksOf','globalHandler','logError']){
+    const fn=binding[key];if(typeof fn!=='function')fail('MISSING_CAPABILITY');snapshot[key]=fn;
+   }
+   const next=sourceFactory(Object.freeze(snapshot));context=next;
+  },
+  schedule(flush){
+   if(disposed)fail('DISPOSED');if(pending||active)fail('REENTRANT_SCHEDULE');
+   if(typeof flush!=='function')fail('INVALID_FLUSH');
+   locked=true;pending=true;
+   return Promise.resolve().then(()=>{
+    pending=false;
+    // Keep the old queue's cancellation/reset path when disposed before tick.
+    if(disposed)return flush();
+    active=true;try{return flush();}finally{active=false;}
+   });
+  },
+  route(error,index){
+   if(disposed)fail('DISPOSED');if(!active)fail('OUTSIDE_ASYNC_DISPATCH');
+   if(!Number.isInteger(index)||index<0||index>=names.length)fail('INVALID_WATCHER_INDEX');
+   if(!context)return false;
+   context.handle(error,subject,'callback for watcher "'+names[index]+'"');return true;
+  },
+  dispose(){disposed=true;context=null;}
+ });
+});
+
+const __aliasBridge_v4=(function createAliasBridge(san){
+ const nodes=new WeakMap(),owners=new Set(),receivers=new WeakMap(),liveReceivers=new Set();
+ const own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k);
+ const scalar=v=>v===null||['undefined','boolean','number','string'].includes(typeof v);
+ const mutators=['push','pop','shift','unshift','splice','sort','reverse'];
+ const children=o=>Array.isArray(o)?o.filter(v=>!scalar(v)):
+   [...nodes.get(o).values.values()].filter(v=>!scalar(v));
+ function allowed(value,parents=[]){
+  if(scalar(value))return true;
+  if(typeof value!=='object'||parents.includes(value))return false;
+  const meta=nodes.get(value);
+  if(meta)return children(value).every(v=>allowed(v,parents.concat([value])));
+  const array=Array.isArray(value),names=Object.getOwnPropertyNames(value);
+  if(Object.getPrototypeOf(value)!==(array?Array.prototype:Object.prototype)
+    ||Object.getOwnPropertySymbols(value).length||own(value,'__ob__')||own(value,'__v_isRef')
+    ||!Object.isExtensible(value)||(array&&names.length!==value.length+1))return false;
+  return names.every(k=>{
+   if(array&&k==='length')return true;
+   if(array&&(!/^(0|[1-9][0-9]*)$/.test(k)||+k>=value.length))return false;
+   const d=Object.getOwnPropertyDescriptor(value,k);
+   return d.enumerable&&d.configurable&&d.writable&&own(d,'value')&&allowed(d.value,parents.concat([value]));
+  });
+ }
+ function requireValue(v,parents=[]){if(!allowed(v,parents))throw new TypeError('Alias v4 probe: unsupported observed value');}
+ function ancestors(root,target,result,seen=new Set()){
+  if(scalar(root)||seen.has(root)||!nodes.has(root))return false;
+  seen.add(root);let found=root===target;
+  for(const child of children(root))if(ancestors(child,target,result,new Set(seen)))found=true;
+  if(found)result.add(root);return found;
+ }
+ function changed(node){
+  const affected=new Set([node]),targets=[],bound=[];
+  for(const owner of owners){
+   for(const row of owner.rows){
+    const root=owner.instance.data.get(row.field);
+    if(ancestors(root,node,affected))targets.push([owner,row,root]);
+   }
+  }
+  // Source lazy child computed values are observable BEFORE the render tick.
+  // Invalidate already-bound shared values synchronously; do not forward a new
+  // prop or call a private renderer. The native binding still owns replacement.
+  for(const receiver of liveReceivers){
+   if(receiver.instance.lifeCycle?.disposed)continue;
+   for(const key of receiver.versions.keys()){
+    const value=receiver.data.get(key);
+    if(ancestors(value,node,affected))bound.push([receiver,key,value]);
+   }
+  }
+  for(const value of affected)nodes.get(value).version++;
+  for(const [owner,row,root] of targets){
+   owner.instance.data.set(row.field,root,{force:true});
+   owner.enqueue(row.queue_index);
+  }
+  for(const [receiver,key,value] of bound)receiver.data.set(key,value,{force:true});
+ }
+ function observe(value){
+  if(scalar(value)||nodes.has(value))return;
+  const meta={version:0,values:new Map()};nodes.set(value,meta);
+  if(Array.isArray(value)){
+   value.forEach(observe);
+   for(const name of mutators)Object.defineProperty(value,name,{configurable:true,writable:true,enumerable:false,
+    value:function(...args){
+     const inserted=name==='push'||name==='unshift'?args:name==='splice'?args.slice(2):[];
+     for(const v of inserted)requireValue(v,[this]);
+     const result=Array.prototype[name].apply(this,args);
+     inserted.forEach(observe);changed(this);return result;
+    }});
+  }else for(const key of Object.keys(value)){
+   let current=value[key];meta.values.set(key,current);observe(current);
+   Object.defineProperty(value,key,{enumerable:true,configurable:true,
+    get(){return current;},set(next){
+     if(Object.is(current,next))return;
+     requireValue(next,[value]);observe(next);current=next;meta.values.set(key,next);changed(value);
+    }});
+  }
+ }
+ function rootName(expr){
+  const parsed=san.parseExpr(expr);
+  return parsed?.paths?.length===1&&typeof parsed.paths[0].value==='string'?parsed.paths[0].value:null;
+ }
+ function receiver(instance){
+  const data=instance.data;
+  if(!data||receivers.has(data))return null;
+  const original=data.set,versions=new Map();
+  for(const key of Object.keys(data.get())){
+   const v=data.get(key),m=v&&nodes.get(v);if(m)versions.set(key,{value:v,version:m.version});
+  }
+  const wrapped=function(expr,value,option){
+   const key=rootName(expr),meta=value&&nodes.get(value),before=versions.get(key);
+   if(meta&&key&&data.get(expr)===value&&before?.value===value&&before.version!==meta.version)
+    option={...option,force:true};
+   const result=original.call(data,expr,value,option);
+   if(key){if(meta)versions.set(key,{value,version:meta.version});else versions.delete(key);}
+   return result;
+  };
+  const record={instance,data,versions};liveReceivers.add(record);
+  data.set=wrapped;receivers.set(data,wrapped);
+  return ()=>{if(data.set===wrapped)data.set=original;receivers.delete(data);liveReceivers.delete(record);versions.clear();};
+ }
+ function parent(instance,rows,enqueue){
+  if(san.version!=='3.15.6')throw new TypeError('Alias v4 probe: pinned San 3.15.6 required');
+  // Validate the entire initial group BEFORE changing descriptors.
+  for(const row of rows){const root=instance.data.get(row.field);requireValue(root);
+   if(!root||Array.isArray(root)||typeof root!=='object')throw new TypeError('Alias v4 probe: object root required');}
+  for(const row of rows)observe(instance.data.get(row.field));
+  const owner={instance,rows,enqueue},restores=[];owners.add(owner);
+  const data=instance.data,original=data.set;
+  const wrapped=function(expr,value,option){
+   const parsed=san.parseExpr(expr),row=rows.find(r=>r.field===parsed?.paths?.[0]?.value);
+   if(row&&parsed.paths.length>1&&!option&&parsed.paths.every(p=>typeof p.value==='string'||typeof p.value==='number')){
+    const path=parsed.paths.map(p=>p.value),key=path.pop();let object=data.get(path.shift());
+    for(const k of path)object=object?.[k];
+    if(object&&nodes.get(object)?.values.has(String(key))){object[key]=value;return;}
+   }
+   if(row&&parsed.paths.length===1){requireValue(value);observe(value);}
+   const result=original.call(data,expr,value,option);
+   // Other native deep Data API routes still clone. Their silent/force/unknown
+   // path identity policies are not claimed equivalent by this experiment.
+   if(row){const root=data.get(row.field);requireValue(root);observe(root);}
+   return result;
+  };
+  data.set=wrapped;
+  const attachReceivers=()=>{
+   const visit=items=>{for(const child of items||[]){if(child.nodeType===5&&child.data){const undo=receiver(child);if(undo)restores.push(undo);}
+     visit(child.children);}};
+   visit(instance.children);
+  };
+  return {attachReceivers,
+   write(index,key,value){
+    const row=rows[index],object=data.get(row.field);
+    if(typeof key!=='string'||key==='__ob__')throw new TypeError('Alias v4 probe: unsupported key');
+    if(key==='__proto__'){
+     if(!scalar(value)&&(Object.getPrototypeOf(value)!==Object.prototype
+       ||!Object.getOwnPropertyNames(value).every(k=>{
+        const d=Object.getOwnPropertyDescriptor(value,k);return d.enumerable&&d.configurable&&d.writable&&own(d,'value')&&scalar(d.value);
+       })||Object.getOwnPropertySymbols(value).length))throw new TypeError('Alias v4 probe: unsupported prototype value');
+    }else requireValue(value);
+    // Existing observed keys invoke their own setter. New keys deliberately do
+    // not become reactive, just as raw Vue 2 object-key assignment does not.
+    object[key]=value;
+   },
+   dispose(){owners.delete(owner);for(const undo of restores)undo();restores.length=0;
+    if(data.set===wrapped)data.set=original;}
+  };
+ }
+ return {parent};
+})(san);
+module.exports=san.defineComponent({initData(){return {settings:{enabled:true,extra:{name:'initial',items:[{value:1}]}},count:0};},
+inited(){const __watcherScope_v7Local=__watcherScope_v7Create(__sourceErrorContext_v6Create,this,["settings"]);this.__watcherScope_v7Configure=binding=>__watcherScope_v7Local.configure(binding);let alive=true,waiting=false,flushing=false,cursor=0;const queue=[],pending=[],handlers=[()=>{this.recount();}];const reset=()=>{queue.length=0;pending.length=0;waiting=false;flushing=false;cursor=0;};const flush=()=>{if(!alive){reset();return;}flushing=true;queue.sort((a,b)=>a-b);try{for(cursor=0;cursor<queue.length;cursor++){if(!alive)break;const index=queue[cursor];pending[index]=false;try{handlers[index]();}catch(__parentWatchError_v5Error){if(!__watcherScope_v7Local.route(__parentWatchError_v5Error,index)){const __parentWatchError_v5Report=this.__parentWatchError_v5Reporter;if(typeof __parentWatchError_v5Report!=='function')throw __parentWatchError_v5Error;__parentWatchError_v5Report.call(null,__parentWatchError_v5Error,this,'callback for watcher "'+["settings"][index]+'"');}}}}finally{reset();}};const enqueue=index=>{if(!alive||pending[index])return;pending[index]=true;if(!flushing)queue.push(index);else{let at=queue.length-1;while(at>cursor&&queue[at]>index)at--;queue.splice(at+1,0,index);}if(!waiting){waiting=true;__watcherScope_v7Local.schedule(flush);}};this.__sourceParentWatchDispose_v1=()=>{alive=false;queue.length=0;pending.length=0;};this.watch("settings",()=>enqueue(0));this.__aliasBridge_v4Parent=__aliasBridge_v4.parent(this,[{"field":"settings","queue_index":0}],enqueue);const __watcherScope_v7Dispose=this.__sourceParentWatchDispose_v1;this.__sourceParentWatchDispose_v1=()=>{__watcherScope_v7Local.dispose();__watcherScope_v7Dispose();};},attached(){this.load();this.__aliasBridge_v4Parent.attachReceivers();},disposed(){this.__aliasBridge_v4Parent.dispose();this.__sourceParentWatchDispose_v1();},
+ assign(key,value){"use strict";this.data.get("settings")[key]=value;},load(){this.data.set('settings',{enabled:false,extra:{name:'initial',items:[{value:1}]}});},recount(){this.data.set('count',this.data.get('settings.enabled')?1:0);},updated(){this.__aliasBridge_v4Parent.attachReceivers();},__parentWatchError_v5Configure(reporter){
+   if(reporter!==null&&typeof reporter!=='function')throw new TypeError('Watcher v5 probe: reporter must be a function or null');
+   this.__parentWatchError_v5Reporter=reporter;
+ }});</script>

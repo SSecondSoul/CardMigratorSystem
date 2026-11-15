@@ -1,6 +1,7 @@
 import hashlib
 from copy import deepcopy
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any
 
 from migration_pipeline.stages.generate import GenerateStage, GenerateStageInput, GenerateStageResult
@@ -8,6 +9,7 @@ from migration_pipeline.stages.repair import RepairStage
 from migration_pipeline.stages.validate import ValidateStage
 from migration_pipeline.stages.visual_eval import VisualEvalStage
 from migration_pipeline.utils.repair_regression_guard import assess_event_contract_regression
+from migration_pipeline.utils.class_binding_semantics import class_binding_regression
 
 
 @dataclass
@@ -173,6 +175,16 @@ class MigrationPipelineOrchestrator:
         state.update(visual_update)
         state["initial_visual_eval_result"] = state["visual_eval_result"]
 
+        if stage_input.metadata.get("repair_policy") == "bounded_prepass_v1":
+            from migration_pipeline.utils.repair_scheduler import run_bounded_repair_loop
+
+            run_bounded_repair_loop(self, state, max_repair_rounds)
+            return MigrationPipelineResult(
+                generate=generate_result, validate=state["final_validate_result"],
+                visual_eval=state["final_visual_eval_result"],
+                repair=state.get("repair_result"), state=state,
+            )
+
         while self._should_continue_repair(state, max_repair_rounds):
             before_code = state.get("generated_code", "")
             before_errors = deepcopy(state.get("validation_errors", []))
@@ -207,6 +219,18 @@ class MigrationPipelineOrchestrator:
             else:
                 state["repair_regression_gate"] = None
                 state["repair_regression_rejected"] = False
+
+            # Class regressions must not depend on a focused prompt's wording.
+            class_vue = stage_input.vue_source or ""
+            if not class_vue and stage_input.vue_file_path and Path(stage_input.vue_file_path).is_file():
+                class_vue = Path(stage_input.vue_file_path).read_text(encoding="utf-8")
+            class_gate = class_binding_regression(before_code, state.get('generated_code', ''),
+                class_vue, state.get('validation_errors', []))
+            state['class_binding_regression_gate'] = class_gate
+            if class_gate['should_stop']:
+                state['repair_regression_gate'] = {**(state['repair_regression_gate'] or {}),
+                    'class_binding': class_gate, 'should_stop': True, 'decision': 'reject'}
+                state['repair_regression_rejected'] = True
 
             progress_signature = self._build_progress_signature(state)
             previous_signature = (

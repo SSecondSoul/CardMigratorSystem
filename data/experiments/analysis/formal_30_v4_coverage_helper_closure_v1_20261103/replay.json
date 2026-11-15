@@ -1,0 +1,1106 @@
+{
+  "created_at": "2026-11-03T18:32:35+08:00",
+  "classification": "offline_coverage_and_private_helper_development_closure_not_fresh_model_score",
+  "source_snapshot": "formal_30_v4_semantic_closure_v3_results_20261103_175401",
+  "verified_files": 315,
+  "source_repair_history_sha256": "18bc99f4a892d49b98ab32a7adb4b3c35d5ba193def7d10bc869823615993332",
+  "source_summary_sha256": "3830f7a2c4d74e4bd556d5a56b810b79bae63a0842e9bb24beea0a9c7a5fb043",
+  "original_batch_passed": false,
+  "model_requests": 0,
+  "browser_interaction_test_performed": false,
+  "known_transition_gate": {
+    "decision": "pass",
+    "should_stop": false,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "new_pre_mount_state_writes": [],
+    "unjustified_pre_mount_state_writes": [],
+    "before": {
+      "exact": [
+        "click:toggleTheme",
+        "click:exportReport",
+        "bar-click:onBarClick",
+        "click:clearAlerts",
+        "acknowledge:acknowledgeAlert",
+        "resolve:resolveAlert",
+        "change:filterLogs",
+        "click:clearLogs",
+        "log-click:onLogClick",
+        "click:refreshServices",
+        "service-click:onServiceClick",
+        "save:saveSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [
+        "click:onKPIClick(kpi)",
+        "click:changePeriod(period.value)"
+      ],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false",
+        "cancel:showSettings = false"
+      ],
+      "proven_self_wrappers": []
+    },
+    "after": {
+      "exact": [
+        "click:toggleTheme",
+        "click:exportReport",
+        "click:changePeriod(period.value)",
+        "bar-click:onBarClick",
+        "click:clearAlerts",
+        "acknowledge:acknowledgeAlert",
+        "resolve:resolveAlert",
+        "change:filterLogs",
+        "click:clearLogs",
+        "log-click:onLogClick",
+        "click:refreshServices",
+        "service-click:onServiceClick",
+        "save:saveSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [
+        "click:onKPIClick(kpi)"
+      ],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false",
+        "cancel:showSettings = false"
+      ],
+      "proven_self_wrappers": []
+    },
+    "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+    "semantic_coverage_assessment": {
+      "status": "source_recovery_and_identical_scoped_calls",
+      "before_parse_status": "source_registered_recovery",
+      "parent_inited_unchanged": true,
+      "pairs": [
+        {
+          "tag": "real-time-chart",
+          "before_name": "__sanInline_real_time_chart",
+          "after_name": "RealTimeChart",
+          "method": "getX",
+          "binding": "cx",
+          "render_calls": [
+            {
+              "binding": "cx",
+              "path": "root/div:0/svg:0/circle:4",
+              "expression": "getX(idx)"
+            }
+          ],
+          "method_sha256": "bc837c3e1470ce19e11ef4b0c082d00c54b663e59cd44bd15edba2d665247c0c"
+        },
+        {
+          "tag": "real-time-chart",
+          "before_name": "__sanInline_real_time_chart",
+          "after_name": "RealTimeChart",
+          "method": "getY",
+          "binding": "cy",
+          "render_calls": [
+            {
+              "binding": "cy",
+              "path": "root/div:0/svg:0/circle:4",
+              "expression": "getY(point)"
+            }
+          ],
+          "method_sha256": "f61961c2dd87c3c520cefd218e17a2c4edd2341b57e7d591ad4e39b212ec5b9c"
+        },
+        {
+          "tag": "request-chart",
+          "before_name": "__sanInline_request_chart",
+          "after_name": "RequestChart",
+          "method": "getX",
+          "binding": "x",
+          "render_calls": [
+            {
+              "binding": "x",
+              "path": "root/div:0/svg:0/g:0/rect:0",
+              "expression": "getX(idx)"
+            },
+            {
+              "binding": "x",
+              "path": "root/div:0/svg:0/g:0/text:1",
+              "expression": "getX(idx)+barWidth/2"
+            }
+          ],
+          "method_sha256": "4e36e4f754bd65dd89bd099d2099bda2d5f651b059bf7f87f08868df2b764394"
+        },
+        {
+          "tag": "request-chart",
+          "before_name": "__sanInline_request_chart",
+          "after_name": "RequestChart",
+          "method": "getHeight",
+          "binding": "height",
+          "render_calls": [
+            {
+              "binding": "height",
+              "path": "root/div:0/svg:0/g:0/rect:0",
+              "expression": "getHeight(item.count)"
+            }
+          ],
+          "method_sha256": "9c0fd2c66a9eba86b4ff6bf7bc5ce8a006aaec2aafcc95511ca564b9230f017b"
+        },
+        {
+          "tag": "request-chart",
+          "before_name": "__sanInline_request_chart",
+          "after_name": "RequestChart",
+          "method": "getColor",
+          "binding": "fill",
+          "render_calls": [
+            {
+              "binding": "fill",
+              "path": "root/div:0/svg:0/g:0/rect:0",
+              "expression": "getColor(item.status)"
+            }
+          ],
+          "method_sha256": "259c0bde7d55d4f47007257e792ce04fcb9a364c87cddf503fa783549a75f3f5"
+        },
+        {
+          "tag": "service-grid",
+          "before_name": "__sanInline_service_grid",
+          "after_name": "ServiceGrid",
+          "method": "getProgressColor",
+          "binding": "style",
+          "render_calls": [
+            {
+              "binding": "style",
+              "path": "root/div:0/div:0/div:2/div:0",
+              "expression": "\"width: \"+service.availability+\"%; background: \"+getProgressColor(service.availability)+\";\""
+            }
+          ],
+          "method_sha256": "47a5022b390d6b7a45f9b7c1ddd45bef097537393f03e8394acd1fdc847fde5e"
+        }
+      ]
+    },
+    "newly_visible_preexisting_semantic_findings": [
+      {
+        "code": "hidden_template_reactive_dependency",
+        "location": "script.RealTimeChart.template",
+        "message": "模板 cx 渲染表达式调用 getX(...)，但该方法内部隐藏读取响应式字段：dataPoints, width。这些字段变化时，San 可能不会重新计算该绑定。",
+        "count": 1
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "location": "script.RealTimeChart.template",
+        "message": "模板 cy 渲染表达式调用 getY(...)，但该方法内部隐藏读取响应式字段：height, maxValue, minValue。这些字段变化时，San 可能不会重新计算该绑定。",
+        "count": 1
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "location": "script.RequestChart.template",
+        "message": "模板 height 渲染表达式调用 getHeight(...)，但该方法内部隐藏读取响应式字段：maxCount。这些字段变化时，San 可能不会重新计算该绑定。",
+        "count": 1
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "location": "script.RequestChart.template",
+        "message": "模板 x 渲染表达式调用 getX(...)，但该方法内部隐藏读取响应式字段：data。这些字段变化时，San 可能不会重新计算该绑定。",
+        "count": 1
+      },
+      {
+        "code": "source_watch_persistence_not_landed",
+        "location": "script.watch.settings",
+        "message": "Source watcher settings is missing its trailing localStorage.setItem write.",
+        "count": 1
+      }
+    ],
+    "introduced_semantic_findings": [],
+    "introduced_critical_errors": [],
+    "lost_visual_pass": false
+  },
+  "changed_calculation_counterexample_gate": {
+    "decision": "reject",
+    "should_stop": true,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "new_pre_mount_state_writes": [],
+    "unjustified_pre_mount_state_writes": [],
+    "before": {
+      "exact": [
+        "click:toggleTheme",
+        "click:exportReport",
+        "bar-click:onBarClick",
+        "click:clearAlerts",
+        "acknowledge:acknowledgeAlert",
+        "resolve:resolveAlert",
+        "change:filterLogs",
+        "click:clearLogs",
+        "log-click:onLogClick",
+        "click:refreshServices",
+        "service-click:onServiceClick",
+        "save:saveSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [
+        "click:onKPIClick(kpi)",
+        "click:changePeriod(period.value)"
+      ],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false",
+        "cancel:showSettings = false"
+      ],
+      "proven_self_wrappers": []
+    },
+    "after": {
+      "exact": [
+        "click:toggleTheme",
+        "click:exportReport",
+        "click:changePeriod(period.value)",
+        "bar-click:onBarClick",
+        "click:clearAlerts",
+        "acknowledge:acknowledgeAlert",
+        "resolve:resolveAlert",
+        "change:filterLogs",
+        "click:clearLogs",
+        "log-click:onLogClick",
+        "click:refreshServices",
+        "service-click:onServiceClick",
+        "save:saveSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [
+        "click:onKPIClick(kpi)"
+      ],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false",
+        "cancel:showSettings = false"
+      ],
+      "proven_self_wrappers": []
+    },
+    "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+    "semantic_coverage_assessment": {
+      "status": "source_recovery_and_identical_scoped_calls",
+      "before_parse_status": "source_registered_recovery",
+      "parent_inited_unchanged": true,
+      "pairs": [
+        {
+          "tag": "real-time-chart",
+          "before_name": "__sanInline_real_time_chart",
+          "after_name": "RealTimeChart",
+          "method": "getX",
+          "binding": "cx",
+          "render_calls": [
+            {
+              "binding": "cx",
+              "path": "root/div:0/svg:0/circle:4",
+              "expression": "getX(idx)"
+            }
+          ],
+          "method_sha256": "bc837c3e1470ce19e11ef4b0c082d00c54b663e59cd44bd15edba2d665247c0c"
+        },
+        {
+          "tag": "real-time-chart",
+          "before_name": "__sanInline_real_time_chart",
+          "after_name": "RealTimeChart",
+          "method": "getY",
+          "binding": "cy",
+          "render_calls": [
+            {
+              "binding": "cy",
+              "path": "root/div:0/svg:0/circle:4",
+              "expression": "getY(point)"
+            }
+          ],
+          "method_sha256": "f61961c2dd87c3c520cefd218e17a2c4edd2341b57e7d591ad4e39b212ec5b9c"
+        },
+        {
+          "tag": "request-chart",
+          "before_name": "__sanInline_request_chart",
+          "after_name": "RequestChart",
+          "method": "getHeight",
+          "binding": "height",
+          "render_calls": [
+            {
+              "binding": "height",
+              "path": "root/div:0/svg:0/g:0/rect:0",
+              "expression": "getHeight(item.count)"
+            }
+          ],
+          "method_sha256": "9c0fd2c66a9eba86b4ff6bf7bc5ce8a006aaec2aafcc95511ca564b9230f017b"
+        },
+        {
+          "tag": "request-chart",
+          "before_name": "__sanInline_request_chart",
+          "after_name": "RequestChart",
+          "method": "getColor",
+          "binding": "fill",
+          "render_calls": [
+            {
+              "binding": "fill",
+              "path": "root/div:0/svg:0/g:0/rect:0",
+              "expression": "getColor(item.status)"
+            }
+          ],
+          "method_sha256": "259c0bde7d55d4f47007257e792ce04fcb9a364c87cddf503fa783549a75f3f5"
+        },
+        {
+          "tag": "service-grid",
+          "before_name": "__sanInline_service_grid",
+          "after_name": "ServiceGrid",
+          "method": "getProgressColor",
+          "binding": "style",
+          "render_calls": [
+            {
+              "binding": "style",
+              "path": "root/div:0/div:0/div:2/div:0",
+              "expression": "\"width: \"+service.availability+\"%; background: \"+getProgressColor(service.availability)+\";\""
+            }
+          ],
+          "method_sha256": "47a5022b390d6b7a45f9b7c1ddd45bef097537393f03e8394acd1fdc847fde5e"
+        }
+      ]
+    },
+    "newly_visible_preexisting_semantic_findings": [
+      {
+        "code": "hidden_template_reactive_dependency",
+        "location": "script.RealTimeChart.template",
+        "message": "模板 cx 渲染表达式调用 getX(...)，但该方法内部隐藏读取响应式字段：dataPoints, width。这些字段变化时，San 可能不会重新计算该绑定。",
+        "count": 1
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "location": "script.RealTimeChart.template",
+        "message": "模板 cy 渲染表达式调用 getY(...)，但该方法内部隐藏读取响应式字段：height, maxValue, minValue。这些字段变化时，San 可能不会重新计算该绑定。",
+        "count": 1
+      },
+      {
+        "code": "hidden_template_reactive_dependency",
+        "location": "script.RequestChart.template",
+        "message": "模板 height 渲染表达式调用 getHeight(...)，但该方法内部隐藏读取响应式字段：maxCount。这些字段变化时，San 可能不会重新计算该绑定。",
+        "count": 1
+      },
+      {
+        "code": "source_watch_persistence_not_landed",
+        "location": "script.watch.settings",
+        "message": "Source watcher settings is missing its trailing localStorage.setItem write.",
+        "count": 1
+      }
+    ],
+    "introduced_semantic_findings": [
+      {
+        "code": "hidden_template_reactive_dependency",
+        "location": "script.RequestChart.template",
+        "message": "模板 x 渲染表达式调用 getX(...)，但该方法内部隐藏读取响应式字段：data。这些字段变化时，San 可能不会重新计算该绑定。",
+        "count": 1
+      }
+    ],
+    "introduced_critical_errors": [],
+    "lost_visual_pass": false
+  },
+  "cases": [
+    {
+      "case": "retained_failure",
+      "before": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v3_results_20261103_175401\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [
+          {
+            "code": "missing_data_types",
+            "message": "San 组件未使用 dataTypes。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "将 Vue props 迁移为 San dataTypes。"
+          },
+          {
+            "code": "unsupported_san_inline_template_math_global",
+            "message": "Inline child templates call Math directly in 1 interpolation(s).",
+            "severity": "error",
+            "location": "script.template",
+            "suggestion": "Move Math calculations to a child component method or computed value; bind the result through a San expression with explicit reactive arguments."
+          },
+          {
+            "code": "unsupported_san_inline_template_member_call",
+            "message": "Inline child render bindings call member methods: log.level.toUpperCase",
+            "severity": "error",
+            "location": "script.template",
+            "suggestion": "Move member calls in inline render expressions into top-level child methods; pass every reactive receiver and argument explicitly from the template."
+          },
+          {
+            "code": "invalid_inline_component_identifier",
+            "message": "Dashed custom-element tags used as JavaScript identifiers: alert-list, kpi-card, log-list, real-time-chart, request-chart, service-grid, settings-form",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "Use a valid variable such as const StatCard = san.defineComponent(...), then register the quoted tag as components: {'stat-card': StatCard}. Do not rename template tags or invent an undefined registry value."
+          },
+          {
+            "code": "invalid_san_event_handler_syntax",
+            "message": "San templates contain 5 invalid event binding(s).",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+          },
+          {
+            "code": "invalid_san_for_alias_syntax",
+            "message": "San templates contain 2 Vue-style tuple loop alias(es).",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "Write s-for=\"item, index in items trackby item.id\" without parentheses."
+          },
+          {
+            "code": "duplicate_class_attribute",
+            "message": "San template contains 4 element(s) with duplicate class attributes: <div>, <span>, <button>, <div>.",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "Merge static and dynamic classes into exactly one class attribute, for example class=\"filter-tab {{ active ? 'active' : '' }}\"."
+          },
+          {
+            "code": "missing_self_click_guard",
+            "message": "San click handlers on source @click.self overlays are unguarded: [('modal-overlay', 48)]",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "Guard with event.target === event.currentTarget; inner clicks must not close the overlay."
+          },
+          {
+            "code": "invalid_san_computed_instance_method_call",
+            "message": "San computed callbacks call component methods unavailable in their computed context: getX, getY",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 acknowledgeAlert(...) 直接修改了来自 San data 的对象或数组引用：activeAlerts。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 activeAlerts；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 addAlert(...) 直接修改了来自 San data 的对象或数组引用：activeAlerts。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 activeAlerts；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 addLog(...) 直接修改了来自 San data 的对象或数组引用：systemLogs。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 systemLogs；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 hideNotification(...) 直接修改了来自 San data 的对象或数组引用：notification。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 notification；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 resolveAlert(...) 直接修改了来自 San data 的对象或数组引用：activeAlerts, alertHistory。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 activeAlerts, alertHistory；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 simulateDataUpdate(...) 直接修改了来自 San data 的对象或数组引用：cpuHistory, kpiData, memoryHistory。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 cpuHistory, kpiData, memoryHistory；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "san_script_compile_error",
+            "message": "Missing initializer in const declaration",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "根据编译错误修正 San script 语法或组件导出结构。"
+          },
+          {
+            "code": "event_arguments_not_landed",
+            "message": "San 事件绑定未完整保留源事件参数。缺失：click:changePeriod(period.value), click:onKPIClick(kpi)。",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+          },
+          {
+            "code": "missing_lifecycle_mapping",
+            "message": "以下生命周期映射未在 San 中找到：beforeDestroy -> disposed。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "将 Vue 生命周期迁移到对应 San 生命周期，或确认逻辑已合并到其他生命周期中。"
+          }
+        ],
+        "visual_eval_errors": [
+          {
+            "code": "san_render_failed",
+            "message": "san 渲染失败：san_render_failed",
+            "severity": "error",
+            "location": "render",
+            "suggestion": "根据 render diagnostics 修复组件运行时问题。"
+          },
+          {
+            "code": "san_san_render_error",
+            "message": "Missing initializer in const declaration",
+            "severity": "error",
+            "location": "render",
+            "suggestion": "检查模板表达式、数据初始化、props 或生命周期逻辑。"
+          }
+        ],
+        "visual_eval_passed": false,
+        "validation_passed": false,
+        "structure_similarity": 0.0
+      },
+      "after": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v3_results_20261103_175401\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [
+          {
+            "code": "unsupported_san_inline_template_math_global",
+            "message": "Inline child templates call Math directly in 1 interpolation(s).",
+            "severity": "error",
+            "location": "script.template",
+            "suggestion": "Move Math calculations to a child component method or computed value; bind the result through a San expression with explicit reactive arguments."
+          },
+          {
+            "code": "unsupported_san_inline_template_member_call",
+            "message": "Inline child render bindings call member methods: log.level.toUpperCase",
+            "severity": "error",
+            "location": "script.template",
+            "suggestion": "Move member calls in inline render expressions into top-level child methods; pass every reactive receiver and argument explicitly from the template."
+          },
+          {
+            "code": "invalid_san_event_handler_syntax",
+            "message": "San templates contain 5 invalid event binding(s).",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+          },
+          {
+            "code": "invalid_san_for_alias_syntax",
+            "message": "San templates contain 2 Vue-style tuple loop alias(es).",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "Write s-for=\"item, index in items trackby item.id\" without parentheses."
+          },
+          {
+            "code": "duplicate_class_attribute",
+            "message": "San template contains 4 element(s) with duplicate class attributes: <div>, <span>, <button>, <div>.",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "Merge static and dynamic classes into exactly one class attribute, for example class=\"filter-tab {{ active ? 'active' : '' }}\"."
+          },
+          {
+            "code": "missing_self_click_guard",
+            "message": "San click handlers on source @click.self overlays are unguarded: [('modal-overlay', 48)]",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "Guard with event.target === event.currentTarget; inner clicks must not close the overlay."
+          },
+          {
+            "code": "duplicate_class_attribute",
+            "message": "Inline component __sanInline_kpi_card has duplicate class attributes on <div>.",
+            "severity": "error",
+            "location": "script.__sanInline_kpi_card.template",
+            "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+          },
+          {
+            "code": "duplicate_class_attribute",
+            "message": "Inline component __sanInline_real_time_chart has duplicate class attributes on <div>.",
+            "severity": "error",
+            "location": "script.__sanInline_real_time_chart.template",
+            "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+          },
+          {
+            "code": "duplicate_class_attribute",
+            "message": "Inline component __sanInline_alert_list has duplicate class attributes on <div>.",
+            "severity": "error",
+            "location": "script.__sanInline_alert_list.template",
+            "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+          },
+          {
+            "code": "duplicate_class_attribute",
+            "message": "Inline component __sanInline_log_list has duplicate class attributes on <span>.",
+            "severity": "error",
+            "location": "script.__sanInline_log_list.template",
+            "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+          },
+          {
+            "code": "duplicate_class_attribute",
+            "message": "Inline component __sanInline_service_grid has duplicate class attributes on <span>.",
+            "severity": "error",
+            "location": "script.__sanInline_service_grid.template",
+            "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 acknowledgeAlert(...) 直接修改了来自 San data 的对象或数组引用：activeAlerts。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 activeAlerts；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 addAlert(...) 直接修改了来自 San data 的对象或数组引用：activeAlerts。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 activeAlerts；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 addLog(...) 直接修改了来自 San data 的对象或数组引用：systemLogs。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 systemLogs；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 hideNotification(...) 直接修改了来自 San data 的对象或数组引用：notification。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 notification；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 resolveAlert(...) 直接修改了来自 San data 的对象或数组引用：activeAlerts, alertHistory。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 activeAlerts, alertHistory；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "nested_state_mutation",
+            "message": "方法 simulateDataUpdate(...) 直接修改了来自 San data 的对象或数组引用：cpuHistory, kpiData, memoryHistory。原地修改可能绕过响应式更新。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 cpuHistory, kpiData, memoryHistory；不要直接修改其属性或调用 push/splice。"
+          },
+          {
+            "code": "event_arguments_not_landed",
+            "message": "San 事件绑定未完整保留源事件参数。缺失：click:changePeriod(period.value), click:onKPIClick(kpi)。",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+          },
+          {
+            "code": "missing_lifecycle_mapping",
+            "message": "以下生命周期映射未在 San 中找到：beforeDestroy -> disposed。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "将 Vue 生命周期迁移到对应 San 生命周期，或确认逻辑已合并到其他生命周期中。"
+          }
+        ],
+        "visual_eval_errors": [],
+        "visual_eval_passed": true,
+        "validation_passed": false,
+        "structure_similarity": 0.9781
+      },
+      "steps": [
+        {
+          "rules": [
+            "recovered_source_registered_inline_identifiers",
+            "explicit_readonly_inline_helper_dependencies",
+            "lifted_self_contained_computed_helper",
+            "restored_inline_source_prop_schema",
+            "restored_source_watch_persistence"
+          ],
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [
+                "click:onKPIClick(kpi)",
+                "click:changePeriod(period.value)"
+              ],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "after": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [
+                "click:onKPIClick(kpi)",
+                "click:changePeriod(period.value)"
+              ],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "semantic_coverage_assessment": {
+              "status": "not_needed",
+              "proven_pairs": []
+            },
+            "newly_visible_preexisting_semantic_findings": [],
+            "introduced_semantic_findings": [],
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "evaluation": {
+            "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v3_results_20261103_175401\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+            "validation_errors": [
+              {
+                "code": "unsupported_san_inline_template_math_global",
+                "message": "Inline child templates call Math directly in 1 interpolation(s).",
+                "severity": "error",
+                "location": "script.template",
+                "suggestion": "Move Math calculations to a child component method or computed value; bind the result through a San expression with explicit reactive arguments."
+              },
+              {
+                "code": "unsupported_san_inline_template_member_call",
+                "message": "Inline child render bindings call member methods: log.level.toUpperCase",
+                "severity": "error",
+                "location": "script.template",
+                "suggestion": "Move member calls in inline render expressions into top-level child methods; pass every reactive receiver and argument explicitly from the template."
+              },
+              {
+                "code": "invalid_san_event_handler_syntax",
+                "message": "San templates contain 5 invalid event binding(s).",
+                "severity": "error",
+                "location": "template",
+                "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+              },
+              {
+                "code": "invalid_san_for_alias_syntax",
+                "message": "San templates contain 2 Vue-style tuple loop alias(es).",
+                "severity": "error",
+                "location": "template",
+                "suggestion": "Write s-for=\"item, index in items trackby item.id\" without parentheses."
+              },
+              {
+                "code": "duplicate_class_attribute",
+                "message": "San template contains 4 element(s) with duplicate class attributes: <div>, <span>, <button>, <div>.",
+                "severity": "error",
+                "location": "template",
+                "suggestion": "Merge static and dynamic classes into exactly one class attribute, for example class=\"filter-tab {{ active ? 'active' : '' }}\"."
+              },
+              {
+                "code": "missing_self_click_guard",
+                "message": "San click handlers on source @click.self overlays are unguarded: [('modal-overlay', 48)]",
+                "severity": "error",
+                "location": "template",
+                "suggestion": "Guard with event.target === event.currentTarget; inner clicks must not close the overlay."
+              },
+              {
+                "code": "duplicate_class_attribute",
+                "message": "Inline component __sanInline_kpi_card has duplicate class attributes on <div>.",
+                "severity": "error",
+                "location": "script.__sanInline_kpi_card.template",
+                "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+              },
+              {
+                "code": "duplicate_class_attribute",
+                "message": "Inline component __sanInline_real_time_chart has duplicate class attributes on <div>.",
+                "severity": "error",
+                "location": "script.__sanInline_real_time_chart.template",
+                "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+              },
+              {
+                "code": "duplicate_class_attribute",
+                "message": "Inline component __sanInline_alert_list has duplicate class attributes on <div>.",
+                "severity": "error",
+                "location": "script.__sanInline_alert_list.template",
+                "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+              },
+              {
+                "code": "duplicate_class_attribute",
+                "message": "Inline component __sanInline_log_list has duplicate class attributes on <span>.",
+                "severity": "error",
+                "location": "script.__sanInline_log_list.template",
+                "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+              },
+              {
+                "code": "duplicate_class_attribute",
+                "message": "Inline component __sanInline_service_grid has duplicate class attributes on <span>.",
+                "severity": "error",
+                "location": "script.__sanInline_service_grid.template",
+                "suggestion": "Merge static and dynamic classes into one attribute, for example class=\"trend-chart {{ loading ? 'chart-loading' : '' }}\"."
+              },
+              {
+                "code": "nested_state_mutation",
+                "message": "方法 acknowledgeAlert(...) 直接修改了来自 San data 的对象或数组引用：activeAlerts。原地修改可能绕过响应式更新。",
+                "severity": "error",
+                "location": "script",
+                "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 activeAlerts；不要直接修改其属性或调用 push/splice。"
+              },
+              {
+                "code": "nested_state_mutation",
+                "message": "方法 addAlert(...) 直接修改了来自 San data 的对象或数组引用：activeAlerts。原地修改可能绕过响应式更新。",
+                "severity": "error",
+                "location": "script",
+                "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 activeAlerts；不要直接修改其属性或调用 push/splice。"
+              },
+              {
+                "code": "nested_state_mutation",
+                "message": "方法 addLog(...) 直接修改了来自 San data 的对象或数组引用：systemLogs。原地修改可能绕过响应式更新。",
+                "severity": "error",
+                "location": "script",
+                "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 systemLogs；不要直接修改其属性或调用 push/splice。"
+              },
+              {
+                "code": "nested_state_mutation",
+                "message": "方法 hideNotification(...) 直接修改了来自 San data 的对象或数组引用：notification。原地修改可能绕过响应式更新。",
+                "severity": "error",
+                "location": "script",
+                "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 notification；不要直接修改其属性或调用 push/splice。"
+              },
+              {
+                "code": "nested_state_mutation",
+                "message": "方法 resolveAlert(...) 直接修改了来自 San data 的对象或数组引用：activeAlerts, alertHistory。原地修改可能绕过响应式更新。",
+                "severity": "error",
+                "location": "script",
+                "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 activeAlerts, alertHistory；不要直接修改其属性或调用 push/splice。"
+              },
+              {
+                "code": "nested_state_mutation",
+                "message": "方法 simulateDataUpdate(...) 直接修改了来自 San data 的对象或数组引用：cpuHistory, kpiData, memoryHistory。原地修改可能绕过响应式更新。",
+                "severity": "error",
+                "location": "script",
+                "suggestion": "使用 map、filter、concat、Object.assign({}, ...) 或对象展开创建新对象/数组，然后通过 this.data.set(...) 写回 cpuHistory, kpiData, memoryHistory；不要直接修改其属性或调用 push/splice。"
+              },
+              {
+                "code": "event_arguments_not_landed",
+                "message": "San 事件绑定未完整保留源事件参数。缺失：click:changePeriod(period.value), click:onKPIClick(kpi)。",
+                "severity": "error",
+                "location": "template",
+                "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+              },
+              {
+                "code": "missing_lifecycle_mapping",
+                "message": "以下生命周期映射未在 San 中找到：beforeDestroy -> disposed。",
+                "severity": "error",
+                "location": "script",
+                "suggestion": "将 Vue 生命周期迁移到对应 San 生命周期，或确认逻辑已合并到其他生命周期中。"
+              }
+            ],
+            "visual_eval_errors": [],
+            "visual_eval_passed": true,
+            "validation_passed": false,
+            "structure_similarity": 0.9781
+          }
+        }
+      ],
+      "passed_offline": false,
+      "output_sha256": "f38ffbceb4223a7b9a281212a3e211436f13c9eb122dfc0b11c20949a8b666f3"
+    },
+    {
+      "case": "rejected_candidate",
+      "before": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v3_results_20261103_175401\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [
+          {
+            "code": "invalid_san_event_handler_syntax",
+            "message": "San templates contain 3 invalid event binding(s).",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "Replace empty on-* handlers with named methods; use San value modifiers such as on-click=\"stop:handleClick\", not on-click.stop; move direct state assignments into handlers using this.data.set(...)."
+          },
+          {
+            "code": "invalid_san_computed_instance_method_call",
+            "message": "San computed callbacks call component methods unavailable in their computed context: getX, getY",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "Move reusable calculations to pure functions and pass this.data.get(...) values explicitly; do not call this.method(...) inside computed."
+          },
+          {
+            "code": "hidden_template_reactive_dependency",
+            "message": "模板 cx 渲染表达式调用 getX(...)，但该方法内部隐藏读取响应式字段：dataPoints, width。这些字段变化时，San 可能不会重新计算该绑定。",
+            "severity": "error",
+            "location": "script.RealTimeChart.template",
+            "suggestion": "在模板表达式中直接引用 dataPoints, width，或将这些字段作为参数显式传给 getX(...)。"
+          },
+          {
+            "code": "hidden_template_reactive_dependency",
+            "message": "模板 cy 渲染表达式调用 getY(...)，但该方法内部隐藏读取响应式字段：height, maxValue, minValue。这些字段变化时，San 可能不会重新计算该绑定。",
+            "severity": "error",
+            "location": "script.RealTimeChart.template",
+            "suggestion": "在模板表达式中直接引用 height, maxValue, minValue，或将这些字段作为参数显式传给 getY(...)。"
+          },
+          {
+            "code": "hidden_template_reactive_dependency",
+            "message": "模板 height 渲染表达式调用 getHeight(...)，但该方法内部隐藏读取响应式字段：maxCount。这些字段变化时，San 可能不会重新计算该绑定。",
+            "severity": "error",
+            "location": "script.RequestChart.template",
+            "suggestion": "在模板表达式中直接引用 maxCount，或将这些字段作为参数显式传给 getHeight(...)。"
+          },
+          {
+            "code": "hidden_template_reactive_dependency",
+            "message": "模板 x 渲染表达式调用 getX(...)，但该方法内部隐藏读取响应式字段：data。这些字段变化时，San 可能不会重新计算该绑定。",
+            "severity": "error",
+            "location": "script.RequestChart.template",
+            "suggestion": "在模板表达式中直接引用 data，或将这些字段作为参数显式传给 getX(...)。"
+          },
+          {
+            "code": "source_watch_persistence_not_landed",
+            "message": "Source watcher settings is missing its trailing localStorage.setItem write.",
+            "severity": "error",
+            "location": "script.watch.settings",
+            "suggestion": "Preserve proven source hook phase/order and watcher effects; do not duplicate startup calls."
+          },
+          {
+            "code": "event_arguments_not_landed",
+            "message": "San 事件绑定未完整保留源事件参数。缺失：click:onKPIClick(kpi)。",
+            "severity": "error",
+            "location": "template",
+            "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+          }
+        ],
+        "visual_eval_errors": [],
+        "visual_eval_passed": true,
+        "validation_passed": false,
+        "structure_similarity": 0.9912
+      },
+      "after": {
+        "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v3_results_20261103_175401\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+        "validation_errors": [],
+        "visual_eval_errors": [],
+        "visual_eval_passed": true,
+        "validation_passed": true,
+        "structure_similarity": 0.9825
+      },
+      "steps": [
+        {
+          "rules": [
+            "explicit_readonly_inline_helper_dependencies",
+            "lifted_self_contained_computed_helper",
+            "restored_inline_source_prop_schema",
+            "restored_source_loop_argument_binding",
+            "restored_source_watch_persistence",
+            "restored_unique_source_boolean_event_bindings"
+          ],
+          "gate": {
+            "decision": "pass",
+            "should_stop": false,
+            "introduced_event_error_codes": {},
+            "additional_unresolved_source_bindings": 0,
+            "new_pre_mount_state_writes": [],
+            "unjustified_pre_mount_state_writes": [],
+            "before": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "click:changePeriod(period.value)",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [
+                "click:onKPIClick(kpi)"
+              ],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "after": {
+              "exact": [
+                "click:toggleTheme",
+                "click:exportReport",
+                "click:onKPIClick(kpi)",
+                "click:changePeriod(period.value)",
+                "bar-click:onBarClick",
+                "click:clearAlerts",
+                "acknowledge:acknowledgeAlert",
+                "resolve:resolveAlert",
+                "change:filterLogs",
+                "click:clearLogs",
+                "log-click:onLogClick",
+                "click:refreshServices",
+                "service-click:onServiceClick",
+                "save:saveSettings",
+                "click:hideNotification"
+              ],
+              "plausible_aliases": [],
+              "unresolved": [],
+              "unassessed_source_expressions": [
+                "click:showSettings = true",
+                "click:showSettings = false",
+                "click:showSettings = false",
+                "cancel:showSettings = false"
+              ],
+              "proven_self_wrappers": []
+            },
+            "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+            "semantic_coverage_assessment": {
+              "status": "not_needed",
+              "proven_pairs": []
+            },
+            "newly_visible_preexisting_semantic_findings": [],
+            "introduced_semantic_findings": [],
+            "introduced_critical_errors": [],
+            "lost_visual_pass": false
+          },
+          "evaluation": {
+            "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v3_results_20261103_175401\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+            "validation_errors": [],
+            "visual_eval_errors": [],
+            "visual_eval_passed": true,
+            "validation_passed": true,
+            "structure_similarity": 0.9825
+          }
+        }
+      ],
+      "passed_offline": true,
+      "output_sha256": "db2df5182053d6a543eb1147791d8bde71fe80a868da05f3f41b857b2272468b"
+    }
+  ],
+  "original_summary_modified": false,
+  "boundary": "Latent findings stay validation errors. Only source-registered parse recovery plus identical scoped method/render calls (or identical parent inited/source watcher) qualify as pre-existing. Unknown proofs fail closed; no fresh generation, no manual pass. Private helper conversion requires readonly self-contained calculations, complete call coverage and exact arity. This changed-code bundle is not a new model-run protocol.",
+  "unit_tests": {
+    "passed": 319,
+    "failed": 0,
+    "elapsed_seconds": 142.262
+  }
+}

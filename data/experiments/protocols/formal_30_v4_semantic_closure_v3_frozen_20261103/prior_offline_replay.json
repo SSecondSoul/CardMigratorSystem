@@ -1,0 +1,142 @@
+{
+  "created_at": "2026-11-03T17:00:20+08:00",
+  "classification": "offline_known_failure_development_replay_not_fresh_model_regression",
+  "sample": "MonitoringDashboard",
+  "source_snapshot": "data/experiments/snapshots/formal_30_v4_semantic_closure_v2_results_20261103_160541",
+  "source_verified_files": 297,
+  "original_sha256": "74a28afb53b04aaa204c65aa0b2846bf9b25012bb9c5db74c0f050ddd097568c",
+  "source_vue": "data/experiments/snapshots/formal_30_v4_semantic_closure_v2_results_20261103_160541/protocol/frozen/data/datasets/components/03_complex/MonitoringDashboard/vue/MonitoringDashboard.vue",
+  "source_vue_sha256": "f669fc59619a30ce94cf8188b57124ae7e7084aa65d84604751391e73ab0ae4b",
+  "source_repair_history_sha256": "f3682f02901a2c8377a53871cb17ccd2cb2205a6805f474a8b5133c26cfc77c5",
+  "original_frozen_automatic_pass": false,
+  "before": {
+    "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v2_results_20261103_160541\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+    "validation_errors": [
+      {
+        "code": "source_mounted_order_not_landed",
+        "message": "Source mounted actions must run once in attached in source order, not in inited or reordered.",
+        "severity": "error",
+        "location": "script.attached",
+        "suggestion": "Preserve proven source hook phase/order and watcher effects; do not duplicate startup calls."
+      },
+      {
+        "code": "source_watch_persistence_not_landed",
+        "message": "Source watcher settings is missing its trailing localStorage.setItem write.",
+        "severity": "error",
+        "location": "script.watch.settings",
+        "suggestion": "Preserve proven source hook phase/order and watcher effects; do not duplicate startup calls."
+      },
+      {
+        "code": "event_arguments_not_landed",
+        "message": "San 事件绑定未完整保留源事件参数。缺失：click:onKPIClick(kpi)。",
+        "severity": "error",
+        "location": "template",
+        "suggestion": "直接使用 on-event=\"handler(arg)\" 保留 SSM handler_expression。"
+      },
+      {
+        "code": "lifecycle_behavior_not_landed",
+        "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 initData(), 调用方法 startDataSimulation(), 调用方法 startTimeUpdate()。",
+        "severity": "error",
+        "location": "script",
+        "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+      }
+    ],
+    "visual_eval_errors": [],
+    "visual_eval_passed": true,
+    "validation_passed": false,
+    "structure_similarity": 0.9912
+  },
+  "after": {
+    "vue_file_path": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\data\\experiments\\snapshots\\formal_30_v4_semantic_closure_v2_results_20261103_160541\\protocol\\frozen\\data\\datasets\\components\\03_complex\\MonitoringDashboard\\vue\\MonitoringDashboard.vue",
+    "validation_errors": [],
+    "visual_eval_errors": [],
+    "visual_eval_passed": true,
+    "validation_passed": true,
+    "structure_similarity": 0.9825
+  },
+  "applied_rules": [
+    "restored_source_loop_payload_handler",
+    "restored_source_mounted_phase_order",
+    "restored_source_watch_persistence"
+  ],
+  "candidate_gate": {
+    "decision": "pass",
+    "should_stop": false,
+    "introduced_event_error_codes": {},
+    "additional_unresolved_source_bindings": 0,
+    "new_pre_mount_state_writes": [],
+    "unjustified_pre_mount_state_writes": [],
+    "before": {
+      "exact": [
+        "click:toggleTheme",
+        "click:exportReport",
+        "click:changePeriod(period.value)",
+        "bar-click:onBarClick",
+        "click:clearAlerts",
+        "acknowledge:acknowledgeAlert",
+        "resolve:resolveAlert",
+        "change:filterLogs",
+        "click:clearLogs",
+        "log-click:onLogClick",
+        "click:refreshServices",
+        "service-click:onServiceClick",
+        "save:saveSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [
+        "click:onKPIClick(kpi)"
+      ],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false",
+        "cancel:showSettings = false"
+      ],
+      "proven_self_wrappers": []
+    },
+    "after": {
+      "exact": [
+        "click:toggleTheme",
+        "click:exportReport",
+        "click:onKPIClick(kpi)",
+        "click:changePeriod(period.value)",
+        "bar-click:onBarClick",
+        "click:clearAlerts",
+        "acknowledge:acknowledgeAlert",
+        "resolve:resolveAlert",
+        "change:filterLogs",
+        "click:clearLogs",
+        "log-click:onLogClick",
+        "click:refreshServices",
+        "service-click:onServiceClick",
+        "save:saveSettings",
+        "click:hideNotification"
+      ],
+      "plausible_aliases": [],
+      "unresolved": [],
+      "unassessed_source_expressions": [
+        "click:showSettings = true",
+        "click:showSettings = false",
+        "click:showSettings = false",
+        "cancel:showSettings = false"
+      ],
+      "proven_self_wrappers": []
+    },
+    "boundary": "Plausible aliases are not proof of equivalent behavior. New parent inited writes to fields loaded by source mounted methods require review; source created hooks and nested writes are not assessed.",
+    "introduced_semantic_findings": [],
+    "introduced_critical_errors": [],
+    "lost_visual_pass": false
+  },
+  "idempotence_passed": true,
+  "child_code_unchanged": true,
+  "css_unchanged": true,
+  "llm_requests": 0,
+  "fresh_generation_performed": false,
+  "browser_interaction_test_performed": false,
+  "manual_status": "not_evaluated",
+  "original_batch_summary_modified": false,
+  "boundary": "Current checker adds two source-proven findings. Original frozen scoring is unchanged. This replay fixes known bytes and cannot replace a new protocol/fresh model regression or prove all inline-child interactions, watcher behaviors, or the full 30-sample regression.",
+  "candidate_sha256": "28290086017b0568aa39db3936390668ce8ce1b08048a1f27050a424db77c968",
+  "candidate": "data/experiments/analysis/formal_30_v4_source_phase_closure_v1_20261103/MonitoringDashboard_offline_candidate.san"
+}

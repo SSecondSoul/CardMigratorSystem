@@ -1,0 +1,99 @@
+{
+  "evaluation_id": "pilot_9_v6_crisis_communication_hub_interactions",
+  "description": "Evaluate draft editing, audience selection, version creation, approval, and sending against the pilot_9_v6 CrisisCommunicationHub artifact without calling a model.",
+  "vue_file": "data/datasets/components/03_complex/CrisisCommunicationHub/vue/CrisisCommunicationHub.vue",
+  "san_file": "data/experiments/pipeline/batches/pilot_9_v6/complex/CrisisCommunicationHub_repaired.san",
+  "report_file": "data/experiments/interaction_reports/pilot_9_v6_crisis_communication_hub_interactions.json",
+  "fixed_now_ms": 1791446400000,
+  "scenarios": [
+    {
+      "name": "edit_subject",
+      "steps": [
+        {
+          "op": "call",
+          "method": "updateDraft",
+          "args": [
+            "editSubject",
+            {
+              "__event": true,
+              "target": {
+                "value": "服务恢复进展"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "toggle_audience",
+      "steps": [
+        {
+          "op": "call",
+          "method": "toggleAudience",
+          "args": [
+            "staff"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "save_version",
+      "steps": [
+        {
+          "op": "call",
+          "method": "saveVersion"
+        }
+      ]
+    },
+    {
+      "name": "approval_workflow",
+      "steps": [
+        {
+          "op": "call",
+          "method": "requestApproval"
+        },
+        {
+          "op": "call",
+          "method": "approve",
+          "args": [
+            "值班经理"
+          ]
+        },
+        {
+          "op": "call",
+          "method": "approve",
+          "args": [
+            "法务负责人"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "send_workflow",
+      "steps": [
+        {
+          "op": "call",
+          "method": "requestApproval"
+        },
+        {
+          "op": "call",
+          "method": "approve",
+          "args": [
+            "值班经理"
+          ]
+        },
+        {
+          "op": "call",
+          "method": "approve",
+          "args": [
+            "法务负责人"
+          ]
+        },
+        {
+          "op": "call",
+          "method": "send"
+        }
+      ]
+    }
+  ]
+}

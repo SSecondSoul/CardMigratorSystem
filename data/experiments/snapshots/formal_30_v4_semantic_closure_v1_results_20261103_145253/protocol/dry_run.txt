@@ -1,0 +1,66 @@
+runtime_settings: {"LLM_PROVIDER": "qwen", "LLM_MODEL": "qwen-plus", "LLM_BASE_URL": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions", "LLM_TIMEOUT": "600", "LOCAL_SERVER_HOST": "127.0.0.1", "LOCAL_SERVER_PORT": "8787", "LOCAL_SERVER_DEBUG": "0", "MIGRATION_GENERATION_TIMEOUT": "660", "MIGRATION_REPAIR_TIMEOUT": "660", "MIGRATION_GENERATION_API_URL": "http://127.0.0.1:8787/api/evaluation/generate", "MIGRATION_REPAIR_API_URL": "http://127.0.0.1:8787/api/evaluation/repair"}
+{
+  "batch_id": "formal_30_v4_semantic_closure_v1",
+  "config_sha256": "b1a64c6f3725e5cb55ca17fc6f07906719edff1eba0526b49712196286f29623",
+  "config_file": "migration_pipeline/batch_configs/formal_30_v4_semantic_closure_v1.json",
+  "max_repair_rounds": 3,
+  "summary_file": "data/experiments/batch_reports/formal_30_v4_semantic_closure_v1_summary.json",
+  "samples": [
+    {
+      "id": "TaskManager",
+      "component_name": "TaskManager",
+      "complexity": "complex",
+      "coverage_focus": [
+        "migration.class_binding_conversion",
+        "migration.event_name_conversion",
+        "migration.style_binding_conversion",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "scripts.has_watch",
+        "styles.has_dynamic_class",
+        "styles.has_dynamic_style",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "vue_file": "data/datasets/components/03_complex/TaskManager/vue/TaskManager.vue",
+      "output_file": "data/experiments/pipeline/batches/formal_30_v4_semantic_closure_v1/complex/TaskManager.san",
+      "report_file": "data/experiments/repair_reports/batches/formal_30_v4_semantic_closure_v1/complex/TaskManager_repair_history.json"
+    },
+    {
+      "id": "MonitoringDashboard",
+      "component_name": "MonitoringDashboard",
+      "complexity": "complex",
+      "coverage_focus": [
+        "migration.class_binding_conversion",
+        "migration.event_name_conversion",
+        "migration.style_binding_conversion",
+        "migration.v_for_conversion",
+        "migration.v_if_conversion",
+        "scripts.has_computed",
+        "scripts.has_data",
+        "scripts.has_lifecycle",
+        "scripts.has_methods",
+        "scripts.has_props",
+        "scripts.has_watch",
+        "styles.has_dynamic_class",
+        "styles.has_dynamic_style",
+        "styles.has_scoped",
+        "templates.has_v_bind",
+        "templates.has_v_for",
+        "templates.has_v_if",
+        "templates.has_v_on"
+      ],
+      "vue_file": "data/datasets/components/03_complex/MonitoringDashboard/vue/MonitoringDashboard.vue",
+      "output_file": "data/experiments/pipeline/batches/formal_30_v4_semantic_closure_v1/complex/MonitoringDashboard.san",
+      "report_file": "data/experiments/repair_reports/batches/formal_30_v4_semantic_closure_v1/complex/MonitoringDashboard_repair_history.json"
+    }
+  ]
+}

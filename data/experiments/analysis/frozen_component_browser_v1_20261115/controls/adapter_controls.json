@@ -1,0 +1,116 @@
+{
+  "checks": {
+    "vue_declared_sfc_dependency_mounted": true,
+    "san_declared_sfc_dependency_mounted": true,
+    "vue_scoped_parent_does_not_pierce_child": true,
+    "vue_scoped_parent_applies_to_child_root": true,
+    "full_page_below_fold_captured": true,
+    "height_mismatch_not_resized_or_given_fake_ssim": true,
+    "full_page_pixel_budget_blocks": true,
+    "horizontal_overflow_blocks": true,
+    "negative_page_does_not_erase_other_pages": true
+  },
+  "allPassed": true,
+  "moduleManifests": {
+    "module_vue": {
+      "spec": {
+        "framework": "vue",
+        "main": "Root.vue",
+        "modules": [
+          {
+            "id": "Leaf.vue",
+            "source": "<template><aside class=\"leaf\"><span class=\"inside\">child default</span></aside></template><script>module.exports={};</script><style scoped>.inside{color:rgb(0,0,255)}</style>",
+            "dependencies": {}
+          },
+          {
+            "id": "Root.vue",
+            "source": "<template><main class=\"parent\"><p class=\"inside own\">own</p><leaf-box/></main></template><script>const Leaf=require('./Leaf.vue');module.exports={components:{'leaf-box':Leaf}};</script><style scoped>.inside{color:rgb(255,0,0)}.leaf{padding:10px;border:1px solid black}</style>",
+            "dependencies": {
+              "./Leaf.vue": "Leaf.vue"
+            }
+          }
+        ],
+        "props": {},
+        "ready": {
+          "fields": [],
+          "equals": {},
+          "minLengths": {}
+        }
+      },
+      "manifest": [
+        {
+          "id": "Leaf.vue",
+          "sha256": "67381ff9aa60292a24cad20d3340f85bf1654ea5227351617d74409018d5224d",
+          "scriptSha256": "dd411c84150d6ec6eed8298d3f5d76be4c235b078c1a53e365285deb87cb2594",
+          "templateSha256": "490e986c3617d0eee59e68426dc7a9cc51b0cd8c2f7c36dc0fe03f0a0454b62b",
+          "scopeId": "data-v-c3c90198ef15",
+          "styleBlocks": 1,
+          "requires": [],
+          "scriptTransformed": false
+        },
+        {
+          "id": "Root.vue",
+          "sha256": "bd83498bfbeb2cc765782c01fb9451794108b62767ea703bda4c04b41b504552",
+          "scriptSha256": "85de936b7baafe4d5a43bc97b3406469ceb1e07b73f6ef9ef5c1f6fecc14cb3c",
+          "templateSha256": "edb0aac58a2bc100c388aac71371ef84a79ebbc9d66654b785ddd9ab6df2cb2e",
+          "scopeId": "data-v-c10ee96e0794",
+          "styleBlocks": 1,
+          "requires": [
+            "./Leaf.vue"
+          ],
+          "scriptTransformed": false
+        }
+      ]
+    },
+    "module_san": {
+      "spec": {
+        "framework": "san",
+        "main": "Root.san",
+        "modules": [
+          {
+            "id": "Leaf.san",
+            "source": "<template><aside class=\"leaf\"><span class=\"inside\">child default</span></aside></template><script>const san=require('san');module.exports=san.defineComponent({});</script><style>.leaf .inside{color:rgb(0,0,255)}</style>",
+            "dependencies": {}
+          },
+          {
+            "id": "Root.san",
+            "source": "<template><main class=\"parent\"><p class=\"inside own\">own</p><leaf-box/></main></template><script>const san=require('san'),Leaf=require('./Leaf.san');module.exports=san.defineComponent({components:{'leaf-box':Leaf}});</script><style>.own{color:rgb(255,0,0)}.leaf{padding:10px;border:1px solid black}</style>",
+            "dependencies": {
+              "./Leaf.san": "Leaf.san"
+            }
+          }
+        ],
+        "props": {},
+        "ready": {
+          "fields": [],
+          "equals": {},
+          "minLengths": {}
+        }
+      },
+      "manifest": [
+        {
+          "id": "Leaf.san",
+          "sha256": "1719bd0eef6b6364260d79a5cff731d9de89b79f40d5d5a64c13d67fbffb7b54",
+          "scriptSha256": "28b19844ffdeddb33f50484c46ea6963c4a8fbc60c62e31b773b791a6e4689c1",
+          "templateSha256": "490e986c3617d0eee59e68426dc7a9cc51b0cd8c2f7c36dc0fe03f0a0454b62b",
+          "scopeId": null,
+          "styleBlocks": 1,
+          "requires": [],
+          "scriptTransformed": false
+        },
+        {
+          "id": "Root.san",
+          "sha256": "0a7b90f5ad716dc35fcee7fa9dc5e07d6cb320a5757ee90caa876598c3d979b7",
+          "scriptSha256": "f89854914d6b8d0f27b0aa7803651251c1fd8d3c0c98396d1af4d2bef596bd2e",
+          "templateSha256": "edb0aac58a2bc100c388aac71371ef84a79ebbc9d66654b785ddd9ab6df2cb2e",
+          "scopeId": null,
+          "styleBlocks": 1,
+          "requires": [
+            "./Leaf.san"
+          ],
+          "scriptTransformed": false
+        }
+      ]
+    }
+  }
+}

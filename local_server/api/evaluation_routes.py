@@ -9,6 +9,7 @@ from flask import Blueprint, jsonify, request
 from SSM.extractors.factory import SSMFactory
 from local_server.client.factory import create_llm_client
 from local_server.config import settings
+from migration_pipeline.utils.class_binding_contract import CLASS_BINDING_RULE
 
 
 evaluation_bp = Blueprint("evaluation", __name__, url_prefix="/api/evaluation")
@@ -104,7 +105,7 @@ def _build_generation_prompt(ssm: dict[str, Any], extra_instruction: str = "") -
         "initData is San's state factory. Update every call to the renamed method and preserve mounted "
         "calls inside attached(), not in inited().\n"
     )
-    return data_access_rule + class_attribute_rule + directive_rule + watch_rule + component_rule + reserved_method_rule + (
+    return CLASS_BINDING_RULE + data_access_rule + class_attribute_rule + directive_rule + watch_rule + component_rule + reserved_method_rule + (
         "请仅基于给定 SSM 生成可运行、可直接落盘的 San 单文件组件代码。\n"
         "输出要求：\n"
         "1. 直接输出完整 .san 文件内容，必须包含 <template>、<script>、<style> 三段，不要输出解释或 Markdown 代码围栏。\n"
@@ -164,7 +165,7 @@ def _build_repair_prompt(payload: dict[str, Any]) -> str:
         "Avoid member calls in inline child render expressions: move collection checks and string "
         "formatting into top-level child methods with explicit reactive arguments.\n"
     )
-    return directive_rule + watch_rule + component_rule + reserved_method_rule + inline_render_rule + (
+    return CLASS_BINDING_RULE + directive_rule + watch_rule + component_rule + reserved_method_rule + inline_render_rule + (
         "你是一个 Vue 到 San 迁移修复专家。请根据 SSM、当前 San 代码和修复报告，输出修复后的完整 .san 文件。\n"
         "要求：只输出代码，不要输出解释或 Markdown 代码围栏。\n\n"
         "--- SSM ---\n"

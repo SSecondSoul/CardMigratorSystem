@@ -1,0 +1,182 @@
+{
+  "protocol_id": "native_browser_admission_v1_draft_20261115",
+  "status": "review_required",
+  "frozen": false,
+  "purpose": "Proposal for bounded native browser evidence admission; not a full-30 experiment freeze or production integration.",
+  "classification": "reused_development_calibration_not_independent_holdout",
+  "scope": {
+    "migration": "Vue source and necessary dependencies -> SSM -> San -> validation/evaluation -> feedback repair",
+    "runtime_interop": false,
+    "new_business_caller_protocol": false,
+    "planned_development_samples": 30,
+    "complexity_counts": {
+      "simple": 10,
+      "medium": 10,
+      "complex": 10
+    },
+    "old_result_replacement": false
+  },
+  "authority": {
+    "production_dispatch_allowed": false,
+    "model_calls_allowed": false,
+    "browser_runs_allowed": false,
+    "freeze_approval_record": null
+  },
+  "precedence": [
+    "evaluation_integrity",
+    "source_oracle",
+    "target_runtime_or_visual",
+    "visual_match_only"
+  ],
+  "severity": {
+    "evaluation_integrity": {
+      "level": "evidence_block",
+      "action": "review_evaluator_or_evidence",
+      "target_repair_allowed": false,
+      "counts_as_target_defect": false
+    },
+    "source_oracle": {
+      "level": "source_baseline_block",
+      "action": "review_source_oracle",
+      "target_repair_allowed": false,
+      "counts_as_target_defect": false
+    },
+    "target_runtime_or_visual": {
+      "level": "target_block",
+      "action": "review_target_candidate",
+      "target_repair_allowed": "offline_preview_only_if_all_binding_and_evidence_guards_pass",
+      "counts_as_target_defect": "only_with_valid_source_and_evidence"
+    },
+    "unsupported_or_unverified": {
+      "level": "capability_block",
+      "action": "record_unsupported_or_unverified",
+      "target_repair_allowed": false,
+      "counts_as_pass": false
+    },
+    "visual_match_only": {
+      "level": "observation_only",
+      "action": "retain_visual_match_only",
+      "counts_as_comprehensive_pass": false
+    }
+  },
+  "source_oracle_policy": {
+    "console_errors_block": true,
+    "console_warnings_block": true,
+    "unknown_origin_blocks": true,
+    "auto_suppress_warnings": false,
+    "auto_edit_source": false,
+    "warning_waivers": [],
+    "analytic_duplicate_key_warning_disposition": "remain_blocked_not_target_failure"
+  },
+  "threshold_proposal": {
+    "status": "pending_user_review_not_production_thresholds",
+    "native": {
+      "pixelTolerance": 0,
+      "maxChangedPixelRatio": 0,
+      "minSSIM": 0.999999999,
+      "critical_style_differences_allowed": 0,
+      "critical_rect_differences_allowed": 0,
+      "dimension_policy": "exact_no_resize_no_crop_no_fabricated_metric",
+      "image_masking_allowed": false
+    },
+    "legacy_dom": {
+      "structure_similarity_threshold": 0.95,
+      "text_similarity_threshold": 0.8,
+      "role": "separate_diagnostic_not_native_visual_or_semantic_substitute",
+      "render_skip_counts_as_pass": false
+    },
+    "qualification": "Conservative continuation of current calibration settings, not calibrated acceptable production tolerance or a claim of cross-machine equality."
+  },
+  "environment": {
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "capturePolicy": "full-page",
+    "deviceScaleFactor": 1,
+    "theme": "light",
+    "locale": "zh-CN",
+    "timezone": "Asia/Shanghai",
+    "epoch": 1794700800000,
+    "seed": 1729,
+    "scrollbarGutter": "stable",
+    "maxPixels": 4000000,
+    "repeatDelayMs": 120,
+    "storage_initial_state": "empty_per_page_context",
+    "same_scene_reload_preserves_storage": true,
+    "ready_deadline_ms": 3000,
+    "network": "own_exact_loopback_page_GET_only",
+    "oversize_policy": "blocked_capture_budget_not_resized_or_target_defect",
+    "timeout_policy": "blocked_evidence_not_silent_pass"
+  },
+  "gates": {
+    "mandatory": [
+      "compile",
+      "semantic_contract",
+      "native_runtime",
+      "native_visual",
+      "declared_native_interactions"
+    ],
+    "allowed_states": [
+      "pass",
+      "fail",
+      "blocked",
+      "not_run",
+      "not_applicable"
+    ],
+    "all_mandatory_gates_must_pass": true,
+    "missing_gate_is_pass": false,
+    "not_run_is_pass": false,
+    "not_applicable_requires_predeclared_source_evidence": true,
+    "unresolved_semantic_findings_may_be_waived": false,
+    "arbitrary_public_key_contract": "preserved_no_fixed_key_exemption",
+    "notification_and_exception_boundary": "retained_not_claimed_solved",
+    "visual_match_certifies_full_migration": false
+  },
+  "repair": {
+    "mode": "offline_preview_only",
+    "evidence_and_main_code_and_props_must_match": true,
+    "current_dependency_graph_required_for_multimodule_preview": true,
+    "current_multimodule_preview_supported": false,
+    "semantic_candidate_gate_required": true,
+    "validation_errors_must_be_retained": true,
+    "source_or_unknown_legacy_visual_may_be_dropped": false,
+    "manual_repaired_san_may_be_model_input_or_auto_pass": false,
+    "proposed_future_max_llm_repair_calls": 3,
+    "paid_batch_protocol_frozen": false
+  },
+  "statistics": {
+    "planned_denominator": 30,
+    "require_full_planned_and_per_stratum_denominators": true,
+    "report_compile_runtime_semantic_visual_interaction_separately": true,
+    "source_evidence_unsupported_execution_error_separately": true,
+    "completed_only_rate_must_label_denominator": true,
+    "not_run_cases_must_remain_visible": true,
+    "incomplete_new_run_rate": null,
+    "old_24_of_30_recomputed": false
+  },
+  "experiment_control": {
+    "new_batch_and_output_required": true,
+    "old_checkpoint_or_manual_artifact_inheritance": false,
+    "force_reruns_replace_failures": false,
+    "criteria_change_requires_new_protocol_and_retained_original": true,
+    "b_c_comparison_initial_generation_should_be_shared": true,
+    "model_generation_params_and_cost_budget_not_frozen_here": true
+  },
+  "readiness": {
+    "user_criteria_review": "pending",
+    "production_native_feedback_integration": "not_implemented",
+    "all_30_scenario_mapping": "incomplete",
+    "native_interaction_execution_and_controls": "not_implemented",
+    "current_dependency_graph_rebinding": "not_implemented",
+    "new_full_batch_model_and_code_freeze": "not_prepared",
+    "semantic_boundary_retention": "required_and_preserved_not_resolved"
+  },
+  "evidence_links": {
+    "prior_native_feedback": "data/experiments/analysis/native_browser_feedback_v1_20261115/REPORT.md",
+    "native_feedback_interface": "docs/ir-design/native-browser-feedback-v1.md",
+    "old_full30_protocol": "data/experiments/protocols/formal_30_v4_full_regression_v2_frozen_20261104/PROTOCOL.md",
+    "legacy_interaction_reference": "migration_pipeline/interaction_configs/formal_30_v4_runtime_acceptance.json",
+    "legacy_interaction_limit": "San-only reviewed historical candidates; not paired native source/target browser evidence and not automatically reused as generated output."
+  }
+}

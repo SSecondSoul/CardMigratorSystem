@@ -1,0 +1,46 @@
+{
+  "classification": "conditional_namespace_conflict_under_current_direct_instance_contract",
+  "source": {
+    "path": "data/experiments/snapshots/formal_30_v4_full_regression_v2_results_20261104_214821/protocol/frozen/data/datasets/components/03_complex/TripItineraryPlanner/vue/TripItineraryPlanner.vue",
+    "sha256": "77cd70af2dbbfd0788ccf61203e95ee02ebbad35d36291f9542d057f8ecd3139"
+  },
+  "candidate": {
+    "path": "data/experiments/analysis/formal_30_v4_filter_methods_v1_20261115/TripItineraryPlanner_filter_methods_offline.san",
+    "sha256": "fd845c3a98f6ea2388b8c2eabebee9f2e3455a313797e6c255d36355be934626"
+  },
+  "scope_decision": "retain_arbitrary_public_keys_and_continue_blocking",
+  "assumptions": [
+    "public property read is on the same returned San component instance",
+    "arbitrary public keys include the ordinary source key data",
+    "standard San runtime and its data slot remain unmodified",
+    "no separate facade, runtime provider, engine fork or new caller protocol"
+  ],
+  "source_obligation": "after setValue(data,null), public instance.data is null; subsequent native framework operations remain usable",
+  "target_runtime_obligation": "the same instance.data remains the native San Data store for unchanged San operations",
+  "conditional_conflict": "the same property cannot simultaneously be null and the native non-null San Data object",
+  "decision": "unsupported_under_current_combined_constraints_keep_blocked_no_automatic_setter_restore",
+  "general_impossibility_for_all_architectures_claimed": false,
+  "new_native_cases": 5,
+  "in_memory_target_proposals": 5,
+  "new_full_component_pass": false,
+  "source_public_business_method_exercised": "updateBudget",
+  "new_component_browser_acceptance": false,
+  "automatic_repair_implemented": false,
+  "production_code_or_prompt_changed": false,
+  "diagnostics_waived": false,
+  "scope_narrowed": false,
+  "runtime_fork_or_compatibility_layer_added": false,
+  "canonical_or_manual_files_changed": false,
+  "shared_notification_resolved": false,
+  "exception_phase_resolved": false,
+  "new_model_calls": 0,
+  "new_full30_run": false,
+  "historical_scores_rewritten": false,
+  "original_batch": {
+    "configured": 30,
+    "passed": 24,
+    "failed": 6,
+    "execution_errors": 0,
+    "total_tokens": 1821544
+  }
+}

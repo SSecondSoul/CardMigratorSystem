@@ -1,0 +1,239 @@
+{
+  "classification": "offline_candidate_disposition_not_production_gate_or_new_error_codes",
+  "shared": [
+    {
+      "proposal": "unchanged",
+      "decision": "retain_existing_partial_candidate_and_unresolved_review",
+      "forward": {
+        "notices": {
+          "source": 3,
+          "target": 1
+        },
+        "target_root_identity_during_notices": [
+          false
+        ],
+        "target_old_record_starts": [
+          "10:00",
+          "09:00",
+          "14:00"
+        ],
+        "target_nested_identity": [
+          true,
+          true,
+          true
+        ],
+        "raw_target_items_changes": 1
+      },
+      "noop_notices": {
+        "source": 1,
+        "target": 1
+      }
+    },
+    {
+      "proposal": "deep_detach",
+      "decision": "do_not_promote_as_general_repair",
+      "forward": {
+        "notices": {
+          "source": 3,
+          "target": 1
+        },
+        "target_root_identity_during_notices": [
+          false
+        ],
+        "target_old_record_starts": [
+          "09:00",
+          "10:00",
+          "14:00"
+        ],
+        "target_nested_identity": [
+          false,
+          false,
+          true
+        ],
+        "raw_target_items_changes": 1
+      },
+      "noop_notices": {
+        "source": 1,
+        "target": 1
+      }
+    },
+    {
+      "proposal": "nested_data_set",
+      "decision": "do_not_promote_as_general_repair",
+      "forward": {
+        "notices": {
+          "source": 3,
+          "target": 3
+        },
+        "target_root_identity_during_notices": [
+          false,
+          false,
+          false
+        ],
+        "target_old_record_starts": [
+          "09:00",
+          "10:00",
+          "14:00"
+        ],
+        "target_nested_identity": [
+          true,
+          true,
+          true
+        ],
+        "raw_target_items_changes": 3
+      },
+      "noop_notices": {
+        "source": 1,
+        "target": 1
+      }
+    },
+    {
+      "proposal": "force_same_root",
+      "decision": "do_not_promote_as_general_repair",
+      "forward": {
+        "notices": {
+          "source": 3,
+          "target": 1
+        },
+        "target_root_identity_during_notices": [
+          false
+        ],
+        "target_old_record_starts": [
+          "10:00",
+          "09:00",
+          "14:00"
+        ],
+        "target_nested_identity": [
+          true,
+          true,
+          true
+        ],
+        "raw_target_items_changes": 3
+      },
+      "noop_notices": {
+        "source": 1,
+        "target": 1
+      }
+    },
+    {
+      "proposal": "shallow_republish",
+      "decision": "do_not_promote_as_general_repair",
+      "forward": {
+        "notices": {
+          "source": 3,
+          "target": 3
+        },
+        "target_root_identity_during_notices": [
+          false,
+          false,
+          false
+        ],
+        "target_old_record_starts": [
+          "10:00",
+          "09:00",
+          "14:00"
+        ],
+        "target_nested_identity": [
+          true,
+          true,
+          true
+        ],
+        "raw_target_items_changes": 3
+      },
+      "noop_notices": {
+        "source": 1,
+        "target": 3
+      }
+    }
+  ],
+  "phases": [
+    {
+      "proposal": "unchanged",
+      "decision": "keep_exception_phase_mismatch_unresolved",
+      "normal": {
+        "source": {
+          "kind": "value",
+          "type": "string",
+          "value": "one"
+        },
+        "target": {
+          "kind": "value",
+          "type": "string",
+          "value": "one"
+        }
+      },
+      "hole": {
+        "source_constructed": true,
+        "target_constructed": false,
+        "source_first_read": {
+          "kind": "error",
+          "name": "TypeError"
+        },
+        "target_first_read": null
+      }
+    },
+    {
+      "proposal": "catch_return_empty",
+      "decision": "do_not_promote_as_exception_repair",
+      "normal": {
+        "source": {
+          "kind": "value",
+          "type": "string",
+          "value": "one"
+        },
+        "target": {
+          "kind": "value",
+          "type": "string",
+          "value": "one"
+        }
+      },
+      "hole": {
+        "source_constructed": true,
+        "target_constructed": true,
+        "source_first_read": {
+          "kind": "error",
+          "name": "TypeError"
+        },
+        "target_first_read": {
+          "kind": "value",
+          "type": "string",
+          "value": ""
+        }
+      }
+    },
+    {
+      "proposal": "drop_computed",
+      "decision": "do_not_promote_as_exception_repair",
+      "normal": {
+        "source": {
+          "kind": "value",
+          "type": "string",
+          "value": "one"
+        },
+        "target": {
+          "kind": "value",
+          "type": "undefined",
+          "value": null
+        }
+      },
+      "hole": {
+        "source_constructed": true,
+        "target_constructed": true,
+        "source_first_read": {
+          "kind": "error",
+          "name": "TypeError"
+        },
+        "target_first_read": {
+          "kind": "value",
+          "type": "undefined",
+          "value": null
+        }
+      }
+    }
+  ],
+  "production_gate_executed_for_proposals": false,
+  "production_repair_installed": false,
+  "diagnostics_waived": false,
+  "external_observer_promoted_to_requirement": false,
+  "general_impossibility_claimed": false
+}

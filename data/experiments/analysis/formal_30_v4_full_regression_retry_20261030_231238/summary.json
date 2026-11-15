@@ -1,0 +1,139 @@
+{
+  "classification": "unchanged_protocol_infrastructure_retry",
+  "independent_holdout": false,
+  "first_snapshot": "data/experiments/snapshots/formal_30_v4_full_regression_results_20261030_215511",
+  "retry_snapshot": "data/experiments/snapshots/formal_30_v4_full_regression_results_20261030_231238",
+  "verified_files": {
+    "first": 359,
+    "retry": 359
+  },
+  "retry_summary_sha256": "6e9781bc0d00aef1dd696bf6e4f24af310e8334636f3ac0edd18e7900be99cf4",
+  "changed_sample_ids": [
+    "TaskManager",
+    "MonitoringDashboard"
+  ],
+  "unchanged_completed_records": 28,
+  "generated_or_report_files_compared": 102,
+  "generated_or_report_file_differences": [],
+  "aggregate": {
+    "configured": 30,
+    "completed": 28,
+    "passed": 25,
+    "failed": 3,
+    "execution_errors": 2,
+    "pending": 0,
+    "pass_rate_completed": 0.8929,
+    "initial_passed": 3,
+    "initial_pass_rate_completed": 0.1071,
+    "repaired_to_pass": 22,
+    "repair_rounds_total": 43,
+    "repair_rounds_average": 1.536,
+    "generation_tokens": 650037,
+    "repair_tokens": 1092872,
+    "total_tokens": 1742909,
+    "stop_reason_counts": {
+      "max_repair_rounds_reached": 2,
+      "no_repair_progress": 1,
+      "passed": 25
+    },
+    "error_code_counts": {
+      "initial_validation": {
+        "custom_event_not_fire": 2,
+        "datatypes_type_mismatch": 11,
+        "dom_child_order_mismatch": 3,
+        "duplicate_class_attribute": 1,
+        "event_arguments_not_landed": 3,
+        "hidden_template_reactive_dependency": 9,
+        "invalid_s_for_key_binding": 1,
+        "invalid_san_computed_instance_method_call": 1,
+        "invalid_san_init_data_store_access": 1,
+        "missing_component_registration": 1,
+        "missing_data_types": 12,
+        "missing_datatypes_for_props": 11,
+        "missing_prop_defaults": 12,
+        "missing_prop_dependent_initialization": 1,
+        "nested_state_mutation": 7,
+        "san_script_compile_error": 1,
+        "unbalanced_template_interpolation": 2,
+        "unsupported_san_inline_template_math_global": 1,
+        "vue_methods_wrapper": 7
+      },
+      "initial_visual": {
+        "dom_structure_similarity_low": 9,
+        "san_render_failed": 3,
+        "san_san_render_error": 3
+      },
+      "final_validation": {
+        "custom_event_not_fire": 1,
+        "hidden_template_reactive_dependency": 1
+      },
+      "final_visual": {
+        "dom_structure_similarity_low": 1
+      }
+    },
+    "by_complexity": {
+      "simple": {
+        "configured": 10,
+        "completed": 10,
+        "passed": 8,
+        "failed": 2,
+        "execution_errors": 0,
+        "pass_rate_completed": 0.8
+      },
+      "medium": {
+        "configured": 10,
+        "completed": 10,
+        "passed": 10,
+        "failed": 0,
+        "execution_errors": 0,
+        "pass_rate_completed": 1.0
+      },
+      "complex": {
+        "configured": 10,
+        "completed": 8,
+        "passed": 7,
+        "failed": 1,
+        "execution_errors": 2,
+        "pass_rate_completed": 0.875
+      }
+    }
+  },
+  "attempts": [
+    {
+      "id": "TaskManager",
+      "before": {
+        "status": "error",
+        "started_at": "2026-10-30T20:52:33+08:00",
+        "finished_at": "2026-10-30T21:00:35+08:00",
+        "elapsed_seconds": 481.703,
+        "error_message": "Repair request failed: HTTP 400 {\"error\":\"The read operation timed out\",\"ok\":false}\n"
+      },
+      "retry": {
+        "status": "error",
+        "started_at": "2026-10-30T22:50:13+08:00",
+        "finished_at": "2026-10-30T22:54:14+08:00",
+        "elapsed_seconds": 241.047,
+        "error_message": "Generation request failed: HTTP 400 {\"error\":\"The read operation timed out\",\"ok\":false}\n"
+      }
+    },
+    {
+      "id": "MonitoringDashboard",
+      "before": {
+        "status": "error",
+        "started_at": "2026-10-30T21:00:35+08:00",
+        "finished_at": "2026-10-30T21:04:36+08:00",
+        "elapsed_seconds": 240.75,
+        "error_message": "Generation request failed: HTTP 400 {\"error\":\"The read operation timed out\",\"ok\":false}\n"
+      },
+      "retry": {
+        "status": "error",
+        "started_at": "2026-10-30T22:54:14+08:00",
+        "finished_at": "2026-10-30T22:58:15+08:00",
+        "elapsed_seconds": 240.703,
+        "error_message": "Generation request failed: HTTP 400 {\"error\":\"The read operation timed out\",\"ok\":false}\n"
+      }
+    }
+  ],
+  "observed_failure_boundary": "Both retries failed while waiting for generation response at about 240 seconds; provider-side queue/generation/network cause is not established by these logs.",
+  "recommendation": "Preserve this protocol result. A longer-timeout diagnostic must use separate config, output/checkpoint and pre-run evidence; do not overwrite this result or change frozen timeout settings in place."
+}
