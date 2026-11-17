@@ -128,6 +128,49 @@ function privateGraphIsExact(root,privateName,expected,target,ids,program){
  };
  return verify(root,privateName);
 }
+// Limited CSS envelope projection, not a general style-object equivalence rule.
+// Only one size property, one interpolation and an explicit matching CSS unit.
+function styles(render){
+ const rows=new Map();
+ const visit=(node,path)=>{
+  if(node.type===1){const props=node.props.filter(p=>p.type===6&&p.name==='style');
+   if(props.length===1&&props[0].value){const p=props[0],raw=p.value.loc.source;
+    if(['"',"'"].includes(raw[0])&&raw.at(-1)===raw[0]&&raw.slice(1,-1)===p.value.content&&!/[&\\]/.test(raw))rows.set(path,p.value.content);
+   }}
+  (node.children||[]).filter(n=>n.type===1).forEach((n,i)=>visit(n,path+'/'+n.tag+'['+i+']'));
+ };visit(render.ast,'');return rows;
+}
+function numericStyle(source,target,literal){
+ if(source.role!=='attr:style:0'||target.role!==source.role||!t.isObjectExpression(source.node)||source.node.properties.length!==1)return null;
+ const prop=source.node.properties[0],name=key(prop),value=prop.value;
+ if(!t.isObjectProperty(prop)||prop.computed||!['width','height','left','right','top','bottom','minWidth','maxWidth','minHeight','maxHeight'].includes(name)
+  ||!t.isBinaryExpression(value,{operator:'+'})||!t.isCallExpression(value.left)||!t.isStringLiteral(value.right)
+  ||!['%','px','em','rem','vh','vw'].includes(value.right.value)||typeof literal!=='string')return null;
+ const css=name.replace(/[A-Z]/g,c=>'-'+c.toLowerCase()),unit=value.right.value;
+ const match=new RegExp('^\\s*'+css+'\\s*:\\s*\\{\\{([^{}]+)\\}\\}'+unit+'\\s*;?\\s*$').exec(literal);
+ if(match){
+  try{if(!same(parser.parseExpression(match[1]),target.node))return null;}catch(_){return null;}
+  return {node:value.left,targetNode:target.node,property:css,unit};
+ }
+ // Equivalent single CSS property expressed wholly inside one interpolation.
+ // Do not flatten arbitrary CSS, multiple properties, operands or units.
+ const whole=/^\s*\{\{([\s\S]+)\}\}\s*$/.exec(literal),expr=target.node;
+ if(!whole||!t.isBinaryExpression(expr,{operator:'+'})||!t.isStringLiteral(expr.right,{value:unit})
+  ||!t.isBinaryExpression(expr.left,{operator:'+'})||!t.isStringLiteral(expr.left.left)
+  ||!new RegExp('^\\s*'+css+'\\s*:\\s*$').test(expr.left.left.value)||!t.isCallExpression(expr.left.right))return null;
+ try{if(!same(parser.parseExpression(whole[1]),expr))return null;}catch(_){return null;}
+ return {node:value.left,targetNode:expr.left.right,property:css,unit};
+}
+function numericLeaf(spec){
+ const numeric=n=>t.isNumericLiteral(n)||(t.isUnaryExpression(n)&&['+','-'].includes(n.operator))
+  ||(t.isBinaryExpression(n)&&['-','*','/','%','**'].includes(n.operator))
+  ||(t.isBinaryExpression(n,{operator:'+'})&&numeric(n.left)&&numeric(n.right));
+ const statements=body=>body.every(s=>t.isReturnStatement(s)?numeric(s.argument):t.isIfStatement(s)
+  &&(t.isBlockStatement(s.consequent)?statements(s.consequent.body):statements([s.consequent]))
+  &&(!s.alternate||(t.isBlockStatement(s.alternate)?statements(s.alternate.body):statements([s.alternate]))));
+ return !spec.children.length&&spec.node.params.every(p=>t.isIdentifier(p))&&spec.node.body.body.length
+  &&t.isReturnStatement(spec.node.body.body.at(-1))&&statements(spec.node.body.body);
+}
 function run(input){
  const result={code:input.code,findings:[],changes:[],proofs:[],reviews:[],mapped_bindings:[],scope_conditions:[]};
  const block=/<script\b[^>]*>([\s\S]*?)<\/script\s*>/i.exec(input.code),outer=/<template\b[^>]*>([\s\S]*?)<\/template\s*>/i.exec(input.code);
@@ -157,7 +200,7 @@ function run(input){
  const ids=new Map([...fields].sort().map(f=>[f,fresh('__sourceField_'+f)]));
  const parse=text=>{const errors=[];const ast=dom.parse(text,{onError:e=>errors.push(e)});return errors.length?null:{ast,text};};
  const a=parse(source.descriptor.template.content),b=parse(outer[1]);if(!a||!b)return result;
- const srcEntries=entries(a,true,true),dstEntries=entries(b,false,true),graphCache=new Map(),copies=new Map(),edits=[],additions=[];
+ const srcEntries=entries(a,true,true),dstEntries=entries(b,false,true),targetStyles=styles(b),graphCache=new Map(),copies=new Map(),edits=[],additions=[];
  const get=name=>{
   if(graphCache.has(name))return graphCache.get(name);
   let sourceGraph;try{sourceGraph=graph(name,original,true,fields,ids,original,srcAst);}catch(e){
@@ -186,12 +229,19 @@ function run(input){
    try{return same(parser.parseExpression(v),restore(parser.parseExpression(b[j][1])));}catch(_){return false;}
   });});
  };
- for(const s of srcEntries){if(!s.valid)continue;
+ for(const entry of srcEntries){if(!entry.valid)continue;
+  let s=entry,style=null;
+  const styleTargets=dstEntries.filter(d=>d.valid&&d.path===s.path&&d.role===s.role&&scopeSame(s.scope,d.scope));
+  if(styleTargets.length===1){style=numericStyle(s,styleTargets[0],targetStyles.get(s.path));
+   if(style){s={...s,node:style.node};styleTargets[0].node=style.targetNode;}}
   const calls=[];walk(s.node,n=>{if(t.isCallExpression(n)&&!n.optional&&t.isIdentifier(n.callee)&&method(sourceMethods,n.callee.name))calls.push(n);});
   if(calls.length!==1)continue;
   const call=calls[0],name=call.callee.name,info=get(name),spec=info?.source.get(name);
   if(!spec?.fields.length||call.arguments.length!==spec.node.params.length||call.arguments.some(a=>t.isSpreadElement(a)))continue;
   const location='template'+s.path+'#'+s.role+'@'+name;
+  if(style&&!numericLeaf(spec)){
+   result.findings.push({code:'source_render_dependency_not_landed',location,message:'CSS projection requires a proven numeric readonly leaf return on all paths.'});continue;
+  }
   const dst=dstEntries.filter(d=>d.valid&&d.path===s.path&&d.role===s.role&&scopeSame(s.scope,d.scope));
   if(dst.length!==1){result.reviews.push({binding:location,reason:'unmatched_source_render_scope'});continue;}
   result.mapped_bindings.push(location);const d=dst[0];
@@ -236,6 +286,31 @@ function run(input){
    const publicCall=privateCall.callee.name===name;
    privateCall.callee=t.identifier(name);privateCall.arguments=args.slice(0,call.arguments.length);
    if(!same(clone,s.node)){issue('Source render method arguments or expression changed.');continue;}
+   if(style&&publicCall){
+    // Recover a source public signature only for an exact lifted numeric leaf,
+    // referenced once from the template and never through target script this.
+    // Other methods/callers are not rewritten or inferred.
+    let scriptReference=false;walk(ast,n=>{if(t.isMemberExpression(n)&&
+      ((!n.computed&&t.isIdentifier(n.property,{name}))||(n.computed&&t.isStringLiteral(n.property,{value:name}))))scriptReference=true;});
+    let references=0;for(const item of dstEntries)walk(item.node,n=>{
+     if(t.isCallExpression(n)&&t.isIdentifier(n.callee,{name}))references++;
+    });
+    if(scriptReference||references!==1||[...b.text.matchAll(new RegExp('\\b'+name+'\\b','g'))].length!==1){issue('Source public numeric render signature needs review; script references or multiple render roots exist.');continue;}
+    issue('Source public numeric render signature was expanded; restore it and isolate explicit dependencies in a private template method.');
+    const publicNode=t.cloneNode(spec.node,true),file=tree(publicNode);
+    traverse(file,{ReferencedIdentifier(p){const field=[...ids].find(([_,v])=>v===p.node.name)?.[0];
+     if(field)p.replaceWith(t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(),t.identifier('data')),t.identifier('get')),[t.stringLiteral(field)]));
+    }});
+    const privateName=fresh('__sourceDependency_'+name),copy=t.cloneNode(spec.node,true);copy.key=t.identifier(privateName);
+    copy.params.push(...spec.fields.map(f=>t.identifier(ids.get(f))));additions.push(copy);
+    const current=method(parent,name);
+    edits.push({start:scriptOffset+current.start,end:scriptOffset+current.end,text:print(file.program.body[0].expression.properties[0])});
+    const originalCall=d.node;
+    edits.push({start:templateOffset+d.start+originalCall.callee.start,end:templateOffset+d.start+originalCall.callee.end,text:privateName});
+    result.proofs.push({binding:location,root:name,fields:spec.fields,style:{property:style.property,unit:style.unit},
+     proof:'exact_numeric_leaf_explicit_lift_recovered_source_public_signature',public_signature_restored:true});
+    continue;
+   }
    if(s.role.startsWith('directive:'))result.scope_conditions.push({path:s.path,kind:s.role.slice(10),source:print(s.node),target:print(d.node)});
    result.proofs.push({binding:location,root:name,methods:[...info.source.keys()].sort(),fields:spec.fields,
     proof:'exact_explicit_graph_and_template_dependencies',explicit:true,preexisting_public_call:publicCall});

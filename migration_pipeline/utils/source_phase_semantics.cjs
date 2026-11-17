@@ -189,13 +189,43 @@ function repairMounted(ctx, src, sourceMethods, names) {
   let expected;
   try { expected = expanded.map(s => translated(s, names, methodNames)); } catch (_) { return; }
   const early = inited.body.body, late = attached.body.body;
+  // A source watcher may already be registered in attached. A pure mounted
+  // call misplaced in inited must run AFTER these exact registrations, not
+  // disappear from the phase proof because late.length includes a watcher.
+  const sourceWatch = one(src.object, 'watch')?.value;
+  const exactWatcher = stmt => {
+    if(callName(stmt)!=='watch'||stmt.expression.arguments.length!==2)return false;
+    const [field,callback]=stmt.expression.arguments;
+    if(field.type!=='StringLiteral'||!names.has(field.value)||!['ArrowFunctionExpression','FunctionExpression'].includes(callback.type)
+      ||callback.async||callback.generator||callback.params.length||callback.body.type!=='BlockStatement')return false;
+    const option=one(sourceWatch,field.value);
+    if(option?.value?.type==='ObjectExpression'&&option.value.properties.some(p=>
+      !['handler','deep','immediate'].includes(key(p))||(key(p)==='deep'&&p.value?.type!=='BooleanLiteral')
+      ||(key(p)==='immediate'&&!(p.value?.type==='BooleanLiteral'&&p.value.value===false))))return false;
+    const handler=method(option)?option:one(option?.value,'handler');
+    if(!method(handler)||handler.params.length||!handler.body.body.length
+      ||!handler.body.body.every(s=>simpleCall(s,parent)&&simpleCall(s,sourceMethods)))return false;
+    return same(callback.body,handler.body);
+  };
+  if(early.length===expected.length&&early.every((s,i)=>same(s,expected[i])&&simpleCall(s,parent))
+    &&late.length&&late.every(exactWatcher)
+    &&new Set(late.map(s=>s.expression.arguments[0].value)).size===late.length){
+    findings.push({code:'source_mounted_order_not_landed',location:'script.attached',
+      message:'Source mounted calls must run in attached after the proven source watcher registrations.'});
+    if(input.repair){
+      edit(offset+early[0].start,offset+early.at(-1).end,'');
+      edit(offset+attached.body.end-1,offset+attached.body.end-1,
+        ';\n'+early.map(s=>script.slice(s.start,s.end)).join(';\n')+';\n');
+      changes.push('restored_source_mounted_after_proven_watchers');
+    }
+    return;
+  }
   const movedCount = expected.length - late.length;
   if (movedCount < 0 || movedCount > early.length) return;
   const prefixLength = early.length - movedCount;
   const prefix = early.slice(0, prefixLength), moved = early.slice(prefixLength);
   // Keep only source-named watcher registrations in inited. No unknown startup
   // effects may be moved across, or silently discarded from, either hook.
-  const sourceWatch = one(src.object, 'watch')?.value;
   if (!prefix.every(s => callName(s) === 'watch' && s.expression.arguments.length === 2
       && s.expression.arguments[0].type === 'StringLiteral'
       && one(sourceWatch, s.expression.arguments[0].value)
@@ -216,6 +246,61 @@ function repairMounted(ctx, src, sourceMethods, names) {
 
 function repairWatchPersistence(ctx, src, names) {
   watchPersistence(ctx, src, names, {one, key, method, same, callName, translated});
+}
+
+function repairSourceWatcherOption(ctx, src, names) {
+  const {parent,input,script,offset,edit,changes,findings}=ctx;
+  const option=one(parent,'watcher'),sourceWatch=one(src.object,'watch')?.value,sourceMethods=one(src.object,'methods')?.value;
+  if(option?.type!=='ObjectProperty'||option.value.type!=='ObjectExpression'||sourceWatch?.type!=='ObjectExpression'
+    ||!sourceMethods||one(src.object,'watcher')||one(parent,'watch')||one(sourceMethods,'watch')
+    ||['beforeCreate','created','beforeMount'].some(n=>one(src.object,n)))return false;
+  const entries=sourceWatch.properties,actual=option.value.properties;
+  if(!entries.length||actual.length!==entries.length||new Set(entries.map(key)).size!==entries.length)return false;
+  const callbacks=[];
+  for(const entry of entries){
+    const field=key(entry),descriptor=entry.value;
+    if(!field||!names.has(field)||!/^[$A-Z_a-z][$\w]*$/.test(field))return false;
+    // San root watches observe nested changes. Do not use this conversion for
+    // shallow/default Vue watchers, whose observation contract differs.
+    if(descriptor?.type!=='ObjectExpression'||descriptor.properties.length!==2
+      ||descriptor.properties.some(p=>!['handler','deep'].includes(key(p)))
+      ||one(descriptor,'deep')?.value?.type!=='BooleanLiteral'||one(descriptor,'deep').value.value!==true)return false;
+    const handler=one(descriptor,'handler'),target=one(option.value,field);
+    if(!method(handler)||handler.params.length||!handler.body.body.length||!method(target)||target.params.length
+      ||!handler.body.body.every(s=>simpleCall(s,sourceMethods)&&simpleCall(s,parent))||!same(handler.body,target.body))return false;
+    callbacks.push(`this.watch(${JSON.stringify(field)},()=>${canonical(target.body)});`);
+  }
+  let existing=false,reflection=false;
+  traverse(ctx.ast,{CallExpression(p){if(thisMember(p.node.callee,'watch'))existing=true;},MemberExpression(p){
+    if((!p.node.computed&&p.node.property.name==='watcher')||(p.node.computed&&p.node.property.value==='watcher'))reflection=true;
+  }});
+  if(existing||reflection)return false;
+  const early=one(parent,'inited'),late=one(parent,'attached'),mounted=one(src.object,'mounted');
+  if((early&&!method(early))||(late&&!method(late))||(mounted&&!method(mounted))
+    ||early?.params.length||late?.params.length||mounted?.params.length)return false;
+  const expected=mounted?.body.body||[],observed=[...(early?.body.body||[]),...(late?.body.body||[])];
+  if(!expected.every(s=>simpleCall(s,sourceMethods)&&simpleCall(s,parent))||expected.length!==observed.length
+    ||!observed.every((s,i)=>same(s,expected[i])))return false;
+  const index=parent.properties.indexOf(option),next=parent.properties[index+1],previous=parent.properties[index-1];
+  let removeStart=option.start,removeEnd=option.end;
+  if(next){if(!/^\s*,\s*$/.test(script.slice(option.end,next.start)))return false;removeEnd=next.start;}
+  else if(previous){if(!/^\s*,\s*$/.test(script.slice(previous.end,option.start)))return false;removeStart=previous.end;}
+  else return false;
+  findings.push({code:'source_watcher_option_not_landed',location:'script.watcher',
+    message:'Source-proven watcher callbacks must be registered in inited before mounted actions, not left in a non-San watcher option.'});
+  if(!input.repair)return false;
+  // This transaction owns both hooks, so the other phase mover must not edit
+  // the same statements during this invocation.
+  const additions=[];
+  if(early)edit(offset+early.start,offset+early.end,`inited(){${callbacks.join('')}}`);
+  else additions.push(`inited(){${callbacks.join('')}}`);
+  const body=expected.map(canonical).join(';');
+  if(late)edit(offset+late.start,offset+late.end,`attached(){${body}}`);
+  else if(body)additions.push(`attached(){${body}}`);
+  edit(offset+removeStart,offset+removeEnd,'');
+  if(additions.length)edit(offset+parent.start+1,offset+parent.start+1,additions.join(',')+',');
+  changes.push('registered_source_proven_watcher_option_before_mounted');
+  return true;
 }
 
 function repairBooleanBindings(ctx, src, names) {
@@ -269,6 +354,7 @@ module.exports = function sourcePhaseRepairs(ctx) {
   if (!src) return;
   const methods = one(src.object, 'methods')?.value;
   const names = new Set((ctx.input.ssm?.script?.options?.data || []).map(x => x.name));
+  if(repairSourceWatcherOption(ctx,src,names))return;
   // Invalid/ambiguous template syntax must not hide independently provable
   // script lifecycle/watch findings. Template edits commit atomically only.
   const templateTransaction = fn => {

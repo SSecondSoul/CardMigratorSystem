@@ -1,0 +1,823 @@
+{
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "source_class_binding_not_landed",
+      "location": "template/div[0]/div[5]/div[0]@class",
+      "message": "Static and source-matched dynamic class tokens lack a separator.",
+      "severity": "error",
+      "suggestion": "Preserve every source class token, condition and static class using conditional string expressions; do not guess unsupported scopes."
+    },
+    {
+      "code": "source_class_binding_not_landed",
+      "location": "template/div[0]/div[5]/div[0]/div[1]@class",
+      "message": "Static and source-matched dynamic class tokens lack a separator.",
+      "severity": "error",
+      "suggestion": "Preserve every source class token, condition and static class using conditional string expressions; do not guess unsupported scopes."
+    },
+    {
+      "code": "hidden_template_reactive_dependency",
+      "location": "template/script",
+      "message": "\u6a21\u677f style \u6e32\u67d3\u8868\u8fbe\u5f0f\u8c03\u7528 getBarWidth(...)\uff0c\u4f46\u8be5\u65b9\u6cd5\u5185\u90e8\u9690\u85cf\u8bfb\u53d6\u54cd\u5e94\u5f0f\u5b57\u6bb5\uff1amaxExpenseAmount\u3002\u8fd9\u4e9b\u5b57\u6bb5\u53d8\u5316\u65f6\uff0cSan \u53ef\u80fd\u4e0d\u4f1a\u91cd\u65b0\u8ba1\u7b97\u8be5\u7ed1\u5b9a\u3002",
+      "severity": "error",
+      "suggestion": "\u5728\u6a21\u677f\u8868\u8fbe\u5f0f\u4e2d\u76f4\u63a5\u5f15\u7528 maxExpenseAmount\uff0c\u6216\u5c06\u8fd9\u4e9b\u5b57\u6bb5\u4f5c\u4e3a\u53c2\u6570\u663e\u5f0f\u4f20\u7ed9 getBarWidth(...)\u3002"
+    },
+    {
+      "code": "source_mounted_order_not_landed",
+      "location": "script.attached",
+      "message": "Source mounted calls must run in attached after the proven source watcher registrations.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "source_dom_event_not_landed",
+      "location": "template/div[0]/div[2]/input[1]@keyup",
+      "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+      "severity": "error",
+      "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+    },
+    {
+      "code": "source_dom_event_not_landed",
+      "location": "template/div[0]/div[2]/input[2]@keyup",
+      "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+      "severity": "error",
+      "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+    },
+    {
+      "code": "source_render_dependency_not_landed",
+      "location": "template/div[0]/div[4]/div[1]/div[0]/div[1]/div[0]#attr:style:0@getBarWidth",
+      "message": "Source render method hides transitive reactive fields; preserve public methods and pass every field to a proven private render graph.",
+      "severity": "error",
+      "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+    },
+    {
+      "code": "lifecycle_behavior_not_landed",
+      "location": "script",
+      "message": "\u4ee5\u4e0b\u751f\u547d\u5468\u671f\u884c\u4e3a\u672a\u5b8c\u6574\u8fc1\u79fb\uff1amounted -> attached: \u8c03\u7528\u65b9\u6cd5 loadFromLocal()\u3002",
+      "severity": "error",
+      "suggestion": "\u5728\u5bf9\u5e94 San \u751f\u547d\u5468\u671f\u4e2d\u4fdd\u7559\u6e90\u94a9\u5b50\u7684\u72b6\u6001\u521d\u59cb\u5316\u3001\u65b9\u6cd5\u8c03\u7528\u548c\u5b9a\u65f6\u5668\u521b\u5efa/\u6e05\u7406\uff1b\u4e0d\u8981\u53ea\u4fdd\u7559\u7a7a\u7684 inited/attached/disposed \u65b9\u6cd5\u3002"
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "reasons": [
+          "source:constructor_call",
+          "source:unknown_bound_attribute",
+          "source:unknown_call",
+          "source:unknown_member_call",
+          "source:unknown_or_dom_global",
+          "target:active_template_attribute",
+          "target:constructor_call",
+          "target:unknown_call",
+          "target:unknown_member_call",
+          "target:unknown_or_dom_global"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "empty_class_presence_v1"
+      },
+      "differences": [
+        {
+          "actual": "div|class=record-itemexpense",
+          "expected": "div|class=record-item expense",
+          "path": "root.0.5.0"
+        },
+        {
+          "actual": "#text:\u4eca\u5929 0:55",
+          "expected": "#text:\u4eca\u5929 0:54",
+          "path": "root.0.5.0.0.1.0"
+        },
+        {
+          "actual": "div|class=record-amountexpense",
+          "expected": "div|class=record-amount expense",
+          "path": "root.0.5.0.1"
+        },
+        {
+          "actual": "div|class=record-itemincome",
+          "expected": "div|class=record-item income",
+          "path": "root.0.5.1"
+        },
+        {
+          "actual": "#text:\u4eca\u5929 0:55",
+          "expected": "#text:\u4eca\u5929 0:54",
+          "path": "root.0.5.1.0.1.0"
+        },
+        {
+          "actual": "div|class=record-amountincome",
+          "expected": "div|class=record-amount income",
+          "path": "root.0.5.1.1"
+        },
+        {
+          "actual": "div|class=record-itemexpense",
+          "expected": "div|class=record-item expense",
+          "path": "root.0.5.2"
+        },
+        {
+          "actual": "div|class=record-amountexpense",
+          "expected": "div|class=record-amount expense",
+          "path": "root.0.5.2.1"
+        },
+        {
+          "actual": "div|class=record-itemexpense",
+          "expected": "div|class=record-item expense",
+          "path": "root.0.5.3"
+        },
+        {
+          "actual": "div|class=record-amountexpense",
+          "expected": "div|class=record-amount expense",
+          "path": "root.0.5.3.1"
+        },
+        {
+          "actual": "div|class=record-itemincome",
+          "expected": "div|class=record-item income",
+          "path": "root.0.5.4"
+        },
+        {
+          "actual": "div|class=record-amountincome",
+          "expected": "div|class=record-amount income",
+          "path": "root.0.5.4.1"
+        }
+      ],
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "div|class=record-itemexpense",
+          "expected": "div|class=record-item expense",
+          "path": "root.0.5.0"
+        },
+        {
+          "actual": "#text:\u4eca\u5929 0:55",
+          "expected": "#text:\u4eca\u5929 0:54",
+          "path": "root.0.5.0.0.1.0"
+        },
+        {
+          "actual": "div|class=record-amountexpense",
+          "expected": "div|class=record-amount expense",
+          "path": "root.0.5.0.1"
+        },
+        {
+          "actual": "div|class=record-itemincome",
+          "expected": "div|class=record-item income",
+          "path": "root.0.5.1"
+        },
+        {
+          "actual": "#text:\u4eca\u5929 0:55",
+          "expected": "#text:\u4eca\u5929 0:54",
+          "path": "root.0.5.1.0.1.0"
+        },
+        {
+          "actual": "div|class=record-amountincome",
+          "expected": "div|class=record-amount income",
+          "path": "root.0.5.1.1"
+        },
+        {
+          "actual": "div|class=record-itemexpense",
+          "expected": "div|class=record-item expense",
+          "path": "root.0.5.2"
+        },
+        {
+          "actual": "div|class=record-amountexpense",
+          "expected": "div|class=record-amount expense",
+          "path": "root.0.5.2.1"
+        },
+        {
+          "actual": "div|class=record-itemexpense",
+          "expected": "div|class=record-item expense",
+          "path": "root.0.5.3"
+        },
+        {
+          "actual": "div|class=record-amountexpense",
+          "expected": "div|class=record-amount expense",
+          "path": "root.0.5.3.1"
+        },
+        {
+          "actual": "div|class=record-itemincome",
+          "expected": "div|class=record-item income",
+          "path": "root.0.5.4"
+        },
+        {
+          "actual": "div|class=record-amountincome",
+          "expected": "div|class=record-amount income",
+          "path": "root.0.5.4.1"
+        }
+      ]
+    }
+  ],
+  "different_pixel_ratio": 0.013886284722222222,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "reasons": [
+      "source:constructor_call",
+      "source:unknown_bound_attribute",
+      "source:unknown_call",
+      "source:unknown_member_call",
+      "source:unknown_or_dom_global",
+      "target:active_template_attribute",
+      "target:constructor_call",
+      "target:unknown_call",
+      "target:unknown_member_call",
+      "target:unknown_or_dom_global"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "empty_class_presence_v1"
+  },
+  "dom_differences": [
+    {
+      "actual": "div|class=record-itemexpense",
+      "expected": "div|class=record-item expense",
+      "path": "root.0.5.0"
+    },
+    {
+      "actual": "#text:\u4eca\u5929 0:55",
+      "expected": "#text:\u4eca\u5929 0:54",
+      "path": "root.0.5.0.0.1.0"
+    },
+    {
+      "actual": "div|class=record-amountexpense",
+      "expected": "div|class=record-amount expense",
+      "path": "root.0.5.0.1"
+    },
+    {
+      "actual": "div|class=record-itemincome",
+      "expected": "div|class=record-item income",
+      "path": "root.0.5.1"
+    },
+    {
+      "actual": "#text:\u4eca\u5929 0:55",
+      "expected": "#text:\u4eca\u5929 0:54",
+      "path": "root.0.5.1.0.1.0"
+    },
+    {
+      "actual": "div|class=record-amountincome",
+      "expected": "div|class=record-amount income",
+      "path": "root.0.5.1.1"
+    },
+    {
+      "actual": "div|class=record-itemexpense",
+      "expected": "div|class=record-item expense",
+      "path": "root.0.5.2"
+    },
+    {
+      "actual": "div|class=record-amountexpense",
+      "expected": "div|class=record-amount expense",
+      "path": "root.0.5.2.1"
+    },
+    {
+      "actual": "div|class=record-itemexpense",
+      "expected": "div|class=record-item expense",
+      "path": "root.0.5.3"
+    },
+    {
+      "actual": "div|class=record-amountexpense",
+      "expected": "div|class=record-amount expense",
+      "path": "root.0.5.3.1"
+    },
+    {
+      "actual": "div|class=record-itemincome",
+      "expected": "div|class=record-item income",
+      "path": "root.0.5.4"
+    },
+    {
+      "actual": "div|class=record-amountincome",
+      "expected": "div|class=record-amount income",
+      "path": "root.0.5.4.1"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 12,
+    "similarity": 0.9111111111111111,
+    "source_nodes": 135,
+    "target_nodes": 135
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/a4f437ea90c94df6bf17de290f7255b1/evaluations/1/heatmap.png",
+      "sha256": "7ec343c77720fdb61d772721dd20d8df97de6b48e9fdc80acf94a50660898b16"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/a4f437ea90c94df6bf17de290f7255b1/evaluations/1/san.png",
+      "sha256": "80469bedcfccfdd3bbac922d5e5bca16a38c6e52173c0d9bf37738e03438270d"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/a4f437ea90c94df6bf17de290f7255b1/evaluations/1/vue.png",
+      "sha256": "deadab57d6bd27ae20ba279b6739e20329f46e4a725f0dfb02e256dfd4f004ae"
+    }
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "div|class=record-itemexpense",
+      "expected": "div|class=record-item expense",
+      "path": "root.0.5.0"
+    },
+    {
+      "actual": "#text:\u4eca\u5929 0:55",
+      "expected": "#text:\u4eca\u5929 0:54",
+      "path": "root.0.5.0.0.1.0"
+    },
+    {
+      "actual": "div|class=record-amountexpense",
+      "expected": "div|class=record-amount expense",
+      "path": "root.0.5.0.1"
+    },
+    {
+      "actual": "div|class=record-itemincome",
+      "expected": "div|class=record-item income",
+      "path": "root.0.5.1"
+    },
+    {
+      "actual": "#text:\u4eca\u5929 0:55",
+      "expected": "#text:\u4eca\u5929 0:54",
+      "path": "root.0.5.1.0.1.0"
+    },
+    {
+      "actual": "div|class=record-amountincome",
+      "expected": "div|class=record-amount income",
+      "path": "root.0.5.1.1"
+    },
+    {
+      "actual": "div|class=record-itemexpense",
+      "expected": "div|class=record-item expense",
+      "path": "root.0.5.2"
+    },
+    {
+      "actual": "div|class=record-amountexpense",
+      "expected": "div|class=record-amount expense",
+      "path": "root.0.5.2.1"
+    },
+    {
+      "actual": "div|class=record-itemexpense",
+      "expected": "div|class=record-item expense",
+      "path": "root.0.5.3"
+    },
+    {
+      "actual": "div|class=record-amountexpense",
+      "expected": "div|class=record-amount expense",
+      "path": "root.0.5.3.1"
+    },
+    {
+      "actual": "div|class=record-itemincome",
+      "expected": "div|class=record-item income",
+      "path": "root.0.5.4"
+    },
+    {
+      "actual": "div|class=record-amountincome",
+      "expected": "div|class=record-amount income",
+      "path": "root.0.5.4.1"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 12,
+    "similarity": 0.9111111111111111,
+    "source_nodes": 135,
+    "target_nodes": 135
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "5f969912177d31f0a28e39d32684dff5bbb358bfe0184d1c74c8ffe6670d512c",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 3,
+    "similarity": 0.961038961038961,
+    "source_nodes": 77,
+    "target_nodes": 77
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "ssim": 0.9755907730996859,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_element_attributes_events_directives_direct_text_v2",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 50,
+    "target_nodes": 50
+  },
+  "styles": {
+    "compared_properties": 1118,
+    "differences": [
+      {
+        "path": "root.0.5.0",
+        "property": "backgroundColor",
+        "source": "rgb(248, 250, 252)",
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.0",
+        "property": "paddingTop",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.0",
+        "property": "paddingLeft",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.0",
+        "property": "width",
+        "source": "522px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.0",
+        "property": "height",
+        "source": "45px",
+        "target": "91px"
+      },
+      {
+        "path": "root.0.5.0",
+        "property": "display",
+        "source": "flex",
+        "target": "block"
+      },
+      {
+        "path": "root.0.5.0.0",
+        "property": "width",
+        "source": "418.719px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.0.0.0",
+        "property": "width",
+        "source": "418.719px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.0.1",
+        "property": "color",
+        "source": "rgb(239, 68, 68)",
+        "target": "rgb(0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.0.1",
+        "property": "fontWeight",
+        "source": "700",
+        "target": "400"
+      },
+      {
+        "path": "root.0.5.0.1",
+        "property": "width",
+        "source": "43.2812px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.0.2",
+        "property": "display",
+        "source": "block",
+        "target": "inline-block"
+      },
+      {
+        "path": "root.0.5.1",
+        "property": "backgroundColor",
+        "source": "rgb(248, 250, 252)",
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.1",
+        "property": "paddingTop",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.1",
+        "property": "paddingLeft",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.1",
+        "property": "width",
+        "source": "522px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.1",
+        "property": "height",
+        "source": "45px",
+        "target": "91px"
+      },
+      {
+        "path": "root.0.5.1",
+        "property": "display",
+        "source": "flex",
+        "target": "block"
+      },
+      {
+        "path": "root.0.5.1.0",
+        "property": "width",
+        "source": "413.875px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.1.0.0",
+        "property": "width",
+        "source": "413.875px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.1.1",
+        "property": "color",
+        "source": "rgb(16, 185, 129)",
+        "target": "rgb(0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.1.1",
+        "property": "fontWeight",
+        "source": "700",
+        "target": "400"
+      },
+      {
+        "path": "root.0.5.1.1",
+        "property": "width",
+        "source": "48.125px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.1.2",
+        "property": "display",
+        "source": "block",
+        "target": "inline-block"
+      },
+      {
+        "path": "root.0.5.2",
+        "property": "backgroundColor",
+        "source": "rgb(248, 250, 252)",
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.2",
+        "property": "paddingTop",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.2",
+        "property": "paddingLeft",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.2",
+        "property": "width",
+        "source": "522px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.2",
+        "property": "height",
+        "source": "45px",
+        "target": "91px"
+      },
+      {
+        "path": "root.0.5.2",
+        "property": "display",
+        "source": "flex",
+        "target": "block"
+      },
+      {
+        "path": "root.0.5.2.0",
+        "property": "width",
+        "source": "427.922px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.2.0.0",
+        "property": "width",
+        "source": "427.922px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.2.1",
+        "property": "color",
+        "source": "rgb(239, 68, 68)",
+        "target": "rgb(0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.2.1",
+        "property": "fontWeight",
+        "source": "700",
+        "target": "400"
+      },
+      {
+        "path": "root.0.5.2.1",
+        "property": "width",
+        "source": "34.0781px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.2.2",
+        "property": "display",
+        "source": "block",
+        "target": "inline-block"
+      },
+      {
+        "path": "root.0.5.3",
+        "property": "backgroundColor",
+        "source": "rgb(248, 250, 252)",
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.3",
+        "property": "paddingTop",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.3",
+        "property": "paddingLeft",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.3",
+        "property": "width",
+        "source": "522px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.3",
+        "property": "height",
+        "source": "45px",
+        "target": "91px"
+      },
+      {
+        "path": "root.0.5.3",
+        "property": "display",
+        "source": "flex",
+        "target": "block"
+      },
+      {
+        "path": "root.0.5.3.0",
+        "property": "width",
+        "source": "418.719px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.3.0.0",
+        "property": "width",
+        "source": "418.719px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.3.1",
+        "property": "color",
+        "source": "rgb(239, 68, 68)",
+        "target": "rgb(0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.3.1",
+        "property": "fontWeight",
+        "source": "700",
+        "target": "400"
+      },
+      {
+        "path": "root.0.5.3.1",
+        "property": "width",
+        "source": "43.2812px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.3.2",
+        "property": "display",
+        "source": "block",
+        "target": "inline-block"
+      },
+      {
+        "path": "root.0.5.4",
+        "property": "backgroundColor",
+        "source": "rgb(248, 250, 252)",
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.4",
+        "property": "paddingTop",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.4",
+        "property": "paddingLeft",
+        "source": "12px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.5.4",
+        "property": "width",
+        "source": "522px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.4",
+        "property": "height",
+        "source": "45px",
+        "target": "91px"
+      },
+      {
+        "path": "root.0.5.4",
+        "property": "display",
+        "source": "flex",
+        "target": "block"
+      },
+      {
+        "path": "root.0.5.4.0",
+        "property": "width",
+        "source": "404.672px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.4.0.0",
+        "property": "width",
+        "source": "404.672px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.4.1",
+        "property": "color",
+        "source": "rgb(16, 185, 129)",
+        "target": "rgb(0, 0, 0)"
+      },
+      {
+        "path": "root.0.5.4.1",
+        "property": "fontWeight",
+        "source": "700",
+        "target": "400"
+      },
+      {
+        "path": "root.0.5.4.1",
+        "property": "width",
+        "source": "57.3281px",
+        "target": "550px"
+      },
+      {
+        "path": "root.0.5.4.2",
+        "property": "display",
+        "source": "block",
+        "target": "inline-block"
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.9463327370304114,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 1050.7496999999998,
+    "target": 890.5794000000005
+  },
+  "ui_restoration": 97.28960485392585
+}

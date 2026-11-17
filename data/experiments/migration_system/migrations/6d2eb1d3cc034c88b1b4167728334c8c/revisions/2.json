@@ -1,0 +1,12 @@
+{
+  "code": "<template><fieldset class=\"choice-chips\"><legend>\u901a\u77e5\u9891\u7387</legend><button type=\"button\" s-for=\"option in options trackby option.value\" class=\"{{ selected === option.value ? 'selected' : '' }}\" on-click=\"select(option.value)\">{{option.label}}</button><p>\u5f53\u524d\u9009\u62e9\uff1a{{selectedLabel}}</p></fieldset></template><script>const san = require('san');const DataTypes = san.DataTypes;module.exports = san.defineComponent({name: 'ChoiceChips',dataTypes: {options: DataTypes.array,initialValue: DataTypes.string},initData() {return {options: [{value: 'instant',label: '\u5373\u65f6'}, {value: 'daily',label: '\u6bcf\u65e5'}, {value: 'off',label: '\u5173\u95ed'}],initialValue: 'daily',selected: 'daily',selectedLabel: '\u672a\u9009\u62e9'};},inited() {const options = this.data.get('options') || [{value: 'instant',label: '\u5373\u65f6'}, {value: 'daily',label: '\u6bcf\u65e5'}, {value: 'off',label: '\u5173\u95ed'}];const initialValue = this.data.get('initialValue') || 'daily';this.data.set('options', options);this.data.set('selected', initialValue);const selectedOption = options.find(item => item.value === initialValue);this.data.set('selectedLabel', selectedOption ? selectedOption.label : '\u672a\u9009\u62e9');},select(value) {const options = this.data.get('options');const option = options.find(item => item.value === value);this.data.set('selected', value);this.data.set('selectedLabel', option ? option.label : '\u672a\u9009\u62e9');}});</script><style>\n.choice-chips { width: 320px; display: flex; flex-wrap: wrap; gap: 8px; padding: 16px; border: 1px solid #cbd5e1; border-radius: 6px; font-family: Arial, sans-serif; }\n.choice-chips legend { padding: 0 6px; font-weight: 700; }\n.choice-chips button { padding: 7px 12px; border: 1px solid #94a3b8; border-radius: 18px; background: #ffffff; color: #334155; cursor: pointer; }\n.choice-chips button.selected { border-color: #0f766e; background: #ccfbf1; color: #115e59; }\n.choice-chips p { flex-basis: 100%; margin: 8px 0 0; color: #64748b; font-size: 13px; }\n</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/6d2eb1d3cc034c88b1b4167728334c8c/revisions/2.san",
+    "sha256": "6b4bd4b84d866d93e37a0fdbb742ea3d6ea2ce52d39a22088a1c4a43121bce29"
+  },
+  "number": 2,
+  "origin": "model_repair",
+  "parent": "cff955d119a1553c04563bc8f9a6334b8152ba61e1d5656fda7550c90b81ebd9",
+  "rules": []
+}

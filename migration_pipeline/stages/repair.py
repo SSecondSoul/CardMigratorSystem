@@ -2003,6 +2003,7 @@ class RepairStage:
         if error_codes & {"missing_self_click_guard", "invalid_san_inline_computed_method_invocation", "event_arguments_not_landed",
                           "lifecycle_behavior_not_landed", "missing_lifecycle_mapping", "source_watch_persistence_not_landed",
                           "source_watch_persistence_unproven",
+                          "missing_watch_migration", "source_watcher_option_not_landed",
                           "source_mounted_order_not_landed", "source_startup_phase_not_landed",
                           "source_method_interface_not_landed", "source_method_trigger_added",
                           "source_record_update_not_landed", "source_shared_record_projection_not_landed",

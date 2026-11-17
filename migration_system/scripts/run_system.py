@@ -1,0 +1,8 @@
+"""Local checkout CLI bootstrap. Does not modify global PYTHONPATH."""
+from pathlib import Path
+import sys
+
+if __name__ == "__main__":
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+    from card_migration_system.interfaces.cli import main
+    raise SystemExit(main())

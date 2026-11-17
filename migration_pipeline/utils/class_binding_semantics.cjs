@@ -81,7 +81,7 @@ function sourceMap(node,allowed){
    if(t.isConditionalExpression(n))return safe(n.test)&&safe(n.consequent)&&safe(n.alternate);
    return false;
   }
-  if(!safe(p.value))return null;terms.push({name,condition:print(p.value)});
+  if(!safe(p.value))return null;terms.push({name:name.replace(/\s+/g,' '),condition:print(p.value)});
  }return terms;
 }
 function signature(parts){
@@ -97,7 +97,9 @@ function signature(parts){
   if(t.isStringLiteral(n))return literal(n.value);
   if(t.isBinaryExpression(n,{operator:'+'})){visit(n.left);visit(n.right);return;}
   if(t.isConditionalExpression(n)&&t.isStringLiteral(n.consequent)&&t.isStringLiteral(n.alternate,{value:''})){
-   segment(n.consequent.value,true);terms.push({name:n.consequent.value,condition:print(n.test)});return;
+   // Check boundaries against the ORIGINAL bytes first. Whitespace inside the
+   // optional string is a valid separator, but must not hide baseactive merges.
+   segment(n.consequent.value,true);terms.push({name:n.consequent.value.trim().replace(/\s+/g,' '),condition:print(n.test)});return;
   }safe=false;
  }
  for(const p of parts||[]){if(p.text!==undefined)literal(p.text);else try{visit(expr(p.expression));}catch(_){safe=false;}}
@@ -160,6 +162,45 @@ function analyze(input){
     // do not emit a second incompatible finding for its partial repairs.
     if(binding&&attrs.length<=1){
      let src;try{src=expr(binding);}catch(_){}
+     // A string/member binding is not an object-map. Prove only its unchanged
+     // expression and the literal token separator; do not certify arbitrary
+     // runtime object/array normalization as equivalent.
+     const refPath=n=>{if(t.isIdentifier(n))return [n.name];
+      if(t.isMemberExpression(n)&&!n.computed&&!n.optional&&t.isIdentifier(n.property)){
+       const base=refPath(n.object);return base?base.concat(n.property.name):null;
+      }return null;};
+     const ref=src&&refPath(src);
+     if(ref?.length&&(knownSource.has(ref[0])&&knownTarget.has(ref[0])||local.includes(ref[0]))&&sourceStatic.trim()){
+      const p=attrs.length===1?attrs[0]:null,value=p?.value?.content||'',parts=chunks(value);
+      const segments=[];
+      const flatten=node=>{
+       if(t.isStringLiteral(node))segments.push({text:node.value});
+       else if(t.isBinaryExpression(node,{operator:'+'})){flatten(node.left);flatten(node.right);}
+       else segments.push({node});
+      };
+      for(const part of parts||[]){if(part.text!==undefined)segments.push(part);else try{flatten(expr(part.expression));}catch(_){segments.push({unknown:true});}}
+      const tail=segments.at(-1),leading=segments.slice(0,-1);
+      const onlyPrefix=leading.length&&leading.every(p=>p.text!==undefined),prefix=onlyPrefix?leading.map(p=>p.text).join(''):null;
+      const exact=tail?.node&&same(tail.node,src);
+      if(onlyPrefix&&exact&&prefix.trim()===sourceStatic.trim()){
+       if(/\s$/.test(prefix))mapped_bindings.push(row.id+path+'@class');
+       else{
+        finding('source_class_binding_not_landed',row.id+path+'@class','Static and source-matched dynamic class tokens lack a separator.');
+        const raw=p?.value?.loc.source||'',quote=raw[0];
+        if(p?.value&&row.editable!==false&&['"',"'"].includes(quote)&&raw.at(-1)===quote
+          &&raw.slice(1,-1)===value&&!/[&\\]/.test(value)){
+         const start=row.offset+p.value.loc.start.offset+1,replacement=sourceStatic+' {{'+print(src)+'}}';
+         if(!replacement.includes(quote)){
+          edits.push({start,end:start+value.length,text:replacement});changes.push('restored_source_class_token_separator');
+          proofs.push({location:row.id+path+'@class',source_expression_matched:true,
+           proof:'literal_separator_only_runtime_dynamic_type_equivalence_not_proven'});
+         }
+        }
+       }
+      }else{
+       reviews.push({location:row.id+path+'@class',reason:'Dynamic class shape outside separator proof; unchanged, not certified or relabelled as a definite mismatch.'});
+      }
+     }
      if(t.isObjectExpression(src)){
       const allowed=new Set([...knownSource].filter(n=>knownTarget.has(n)));local.forEach(n=>allowed.add(n));
       const terms=sourceMap(src,allowed),p=attrs.length===1?attrs[0]:null,value=p?.value?.content||'',parts=chunks(value),sig=parts&&signature(parts);
@@ -194,7 +235,7 @@ function analyze(input){
  edits.sort((a,b)=>b.start-a.start);for(let i=1;i<edits.length;i++)if(edits[i].end>edits[i-1].start)throw Error('Overlapping class edits');
  let next=code;if(input.repair)for(const e of edits)next=next.slice(0,e.start)+e.text+next.slice(e.end);
  return {code:next,findings,changes:input.repair?[...new Set(changes)]:[],proofs,reviews,mapped_bindings,
-  boundary:'Literal-key source maps only; matching registry, complete DOM shape, loop/conditional scope, fields, static classes and full conditions. Unknown cases remain diagnostics.'};
+  boundary:'Literal-key maps and unchanged identifier/member class token separators; matching registry, DOM shape, loop/conditional scope, fields, static classes and conditions. Separator proof does not certify arbitrary runtime dynamic types. Unknown cases remain diagnostics.'};
 }
 module.exports={analyze};
 if(require.main===module){try{process.stdout.write(JSON.stringify(analyze(JSON.parse(fs.readFileSync(0,'utf8')))));}

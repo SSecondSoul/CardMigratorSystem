@@ -1,0 +1,103 @@
+<template>
+  <div class="focus-card" :class="{ active: isRunning }" @click="toggleRunning">
+    <div class="focus-icon">{{ isRunning ? '进行中' : '开始' }}</div>
+    <div class="focus-content">
+      <h3 class="focus-title">{{ title }}</h3>
+      <p class="focus-duration">{{ duration }} 分钟专注</p>
+      <p class="focus-status">{{ isRunning ? '专注进行中' : '点击开始专注' }}</p>
+    </div>
+  </div>
+</template>
+
+<script>
+module.exports = {
+  name: 'FocusCard',
+  props: {
+    title: {
+      type: String,
+      default: '今日专注'
+    },
+    duration: {
+      type: Number,
+      default: 25
+    }
+  },
+  data() {
+    return {
+      isRunning: false
+    };
+  },
+  methods: {
+    toggleRunning() {
+      this.isRunning = !this.isRunning;
+    }
+  }
+};
+</script>
+
+<style scoped>
+.focus-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 280px;
+  padding: 18px 20px;
+  background: #ffffff;
+  border: 1px solid #dbeafe;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(30, 64, 175, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.focus-card:hover,
+.focus-card.active {
+  transform: translateY(-2px);
+  border-color: #2563eb;
+}
+
+.focus-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  background: #eff6ff;
+  border-radius: 50%;
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.focus-card.active .focus-icon {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.focus-content {
+  min-width: 0;
+}
+
+.focus-title {
+  margin: 0 0 4px;
+  color: #1e293b;
+  font-size: 17px;
+}
+
+.focus-duration,
+.focus-status {
+  margin: 0;
+  font-size: 13px;
+}
+
+.focus-duration {
+  color: #64748b;
+}
+
+.focus-status {
+  margin-top: 6px;
+  color: #2563eb;
+}
+</style>

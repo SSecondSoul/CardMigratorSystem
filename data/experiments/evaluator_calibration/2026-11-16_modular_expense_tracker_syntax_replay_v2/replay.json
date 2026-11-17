@@ -1,0 +1,2078 @@
+{
+  "scope": "frozen_development_failure_syntax_replay_not_new_migration_or_independent_test",
+  "migration_id": "5c2fc8916fcd4b8bb65f32ea28e20488",
+  "policy": "target_syntax_first_v1",
+  "actual_model_calls": 0,
+  "original_task_updated": false,
+  "historical_files_verified": 25,
+  "source_sha256": "47995c773b5698e5f4fda5b5e854b27648c3b1e030a845ab19790930ad564736",
+  "results": [
+    {
+      "changes": [
+        {
+          "rule": "source_matched_single_child_loop_attribute_v1",
+          "start": 1499,
+          "end": 1792,
+          "replacement": "<div s-for=\"item in expenseByCategory trackby item.category\" class=\"chart-item\"><span class=\"chart-label\">{{item.category}}</span><div class=\"bar-container\"><div class=\"bar\" style=\"width: {{getBarWidth(item.amount)}}%\"></div><span class=\"bar-value\">¥{{item.amount}}</span></div></div>"
+        },
+        {
+          "rule": "source_matched_single_child_loop_attribute_v1",
+          "start": 1830,
+          "end": 2263,
+          "replacement": "<div s-for=\"record in filteredRecords trackby record.id\" class=\"record-item{{record.type}}\"><div class=\"record-info\"><span class=\"record-category\">{{record.category}}</span><span class=\"record-date\">{{formatDate(record.date)}}</span></div><div class=\"record-amount{{record.type}}\">{{record.type === 'income' ? '+' : '-'}}¥{{record.amount}}</div><button class=\"delete-btn\" on-click=\"deleteRecord(record.id)\">删除</button></div>"
+        },
+        {
+          "rule": "parsed_adjacent_object_methods_comma_v1",
+          "start": 3436,
+          "end": 3436,
+          "replacement": ","
+        }
+      ],
+      "before": {
+        "policy": "target_syntax_first_v1",
+        "status": "fail",
+        "diagnostics": [
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1285,
+              "line": 1,
+              "column": 1286
+            },
+            "excerpt": "ct value=\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\">{{cat}}</s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</button></div><div class=\"chart-section\" s"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 1294,
+              "line": 1,
+              "column": 1295
+            },
+            "excerpt": "\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\">{{cat}}</s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</button></div><div class=\"chart-section\" s-if=\"expe"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1248,
+              "line": 1,
+              "column": 1249
+            },
+            "excerpt": "e=\"expense\">支出</option></select><select value=\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\">{{cat}}</s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</butt"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1554,
+              "line": 1,
+              "column": 1555
+            },
+            "excerpt": " > 0\"><h3>支出分类统计</h3><div class=\"chart-bars\"><s-for=\"item in expenseByCategory trackby item.category\"><div class=\"chart-item\"><span class=\"chart-label\">{{item.category}}</span><div class=\"bar-container\"><div class=\"bar\" style=\"width: {{getB"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 1784,
+              "line": 1,
+              "column": 1785
+            },
+            "excerpt": "th: {{getBarWidth(item.amount)}}%\"></div><span class=\"bar-value\">¥{{item.amount}}</span></div></div></s-for></div></div><div class=\"records-list\"><s-for=\"record in filteredRecords trackby record.id\"><div class=\"record-item{{record.type}}\"><"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1499,
+              "line": 1,
+              "column": 1500
+            },
+            "excerpt": "iv class=\"chart-section\" s-if=\"expenseByCategory.length > 0\"><h3>支出分类统计</h3><div class=\"chart-bars\"><s-for=\"item in expenseByCategory trackby item.category\"><div class=\"chart-item\"><span class=\"chart-label\">{{item.category}}</span><div clas"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1881,
+              "line": 1,
+              "column": 1882
+            },
+            "excerpt": "iv></s-for></div></div><div class=\"records-list\"><s-for=\"record in filteredRecords trackby record.id\"><div class=\"record-item{{record.type}}\"><div class=\"record-info\"><span class=\"record-category\">{{record.category}}</span><span class=\"reco"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 2255,
+              "line": 1,
+              "column": 2256
+            },
+            "excerpt": "record.amount}}</div><button class=\"delete-btn\" on-click=\"deleteRecord(record.id)\">删除</button></div></s-for><div class=\"empty-state\" s-if=\"filteredRecords.length === 0\"> 暂无记录，添加一笔吧 </div></div><div class=\"footer\" s-if=\"records.length > 0\"><"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1830,
+              "line": 1,
+              "column": 1831
+            },
+            "excerpt": " class=\"bar-value\">¥{{item.amount}}</span></div></div></s-for></div></div><div class=\"records-list\"><s-for=\"record in filteredRecords trackby record.id\"><div class=\"record-item{{record.type}}\"><div class=\"record-info\"><span class=\"record-ca"
+          },
+          {
+            "code": "target_script_syntax_error",
+            "message": "Unexpected token, expected \",\" (1:925)",
+            "location": {
+              "offset": 3454,
+              "line": 1,
+              "column": 3455
+            },
+            "excerpt": "records\").filter(r=>r.id!==id))},clearAll(){if(confirm(\"确定要清空所有记录吗？\")){this.data.set(\"records\",[])}}clearFilter(){this.data.set(\"filterType\",\"all\");this.data.set(\"filterCategory\",\"all\")},getBarWidth(amount){if(this.data.get(\"maxExpenseAmoun"
+          }
+        ],
+        "diagnostic_count": 10,
+        "overflow": false
+      },
+      "after": {
+        "policy": "target_syntax_first_v1",
+        "status": "fail",
+        "diagnostics": [
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1285,
+              "line": 1,
+              "column": 1286
+            },
+            "excerpt": "ct value=\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\">{{cat}}</s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</button></div><div class=\"chart-section\" s"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 1294,
+              "line": 1,
+              "column": 1295
+            },
+            "excerpt": "\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\">{{cat}}</s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</button></div><div class=\"chart-section\" s-if=\"expe"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1248,
+              "line": 1,
+              "column": 1249
+            },
+            "excerpt": "e=\"expense\">支出</option></select><select value=\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\">{{cat}}</s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</butt"
+          }
+        ],
+        "diagnostic_count": 3,
+        "overflow": false
+      },
+      "revision": 0,
+      "original_sha256": "ef275a81e029e50fc68063bdf6266bcf6e562dd6e1dbbd29bf1f180b4c0f075c",
+      "candidate_sha256": "ce15b5401cd6394009a58063e6d8acc71ce649cfca085ef30ec3b3aa2ca45b93"
+    },
+    {
+      "changes": [
+        {
+          "rule": "source_matched_single_child_loop_attribute_v1",
+          "start": 1248,
+          "end": 1335,
+          "replacement": "<option s-for=\"cat in categories trackby cat\" value=\"{{cat}}\">{{cat}}</option>"
+        },
+        {
+          "rule": "source_matched_single_child_loop_attribute_v1",
+          "start": 1532,
+          "end": 1843,
+          "replacement": "<div s-for=\"item in expenseByCategory trackby item.category\" class=\"chart-item\"><span class=\"chart-label\">{{item.category}}</span><div class=\"bar-container\"><div class=\"bar\" style=\"width: {{getBarWidth(item.amount, maxExpenseAmount)}}%\"></div><span class=\"bar-value\">¥{{item.amount}}</span></div></div>"
+        },
+        {
+          "rule": "source_matched_single_child_loop_attribute_v1",
+          "start": 1881,
+          "end": 2314,
+          "replacement": "<div s-for=\"record in filteredRecords trackby record.id\" class=\"record-item{{record.type}}\"><div class=\"record-info\"><span class=\"record-category\">{{record.category}}</span><span class=\"record-date\">{{formatDate(record.date)}}</span></div><div class=\"record-amount{{record.type}}\">{{record.type === 'income' ? '+' : '-'}}¥{{record.amount}}</div><button class=\"delete-btn\" on-click=\"deleteRecord(record.id)\">删除</button></div>"
+        },
+        {
+          "rule": "parsed_adjacent_object_methods_comma_v1",
+          "start": 3478,
+          "end": 3478,
+          "replacement": ","
+        }
+      ],
+      "before": {
+        "policy": "target_syntax_first_v1",
+        "status": "fail",
+        "diagnostics": [
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1285,
+              "line": 1,
+              "column": 1286
+            },
+            "excerpt": "ct value=\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\"><option value=\"{{cat}}\">{{cat}}</option></s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</button><"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 1327,
+              "line": 1,
+              "column": 1328
+            },
+            "excerpt": "e=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\"><option value=\"{{cat}}\">{{cat}}</option></s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</button></div><div class=\"chart-section\" s-if=\"expe"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1248,
+              "line": 1,
+              "column": 1249
+            },
+            "excerpt": "e=\"expense\">支出</option></select><select value=\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\"><option value=\"{{cat}}\">{{cat}}</option></s-for></select><button class=\"clear-filter\" on-click=\"clear"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1587,
+              "line": 1,
+              "column": 1588
+            },
+            "excerpt": " > 0\"><h3>支出分类统计</h3><div class=\"chart-bars\"><s-for=\"item in expenseByCategory trackby item.category\"><div class=\"chart-item\"><span class=\"chart-label\">{{item.category}}</span><div class=\"bar-container\"><div class=\"bar\" style=\"width: {{getB"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 1835,
+              "line": 1,
+              "column": 1836
+            },
+            "excerpt": "item.amount, maxExpenseAmount)}}%\"></div><span class=\"bar-value\">¥{{item.amount}}</span></div></div></s-for></div></div><div class=\"records-list\"><s-for=\"record in filteredRecords trackby record.id\"><div class=\"record-item{{record.type}}\"><"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1532,
+              "line": 1,
+              "column": 1533
+            },
+            "excerpt": "iv class=\"chart-section\" s-if=\"expenseByCategory.length > 0\"><h3>支出分类统计</h3><div class=\"chart-bars\"><s-for=\"item in expenseByCategory trackby item.category\"><div class=\"chart-item\"><span class=\"chart-label\">{{item.category}}</span><div clas"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1932,
+              "line": 1,
+              "column": 1933
+            },
+            "excerpt": "iv></s-for></div></div><div class=\"records-list\"><s-for=\"record in filteredRecords trackby record.id\"><div class=\"record-item{{record.type}}\"><div class=\"record-info\"><span class=\"record-category\">{{record.category}}</span><span class=\"reco"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 2306,
+              "line": 1,
+              "column": 2307
+            },
+            "excerpt": "record.amount}}</div><button class=\"delete-btn\" on-click=\"deleteRecord(record.id)\">删除</button></div></s-for><div class=\"empty-state\" s-if=\"filteredRecords.length === 0\"> 暂无记录，添加一笔吧 </div></div><div class=\"footer\" s-if=\"records.length > 0\"><"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1881,
+              "line": 1,
+              "column": 1882
+            },
+            "excerpt": " class=\"bar-value\">¥{{item.amount}}</span></div></div></s-for></div></div><div class=\"records-list\"><s-for=\"record in filteredRecords trackby record.id\"><div class=\"record-item{{record.type}}\"><div class=\"record-info\"><span class=\"record-ca"
+          },
+          {
+            "code": "target_script_syntax_error",
+            "message": "Unexpected token, expected \",\" (1:925)",
+            "location": {
+              "offset": 3505,
+              "line": 1,
+              "column": 3506
+            },
+            "excerpt": "records\").filter(r=>r.id!==id))},clearAll(){if(confirm(\"确定要清空所有记录吗？\")){this.data.set(\"records\",[])}}clearFilter(){this.data.set(\"filterType\",\"all\");this.data.set(\"filterCategory\",\"all\")},getBarWidth(amount,maxExpenseAmount){if(maxExpenseAmo"
+          }
+        ],
+        "diagnostic_count": 10,
+        "overflow": false
+      },
+      "after": {
+        "policy": "target_syntax_first_v1",
+        "status": "pass",
+        "diagnostics": [],
+        "diagnostic_count": 0,
+        "overflow": false
+      },
+      "revision": 1,
+      "original_sha256": "df77983981c6e92678892a80920991328cb519f6a7f55e4c743f15aaeb90fc3e",
+      "candidate_sha256": "6b513daf6bb3e8a12738516f01d2c8b34bd0be6f675171dee84f1fea2065438a",
+      "static_after": {
+        "passed": false,
+        "diagnostics": [
+          {
+            "code": "source_dom_event_not_landed",
+            "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+            "severity": "error",
+            "location": "template/div[0]/div[2]/input[1]@keyup",
+            "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+          },
+          {
+            "code": "source_dom_event_not_landed",
+            "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+            "severity": "error",
+            "location": "template/div[0]/div[2]/input[2]@keyup",
+            "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+          },
+          {
+            "code": "source_render_dependency_not_landed",
+            "message": "Source render method arguments or expression changed.",
+            "severity": "error",
+            "location": "template/div[0]/div[4]/div[1]/div[0]/div[1]/div[0]#attr:style:0@getBarWidth",
+            "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+          },
+          {
+            "code": "lifecycle_behavior_not_landed",
+            "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 loadFromLocal()。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+          }
+        ]
+      },
+      "assessment_after": {
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "pass",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "required": [
+          "static",
+          "compile_runtime",
+          "structure",
+          "visual",
+          "source_baseline"
+        ],
+        "passed": false,
+        "source_blocked": false,
+        "structure_ted": {
+          "distance": 0,
+          "source_nodes": 50,
+          "target_nodes": 50,
+          "similarity": 1.0,
+          "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+        },
+        "source_ast_ted": {
+          "distance": 3,
+          "source_nodes": 77,
+          "target_nodes": 77,
+          "similarity": 0.961038961038961,
+          "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+        },
+        "dom_ted": {
+          "distance": 10,
+          "source_nodes": 135,
+          "target_nodes": 135,
+          "similarity": 0.9259259259259259,
+          "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+        },
+        "styles": {
+          "similarity": 0.9463327370304114,
+          "compared_properties": 1118,
+          "differences": [
+            {
+              "path": "root.0.5.0",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.0.0",
+              "property": "width",
+              "source": "418.719px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.0.0.0",
+              "property": "width",
+              "source": "418.719px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.0.1",
+              "property": "color",
+              "source": "rgb(239, 68, 68)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.0.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.0.1",
+              "property": "width",
+              "source": "43.2812px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.0.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.1.0",
+              "property": "width",
+              "source": "413.875px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.1.0.0",
+              "property": "width",
+              "source": "413.875px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.1.1",
+              "property": "color",
+              "source": "rgb(16, 185, 129)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.1.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.1.1",
+              "property": "width",
+              "source": "48.125px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.1.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.2.0",
+              "property": "width",
+              "source": "427.922px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.2.0.0",
+              "property": "width",
+              "source": "427.922px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.2.1",
+              "property": "color",
+              "source": "rgb(239, 68, 68)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.2.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.2.1",
+              "property": "width",
+              "source": "34.0781px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.2.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.3.0",
+              "property": "width",
+              "source": "418.719px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.3.0.0",
+              "property": "width",
+              "source": "418.719px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.3.1",
+              "property": "color",
+              "source": "rgb(239, 68, 68)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.3.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.3.1",
+              "property": "width",
+              "source": "43.2812px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.3.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.4.0",
+              "property": "width",
+              "source": "404.672px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.4.0.0",
+              "property": "width",
+              "source": "404.672px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.4.1",
+              "property": "color",
+              "source": "rgb(16, 185, 129)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.4.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.4.1",
+              "property": "width",
+              "source": "57.3281px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.4.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            }
+          ],
+          "matching": "child_index_path",
+          "truncated": false
+        },
+        "ui_restoration": 97.2870117833821,
+        "raw_dom_ted": {
+          "distance": 10,
+          "source_nodes": 135,
+          "target_nodes": 135,
+          "similarity": 0.9259259259259259,
+          "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+        },
+        "dom_differences": [
+          {
+            "path": "root.0.5.0",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.0.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.1",
+            "expected": "div|class=record-item income",
+            "actual": "div|class=record-itemincome"
+          },
+          {
+            "path": "root.0.5.1.1",
+            "expected": "div|class=record-amount income",
+            "actual": "div|class=record-amountincome"
+          },
+          {
+            "path": "root.0.5.2",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.2.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.3",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.3.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.4",
+            "expected": "div|class=record-item income",
+            "actual": "div|class=record-itemincome"
+          },
+          {
+            "path": "root.0.5.4.1",
+            "expected": "div|class=record-amount income",
+            "actual": "div|class=record-amountincome"
+          }
+        ],
+        "raw_dom_differences": [
+          {
+            "path": "root.0.5.0",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.0.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.1",
+            "expected": "div|class=record-item income",
+            "actual": "div|class=record-itemincome"
+          },
+          {
+            "path": "root.0.5.1.1",
+            "expected": "div|class=record-amount income",
+            "actual": "div|class=record-amountincome"
+          },
+          {
+            "path": "root.0.5.2",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.2.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.3",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.3.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.4",
+            "expected": "div|class=record-item income",
+            "actual": "div|class=record-itemincome"
+          },
+          {
+            "path": "root.0.5.4.1",
+            "expected": "div|class=record-amount income",
+            "actual": "div|class=record-amountincome"
+          }
+        ],
+        "dom_comparison_policy": {
+          "version": "empty_class_presence_v1",
+          "approved": false,
+          "reasons": [
+            "source:constructor_call",
+            "source:unknown_bound_attribute",
+            "source:unknown_call",
+            "source:unknown_member_call",
+            "source:unknown_or_dom_global",
+            "target:active_template_attribute",
+            "target:constructor_call",
+            "target:unknown_call",
+            "target:unknown_member_call",
+            "target:unknown_or_dom_global"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ]
+        },
+        "dom_normalization_changes": [],
+        "structure_differences": [],
+        "structure_projection": "ssm_v3_element_attributes_events_directives_direct_text_v2",
+        "projection_limitations": [
+          "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+          "key_identity_not_proven_by_ted",
+          "script_binding_event_style_dimensions_checked_by_legacy_validator"
+        ],
+        "ssim": 0.9755602658554773,
+        "different_pixel_ratio": 0.013921875,
+        "interaction": [],
+        "thresholds": {
+          "pixel_difference": 0.05,
+          "structure": 0.95,
+          "ui": 0.95
+        },
+        "coverage": "configured_props_and_representative_actions_only",
+        "functional_equivalence": "not_proven",
+        "embedding_similarity": null,
+        "diagnostics": [
+          {
+            "code": "source_dom_event_not_landed",
+            "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+            "severity": "error",
+            "location": "template/div[0]/div[2]/input[1]@keyup",
+            "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+          },
+          {
+            "code": "source_dom_event_not_landed",
+            "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+            "severity": "error",
+            "location": "template/div[0]/div[2]/input[2]@keyup",
+            "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+          },
+          {
+            "code": "source_render_dependency_not_landed",
+            "message": "Source render method arguments or expression changed.",
+            "severity": "error",
+            "location": "template/div[0]/div[4]/div[1]/div[0]/div[1]/div[0]#attr:style:0@getBarWidth",
+            "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+          },
+          {
+            "code": "lifecycle_behavior_not_landed",
+            "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 loadFromLocal()。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+          },
+          {
+            "code": "rendered_dom_mismatch",
+            "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+            "differences": [
+              {
+                "path": "root.0.5.0",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.0.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.1",
+                "expected": "div|class=record-item income",
+                "actual": "div|class=record-itemincome"
+              },
+              {
+                "path": "root.0.5.1.1",
+                "expected": "div|class=record-amount income",
+                "actual": "div|class=record-amountincome"
+              },
+              {
+                "path": "root.0.5.2",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.2.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.3",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.3.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.4",
+                "expected": "div|class=record-item income",
+                "actual": "div|class=record-itemincome"
+              },
+              {
+                "path": "root.0.5.4.1",
+                "expected": "div|class=record-amount income",
+                "actual": "div|class=record-amountincome"
+              }
+            ],
+            "raw_differences": [
+              {
+                "path": "root.0.5.0",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.0.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.1",
+                "expected": "div|class=record-item income",
+                "actual": "div|class=record-itemincome"
+              },
+              {
+                "path": "root.0.5.1.1",
+                "expected": "div|class=record-amount income",
+                "actual": "div|class=record-amountincome"
+              },
+              {
+                "path": "root.0.5.2",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.2.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.3",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.3.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.4",
+                "expected": "div|class=record-item income",
+                "actual": "div|class=record-itemincome"
+              },
+              {
+                "path": "root.0.5.4.1",
+                "expected": "div|class=record-amount income",
+                "actual": "div|class=record-amountincome"
+              }
+            ],
+            "comparison_policy": {
+              "version": "empty_class_presence_v1",
+              "approved": false,
+              "reasons": [
+                "source:constructor_call",
+                "source:unknown_bound_attribute",
+                "source:unknown_call",
+                "source:unknown_member_call",
+                "source:unknown_or_dom_global",
+                "target:active_template_attribute",
+                "target:constructor_call",
+                "target:unknown_call",
+                "target:unknown_member_call",
+                "target:unknown_or_dom_global"
+              ],
+              "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+              "limitations": [
+                "raw_DOM_and_attribute_presence_retained",
+                "unknown_dependencies_keep_strict_comparison",
+                "not_arbitrary_external_DOM_observer_equivalence"
+              ]
+            }
+          }
+        ],
+        "source_diagnostics": [],
+        "target_warnings": [],
+        "timing_ms": {
+          "source": 1316.9433,
+          "target": 941.3851000000004
+        }
+      }
+    },
+    {
+      "changes": [
+        {
+          "rule": "source_matched_single_child_loop_attribute_v1",
+          "start": 1248,
+          "end": 1335,
+          "replacement": "<option s-for=\"cat in categories trackby cat\" value=\"{{cat}}\">{{cat}}</option>"
+        },
+        {
+          "rule": "source_matched_single_child_loop_attribute_v1",
+          "start": 1532,
+          "end": 1825,
+          "replacement": "<div s-for=\"item in expenseByCategory trackby item.category\" class=\"chart-item\"><span class=\"chart-label\">{{item.category}}</span><div class=\"bar-container\"><div class=\"bar\" style=\"width: {{getBarWidth(item.amount)}}%\"></div><span class=\"bar-value\">¥{{item.amount}}</span></div></div>"
+        },
+        {
+          "rule": "source_matched_single_child_loop_attribute_v1",
+          "start": 1863,
+          "end": 2296,
+          "replacement": "<div s-for=\"record in filteredRecords trackby record.id\" class=\"record-item{{record.type}}\"><div class=\"record-info\"><span class=\"record-category\">{{record.category}}</span><span class=\"record-date\">{{formatDate(record.date)}}</span></div><div class=\"record-amount{{record.type}}\">{{record.type === 'income' ? '+' : '-'}}¥{{record.amount}}</div><button class=\"delete-btn\" on-click=\"deleteRecord(record.id)\">删除</button></div>"
+        }
+      ],
+      "before": {
+        "policy": "target_syntax_first_v1",
+        "status": "fail",
+        "diagnostics": [
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1285,
+              "line": 1,
+              "column": 1286
+            },
+            "excerpt": "ct value=\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\"><option value=\"{{cat}}\">{{cat}}</option></s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</button><"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 1327,
+              "line": 1,
+              "column": 1328
+            },
+            "excerpt": "e=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\"><option value=\"{{cat}}\">{{cat}}</option></s-for></select><button class=\"clear-filter\" on-click=\"clearFilter\" s-if=\"hasFilter\">清除</button></div><div class=\"chart-section\" s-if=\"expe"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1248,
+              "line": 1,
+              "column": 1249
+            },
+            "excerpt": "e=\"expense\">支出</option></select><select value=\"{=filterCategory=}\"><option value=\"all\">全部分类</option><s-for=\"cat in categories trackby cat\"><option value=\"{{cat}}\">{{cat}}</option></s-for></select><button class=\"clear-filter\" on-click=\"clear"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1587,
+              "line": 1,
+              "column": 1588
+            },
+            "excerpt": " > 0\"><h3>支出分类统计</h3><div class=\"chart-bars\"><s-for=\"item in expenseByCategory trackby item.category\"><div class=\"chart-item\"><span class=\"chart-label\">{{item.category}}</span><div class=\"bar-container\"><div class=\"bar\" style=\"width: {{getB"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 1817,
+              "line": 1,
+              "column": 1818
+            },
+            "excerpt": "th: {{getBarWidth(item.amount)}}%\"></div><span class=\"bar-value\">¥{{item.amount}}</span></div></div></s-for></div></div><div class=\"records-list\"><s-for=\"record in filteredRecords trackby record.id\"><div class=\"record-item{{record.type}}\"><"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1532,
+              "line": 1,
+              "column": 1533
+            },
+            "excerpt": "iv class=\"chart-section\" s-if=\"expenseByCategory.length > 0\"><h3>支出分类统计</h3><div class=\"chart-bars\"><s-for=\"item in expenseByCategory trackby item.category\"><div class=\"chart-item\"><span class=\"chart-label\">{{item.category}}</span><div clas"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Attribute name cannot contain U+0022 (\"), U+0027 ('), and U+003C (<).",
+            "location": {
+              "offset": 1914,
+              "line": 1,
+              "column": 1915
+            },
+            "excerpt": "iv></s-for></div></div><div class=\"records-list\"><s-for=\"record in filteredRecords trackby record.id\"><div class=\"record-item{{record.type}}\"><div class=\"record-info\"><span class=\"record-category\">{{record.category}}</span><span class=\"reco"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Invalid end tag.",
+            "location": {
+              "offset": 2288,
+              "line": 1,
+              "column": 2289
+            },
+            "excerpt": "record.amount}}</div><button class=\"delete-btn\" on-click=\"deleteRecord(record.id)\">删除</button></div></s-for><div class=\"empty-state\" s-if=\"filteredRecords.length === 0\"> 暂无记录，添加一笔吧 </div></div><div class=\"footer\" s-if=\"records.length > 0\"><"
+          },
+          {
+            "code": "target_sfc_syntax_error",
+            "message": "Element is missing end tag.",
+            "location": {
+              "offset": 1863,
+              "line": 1,
+              "column": 1864
+            },
+            "excerpt": " class=\"bar-value\">¥{{item.amount}}</span></div></div></s-for></div></div><div class=\"records-list\"><s-for=\"record in filteredRecords trackby record.id\"><div class=\"record-item{{record.type}}\"><div class=\"record-info\"><span class=\"record-ca"
+          }
+        ],
+        "diagnostic_count": 9,
+        "overflow": false
+      },
+      "after": {
+        "policy": "target_syntax_first_v1",
+        "status": "pass",
+        "diagnostics": [],
+        "diagnostic_count": 0,
+        "overflow": false
+      },
+      "revision": 2,
+      "original_sha256": "ff35ef176d3eec90a0cb81bb0f9bd479a09904b83c37f0307ae1913825ef757a",
+      "candidate_sha256": "ecc6e9f6bb025a8e8ae5452defe51b731eb98f95b36229afd3a61711c544f3f3",
+      "static_after": {
+        "passed": false,
+        "diagnostics": [
+          {
+            "code": "hidden_template_reactive_dependency",
+            "message": "模板 style 渲染表达式调用 getBarWidth(...)，但该方法内部隐藏读取响应式字段：maxExpenseAmount。这些字段变化时，San 可能不会重新计算该绑定。",
+            "severity": "error",
+            "location": "template/script",
+            "suggestion": "在模板表达式中直接引用 maxExpenseAmount，或将这些字段作为参数显式传给 getBarWidth(...)。"
+          },
+          {
+            "code": "source_dom_event_not_landed",
+            "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+            "severity": "error",
+            "location": "template/div[0]/div[2]/input[1]@keyup",
+            "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+          },
+          {
+            "code": "source_dom_event_not_landed",
+            "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+            "severity": "error",
+            "location": "template/div[0]/div[2]/input[2]@keyup",
+            "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+          },
+          {
+            "code": "source_render_dependency_not_landed",
+            "message": "Private render graph or explicit dependency arguments do not match the source graph.",
+            "severity": "error",
+            "location": "template/div[0]/div[4]/div[1]/div[0]/div[1]/div[0]#attr:style:0@getBarWidth",
+            "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+          },
+          {
+            "code": "lifecycle_behavior_not_landed",
+            "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 loadFromLocal()。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+          }
+        ]
+      },
+      "assessment_after": {
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "pass",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "required": [
+          "static",
+          "compile_runtime",
+          "structure",
+          "visual",
+          "source_baseline"
+        ],
+        "passed": false,
+        "source_blocked": false,
+        "structure_ted": {
+          "distance": 0,
+          "source_nodes": 50,
+          "target_nodes": 50,
+          "similarity": 1.0,
+          "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+        },
+        "source_ast_ted": {
+          "distance": 3,
+          "source_nodes": 77,
+          "target_nodes": 77,
+          "similarity": 0.961038961038961,
+          "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+        },
+        "dom_ted": {
+          "distance": 10,
+          "source_nodes": 135,
+          "target_nodes": 135,
+          "similarity": 0.9259259259259259,
+          "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+        },
+        "styles": {
+          "similarity": 0.9463327370304114,
+          "compared_properties": 1118,
+          "differences": [
+            {
+              "path": "root.0.5.0",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.0",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.0.0",
+              "property": "width",
+              "source": "418.719px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.0.0.0",
+              "property": "width",
+              "source": "418.719px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.0.1",
+              "property": "color",
+              "source": "rgb(239, 68, 68)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.0.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.0.1",
+              "property": "width",
+              "source": "43.2812px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.0.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.1",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.1.0",
+              "property": "width",
+              "source": "413.875px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.1.0.0",
+              "property": "width",
+              "source": "413.875px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.1.1",
+              "property": "color",
+              "source": "rgb(16, 185, 129)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.1.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.1.1",
+              "property": "width",
+              "source": "48.125px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.1.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.2",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.2.0",
+              "property": "width",
+              "source": "427.922px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.2.0.0",
+              "property": "width",
+              "source": "427.922px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.2.1",
+              "property": "color",
+              "source": "rgb(239, 68, 68)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.2.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.2.1",
+              "property": "width",
+              "source": "34.0781px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.2.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.3",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.3.0",
+              "property": "width",
+              "source": "418.719px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.3.0.0",
+              "property": "width",
+              "source": "418.719px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.3.1",
+              "property": "color",
+              "source": "rgb(239, 68, 68)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.3.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.3.1",
+              "property": "width",
+              "source": "43.2812px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.3.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "backgroundColor",
+              "source": "rgb(248, 250, 252)",
+              "target": "rgba(0, 0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "paddingTop",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "paddingLeft",
+              "source": "12px",
+              "target": "0px"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "width",
+              "source": "522px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "height",
+              "source": "45px",
+              "target": "91px"
+            },
+            {
+              "path": "root.0.5.4",
+              "property": "display",
+              "source": "flex",
+              "target": "block"
+            },
+            {
+              "path": "root.0.5.4.0",
+              "property": "width",
+              "source": "404.672px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.4.0.0",
+              "property": "width",
+              "source": "404.672px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.4.1",
+              "property": "color",
+              "source": "rgb(16, 185, 129)",
+              "target": "rgb(0, 0, 0)"
+            },
+            {
+              "path": "root.0.5.4.1",
+              "property": "fontWeight",
+              "source": "700",
+              "target": "400"
+            },
+            {
+              "path": "root.0.5.4.1",
+              "property": "width",
+              "source": "57.3281px",
+              "target": "550px"
+            },
+            {
+              "path": "root.0.5.4.2",
+              "property": "display",
+              "source": "block",
+              "target": "inline-block"
+            }
+          ],
+          "matching": "child_index_path",
+          "truncated": false
+        },
+        "ui_restoration": 97.28466751457093,
+        "raw_dom_ted": {
+          "distance": 10,
+          "source_nodes": 135,
+          "target_nodes": 135,
+          "similarity": 0.9259259259259259,
+          "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+        },
+        "dom_differences": [
+          {
+            "path": "root.0.5.0",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.0.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.1",
+            "expected": "div|class=record-item income",
+            "actual": "div|class=record-itemincome"
+          },
+          {
+            "path": "root.0.5.1.1",
+            "expected": "div|class=record-amount income",
+            "actual": "div|class=record-amountincome"
+          },
+          {
+            "path": "root.0.5.2",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.2.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.3",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.3.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.4",
+            "expected": "div|class=record-item income",
+            "actual": "div|class=record-itemincome"
+          },
+          {
+            "path": "root.0.5.4.1",
+            "expected": "div|class=record-amount income",
+            "actual": "div|class=record-amountincome"
+          }
+        ],
+        "raw_dom_differences": [
+          {
+            "path": "root.0.5.0",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.0.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.1",
+            "expected": "div|class=record-item income",
+            "actual": "div|class=record-itemincome"
+          },
+          {
+            "path": "root.0.5.1.1",
+            "expected": "div|class=record-amount income",
+            "actual": "div|class=record-amountincome"
+          },
+          {
+            "path": "root.0.5.2",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.2.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.3",
+            "expected": "div|class=record-item expense",
+            "actual": "div|class=record-itemexpense"
+          },
+          {
+            "path": "root.0.5.3.1",
+            "expected": "div|class=record-amount expense",
+            "actual": "div|class=record-amountexpense"
+          },
+          {
+            "path": "root.0.5.4",
+            "expected": "div|class=record-item income",
+            "actual": "div|class=record-itemincome"
+          },
+          {
+            "path": "root.0.5.4.1",
+            "expected": "div|class=record-amount income",
+            "actual": "div|class=record-amountincome"
+          }
+        ],
+        "dom_comparison_policy": {
+          "version": "empty_class_presence_v1",
+          "approved": false,
+          "reasons": [
+            "source:constructor_call",
+            "source:unknown_bound_attribute",
+            "source:unknown_call",
+            "source:unknown_member_call",
+            "source:unknown_or_dom_global",
+            "target:active_template_attribute",
+            "target:constructor_call",
+            "target:unknown_call",
+            "target:unknown_member_call",
+            "target:unknown_or_dom_global"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ]
+        },
+        "dom_normalization_changes": [],
+        "structure_differences": [],
+        "structure_projection": "ssm_v3_element_attributes_events_directives_direct_text_v2",
+        "projection_limitations": [
+          "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+          "key_identity_not_proven_by_ted",
+          "script_binding_event_style_dimensions_checked_by_legacy_validator"
+        ],
+        "ssim": 0.9755430679792538,
+        "different_pixel_ratio": 0.013971354166666667,
+        "interaction": [],
+        "thresholds": {
+          "pixel_difference": 0.05,
+          "structure": 0.95,
+          "ui": 0.95
+        },
+        "coverage": "configured_props_and_representative_actions_only",
+        "functional_equivalence": "not_proven",
+        "embedding_similarity": null,
+        "diagnostics": [
+          {
+            "code": "hidden_template_reactive_dependency",
+            "message": "模板 style 渲染表达式调用 getBarWidth(...)，但该方法内部隐藏读取响应式字段：maxExpenseAmount。这些字段变化时，San 可能不会重新计算该绑定。",
+            "severity": "error",
+            "location": "template/script",
+            "suggestion": "在模板表达式中直接引用 maxExpenseAmount，或将这些字段作为参数显式传给 getBarWidth(...)。"
+          },
+          {
+            "code": "source_dom_event_not_landed",
+            "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+            "severity": "error",
+            "location": "template/div[0]/div[2]/input[1]@keyup",
+            "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+          },
+          {
+            "code": "source_dom_event_not_landed",
+            "message": "Source-scoped native event requires its original handler/modifier/self contract.",
+            "severity": "error",
+            "location": "template/div[0]/div[2]/input[2]@keyup",
+            "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+          },
+          {
+            "code": "source_render_dependency_not_landed",
+            "message": "Private render graph or explicit dependency arguments do not match the source graph.",
+            "severity": "error",
+            "location": "template/div[0]/div[4]/div[1]/div[0]/div[1]/div[0]#attr:style:0@getBarWidth",
+            "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+          },
+          {
+            "code": "lifecycle_behavior_not_landed",
+            "message": "以下生命周期行为未完整迁移：mounted -> attached: 调用方法 loadFromLocal()。",
+            "severity": "error",
+            "location": "script",
+            "suggestion": "在对应 San 生命周期中保留源钩子的状态初始化、方法调用和定时器创建/清理；不要只保留空的 inited/attached/disposed 方法。"
+          },
+          {
+            "code": "rendered_dom_mismatch",
+            "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+            "differences": [
+              {
+                "path": "root.0.5.0",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.0.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.1",
+                "expected": "div|class=record-item income",
+                "actual": "div|class=record-itemincome"
+              },
+              {
+                "path": "root.0.5.1.1",
+                "expected": "div|class=record-amount income",
+                "actual": "div|class=record-amountincome"
+              },
+              {
+                "path": "root.0.5.2",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.2.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.3",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.3.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.4",
+                "expected": "div|class=record-item income",
+                "actual": "div|class=record-itemincome"
+              },
+              {
+                "path": "root.0.5.4.1",
+                "expected": "div|class=record-amount income",
+                "actual": "div|class=record-amountincome"
+              }
+            ],
+            "raw_differences": [
+              {
+                "path": "root.0.5.0",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.0.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.1",
+                "expected": "div|class=record-item income",
+                "actual": "div|class=record-itemincome"
+              },
+              {
+                "path": "root.0.5.1.1",
+                "expected": "div|class=record-amount income",
+                "actual": "div|class=record-amountincome"
+              },
+              {
+                "path": "root.0.5.2",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.2.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.3",
+                "expected": "div|class=record-item expense",
+                "actual": "div|class=record-itemexpense"
+              },
+              {
+                "path": "root.0.5.3.1",
+                "expected": "div|class=record-amount expense",
+                "actual": "div|class=record-amountexpense"
+              },
+              {
+                "path": "root.0.5.4",
+                "expected": "div|class=record-item income",
+                "actual": "div|class=record-itemincome"
+              },
+              {
+                "path": "root.0.5.4.1",
+                "expected": "div|class=record-amount income",
+                "actual": "div|class=record-amountincome"
+              }
+            ],
+            "comparison_policy": {
+              "version": "empty_class_presence_v1",
+              "approved": false,
+              "reasons": [
+                "source:constructor_call",
+                "source:unknown_bound_attribute",
+                "source:unknown_call",
+                "source:unknown_member_call",
+                "source:unknown_or_dom_global",
+                "target:active_template_attribute",
+                "target:constructor_call",
+                "target:unknown_call",
+                "target:unknown_member_call",
+                "target:unknown_or_dom_global"
+              ],
+              "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+              "limitations": [
+                "raw_DOM_and_attribute_presence_retained",
+                "unknown_dependencies_keep_strict_comparison",
+                "not_arbitrary_external_DOM_observer_equivalence"
+              ]
+            }
+          }
+        ],
+        "source_diagnostics": [],
+        "target_warnings": [],
+        "timing_ms": {
+          "source": 1155.2304999999997,
+          "target": 997.8249999999998
+        }
+      }
+    }
+  ],
+  "implementation_sha256": {
+    "browser/empty-class-policy.mjs": "f06e47374d4f3fae2f0ffdbf3521e5e46390a4608e827e4860e4f769823b9e3a",
+    "browser/evaluate.mjs": "c04e07ce5fefa87a2ec1f0f38ff8a3c502fbe2a9e8908085a36343ed16f60668",
+    "browser/metrics.mjs": "f7849fff37eabeef3f70601f1010dae78ed1c396746b7e7c9b4012823946fdd6",
+    "browser/metrics.test.mjs": "3c871eecc1f6c851a5c487ce5c1b98a386b28c2c2780e6dbc6c1230d9adda924",
+    "browser/syntax-cli.mjs": "b4ec1ac01ab59708463b92824e54fec7ae5a539e5a46754ae39798af5f7426af",
+    "browser/target-syntax.mjs": "7e3b1e60253bf3e3a8616ad43c7b6d0bac89f74e01e1926d501b9c4d5dc1ce96",
+    "browser/workbench-smoke.mjs": "c89a739faa33a7543eb4a50a51c800a68ede3f8b5253e926d07fa3518aed5782",
+    "src/card_migration_system/config.py": "c91a9b7842a0b3cf2bf2a99c1a55e8821238e51ddc17882da5b4e2c62a613b3a",
+    "src/card_migration_system/runtime.py": "7416693cdd5a22a8e8aa69df7ad3ef0c37efd12caef37c051a9fa2e9bdb04354",
+    "src/card_migration_system/__init__.py": "0f958023ebe62eb72c7631e846ab681a34f022fa9093ed2a463194d68400899b",
+    "src/card_migration_system/__main__.py": "721d0b96dc75f9f9bb2ba63f3329cc9102bbccf56294578419691b8cb0d30711",
+    "src/card_migration_system/adapters/browser.py": "2db4be67e2e781567a9c951e73793558c477d2966610544da56699830ea4173b",
+    "src/card_migration_system/adapters/embedding.py": "c3e2a4df148fe1adab225498277a34d7a9651fa3ba5e5b7140391308d8eefe6e",
+    "src/card_migration_system/adapters/generation.py": "82a1a7cc4914a37c8a4ca17a6273a9c43b8b6b075328221a8929442d29a83e75",
+    "src/card_migration_system/adapters/legacy_checks.py": "20bb349c996759767bf80e687be34c24c7107e75c357aace9ebdcc57c984f727",
+    "src/card_migration_system/adapters/legacy_contracts.py": "545500cb611ab456be08941e6e74def8aa42b7ba0d54dedc6a25754b9214d28f",
+    "src/card_migration_system/adapters/legacy_worker.py": "77d87652ecb151a9ef44dc09068649889bbd420e06be59c17ea7a7809018d13c",
+    "src/card_migration_system/adapters/model.py": "33bc12d1a61b1548910d048bf8f9ff881ae37c94c645160367fbb8bccc49a365",
+    "src/card_migration_system/adapters/qwen_transport.py": "510a205866ef843d17a63d9224f63e46eac946f20ae82051f750f59b0a64d182",
+    "src/card_migration_system/adapters/ssm.py": "05eb6899bef94bb94ad93fe8fcb1c71f5b113db7bbf6e95784399a8fa9d473d7",
+    "src/card_migration_system/adapters/ssm_worker.py": "8b43a767bb59af3bc25e103faaac85fdc9a281cfc20f2d62cdf7a8c8c08c0a15",
+    "src/card_migration_system/adapters/syntax.py": "6e050c0b91b550f04492c4c55729614f88fd4198e357aedb7c709f2d7e5a78d5",
+    "src/card_migration_system/adapters/token_budget.py": "324c3051c8e8446da629cf43cf6f1be6c6ddb6a924e2d444e77b0f41e2bc7f40",
+    "src/card_migration_system/adapters/__init__.py": "1925828646ce9e179754261cd6ad77eba2df5794732daa60f5bcbd1c906d7133",
+    "src/card_migration_system/application/extractions.py": "aa4c544738b3baeb710fa8d7f1e80fd52df291c1d82fb84250010177ef87009d",
+    "src/card_migration_system/application/generations.py": "0b3529184f45030a7bebc1cc234001fe4bf2d66c867ce0eeeabf3ce895ae8824",
+    "src/card_migration_system/application/generation_approvals.py": "96dc592c698434844af45de7c05e0f4c3c3ca23635deb658e877df4c3f17cbbf",
+    "src/card_migration_system/application/generation_preview.py": "2b61266d0597fd8a35aff4e9916603d36179927d2e354a34c230be1f6c255512",
+    "src/card_migration_system/application/migrations.py": "3f5fb3476e29a38382fd1213da92a049eae55dbd582c840f295d0a5851fc9ac8",
+    "src/card_migration_system/application/provider_generations.py": "335a3e8937ee77249fe257471d003fdcd9f418e4523650918afa2f3ccba10c6b",
+    "src/card_migration_system/application/service.py": "c9f2cdc3798a9c5732fee0b8f9ccc4a3f1a1f46a7014089f3a83194e5332e0d3",
+    "src/card_migration_system/application/storage.py": "163952cd64c06d82610d03b34f1db099d8a9f7fcbc56e19259d4d5b1c6f1eac2",
+    "src/card_migration_system/application/__init__.py": "72f9c5f9c84606bba7ae68a3b66c9614f21708ddae3d8b56e3b91daad75586f6",
+    "src/card_migration_system/contracts/__init__.py": "43a1f92c8542abdd3ee941815f6dea46fe8765d74bae299a6c3a337fe03fb44a",
+    "src/card_migration_system/graph/builder.py": "d37ac4d6b4035b0ce51279175a6d2c86f9bdf2029842ae19c238197dadda9840",
+    "src/card_migration_system/graph/extraction.py": "3bb8e2b3491f6e7f3d069fd5b35b45e4f82914eea801f4569891ade8b64e4a60",
+    "src/card_migration_system/graph/generation.py": "b7a8ce83d67a0fc324cdf45c2c112b3a86fd1dfa58b15fc240f773c4b8e2bd6c",
+    "src/card_migration_system/graph/migration.py": "30bf82405e452102b47ae2083aeda7f462dee8af70f3a11e4c18baa535635572",
+    "src/card_migration_system/graph/provider_generation.py": "39ed84c86b0270354b6bb4aab9afc6d50731f3452738a36869655f8d113c1de0",
+    "src/card_migration_system/graph/__init__.py": "e199accaad6dbeea80bb762526b9ac7e1d006b19b4ae9ebd1d3a4eeeee182212",
+    "src/card_migration_system/interfaces/cli.py": "a331605fd426f3c13fedb68d6327687717e747bdbc196eeffde8a7eafbb2fcac",
+    "src/card_migration_system/interfaces/system_cli.py": "47ab61b2a1f24cbbb4eaafe4fb45a5a484db62447232bea874c61cae394ddf37",
+    "src/card_migration_system/interfaces/__init__.py": "6f95e143ae0b16b1ff00c575496a3b92ad76686dd21a4236aa4dfb5d2bba7834",
+    "src/card_migration_system/observability/traces.py": "436ce3d541d6c7eb437fa8c30163077eecaf6a52d83465856fd2df363d38e85f",
+    "src/card_migration_system/observability/__init__.py": "1208e9c00abadfdbbdad1626f5048a8b7a52554a86c0f4c2e721a3010ccb008b",
+    "src/card_migration_system/persistence/backup.py": "b3558d4ec5cbfefb34526ed37b980ea40286ac369034effd8aef0d5e3c9c4711",
+    "src/card_migration_system/persistence/database.py": "04035608b967f09f4ac0080b923825a806bc02b82733647f4523acdbf77f3d2f",
+    "src/card_migration_system/persistence/generations.py": "82b4ab65adee1e74e6089dfae84be8e3f19aeac6f013a6d87ea746e8668e0c65",
+    "src/card_migration_system/persistence/generation_approvals.py": "6f79d429c6447603c963ee2934da1facda9261afaadbb14eab7106123f212863",
+    "src/card_migration_system/persistence/migrations.py": "cc85a5f38660a8c899d8d9455e3d7e0dfbf9b723ae078fcad29443682394a1a7",
+    "src/card_migration_system/persistence/provider_generations.py": "de862e806d97cb8f26eaaa0f6c0e6b858149a8ba8ab32086c60deca88da5438c",
+    "src/card_migration_system/persistence/runtime_lock.py": "2ff6914ac495a1bde4c3dc691ace21b330827b37c85ae57ab7453396fd1cbf04",
+    "src/card_migration_system/persistence/schema_v1.py": "9920f313a80ae4f2f8f34711818bdd8088428d2f68d959ed7f85cdc8338405d3",
+    "src/card_migration_system/persistence/ssm_extractions.py": "43b234d4708b9108338fa7809ab30e12992884303b00f52f0c655ad31d2f4792",
+    "src/card_migration_system/persistence/worker_health.py": "18aded42ed6ba5858a0e9d4302daa496b5eb2b16edbef652bb600a3d653b9f91",
+    "src/card_migration_system/persistence/__init__.py": "33b8018ba9fbbf5ff0bf4f8b86469b39430815b3d48c16984214950721546dad",
+    "src/card_migration_system/prompts/generation.py": "e16a06739c1cc5643884334c60347e1731e4da638d68982c218e95e8f4ee30b8",
+    "src/card_migration_system/prompts/migration.py": "8d140f857a0b0e13d05d136a814b52f5dc81df7ecf2b1d82761a4de925ae7691",
+    "src/card_migration_system/prompts/__init__.py": "eb80da9500eef59e8b5d761f988410b4d29628815f4072ac6298ed37f49ec5d4",
+    "src/card_migration_system/reporting/extraction_projection.py": "f08a8911a6f1711cd21a6c08f9cd7f4d62a8726dfa1ebab4d9a734ce25fef13d",
+    "src/card_migration_system/reporting/identity.py": "9578b179557722d89e3946a0a6811e0c41be7fc375962b0904ba69569c1ab7c3",
+    "src/card_migration_system/reporting/projection.py": "b0da421e41cc2a9fda17f9c95dbd12ce14ec16831d5a2df7ee83efd2635c8a4c",
+    "src/card_migration_system/reporting/provider_generation.py": "9c64ab6d5509d5ab33c84bcbf7ad253d607098a23d420547d1e08d28261b4f56",
+    "src/card_migration_system/reporting/request_snapshot.py": "4a1686bfec961af845f1d75f1ce261d3d243b4a8cd99987425da70d04c3882b5",
+    "src/card_migration_system/reporting/statistics.py": "441a6d425725f698b190fe5b98051c4041176707063d555afc4b1e2d658b88ed",
+    "src/card_migration_system/reporting/__init__.py": "ed7b25ee0969f98335f22b106b492565eb5f3637305f3af589d075f34b52054d",
+    "src/card_migration_system/stages/dom_comparison.py": "cd5845423d88f3ceaaf293c2a81d6bba8f2d3985c10ba229073b2fdc77285fd7",
+    "src/card_migration_system/stages/evaluation.py": "dd1245132e6b5e686d5c98c5b8fd45dbf6508b073a42b6d29cbfbea8327f764a",
+    "src/card_migration_system/stages/extract.py": "da72d04bf3a8c3919069310efd173940e505f4f3cade9dd90ee9fa7739ee60e3",
+    "src/card_migration_system/stages/generation.py": "f5c0efa977ba6d390c958a3fb33b552690ad297a689a84b2b79f6f58eb3388ce",
+    "src/card_migration_system/stages/structure.py": "0bf1a24b58b34d22266d08daf1b0703cd261e4ec7abcb99c5c4f71a287dc6625",
+    "src/card_migration_system/stages/syntax.py": "a68cf8cee643992d30bbf526a786b00138ee00ebb8690ca8737322dc25897f43",
+    "src/card_migration_system/stages/__init__.py": "68423188d8ed4becc4942fcb8f2efc85cd98a58e56d1ab53c9a6d335cb3b0729",
+    "src/card_migration_system/training/data.py": "b196c95ed1fd6c43dac3fff42b6fa5aa47a8db2d6a6d89826599f8188fc78fad",
+    "src/card_migration_system/training/lora.py": "7530266ea62bb0c4d0ecfe6c2f4fd46212765565f6873c8f4cede1a9141301f2",
+    "src/card_migration_system/training/__init__.py": "f5c0a5e39f81f29ed0c714aee5eb77d213f0365ff1b8a162bc103e52113042c2",
+    "src/card_migration_system/workers/heartbeat.py": "3c713277faf49396393aba58b2986dcc537faad829f3e101558af64d91060f7a",
+    "src/card_migration_system/workers/migration.py": "f2cf6a6503376f0be3ffa347e889973fffafcebab2346b08374e0de232e34a26",
+    "src/card_migration_system/workers/runner.py": "76c3654b191281d5d60aa3c2f5dd5faecd75ed1bdb77a7323ff03c98b668b707",
+    "src/card_migration_system/workers/__init__.py": "e088f93fde520a672501f9ea56e6677c0cc4bffd4bddcfa6deaf2a63d72a87e0",
+    "src/card_migration_system/interfaces/api/app.py": "5f94bd478e69ae973c974670602a98f4b76c1100553793f0cb31199b920d74b0",
+    "src/card_migration_system/interfaces/api/migrations.py": "c3740eeaedffa217138ec6d10d92bba99363da01637cbd02d3b3b4c16ba79dec",
+    "src/card_migration_system/interfaces/api/__init__.py": "4b5202f54b731c8dd7282919dd102989a3780587e06d442f7cfa8fcec4e9cee8"
+  },
+  "limitation": "Syntax success alone does not establish semantic, interaction or arbitrary input equivalence."
+}

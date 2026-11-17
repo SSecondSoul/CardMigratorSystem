@@ -1,0 +1,17 @@
+{
+  "code": "<template><div class=\"focus-card{{ isRunning ? ' active' : '' }}\" on-click=\"toggleRunning\"><div class=\"focus-icon\">{{isRunning ? '\u8fdb\u884c\u4e2d' : '\u5f00\u59cb'}}</div><div class=\"focus-content\"><h3 class=\"focus-title\">{{title}}</h3><p class=\"focus-duration\">{{duration}} \u5206\u949f\u4e13\u6ce8</p><p class=\"focus-status\">{{isRunning ? '\u4e13\u6ce8\u8fdb\u884c\u4e2d' : '\u70b9\u51fb\u5f00\u59cb\u4e13\u6ce8'}}</p></div></div></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"FocusCard\",dataTypes:{title:DataTypes.string,duration:DataTypes.number},initData(){return {\ntitle: '\u4eca\u65e5\u4e13\u6ce8',\nduration: 25,\nisRunning:false}},toggleRunning(){this.data.set(\"isRunning\",!this.data.get(\"isRunning\"))}});</script><style>\n.focus-card {\n  display: flex;\n  align-items: center;\n  gap: 16px;\n  width: 280px;\n  padding: 18px 20px;\n  background: #ffffff;\n  border: 1px solid #dbeafe;\n  border-radius: 14px;\n  box-shadow: 0 4px 14px rgba(30, 64, 175, 0.1);\n  cursor: pointer;\n  transition: transform 0.2s, border-color 0.2s;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;\n}\n\n.focus-card:hover,\n.focus-card.active {\n  transform: translateY(-2px);\n  border-color: #2563eb;\n}\n\n.focus-icon {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 52px;\n  height: 52px;\n  flex-shrink: 0;\n  background: #eff6ff;\n  border-radius: 50%;\n  color: #2563eb;\n  font-size: 13px;\n  font-weight: 600;\n}\n\n.focus-card.active .focus-icon {\n  background: #2563eb;\n  color: #ffffff;\n}\n\n.focus-content {\n  min-width: 0;\n}\n\n.focus-title {\n  margin: 0 0 4px;\n  color: #1e293b;\n  font-size: 17px;\n}\n\n.focus-duration,\n.focus-status {\n  margin: 0;\n  font-size: 13px;\n}\n\n.focus-duration {\n  color: #64748b;\n}\n\n.focus-status {\n  margin-top: 6px;\n  color: #2563eb;\n}\n</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/f3cf07b0c7e5462aaf1b1cd5a781b37a/revisions/1.san",
+    "sha256": "0ced63ec865d38bedf3cdc4d5a102780d35d48684639af75900675f69decaced"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "5b2846371990da7b5721641b3a67b267b07653226d9d006755b0efa695d85c8c",
+  "rules": [
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ]
+  ]
+}

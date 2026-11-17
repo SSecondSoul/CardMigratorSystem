@@ -1,0 +1,17 @@
+{
+  "status": "blocked",
+  "code": "source_dynamic_key_contract_unsupported",
+  "diagnostics": [
+    {
+      "code": "source_dynamic_key_contract_unsupported",
+      "message": "源方法 setValue 使用 this[key] = value。源代码合法，但当前迁移器尚未实现任意公开键契约（包括字面点号键、Symbol 和实例命名空间）；this.data.set(key, value) 不能直接视为等价。保留原契约，停止模型调用，不缩小为固定键白名单。",
+      "location": {
+        "offset": 2628,
+        "line": 64,
+        "column": 5
+      },
+      "location_precision": "exact",
+      "excerpt": "      return this.visibleProducts.length;\n    }\n  },\n  methods: {\n    setValue(key, value) { this[key] = value; },\n    emitEvent(name, payload) { this.$emit(name, payload); },\n    updateQuery(event) {\n      this.setValue('query', event.targ"
+    }
+  ]
+}

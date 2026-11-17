@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "card-migration-system"
+version = "0.1.0.dev0"
+description = "Modular Vue-to-SSM-to-San migration workbench with persistent graph and evaluation."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "Flask>=3.1,<4",
+    "SQLAlchemy>=2.0,<3",
+    "alembic>=1.16,<2",
+    "langgraph>=1,<2",
+    "langgraph-checkpoint-sqlite>=3,<4",
+    "langsmith>=0.14,<1",
+]
+
+[project.optional-dependencies]
+training = ["torch>=2.6,<3", "transformers>=4.57,<5", "peft>=0.18,<1", "Pillow>=11,<13"]
+
+[project.scripts]
+card-migration-system = "card_migration_system.interfaces.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"card_migration_system.adapters" = ["p1_contracts_pin.json", "ssm_bridge.cjs"]

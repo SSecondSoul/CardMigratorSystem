@@ -1,0 +1,135 @@
+{
+  "dimensions": {
+    "static": "fail",
+    "compile_runtime": "pass",
+    "structure": "pass",
+    "visual": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass"
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "passed": false,
+  "source_blocked": false,
+  "structure_ted": {
+    "distance": 0,
+    "source_nodes": 50,
+    "target_nodes": 50,
+    "similarity": 1.0,
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+  },
+  "source_ast_ted": {
+    "distance": 3,
+    "source_nodes": 77,
+    "target_nodes": 77,
+    "similarity": 0.961038961038961,
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+  },
+  "dom_ted": {
+    "distance": 0,
+    "source_nodes": 135,
+    "target_nodes": 135,
+    "similarity": 1.0,
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+  },
+  "styles": {
+    "similarity": 1.0,
+    "compared_properties": 1118,
+    "differences": [],
+    "matching": "child_index_path",
+    "truncated": false
+  },
+  "ui_restoration": 100,
+  "raw_dom_ted": {
+    "distance": 0,
+    "source_nodes": 135,
+    "target_nodes": 135,
+    "similarity": 1.0,
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1"
+  },
+  "dom_differences": [],
+  "raw_dom_differences": [],
+  "dom_comparison_policy": {
+    "version": "empty_class_presence_v1",
+    "approved": false,
+    "reasons": [
+      "source:constructor_call",
+      "source:unknown_bound_attribute",
+      "source:unknown_call",
+      "source:unknown_member_call",
+      "source:unknown_or_dom_global",
+      "target:active_template_attribute",
+      "target:constructor_call",
+      "target:unknown_call",
+      "target:unknown_member_call",
+      "target:unknown_or_dom_global"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ]
+  },
+  "dom_normalization_changes": [],
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_element_attributes_events_directives_direct_text_v2",
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "ssim": 1,
+  "different_pixel_ratio": 0,
+  "interaction": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "functional_equivalence": "not_proven",
+  "embedding_similarity": null,
+  "diagnostics": [
+    {
+      "code": "hidden_template_reactive_dependency",
+      "message": "模板 style 渲染表达式调用 getBarWidth(...)，但该方法内部隐藏读取响应式字段：maxExpenseAmount。这些字段变化时，San 可能不会重新计算该绑定。",
+      "severity": "error",
+      "location": "template/script",
+      "suggestion": "在模板表达式中直接引用 maxExpenseAmount，或将这些字段作为参数显式传给 getBarWidth(...)。"
+    },
+    {
+      "code": "source_render_dependency_not_landed",
+      "message": "Private render graph or explicit dependency arguments do not match the source graph.",
+      "severity": "error",
+      "location": "template/div[0]/div[4]/div[1]/div[0]/div[1]/div[0]#attr:style:0@getBarWidth",
+      "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+    },
+    {
+      "code": "missing_watch_migration",
+      "message": "以下 watch 未在 San script 中找到 this.watch 对应：records。",
+      "severity": "error",
+      "location": "script",
+      "suggestion": "在 San inited/attached 中使用 this.watch 迁移 Vue watch，或确认逻辑已等价处理。"
+    }
+  ],
+  "source_diagnostics": [],
+  "target_warnings": [],
+  "timing_ms": {
+    "source": 2587.1047,
+    "target": 1149.1004999999996
+  },
+  "syntax": {
+    "policy": "target_syntax_first_v1",
+    "status": "pass",
+    "diagnostics": [],
+    "diagnostic_count": 0,
+    "overflow": false
+  },
+  "revision_sha256": "6c92d7bcfe7bbb838751e998a48e2014cef47cbb53e0d9f546ac8bd969e47cf5"
+}

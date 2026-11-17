@@ -1,0 +1,247 @@
+{
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "vue_this_state",
+      "location": "script",
+      "message": "San script \u4e2d\u68c0\u6d4b\u5230 1 \u5904 Vue \u5199\u6cd5\u6b8b\u7559\u3002",
+      "severity": "error",
+      "suggestion": "San \u72b6\u6001\u8bfb\u5199\u5e94\u4f7f\u7528 this.data.get()/this.data.set()\u3002"
+    },
+    {
+      "code": "missing_prop_defaults",
+      "details": {
+        "affected_fields": [
+          "initialValue",
+          "options"
+        ],
+        "contract": "prop_defaults_v1"
+      },
+      "location": "script",
+      "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1aoptions, initialValue\u3002",
+      "severity": "error",
+      "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+    },
+    {
+      "code": "missing_prop_dependent_initialization",
+      "location": "script",
+      "message": "\u4ee5\u4e0b prop \u6d3e\u751f data \u672a\u5728 inited() \u4e2d\u5b8c\u6574\u521d\u59cb\u5316\uff1aselected <- initialValue\u3002",
+      "severity": "error",
+      "suggestion": "initData() \u5148\u8fd4\u56de\u7a33\u5b9a\u5360\u4f4d\u503c\uff0c\u518d\u5728 inited() \u4e2d\u4f7f\u7528 this.data.get('propName') \u8bfb\u53d6 prop\u3001\u521b\u5efa\u72ec\u7acb\u526f\u672c\uff0c\u5e76\u901a\u8fc7 this.data.set('field', value) \u5199\u5165\u6d3e\u751f data\u3002"
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": true,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "reasons": [],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "empty_class_presence_v1"
+      },
+      "differences": [
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=selected|type=button",
+          "path": "root.0.2"
+        },
+        {
+          "actual": "#text:\u5f53\u524d\u9009\u62e9\uff1a\u672a\u9009\u62e9",
+          "expected": "#text:\u5f53\u524d\u9009\u62e9\uff1a\u6bcf\u65e5",
+          "path": "root.0.4.0"
+        }
+      ],
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.1"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=selected|type=button",
+          "path": "root.0.2"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.3"
+        },
+        {
+          "actual": "#text:\u5f53\u524d\u9009\u62e9\uff1a\u672a\u9009\u62e9",
+          "expected": "#text:\u5f53\u524d\u9009\u62e9\uff1a\u6bcf\u65e5",
+          "path": "root.0.4.0"
+        }
+      ]
+    }
+  ],
+  "different_pixel_ratio": 0.0017013888888888888,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": true,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "reasons": [],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "empty_class_presence_v1"
+  },
+  "dom_differences": [
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=selected|type=button",
+      "path": "root.0.2"
+    },
+    {
+      "actual": "#text:\u5f53\u524d\u9009\u62e9\uff1a\u672a\u9009\u62e9",
+      "expected": "#text:\u5f53\u524d\u9009\u62e9\uff1a\u6bcf\u65e5",
+      "path": "root.0.4.0"
+    }
+  ],
+  "dom_normalization_changes": [
+    {
+      "change": "empty_class_presence_removed_from_comparison_copy",
+      "path": "source.root.0.1"
+    },
+    {
+      "change": "empty_class_presence_removed_from_comparison_copy",
+      "path": "source.root.0.3"
+    }
+  ],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.8333333333333334,
+    "source_nodes": 12,
+    "target_nodes": 12
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/84ad44603a214ec5891015db3be66b94/evaluations/0/heatmap.png",
+      "sha256": "07b7939bf949ce83ec5b6fbc076b7d06056f67ab487f6ce131af7474972b44df"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/84ad44603a214ec5891015db3be66b94/evaluations/0/san.png",
+      "sha256": "dbf942f5d6f902dae1ce8cc15aa825bbd922a9b750affd678c84c57ba5e2aea2"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/84ad44603a214ec5891015db3be66b94/evaluations/0/vue.png",
+      "sha256": "6eee254c28283f386d6961eae085669b5d832d49a58115f26b1b5f700ea80dda"
+    }
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=|type=button",
+      "path": "root.0.1"
+    },
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=selected|type=button",
+      "path": "root.0.2"
+    },
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=|type=button",
+      "path": "root.0.3"
+    },
+    {
+      "actual": "#text:\u5f53\u524d\u9009\u62e9\uff1a\u672a\u9009\u62e9",
+      "expected": "#text:\u5f53\u524d\u9009\u62e9\uff1a\u6bcf\u65e5",
+      "path": "root.0.4.0"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 4,
+    "similarity": 0.6666666666666667,
+    "source_nodes": 12,
+    "target_nodes": 12
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "3c33e76784a6e6f7d1b5de9ec0e887464348a962d4c83afabf18b4cb8e3b64ef",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.875,
+    "source_nodes": 8,
+    "target_nodes": 8
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "ssim": 0.9991558973008776,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_element_attributes_events_directives_direct_text_v2",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 5,
+    "target_nodes": 5
+  },
+  "styles": {
+    "compared_properties": 91,
+    "differences": [
+      {
+        "path": "root.0.2",
+        "property": "color",
+        "source": "rgb(17, 94, 89)",
+        "target": "rgb(51, 65, 85)"
+      },
+      {
+        "path": "root.0.2",
+        "property": "backgroundColor",
+        "source": "rgb(204, 251, 241)",
+        "target": "rgb(255, 255, 255)"
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.978021978021978,
+    "truncated": false
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 965.2640999999999,
+    "target": 850.3960000000002
+  },
+  "ui_restoration": 99.46719275881676
+}

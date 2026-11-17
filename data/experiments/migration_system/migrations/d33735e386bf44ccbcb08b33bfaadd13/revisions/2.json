@@ -1,0 +1,12 @@
+{
+  "code": "<template><article class=\"hydration-card\" on-click=\"increase\"><header class=\"card-header\"><span class=\"card-title\">{{title}}</span><strong class=\"card-value\">{{value}} \u6beb\u5347</strong></header><p class=\"card-message\">{{message}}</p><button class=\"card-action\" type=\"button\">\u589e\u52a0 250 \u6beb\u5347</button></article></template><script>const san = require('san');const DataTypes = san.DataTypes;module.exports = san.defineComponent({name: 'HydrationCard',dataTypes: {title: DataTypes.string,initialValue: DataTypes.number},initData() {return {title: '\u4eca\u65e5\u996e\u6c34',initialValue: 1200,value: 0,step: 250,message: '\u4fdd\u6301\u89c4\u5f8b\u8865\u6c34'};},inited() {this.data.set('value', this.data.get('initialValue'));},increase() {this.data.set('value', this.data.get('value') + this.data.get('step'));}});</script><style>\n.hydration-card { width: 280px; padding: 18px; border-top: 4px solid #168aad; border-radius: 8px; background: #ffffff; box-shadow: 0 6px 18px rgba(20, 33, 43, 0.12); color: #172026; cursor: pointer; font-family: Arial, sans-serif; }\n.card-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; }\n.card-title { font-size: 14px; color: #52606d; }\n.card-value { font-size: 24px; color: #168aad; }\n.card-message { margin: 14px 0; font-size: 13px; color: #697784; }\n.card-action { width: 100%; padding: 8px 10px; border: 0; border-radius: 5px; background: #168aad; color: #ffffff; cursor: pointer; }\n</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/d33735e386bf44ccbcb08b33bfaadd13/revisions/2.san",
+    "sha256": "e50458e3b7f80e75bcf0a7bc55958f25ac1611b8d5c29c3248f78a56473bb66a"
+  },
+  "number": 2,
+  "origin": "model_repair",
+  "parent": "433b32693d5b6ab770e3a98a7d89f7a6ab8c34fb67759c89c4bd4363b1c2d85f",
+  "rules": []
+}

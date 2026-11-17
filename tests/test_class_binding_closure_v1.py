@@ -106,6 +106,35 @@ class ClassBindingClosureTests(unittest.TestCase):
         code=SAN.replace('class="panel '+BAD+'"','')
         self.assertIn('source_class_binding_not_landed',[f['code'] for f in analyze(code,VUE)['findings']])
 
+    def test_optional_class_whitespace_is_normalized_only_after_boundary_proof(self):
+        for binding in (
+            "panel{{ dark ? ' dark-theme' : '' }}{{ compact ? ' compact-mode' : '' }}",
+            "panel {{ dark ? ' dark-theme ' : '' }} {{ compact ? ' compact-mode ' : '' }}",
+            "panel{{ dark ? '\\tdark-theme' : '' }}{{ compact ? '\\ncompact-mode' : '' }}",
+        ):
+            with self.subTest(binding=binding):
+                code=SAN.replace('panel '+BAD,binding)
+                self.assertEqual(analyze(code,VUE)['findings'],[])
+                self.assertEqual(analyze(code,VUE,repair=True)['code'],code)
+                self.assertEqual(native_states(code),native_states(FIXED))
+
+    def test_whitespace_normalization_does_not_allow_wrong_condition_or_token_join(self):
+        for binding in (
+            "panel{{ dark ? 'dark-theme' : '' }}{{ compact ? ' compact-mode' : '' }}",
+            "panel{{ !dark ? ' dark-theme' : '' }}{{ compact ? ' compact-mode' : '' }}",
+            "panel{{ dark ? ' wrong-theme' : '' }}{{ compact ? ' compact-mode' : '' }}",
+            "panel{{ dark ? ' dark-theme ': '' }}tail{{ compact ? ' compact-mode' : '' }}",
+        ):
+            with self.subTest(binding=binding):
+                code=SAN.replace('panel '+BAD,binding)
+                self.assertIn('source_class_binding_not_landed',[f['code'] for f in analyze(code,VUE)['findings']])
+
+    def test_multi_token_source_keys_preserve_their_class_contract(self):
+        vue=VUE.replace("'dark-theme': dark","'dark-theme  extra': dark")
+        code=FIXED.replace("'dark-theme'","' dark-theme   extra '")
+        self.assertEqual(analyze(code,vue)['findings'],[])
+        self.assertEqual(native_states(code),['panel','panel compact-mode','panel dark-theme extra','panel dark-theme extra compact-mode','panel'])
+
     def test_literal_text_comments_style_and_quoted_example_are_not_attributes(self):
         code=SAN.replace('<div class="panel '+BAD+'">', '<div><!-- class="{{active:dark}}" --><code>class="{{active:dark}}"</code>')
         code=code.replace("const san=", "const example=`class=\"{{active:dark}}\"`;const san=")

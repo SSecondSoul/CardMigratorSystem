@@ -1,0 +1,224 @@
+{
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "vue_this_state",
+      "location": "script",
+      "message": "San script \u4e2d\u68c0\u6d4b\u5230 2 \u5904 Vue \u5199\u6cd5\u6b8b\u7559\u3002",
+      "severity": "error",
+      "suggestion": "San \u72b6\u6001\u8bfb\u5199\u5e94\u4f7f\u7528 this.data.get()/this.data.set()\u3002"
+    },
+    {
+      "code": "missing_prop_defaults",
+      "details": {
+        "affected_fields": [
+          "initialValue",
+          "title"
+        ],
+        "contract": "prop_defaults_v1"
+      },
+      "location": "script",
+      "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1atitle, initialValue\u3002",
+      "severity": "error",
+      "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+    },
+    {
+      "code": "missing_prop_dependent_initialization",
+      "location": "script",
+      "message": "\u4ee5\u4e0b prop \u6d3e\u751f data \u672a\u5728 inited() \u4e2d\u5b8c\u6574\u521d\u59cb\u5316\uff1avalue <- initialValue\u3002",
+      "severity": "error",
+      "suggestion": "initData() \u5148\u8fd4\u56de\u7a33\u5b9a\u5360\u4f4d\u503c\uff0c\u518d\u5728 inited() \u4e2d\u4f7f\u7528 this.data.get('propName') \u8bfb\u53d6 prop\u3001\u521b\u5efa\u72ec\u7acb\u526f\u672c\uff0c\u5e76\u901a\u8fc7 this.data.set('field', value) \u5199\u5165\u6d3e\u751f data\u3002"
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": true,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "reasons": [],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "empty_class_presence_v1"
+      },
+      "differences": [
+        {
+          "actual": null,
+          "expected": "#text:\u4eca\u65e5\u996e\u6c34",
+          "path": "root.0.0.0.0"
+        },
+        {
+          "actual": "#text:\u6beb\u5347",
+          "expected": "#text:1200 \u6beb\u5347",
+          "path": "root.0.0.1.0"
+        }
+      ],
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": null,
+          "expected": "#text:\u4eca\u65e5\u996e\u6c34",
+          "path": "root.0.0.0.0"
+        },
+        {
+          "actual": "#text:\u6beb\u5347",
+          "expected": "#text:1200 \u6beb\u5347",
+          "path": "root.0.0.1.0"
+        }
+      ]
+    }
+  ],
+  "different_pixel_ratio": 0.0007977430555555556,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": true,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "reasons": [],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "empty_class_presence_v1"
+  },
+  "dom_differences": [
+    {
+      "actual": null,
+      "expected": "#text:\u4eca\u65e5\u996e\u6c34",
+      "path": "root.0.0.0.0"
+    },
+    {
+      "actual": "#text:\u6beb\u5347",
+      "expected": "#text:1200 \u6beb\u5347",
+      "path": "root.0.0.1.0"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.8181818181818181,
+    "source_nodes": 11,
+    "target_nodes": 10
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/d33735e386bf44ccbcb08b33bfaadd13/evaluations/0/heatmap.png",
+      "sha256": "9cc2160a17995592ba61db68de91cc8a5e91d20da6de90a1ab157895ccce1148"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/d33735e386bf44ccbcb08b33bfaadd13/evaluations/0/san.png",
+      "sha256": "c90e841f4e3c680de1d2fea1d85d84a32b407b74b9f1cced756c935b2f0e2ed2"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/d33735e386bf44ccbcb08b33bfaadd13/evaluations/0/vue.png",
+      "sha256": "62a63c37758865c2e7dec04e5dfef826a4cf028813cfc7309ff4018cea21cb60"
+    }
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": null,
+      "expected": "#text:\u4eca\u65e5\u996e\u6c34",
+      "path": "root.0.0.0.0"
+    },
+    {
+      "actual": "#text:\u6beb\u5347",
+      "expected": "#text:1200 \u6beb\u5347",
+      "path": "root.0.0.1.0"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.8181818181818181,
+    "source_nodes": 11,
+    "target_nodes": 10
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "a7813aeed67a19c6dbe437baf1e3c1215ec7e80b173c4e1e749515f61be62bab",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 11,
+    "target_nodes": 11
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "ssim": 0.9980663791613481,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_element_attributes_events_directives_direct_text_v2",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 7,
+    "target_nodes": 7
+  },
+  "styles": {
+    "compared_properties": 91,
+    "differences": [
+      {
+        "path": "root.0.0.0",
+        "property": "width",
+        "source": "56px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.0.0",
+        "property": "height",
+        "source": "20px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.0.1",
+        "property": "width",
+        "source": "108.062px",
+        "target": "48px"
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.967032967032967,
+    "truncated": false
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 988.0324999999998,
+    "target": 851.9607000000001
+  },
+  "ui_restoration": 99.22004600706006
+}

@@ -302,3 +302,6 @@ module.exports=function preserveMethods(ctx,src,methods){
     if(eventAdditions)ctx.changes.push('restored_source_event_forwarding_interfaces');
   }
 };
+
+// Shared recognition only, not an implementation of arbitrary instance writes.
+module.exports.inspectDynamicAssignment = dynamicAssignment;
