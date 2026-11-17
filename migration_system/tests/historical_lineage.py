@@ -29,4 +29,5 @@ def assert_production_lineage(case):
     case.assertEqual(changed,{
         'src/card_migration_system/application/migrations.py',
         'src/card_migration_system/interfaces/api/migrations.py',
-    },'Only request scope/admission and API report integration changed; generation and graph restored, vendored engine exact')
+        'src/card_migration_system/stages/repair.py',
+    },'Only scope/admission, API report and repair evidence projection changed; generation, graph and vendored engine exact')

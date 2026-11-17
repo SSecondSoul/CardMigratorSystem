@@ -1,0 +1,3907 @@
+{
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "invalid_s_for_key_binding",
+      "location": "template",
+      "message": "San \u6a21\u677f\u4e2d\u68c0\u6d4b\u5230 5 \u4e2a s-for \u8282\u70b9\u4f7f\u7528\u72ec\u7acb key \u6216 trackby \u5c5e\u6027\uff1bSan \u8981\u6c42\u5c06 trackby \u5199\u5165 s-for \u8868\u8fbe\u5f0f\uff0c\u5426\u5219\u53ef\u80fd\u5bfc\u81f4\u5faa\u73af\u4f5c\u7528\u57df\u3001\u8282\u70b9\u72b6\u6001\u6216 class \u4e0d\u5237\u65b0\u3002",
+      "severity": "error",
+      "suggestion": "\u5c06 s-for=\"task in tasks\" key=\"{{ task.id }}\" \u6216 s-for=\"task in tasks\" trackby=\"task.id\" \u6539\u4e3a s-for=\"task in tasks trackby task.id\"\uff0c\u5e76\u5220\u9664\u72ec\u7acb\u5c5e\u6027\u3002"
+    },
+    {
+      "code": "source_dynamic_assignment_unproven",
+      "location": "script.methods.setValue",
+      "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "event_arguments_not_landed",
+      "location": "template",
+      "message": "San \u4e8b\u4ef6\u7ed1\u5b9a\u672a\u5b8c\u6574\u4fdd\u7559\u6e90\u4e8b\u4ef6\u53c2\u6570\u3002\u7f3a\u5931\uff1aclick:unassign(item.id)\u3002",
+      "severity": "error",
+      "suggestion": "\u76f4\u63a5\u4f7f\u7528 on-event=\"handler(arg)\" \u4fdd\u7559 SSM handler_expression\u3002"
+    },
+    {
+      "code": "missing_event_bindings",
+      "location": "template",
+      "message": "\u4ee5\u4e0b\u4e8b\u4ef6 handler \u5728 San template \u4e2d\u6ca1\u6709\u627e\u5230\u5bf9\u5e94 on-* \u7ed1\u5b9a\uff1aunassign\u3002",
+      "severity": "error",
+      "suggestion": "\u5728\u6a21\u677f\u4e2d\u8865\u5145\u5bf9\u5e94 on-click/on-input \u7b49 San \u4e8b\u4ef6\u7ed1\u5b9a\u3002"
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:unknown_bound_attribute",
+          "source:unknown_member_call",
+          "source:unknown_or_dom_global",
+          "target:active_template_attribute",
+          "target:dom_or_reflective_member",
+          "target:unknown_member_call",
+          "target:unknown_or_dom_global"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "empty_class_presence_v1"
+      },
+      "differences": [
+        {
+          "actual": "select|",
+          "expected": "select|value=Sprint 21",
+          "path": "root.0.0.1.0"
+        },
+        {
+          "actual": "option|key=Sprint 21|value=Sprint 21",
+          "expected": "option|value=Sprint 21",
+          "path": "root.0.0.1.0.0"
+        },
+        {
+          "actual": "option|key=Sprint 22|value=Sprint 22",
+          "expected": "option|value=Sprint 22",
+          "path": "root.0.0.1.0.1"
+        },
+        {
+          "actual": "#text:\u603b\u5de5\u4f5c\u91cf \u70b9",
+          "expected": "#text:\u603b\u5de5\u4f5c\u91cf 16 \u70b9",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "select|",
+          "expected": "select|value=all",
+          "path": "root.0.1.1"
+        },
+        {
+          "actual": "option|value=\u524d\u7aef",
+          "expected": "option|",
+          "path": "root.0.1.1.1"
+        },
+        {
+          "actual": "option|value=\u540e\u7aef",
+          "expected": "option|",
+          "path": "root.0.1.1.2"
+        },
+        {
+          "actual": "option|value=\u6d4b\u8bd5",
+          "expected": "option|",
+          "path": "root.0.1.1.3"
+        },
+        {
+          "actual": "#text:\u5f85\u5206\u914d",
+          "expected": "#text:\u5f85\u5206\u914d 1",
+          "path": "root.0.2.0.0.0"
+        },
+        {
+          "actual": "p|class=empty",
+          "expected": "button|class=",
+          "path": "root.0.2.0.1"
+        },
+        {
+          "actual": "#text:\u5168\u90e8\u5df2\u5206\u914d",
+          "expected": "strong|",
+          "path": "root.0.2.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "#text:\u63a5\u53e3\u7f13\u5b58",
+          "path": "root.0.2.0.1.0.0"
+        },
+        {
+          "actual": null,
+          "expected": "small|",
+          "path": "root.0.2.0.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "article|class=member-lane",
+          "path": "root.0.2.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "article|class=member-lane",
+          "path": "root.0.2.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "article|class=member-lane",
+          "path": "root.0.2.1.2"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.0.1",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.0.0.1.0",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.0.0.1.2",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.0.0.1.3",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.0.2.0",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.1.0.1.0",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.1.0.1.2",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.1.0.1.3",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.2.0.1.0",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.2.0.1.2",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.2.0.1.3",
+              "button",
+              "",
+              null,
+              null
+            ]
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.2.2.0",
+              "button",
+              "",
+              null,
+              null
+            ]
+          }
+        ],
+        "equal": false,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 21,
+        "target_count": 9
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "select|",
+          "expected": "select|value=Sprint 21",
+          "path": "root.0.0.1.0"
+        },
+        {
+          "actual": "option|key=Sprint 21|value=Sprint 21",
+          "expected": "option|value=Sprint 21",
+          "path": "root.0.0.1.0.0"
+        },
+        {
+          "actual": "option|key=Sprint 22|value=Sprint 22",
+          "expected": "option|value=Sprint 22",
+          "path": "root.0.0.1.0.1"
+        },
+        {
+          "actual": "#text:\u603b\u5de5\u4f5c\u91cf \u70b9",
+          "expected": "#text:\u603b\u5de5\u4f5c\u91cf 16 \u70b9",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "select|",
+          "expected": "select|value=all",
+          "path": "root.0.1.1"
+        },
+        {
+          "actual": "option|value=\u524d\u7aef",
+          "expected": "option|",
+          "path": "root.0.1.1.1"
+        },
+        {
+          "actual": "option|value=\u540e\u7aef",
+          "expected": "option|",
+          "path": "root.0.1.1.2"
+        },
+        {
+          "actual": "option|value=\u6d4b\u8bd5",
+          "expected": "option|",
+          "path": "root.0.1.1.3"
+        },
+        {
+          "actual": "#text:\u5f85\u5206\u914d",
+          "expected": "#text:\u5f85\u5206\u914d 1",
+          "path": "root.0.2.0.0.0"
+        },
+        {
+          "actual": "p|class=empty",
+          "expected": "button|class=",
+          "path": "root.0.2.0.1"
+        },
+        {
+          "actual": "#text:\u5168\u90e8\u5df2\u5206\u914d",
+          "expected": "strong|",
+          "path": "root.0.2.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "#text:\u63a5\u53e3\u7f13\u5b58",
+          "path": "root.0.2.0.1.0.0"
+        },
+        {
+          "actual": null,
+          "expected": "small|",
+          "path": "root.0.2.0.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "article|class=member-lane",
+          "path": "root.0.2.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "article|class=member-lane",
+          "path": "root.0.2.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "article|class=member-lane",
+          "path": "root.0.2.1.2"
+        }
+      ]
+    },
+    {
+      "code": "rendered_control_state_mismatch",
+      "differences": [
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.0.1",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.0.0.1.0",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.0.0.1.2",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.0.0.1.3",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.0.2.0",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.1.0.1.0",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.1.0.1.2",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.1.0.1.3",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.2.0.1.0",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.2.0.1.2",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.2.0.1.3",
+            "button",
+            "",
+            null,
+            null
+          ]
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.1.2.2.0",
+            "button",
+            "",
+            null,
+            null
+          ]
+        }
+      ],
+      "message": "Initial live control values differ even if screenshots or HTML attributes match."
+    }
+  ],
+  "different_pixel_ratio": 0.02069878472222222,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "reasons": [
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "source:unknown_bound_attribute",
+      "source:unknown_member_call",
+      "source:unknown_or_dom_global",
+      "target:active_template_attribute",
+      "target:dom_or_reflective_member",
+      "target:unknown_member_call",
+      "target:unknown_or_dom_global"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "empty_class_presence_v1"
+  },
+  "dom_differences": [
+    {
+      "actual": "select|",
+      "expected": "select|value=Sprint 21",
+      "path": "root.0.0.1.0"
+    },
+    {
+      "actual": "option|key=Sprint 21|value=Sprint 21",
+      "expected": "option|value=Sprint 21",
+      "path": "root.0.0.1.0.0"
+    },
+    {
+      "actual": "option|key=Sprint 22|value=Sprint 22",
+      "expected": "option|value=Sprint 22",
+      "path": "root.0.0.1.0.1"
+    },
+    {
+      "actual": "#text:\u603b\u5de5\u4f5c\u91cf \u70b9",
+      "expected": "#text:\u603b\u5de5\u4f5c\u91cf 16 \u70b9",
+      "path": "root.0.1.0.0"
+    },
+    {
+      "actual": "select|",
+      "expected": "select|value=all",
+      "path": "root.0.1.1"
+    },
+    {
+      "actual": "option|value=\u524d\u7aef",
+      "expected": "option|",
+      "path": "root.0.1.1.1"
+    },
+    {
+      "actual": "option|value=\u540e\u7aef",
+      "expected": "option|",
+      "path": "root.0.1.1.2"
+    },
+    {
+      "actual": "option|value=\u6d4b\u8bd5",
+      "expected": "option|",
+      "path": "root.0.1.1.3"
+    },
+    {
+      "actual": "#text:\u5f85\u5206\u914d",
+      "expected": "#text:\u5f85\u5206\u914d 1",
+      "path": "root.0.2.0.0.0"
+    },
+    {
+      "actual": "p|class=empty",
+      "expected": "button|class=",
+      "path": "root.0.2.0.1"
+    },
+    {
+      "actual": "#text:\u5168\u90e8\u5df2\u5206\u914d",
+      "expected": "strong|",
+      "path": "root.0.2.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "#text:\u63a5\u53e3\u7f13\u5b58",
+      "path": "root.0.2.0.1.0.0"
+    },
+    {
+      "actual": null,
+      "expected": "small|",
+      "path": "root.0.2.0.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "article|class=member-lane",
+      "path": "root.0.2.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "article|class=member-lane",
+      "path": "root.0.2.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "article|class=member-lane",
+      "path": "root.0.2.1.2"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 79,
+    "similarity": 0.24038461538461542,
+    "source_nodes": 104,
+    "target_nodes": 36
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/ee5d500651ea484bafeac17873bd0e04/evaluations/1/heatmap.png",
+      "sha256": "0798d1f0847e1582c461d0a4a7878f7d55e54ebfef762d70308c95f9ae3b3063"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/ee5d500651ea484bafeac17873bd0e04/evaluations/1/san.png",
+      "sha256": "515756f63ad8765084bb4c341eabbafee4bee830b7b5c7d1c6da33840fabea31"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/ee5d500651ea484bafeac17873bd0e04/evaluations/1/vue.png",
+      "sha256": "e722534e8e9865bbecb5a8e79f65727a6804338a8f824715cef1e55d4f7e3797"
+    }
+  },
+  "initial_control_state": {
+    "differences": [
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.0.1",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.0.0.1.0",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.0.0.1.2",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.0.0.1.3",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.0.2.0",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.1.0.1.0",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.1.0.1.2",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.1.0.1.3",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.2.0.1.0",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.2.0.1.2",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.2.0.1.3",
+          "button",
+          "",
+          null,
+          null
+        ]
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.2.1.2.2.0",
+          "button",
+          "",
+          null,
+          null
+        ]
+      }
+    ],
+    "equal": false,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 21,
+    "target_count": 9
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "select|",
+      "expected": "select|value=Sprint 21",
+      "path": "root.0.0.1.0"
+    },
+    {
+      "actual": "option|key=Sprint 21|value=Sprint 21",
+      "expected": "option|value=Sprint 21",
+      "path": "root.0.0.1.0.0"
+    },
+    {
+      "actual": "option|key=Sprint 22|value=Sprint 22",
+      "expected": "option|value=Sprint 22",
+      "path": "root.0.0.1.0.1"
+    },
+    {
+      "actual": "#text:\u603b\u5de5\u4f5c\u91cf \u70b9",
+      "expected": "#text:\u603b\u5de5\u4f5c\u91cf 16 \u70b9",
+      "path": "root.0.1.0.0"
+    },
+    {
+      "actual": "select|",
+      "expected": "select|value=all",
+      "path": "root.0.1.1"
+    },
+    {
+      "actual": "option|value=\u524d\u7aef",
+      "expected": "option|",
+      "path": "root.0.1.1.1"
+    },
+    {
+      "actual": "option|value=\u540e\u7aef",
+      "expected": "option|",
+      "path": "root.0.1.1.2"
+    },
+    {
+      "actual": "option|value=\u6d4b\u8bd5",
+      "expected": "option|",
+      "path": "root.0.1.1.3"
+    },
+    {
+      "actual": "#text:\u5f85\u5206\u914d",
+      "expected": "#text:\u5f85\u5206\u914d 1",
+      "path": "root.0.2.0.0.0"
+    },
+    {
+      "actual": "p|class=empty",
+      "expected": "button|class=",
+      "path": "root.0.2.0.1"
+    },
+    {
+      "actual": "#text:\u5168\u90e8\u5df2\u5206\u914d",
+      "expected": "strong|",
+      "path": "root.0.2.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "#text:\u63a5\u53e3\u7f13\u5b58",
+      "path": "root.0.2.0.1.0.0"
+    },
+    {
+      "actual": null,
+      "expected": "small|",
+      "path": "root.0.2.0.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "article|class=member-lane",
+      "path": "root.0.2.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "article|class=member-lane",
+      "path": "root.0.2.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "article|class=member-lane",
+      "path": "root.0.2.1.2"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 79,
+    "similarity": 0.24038461538461542,
+    "source_nodes": 104,
+    "target_nodes": 36
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "246333b4a336035c6192de07bc57d15a89990132946e5ae706eab2cbd2743bb0",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 3,
+    "similarity": 0.9577464788732395,
+    "source_nodes": 71,
+    "target_nodes": 69
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "ssim": 0.9330179228090518,
+  "structure_differences": [
+    {
+      "actual": "article|binding:class|class=member-lane|directive:for|text:",
+      "expected": "article|binding:class|directive:for|text:",
+      "path": "root.0.2.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "i|event:click|text:\u00d7",
+      "path": "root.0.2.1.0.2.0.0"
+    }
+  ],
+  "structure_projection": "ssm_v3_element_attributes_events_directives_direct_text_v2",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.9565217391304348,
+    "source_nodes": 46,
+    "target_nodes": 45
+  },
+  "styles": {
+    "compared_properties": 897,
+    "differences": [
+      {
+        "path": "root",
+        "property": "height",
+        "source": "533px",
+        "target": "339.719px"
+      },
+      {
+        "path": "root.0",
+        "property": "height",
+        "source": "533px",
+        "target": "339.719px"
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "width",
+        "source": "106.688px",
+        "target": "84.4531px"
+      },
+      {
+        "path": "root.0.2",
+        "property": "height",
+        "source": "349px",
+        "target": "155.719px"
+      },
+      {
+        "path": "root.0.2.0",
+        "property": "height",
+        "source": "349px",
+        "target": "155.719px"
+      },
+      {
+        "path": "root.0.2.0.1",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": "rgb(124, 135, 146)"
+      },
+      {
+        "path": "root.0.2.0.1",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.2.0.1",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": "16px"
+      },
+      {
+        "path": "root.0.2.0.1",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": "Arial, sans-serif"
+      },
+      {
+        "path": "root.0.2.0.1",
+        "property": "marginTop",
+        "source": "6px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.2.0.1",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": "24px"
+      },
+      {
+        "path": "root.0.2.0.1",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": "24px"
+      },
+      {
+        "path": "root.0.2.0.1",
+        "property": "height",
+        "source": "35px",
+        "target": "74px"
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "fontWeight",
+        "source": "700",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "fontSize",
+        "source": "11.1111px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.0.1.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1",
+        "property": "height",
+        "source": "349px",
+        "target": "155.719px"
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "paddingTop",
+        "source": "12px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "paddingLeft",
+        "source": "12px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "width",
+        "source": "529px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "height",
+        "source": "118px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "width",
+        "source": "503px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "display",
+        "source": "flex",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "width",
+        "source": "58.6719px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "fontWeight",
+        "source": "700",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "width",
+        "source": "168.719px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "width",
+        "source": "31.7969px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "height",
+        "source": "31px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "display",
+        "source": "inline-block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "width",
+        "source": "37.3438px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "display",
+        "source": "inline-block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "width",
+        "source": "77.3281px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "display",
+        "source": "inline-block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.0.1.3",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "backgroundColor",
+        "source": "rgb(229, 231, 235)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "marginTop",
+        "source": "8px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "width",
+        "source": "503px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "height",
+        "source": "6px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "backgroundColor",
+        "source": "rgb(4, 120, 87)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "width",
+        "source": "314.375px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "height",
+        "source": "6px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "width",
+        "source": "503px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "display",
+        "source": "flex",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "width",
+        "source": "123.719px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "color",
+        "source": "rgb(185, 28, 28)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "marginLeft",
+        "source": "6px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.0.2.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "paddingTop",
+        "source": "12px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "paddingLeft",
+        "source": "12px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "width",
+        "source": "529px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "height",
+        "source": "83px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "width",
+        "source": "503px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "display",
+        "source": "flex",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "width",
+        "source": "58.6719px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "fontWeight",
+        "source": "700",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "width",
+        "source": "177.609px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "width",
+        "source": "31.7969px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "height",
+        "source": "31px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "display",
+        "source": "inline-block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "width",
+        "source": "37.3438px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "display",
+        "source": "inline-block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "width",
+        "source": "77.3281px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "display",
+        "source": "inline-block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.0.1.3",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "backgroundColor",
+        "source": "rgb(229, 231, 235)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "marginTop",
+        "source": "8px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "width",
+        "source": "503px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "height",
+        "source": "6px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "backgroundColor",
+        "source": "rgb(4, 120, 87)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "width",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "height",
+        "source": "6px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "width",
+        "source": "503px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "height",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "display",
+        "source": "flex",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.1.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "paddingTop",
+        "source": "12px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "paddingLeft",
+        "source": "12px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "width",
+        "source": "529px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "height",
+        "source": "118px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "width",
+        "source": "503px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "display",
+        "source": "flex",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "width",
+        "source": "58.6719px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "fontWeight",
+        "source": "700",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "display",
+        "source": "inline",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "width",
+        "source": "168.719px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "width",
+        "source": "31.7969px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "height",
+        "source": "31px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "display",
+        "source": "inline-block",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.2.1.2.0.1.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.33221850613154963,
+    "truncated": true
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 898.7133999999996,
+    "target": 794.2682
+  },
+  "ui_restoration": 82.67430272141692
+}

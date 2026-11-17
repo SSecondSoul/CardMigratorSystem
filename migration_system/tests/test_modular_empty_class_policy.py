@@ -121,6 +121,13 @@ class EmptyClassBrowserTests(unittest.TestCase):
 
 class EmptyClassRepairFeedbackTests(ModularFixture,unittest.TestCase):
     def test_exact_DOM_finding_reaches_the_existing_model_repair_message(self):
+        from test_modular_system import checks
+        from card_migration_system.adapters.legacy_checks import legacy_stage
+        # Use the real existing prompt builder. No full evaluation is appended
+        # as a back door to compensate for a double that ignores diagnostics.
+        def prompt_checks(repository,action,**kwargs):
+            return legacy_stage(PROJECT/'engine',action,**kwargs) if action=='repair_prompt' else checks(repository,action,**kwargs)
+        self.service.checks=prompt_checks
         class MismatchBrowser(FakeBrowser):
             def evaluate(self,source,code,props,actions):
                 data=super().evaluate(source,code,props,actions)

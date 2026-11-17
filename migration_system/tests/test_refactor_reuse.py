@@ -67,14 +67,31 @@ class ReuseEquivalenceTests(unittest.TestCase):
             self.assertEqual(a,b,action)
 
     @unittest.skipUnless((ORIGINAL/'data/experiments/evaluator_calibration/2026-11-17_modular_product_filter_contract_replay_v4/implementation/migration_system/src/card_migration_system/application/migrations.py').is_file(), 'Historical pre-refactor implementation snapshot is unavailable')
-    def test_extracted_repair_stage_has_identical_AST_body_to_pre_refactor_stage(self):
+    def test_repair_rules_syntax_and_candidate_call_gates_remain_original_after_evidence_projection(self):
         old=ORIGINAL/'data/experiments/evaluator_calibration/2026-11-17_modular_product_filter_contract_replay_v4/implementation/migration_system/src/card_migration_system/application/migrations.py'
         source=ast.parse(old.read_text(encoding='utf-8'))
         klass=next(n for n in source.body if isinstance(n,ast.ClassDef) and n.name=='MigrationService')
         before=next(n for n in klass.body if isinstance(n,ast.FunctionDef) and n.name=='repair')
         new=ast.parse((PROJECT/'src/card_migration_system/stages/repair.py').read_text(encoding='utf-8'))
         after=next(n for n in new.body if isinstance(n,ast.FunctionDef) and n.name=='propose_repair')
-        self.assertEqual([ast.dump(n) for n in before.body],[ast.dump(n) for n in after.body])
+        saved=ast.parse((PROJECT/'docs/verification/2026-11-18_repair_context_v1/before/repair.py').read_text(encoding='utf-8'))
+        archived=next(n for n in saved.body if isinstance(n,ast.FunctionDef) and n.name=='propose_repair')
+        self.assertEqual([ast.dump(n) for n in before.body],[ast.dump(n) for n in archived.body])
+        def branch(fn):
+            return next(n for n in fn.body if isinstance(n,ast.If) and "rule['code']" in ast.unparse(n.test))
+        old_branch,new_branch=branch(before),branch(after)
+        self.assertEqual([ast.dump(n) for n in before.body[:before.body.index(old_branch)]],
+                         [ast.dump(n) for n in after.body[:after.body.index(new_branch)]])
+        self.assertEqual([ast.dump(n) for n in old_branch.body],[ast.dump(n) for n in new_branch.body])
+        for kind in (ast.For,):
+            self.assertEqual(ast.dump(next(n for n in old_branch.orelse if isinstance(n,kind))),
+                             ast.dump(next(n for n in new_branch.orelse if isinstance(n,kind))))
+        self.assertEqual([ast.dump(n) for n in old_branch.orelse[-2:]],
+                         [ast.dump(n) for n in new_branch.orelse[-2:]])
+        self.assertEqual(ast.dump(next(n for n in old_branch.orelse if isinstance(n,ast.If)).body[0]),
+                         ast.dump(next(n for n in new_branch.orelse if isinstance(n,ast.If)).body[0]))
+        self.assertEqual([ast.dump(n) for n in before.body[before.body.index(old_branch)+1:]],
+                         [ast.dump(n) for n in after.body[after.body.index(new_branch)+1:]])
 
 
 if __name__=='__main__':unittest.main()

@@ -1,10 +1,11 @@
-"""One repair proposal. Body preserved from the validated application stage.
+"""One repair proposal using the existing rules and projected model evidence.
 
 The graph, not this module, owns candidate retesting and acceptance.
 Dependencies stay explicit so existing boundary and replay tests remain valid.
 """
 import json
 from ..application.service import ServiceError
+from ..prompts.repair_context import model_evidence,project_prompt
 
 
 def propose_repair(self,key,current,evaluation,number,*,BrowserEvaluator,syntax_repair_messages):
@@ -32,9 +33,12 @@ def propose_repair(self,key,current,evaluation,number,*,BrowserEvaluator,syntax_
         if syntax_blocked:
             messages=syntax_repair_messages(source,current['code'],evaluation['syntax'],feedback)
         else:
-            prompt=self.checks(self.settings.repository_root,'repair_prompt',source=source,code=current['code'],ssm=ssm,errors=errors,visual_errors=visual)['prompt']
-            prompt+='\nActual target evaluation (do not change source or hide diagnostics):\n'+json.dumps(evaluation,ensure_ascii=False)
+            model_errors,model_visual=model_evidence(evaluation)
+            prompt=self.checks(self.settings.repository_root,'repair_prompt',source=source,code=current['code'],ssm=ssm,errors=model_errors,visual_errors=model_visual)['prompt']
+            prompt,context=project_prompt(prompt,ssm,evaluation)
             if feedback:prompt+='\nRejected attempts from this accepted parent (do not repeat):\n'+json.dumps(feedback,ensure_ascii=False)
+            context['model_prompt_chars']=len(prompt)
+            self.put_json(key,f'calls/{number}/repair-context.json','repair_context',context)
             messages=[{'role':'system','content':'Repair the current San SFC with minimal changes. Preserve correct behavior. Output only complete San SFC.'},{'role':'user','content':prompt}]
         for prior_number in range(1,number):
             prior=self.cached(key,f'calls/{prior_number}/request.json')

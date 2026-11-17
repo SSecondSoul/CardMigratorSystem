@@ -1,5 +1,7 @@
 # 当前架构：一条主链、内部引擎、两个持久化职责
 
+2026-11-18 修复边界增量：`prompts/repair_context.py` 只负责发给修复模型的证据投影。`stages/repair.py` 保留原规则调度、语法分支、模型账本和候选机制，调用旧 Prompt builder 后替换全量 SSM 文本为有明确范围的相关证据，不再拼接整份评估。原 engine、生成阶段、原始评估数据和质量判定不改；没有增加迁移路径或兼容运行时。详见 [验证记录](verification/2026-11-18_repair_context_v1/README.md)。
+
 当前更正：按用户要求删除 `stages/business.py` 及其生成／专用校验／停止分支。生产范围为 `san-supported-migration-v3`；动态 setter 不再单独触发源码预检查阻断，随后使用与其他源码相同的模型生成、原静态校验、原浏览器评估和有界修复。没有额外源到 San 编译器或实例代理接入。`runtime/san_business_v1` 与 `research/` 仅离线研究保留，不是生产依赖，也不纳入当前运行绑定。放行不代表完整契约实现。
 
 2026-11-17 当前交付以 [PRODUCTION_CLOSURE_V1](PRODUCTION_CLOSURE_V1.md) 为准：唯一主链优先，公开实例研究暂停扩展、保留证据，不作为可用闭环的前置条件。`contracts/production_scope.py` 仅提供服务端请求／报告范围快照，不执行编译、代理或豁免校验；旧契约仍未完成。下文各研究阶段描述按其发生时状态保留，不表示仍须完成全部研究才能提交普通迁移任务。
