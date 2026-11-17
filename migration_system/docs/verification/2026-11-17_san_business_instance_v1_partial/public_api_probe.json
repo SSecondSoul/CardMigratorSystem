@@ -1,0 +1,518 @@
+{
+  "contract_id": "san-business-instance-v1",
+  "status": "finite_public_api_cases_match",
+  "cases": [
+    {
+      "name": "events-multiple-args-once-model-modifiers-error-and-unmount",
+      "source": {
+        "values": [
+          [
+            "ready",
+            1,
+            {
+              "n": 2
+            }
+          ],
+          [
+            "once",
+            1,
+            {
+              "n": 2
+            }
+          ],
+          [
+            "ready",
+            3
+          ],
+          [
+            "model",
+            12.5
+          ]
+        ],
+        "faults": [
+          [
+            "RangeError",
+            "listener",
+            "component event handler"
+          ]
+        ],
+        "warnings": [],
+        "returns": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "stableEmit": true
+      },
+      "target": {
+        "values": [
+          [
+            "ready",
+            1,
+            {
+              "n": 2
+            }
+          ],
+          [
+            "once",
+            1,
+            {
+              "n": 2
+            }
+          ],
+          [
+            "ready",
+            3
+          ],
+          [
+            "model",
+            12.5
+          ]
+        ],
+        "faults": [
+          [
+            "RangeError",
+            "listener",
+            "component event handler"
+          ]
+        ],
+        "warnings": [],
+        "returns": [
+          true,
+          true,
+          true,
+          true
+        ],
+        "stableEmit": true
+      },
+      "equal": true
+    },
+    {
+      "name": "real-parent-prop-computed-watch-and-hook-dom-order",
+      "source": {
+        "dom": "new:0:2",
+        "title": "new",
+        "label": "new:0:2",
+        "seen": [
+          {
+            "value": "new",
+            "old": "old",
+            "dom": "old:0:1"
+          },
+          {
+            "hook": "beforeUpdate",
+            "dom": "old:0:1"
+          },
+          {
+            "hook": "updated",
+            "dom": "new:0:1"
+          },
+          {
+            "hook": "beforeUpdate",
+            "dom": "new:0:1"
+          },
+          {
+            "hook": "updated",
+            "dom": "new:0:2"
+          }
+        ],
+        "parentSame": true,
+        "rootSame": true,
+        "itemSame": true
+      },
+      "target": {
+        "dom": "new:0:2",
+        "title": "new",
+        "label": "new:0:2",
+        "seen": [
+          {
+            "value": "new",
+            "old": "old",
+            "dom": "old:0:1"
+          },
+          {
+            "hook": "beforeUpdate",
+            "dom": "old:0:1"
+          },
+          {
+            "hook": "updated",
+            "dom": "new:0:1"
+          },
+          {
+            "hook": "beforeUpdate",
+            "dom": "new:0:1"
+          },
+          {
+            "hook": "updated",
+            "dom": "new:0:2"
+          }
+        ],
+        "parentSame": true,
+        "rootSame": true,
+        "itemSame": true
+      },
+      "equal": true
+    },
+    {
+      "name": "public-watch-after-unmount-is-inactive-and-stoppable",
+      "source": {
+        "registrationError": null,
+        "calls": [],
+        "count": 3,
+        "empty": true
+      },
+      "target": {
+        "registrationError": null,
+        "calls": [],
+        "count": 3,
+        "empty": true
+      },
+      "equal": true
+    },
+    {
+      "name": "prop-default-factory-resolved-input-and-frozen-empty-data",
+      "source": {
+        "calls": [
+          [
+            "base"
+          ]
+        ],
+        "base": "base",
+        "derived": "base:derived",
+        "enabled": false,
+        "dom": "base:derived:false",
+        "sameEmptyData": true,
+        "frozen": [
+          true,
+          true
+        ]
+      },
+      "target": {
+        "calls": [
+          [
+            "base"
+          ]
+        ],
+        "base": "base",
+        "derived": "base:derived",
+        "enabled": false,
+        "dom": "base:derived:false",
+        "sameEmptyData": true,
+        "frozen": [
+          true,
+          true
+        ]
+      },
+      "equal": true
+    },
+    {
+      "name": "hyphenated-props-emits-filter-and-undeclared-listener-attrs",
+      "source": {
+        "name": "hyphenated",
+        "propIsCallback": true,
+        "attrs": [
+          "data-note",
+          "onClick",
+          "onlower"
+        ],
+        "note": "kept",
+        "clickIsCallback": true,
+        "lowerIsCallback": true
+      },
+      "target": {
+        "name": "hyphenated",
+        "propIsCallback": true,
+        "attrs": [
+          "data-note",
+          "onClick",
+          "onlower"
+        ],
+        "note": "kept",
+        "clickIsCallback": true,
+        "lowerIsCallback": true
+      },
+      "equal": true
+    }
+  ],
+  "observations": [
+    {
+      "kind": "source",
+      "cases": [
+        {
+          "name": "events-multiple-args-once-model-modifiers-error-and-unmount",
+          "value": {
+            "values": [
+              [
+                "ready",
+                1,
+                {
+                  "n": 2
+                }
+              ],
+              [
+                "once",
+                1,
+                {
+                  "n": 2
+                }
+              ],
+              [
+                "ready",
+                3
+              ],
+              [
+                "model",
+                12.5
+              ]
+            ],
+            "faults": [
+              [
+                "RangeError",
+                "listener",
+                "component event handler"
+              ]
+            ],
+            "warnings": [],
+            "returns": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "stableEmit": true
+          }
+        },
+        {
+          "name": "real-parent-prop-computed-watch-and-hook-dom-order",
+          "value": {
+            "dom": "new:0:2",
+            "title": "new",
+            "label": "new:0:2",
+            "seen": [
+              {
+                "value": "new",
+                "old": "old",
+                "dom": "old:0:1"
+              },
+              {
+                "hook": "beforeUpdate",
+                "dom": "old:0:1"
+              },
+              {
+                "hook": "updated",
+                "dom": "new:0:1"
+              },
+              {
+                "hook": "beforeUpdate",
+                "dom": "new:0:1"
+              },
+              {
+                "hook": "updated",
+                "dom": "new:0:2"
+              }
+            ],
+            "parentSame": true,
+            "rootSame": true,
+            "itemSame": true
+          }
+        },
+        {
+          "name": "public-watch-after-unmount-is-inactive-and-stoppable",
+          "value": {
+            "registrationError": null,
+            "calls": [],
+            "count": 3,
+            "empty": true
+          }
+        },
+        {
+          "name": "prop-default-factory-resolved-input-and-frozen-empty-data",
+          "value": {
+            "calls": [
+              [
+                "base"
+              ]
+            ],
+            "base": "base",
+            "derived": "base:derived",
+            "enabled": false,
+            "dom": "base:derived:false",
+            "sameEmptyData": true,
+            "frozen": [
+              true,
+              true
+            ]
+          }
+        },
+        {
+          "name": "hyphenated-props-emits-filter-and-undeclared-listener-attrs",
+          "value": {
+            "name": "hyphenated",
+            "propIsCallback": true,
+            "attrs": [
+              "data-note",
+              "onClick",
+              "onlower"
+            ],
+            "note": "kept",
+            "clickIsCallback": true,
+            "lowerIsCallback": true
+          }
+        }
+      ],
+      "runtime": {
+        "vue": true
+      }
+    },
+    {
+      "kind": "target",
+      "cases": [
+        {
+          "name": "events-multiple-args-once-model-modifiers-error-and-unmount",
+          "value": {
+            "values": [
+              [
+                "ready",
+                1,
+                {
+                  "n": 2
+                }
+              ],
+              [
+                "once",
+                1,
+                {
+                  "n": 2
+                }
+              ],
+              [
+                "ready",
+                3
+              ],
+              [
+                "model",
+                12.5
+              ]
+            ],
+            "faults": [
+              [
+                "RangeError",
+                "listener",
+                "component event handler"
+              ]
+            ],
+            "warnings": [],
+            "returns": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "stableEmit": true
+          }
+        },
+        {
+          "name": "real-parent-prop-computed-watch-and-hook-dom-order",
+          "value": {
+            "dom": "new:0:2",
+            "title": "new",
+            "label": "new:0:2",
+            "seen": [
+              {
+                "value": "new",
+                "old": "old",
+                "dom": "old:0:1"
+              },
+              {
+                "hook": "beforeUpdate",
+                "dom": "old:0:1"
+              },
+              {
+                "hook": "updated",
+                "dom": "new:0:1"
+              },
+              {
+                "hook": "beforeUpdate",
+                "dom": "new:0:1"
+              },
+              {
+                "hook": "updated",
+                "dom": "new:0:2"
+              }
+            ],
+            "parentSame": true,
+            "rootSame": true,
+            "itemSame": true
+          }
+        },
+        {
+          "name": "public-watch-after-unmount-is-inactive-and-stoppable",
+          "value": {
+            "registrationError": null,
+            "calls": [],
+            "count": 3,
+            "empty": true
+          }
+        },
+        {
+          "name": "prop-default-factory-resolved-input-and-frozen-empty-data",
+          "value": {
+            "calls": [
+              [
+                "base"
+              ]
+            ],
+            "base": "base",
+            "derived": "base:derived",
+            "enabled": false,
+            "dom": "base:derived:false",
+            "sameEmptyData": true,
+            "frozen": [
+              true,
+              true
+            ]
+          }
+        },
+        {
+          "name": "hyphenated-props-emits-filter-and-undeclared-listener-attrs",
+          "value": {
+            "name": "hyphenated",
+            "propIsCallback": true,
+            "attrs": [
+              "data-note",
+              "onClick",
+              "onlower"
+            ],
+            "note": "kept",
+            "clickIsCallback": true,
+            "lowerIsCallback": true
+          }
+        }
+      ],
+      "runtime": {
+        "vue": false
+      }
+    }
+  ],
+  "errors": [],
+  "fingerprints": {
+    "runtime/san_business_v1/errors.cjs": "ab57b5073c07007fea5878cb3a3b85eeb1a9530d8a8bb30b051cf2efab71323e",
+    "runtime/san_business_v1/runtime.cjs": "80993b32ae06dffa8a33f71c2a61defc383faf9ae96fa31fe51aa99cf2232ca9",
+    "runtime/san_business_v1/owner.cjs": "65782712e280ddfb24723638312323c04f70419f908da34df16e2e513b223b54",
+    "runtime/san_business_v1/component.cjs": "28960fcf239bfd2870dc567af2eb1c22bdc7eea0cda238a32b5cba190d10ad53",
+    "runtime/san_business_v1/dom.cjs": "656811a7a62b7040c2687daeb9f0f22185a6bb5182053248ba61d65df8ccb3dc",
+    "runtime/san_business_v1/registry.cjs": "e33763b7e9c14e5bbde7dd0641bc953f1319ee2a5da92703fea3fb0698fddcaf",
+    "runtime/san_business_v1/compiler.cjs": "46b899ff7460a40428ff21113afa276750d63d4fecd348dfff1f766f7a38e8bb",
+    "frontend/node_modules/@vue/reactivity/dist/reactivity.global.js": "273862c67787d695d86acd7cf16e3ff1722296743d40a7c52d628934e908ca5d",
+    "frontend/node_modules/@vue/shared/dist/shared.cjs.js": "5b623d0674d5f97fc844025659d9891eb6cd2d0c3dde9980a29ff9c59cb56a0e",
+    "engine/node_modules/san/dist/san.dev.js": "4b1c4a3a918d91663c0f79a4f77358a9de3c0ee1fbc01dfc47897f8531543134",
+    "engine/node_modules/san/package.json": "3dd0d3fc7b9584f67937b8fb7dab3a93985aed247f7672920ae2968839b41916",
+    "runtime/san_business_v1/public_api_probe.cjs": "00388c062313347ff7e9ef73ab020871f2aa06d0a2973738b3f7ba731e947338",
+    "frontend/node_modules/vue/dist/vue.global.js": "7ae49497d5250ce1ab9f7be0f5a16f2487b7d0bb2dcc21c57806af415b924662"
+  },
+  "compiled_source_proof": false,
+  "fixture_scope": "public_api_and_real_native_parent_child_connection",
+  "model_calls": 0,
+  "production_admission_eligible": false
+}

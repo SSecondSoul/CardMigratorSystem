@@ -20,7 +20,7 @@ def main():
     rows=[]
     for key,group,source,target in PAIRS:
         source_hash=sha256(source.encode()).hexdigest()
-        ssm=SSMExtractor(PROJECT.parent).extract(source.encode(),group+'.vue',source_hash)['ssm']
+        ssm=SSMExtractor(PROJECT/'engine').extract(source.encode(),group+'.vue',source_hash)['ssm']
         rows.append({'id':key,'group':group,'split':'train','source_sha256':source_hash,'ssm':ssm,'ssm_sha256':digest(ssm),
             'san':target,'san_sha256':sha256(target.encode()).hexdigest(),'provenance':'synthetic_development_demonstration_not_dataset_test_answer'})
     storage=Storage(PROJECT/'configs')

@@ -13,7 +13,7 @@ import unittest
 from unittest.mock import patch
 
 PROJECT = Path(__file__).resolve().parents[1]
-REPOSITORY = PROJECT.parent
+REPOSITORY = PROJECT / 'engine'
 sys.path.insert(0, str(PROJECT / 'src'))
 from test_scaffold import copy_fixture
 from card_migration_system.adapters.ssm import ExtractionError, SSMExtractor, _environment, source_binding

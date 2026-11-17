@@ -23,7 +23,7 @@ TARGET='''<template><div class="panel{{ running ? ' active' : '' }}" on-click="t
 
 
 def parse_pair(source,code):
-    request={'repository':str(PROJECT.parent),'project':str(PROJECT),'source':source,'code':code,'action':'parse'}
+    request={'repository':str(PROJECT/'engine'),'project':str(PROJECT),'source':source,'code':code,'action':'parse'}
     p=subprocess.run(['node',str(PROJECT/'browser/evaluate.mjs')],input=json.dumps(request).encode(),capture_output=True,timeout=30)
     if p.returncode:raise AssertionError(p.stdout.decode()[:1000])
     return json.loads(p.stdout)
@@ -32,7 +32,7 @@ def parse_pair(source,code):
 class ProjectionCompatibilityTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.ssm=SSMExtractor(PROJECT.parent).extract(SOURCE.encode(),'CompatibilityCard.vue',sha256(SOURCE.encode()).hexdigest())['ssm']
+        cls.ssm=SSMExtractor(PROJECT/'engine').extract(SOURCE.encode(),'CompatibilityCard.vue',sha256(SOURCE.encode()).hexdigest())['ssm']
 
     def compare(self,target):
         pair=parse_pair(SOURCE,target)

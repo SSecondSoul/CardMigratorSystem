@@ -21,7 +21,7 @@ APPROVED={'version':'empty_class_presence_v1','approved':True,'reasons':[]}
 
 
 def policy(source=SOURCE,code=TARGET):
-    request={'repository':str(PROJECT.parent),'project':str(PROJECT),'source':source,'code':code,'action':'comparison-policy'}
+    request={'repository':str(PROJECT/'engine'),'project':str(PROJECT),'source':source,'code':code,'action':'comparison-policy'}
     p=subprocess.run(['node',str(PROJECT/'browser/evaluate.mjs')],input=json.dumps(request).encode(),capture_output=True,timeout=30)
     if p.returncode:raise AssertionError(p.stdout.decode()[:500])
     return json.loads(p.stdout)['policy']

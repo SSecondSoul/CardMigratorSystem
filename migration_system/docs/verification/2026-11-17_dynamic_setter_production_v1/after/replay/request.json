@@ -1,0 +1,60 @@
+{
+  "source_sha256": "f84efcfbc0b57731e358ff24264f6600a3a64fa58e725290f77799f4e7ac1d02",
+  "original_target_sha256": "f84efcfbc0b57731e358ff24264f6600a3a64fa58e725290f77799f4e7ac1d02",
+  "actions": [
+    {
+      "name": "select_work",
+      "type": "click",
+      "selector": ".planning-layout > aside > button"
+    },
+    {
+      "name": "assign",
+      "type": "click",
+      "selector": ".member-lane:first-child header button:last-child"
+    },
+    {
+      "name": "capacity",
+      "type": "click",
+      "selector": ".member-lane:first-child header button:nth-of-type(2)"
+    },
+    {
+      "name": "unassign",
+      "type": "click",
+      "selector": ".member-lane:first-child .lane-items button:last-child i"
+    },
+    {
+      "name": "skill",
+      "type": "select",
+      "selector": ".capacity-summary select",
+      "value": "前端"
+    },
+    {
+      "name": "cycle",
+      "type": "select",
+      "selector": ".actions select",
+      "value": "Sprint 22"
+    },
+    {
+      "name": "select_other_cycle",
+      "type": "click",
+      "selector": ".planning-layout > aside > button"
+    },
+    {
+      "name": "assign_other_cycle",
+      "type": "click",
+      "selector": ".member-lane:first-child header button:last-child"
+    },
+    {
+      "name": "save",
+      "type": "click",
+      "selector": "button.primary"
+    }
+  ],
+  "props": {},
+  "evaluate": true,
+  "thresholds": {
+    "structure": 0.95,
+    "ui": 0.95,
+    "pixel_difference": 0.05
+  }
+}

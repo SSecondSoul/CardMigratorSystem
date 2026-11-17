@@ -1,0 +1,1020 @@
+{
+  "status": "owner_tree_difference_observed",
+  "runtime_version": "v5",
+  "cases": [
+    {
+      "name": "parent-child-native-mount-unmount-order-and-links",
+      "source": {
+        "links": [
+          {
+            "id": "a",
+            "parent": true,
+            "root": true,
+            "scope": true
+          },
+          {
+            "id": "b",
+            "parent": true,
+            "root": true,
+            "scope": true
+          }
+        ],
+        "log": [
+          {
+            "name": "beforeMount",
+            "id": "root",
+            "parent": null,
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": false,
+            "unmounted": false,
+            "scope": true,
+            "dom": []
+          },
+          {
+            "name": "beforeMount",
+            "id": "a",
+            "parent": "root",
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": false,
+            "unmounted": false,
+            "scope": true,
+            "dom": []
+          },
+          {
+            "name": "beforeMount",
+            "id": "b",
+            "parent": "root",
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": false,
+            "unmounted": false,
+            "scope": true,
+            "dom": []
+          },
+          {
+            "name": "mounted",
+            "id": "a",
+            "parent": "root",
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": true,
+            "dom": [
+              "a:0",
+              "b:0"
+            ]
+          },
+          {
+            "name": "mounted",
+            "id": "b",
+            "parent": "root",
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": true,
+            "dom": [
+              "a:0",
+              "b:0"
+            ]
+          },
+          {
+            "name": "mounted",
+            "id": "root",
+            "parent": null,
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": true,
+            "dom": [
+              "a:0",
+              "b:0"
+            ]
+          },
+          {
+            "name": "beforeUnmount",
+            "id": "root",
+            "parent": null,
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": true,
+            "dom": [
+              "a:0",
+              "b:0"
+            ]
+          },
+          {
+            "name": "beforeUnmount",
+            "id": "a",
+            "parent": "root",
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": true,
+            "dom": [
+              "a:0",
+              "b:0"
+            ]
+          },
+          {
+            "name": "beforeUnmount",
+            "id": "b",
+            "parent": "root",
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": true,
+            "dom": [
+              "a:0",
+              "b:0"
+            ]
+          },
+          {
+            "name": "unmounted",
+            "id": "a",
+            "parent": "root",
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": false,
+            "dom": []
+          },
+          {
+            "name": "unmounted",
+            "id": "b",
+            "parent": "root",
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": false,
+            "dom": []
+          },
+          {
+            "name": "unmounted",
+            "id": "root",
+            "parent": null,
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": false,
+            "dom": []
+          }
+        ],
+        "inactive": true,
+        "errors": []
+      },
+      "target": {
+        "links": [
+          {
+            "id": "a",
+            "parent": false,
+            "root": false,
+            "scope": true
+          },
+          {
+            "id": "b",
+            "parent": false,
+            "root": false,
+            "scope": true
+          }
+        ],
+        "log": [
+          {
+            "name": "beforeMount",
+            "id": "root",
+            "parent": null,
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": false,
+            "unmounted": false,
+            "scope": true,
+            "dom": []
+          },
+          {
+            "name": "mounted",
+            "id": "root",
+            "parent": null,
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": true,
+            "dom": [
+              "a:0",
+              "b:0"
+            ]
+          },
+          {
+            "name": "beforeUnmount",
+            "id": "root",
+            "parent": null,
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": true,
+            "dom": [
+              "a:0",
+              "b:0"
+            ]
+          },
+          {
+            "name": "unmounted",
+            "id": "root",
+            "parent": null,
+            "root": "root",
+            "parentSame": true,
+            "rootSame": true,
+            "mounted": true,
+            "unmounted": false,
+            "scope": false,
+            "dom": []
+          }
+        ],
+        "inactive": false,
+        "errors": []
+      },
+      "equal": false
+    },
+    {
+      "name": "keyed-reorder-remove-reinsert-keeps-independent-scopes",
+      "source": {
+        "removed": {
+          "dom": [
+            "c:1",
+            "b:1"
+          ],
+          "aStopped": true,
+          "bActive": true,
+          "cActive": true,
+          "bSame": true,
+          "cSame": true
+        },
+        "afterChildWrite": [
+          "c:1",
+          "b:2"
+        ],
+        "readded": {
+          "newInstance": true,
+          "count": 0,
+          "active": true,
+          "dom": [
+            "c:1",
+            "b:2",
+            "a:0"
+          ]
+        },
+        "watches": [
+          [
+            "a",
+            1,
+            0
+          ],
+          [
+            "b",
+            1,
+            0
+          ],
+          [
+            "c",
+            1,
+            0
+          ],
+          [
+            "cleanup",
+            "a",
+            1
+          ],
+          [
+            "cleanup",
+            "b",
+            1
+          ],
+          [
+            "b",
+            2,
+            1
+          ],
+          [
+            "cleanup",
+            "c",
+            1
+          ],
+          [
+            "cleanup",
+            "b",
+            2
+          ]
+        ],
+        "allStopped": true,
+        "errors": []
+      },
+      "target": {
+        "removed": {
+          "dom": [
+            "c:1",
+            "b:0"
+          ],
+          "aStopped": false,
+          "bActive": true,
+          "cActive": true,
+          "bSame": false,
+          "cSame": true
+        },
+        "afterChildWrite": [
+          "c:1",
+          "b:0"
+        ],
+        "readded": {
+          "newInstance": true,
+          "count": 0,
+          "active": true,
+          "dom": [
+            "c:1",
+            "b:0",
+            "a:0"
+          ]
+        },
+        "watches": [
+          [
+            "a",
+            1,
+            0
+          ],
+          [
+            "b",
+            1,
+            0
+          ],
+          [
+            "c",
+            1,
+            0
+          ],
+          [
+            "cleanup",
+            "a",
+            1
+          ],
+          [
+            "a",
+            9,
+            1
+          ],
+          [
+            "cleanup",
+            "b",
+            1
+          ],
+          [
+            "b",
+            2,
+            1
+          ]
+        ],
+        "allStopped": false,
+        "errors": []
+      },
+      "equal": false
+    },
+    {
+      "name": "parent-disposal-cancels-pending-child-watchers",
+      "source": {
+        "pending": [
+          [
+            "tick",
+            []
+          ]
+        ],
+        "childStopped": true,
+        "childUnmounted": true,
+        "parentUnmounted": true
+      },
+      "target": {
+        "pending": [
+          [
+            "pre",
+            1
+          ],
+          [
+            "tick",
+            []
+          ],
+          [
+            "post",
+            1
+          ]
+        ],
+        "childStopped": false,
+        "childUnmounted": false,
+        "parentUnmounted": true
+      },
+      "equal": false
+    },
+    {
+      "name": "separate-root-families-do-not-stop-each-other",
+      "source": {
+        "leftStopped": true,
+        "rightActive": true,
+        "rightParent": true,
+        "rootsDifferent": true,
+        "rightDom": [
+          "right:3"
+        ],
+        "leftWatches": [],
+        "rightWatches": [
+          [
+            "right",
+            3,
+            0
+          ]
+        ]
+      },
+      "target": {
+        "leftStopped": false,
+        "rightActive": true,
+        "rightParent": false,
+        "rootsDifferent": true,
+        "rightDom": [
+          "right:0"
+        ],
+        "leftWatches": [
+          [
+            "left",
+            5,
+            0
+          ]
+        ],
+        "rightWatches": [
+          [
+            "right",
+            3,
+            0
+          ]
+        ]
+      },
+      "equal": false
+    }
+  ],
+  "observations": [
+    {
+      "kind": "source",
+      "cases": [
+        {
+          "name": "parent-child-native-mount-unmount-order-and-links",
+          "value": {
+            "links": [
+              {
+                "id": "a",
+                "parent": true,
+                "root": true,
+                "scope": true
+              },
+              {
+                "id": "b",
+                "parent": true,
+                "root": true,
+                "scope": true
+              }
+            ],
+            "log": [
+              {
+                "name": "beforeMount",
+                "id": "root",
+                "parent": null,
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": false,
+                "unmounted": false,
+                "scope": true,
+                "dom": []
+              },
+              {
+                "name": "beforeMount",
+                "id": "a",
+                "parent": "root",
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": false,
+                "unmounted": false,
+                "scope": true,
+                "dom": []
+              },
+              {
+                "name": "beforeMount",
+                "id": "b",
+                "parent": "root",
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": false,
+                "unmounted": false,
+                "scope": true,
+                "dom": []
+              },
+              {
+                "name": "mounted",
+                "id": "a",
+                "parent": "root",
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": true,
+                "dom": [
+                  "a:0",
+                  "b:0"
+                ]
+              },
+              {
+                "name": "mounted",
+                "id": "b",
+                "parent": "root",
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": true,
+                "dom": [
+                  "a:0",
+                  "b:0"
+                ]
+              },
+              {
+                "name": "mounted",
+                "id": "root",
+                "parent": null,
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": true,
+                "dom": [
+                  "a:0",
+                  "b:0"
+                ]
+              },
+              {
+                "name": "beforeUnmount",
+                "id": "root",
+                "parent": null,
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": true,
+                "dom": [
+                  "a:0",
+                  "b:0"
+                ]
+              },
+              {
+                "name": "beforeUnmount",
+                "id": "a",
+                "parent": "root",
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": true,
+                "dom": [
+                  "a:0",
+                  "b:0"
+                ]
+              },
+              {
+                "name": "beforeUnmount",
+                "id": "b",
+                "parent": "root",
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": true,
+                "dom": [
+                  "a:0",
+                  "b:0"
+                ]
+              },
+              {
+                "name": "unmounted",
+                "id": "a",
+                "parent": "root",
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": false,
+                "dom": []
+              },
+              {
+                "name": "unmounted",
+                "id": "b",
+                "parent": "root",
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": false,
+                "dom": []
+              },
+              {
+                "name": "unmounted",
+                "id": "root",
+                "parent": null,
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": false,
+                "dom": []
+              }
+            ],
+            "inactive": true,
+            "errors": []
+          }
+        },
+        {
+          "name": "keyed-reorder-remove-reinsert-keeps-independent-scopes",
+          "value": {
+            "removed": {
+              "dom": [
+                "c:1",
+                "b:1"
+              ],
+              "aStopped": true,
+              "bActive": true,
+              "cActive": true,
+              "bSame": true,
+              "cSame": true
+            },
+            "afterChildWrite": [
+              "c:1",
+              "b:2"
+            ],
+            "readded": {
+              "newInstance": true,
+              "count": 0,
+              "active": true,
+              "dom": [
+                "c:1",
+                "b:2",
+                "a:0"
+              ]
+            },
+            "watches": [
+              [
+                "a",
+                1,
+                0
+              ],
+              [
+                "b",
+                1,
+                0
+              ],
+              [
+                "c",
+                1,
+                0
+              ],
+              [
+                "cleanup",
+                "a",
+                1
+              ],
+              [
+                "cleanup",
+                "b",
+                1
+              ],
+              [
+                "b",
+                2,
+                1
+              ],
+              [
+                "cleanup",
+                "c",
+                1
+              ],
+              [
+                "cleanup",
+                "b",
+                2
+              ]
+            ],
+            "allStopped": true,
+            "errors": []
+          }
+        },
+        {
+          "name": "parent-disposal-cancels-pending-child-watchers",
+          "value": {
+            "pending": [
+              [
+                "tick",
+                []
+              ]
+            ],
+            "childStopped": true,
+            "childUnmounted": true,
+            "parentUnmounted": true
+          }
+        },
+        {
+          "name": "separate-root-families-do-not-stop-each-other",
+          "value": {
+            "leftStopped": true,
+            "rightActive": true,
+            "rightParent": true,
+            "rootsDifferent": true,
+            "rightDom": [
+              "right:3"
+            ],
+            "leftWatches": [],
+            "rightWatches": [
+              [
+                "right",
+                3,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "nativeKeyControl": null,
+      "runtime": {
+        "vue": true,
+        "kernel": false
+      }
+    },
+    {
+      "kind": "target",
+      "cases": [
+        {
+          "name": "parent-child-native-mount-unmount-order-and-links",
+          "value": {
+            "links": [
+              {
+                "id": "a",
+                "parent": false,
+                "root": false,
+                "scope": true
+              },
+              {
+                "id": "b",
+                "parent": false,
+                "root": false,
+                "scope": true
+              }
+            ],
+            "log": [
+              {
+                "name": "beforeMount",
+                "id": "root",
+                "parent": null,
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": false,
+                "unmounted": false,
+                "scope": true,
+                "dom": []
+              },
+              {
+                "name": "mounted",
+                "id": "root",
+                "parent": null,
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": true,
+                "dom": [
+                  "a:0",
+                  "b:0"
+                ]
+              },
+              {
+                "name": "beforeUnmount",
+                "id": "root",
+                "parent": null,
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": true,
+                "dom": [
+                  "a:0",
+                  "b:0"
+                ]
+              },
+              {
+                "name": "unmounted",
+                "id": "root",
+                "parent": null,
+                "root": "root",
+                "parentSame": true,
+                "rootSame": true,
+                "mounted": true,
+                "unmounted": false,
+                "scope": false,
+                "dom": []
+              }
+            ],
+            "inactive": false,
+            "errors": []
+          }
+        },
+        {
+          "name": "keyed-reorder-remove-reinsert-keeps-independent-scopes",
+          "value": {
+            "removed": {
+              "dom": [
+                "c:1",
+                "b:0"
+              ],
+              "aStopped": false,
+              "bActive": true,
+              "cActive": true,
+              "bSame": false,
+              "cSame": true
+            },
+            "afterChildWrite": [
+              "c:1",
+              "b:0"
+            ],
+            "readded": {
+              "newInstance": true,
+              "count": 0,
+              "active": true,
+              "dom": [
+                "c:1",
+                "b:0",
+                "a:0"
+              ]
+            },
+            "watches": [
+              [
+                "a",
+                1,
+                0
+              ],
+              [
+                "b",
+                1,
+                0
+              ],
+              [
+                "c",
+                1,
+                0
+              ],
+              [
+                "cleanup",
+                "a",
+                1
+              ],
+              [
+                "a",
+                9,
+                1
+              ],
+              [
+                "cleanup",
+                "b",
+                1
+              ],
+              [
+                "b",
+                2,
+                1
+              ]
+            ],
+            "allStopped": false,
+            "errors": []
+          }
+        },
+        {
+          "name": "parent-disposal-cancels-pending-child-watchers",
+          "value": {
+            "pending": [
+              [
+                "pre",
+                1
+              ],
+              [
+                "tick",
+                []
+              ],
+              [
+                "post",
+                1
+              ]
+            ],
+            "childStopped": false,
+            "childUnmounted": false,
+            "parentUnmounted": true
+          }
+        },
+        {
+          "name": "separate-root-families-do-not-stop-each-other",
+          "value": {
+            "leftStopped": false,
+            "rightActive": true,
+            "rightParent": false,
+            "rootsDifferent": true,
+            "rightDom": [
+              "right:0"
+            ],
+            "leftWatches": [
+              [
+                "left",
+                5,
+                0
+              ]
+            ],
+            "rightWatches": [
+              [
+                "right",
+                3,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "nativeKeyControl": {
+        "bSame": false,
+        "cSame": true,
+        "bDisposed": true,
+        "dom": [
+          "c:1",
+          "b:0"
+        ]
+      },
+      "runtime": {
+        "vue": false,
+        "kernel": true
+      }
+    }
+  ],
+  "errors": [],
+  "fingerprints": {
+    "research/public_instance_v6/browser_probe.cjs": "b72442a6446810660e5a63bd9499b5067f944261b34b0352b2ad0163a81be3d9",
+    "research/public_instance_v5/runtime.cjs": "b22228119bad694ea7d4f57503b86ea25ccbda2489430d65da069ba0a3efbc44",
+    "research/public_instance_v5/owner.cjs": "fe5d3e674aff6586b5ad9b17c712f8b6ee4639dfd6c12e5a69052bb380cc66e8",
+    "research/public_instance_v1/runtime.cjs": "420f87121f595952e3336ddda6603fb58595207bc0edf3de732f03ca0fdbe2cb",
+    "frontend/node_modules/vue/dist/vue.global.js": "7ae49497d5250ce1ab9f7be0f5a16f2487b7d0bb2dcc21c57806af415b924662",
+    "frontend/node_modules/@vue/reactivity/dist/reactivity.global.js": "273862c67787d695d86acd7cf16e3ff1722296743d40a7c52d628934e908ca5d",
+    "engine/node_modules/san/dist/san.dev.js": "4b1c4a3a918d91663c0f79a4f77358a9de3c0ee1fbc01dfc47897f8531543134"
+  },
+  "page_count": 2,
+  "matched_cases": 0,
+  "browser_version": "Edg/157.0.4341.60",
+  "dynamic_child_prop_updates_verified": false,
+  "production_admission_eligible": false,
+  "arbitrary_public_key_contract_complete": false,
+  "model_calls": 0,
+  "live_database_writes": 0
+}

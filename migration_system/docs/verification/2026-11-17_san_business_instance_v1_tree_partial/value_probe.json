@@ -1,0 +1,486 @@
+{
+  "contract_id": "san-business-instance-v1",
+  "status": "finite_value_cases_match",
+  "cases": [
+    {
+      "name": "null",
+      "source": {
+        "name": "null",
+        "text": "",
+        "value": "",
+        "attribute": null
+      },
+      "target": {
+        "name": "null",
+        "text": "",
+        "value": "",
+        "attribute": null
+      },
+      "equal": true
+    },
+    {
+      "name": "undefined",
+      "source": {
+        "name": "undefined",
+        "text": "",
+        "value": "",
+        "attribute": null
+      },
+      "target": {
+        "name": "undefined",
+        "text": "",
+        "value": "",
+        "attribute": null
+      },
+      "equal": true
+    },
+    {
+      "name": "false",
+      "source": {
+        "name": "false",
+        "text": "false",
+        "value": "false",
+        "attribute": "false"
+      },
+      "target": {
+        "name": "false",
+        "text": "false",
+        "value": "false",
+        "attribute": "false"
+      },
+      "equal": true
+    },
+    {
+      "name": "zero",
+      "source": {
+        "name": "zero",
+        "text": "0",
+        "value": "0",
+        "attribute": "0"
+      },
+      "target": {
+        "name": "zero",
+        "text": "0",
+        "value": "0",
+        "attribute": "0"
+      },
+      "equal": true
+    },
+    {
+      "name": "symbol",
+      "source": {
+        "name": "symbol",
+        "text": "Symbol(value)",
+        "value": "Symbol(value)",
+        "attribute": "Symbol(value)"
+      },
+      "target": {
+        "name": "symbol",
+        "text": "Symbol(value)",
+        "value": "Symbol(value)",
+        "attribute": "Symbol(value)"
+      },
+      "equal": true
+    },
+    {
+      "name": "bigint",
+      "source": {
+        "name": "bigint",
+        "text": "123",
+        "value": "123",
+        "attribute": "123"
+      },
+      "target": {
+        "name": "bigint",
+        "text": "123",
+        "value": "123",
+        "attribute": "123"
+      },
+      "equal": true
+    },
+    {
+      "name": "object",
+      "source": {
+        "name": "object",
+        "text": "{\n  \"a\": 1,\n  \"nested\": {\n    \"b\": 2\n  }\n}",
+        "value": "[object Object]",
+        "attribute": "[object Object]"
+      },
+      "target": {
+        "name": "object",
+        "text": "{\n  \"a\": 1,\n  \"nested\": {\n    \"b\": 2\n  }\n}",
+        "value": "[object Object]",
+        "attribute": "[object Object]"
+      },
+      "equal": true
+    },
+    {
+      "name": "array",
+      "source": {
+        "name": "array",
+        "text": "[\n  1,\n  \"two\",\n  null\n]",
+        "value": "1,two,",
+        "attribute": "1,two,"
+      },
+      "target": {
+        "name": "array",
+        "text": "[\n  1,\n  \"two\",\n  null\n]",
+        "value": "1,two,",
+        "attribute": "1,two,"
+      },
+      "equal": true
+    },
+    {
+      "name": "map",
+      "source": {
+        "name": "map",
+        "text": "{\n  \"Map(1)\": {\n    \"a =>\": 1\n  }\n}",
+        "value": "[object Map]",
+        "attribute": "[object Map]"
+      },
+      "target": {
+        "name": "map",
+        "text": "{\n  \"Map(1)\": {\n    \"a =>\": 1\n  }\n}",
+        "value": "[object Map]",
+        "attribute": "[object Map]"
+      },
+      "equal": true
+    },
+    {
+      "name": "set",
+      "source": {
+        "name": "set",
+        "text": "{\n  \"Set(2)\": [\n    1,\n    2\n  ]\n}",
+        "value": "[object Set]",
+        "attribute": "[object Set]"
+      },
+      "target": {
+        "name": "set",
+        "text": "{\n  \"Set(2)\": [\n    1,\n    2\n  ]\n}",
+        "value": "[object Set]",
+        "attribute": "[object Set]"
+      },
+      "equal": true
+    },
+    {
+      "name": "ref",
+      "source": {
+        "name": "ref",
+        "text": "ref-value",
+        "value": "ref-value",
+        "attribute": "ref-value"
+      },
+      "target": {
+        "name": "ref",
+        "text": "ref-value",
+        "value": "ref-value",
+        "attribute": "ref-value"
+      },
+      "equal": true
+    },
+    {
+      "name": "custom",
+      "source": {
+        "name": "custom",
+        "text": "custom-value",
+        "value": "custom-value",
+        "attribute": "custom-value"
+      },
+      "target": {
+        "name": "custom",
+        "text": "custom-value",
+        "value": "custom-value",
+        "attribute": "custom-value"
+      },
+      "equal": true
+    },
+    {
+      "name": "side_effectful_to_string",
+      "source": {
+        "name": "side_effectful_to_string",
+        "beforeTick": [],
+        "coercions": [
+          "convert",
+          "convert",
+          "convert"
+        ],
+        "text": "effectful",
+        "value": "effectful",
+        "attribute": "effectful"
+      },
+      "target": {
+        "name": "side_effectful_to_string",
+        "beforeTick": [],
+        "coercions": [
+          "convert",
+          "convert",
+          "convert"
+        ],
+        "text": "effectful",
+        "value": "effectful",
+        "attribute": "effectful"
+      },
+      "equal": true
+    }
+  ],
+  "errors": [],
+  "observations": [
+    {
+      "kind": "source",
+      "rows": [
+        {
+          "name": "null",
+          "text": "",
+          "value": "",
+          "attribute": null
+        },
+        {
+          "name": "undefined",
+          "text": "",
+          "value": "",
+          "attribute": null
+        },
+        {
+          "name": "false",
+          "text": "false",
+          "value": "false",
+          "attribute": "false"
+        },
+        {
+          "name": "zero",
+          "text": "0",
+          "value": "0",
+          "attribute": "0"
+        },
+        {
+          "name": "symbol",
+          "text": "Symbol(value)",
+          "value": "Symbol(value)",
+          "attribute": "Symbol(value)"
+        },
+        {
+          "name": "bigint",
+          "text": "123",
+          "value": "123",
+          "attribute": "123"
+        },
+        {
+          "name": "object",
+          "text": "{\n  \"a\": 1,\n  \"nested\": {\n    \"b\": 2\n  }\n}",
+          "value": "[object Object]",
+          "attribute": "[object Object]"
+        },
+        {
+          "name": "array",
+          "text": "[\n  1,\n  \"two\",\n  null\n]",
+          "value": "1,two,",
+          "attribute": "1,two,"
+        },
+        {
+          "name": "map",
+          "text": "{\n  \"Map(1)\": {\n    \"a =>\": 1\n  }\n}",
+          "value": "[object Map]",
+          "attribute": "[object Map]"
+        },
+        {
+          "name": "set",
+          "text": "{\n  \"Set(2)\": [\n    1,\n    2\n  ]\n}",
+          "value": "[object Set]",
+          "attribute": "[object Set]"
+        },
+        {
+          "name": "ref",
+          "text": "ref-value",
+          "value": "ref-value",
+          "attribute": "ref-value"
+        },
+        {
+          "name": "custom",
+          "text": "custom-value",
+          "value": "custom-value",
+          "attribute": "custom-value"
+        },
+        {
+          "name": "side_effectful_to_string",
+          "beforeTick": [],
+          "coercions": [
+            "convert",
+            "convert",
+            "convert"
+          ],
+          "text": "effectful",
+          "value": "effectful",
+          "attribute": "effectful"
+        }
+      ],
+      "empty": true,
+      "runtime": {
+        "vue": true
+      }
+    },
+    {
+      "kind": "target",
+      "rows": [
+        {
+          "name": "null",
+          "text": "",
+          "value": "",
+          "attribute": null
+        },
+        {
+          "name": "undefined",
+          "text": "",
+          "value": "",
+          "attribute": null
+        },
+        {
+          "name": "false",
+          "text": "false",
+          "value": "false",
+          "attribute": "false"
+        },
+        {
+          "name": "zero",
+          "text": "0",
+          "value": "0",
+          "attribute": "0"
+        },
+        {
+          "name": "symbol",
+          "text": "Symbol(value)",
+          "value": "Symbol(value)",
+          "attribute": "Symbol(value)"
+        },
+        {
+          "name": "bigint",
+          "text": "123",
+          "value": "123",
+          "attribute": "123"
+        },
+        {
+          "name": "object",
+          "text": "{\n  \"a\": 1,\n  \"nested\": {\n    \"b\": 2\n  }\n}",
+          "value": "[object Object]",
+          "attribute": "[object Object]"
+        },
+        {
+          "name": "array",
+          "text": "[\n  1,\n  \"two\",\n  null\n]",
+          "value": "1,two,",
+          "attribute": "1,two,"
+        },
+        {
+          "name": "map",
+          "text": "{\n  \"Map(1)\": {\n    \"a =>\": 1\n  }\n}",
+          "value": "[object Map]",
+          "attribute": "[object Map]"
+        },
+        {
+          "name": "set",
+          "text": "{\n  \"Set(2)\": [\n    1,\n    2\n  ]\n}",
+          "value": "[object Set]",
+          "attribute": "[object Set]"
+        },
+        {
+          "name": "ref",
+          "text": "ref-value",
+          "value": "ref-value",
+          "attribute": "ref-value"
+        },
+        {
+          "name": "custom",
+          "text": "custom-value",
+          "value": "custom-value",
+          "attribute": "custom-value"
+        },
+        {
+          "name": "side_effectful_to_string",
+          "beforeTick": [],
+          "coercions": [
+            "convert",
+            "convert",
+            "convert"
+          ],
+          "text": "effectful",
+          "value": "effectful",
+          "attribute": "effectful"
+        }
+      ],
+      "empty": true,
+      "runtime": {
+        "vue": false
+      }
+    }
+  ],
+  "manifest": {
+    "contract_id": "san-business-instance-v1",
+    "source_sha256": "d93d86d8f130223a79f557dd2438689ce1bcb446c1e1839708b18d167fb1cca7",
+    "template_sha256": "04fd5111986bd94de5661580949d743a8485771b6efd5044924d355e767e68e0",
+    "runtime_fingerprints": {
+      "runtime/san_business_v1/errors.cjs": "ab57b5073c07007fea5878cb3a3b85eeb1a9530d8a8bb30b051cf2efab71323e",
+      "runtime/san_business_v1/runtime.cjs": "66de5da76769ab71d025651adcdceffbbbda19ba1f6e064279ab091a3423bb8e",
+      "runtime/san_business_v1/owner.cjs": "f19c6d74979ee32417d32f2bcad39066dc18f8b85db86f24b3b11e1ec1267a4b",
+      "runtime/san_business_v1/component.cjs": "01c7e9e85ddf34d75f6fb8f079d412efc50c9a120f3f04aef6b4fdd3b4c16cc2",
+      "runtime/san_business_v1/dom.cjs": "6c79d681752dd12f43cec17e0fb68808226094dad5ae32a7e8baa29b2b34e49d",
+      "runtime/san_business_v1/registry.cjs": "cc49f7cc01b35476deda864af3c66a9e31603345996338f2f56b32798a6a9625",
+      "runtime/san_business_v1/events.cjs": "0ebc86503ece768ffe90e40d3b5b192283b03eebd55126b9bf04125bb6ca6142",
+      "runtime/san_business_v1/tree.cjs": "870590c52e351193863d564507f6a10cad4735f0e347e97d7a9e0bf4a79f9933",
+      "runtime/san_business_v1/compiler.cjs": "b71c29e69524dae4f3fabaae6e0d9d9415929fd0387eba7cf6f494bbc2b94a7d",
+      "runtime/san_business_v1/template.cjs": "2bf10df7b73a2b7fef3d0c02cdd01f878d31ced6649cc54d2afd81d74c0891b8",
+      "frontend/node_modules/@vue/reactivity/dist/reactivity.global.js": "273862c67787d695d86acd7cf16e3ff1722296743d40a7c52d628934e908ca5d",
+      "frontend/node_modules/@vue/shared/dist/shared.cjs.js": "5b623d0674d5f97fc844025659d9891eb6cd2d0c3dde9980a29ff9c59cb56a0e",
+      "engine/node_modules/san/dist/san.dev.js": "4b1c4a3a918d91663c0f79a4f77358a9de3c0ee1fbc01dfc47897f8531543134",
+      "engine/node_modules/san/package.json": "3dd0d3fc7b9584f67937b8fb7dab3a93985aed247f7672920ae2968839b41916"
+    },
+    "code_sha256": "d893bce3c565c78f2e9a7a2268901979ab10124a6bc0476f8abea572f82f19d9",
+    "vue_component_runtime_used": false,
+    "vue_renderer_used": false,
+    "standalone_reactivity_kernel_used": true,
+    "metadata_origin": "source_ast_and_options_no_user_key_whitelist",
+    "element_policies": [
+      {
+        "tag": "section",
+        "attributes": [],
+        "loop": false
+      },
+      {
+        "tag": "span",
+        "attributes": [],
+        "loop": false
+      },
+      {
+        "tag": "input",
+        "attributes": [
+          "value"
+        ],
+        "loop": false
+      }
+    ],
+    "source_component_tree_compiled": false,
+    "old_full_contract_complete": false,
+    "production_admission_eligible": false
+  },
+  "fingerprints": {
+    "runtime/san_business_v1/errors.cjs": "ab57b5073c07007fea5878cb3a3b85eeb1a9530d8a8bb30b051cf2efab71323e",
+    "runtime/san_business_v1/runtime.cjs": "66de5da76769ab71d025651adcdceffbbbda19ba1f6e064279ab091a3423bb8e",
+    "runtime/san_business_v1/owner.cjs": "f19c6d74979ee32417d32f2bcad39066dc18f8b85db86f24b3b11e1ec1267a4b",
+    "runtime/san_business_v1/component.cjs": "01c7e9e85ddf34d75f6fb8f079d412efc50c9a120f3f04aef6b4fdd3b4c16cc2",
+    "runtime/san_business_v1/dom.cjs": "6c79d681752dd12f43cec17e0fb68808226094dad5ae32a7e8baa29b2b34e49d",
+    "runtime/san_business_v1/registry.cjs": "cc49f7cc01b35476deda864af3c66a9e31603345996338f2f56b32798a6a9625",
+    "runtime/san_business_v1/events.cjs": "0ebc86503ece768ffe90e40d3b5b192283b03eebd55126b9bf04125bb6ca6142",
+    "runtime/san_business_v1/tree.cjs": "870590c52e351193863d564507f6a10cad4735f0e347e97d7a9e0bf4a79f9933",
+    "runtime/san_business_v1/compiler.cjs": "b71c29e69524dae4f3fabaae6e0d9d9415929fd0387eba7cf6f494bbc2b94a7d",
+    "runtime/san_business_v1/template.cjs": "2bf10df7b73a2b7fef3d0c02cdd01f878d31ced6649cc54d2afd81d74c0891b8",
+    "frontend/node_modules/@vue/reactivity/dist/reactivity.global.js": "273862c67787d695d86acd7cf16e3ff1722296743d40a7c52d628934e908ca5d",
+    "frontend/node_modules/@vue/shared/dist/shared.cjs.js": "5b623d0674d5f97fc844025659d9891eb6cd2d0c3dde9980a29ff9c59cb56a0e",
+    "engine/node_modules/san/dist/san.dev.js": "4b1c4a3a918d91663c0f79a4f77358a9de3c0ee1fbc01dfc47897f8531543134",
+    "engine/node_modules/san/package.json": "3dd0d3fc7b9584f67937b8fb7dab3a93985aed247f7672920ae2968839b41916",
+    "runtime/san_business_v1/value_probe.cjs": "05fdaa4d995d242404628b4e03dd9d97d9e5cacd21cbe0d3ea7dc830bf32c58b",
+    "frontend/node_modules/vue/dist/vue.global.js": "7ae49497d5250ce1ab9f7be0f5a16f2487b7d0bb2dcc21c57806af415b924662"
+  },
+  "metadata_from_actual_source": true,
+  "scope": "finite_values_not_arbitrary_side_effectful_coercion",
+  "model_calls": 0,
+  "production_admission_eligible": false,
+  "browser_version": "Edg/157.0.4341.60"
+}

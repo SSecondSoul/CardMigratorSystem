@@ -8,16 +8,16 @@
 建议另建 Python 3.12 训练环境；当前 Web 系统的 Python 3.14 环境不自动安装 Torch。参考 `requirements.txt` 在训练机器解析并保存依赖锁，记录 GPU／驱动／CUDA／包版本。基础模型必须已有本地权重、正确 tokenizer、许可允许；`trust_remote_code=False`／`local_files_only=True`，不会自动下载或执行远程模型代码。
 
 1. 复制 `pairs.example.json`，填写本人审核的 Vue／San 对、来源 group 与 train／validation／test。路径相对清单文件；同组不能跨集合，相同源码／目标字节拒绝重复。精确去重不能代替人工审核同源变体和早期接触。
-2. 在训练环境安装本包及可选依赖后，从仓库根目录构建：
+2. 在训练环境安装本包及可选依赖后，从本 `migration_system` 目录构建；SSM 使用内部 engine，不需要原实验代码：
 
 ```powershell
-python migration_system/scripts/run_system.py build-training-data --manifest path/to/pairs.json --output migration_system/var/training/dataset-v1
+python scripts/run_system.py build-training-data --manifest path/to/pairs.json --output var/training/dataset-v1
 ```
 
 3. 复制 `config.example.json`，填写本地基座、数据路径、显卡可承受的参数、全新输出目录，在核实许可后设 `license_confirmed=true`。显式执行：
 
 ```powershell
-python migration_system/scripts/run_system.py train-lora --training-config path/to/train.json --execute
+python scripts/run_system.py train-lora --training-config path/to/train.json --execute
 ```
 
 4. 保存请求、基座文件哈希、数据哈希、可训练参数数目、环境版本、逐步日志、训练／验证指标、adapter 权重／配置与 tokenizer。数据过长会阻断，不静默截掉目标答案。

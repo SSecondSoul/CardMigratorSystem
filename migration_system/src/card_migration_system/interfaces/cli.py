@@ -12,21 +12,20 @@ from ..contracts import ContractBindingError, load_p1_contracts
 
 def check_scaffold(*, project_root=None, config_file=None, environ=None):
     settings = load_settings(project_root=project_root, config_file=config_file, environ=environ)
+    from ..adapters.engine import verify_engine
+    engine=verify_engine(settings.engine_root)
     binding = load_p1_contracts(settings.repository_root)
     return {
         "package_version": __version__, "status": "scaffold_verified",
         "production_ready": False, "model_calls": 0, "services_started": False,
         "configuration": settings.public_summary(), "contracts": binding.public_summary(),
+        "engine": engine,
         "capabilities": {
-            "frontend": "development_workbench_code_available_browser_acceptance_pending",
-            "ssm_extraction": "separate_registered_graph_available_not_full_migration",
-            "ssm_contract_report": "source_stage_projection_new_requests_frozen_legacy_no_backfill",
-            "san_generation": "registered_offline_graph_available_no_real_model_transport",
-            "qwen_transport": "offline_tested_boundary_only_not_wired_to_ledger_or_live_entrypoint",
-            "recorded_transport_ledger": "separate_offline_graph_receipts_and_backup_live_dispatch_disabled",
-            "generation_approval": "documented_context_ceiling_and_local_single_plan_approval_no_dispatch",
+            "frontend": "real_migration_workbench",
+            "ssm_extraction": "internal_AST_extractor_with_diagnostic_fallback_boundary",
+            "san_generation": "internal_pinned_experimental_prompt_Qwen_or_local_LoRA",
             "modular_migration": "real_graph_api_worker_evaluation_repair_code_external_configuration_pending",
-            **{name: "development_stub_slice_available_not_production" for name in (
+            **{name: "local_persistent_system_not_unrestricted_production" for name in (
                 "http_api", "business_database", "worker", "langgraph_execution")},
             "langsmith_tracing": "opt_in_metadata_only_export_implemented_live_credentials_pending",
             "puppeteer_evaluation": "real_isolated_context_ast_dom_screenshot_ssim_styles_actions",
@@ -37,6 +36,8 @@ def check_scaffold(*, project_root=None, config_file=None, environ=None):
 def main(argv=None):
     from .system_cli import COMMANDS, main as system_main
     raw = sys.argv[1:] if argv is None else argv
+    if raw and raw[0]=='worker':
+        return system_main(['migration-worker',*raw[1:]])
     if raw and raw[0] in COMMANDS:
         return system_main(raw)
     parser = argparse.ArgumentParser(description="Development vertical slice; not a production migration runner")
@@ -44,14 +45,14 @@ def main(argv=None):
     check = commands.add_parser("check", help="read-only configuration and pinned-contract verification")
     check.add_argument("--project-root", type=Path)
     check.add_argument("--config", type=Path)
-    for name in ("init-db", "serve", "worker", "backup", "verify-backup", "restore", "extract-ssm",
+    for name in ("init-db", "serve", "development-worker", "backup", "verify-backup", "restore", "extract-ssm",
                  "extract-ssm-graph", "resume-ssm-extraction", "ssm-extraction-report", "generation-preview",
                  "prepare-generation", "generation-report", "generation-budget-review", "prepare-generation-approval",
                  "generation-approval-report", "approve-generation-plan", "revoke-generation-plan"):
         command = commands.add_parser(name)
         command.add_argument("--project-root", type=Path)
         command.add_argument("--config", type=Path)
-        if name == "worker":
+        if name == "development-worker":
             command.add_argument("--once", action="store_true")
         if name in ("backup", "verify-backup", "restore"):
             command.add_argument("--backup-id", required=name != "backup")

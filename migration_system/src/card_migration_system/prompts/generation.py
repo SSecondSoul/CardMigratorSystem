@@ -1,4 +1,4 @@
-"""Pinned, pure legacy generation builder; never import the server or old pipeline.
+"""Pinned, internal generation builder; never read the parent server or pipeline.
 
 Trusted repository code only, not a sandbox. Hash both complete source texts
 before compiling the single allowlisted builder. No uploaded code is compiled.
@@ -10,10 +10,7 @@ from pathlib import Path
 from typing import Any
 
 
-PINS = {
-    'local_server/api/evaluation_routes.py': '71818205059132bb15330aa4d474ec4269ebed19b8337a9ea00ef3d459972548',
-    'migration_pipeline/utils/class_binding_contract.py': 'bf83e708c7e6c11713f246a3ec9f16f02aba8276020faac770a1a5243de23e66',
-}
+PINS = {'prompts/generation_builder.py': '4c20260e79a35b0d9f16d5d1ba943b84642eb563784bda1f293e4c9f1c450aa2'}
 SYSTEM = 'You are an expert Vue-to-San code generator. Output only San component code.'
 
 
@@ -36,10 +33,10 @@ def build_generation_messages(repository_root, ssm):
             raise PromptBindingError('generation_prompt_source_drift')
         sources[name] = source
     trees = {name: ast.parse(value) for name, value in sources.items()}
-    assignments = [node.value for node in trees['migration_pipeline/utils/class_binding_contract.py'].body
+    assignments = [node.value for node in trees['prompts/generation_builder.py'].body
         if isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id == 'CLASS_BINDING_RULE'
                                                for target in node.targets)]
-    functions = [node for node in trees['local_server/api/evaluation_routes.py'].body
+    functions = [node for node in trees['prompts/generation_builder.py'].body
         if isinstance(node, ast.FunctionDef) and node.name == '_build_generation_prompt']
     if len(assignments) != 1 or len(functions) != 1:
         raise PromptBindingError('generation_prompt_builder_missing')

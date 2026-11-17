@@ -150,6 +150,7 @@ class RealSyntaxTests(unittest.TestCase):
                     script.replace('.map(x=>x+1)','.map(x=>x+this.limit)')):
             with self.subTest(bad=bad):self.assertEqual(self.inspect(wrap(bad),source,True)['code'],wrap(bad))
 
+    @unittest.skipUnless((PROJECT.parent/'data/experiments/evaluator_calibration/2026-11-17_modular_expense_tracker_syntax_closure_v1/frozen/source.vue').is_file(), 'Historical experiment corpus is not part of the standalone distribution')
     def test_frozen_real_failed_revisions_unblock_syntax_without_model_or_live_task_changes(self):
         evidence=PROJECT.parent/'data/experiments/evaluator_calibration/2026-11-17_modular_expense_tracker_syntax_closure_v1/frozen'
         source=(evidence/'source.vue').read_text(encoding='utf-8')

@@ -9,6 +9,7 @@ from ...runtime import readiness
 from ...persistence.database import transaction
 from ...persistence.worker_health import WorkerHealth
 from ...persistence.runtime_lock import execution_guard
+from ...contracts.production_scope import production_scope
 
 
 def register_migration_routes(app,base):
@@ -20,6 +21,7 @@ def register_migration_routes(app,base):
         with transaction(base.engine) as s:
             workers=s.scalars(select(WorkerHealth).where(WorkerHealth.state=='migration_worker',WorkerHealth.last_seen>time.time()-30)).all()
         result['worker_online']=bool(workers)
+        result['support_scope']=production_scope()
         return jsonify(result)
 
     @app.post('/api/v1/migrations')

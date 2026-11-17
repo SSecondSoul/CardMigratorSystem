@@ -1,5 +1,167 @@
 # 模块化系统开发记录 2026 年 11 月 16 日
 
+## 2026-11-17：纠正范围偏离，撤销规则生成，只放行动态 setter 预检查
+
+用户明确指出：此前要求的是解除 `setValue` 中 `this[key] = value` 的模型前阻断，而非新增确定性源到 San 转换。此前 v2 接入偏离该要求，本次撤销，删除 `stages/business.py` 和主链内计划生成、专用静态绑定校验、`business_rule_checks_failed` 停止分支。现有生成 Prompt、原静态校验、浏览器评估、规则修复／模型修复、候选复测及回退均保留。
+
+预检查只对 `source_dynamic_key_contract_unsupported` 放行，继续模型配置检查；其他源码语法、依赖及配置错误仍阻断。不改 Vue、不改键域、不保证任意公开键完全等价，不豁免生成结果质量。新任务范围 `san-supported-migration-v3`，初始来源 `generation` 且有模型收据；旧 v2 任务 dc9c942c547745ed989bc3db583af744 和封存证据不改写，也不算模型迁移效果。
+
+`runtime/san_business_v1` 与 `research/` 仅离线保留，不在生产绑定或主链中使用。指南删除必填组件动作 JSON／零调用正常生成等当前操作说明；历史规则报告在前端明确标记已撤销来源。真实密钥、用户配置、任务库及队列均不修改，不自动产生付费调用。
+
+本次检查：主链 102 项、动态 setter 模型准入 7 项、支持范围 5 项、原实验复用 5 项、研究契约保护 7 项通过；前端 22 项及正式构建通过。仓库外副本未复制业务实例运行时，仍完成原模型响应夹具链；原复杂源码在生成后主动暂停，只验证入模，不声称迁移质量通过。旧 79 个封存 payload 不变。结果及口径见 [撤销记录](docs/verification/2026-11-17_dynamic_setter_model_admission_v1/README.md)。
+
+## 2026-11-17：现有复杂组件动态 setter 的有限生产接入
+
+用户在 CapacityPlanningBoard 仍被阻断后明确要求补齐现有复杂组件。旧任务 b05e37a0254b4f5583d9c30c0f1bd3bb 及原源码 f84efcfbc0b57731e358ff24264f6600a3a64fa58e725290f77799f4e7ac1d02 保留；未修改 Vue、用户 TOML、实际库／队列或模型密钥。
+
+新增 `stages/business.py`，将此前业务实例运行时限定为可规范化验证的单组件规则路径接入原 LangGraph。源码 Options／方法体自动保留、模板转成 San、源／SSM／运行时指纹绑定，实际目标仍由 San 渲染，不按组件名或固定键放行。普通生成 Prompt、修复 Prompt、规则调度及 engine 原件不变。新范围 `san-supported-migration-v2`，产物来源 `source_ast_rule_generation`，0 模型调用正常；规则路径检查失败以 business_rule_checks_failed 停止，不反复交给模型重写内联运行时。
+
+真实反例与修正：方法体中的响应式依赖未进入循环热区，导致选中颜色滞后；San 的旧 option.value 兼容行为增加源端没有的属性。已修正私有表达式依赖传播及实际 option 属性，未给评估器添加忽略差异。完整任意公开键／所有公共 API 仍不宣称完成。
+
+CapacityPlanningBoard 在真实整图和仓库外独立副本中六维通过，9 步交互通过，源文件哈希保持；离线重放结构／DOM 相似度 1、UI 100%、最终截图 SSIM 1／差异像素 0。外部调用 Symbol、字面点号键、data／watch／dispose／attach、一次键转换及异常身份均在生产导出与 Vue 对照。其他 22 个动态 setter complex 只做了编译盘点：总计 17 可编译、6 阻断，不能当成迁移通过。
+
+本轮相关测试：主链 102、旧代理 41、业务运行时 13、契约保护 7、新范围 5、生产专项 5、原实现复用 5 均通过，前端 22 项和构建通过；末次诊断提示修改后再次跑生产专项及公开键 11 项。原生产“永不变化”测试的原件封存后，改为核验旧 payload／研究实现和显式版本变化，不跳过行为断言。真实云模型／上传／训练调用均 0；普通模型链的两次 exchange 是独立验证中的明确夹具，不混作复杂组件规则生成。
+
+说明见 [DYNAMIC_SETTER_PRODUCTION_V1](docs/DYNAMIC_SETTER_PRODUCTION_V1.md)，证据位于 docs/verification/2026-11-17_dynamic_setter_production_v1，另建 2026-11-17_dynamic_setter_production_v1.ipynb。用户应重启 API／Worker、新建原 CapacityPlanningBoard 任务并独立人工确认，不恢复旧任务，不据本例宣称全批或独立测试通过。
+
+## 2026-11-17：收敛到明确支持范围的生产迁移闭环
+
+用户确认优先生产闭环，不再以完整任意公开实例兼容为本轮前提。保留唯一 LangGraph 主链及内置实验算法，不接入或删除代理研究，不放行仍不支持的动态键源码。新增服务端 `san-supported-migration-v1` 范围快照，随新任务参与请求哈希并进入报告；readiness／前端展示范围，旧任务不追溯改判。详见 [交付范围](docs/PRODUCTION_CLOSURE_V1.md)。本轮不修改用户 TOML、密钥、实际数据库／队列，也不启动付费模型、LangSmith 上传或训练。
+
+验证完成：主链 102 项，新范围 5 项，原实现复用对照 5 项，旧契约保护 7 项，前端 22 项及构建均通过；仓库外独立副本以真实 AST／SSM／LangGraph／Puppeteer 完成修复候选、六维评估、下载和零调用阻断验证。模型为明确的响应夹具（两次 exchange），真实云模型调用 0。保存 [结果与指纹](docs/verification/2026-11-17_supported_production_closure_v1/README.md)，另建 2026-11-17_supported_production_closure_v1.ipynb，不覆盖已打开的旧 Notebook。尚待用户新建一条真实模型任务和独立人工验收，不能据工程检查声称论文通过率或完整兼容已达成。
+
+## 2026-11-17：继续补自动内联树／父事件／错误路由及读取时序（仍未完整发布）
+
+新增 runtime/san_business_v1/template.cjs、tree.cjs、events.cjs。静态 const 内联 Options／模板／注册从源 AST 直接编译为 San 树，拒绝无法解析的组件及私有子依赖；不是手工可信父子 metadata。支持已测的多参数／数组／once 事件、渲染时成员引用快照、严格函数接收者、动态替换回调数组、父 props／inheritAttrs=false 动态 attrs、连字符 attrs 原名、ref／parent／root／options 身份及祖先捕获。无 Vue 组件／渲染器；Node 只解析。
+
+实际中间反例包括 this 严格身份比较被误报逃逸、data-note 变成 dataNote、原生局部更新漏读 getter、未用字段误触发整组件更新、隐藏分支旧读取、方法覆盖立即替换已安装事件、可选成员调用导致严格函数 this 指向桥接对象。分别修 AST 检查、源属性名映射、惰性通知／实际渲染读依赖、事件渲染快照与统一错误分派。source 自动编译探针新增 getter／隐藏分支／未用字段，值探针 12 类值＋带副作用 toString；单根 pre watcher 递归按原版本 101 次回调、count 102、nextTick 拒绝且不提交待渲染 DOM。有限证明不推广为任意全局时序等价。
+
+本轮最终新专项 **20 项通过（32.673 秒）**，旧 v1–v7 **41 项通过（63.472 秒）**，默认生产边界 **11 项通过（15.044 秒）**；同一实现指纹下六份探针及冻结 ProductFilterPanel **11 步交互通过**，UI 100%、SSIM 1、不同像素 0。结果封存到 docs/verification/2026-11-17_san_business_instance_v1_tree_partial；首轮 47 payload、旧 v1–v7、原185文件生产基线不变，Notebook 只追加新记录。
+
+完整契约仍未完成：slots、动态／函数／循环 ref、自动 attrs 透传、跨 root／复杂异步递归、广义模板及副作用顺序、生成／校验／修复／候选门集成未闭合；research v7 的 keyed 内存候选也尚未进入新导出，不能把其4/4套用给新组件树。保持 full_contract_complete=false、production_admission_eligible=false 和默认源阻断。无模型、LangSmith、训练、实际库／队列写入、commit/push；目前不要求用户重启或付费复跑。
+
+## 2026-11-17：San 业务契约、可执行源编译与冻结样本交互重放（部分实现）
+
+用户确认保持 San 迁移目标，不再复刻 Vue 私有实例／vnode 图；另立 san-business-instance-v1，不回写 v1–v7 失败、分母或费用。任意字符串／Symbol 业务键、ToPropertyKey、对象／ref／别名和公开功能仍需实现或明确阻断，不能缩成固定六键或简单值。契约与实际进度分别见 docs/SAN_BUSINESS_INSTANCE_CONTRACT_V1.md、docs/SAN_BUSINESS_RUNTIME_V1.md。
+
+新增 runtime/san_business_v1：源 Options／AST 自动编译脚本、refs 和 DOM 策略，真正 San constructor 中隔离业务与原生 receiver；data() 原对象、简单父 props／watch／hook DOM 顺序、事件配置回调／once／model、forceUpdate、卸载后 watcher、跨导出共享内核均有实际对照。内嵌独立 @vue/reactivity／@vue/shared 3.5.45，不加载 Vue 组件／渲染器；不是零 Vue 依赖。修正默认工厂输入、冻结空 data、显示与 Symbol input、连字符 props／声明 emits 与 attrs 分类及 Windows 导出字节指纹；未实现根 ref／vnode 回调和原生父事件路由明确拒绝。
+
+保留实际中间失败：初始 DOM 属性／key 表达不同，早期 Windows 换行导致 manifest 与导出字节不一致，卸载 watcher 错误地继续回调，新增 attrs 对照未归一化 display-name／误删 onClick／错误保留 key。现分别修实际 DOM、经独立核实后的模板身份映射、字节写入、inactive scope 和输入分类。不降低旧阈值或修改原始浏览器证据，早期观察不冒充最终源码绑定。
+
+最终本轮新专项 **18 项通过（37.111 秒）**，旧代理 v1–v7 **41 项通过（76.907 秒）**，默认生产公开键专项 **11 项通过（19.396 秒）**；以封存 unittest 日志时间为准，summary 中 subprocess wall time 包含启动开销，不混为同一计时。新报告分别包含 92 个有限业务案例、自动源编译浏览器对照、5 个公共 API／父子夹具、12 类值和 4 项共享／拒绝控制，不累加为迁移成功样本。
+
+冻结 ProductFilterPanel 的原 source／第 3 版 San 模板离线派生新产物，实际执行 11 步搜索／分类／库存／排序／价格／选中／清空／空结果；初始及每步 DOM／样式／控件状态一致，初始结构及原始 DOM 相似度 1、UI 100%、SSIM 1、不同像素 0。静态范围仅为 canonical source Options／receiver 绑定，不冒称旧完整语义分析器已适配。scripts/verify_san_business.py 可重现本轮；最终源码／输入／测试／浏览器／截图／SHA256SUMS 封存至 docs/verification/2026-11-17_san_business_instance_v1_partial，旧封存及 185 文件生产基线保持。
+
+**完整修复及生产接入尚未完成**：默认生成／验证／修复／候选门／API／前端未导入新模块，自动组件树、祖先错误捕获、slots／动态 attrs／refs、复杂父事件和递归／副作用顺序仍需闭合。full_contract_complete=false、production_admission_eligible=false，旧 source_dynamic_key_contract_unsupported 保持。无模型／LangSmith／训练／实际业务库或队列写入、commit/push；无需重启或付费复跑。Notebook 仅追加两格，原 21 格内容不变。
+
+## 2026-11-17：代理研究 v7 修复单元素根 keyed 组件重建（未接入生产）
+
+继续用户授权，定位固定 San 3.15.6 的 ForNode._updateArray：仅 nodeType=ELEM 允许移动，组件不在 LIS 静止项时进入销毁／重建。新增独立 research/public_instance_v7，按精确上游版本及源码 SHA-256 生成内存候选，只对已检查的同步、单元素根组件启用原移动路径。不改固定 engine、v1 至 v6、封存、生产 Prompt／规则／配置或源 Vue，不按组件名特判。
+
+相同有限树场景旧 v6 3/4、候选 v7 **4/4**；无代理原生对照也由 bSame=false、count 丢失变为保留实例／count。另有原 Vue／原 San／候选 San 三页对照，13 次连续更新验证实例、状态、原生 props／index／事件和普通元素路径，2 项限定案例一致。9 项实际拒绝边界覆盖多根／条件根／组件根／过渡及不支持 key；拒绝时未移动／销毁旧实例，但不承诺回滚已经设置的源 Data。
+
+首轮扩展原生探针整体失败，逐步字段均一致，差异仅最后 raw San 整树 dispose 顺序；最终分开列表更新案例与最终销毁观察并保留 native_disposal_order.equal=false。该 native 差异不由 keyed 补丁修复，owner 桥接后的实际卸载顺序继续由树探针验证。不将修改探针记录等同为修复了原生销毁。
+
+候选下既有 root 6 项、调度 8 项、控件及每页 7 条 watcher 保持；非 DOM 94 项／写入 5 项和 8 控制／owner 10 控制保持，非 DOM 仍使用原 San 及明确屏障测试替代。最终合并 **41 项通过，110.122 秒**；生产专项 **11 项通过，27.472 秒**。首轮专项 7 项中 1 项失败、43.116 秒为中间结果不累计。九报告＋十一 cjs＋一测试共 **21 payload** 封存至 docs/verification/2026-11-17_public_instance_proxy_v7。详见 docs/PUBLIC_INSTANCE_PROXY_V7.md。
+
+代理动态 child props、完整私有图／初始化／异常／过渡及真实 SSM 编译／导出／加载仍未闭合；下一步先补动态 child props 的真实父子同步反例。arbitrary_public_key_contract_complete=false、production_admission_eligible=false 和生产契约阻断不变。不把研究循环 key 边界当成缩减 setValue 任意公开键的授权。无模型／LangSmith／训练／实际库或队列写入／commit/push，无需重启或付费复跑。
+
+## 2026-11-17：代理原型 v6 父子 owner／循环作用域（3/4，keyed 未解决）
+
+新增 research/public_instance_v6，沿授权先验证，不改旧版本／封存和生产。实际 San runtime.owner 对应已登记父 owner，逻辑 parent/root 指向真实记录，子 scope 独立；family nextTick 等待成员队列。真实 DocumentFragment 初始构建与顺序批量清理使挂载／卸载 DOM 可见性、顺序一致。条件移除后的 unmounted 排到父 post 队列，不同根互不清理。
+
+四个有限树场景旧 v5 0/4、新 v6 **3/4**，**keyed 重排仍失败**：a/b/c 的 count 均为 1，改为 c/b 时 San 把本应保留的 b 销毁并重建为 count=0。新增不含 Proxy／响应式内核／owner 的原生 San 3.15.6 对照也重现 bSame=false、bDisposed=true、c:1/b:0；当前定位到原生更新路径，尚未定位具体算法行。不靠改 Prompt、忽略 key、仅比 DOM 或回填状态判通过，也未改固定引擎。旧 0/4 是新增树证据，不是旧迁移率被改为 0%。
+
+首轮树对照 2/4，修正真实挂载可见性和兄弟卸载顺序后 3/4；keyed 失败保留。已有 root 6 项、调度 8 项、控件每页 7 条 watcher 回归保持，非 DOM 94 项、写入 5 项／8 控制及 root 10 控制保持，屏障替代继续明确声明。目标仍有 VueReactivity 依赖但无 Vue 组件运行时。
+
+最终合并工程检查 **34 项通过（93.577 秒，旧 28 项＋新增 6 项）**，其中包含确认 keyed 失败仍被识别的反例，**不等于树行为全部通过**；生产专项 **11 项通过（30.039 秒）**。专项 6 项 20.819 秒为中间验证不累计。八份报告与十份源码／测试共 **18 payload** 封存至 docs/verification/2026-11-17_public_instance_proxy_v6。没有全系统／30 组件／模型重跑或论文新增样本。
+
+优先下一步定位修复已冻结的原生 keyed 差异；动态子 props、任意深度／循环／key、跨 root 调度、私有实例图和真实编译／加载仍未完成。arbitrary_public_key_contract_complete=false、production_admission_eligible=false，生产阻断不变。详见 docs/PUBLIC_INSTANCE_PROXY_V6.md。无模型、LangSmith、训练、实际库／队列写入、commit/push，无需重启或付费复跑。
+
+## 2026-11-17：公开实例代理 v5 root owner 生命周期与清理（未接入）
+
+继续先兼容验证再接入的授权。v4 没有 owner hooks，直接原生 dispose 会绕过代理句柄清理；新增 research/public_instance_v5，以每实例 owner helper 连接 beforeMount/mounted、beforeUpdate/updated、beforeUnmount/unmounted。hook 的业务 this 与原生 receiver 分开，hook 内 $watch 归属 owner，直接原生销毁、句柄销毁都停止 scope 并 cleanup；beforeUnmount 在旧 DOM／活 scope，unmounted 在 DOM 已移除／scope 已停时执行，之后才标 isUnmounted。保留卸载后的 $el 引用，不伪造 vnode。旧代码／封存、生产链、Prompt、阈值、配置和源组件不改。
+
+新增有限浏览器场景旧 v4 **0/6**、v5 **6/6** 一致；0/6 只是新增 owner 场景此前未连接，不改写旧 v4 测试或论文迁移率。另有 owner 已连接的 **8 项** 实际调度、控件及每页 **7 条** watcher 回调回归，**10 项** owner 边界控制通过。非 DOM 原生 94 项、写入 5 项及 8 项控制保持，屏障测试替代继续明确声明，实际 DOM 证据来自隔离 Edge；目标仍有独立 VueReactivity 依赖但没有 Vue 组件运行时。
+
+最终 v1 至 v5 合并 **28 项通过（70.162 秒，含旧 22 项及新增 6 项）**；生产公开键／控件专项 **11 项通过（25.828 秒）**。专项 6 项 19.309 秒、补指令防护前合并 28 项 65.115 秒为中间结果不累计。七份报告及九份源码／测试共 **16 payload** 封存至 docs/verification/2026-11-17_public_instance_proxy_v5，绑定最终代码，不作为论文新增迁移样本或全系统重跑。
+
+实际修正：San dispose 内部调用 detach 被外部 detach 防护误挡，仅允许 unmounting 内部路径，外部 detach 仍拒绝；封存前补查真实 s-transition 指令防护并重跑。详见 docs/PUBLIC_INSTANCE_PROXY_V5.md。每实例保留 dispose／attach 幂等防护，不声称卸载后所有 wrapper 均恢复。
+
+完整父子／循环作用域、初始化 hooks／组合式注入、过渡／异步卸载／祖先异常、私有实例图、所有调度交错／递归保护和真实 SSM 编译／加载仍未闭合。arbitrary_public_key_contract_complete=false、production_admission_eligible=false，生产阻断保持，不以 root 夹具范围缩小用户契约。无模型、LangSmith、训练、实际库／队列写入、commit 或 push，无需重启或付费复跑。
+
+## 2026-11-17：公开实例代理 v4 渲染／nextTick 调度（未接入）
+
+先以同一实际浏览器探针对旧 v3 复现：8 个有限场景只有 3 项一致，5 项不同，包括无 watcher／只有 pre watcher 时 tick 早于 DOM、回调读旧 DOM、post 侧写顺序及 Promise 身份。新增 research/public_instance_v4，以原生通知后的真实渲染完成标记、共享完成 Promise 及 post 分批处理修正；不改 v1/v2/v3 源码或封存，不改生产 Prompt、引擎、配置、源 Vue 和历史产物。
+
+最终浏览器前后对照 **v3 3/8 一致、v4 8/8 一致**，无 warning/error；v4 实际控件两页也通过，仍各有 7 条实际 watcher 回调。非 DOM 原生 94 项、写入 5 项及 8 项控制保持。目标无 Vue 组件运行时但仍有显式 VueReactivity 依赖。卸载只验证取消 owner watch 及保留既有 tick 回调，不声称完整生命周期闭合。
+
+Node 非 DOM 夹具新增调用原生 San 调度后打印结果不退出，本机源码选择未关闭的 MessageChannel；两次运行被中断，不算完成通过。v4 非 DOM 夹具显式改注入微任务屏障替代，报告记录 node_render_barrier_is_test_double=true；实际 DOM／San 调度结论全部由独立浏览器取得，生产与 engine 不改，也没有修改全局 MessageChannel。详见 docs/PUBLIC_INSTANCE_PROXY_V4.md。
+
+最终 v1 至 v4 合并 **22 项通过（50.132 秒，含旧 17 项及新增 5 项）**；既有生产专项 **11 项通过（28.071 秒）**。中间 5 项 16.708／27.132 秒不累计。最终前后浏览器、控件和非 DOM 5 份报告及源码／测试 6 份共 **11 payload** 封存至 docs/verification/2026-11-17_public_instance_proxy_v4。没有全系统、30 样本或模型重跑，不计论文新增迁移样本。
+
+完整私有图、父子／循环作用域、生命周期 hooks／异常／递归保护和真实编译／加载仍未闭合；v3 原生重入及事件口径差异保留。arbitrary_public_key_contract_complete=false、production_admission_eligible=false，生产阻断保持。无模型、LangSmith、训练、实际库／队列写入、commit 或 push，无需重启或付费复跑。
+
+## 2026-11-17：公开实例代理 v3 嵌套控件写入（未接入）
+
+继续用户授权的先兼容验证路径。本轮针对 v2 明确拒绝的原生 Data.set 嵌套写入，新增 research/public_instance_v3，不改 v1/v2 文件／封存，不改生产引擎、Prompt、配置、旧源码或费用。控件经同一源响应式状态写入，保留别名、数组项、ref 身份；按根合并镜像通知，支持已测 silent／silence／quiet／force 语义及调用方 option 身份。监听器回写不再在内部保护期间绕过源状态；缺失父对象和同步 watcher 内原生重入仍拒绝。
+
+v3 重放原有 **94 个有限对照一致**，新增 **5 项** 嵌套写入对照和 **8 项** 控制成立。实际隔离 Edge 两页经输入、复选框开关、下拉选择和字面点号键输入后状态／DOM 一致，每页 **7 条** 实际同步 watcher 回调逐条一致；公开 data/watch/dispose 同名赋值不破坏内部句柄。目标无 Vue 组件运行时但仍显式使用独立 VueReactivity 内核。
+
+最终 v1/v2/v3 合并 **17 项通过（21.334 秒，包含旧 13 项与本轮 4 项）**；既有生产公开键／控件 **11 项通过（24.760 秒）**。修正后专项 4 项 5.604 秒是中间结果，不累计。未全量重跑系统／30 组件或模型，不作为论文新增迁移样本。最终三份结果及五份源码／测试共 **8 payload** 封存至 docs/verification/2026-11-17_public_instance_proxy_v3，SHA-256 核验。
+
+真实失败：初次普通权限启动浏览器等待超时；许可隔离浏览器中又发现源页三击未全选导致 staredited，补充实际状态诊断，明确 Ctrl+A 后重测通过。没有靠改源组件掩盖错误。详见 docs/PUBLIC_INSTANCE_PROXY_V3.md。
+
+仍不承诺原生 San 嵌套 change 事件逐字节等价，使用根级失效通知；不是原子回滚事务。完整私有 vnode 图、生命周期／异常／作用域、development 内核限制、真实 SSM 编译／加载均未闭合。arbitrary_public_key_contract_complete=false、production_admission_eligible=false，生产阻断保持。没有模型、LangSmith、训练、实际库／队列写入、commit 或 push，无需重启或付费复跑。
+
+## 2026-11-17：公开实例代理 v2 响应式与读取修复（未接入）
+
+沿用户授权继续修复，不改 v1 原型／封存或生产链。新增 research/public_instance_v2，采用本目录已安装的独立 @vue/reactivity 3.5.45 内核，不含 Vue 组件／渲染器，但属于新增运行时依赖，不能称为完全无 Vue 依赖；无新下载安装或锁升级。修复对象／循环与共享引用／ref 身份、computed 缓存、实际 $watch 与根级显式记录错误策略，并建立真实逻辑 proxy/data/ctx 关系，不用 typeof 或伪造 vnode 宣称完整等价。
+
+另修复“公开值已变、San DOM 未变”：分开 San 保留的 initData 镜像，实际 Data.get 单次读取订阅依赖，订阅嵌套别名及逃逸 ref；根变更不重复发通知，不改全局原型，借用接收者保持、结束恢复自有描述符。内核缺少所需触发钩子会在修改前拒绝，不能直接换 production 构建；原生嵌套不可变写与 silent/force／子树策略仍未闭合。
+
+最终 **94 个有限原生场景一致**；四张隔离 Edge 页（source/target × 普通/ref）实际计数 0→1→11、逃逸 ref 21、嵌套别名 DOM 9 一致。普通各 6、ref 各 8 条真实 pre/post 回调值和 DOM 文本一致，明确拒绝空日志比较。目标加载独立响应式内核但无 Vue 组件运行时，双方无 warning/error。8 项边界控制通过，包含单次通知、原生根写、描述符恢复及不支持路径拒绝。
+
+最终 v1/v2 合并 **13 项通过（32.993 秒，包含 v1 原 5 项及新增 8 项）**；同组 19.760 秒为中间测试。旧公开键／控件 **11 项通过（28.267 秒）**。测试及研究结果不叠加为迁移样本，也未全量重跑系统／30 样本。native/browser/controls 及 5 个代码副本共 8 payload 封存至 docs/verification/2026-11-17_public_instance_proxy_v2；原生产运行时与 v1 封存指纹保持不变。
+
+中间真实失败保留说明：cleanup 数组无接收者分派错误；记录错误函数返回值被误当 getter 结果；代理嵌套／ref 已变化而原生镜像／DOM 未刷新；过早取得 watcher 空日志。修正后增强反例再测。中间 JSON 不绑定最终源码，也未逐轮备份源码，不冒充最终证明。详细记录见 docs/PUBLIC_INSTANCE_PROXY_V2.md。
+
+完整 Vue 私有 vnode／渲染图仍明确未实现，完整生命周期／调度交错、部分原生写策略及自动 SSM 编译真实 SFC／加载／候选门均未闭合。arbitrary_public_key_contract_complete=false、production_admission_eligible=false；source_dynamic_key_contract_unsupported 保持，Prompt／SSM／原引擎／阈值／配置／旧产物和费用不动。没有云模型、LangSmith、训练、实际库写入或 commit/push；目前无需重启或付费复跑。
+
+## 2026-11-17：获授权的公开实例代理原型（未接入）
+
+用户在确认原生 Vue／San 的 `data` 命名空间冲突后明确授权“允许内部公开实例代理，先验证兼容性再接入”。新增 research/public_instance_v1 独立原型和专项测试，不导入默认系统、不改变组件导出／加载、不修改 engine／SSM／生成或修复 Prompt／规则／阈值／配置。业务 receiver 与原生 San receiver 分开，内部 Data 由闭包／加载方句柄保存；源风格方法绑定业务 Proxy，键转换仍由原生 JS 赋值执行，任意额外字符串／Symbol 不被固定键白名单拒绝。
+
+当前 Vue 3.5.45／San 3.15.6 的 **73 个有限原生场景一致**；覆盖字面点号键、转换顺序／异常、Symbol、业务 data/watch 等与 San 字段同名属性、绑定方法覆盖及基本只读行为。两张隔离 Edge 页在公开 data=null、watch=42 后继续实际点击与赋值，双方按钮文本 0→1→11、内部指针保持、dispose 成功，San 页无 Vue 运行时、无 warning/error；不是完整像素评估或实际组件 SFC 验收。
+
+原型明确保留 **4 个实际差异**：声明状态对象的响应式身份、Vue 内部记录读取、`$` 任意键赋值后的公开读取、公开 `$watch` API。另有深层别名／ref、完整 computed 缓存／反射／调度、父子树与自动 SSM 编译等未验证。`arbitrary_public_key_contract_complete=false`、`production_admission_eligible=false`，不新增白名单或值域限制来改判通过；当前生产仍返回 source_dynamic_key_contract_unsupported。
+
+最终专项 **5 项通过（14.445 秒）**，既有公开键／控件专项 **11 项通过（24.430 秒）**；首轮 5 项 12.163 秒及扩展阶段 5 项 10.224 秒保留为中间验证，不叠加计数。首次原生实验暴露 warn 前缀比较问题；随后实际发现 __proto__ 的 Vue 默认 globalProperties 继承键 defineProperty 分支差异，修复原型并增加重复赋值／描述符反例后重测。源码、双端版本／实现指纹与观察封存到 docs/verification/2026-11-17_public_instance_proxy_v1，6 payload 以 SHA256SUMS.json 核验；原独立重构验证的生产实现指纹全部保持不变。
+
+本轮无真实模型／LangSmith／训练／实际库写入、无 commit／push，不回填历史样本结果。尚不能让用户付费复跑验证完整契约；后续先关闭这些反例并验证实例生命周期连接，再做可审计生成、校验和修复接入。详见 docs/PUBLIC_INSTANCE_PROXY_V1.md。
+
+## 2026-11-17：r5 独立目录重构与实验实现内聚
+
+用户要求按开题和既有实验复用完整模块化重构，不再引入不必要的新迁移模块，也不继续依赖“毕业设计”根目录。先核对选题报告中四维 SSM、few-shot／LoRA、LangGraph／LangSmith、TED、Puppeteer／SSIM／像素／计算样式和有限修复路线。本轮调整依赖及职责，不改变 Prompt 正文、规则顺序、预算或质量阈值；已有任意公开键与严格 DOM 未证明问题不趁重构豁免，也不把旧高通过率当作任意行为等价证明。
+
+新增内部 `engine/MANIFEST.json` 登记 98 项来源（source commit `2b57afbc7d21f35cd7072f4f3d11e8cb43f6bf13` 及实际工作区文件指纹）：96 项逐字节保留，另两项是无副作用 package facade 及纯生成函数／类名规则常量提取。未复制旧完整 orchestrator 或 Flask 服务；静态、规则与修复 Prompt 仍来自原实现，主编排只有新系统的真实 LangGraph。独立 Node 依赖在 engine 内按原 package-lock 离线安装 30 包，未升级前端／浏览器锁或模型配置。`.gitattributes` 保留内置源码／证据字节，不让 checkout 改写清单指纹。
+
+生成／修复从任务账本服务拆到 `stages/generate.py`、`stages/repair.py`，修复 body 的 AST 与拆分前相同，依赖显式传入以保留原测试边界。默认前端只加载真实迁移页，旧夹具页延迟加载；`worker` 为真实迁移别名，旧夹具显式叫 `development-worker`。历史 README／指南归档到 docs/history，六个依赖原数据的重放／冻结脚本移到 `tools/migration_system_history`，原冻结文件不变。当前架构、部署和保留决定分别见新 README、SYSTEM_GUIDE、docs/ARCHITECTURE、docs/REUSE_MATRIX；不是再追加一套并行的运行系统。
+
+`Settings.repository_root` 保留兼容字段名，但值固定为本目录 engine，无父目录代码兜底。新默认库／检查点是 `var/runtime`，产物是 `var/artifacts`；旧 var 业务库和父目录实验产物未移动／删除／导入，本轮没有初始化或升级实际数据库，没有启动用户真实队列。SsmPanel.vue、ssm-model.ts、用户 system.toml 未改；原 Vue／San、失败／通过和费用不重写。
+
+独立性验证在仓库外临时目录中实际复制源、配置、已安装依赖和前端构建；Python 读取审计拒绝原 checkout 的源码／数据（正常使用已有 Python 第三方运行环境），不设置父级 NODE_PATH、不用链接共享源文件。临时 API／SQLite、实际 AST 提取／LangGraph、规则／校验、Puppeteer、候选接受及下载全部通过，所有载入的系统模块来自副本；额外确认合法空元素、真正语法错误和已知未支持契约在模型前阻断。模型为明确响应测试替代，2 次 fixture exchange、实际云调用 0，不冒充真实模型成功样本。结果存于 docs/verification/2026-11-17_standalone_refactor，两个 payload 已用 SHA256SUMS 封存，并核对当前实现指纹。
+
+复用对照专项 **5 项通过（96.340 秒）**：SSM 完全相同、生成 messages 完全相同、静态诊断／规则／修复 Prompt 相同、修复函数 AST body 一致和源码归属不变。配置／契约专项 **28 项通过（18.915 秒）**；生成边界 **18 项通过（17.972 秒）**；前端 TypeScript／Vite 构建及 Node **22 项通过**。
+
+完整系统回归执行了 **408 项（2107.899 秒）**：406 项通过，2 项失败来自旧开发夹具的 subprocess 仍调用 `worker`，而该名称已明确切换到真实迁移 Worker；并非模型或评估分数回归。将两处夹具命令修正为 `development-worker` 后，受影响任务链路完整 **22 项通过（67.098 秒）**，配置／入口 **29 项通过（15.749 秒）**，并新增真实 Worker 别名路由断言。没有把第一次失败隐去，也没有声称以同一命令一次跑过新增后的全部 409 项。
+
+收尾将普通测试中的提取／浏览器／契约路径也改成内部 engine；来源对照和冻结样本用例在缺少旧语料时明确跳过，不把它们伪装为新部署的运行依赖。受影响的 SSM、登记图和配置合计 **76 项通过（247.747 秒）**；最终完整模块化专项 **102 项通过（524.307 秒，无跳过）**，覆盖真实浏览器、冻结语法／规则闭环、原多维评估及工作台。当前原实验语料存在，历史用例没有因独立化而被跳过。运行时实现仍与仓库外独立副本验证指纹完全一致；只读 check 验证 98 项内部引擎，未初始化实际库。以上各组与完整回归有重叠，不相加为迁移样本数。
+
+前端 README 中历次互相覆盖的“当前入口”和旧命令也已归档到 docs/history，现行前端文档只保留本目录构建、真实主入口及历史页边界，避免继续误用旧 `worker` 夹具说明。
+
+中间验证不计成功：纯 builder 指纹最初误用 Windows 原始 CRLF 哈希，修正为原约定 LF 归一化；初次完整测试因此失败并中止后重跑。独立探针的两个夹具假设也修正：原规则可能无需第二次模型边界调用即可修好；小文字色差可能在既有阈值内，不应强求修复。最终用显著布局／背景缺陷覆盖真实模型修复候选路径，未降低阈值或伪造评分。新建证据清单中的手抄哈希也在校验发现后更正，payload 本身未改。未执行真实模型、LangSmith 上传、LoRA 训练、commit 或 push；整个历史 30 样本的模型通过率未重新测量，不宣称重构提高了该统计。
+
 ## 2026-11-17：ProductFilterPanel 公开键能力提前阻断与控件状态检查
 
 原任务 `ea3808cfe9ff4ae7b301e5c8d593e3aa`、3 次模型调用、87999 Tokens 和 repair_budget_exhausted 失败保留。先冻结 45 个历史任务文件、源输入和 freeze.json，共 47 payload。源 SHA-256 `aed0d49a2bab60b3103e50beb0236320d35f7fb9d8bd2341db36a65be65e817a`；原接受 revision 2 不修改，最后一次同代码响应的拒绝记录不改写。

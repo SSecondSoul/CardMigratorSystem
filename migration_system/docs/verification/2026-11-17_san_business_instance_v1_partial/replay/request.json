@@ -1,0 +1,75 @@
+{
+  "source_sha256": "aed0d49a2bab60b3103e50beb0236320d35f7fb9d8bd2341db36a65be65e817a",
+  "original_target_sha256": "f5a2d736a390c7e3ea7909d759f08a723abe2680fc2ba8519cf77b31dfb9ad11",
+  "actions": [
+    {
+      "name": "search_keyboard",
+      "type": "input",
+      "selector": ".filters input[placeholder]",
+      "value": "键盘"
+    },
+    {
+      "name": "clear_search",
+      "type": "input",
+      "selector": ".filters input[placeholder]",
+      "value": ""
+    },
+    {
+      "name": "category_office",
+      "type": "select",
+      "selector": ".filters select:first-of-type",
+      "value": "办公"
+    },
+    {
+      "name": "in_stock_only",
+      "type": "click",
+      "selector": ".filters input[type=checkbox]"
+    },
+    {
+      "name": "sort_price",
+      "type": "select",
+      "selector": ".filters select:last-of-type",
+      "value": "price"
+    },
+    {
+      "name": "all_categories",
+      "type": "select",
+      "selector": ".filters select:first-of-type",
+      "value": "all"
+    },
+    {
+      "name": "price_limit",
+      "type": "input",
+      "selector": ".filters input[type=range]",
+      "value": "500"
+    },
+    {
+      "name": "select_first_product",
+      "type": "click",
+      "selector": ".products button:first-child"
+    },
+    {
+      "name": "reset_filters",
+      "type": "click",
+      "selector": ".filters button"
+    },
+    {
+      "name": "empty_result",
+      "type": "input",
+      "selector": ".filters input[placeholder]",
+      "value": "不存在"
+    },
+    {
+      "name": "reset_after_empty",
+      "type": "click",
+      "selector": ".filters button"
+    }
+  ],
+  "props": {},
+  "evaluate": true,
+  "thresholds": {
+    "structure": 0.95,
+    "ui": 0.95,
+    "pixel_difference": 0.05
+  }
+}

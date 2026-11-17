@@ -14,7 +14,7 @@ class ConfigurationError(ValueError):
 
 
 def source_project_root() -> Path:
-    """Source checkout convenience, not an installed-wheel deployment locator."""
+    """Locate this self-contained system checkout, never its parent repository."""
     return Path(__file__).resolve().parents[2]
 
 
@@ -41,6 +41,11 @@ class Settings:
     mode: str
 
     @property
+    def engine_root(self) -> Path:
+        """Internal validated engine. repository_root is a compatibility field."""
+        return self.repository_root
+
+    @property
     def business_database(self) -> Path:
         return self.runtime_dir / "business.sqlite3"
 
@@ -53,6 +58,7 @@ class Settings:
         return {
             "mode": self.mode, "host": self.host, "port": self.port,
             "project_root": str(self.project_root),
+            "engine_root": str(self.engine_root),
             "runtime_dir": str(self.runtime_dir), "artifact_dir": str(self.artifact_dir),
             "business_database": str(self.business_database),
             "graph_database": str(self.graph_database),
@@ -65,7 +71,7 @@ def load_settings(*, project_root: Path | str | None = None,
     project = Path(project_root).resolve() if project_root is not None else source_project_root()
     if not project.is_dir():
         raise ConfigurationError("Project root must exist")
-    repository = project.parent
+    repository = project / 'engine'
     config = Path(config_file) if config_file is not None else Path("configs/development.toml")
     config = _inside(config if config.is_absolute() else project / config, project, "Config")
     try:
@@ -100,8 +106,7 @@ def load_settings(*, project_root: Path | str | None = None,
         if type(paths.get(key)) is not str or not paths[key].strip():
             raise ConfigurationError(f"{key} must be an explicit nonblank path")
     runtime = _inside(project / paths["runtime_dir"], project / "var", "Runtime")
-    artifacts = _inside(project / paths["artifact_dir"],
-                        repository / "data/experiments/migration_system", "Artifact")
-    if runtime == artifacts:
+    artifacts = _inside(project / paths["artifact_dir"], project / 'var/artifacts', "Artifact")
+    if runtime == artifacts or runtime.is_relative_to(artifacts) or artifacts.is_relative_to(runtime):
         raise ConfigurationError("Runtime and evidence directories must differ")
     return Settings(project, repository, runtime, artifacts, host, port, mode)

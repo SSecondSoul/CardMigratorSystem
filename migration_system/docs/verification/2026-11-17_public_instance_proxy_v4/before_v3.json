@@ -1,0 +1,406 @@
+{
+  "status": "render_schedule_difference_observed",
+  "runtime_version": "v3",
+  "cases": [
+    {
+      "name": "no-watcher-nextTick-observes-render",
+      "source": {
+        "state": 1,
+        "dom": "1"
+      },
+      "target": {
+        "state": 1,
+        "dom": "0"
+      },
+      "equal": false
+    },
+    {
+      "name": "callback-receiver-and-result-after-render",
+      "source": {
+        "sameThis": true,
+        "dom": "1",
+        "result": 42
+      },
+      "target": {
+        "sameThis": true,
+        "dom": "0",
+        "result": 42
+      },
+      "equal": false
+    },
+    {
+      "name": "nextTick-promises-share-active-and-idle-flush",
+      "source": {
+        "idleSame": true,
+        "activeSame": true,
+        "dom": "1"
+      },
+      "target": {
+        "idleSame": false,
+        "activeSame": false,
+        "dom": "0"
+      },
+      "equal": false
+    },
+    {
+      "name": "pre-only-watcher-before-render-nextTick-after-render",
+      "source": [
+        [
+          "pre",
+          1,
+          "0"
+        ],
+        [
+          "tick",
+          1,
+          "1"
+        ]
+      ],
+      "target": [
+        [
+          "pre",
+          1,
+          "0"
+        ],
+        [
+          "tick",
+          1,
+          "0"
+        ]
+      ],
+      "equal": false
+    },
+    {
+      "name": "post-watcher-sidewrite-is-drained-before-nextTick",
+      "source": [
+        [
+          "pre",
+          1,
+          "0"
+        ],
+        [
+          "post",
+          1,
+          "1"
+        ],
+        [
+          "pre",
+          2,
+          "1"
+        ],
+        [
+          "post",
+          2,
+          "2"
+        ],
+        [
+          "tick",
+          2,
+          "2"
+        ]
+      ],
+      "target": [
+        [
+          "pre",
+          1,
+          "0"
+        ],
+        [
+          "post",
+          1,
+          "1"
+        ],
+        [
+          "post",
+          2,
+          "1"
+        ],
+        [
+          "pre",
+          2,
+          "1"
+        ],
+        [
+          "tick",
+          2,
+          "1"
+        ]
+      ],
+      "equal": false
+    },
+    {
+      "name": "idle-nextTick-does-not-invent-a-render-turn",
+      "source": [
+        "tick",
+        "microtask"
+      ],
+      "target": [
+        "tick",
+        "microtask"
+      ],
+      "equal": true
+    },
+    {
+      "name": "unmount-cancels-watches-but-not-existing-tick-callback",
+      "source": [
+        [
+          "tick",
+          null,
+          true
+        ]
+      ],
+      "target": [
+        [
+          "tick",
+          null,
+          true
+        ]
+      ],
+      "equal": true
+    },
+    {
+      "name": "render-already-settled-does-not-delay-idle-nextTick",
+      "source": [
+        [
+          "tick",
+          "1"
+        ],
+        "microtask"
+      ],
+      "target": [
+        [
+          "tick",
+          "1"
+        ],
+        "microtask"
+      ],
+      "equal": true
+    }
+  ],
+  "observations": [
+    {
+      "kind": "source",
+      "cases": [
+        {
+          "name": "no-watcher-nextTick-observes-render",
+          "value": {
+            "state": 1,
+            "dom": "1"
+          }
+        },
+        {
+          "name": "callback-receiver-and-result-after-render",
+          "value": {
+            "sameThis": true,
+            "dom": "1",
+            "result": 42
+          }
+        },
+        {
+          "name": "nextTick-promises-share-active-and-idle-flush",
+          "value": {
+            "idleSame": true,
+            "activeSame": true,
+            "dom": "1"
+          }
+        },
+        {
+          "name": "pre-only-watcher-before-render-nextTick-after-render",
+          "value": [
+            [
+              "pre",
+              1,
+              "0"
+            ],
+            [
+              "tick",
+              1,
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "post-watcher-sidewrite-is-drained-before-nextTick",
+          "value": [
+            [
+              "pre",
+              1,
+              "0"
+            ],
+            [
+              "post",
+              1,
+              "1"
+            ],
+            [
+              "pre",
+              2,
+              "1"
+            ],
+            [
+              "post",
+              2,
+              "2"
+            ],
+            [
+              "tick",
+              2,
+              "2"
+            ]
+          ]
+        },
+        {
+          "name": "idle-nextTick-does-not-invent-a-render-turn",
+          "value": [
+            "tick",
+            "microtask"
+          ]
+        },
+        {
+          "name": "unmount-cancels-watches-but-not-existing-tick-callback",
+          "value": [
+            [
+              "tick",
+              null,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "render-already-settled-does-not-delay-idle-nextTick",
+          "value": [
+            [
+              "tick",
+              "1"
+            ],
+            "microtask"
+          ]
+        }
+      ],
+      "runtime": {
+        "vue": true,
+        "kernel": false
+      }
+    },
+    {
+      "kind": "target",
+      "cases": [
+        {
+          "name": "no-watcher-nextTick-observes-render",
+          "value": {
+            "state": 1,
+            "dom": "0"
+          }
+        },
+        {
+          "name": "callback-receiver-and-result-after-render",
+          "value": {
+            "sameThis": true,
+            "dom": "0",
+            "result": 42
+          }
+        },
+        {
+          "name": "nextTick-promises-share-active-and-idle-flush",
+          "value": {
+            "idleSame": false,
+            "activeSame": false,
+            "dom": "0"
+          }
+        },
+        {
+          "name": "pre-only-watcher-before-render-nextTick-after-render",
+          "value": [
+            [
+              "pre",
+              1,
+              "0"
+            ],
+            [
+              "tick",
+              1,
+              "0"
+            ]
+          ]
+        },
+        {
+          "name": "post-watcher-sidewrite-is-drained-before-nextTick",
+          "value": [
+            [
+              "pre",
+              1,
+              "0"
+            ],
+            [
+              "post",
+              1,
+              "1"
+            ],
+            [
+              "post",
+              2,
+              "1"
+            ],
+            [
+              "pre",
+              2,
+              "1"
+            ],
+            [
+              "tick",
+              2,
+              "1"
+            ]
+          ]
+        },
+        {
+          "name": "idle-nextTick-does-not-invent-a-render-turn",
+          "value": [
+            "tick",
+            "microtask"
+          ]
+        },
+        {
+          "name": "unmount-cancels-watches-but-not-existing-tick-callback",
+          "value": [
+            [
+              "tick",
+              null,
+              true
+            ]
+          ]
+        },
+        {
+          "name": "render-already-settled-does-not-delay-idle-nextTick",
+          "value": [
+            [
+              "tick",
+              "1"
+            ],
+            "microtask"
+          ]
+        }
+      ],
+      "runtime": {
+        "vue": false,
+        "kernel": true
+      }
+    }
+  ],
+  "errors": [],
+  "fingerprints": {
+    "research/public_instance_v4/browser_probe.cjs": "42b4d47c6e893cb93d1b15e9ec908eae7792c2ba4f0a8151966115adfc1077fd",
+    "research/public_instance_v3/runtime.cjs": "cf5db0bcdf54294eaaa9481ff9c62a07369818a6845d7bf35a623283d81f6701",
+    "research/public_instance_v1/runtime.cjs": "420f87121f595952e3336ddda6603fb58595207bc0edf3de732f03ca0fdbe2cb",
+    "frontend/node_modules/vue/dist/vue.global.js": "7ae49497d5250ce1ab9f7be0f5a16f2487b7d0bb2dcc21c57806af415b924662",
+    "frontend/node_modules/@vue/reactivity/dist/reactivity.global.js": "273862c67787d695d86acd7cf16e3ff1722296743d40a7c52d628934e908ca5d",
+    "engine/node_modules/san/dist/san.dev.js": "4b1c4a3a918d91663c0f79a4f77358a9de3c0ee1fbc01dfc47897f8531543134"
+  },
+  "page_count": 2,
+  "browser_version": "Edg/157.0.4341.60",
+  "matched_cases": 3,
+  "production_admission_eligible": false,
+  "arbitrary_public_key_contract_complete": false,
+  "model_calls": 0,
+  "live_database_writes": 0
+}

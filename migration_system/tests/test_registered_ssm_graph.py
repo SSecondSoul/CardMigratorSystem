@@ -27,9 +27,6 @@ from card_migration_system.persistence.ssm_extractions import SSMExtraction, SSM
 class RegisteredGraphTests(unittest.TestCase):
     def setUp(self):
         fixtures.VerticalSliceTests.setUp(self)
-        shutil.copytree(REPOSITORY / 'SSM', self.project.parent / 'SSM', ignore=shutil.ignore_patterns('__pycache__'))
-        for name in ('package.json', 'package-lock.json'):
-            shutil.copyfile(REPOSITORY / name, self.project.parent / name)
         # Temp DB/storage use a byte-identical extractor source mirror. Route
         # parser execution to the real read-only checkout's installed Node deps.
         routing = patch('card_migration_system.application.extractions.SSMExtractor',

@@ -1,145 +1,28 @@
-# 本地迁移工作台
+# 迁移工作台前端
 
-## 当前入口（2026-11-16 模块化整合）
+完整安装和启动以 [系统指南](../SYSTEM_GUIDE.md) 为准。以下命令全部在 `migration_system` 目录内执行，不需要原实验仓库。
 
-工作台默认显示“真实迁移系统”，原 P2c 页面保留在“开发夹具与 SSM 历史”页签。新页接真实任务 API、SSM、生成、校验、Puppeteer／像素、修复与报告，不再用夹具签发迁移结论。外部密钥／资源仍待配置；默认不发出模型请求。
-
-**启动与使用请先读 [SYSTEM_GUIDE.md](../SYSTEM_GUIDE.md) 和 [SETUP_PENDING.md](../SETUP_PENDING.md)**。新主 Worker 命令是 `migration-worker`，原 `worker` 仅执行夹具。新代码 schema 为 0007；用户已升级到 0006，本次未自动操作旧库。前端已重新构建。
-
-以下 P2c 说明保留历史上下文，不覆盖上面的当前入口。
-
-当前后端代码新增 **0006_generation_approvals**；实际库仍为用户此前已确认的 0005，本轮没有自动升级。重启新代码前先停 API／worker、显式 init-db，再确认原 SSM 可查看／下载；无需重提取或构建网页。本轮没有新增网页批准／执行按钮，真实模型仍禁用，也不自动提高预算。当前步骤见[预算／批准说明](../GENERATION_APPROVAL.md#数据库与当前人工确认点)；此前的 [0005 确认记录](../RECORDED_GENERATION.md#当前入口与实际库)保留，不覆盖新迁移要求。
-
-已实现 Vue 3／Vite／TypeScript 页面，连接真实 Flask API、SQLite 和独立 worker。编译资源由 Flask 同源提供，不需要第二个前端端口或宽松 CORS。
-
-创建运行仍仅 development_stub 模式：源码被保存，生成／检查是开发夹具。另有真实 SSM 提取的只读面板，读取独立登记图的证据，不通过网页执行提取。页面区分“夹具执行结束”“源提取证据已核对”和“整体迁移未执行”，不显示虚构通过率／进度。旧根目录 frontend 和 tests/manual 不修改，不注册／发布远程站点。
-
-## 环境与构建
-
-在仓库根目录执行。当前实测 Windows、Node 24.19.0／npm 11.17.0。前端依赖单独锁定在本目录 package-lock.json，不复用或更新根目录 node_modules：
+## 构建和测试
 
 ```powershell
-# 当前工作区已安装过时可跳过安装；新环境用锁文件安装。
-npm.cmd --prefix migration_system/frontend --cache migration_system/var/npm-cache ci --ignore-scripts --no-audit --no-fund
-npm.cmd --prefix migration_system/frontend run build
-npm.cmd --prefix migration_system/frontend test
+npm.cmd --prefix frontend ci
+npm.cmd --prefix frontend run build
+npm.cmd --prefix frontend test
 ```
 
-直接依赖：Vue 3.5.45、Vite 8.3.8、plugin-vue 6.0.11、TypeScript 5.9.3、vue-tsc 3.3.14。Node 其他大版本尚未认证。Windows 使用 npm.cmd，不需要修改 PowerShell 执行策略。构建结果 dist 和本目录 node_modules 忽略，不进入实验证据。
+构建结果 `frontend/dist` 由本系统 Flask 同源提供，默认 http://127.0.0.1:8790/，不需要另启前端端口或宽松 CORS。`npm.cmd --prefix frontend run dev` 只监听并重建，刷新工作台查看，不是另一个网站或 HMR 服务。
 
-`npm.cmd --prefix migration_system/frontend run dev` 是 Vite build --watch：监听并重新构建，刷新 Flask 页面查看。它不启动另一个网站或代理，不承诺 HMR。前端文件变化后重建即可；本轮后端 Python 也有改动，旧 API／worker 需先停止再重启。
+## 页面与代码
 
-## 启动
+- `src/App.vue`：只切换真实迁移页和开发历史页；历史页按需加载，默认不查询夹具队列。
+- `src/components/MigrationWorkbench.vue`：默认真实迁移任务、状态、报告、下载和人工反馈。
+- `src/components/DevelopmentWorkbench.vue`：保留早期夹具与 SSM 历史查看，不计为真实迁移结果。
+- `src/components/SsmPanel.vue`、`src/lib/ssm-model.ts`：原只读 SSM 面板，本轮没有改写。
 
-窗口一，从仓库根目录：
+真实后台执行命令是 `migration-worker`；`worker` 为它的别名。旧夹具仅使用显式 `development-worker`，不能用夹具通过替代迁移质量。
 
-```powershell
-& migration_system/.venv/Scripts/python.exe migration_system/scripts/run_system.py init-db
-$env:CARDMIG_SYSTEM_WRITE_TOKEN = [guid]::NewGuid().ToString('N')
-# 仅在自己的终端查看并复制令牌，不需要发给助手，也不要提交到 Git。
-$env:CARDMIG_SYSTEM_WRITE_TOKEN
-& migration_system/.venv/Scripts/python.exe migration_system/scripts/run_system.py serve
-```
+本地写入令牌在启动 API 的终端生成，填入页面；它不是模型密钥。模型配置和密钥只在 Worker 配置／环境中提供。刷新页面不会自动重交任务，网络错误也不等于组件迁移失败。
 
-浏览器手动打开 **http://127.0.0.1:8790/**。把上面的本地写入令牌填到页面中；这不是 LLM_API_KEY，不要填模型密钥。
+## 历史说明
 
-窗口二：
-
-```powershell
-& migration_system/.venv/Scripts/python.exe migration_system/scripts/run_system.py worker
-```
-
-为验证排队／取消，可先不启动 worker。worker 缺席时页面显示未就绪，但允许明确创建开发运行；不是把 queued 标成失败。
-
-默认路径见[工程说明](../README.md)。自定义配置时 serve 和 worker 使用同一 --config，浏览器打开该配置端口。旧运行实现绑定不自动改变，不通过网页强行续跑或覆盖旧证据。没有付费模型／LangSmith／浏览器质量评估开关。
-
-## 页面功能与边界
-
-- 上传单个 UTF-8 .vue 文件（≤256 KiB，文件名须符合后端已有字母／数字／下划线限制），或粘贴源码。此阶段不执行源码、不加载组件依赖。
-- 名称、四个开发控制场景、0—3 轮夹具预算；没有虚假的模型选择器。真实模型／规则额度仍为 0。
-- 分页／执行状态筛选、按实际创建时间倒序的运行记录。详情由 URL hash 中的 run ID 恢复；刷新只发 GET，不自动提交。
-- 实际持久事件、夹具版本／候选／审计、六项明确未执行的质量检查、契约摘要。仅展示转义文本，不用 v-html 或执行生成组件。
-- 下载报告 JSON 和已接受开发夹具；下载前后端审计失败时显示错误，不把错误 JSON 存成 San。
-- 显式确认后取消／受限恢复，仍由后端检查绑定、租约和未决尝试，不增加权限。
-- 写入令牌只在内存中，不进 URL／localStorage／sessionStorage／请求体／构建产物；刷新清空，需要重新输入。读取请求不携带写令牌。
-- 单个页面禁止并发提交；已知输入／任务阶段在内存中保留，显式继续入队时复用相同幂等键。不自动重试写请求。输入／任务创建尚无全链路幂等保证：响应丢失时可能已有记录，需先核对列表；刷新不会自动重交。已入队的运行可从后端记录找回。
-- 查询失败保留最后确认状态，并明确提示连接异常，不能把网络失败当组件迁移失败。最多展示最近 1000 个事件；当前夹具链远少于此。
-- 当前没有真实组件预览／AST 与像素差异／人工评审提交／完整依赖上传。真实迁移、LangSmith、few-shot、LoRA 等后续必做项不因页面存在而完成。
-
-## 验证状态与手工确认
-
-已做 TypeScript 检查、Vite 构建、17 项 Node 前端单元测试、8 项新增后端分页／静态边界测试；它们不等于浏览器验收。
-
-2026-11-16 手工联调发现：后端接口可访问，但页面显示 `network_unavailable` 并禁用创建按钮。排查发现 API 类通过成员调用原生 `fetch`，使其接收者变成 API 实例；已改为显式绑定 `globalThis`，并增加启动查询、写入与下载的接收者敏感测试。新增测试在修复前均失败，修复后 17 项前端测试及构建通过。此项仅修正浏览器请求调用，不放宽 Host／Origin／令牌／就绪校验、不自动重试写入、不修改数据库。更新后重新构建，刷新页面即可，不需要为此重启 Python 服务。
-
-### 用户人工反馈（2026-11-16）
-
-- 修复后用户确认“现在好了，任务在排队中了”：创建／入队的浏览器阻断已解除。
-- 按提示启动 worker 后用户确认“已执行结束，符合预期”；该轮预期包括事件记录、六项迁移检查未执行和真实模型调用为 0。此处记录用户整体确认，不冒充助手独立核验或自动化浏览器证据；未采集 run ID、导出报告或截图存档。
-- 用户随后确认报告 JSON 与开发夹具“可以成功下载并打开两个文件”。IDE 中的报告文件名关联运行 `b0f6b858240b431fa486d791bf6e03c4`；未读取下载文件正文，不据此宣称内容审计或模型调用字段已独立核验。
-- 用户在按 F5 检查后确认“符合预期”：原运行及结束状态保留、无新增重复运行、本地写入令牌已清空。此项为用户人工确认，不是自动化浏览器观察。
-- 用户已确认“候选退化回退分支”触发回退；记录为开发夹具保护链的人工确认，不外推为真实迁移的退化识别能力。
-- 用户按排队取消清单确认“已完成，符合预期”：停止 worker 后创建排队运行，确认取消，重启 worker 后该运行仍已取消、未开始生成／修复。此反馈不覆盖在途取消或受限恢复。
-- 用户确认状态筛选与窄屏布局“已完成，都正常”。基础人工联调清单中的创建／排队／执行、导出、刷新、退化回退、排队取消、筛选和窄屏检查至此已确认。
-- 跨页（超过 10 条）、异常断连、在途取消／受限恢复仍未人工验收，不为凑分页数据重复创建任务。这是基础人工联调阶段小结，不标为全部 T3／生产验收通过，不计入论文迁移正确率。后续可转入真实 SSM 提取适配的开发与离线测试；模型调用和追踪上传不因本次确认获得授权。
-
-实际临时 HTTP 根页返回 200。内置浏览器连接不可用；本机 Edge 的 Computer Use 因无法可靠识别当前 URL 被安全停止。未用额外浏览器驱动绕过安全停止。助手自动浏览器验收未完成；上述用户反馈仅覆盖已明确确认部分。临时验收服务器已关闭，不写实际实验库。
-
-请在本地按顺序确认：
-
-1. 页面明确显示“开发模式／不是迁移结果”；初始 worker 未启动时状态为未就绪。
-2. 上传或粘贴一个小型测试 Vue，填入本地令牌，选择“修复后满足分支”，创建一次。确认排队，不连续重复点击。
-3. 刷新页面：仍能从列表／hash 找回同一 run；令牌已清空，不新增运行。
-4. 启动 worker：观察真实事件和执行结束；六项迁移检查仍为未执行，真实模型调用为 0。
-5. 打开版本／候选审计，下载 JSON 和开发夹具；不要把它当迁移后的业务组件。另测“候选退化回退”时最终为旧接受版本。
-6. 切换状态筛选；运行超过 10 项后检查分页。断开 API 时显示连接／查询异常，不能出现迁移通过。
-7. 先停 worker，再创建一条排队运行并确认取消；受限恢复只针对明确可恢复记录，阻断时保留错误码。
-8. 缩小浏览器宽度，确认表单、运行表格及详情没有互相遮挡。请反馈任何控制台报错或布局问题。
-
-可选复现临时真实链路夹具（不是正式运行）：
-
-```powershell
-& migration_system/.venv/Scripts/python.exe migration_system/tests/workbench_browser_fixture.py
-```
-
-它打印临时 URL 和仅测试令牌，等待 stdin 命令 worker-start／worker-once／facts／quit；数据在 TemporaryDirectory，quit 关闭服务器并清理临时文件。不要把这个临时 URL 当长期服务地址。
-
-本轮采用 Sites 的 local-only 流程；未注册、同步或发布站点。Computer Use 停止原因仅说明验收工具受限，不证明页面有错或正确。
-
-## 后续真实能力接入
-
-最新 G2 已新增 0004_generation_ledger（离线生成账本，不是网页模型开关）。用户已确认升级后 SSM 能下载查看；助手只读核对实际库为 0004、四张生成表存在，原 DeliveryPhaseCard 提取仍 completed、请求及三文件指纹未变。已有库无需重复 init-db 或提取。详见 [G2 说明](../GENERATION_LEDGER.md#用户实际库升级点)；此项是原证据读取／下载的人工确认，不是新生成图或模型质量验收，不要求启动 worker 或调用模型。
-
-已增加真实 SSM 离线 CLI，以及单独的登记数据库／备份／LangGraph 提取命令，见 [提取说明](../SSM_EXTRACTION.md)。新登记文件纳入备份；旧 var 离线探测不自动纳入。两者都不属于网页主运行图：网页仍显示 development_stub，不将以前夹具报告改成真实提取通过。提取不需模型密钥，不调用模型。SSM 接入时 HEAD 为 0003，当前 G2 HEAD 为 0004_generation_ledger；用户需先停止新系统 API／worker、显式 init-db 增量升级，再重启服务；不要删库或强行恢复旧运行。
-
-后续已增加真实提取的 P1 源阶段映射：新 v2 请求预冻结快照，report API 有 contract_evaluation／contract_report／contract_projection；旧 v1 提取只有源评估，完整请求报告为 null 且明确不补写。该内容已接入下述独立只读面板，原夹具页面的六项未执行保持不变。映射不需新表、升级或复跑既有提取；用户已完成的 0003 升级仍有效。
-
-## 真实 SSM 只读面板（2026-11-16）
-
-工作台下方新增“真实 SSM 提取”，与上方的开发运行／夹具详情分开。通过同源 GET `/api/v1/ssm-extractions?limit=10&before=...` 读取已登记记录，按创建时间和 ID 倒序分页。列表仅显示登记元数据，不表示文件审计已通过；打开详情才核对源码、请求、SSM、收据及 P1 映射。不会扫描或导入旧 var 离线探测。
-
-详情分别显示提取执行、源阶段评估及整体迁移未执行，并展示关联输入／运行 ID、协议、源／请求／环境指纹、评估器版本和证据文件。历史 v1 记录提示“缺少预冻结的完整契约快照，仅提供源阶段评估”，不是提取失败；不补造完整 P1 报告或重新提取。报告和 SSM 下载按钮点击时重新请求审计，错误 JSON 不当成正常 SSM 下载。受阻断、待收据或需复核的记录不开放 SSM 下载。
-
-选择 ID 保存在 hash 的 `ssm` 参数，可与 `run` 共存；刷新只 GET。该面板手动刷新、无写接口／提取／恢复按钮，无需填写令牌或启动 worker。源码只按转义文本展示元数据，不执行 Vue／San。采用 Sites local-only 流程，未新增依赖、数据库迁移或远程发布。助手浏览器基础设施此前不可用，本步不绕过安全停止；类型／构建／API 测试不冒充浏览器视觉验收。
-
-### 本次人工确认步骤与反馈
-
-下列为 SSM 面板初次验收清单，已完成的反馈见后文。当前 G2 已新增 0004：需要先停 API／worker、执行 init-db，再启动下列 serve；不再沿用初次验收时无需升级的口径。已有 SSM 不需复跑 extract-ssm-graph。若窗口已关闭，先在自己的新 PowerShell 中生成本地令牌，不需要发给助手：
-
-```powershell
-# 原窗口中令牌仍在时，可跳过此行；只读查看不需在网页填写令牌。
-$env:CARDMIG_SYSTEM_WRITE_TOKEN = [guid]::NewGuid().ToString('N')
-& migration_system/.venv/Scripts/python.exe migration_system/scripts/run_system.py serve
-```
-
-1. 刷新 http://127.0.0.1:8790/，向下找到“真实 SSM 提取”；上方创建运行仍明确为夹具。
-2. 选择 `DeliveryPhaseCard.vue`、提取 ID `5fe54b4c976241ddbe29fde9a331535d`。应显示“提取图已完成”“源提取证据已核对”“整体迁移质量：未执行”，模型 0 次、LangSmith 未上传。
-3. 历史请求提示应出现，完整 P1 报告不可用不应被当成提取失败。证据清单为源文件＋请求＋SSM＋收据，共 4 项。
-4. 下载“提取报告 JSON”和“真实 SSM JSON”，确认能打开。SSM 应为 schema_version=3.0，而不是开发 San 夹具。
-5. 刷新后仍能找到同一提取，不新增记录。只读查看无需 worker；顶部 worker 未就绪不应阻止查看或下载。再确认窄屏布局及控制台无新错误。
-
-助手已用真实数据库对应记录执行本地 Flask 测试客户端的 GET 列表／报告／下载，均返回 200；SSM 35053 字节。前后全部业务表逻辑行摘要和原夹具报告一致，未写入／重提取。它是服务端接口检查，不是自动浏览器下载验收。
-
-2026-11-16 用户回复“已确认通过”，对应上一轮要求确认的三项：DeliveryPhaseCard 提取完成且整体迁移未执行、历史完整契约快照缺失提示、报告 JSON 与 SSM JSON 下载打开。本面板基础人工验收记录为通过，来源为用户整体确认，未另行读取用户下载文件或采集浏览器证据。未据此扩展为跨页、断连、worker 缺席、窄屏等专项均通过，也不代表完整迁移或生产验收通过。下一步进入真实生成适配与冻结输入／版本／预算设计；先做零外部调用的接口与离线测试，真实模型调用及 LangSmith 上传另行确认。
-
-本轮新增 7 项后端只读工作台测试、5 项前端测试；新工程完整 Python 回归 185 项（197.038 秒）、原 P1 40 项、前端 Node 22 项及 TypeScript／Vite 构建通过。覆盖同时间戳分页、非法参数、无令牌 GET／无解析调用、Host／Origin／写保护、正常和损坏证据下载，以及前端历史缺快照提示／下载门禁／hash 与原 run 共存。未执行自动浏览器渲染验收或模型迁移实验。
+为避免把过期启动步骤当作当前流程，原前端说明与人工确认记录已完整归档到 [历史前端记录](../docs/history/frontend-README_pre_standalone_20261117.md)，不删除旧证据。当前验证汇总见 [开发记录](../DEVELOPMENT_20261116.md)；工程测试通过不等于真实模型通过率已提高。

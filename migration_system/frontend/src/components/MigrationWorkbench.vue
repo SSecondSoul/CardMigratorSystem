@@ -4,10 +4,11 @@ type Row = {migration_id:string;name:string;filename:string;status:string;stage:
 type FileRef = {relative_path:string;sha256:string;kind:string}
 type Assessment = {dimensions:Record<string,string>;ui_restoration:number;ssim:number;different_pixel_ratio:number;coverage:string;images:Record<string,FileRef>;diagnostics?:{code:string;message:string}[];initial_control_state?:{equal:boolean}}
 type SourceDiagnostic = {code:string;message:string;location?:{line:number;column:number;offset:number};location_precision?:string;excerpt?:string}
-type Report = {migration_id:string;status:string;stage:string;stop_reason:string;request_sha256:string;assessment:Assessment|null;final_artifact:FileRef|null;files:FileRef[];usage:{known_total_tokens:number;complete:boolean};model_calls_started:number;unknown_calls:number;state:{decisions?:unknown[];failure_diagnostics?:SourceDiagnostic[]};manual_feedback:unknown[];request:Record<string,unknown>}
+type SupportScope = {id:string;label:string;full_public_instance_compatibility:boolean;experimental_public_instance_runtime_enabled:boolean}
+type Report = {migration_id:string;status:string;stage:string;stop_reason:string;request_sha256:string;generation_origin?:string|null;support_scope?:SupportScope|null;assessment:Assessment|null;final_artifact:FileRef|null;files:FileRef[];usage:{known_total_tokens:number;complete:boolean};model_calls_started:number;unknown_calls:number;state:{decisions?:unknown[];failure_diagnostics?:SourceDiagnostic[]};manual_feedback:unknown[];request:Record<string,unknown>}
 const token=ref(''),source=ref(''),filename=ref('Example.vue'),name=ref(''),rounds=ref(3),strategy=ref('ssm')
 const propsText=ref('{}'),actionsText=ref('[]'),trusted=ref(false),confirmed=ref(false),busy=ref(false),error=ref(''),notice=ref('')
-const readiness=ref<{ready:boolean;pending:string[];worker_online:boolean;backend:string;model:string;network_enabled:boolean;langsmith_enabled:boolean}|null>(null)
+const readiness=ref<{ready:boolean;pending:string[];worker_online:boolean;backend:string;model:string;network_enabled:boolean;langsmith_enabled:boolean;support_scope?:SupportScope}|null>(null)
 const rows=ref<Row[]>([]),selected=ref(''),report=ref<Report|null>(null),code=ref(''),images=ref<Record<string,string>>({})
 const manualPassed=ref(true),manualLines=ref<number|null>(null),manualSeconds=ref<number|null>(null),manualNotes=ref('')
 const labels:Record<string,string>={static:'静态语义',compile_runtime:'编译／运行',structure:'AST／DOM 结构',visual:'视觉还原',interaction:'代表性交互',source_baseline:'源基准'}
@@ -66,6 +67,11 @@ onMounted(poll);onBeforeUnmount(()=>{active=false;controller.abort();if(timer)cl
   <div class="migration-workbench">
     <header class="migration-header"><div><span class="eyebrow">MODULAR MIGRATION SYSTEM</span><h1>Vue → SSM → San 迁移工作台</h1><p>真实迁移、独立评估、有界修复与证据归档</p></div><button @click="refresh">刷新状态</button></header>
     <section class="runtime-strip"><span>模型：{{ readiness?.backend }} / {{ readiness?.model }}</span><span>Worker：{{ readiness?.worker_online?'在线':'未启动' }}</span><span>LangSmith：{{ readiness?.langsmith_enabled?'已启用':'未配置／关闭' }}</span><span>本机单用户</span></section>
+    <details class="message info"><summary>当前迁移支持范围 · {{ readiness?.support_scope?.id ?? '等待 API 确认' }}</summary>
+      <p>面向无外部导入的 JavaScript Options API 单文件组件，目标仍是 San；复用已有 SSM、生成 Prompt、校验和修复规则。通过预检查不等于全部功能已支持。</p>
+      <p>setValue 中的 this[key] = value 不再单独触发预检查阻断，仍走原有模型生成、校验和有界修复；不修改 Vue 源码、不按固定键改写，也不接入额外实例代理。放行源码不等于生成结果通过。</p>
+      <p>LangSmith 上传、LoRA 训练和辅助嵌入模型不阻碍普通迁移；未配置交互时报告“未测”，不视为完整验收。</p>
+    </details>
     <div v-if="readiness?.pending.length" class="message info">待配置：{{ readiness.pending.join('、') }}。任务可以登记，但未满足条件不会伪造运行结果。详见 migration_system/SETUP_PENDING.md。</div>
     <div v-if="error" class="message error" role="alert">{{ error }}</div><div v-if="notice" class="message info" role="status">{{ notice }}</div>
     <main class="migration-grid">
@@ -84,6 +90,8 @@ onMounted(poll);onBeforeUnmount(()=>{active=false;controller.abort();if(timer)cl
       </form>
       <div class="migration-main"><section class="panel"><h2>迁移记录</h2><div class="table-scroll"><table><thead><tr><th>任务</th><th>执行状态</th><th>当前阶段</th></tr></thead><tbody><tr v-for="row in rows" :key="row.migration_id" :class="{selected:selected===row.migration_id}"><td><button class="text-button" @click="choose(row.migration_id)">{{row.name}}</button><small>{{row.filename}}</small></td><td>{{statuses[row.status]??row.status}}</td><td>{{row.stage}}</td></tr></tbody></table></div><p v-if="!rows.length">暂无真实迁移任务。开发夹具记录在另一个页签，不混入统计。</p></section>
       <section v-if="report" class="panel"><div class="section-heading"><h2>运行与质量报告</h2><span>{{statuses[report.status]}}</span></div><code>{{report.migration_id}}</code><p>停止原因：{{report.stop_reason||'尚未停止'}}</p><p>模型已开始 {{report.model_calls_started}} 次；未知调用 {{report.unknown_calls}} 次；已知 Tokens {{report.usage.known_total_tokens}} {{report.usage.complete?'':'（不完整）'}}</p>
+        <p class="field-help">任务支持范围：{{ report.support_scope?.id ?? '历史任务未登记此范围，不追溯改判' }}。该范围不是任意输入／全部公开 API 等价承诺。</p>
+        <p v-if="report.generation_origin === 'source_ast_rule_generation'" class="field-help">历史生成来源：已撤销的源 AST 规则转换（非模型生成）。新任务不再采用此路径；该历史报告不改判，也不计作模型迁移效果。</p>
         <section v-if="report.state.failure_diagnostics?.length" class="message error source-diagnostics" role="alert">
           <h3>{{ sourceReasons[report.stop_reason] ?? '源代码解析诊断' }}</h3>
           <p v-if="report.model_calls_started === 0">预检查已停止，尚未调用模型。</p>

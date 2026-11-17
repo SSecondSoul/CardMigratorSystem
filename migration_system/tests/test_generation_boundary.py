@@ -21,7 +21,7 @@ from card_migration_system.reporting.identity import digest
 from card_migration_system.stages.generation import (GenerationBoundaryError, PreparedGeneration,
     model_configuration, prepare_generation, run_offline_generation)
 
-REPOSITORY = Path(__file__).resolve().parents[2]
+REPOSITORY = Path(__file__).resolve().parents[1]/'engine'
 CODE = "<template><article>offline test</article></template><script>throw new Error('must not execute')</script><style></style>"
 
 
@@ -99,13 +99,13 @@ class GenerationBoundaryTests(unittest.TestCase):
         self.assertEqual(messages[0]['role'], 'system')
 
     def test_prompt_drift_is_blocked_before_builder_execution(self):
-        path = self.root / 'local_server/api/evaluation_routes.py'
+        path = self.root / 'prompts/generation_builder.py'
         path.write_text("raise AssertionError('never execute whole server')", encoding='utf-8')
         with self.assertRaisesRegex(PromptBindingError, 'generation_prompt_source_drift'):
             self.prepare()
 
     def test_missing_prompt_and_class_rule_drift_block(self):
-        path = self.root / 'migration_pipeline/utils/class_binding_contract.py'
+        path = self.root / 'prompts/generation_builder.py'
         path.write_text('CLASS_BINDING_RULE = "changed"', encoding='utf-8')
         with self.assertRaisesRegex(PromptBindingError, 'source_drift'):
             self.prepare()
@@ -217,7 +217,7 @@ class GenerationBoundaryTests(unittest.TestCase):
 class RegisteredPreviewTests(unittest.TestCase):
     def setUp(self):
         graph_fixtures.RegisteredGraphTests.setUp(self)
-        copy_prompt_sources(self.project.parent)
+        copy_prompt_sources(self.project/'engine')
 
     execute = graph_fixtures.RegisteredGraphTests.execute
 

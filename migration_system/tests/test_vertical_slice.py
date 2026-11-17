@@ -156,7 +156,7 @@ class VerticalSliceTests(unittest.TestCase):
         self.assertIsNone(self.service.claim("lease-auditor"))
         self.assertEqual(self.service.run(run_id)["status"], "review_required")
         self.service.resume(run_id)
-        completed = subprocess.run([sys.executable, str(PROJECT / "scripts/run_system.py"), "worker", "--once",
+        completed = subprocess.run([sys.executable, str(PROJECT / "scripts/run_system.py"), "development-worker", "--once",
                                      "--project-root", str(self.project)], capture_output=True, timeout=60)
         self.assertEqual(completed.returncode, 0, completed.stderr.decode(errors="replace"))
         self.assertEqual(self.service.run(run_id)["status"], "finished")
@@ -284,7 +284,7 @@ class VerticalSliceTests(unittest.TestCase):
             source = call("/api/v1/inputs", {"filename": "Smoke.vue", "source": "<template><div>source</div></template>"})
             task = call("/api/v1/tasks", {"input_id": source["input_id"]})
             run = call(f"/api/v1/tasks/{task['task_id']}/runs", {"profile": "repairable"}, "network-smoke")
-            completed = subprocess.run([sys.executable, str(PROJECT / "scripts/run_system.py"), "worker", "--once",
+            completed = subprocess.run([sys.executable, str(PROJECT / "scripts/run_system.py"), "development-worker", "--once",
                                          "--project-root", str(self.project)], capture_output=True, timeout=60)
             self.assertEqual(completed.returncode, 0, completed.stderr.decode(errors="replace"))
             result = call(f"/api/v1/runs/{run['run_id']}/report")

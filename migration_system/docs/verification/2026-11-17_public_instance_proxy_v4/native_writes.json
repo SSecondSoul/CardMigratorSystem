@@ -1,0 +1,125 @@
+{
+  "status": "native_write_bridge_v4_research_not_production",
+  "cases": [
+    {
+      "name": "shared-object-alias-stays-live",
+      "source": {
+        "title": "new",
+        "aliasTitle": "new",
+        "aliasSame": true,
+        "identity": true,
+        "calls": [
+          [
+            "new",
+            "old"
+          ]
+        ]
+      },
+      "target": {
+        "title": "new",
+        "aliasTitle": "new",
+        "aliasSame": true,
+        "identity": true,
+        "calls": [
+          [
+            "new",
+            "old"
+          ]
+        ]
+      },
+      "equal": true
+    },
+    {
+      "name": "array-item-with-dynamic-index",
+      "source": {
+        "values": [
+          "low",
+          "high"
+        ],
+        "array": true,
+        "item": true
+      },
+      "target": {
+        "values": [
+          "low",
+          "high"
+        ],
+        "array": true,
+        "item": true
+      },
+      "equal": true
+    },
+    {
+      "name": "nested-ref-unwrapped-with-original-ref-retained",
+      "source": {
+        "public": 7,
+        "refValue": 7,
+        "original": true
+      },
+      "target": {
+        "public": 7,
+        "refValue": 7,
+        "original": true
+      },
+      "equal": true
+    },
+    {
+      "name": "literal-dot-empty-and-symbol-nested-keys",
+      "source": {
+        "dot": 8,
+        "empty": 9,
+        "symbol": 10,
+        "nestedNotInvented": true
+      },
+      "target": {
+        "dot": 8,
+        "empty": 9,
+        "symbol": 10,
+        "nestedNotInvented": true
+      },
+      "equal": true
+    },
+    {
+      "name": "synchronous-watcher-mutates-second-root-and-same-root",
+      "source": {
+        "count": 1,
+        "title": "new",
+        "noted": true,
+        "calls": [
+          "new"
+        ]
+      },
+      "target": {
+        "count": 1,
+        "title": "new",
+        "noted": true,
+        "calls": [
+          "new"
+        ]
+      },
+      "equal": true
+    }
+  ],
+  "matched_cases": 5,
+  "controls": {
+    "single_notification_per_touched_root_and_option_identity": true,
+    "silent_only_suppresses_native_event_not_source_watcher": true,
+    "silence_only_suppresses_native_event_not_source_watcher": true,
+    "quiet_only_suppresses_native_event_not_source_watcher": true,
+    "same_value_noop_and_explicit_force": true,
+    "missing_parent_rejected_without_inventing_objects": true,
+    "native_listener_write_reenters_source_plane": true,
+    "reentrant_native_write_explicitly_declines": true
+  },
+  "fingerprints": {
+    "research/public_instance_v4/native_writes.cjs": "d7dd8509246676c28892f9508d0057efa218f61a570fbce2fd9ae8a1b3878687",
+    "research/public_instance_v4/runtime.cjs": "7600b856afcfe4e9156078a9f9b0c0d11a0af1732fbeedd5f40e8054a9d9ecb4",
+    "research/public_instance_v4/compatibility.cjs": "44a42d45f46268c6d425cb2801a3dff31eb22718fbb9a92524e3fb49f0cfb043",
+    "frontend/node_modules/@vue/reactivity/dist/reactivity.cjs.js": "7f7b41d9275396d8b861b367637b3305e49eab30769216c3ebe51d139f05d825"
+  },
+  "node_render_barrier_is_test_double": true,
+  "production_admission_eligible": false,
+  "arbitrary_public_key_contract_complete": false,
+  "model_calls": 0,
+  "live_database_writes": 0
+}

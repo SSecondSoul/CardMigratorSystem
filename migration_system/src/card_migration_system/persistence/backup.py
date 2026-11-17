@@ -245,7 +245,7 @@ def restore_backup(settings, backup_id):
     manifest, _ = _verified_manifest(settings, backup_id)
     folder = backup_directory(settings, backup_id)
     for target, allowed in ((settings.runtime_dir, settings.project_root / "var"),
-                            (settings.artifact_dir, settings.repository_root / "data/experiments/migration_system")):
+                            (settings.artifact_dir, settings.project_root / "var/artifacts")):
         if target == allowed.resolve() or not target.is_relative_to(allowed.resolve()):
             raise ServiceError("restore_requires_fresh_child_directories")
         if target.exists() or target.is_symlink():

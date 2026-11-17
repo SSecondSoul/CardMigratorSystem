@@ -1,5 +1,7 @@
 # 本项目使用LangGraph框架
 
+当前独立迁移系统入口：[migration_system/README.md](migration_system/README.md)。系统已内置实验引擎，运行不再依赖本根目录的 SSM、migration_pipeline 或 local_server；安装与新数据路径见该目录指南。下面保留原实验仓库说明与 Git 操作。
+
 # 提交代码
 
 git pull --rebase origin main  

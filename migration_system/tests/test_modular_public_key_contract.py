@@ -1,4 +1,4 @@
-"""Retained arbitrary-key contract fails early; live values never waive DOM attributes."""
+"""Recognize dynamic setters without making production admission a quality waiver."""
 from copy import deepcopy
 from hashlib import sha256
 import json
@@ -18,7 +18,7 @@ SOURCE='<template><div><input></div></template><script>module.exports={methods:{
 
 def contracts(source):
     result=subprocess.run(['node',str(PROJECT/'browser/evaluate.mjs')],input=json.dumps({
-        'repository':str(PROJECT.parent),'project':str(PROJECT),'source':source,'action':'source-contracts'}).encode(),
+        'repository':str(PROJECT/'engine'),'project':str(PROJECT),'source':source,'action':'source-contracts'}).encode(),
         capture_output=True,timeout=30)
     return result.returncode,json.loads(result.stdout)
 
@@ -55,6 +55,7 @@ class PublicKeyContractTests(unittest.TestCase):
         with self.assertRaises(SourceContractError) as error:browser.source_contracts(source)
         self.assertIn('源代码合法',error.exception.diagnostics[0]['message'])
 
+    @unittest.skipUnless((FROZEN/'frozen/source.vue').is_file(), 'Historical experiment corpus is not part of the standalone distribution')
     def test_frozen_product_source_identity_and_exact_contract_block(self):
         source=(FROZEN/'frozen/source.vue').read_bytes()
         self.assertEqual(sha256(source).hexdigest(),'aed0d49a2bab60b3103e50beb0236320d35f7fb9d8bd2341db36a65be65e817a')
@@ -69,31 +70,31 @@ class PublicKeyContractTests(unittest.TestCase):
         console.log(JSON.stringify({literal:source['extra.key'],nested:c.data.get('extra').key,
         targetLiteral:Object.prototype.hasOwnProperty.call(c.data.raw,'extra.key'),
         ordinary:source.query===c.data.get('query'),symbol:source[symbol]}));"""
-        p=subprocess.run(['node','-e',script],cwd=PROJECT.parent,capture_output=True,timeout=15)
+        p=subprocess.run(['node','-e',script],cwd=PROJECT/'browser',capture_output=True,timeout=15)
         self.assertEqual(p.returncode,0,p.stderr.decode())
         result=json.loads(p.stdout)
         self.assertEqual(result,{'literal':7,'nested':7,'targetLiteral':False,'ordinary':True,'symbol':3})
 
 
 class PublicKeyGraphTests(ModularFixture,unittest.TestCase):
-    def test_retained_unsupported_contract_blocks_before_model_preflight_and_ssm(self):
+    def test_dynamic_setter_admission_still_requires_model_configuration(self):
         self.source=self.base.create_input({'filename':'Generic.vue','source':SOURCE})
         settings=load_settings(project_root=PROJECT,environ={})
         self.service.browser=BrowserEvaluator(settings,profile(settings))
-        def forbidden():raise AssertionError('Model preflight must not run')
-        self.model.preflight=forbidden
+        def missing_configuration():
+            from card_migration_system.application.service import ServiceError
+            raise ServiceError('model_network_disabled')
+        self.model.preflight=missing_configuration
         key=self.enqueue();result=self.run_graph(key)
         self.assertEqual(result['status'],'blocked')
-        self.assertEqual(result['stop_reason'],'source_dynamic_key_contract_unsupported')
+        self.assertEqual(result['stop_reason'],'model_network_disabled')
         self.assertEqual(result['model_calls_started'],0);self.assertEqual(self.model.calls,0)
         self.assertEqual(result['usage']['known_total_tokens'],0)
         self.assertIsNone(result['assessment']);self.assertIsNone(self.service.cached(key,'ssm.json'))
-        finding=result['state']['failure_diagnostics'][0]
-        self.assertEqual(finding['code'],result['stop_reason'])
-        self.assertIn('this[key]',finding['excerpt'])
+        self.assertNotIn('failure_diagnostics',result['state'])
         failure=next(f for f in result['files'] if f['kind']=='failure')
         details=self.service.cached(key,failure['relative_path'].split(key+'/')[1])
-        self.assertEqual(details['source_sha256'],sha256(SOURCE.encode()).hexdigest())
+        self.assertEqual(details['error_code'],'model_network_disabled')
         self.assertNotIn('excerpt',json.dumps(details['trace']))
 
 

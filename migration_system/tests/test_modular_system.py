@@ -131,10 +131,12 @@ class AlgorithmTests(unittest.TestCase):
     def test_source_export_preflight_supports_both_forms_without_executing_source(self):
         import subprocess
         dataset_source=PROJECT.parent/'data/datasets/components/01_simple/DeliveryPhaseCard/vue/DeliveryPhaseCard.vue'
-        sources=[SOURCE,SOURCE.replace('export default {}','module.exports = {}'),dataset_source.read_text(encoding='utf-8')]
+        sources=[SOURCE,SOURCE.replace('export default {}','module.exports = {}')]
+        if dataset_source.is_file():
+            sources.append(dataset_source.read_text(encoding='utf-8'))
         for source in sources:
             with self.subTest(source=source[:80]):
-                value={'repository':str(PROJECT.parent),'project':str(PROJECT),'source':source,'action':'source-preflight'}
+                value={'repository':str(PROJECT/'engine'),'project':str(PROJECT),'source':source,'action':'source-preflight'}
                 process=subprocess.run(['node',str(PROJECT/'browser/evaluate.mjs')],input=json.dumps(value).encode(),capture_output=True,timeout=20)
                 self.assertEqual(process.returncode,0,process.stdout.decode()[:500])
                 self.assertEqual(json.loads(process.stdout)['status'],'completed')
@@ -149,14 +151,14 @@ class AlgorithmTests(unittest.TestCase):
         for script,error in scripts:
             with self.subTest(script=script):
                 source=SOURCE.replace('export default {}',script)
-                value={'repository':str(PROJECT.parent),'project':str(PROJECT),'source':source,'action':'source-preflight'}
+                value={'repository':str(PROJECT/'engine'),'project':str(PROJECT),'source':source,'action':'source-preflight'}
                 process=subprocess.run(['node',str(PROJECT/'browser/evaluate.mjs')],input=json.dumps(value).encode(),capture_output=True,timeout=20)
                 self.assertEqual(json.loads(process.stdout),{'status':'blocked','error':error})
                 self.assertNotEqual(process.returncode,0)
 
     def test_nested_san_template_does_not_truncate_sfc(self):
         import subprocess
-        value={'repository':str(PROJECT.parent),'project':str(PROJECT),'source':SOURCE,
+        value={'repository':str(PROJECT/'engine'),'project':str(PROJECT),'source':SOURCE,
             'code':SAN.replace('Hello','<template s-if="true"><span>Nested</span></template><b>Tail</b>'),'action':'parse'}
         process=subprocess.run(['node',str(PROJECT/'browser/evaluate.mjs')],input=json.dumps(value).encode(),capture_output=True,timeout=20)
         self.assertEqual(process.returncode,0,process.stderr.decode()[:500])

@@ -18,16 +18,20 @@ from ..runtime import profile
 from ..adapters.legacy_checks import legacy_binding,legacy_stage
 from ..adapters.ssm import SSMExtractor,source_binding
 from ..adapters.model import QwenModel,ModelExchange,inspect_response
-from ..adapters.browser import BrowserEvaluator
+from ..adapters.browser import BrowserEvaluator,SourceContractError
 from ..prompts.migration import generation_messages,examples
 from ..stages.evaluation import assess,candidate_decision
 from ..stages.syntax import failed_syntax,syntax_repair_messages
+from ..contracts.production_scope import production_scope
 
 
 def binding(settings):
     sources={str(p.relative_to(settings.project_root)).replace('\\','/'):sha256(p.read_bytes()).hexdigest()
         for directory in ('src/card_migration_system','browser') for p in sorted((settings.project_root/directory).rglob('*'))
-        if p.is_file() and 'node_modules' not in p.parts and p.suffix in ('.py','.mjs','.json') and '__pycache__' not in p.parts}
+        if p.is_file() and 'node_modules' not in p.parts and p.suffix in ('.py','.cjs','.mjs','.json') and '__pycache__' not in p.parts}
+    for name in ('engine/node_modules/san/dist/san.dev.js',):
+        path=settings.project_root/name
+        sources[name]=sha256(path.read_bytes()).hexdigest() if path.is_file() else 'not_installed'
     return {'system':digest(sources),'legacy':digest(legacy_binding(settings.repository_root)),
             'ssm':digest(source_binding(settings.repository_root)),'protocol':'modular-migration-v1'}
 
@@ -71,6 +75,7 @@ class MigrationService:
             spec={'input_id':source.id,'source_sha256':source.sha256,'filename':source.filename,'name':name,
                 'max_repair_rounds':rounds,'props':props,'actions':actions,'source_group':group,'strategy':strategy,
                 'excluded_example_groups':excluded,'runtime':conf,'trusted_source':True,
+                'support_scope':production_scope(),
                 'thresholds':{'structure':.95,'ui':.95,'pixel_difference':.05},
                 'evidence_class':'development_or_disclosed_exploratory_not_independent_test',
                 'authorization':{'max_calls':min(rounds+1,conf['model']['max_calls']),
@@ -143,7 +148,13 @@ class MigrationService:
         row=self.guard(key)
         browser=self.browser or BrowserEvaluator(self.settings,row.request['runtime'])
         if hasattr(browser,'preflight'):browser.preflight(self.source(key))
-        if hasattr(browser,'source_contracts'):browser.source_contracts(self.source(key))
+        if hasattr(browser,'source_contracts'):
+            try:browser.source_contracts(self.source(key))
+            except SourceContractError as error:
+                # Admission is not an equivalence claim. This valid source
+                # pattern must use the existing model/validation/repair chain,
+                # not a source-to-San compiler or a fixed-key source rewrite.
+                if error.code!='source_dynamic_key_contract_unsupported':raise
         model=self.model or (QwenModel(row.request['runtime']) if row.request['runtime']['model']['backend']=='qwen' else self.local_model(row.request['runtime']))
         model.preflight()
         return {}
@@ -222,17 +233,8 @@ class MigrationService:
         return LocalLoraModel(conf)
 
     def generate(self,key):
-        cached=self.cached(key,'revisions/0.json')
-        if cached:return cached
-        row=self.guard(key);ssm=self.extract(key)['ssm']
-        selected=row.request['few_shot_examples']
-        messages,selection=generation_messages(self.settings,ssm,selected,strategy=row.request['strategy'],source=self.source(key))
-        self.put_json(key,'prompt-selection.json','prompt_selection',selection)
-        result=self.invoke(key,0,messages)
-        ref=self.put(key,'revisions/0.san','san',result['code'].encode())
-        revision={'number':0,'parent':None,'origin':'generation','file':ref,'code':result['code']}
-        self.put_json(key,'revisions/0.json','revision',revision)
-        return revision
+        from ..stages.generate import generate_initial
+        return generate_initial(self,key,generation_messages)
 
     def evaluate(self,key,revision):
         self.guard(key);number=revision['number'];cached=self.cached(key,f'evaluations/{number}.json')
@@ -290,47 +292,9 @@ class MigrationService:
         return attempts[-3:]
 
     def repair(self,key,current,evaluation,number):
-        cached=self.cached(key,f'revisions/{number}.json')
-        if cached:return cached
-        self.guard(key);source=self.source(key);ssm=self.extract(key)['ssm'];errors=evaluation['diagnostics']
-        syntax_blocked=evaluation.get('syntax',{}).get('status')=='fail'
-        visual=[] if evaluation['dimensions']['visual'] in ('pass','not_run') else [{'code':'visual_mismatch','details':{
-            k:evaluation[k] for k in ('ui_restoration','different_pixel_ratio','styles','interaction')}}]
-        browser=self.browser or BrowserEvaluator(self.settings,self.job(key).request['runtime'])
-        if syntax_blocked:
-            normalized=browser.syntax(source,current['code'],normalize=True)
-            rule={'code':normalized['code'],'changes':normalized['changes']}
-        else:
-            rule=self.checks(self.settings.repository_root,'rules',source=source,code=current['code'],ssm=ssm,errors=errors,visual_errors=visual)
-        # A rejected rule must not consume every remaining round by generating
-        # the same candidate from the unchanged accepted parent again.
-        rejected_rule=False
-        for decision in self.job(key).state.get('decisions',[]):
-            if not decision['accepted'] and decision['previous']==current['file']['sha256']:
-                prior=self.cached(key,f'revisions/{decision["round"]}.json')
-                if prior and prior['origin']=='rule_repair':rejected_rule=True
-        if rule['code']!=current['code'] and not rejected_rule:
-            code=rule['code'];origin='rule_repair'
-        else:
-            feedback=self.repair_feedback(key,current)
-            if syntax_blocked:
-                messages=syntax_repair_messages(source,current['code'],evaluation['syntax'],feedback)
-            else:
-                prompt=self.checks(self.settings.repository_root,'repair_prompt',source=source,code=current['code'],ssm=ssm,errors=errors,visual_errors=visual)['prompt']
-                prompt+='\nActual target evaluation (do not change source or hide diagnostics):\n'+json.dumps(evaluation,ensure_ascii=False)
-                if feedback:prompt+='\nRejected attempts from this accepted parent (do not repeat):\n'+json.dumps(feedback,ensure_ascii=False)
-                messages=[{'role':'system','content':'Repair the current San SFC with minimal changes. Preserve correct behavior. Output only complete San SFC.'},{'role':'user','content':prompt}]
-            # A graph repair round is not permission to resend an identical
-            # earlier model request. Unknown calls remain blocked by invoke().
-            for prior_number in range(1,number):
-                prior=self.cached(key,f'calls/{prior_number}/request.json')
-                if prior and prior.get('messages')==messages:raise ServiceError('repeated_repair_request_blocked')
-            # ordinal is a round number, not number of successful calls; rule-only rounds leave gaps.
-            code=self.invoke(key,number,messages)['code'];origin='model_repair'
-        ref=self.put(key,f'revisions/{number}.san','san',code.encode())
-        revision={'number':number,'parent':current['file']['sha256'],'origin':origin,'file':ref,'code':code,'rules':rule['changes'],
-                  'repair_focus':'syntax' if syntax_blocked else 'semantics_and_observations'}
-        self.put_json(key,f'revisions/{number}.json','revision',revision);return revision
+        from ..stages.repair import propose_repair
+        return propose_repair(self,key,current,evaluation,number,BrowserEvaluator=BrowserEvaluator,
+                              syntax_repair_messages=syntax_repair_messages)
 
     def decide(self,key,previous,candidate,old,new):
         decision=candidate_decision(old,new)
@@ -357,8 +321,10 @@ class MigrationService:
         state=row.state;assessment=state.get('evaluation')
         return {'schema_version':1,'migration_id':row.id,'name':row.request['name'],'status':row.status,'stage':row.stage,
             'stop_reason':row.stop_reason,'request_sha256':row.request_sha256,'request':row.request,'binding':row.binding,
+            'support_scope':row.request.get('support_scope'),
             'state':{k:v for k,v in state.items() if k not in ('current','candidate')},
             'final_artifact':state.get('current',{}).get('file'),'assessment':assessment,
+            'generation_origin':state.get('current',{}).get('origin'),
             'model_calls_started':len(calls),'model_calls_returned':sum(c.status=='returned' for c in calls),
             'actual_cloud_model_calls':None if any(c.status!='returned' for c in calls) else sum((c.receipt or {}).get('provenance')=='qwen' for c in calls),
             'unknown_calls':sum(c.status!='returned' for c in calls),

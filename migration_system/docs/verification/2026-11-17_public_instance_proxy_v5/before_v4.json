@@ -1,0 +1,576 @@
+{
+  "status": "root_owner_difference_observed",
+  "runtime_version": "v4",
+  "owner_connection_available": false,
+  "cases": [
+    {
+      "name": "root-hook-order-receiver-dom-and-flags",
+      "source": {
+        "log": [
+          {
+            "name": "beforeMount",
+            "count": 0,
+            "dom": null,
+            "elText": null,
+            "mounted": false,
+            "unmounted": false,
+            "scopeActive": true,
+            "receiver": true
+          },
+          {
+            "name": "mounted",
+            "count": 0,
+            "dom": "0",
+            "elText": "0",
+            "mounted": true,
+            "unmounted": false,
+            "scopeActive": true,
+            "receiver": true
+          },
+          {
+            "name": "beforeUpdate",
+            "count": 1,
+            "dom": "0",
+            "elText": "0",
+            "mounted": true,
+            "unmounted": false,
+            "scopeActive": true,
+            "receiver": true
+          },
+          {
+            "name": "updated",
+            "count": 1,
+            "dom": "1",
+            "elText": "1",
+            "mounted": true,
+            "unmounted": false,
+            "scopeActive": true,
+            "receiver": true
+          },
+          {
+            "name": "beforeUpdate",
+            "count": 2,
+            "dom": "1",
+            "elText": "1",
+            "mounted": true,
+            "unmounted": false,
+            "scopeActive": true,
+            "receiver": true
+          },
+          {
+            "name": "updated",
+            "count": 2,
+            "dom": "2",
+            "elText": "2",
+            "mounted": true,
+            "unmounted": false,
+            "scopeActive": true,
+            "receiver": true
+          },
+          {
+            "name": "beforeUnmount",
+            "count": 2,
+            "dom": "2",
+            "elText": "2",
+            "mounted": true,
+            "unmounted": false,
+            "scopeActive": true,
+            "receiver": true
+          },
+          {
+            "name": "unmounted",
+            "count": 2,
+            "dom": null,
+            "elText": "2",
+            "mounted": true,
+            "unmounted": false,
+            "scopeActive": false,
+            "receiver": true
+          }
+        ],
+        "final": {
+          "mounted": true,
+          "unmounted": true,
+          "scopeActive": false
+        }
+      },
+      "target": {
+        "log": [],
+        "final": {
+          "mounted": false,
+          "unmounted": false,
+          "scopeActive": true
+        }
+      },
+      "equal": false
+    },
+    {
+      "name": "native-disposal-stops-owner-watch-and-cleans-once",
+      "source": {
+        "log": [
+          [
+            "watch",
+            1,
+            0
+          ],
+          [
+            "cleanup",
+            1
+          ]
+        ],
+        "scopeActive": false,
+        "dom": null
+      },
+      "target": {
+        "log": [
+          [
+            "watch",
+            1,
+            0
+          ],
+          [
+            "cleanup",
+            1
+          ],
+          [
+            "watch",
+            2,
+            1
+          ]
+        ],
+        "scopeActive": true,
+        "dom": null
+      },
+      "equal": false
+    },
+    {
+      "name": "watch-created-in-mounted-belongs-to-owner",
+      "source": {
+        "log": [
+          1,
+          2
+        ],
+        "dom": null,
+        "scopeActive": false
+      },
+      "target": {
+        "log": [],
+        "dom": null,
+        "scopeActive": true
+      },
+      "equal": false
+    },
+    {
+      "name": "beforeUnmount-sidewrite-then-cancel-queued-work",
+      "source": [
+        [
+          "sync",
+          1
+        ],
+        {
+          "name": "beforeUnmount",
+          "count": 1,
+          "dom": "0",
+          "elText": "0",
+          "mounted": true,
+          "unmounted": false,
+          "scopeActive": true,
+          "receiver": true
+        },
+        [
+          "sync",
+          2
+        ],
+        {
+          "name": "unmounted",
+          "count": 2,
+          "dom": null,
+          "elText": "0",
+          "mounted": true,
+          "unmounted": false,
+          "scopeActive": false,
+          "receiver": true
+        },
+        [
+          "tick",
+          null
+        ]
+      ],
+      "target": [
+        [
+          "sync",
+          1
+        ],
+        [
+          "pre",
+          1
+        ],
+        [
+          "post",
+          1
+        ],
+        [
+          "tick",
+          null
+        ]
+      ],
+      "equal": false
+    },
+    {
+      "name": "explicit-error-policy-continues-hook-array-and-cleanup",
+      "source": {
+        "log": [
+          "mounted-later",
+          "before-later",
+          "unmounted"
+        ],
+        "errors": [
+          {
+            "message": "mounted-first",
+            "phase": "mounted hook",
+            "receiver": true
+          },
+          {
+            "message": "before-unmount",
+            "phase": "beforeUnmount hook",
+            "receiver": true
+          }
+        ],
+        "scopeActive": false
+      },
+      "target": {
+        "log": [],
+        "errors": [],
+        "scopeActive": true
+      },
+      "equal": false
+    },
+    {
+      "name": "business-native-name-collisions-do-not-break-owner",
+      "source": {
+        "log": [
+          "mounted",
+          "before",
+          "after"
+        ],
+        "scopeActive": false,
+        "dom": null
+      },
+      "target": {
+        "log": [],
+        "scopeActive": true,
+        "dom": null
+      },
+      "equal": false
+    }
+  ],
+  "observations": [
+    {
+      "kind": "source",
+      "cases": [
+        {
+          "name": "root-hook-order-receiver-dom-and-flags",
+          "value": {
+            "log": [
+              {
+                "name": "beforeMount",
+                "count": 0,
+                "dom": null,
+                "elText": null,
+                "mounted": false,
+                "unmounted": false,
+                "scopeActive": true,
+                "receiver": true
+              },
+              {
+                "name": "mounted",
+                "count": 0,
+                "dom": "0",
+                "elText": "0",
+                "mounted": true,
+                "unmounted": false,
+                "scopeActive": true,
+                "receiver": true
+              },
+              {
+                "name": "beforeUpdate",
+                "count": 1,
+                "dom": "0",
+                "elText": "0",
+                "mounted": true,
+                "unmounted": false,
+                "scopeActive": true,
+                "receiver": true
+              },
+              {
+                "name": "updated",
+                "count": 1,
+                "dom": "1",
+                "elText": "1",
+                "mounted": true,
+                "unmounted": false,
+                "scopeActive": true,
+                "receiver": true
+              },
+              {
+                "name": "beforeUpdate",
+                "count": 2,
+                "dom": "1",
+                "elText": "1",
+                "mounted": true,
+                "unmounted": false,
+                "scopeActive": true,
+                "receiver": true
+              },
+              {
+                "name": "updated",
+                "count": 2,
+                "dom": "2",
+                "elText": "2",
+                "mounted": true,
+                "unmounted": false,
+                "scopeActive": true,
+                "receiver": true
+              },
+              {
+                "name": "beforeUnmount",
+                "count": 2,
+                "dom": "2",
+                "elText": "2",
+                "mounted": true,
+                "unmounted": false,
+                "scopeActive": true,
+                "receiver": true
+              },
+              {
+                "name": "unmounted",
+                "count": 2,
+                "dom": null,
+                "elText": "2",
+                "mounted": true,
+                "unmounted": false,
+                "scopeActive": false,
+                "receiver": true
+              }
+            ],
+            "final": {
+              "mounted": true,
+              "unmounted": true,
+              "scopeActive": false
+            }
+          }
+        },
+        {
+          "name": "native-disposal-stops-owner-watch-and-cleans-once",
+          "value": {
+            "log": [
+              [
+                "watch",
+                1,
+                0
+              ],
+              [
+                "cleanup",
+                1
+              ]
+            ],
+            "scopeActive": false,
+            "dom": null
+          }
+        },
+        {
+          "name": "watch-created-in-mounted-belongs-to-owner",
+          "value": {
+            "log": [
+              1,
+              2
+            ],
+            "dom": null,
+            "scopeActive": false
+          }
+        },
+        {
+          "name": "beforeUnmount-sidewrite-then-cancel-queued-work",
+          "value": [
+            [
+              "sync",
+              1
+            ],
+            {
+              "name": "beforeUnmount",
+              "count": 1,
+              "dom": "0",
+              "elText": "0",
+              "mounted": true,
+              "unmounted": false,
+              "scopeActive": true,
+              "receiver": true
+            },
+            [
+              "sync",
+              2
+            ],
+            {
+              "name": "unmounted",
+              "count": 2,
+              "dom": null,
+              "elText": "0",
+              "mounted": true,
+              "unmounted": false,
+              "scopeActive": false,
+              "receiver": true
+            },
+            [
+              "tick",
+              null
+            ]
+          ]
+        },
+        {
+          "name": "explicit-error-policy-continues-hook-array-and-cleanup",
+          "value": {
+            "log": [
+              "mounted-later",
+              "before-later",
+              "unmounted"
+            ],
+            "errors": [
+              {
+                "message": "mounted-first",
+                "phase": "mounted hook",
+                "receiver": true
+              },
+              {
+                "message": "before-unmount",
+                "phase": "beforeUnmount hook",
+                "receiver": true
+              }
+            ],
+            "scopeActive": false
+          }
+        },
+        {
+          "name": "business-native-name-collisions-do-not-break-owner",
+          "value": {
+            "log": [
+              "mounted",
+              "before",
+              "after"
+            ],
+            "scopeActive": false,
+            "dom": null
+          }
+        }
+      ],
+      "runtime": {
+        "vue": true,
+        "kernel": false
+      }
+    },
+    {
+      "kind": "target",
+      "cases": [
+        {
+          "name": "root-hook-order-receiver-dom-and-flags",
+          "value": {
+            "log": [],
+            "final": {
+              "mounted": false,
+              "unmounted": false,
+              "scopeActive": true
+            }
+          }
+        },
+        {
+          "name": "native-disposal-stops-owner-watch-and-cleans-once",
+          "value": {
+            "log": [
+              [
+                "watch",
+                1,
+                0
+              ],
+              [
+                "cleanup",
+                1
+              ],
+              [
+                "watch",
+                2,
+                1
+              ]
+            ],
+            "scopeActive": true,
+            "dom": null
+          }
+        },
+        {
+          "name": "watch-created-in-mounted-belongs-to-owner",
+          "value": {
+            "log": [],
+            "dom": null,
+            "scopeActive": true
+          }
+        },
+        {
+          "name": "beforeUnmount-sidewrite-then-cancel-queued-work",
+          "value": [
+            [
+              "sync",
+              1
+            ],
+            [
+              "pre",
+              1
+            ],
+            [
+              "post",
+              1
+            ],
+            [
+              "tick",
+              null
+            ]
+          ]
+        },
+        {
+          "name": "explicit-error-policy-continues-hook-array-and-cleanup",
+          "value": {
+            "log": [],
+            "errors": [],
+            "scopeActive": true
+          }
+        },
+        {
+          "name": "business-native-name-collisions-do-not-break-owner",
+          "value": {
+            "log": [],
+            "scopeActive": true,
+            "dom": null
+          }
+        }
+      ],
+      "runtime": {
+        "vue": false,
+        "kernel": true
+      }
+    }
+  ],
+  "errors": [],
+  "fingerprints": {
+    "research/public_instance_v5/browser_probe.cjs": "118fb80038fa17941693b1a86fa3e8fea1501bf644d9e53ab45dab29bffb0905",
+    "research/public_instance_v4/runtime.cjs": "7600b856afcfe4e9156078a9f9b0c0d11a0af1732fbeedd5f40e8054a9d9ecb4",
+    "research/public_instance_v5/owner.cjs": "fe5d3e674aff6586b5ad9b17c712f8b6ee4639dfd6c12e5a69052bb380cc66e8",
+    "research/public_instance_v1/runtime.cjs": "420f87121f595952e3336ddda6603fb58595207bc0edf3de732f03ca0fdbe2cb",
+    "frontend/node_modules/vue/dist/vue.global.js": "7ae49497d5250ce1ab9f7be0f5a16f2487b7d0bb2dcc21c57806af415b924662",
+    "frontend/node_modules/@vue/reactivity/dist/reactivity.global.js": "273862c67787d695d86acd7cf16e3ff1722296743d40a7c52d628934e908ca5d",
+    "engine/node_modules/san/dist/san.dev.js": "4b1c4a3a918d91663c0f79a4f77358a9de3c0ee1fbc01dfc47897f8531543134"
+  },
+  "page_count": 2,
+  "matched_cases": 0,
+  "browser_version": "Edg/157.0.4341.60",
+  "production_admission_eligible": false,
+  "arbitrary_public_key_contract_complete": false,
+  "model_calls": 0,
+  "live_database_writes": 0
+}

@@ -1,0 +1,86 @@
+{
+  "contract_id": "san-business-instance-v1",
+  "schema_version": 1,
+  "decision_date": "2026-11-17",
+  "authorization": {
+    "selection": "保持 San 迁移目标",
+    "basis": "用户选择此前明确提出的方案 1；任意业务键及明确公共 API，不复制 Vue 私有运行时结构。",
+    "changes_prior_acceptance_scope": true,
+    "retroactive_success_reclassification": false
+  },
+  "target": {
+    "component_and_dom_runtime": "San",
+    "public_business_receiver": "isolated JavaScript Proxy",
+    "standalone_reactivity_kernel_allowed": true,
+    "vue_component_runtime_allowed": false,
+    "vue_renderer_allowed": false,
+    "mount_original_vue_as_target_allowed": false,
+    "additional_user_metadata_required": false
+  },
+  "business_key_policy": {
+    "domain": "all JavaScript PropertyKey values after native ToPropertyKey",
+    "strings": "unrestricted business names, including literal dots and brackets",
+    "symbols": "identity preserved; never coerced to strings",
+    "coercion": "native order, once per assignment; exceptions preserved",
+    "native_field_collisions": "business data/watch/dispose/attach names cannot replace San internals",
+    "declared_state_keys": "state layout, never a caller-key whitelist",
+    "undeclared_keys": "source instance-context semantics; not automatically declared reactive state",
+    "reserved_framework_names": "preserve source public API precedence and readonly/write diagnostics; do not turn reserved APIs into ordinary business fields",
+    "fixed_call_site_key_restriction_allowed": false,
+    "arbitrary_value_type_weakening_allowed": false
+  },
+  "required_public_behavior": [
+    "assignment_results_errors_and_key_conversion",
+    "object_ref_alias_and_computed_identity",
+    "props_readonly_and_parent_to_child_updates",
+    "native_controls_and_nested_state_updates",
+    "public_watch_cleanup_error_routing_and_disposal",
+    "public_event_arguments_once_model_modifiers_and_errors",
+    "next_tick_render_order_and_force_update",
+    "public_options_context_and_parent_root_refs",
+    "lifecycle_order_and_visible_dom_state",
+    "keyed_state_identity_and_scope_retention"
+  ],
+  "public_api_inventory": [
+    "$data", "$props", "$attrs", "$slots", "$refs", "$parent", "$root",
+    "$el", "$options", "$emit", "$forceUpdate", "$nextTick", "$watch"
+  ],
+  "excluded_equivalence_requirements": [
+    "vue_private_internal_instance_layout",
+    "vue_private_vnode_subtree_and_patch_flags",
+    "vue_private_effect_job_and_renderer_object_identity"
+  ],
+  "private_dependency_policy": {
+    "scope_exclusion_is_not_source_approval": true,
+    "explicit_source_dependency_must_be_reported": true,
+    "silent_stub_or_fake_vnode_allowed": false,
+    "unknown_access_is_not_automatically_safe": true,
+    "reserved_key_assignment_is_not_private_graph_traversal": true,
+    "public_methods_using_private_dependencies_cannot_be_waived": true
+  },
+  "integration_obligations": [
+    "source_and_ssm_to_public_layout_without_manual_fixture_metadata",
+    "deterministic_san_export_and_loader_with_private_native_handle",
+    "independent_static_and_runtime_capability_validation",
+    "generation_repair_and_candidate_rejection_under_same_contract",
+    "artifact_contract_id_and_implementation_fingerprint_binding",
+    "real_browser_positive_and_negative_scenarios",
+    "standalone_distribution_dependency_audit"
+  ],
+  "migration_of_evidence": {
+    "old_scope": "v1-v7 retained full public/private-instance compatibility research scope",
+    "old_results_mutable": false,
+    "old_model_usage_and_denominators_mutable": false,
+    "old_finite_tests_are_new_contract_completion_proof": false,
+    "new_reports_must_identify_contract": true,
+    "cross_contract_rates_must_be_reported_separately": true
+  },
+  "status": {
+    "protocol": "accepted_scope_not_implemented_release",
+    "new_contract_complete": false,
+    "production_admission_eligible": false,
+    "production_source_gate": "source_dynamic_key_contract_unsupported",
+    "production_gate_changed_by_this_document": false,
+    "new_model_calls": 0
+  }
+}

@@ -20,7 +20,7 @@ def source_sfc(body):
 
 
 def node_preflight(source):
-    request={'repository':str(PROJECT.parent),'project':str(PROJECT),'source':source,'action':'source-preflight'}
+    request={'repository':str(PROJECT/'engine'),'project':str(PROJECT),'source':source,'action':'source-preflight'}
     process=subprocess.run(['node',str(PROJECT/'browser/evaluate.mjs')],input=json.dumps(request).encode(),
         capture_output=True,timeout=30,cwd=PROJECT)
     return process.returncode,json.loads(process.stdout)
@@ -75,6 +75,7 @@ class SourceTemplateTests(unittest.TestCase):
             self.assertEqual(location['column'],len(prefix.rsplit('\n',1)[-1].encode('utf-16-le'))//2+1)
             self.assertTrue(finding['excerpt'])
 
+    @unittest.skipUnless((FROZEN/'source.vue').is_file(), 'Historical experiment corpus is not part of the standalone distribution')
     def test_frozen_InvoiceLineEditor_preflight_passes_without_altering_original_bytes(self):
         original=(FROZEN/'source.vue').read_bytes()
         self.assertEqual(sha256(original).hexdigest(),'9b50005a20314dd9c1f52db9496c6092d8f2838958955be0fa0350db7c77a8df')

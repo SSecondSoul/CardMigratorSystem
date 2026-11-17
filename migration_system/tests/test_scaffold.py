@@ -12,7 +12,7 @@ import unittest
 from unittest.mock import patch
 
 PROJECT = Path(__file__).resolve().parents[1]
-REPOSITORY = PROJECT.parent
+REPOSITORY = PROJECT / 'engine'
 sys.path.insert(0, str(PROJECT / "src"))
 
 from card_migration_system.config import ConfigurationError, load_settings
@@ -24,10 +24,7 @@ def copy_fixture(root):
     project = root / "migration_system"
     (project / "configs").mkdir(parents=True)
     shutil.copyfile(PROJECT / "configs/development.toml", project / "configs/development.toml")
-    contracts = root / "migration_pipeline/contracts"
-    contracts.mkdir(parents=True)
-    for name in ("__init__.py", "v1.py", "legacy.py"):
-        shutil.copyfile(REPOSITORY / "migration_pipeline/contracts" / name, contracts / name)
+    shutil.copytree(PROJECT/'engine',project/'engine',ignore=shutil.ignore_patterns('node_modules','__pycache__','*.pyc'))
     return project
 
 
@@ -49,9 +46,10 @@ class ConfigurationTests(unittest.TestCase):
         value = self.load()
         self.assertEqual(value.mode, "development_stub")
         self.assertEqual(value.port, 8790)
-        self.assertEqual(value.business_database, self.project / "var/business.sqlite3")
+        self.assertEqual(value.business_database, self.project / "var/runtime/business.sqlite3")
         self.assertNotEqual(value.business_database, value.graph_database)
-        self.assertEqual(value.artifact_dir, self.project.parent / "data/experiments/migration_system")
+        self.assertEqual(value.artifact_dir, self.project / "var/artifacts")
+        self.assertEqual(value.engine_root,self.project/'engine')
 
     def test_load_is_read_only_and_creates_no_databases_or_output(self):
         before = sorted(str(path.relative_to(self.project.parent)) for path in self.project.parent.rglob("*"))
@@ -101,21 +99,21 @@ class ConfigurationTests(unittest.TestCase):
                 self.load(text=text)
 
     def test_missing_tables_or_path_rejected(self):
-        for text in ('schema_version = 1\n', self.original_text().replace('runtime_dir = "var"', "")):
+        for text in ('schema_version = 1\n', self.original_text().replace('runtime_dir = "var/runtime"', "")):
             with self.subTest(text=text), self.assertRaises(ConfigurationError):
                 self.load(text=text)
 
     def test_runtime_cannot_escape_var(self):
         for path in ("..", "../data", "configs", "var/../../outside"):
             with self.subTest(path=path), self.assertRaises(ConfigurationError):
-                self.load(text=self.original_text().replace('runtime_dir = "var"', f'runtime_dir = "{path}"'))
+                self.load(text=self.original_text().replace('runtime_dir = "var/runtime"', f'runtime_dir = "{path}"'))
 
     def test_evidence_cannot_target_old_batch_or_snapshot(self):
         for path in ("../data/experiments/snapshots", "../data/experiments/pipeline/batches/old",
                      "../data/experiments/migration_system/../snapshots"):
             with self.subTest(path=path), self.assertRaises(ConfigurationError):
                 self.load(text=self.original_text().replace(
-                    'artifact_dir = "../data/experiments/migration_system"', f'artifact_dir = "{path}"'))
+                    'artifact_dir = "var/artifacts"', f'artifact_dir = "{path}"'))
 
     def test_config_cannot_be_read_outside_project(self):
         outside = self.project.parent / "outside.toml"
@@ -135,7 +133,7 @@ class ContractBoundaryTests(unittest.TestCase):
         self.temp = TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.project = copy_fixture(Path(self.temp.name))
-        self.root = self.project.parent
+        self.root = self.project/'engine'
 
     def test_pinned_api_supports_roundtrip_and_unknown_status(self):
         binding = load_p1_contracts(self.root)
@@ -196,8 +194,8 @@ class ContractBoundaryTests(unittest.TestCase):
 
     def test_relocated_roots_get_isolated_class_namespaces(self):
         other = Path(self.temp.name) / "second"
-        copy_fixture(other)
-        a, b = load_p1_contracts(self.root), load_p1_contracts(other)
+        other_project=copy_fixture(other)
+        a, b = load_p1_contracts(self.root), load_p1_contracts(other_project/'engine')
         self.assertIsNot(a.contracts.Status, b.contracts.Status)
         self.assertEqual(a.manifest_sha256, b.manifest_sha256)
         self.assertIs(a.contracts.Status, load_p1_contracts(self.root).contracts.Status)
@@ -213,6 +211,11 @@ class ContractBoundaryTests(unittest.TestCase):
 
 
 class ScaffoldCLITests(unittest.TestCase):
+    def test_worker_alias_routes_to_real_migration_not_development_fixture(self):
+        with patch('card_migration_system.interfaces.system_cli.main',return_value=0) as route:
+            self.assertEqual(main(['worker','--once']),0)
+        route.assert_called_once_with(['migration-worker','--once'])
+
     def test_check_has_no_execution_or_write_side_effects(self):
         with TemporaryDirectory() as directory:
             project = copy_fixture(Path(directory))
@@ -226,7 +229,7 @@ class ScaffoldCLITests(unittest.TestCase):
             self.assertEqual(result["model_calls"], 0)
             self.assertEqual(result["capabilities"]["langsmith_tracing"], "opt_in_metadata_only_export_implemented_live_credentials_pending")
             self.assertEqual(result["capabilities"]["langgraph_execution"],
-                             "development_stub_slice_available_not_production")
+                             "local_persistent_system_not_unrestricted_production")
 
     def test_cli_outputs_json_and_success_means_scaffold_only(self):
         output = io.StringIO()
