@@ -7,6 +7,7 @@ from werkzeug.exceptions import HTTPException
 
 from ...application.service import Service, ServiceError, fields
 from ...application.storage import StorageError
+from .browser_session import BrowserSessions
 
 
 def create_app(settings, *, write_token):
@@ -16,6 +17,7 @@ def create_app(settings, *, write_token):
     app.config.update(MAX_CONTENT_LENGTH=300000, ALLOWED_PORT=settings.port)
     service = Service(settings)
     app.extensions["migration_service"] = service
+    browser_sessions = BrowserSessions()
 
     @app.before_request
     def local_boundary():
@@ -28,8 +30,15 @@ def create_app(settings, *, write_token):
         if origin is not None and origin != request.host_url.rstrip("/"):
             raise ServiceError("origin_not_allowed", 403)
         if request.method not in ("GET", "HEAD", "OPTIONS"):
-            supplied = request.headers.get("X-Cardmig-Token", "")
-            if not compare_digest(supplied.encode(), write_token.encode()):
+            if request.headers.get("Sec-Fetch-Site") not in (None, "same-origin"):
+                raise ServiceError("origin_not_allowed", 403)
+            supplied = request.headers.get("X-Cardmig-Token")
+            if supplied is not None:
+                if not compare_digest(supplied.encode(), write_token.encode()):
+                    raise ServiceError("write_token_required", 403)
+            elif request.headers.get("X-Cardmig-CSRF") is not None:
+                browser_sessions.authorize()
+            else:
                 raise ServiceError("write_token_required", 403)
 
     @app.after_request
@@ -53,6 +62,10 @@ def create_app(settings, *, write_token):
     @app.get("/health/live")
     def live():
         return jsonify(status="live", mode="development_stub", production_ready=False)
+
+    @app.get("/api/v1/browser-session")
+    def browser_session():
+        return browser_sessions.bootstrap()
 
     @app.get("/health/ready")
     def ready():

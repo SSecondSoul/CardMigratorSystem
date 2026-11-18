@@ -52,8 +52,6 @@ npm.cmd --prefix frontend run build
 终端一：
 
 ```powershell
-$env:CARDMIG_SYSTEM_WRITE_TOKEN = [guid]::NewGuid().ToString('N')
-$env:CARDMIG_SYSTEM_WRITE_TOKEN # 仅在自己的终端查看并复制到页面，不提交或发送给他人
 & .venv/Scripts/python.exe scripts/run_system.py serve
 ```
 
@@ -64,15 +62,17 @@ $env:LLM_API_KEY = '你的模型密钥'
 & .venv/Scripts/python.exe scripts/run_system.py migration-worker
 ```
 
-如果配置中的密钥变量名不是 LLM_API_KEY，使用配置指定的变量名。打开 http://127.0.0.1:8790/；页面“本地写入令牌”使用终端一变量的值，不是模型密钥。`worker` 现在也是真实迁移 Worker 的别名；仅演练旧开发夹具时才使用 `development-worker`。
+如果配置中的密钥变量名不是 LLM_API_KEY，使用配置指定的变量名。打开 http://127.0.0.1:8790/；用户页面自动建立本地会话，不再需要填写写入令牌。会话有效期 8 小时，API 重启后失效；刷新页面可自动连接，失败的写入请求不会自动重发。此模式仅适用于本机单用户，不是公网账号认证。`worker` 现在也是真实迁移 Worker 的别名；仅演练旧开发夹具时才使用 `development-worker`。
 
-上传 Vue、确认可信本地执行及模型调用授权后创建任务。源语法／支持范围问题在模型前阻断；模型调用后保存每次实际响应／用量，候选复测后才能接受。下载和人工反馈不能覆盖自动结论。Ctrl+C 停止服务，不删除数据库。
+实验脚本／旧开发夹具仍可使用 `X-Cardmig-Token`。如需此接口，在启动 API 前设置 `$env:CARDMIG_SYSTEM_WRITE_TOKEN = [guid]::NewGuid().ToString('N')` 并仅在自己的终端使用；未设置时 API 自动生成内部随机令牌，不暴露给页面。模型 API Key 仍只提供给 Worker。会话与安全边界见 [本地浏览器会话](docs/LOCAL_BROWSER_SESSION_V1.md)。
+
+上传可信 Vue 源码后点击创建任务；页面保留源码执行及模型费用说明，不再要求额外确认勾选。提交仍保存后台确认字段，便于实验分析；上传或建立会话不会自动创建任务。源语法／支持范围问题在模型前阻断；模型调用后保存每次实际响应／用量，候选复测后才能接受。下载和人工反馈不能覆盖自动结论。Ctrl+C 停止服务，不删除数据库。
 
 ## 4. 提交现有组件：原有模型迁移流程
 
 停止旧 API／Worker 后按第 3 节重启，浏览器 Ctrl+F5 刷新。页面范围应为 `san-supported-migration-v4`；否则仍是旧服务或旧页面。
 
-上传你原来的 Vue 源码，**不要修改 setValue，也不要用已知正确的 San 作为输入**。策略选默认“SSM ＋ 有界修复”，确认可信执行、模型调用费用及本地令牌后创建新任务。不需要指定特殊组件名称、规则路径或专用 JSON。原有 SSM 生成 Prompt、静态校验、模型修复 Prompt、候选复测和回退继续使用。
+上传你原来的 Vue 源码，**不要修改 setValue，也不要用已知正确的 San 作为输入**。用户页面固定“SSM ＋ 有界修复”，填写后创建新任务，无需选择基线／消融策略或输入本地令牌。不需要指定特殊组件名称、规则路径或专用 JSON。原有 SSM 生成 Prompt、静态校验、模型修复 Prompt、候选复测和回退继续使用。
 
 评估配置中的交互 JSON 是**可选测试用例**，不是生成参数或路由条件。不填时仍进行静态、编译运行、初始结构和视觉检查，交互项标记 `not_run`，不宣称完整功能通过。[capacity-planning-actions.json](configs/diagnostics/capacity-planning-actions.json) 仅是 CapacityPlanningBoard 的可选验收示例，其他组件无需使用它。
 
@@ -108,7 +108,7 @@ export default {
 [{"name":"increment","type":"click","selector":"button"}]
 ```
 
-确认可信执行、模型调用费用和本地写入令牌后提交。验收查看：新任务范围为 `san-supported-migration-v3`；模型调用／Tokens 有真实收据；六个质量维度（含交互）通过；SSM、San、报告能下载；人工确认另外记录。初始产物已通过时不应为演示强制修复；如失败，按该任务实际诊断处理，不放宽门槛或反复付费复跑。
+阅读源码执行及模型费用说明后点击创建，无需填写本地写入令牌。验收查看：新任务范围以页面当前支持范围为准；模型调用／Tokens 有真实收据；六个质量维度（含交互）通过；SSM、San、报告能下载；人工确认另外记录。初始产物已通过时不应为演示强制修复；如失败，按该任务实际诊断处理，不放宽门槛或反复付费复跑。
 
 历史报告中的 `source_dynamic_key_contract_unsupported` 保留原结论；当前生产预检查不再仅因该模式停止，其他解析／配置阻断仍正常报告。
 

@@ -11,6 +11,10 @@ export class ApiError extends Error {
 }
 const explanations: Record<string, string> = {
   write_token_required: '本地写入令牌不正确，请核对 API 启动窗口。',
+  browser_session_required: '本地会话已失效，请刷新连接状态后重新操作；原写入请求不会自动重发。',
+  browser_csrf_required: '操作会话校验失败，请刷新连接状态后重新操作；原写入请求不会自动重发。',
+  browser_session_bootstrap_denied: '无法建立本地会话，请从本系统的本机地址打开页面。',
+  invalid_browser_session: '服务返回的本地会话无效，请检查 API 版本并刷新页面。',
   network_unavailable: '连接未确认，请检查 API 服务；写入请求不会自动重试，请先核对运行列表。',
   request_timeout: '请求超时，结果尚未确认。请先核对运行列表，不要连续重复提交。',
   worker_still_active: 'Worker 仍持有租约，不能恢复。',

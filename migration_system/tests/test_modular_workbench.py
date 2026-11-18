@@ -29,8 +29,8 @@ class WorkbenchSmoke(unittest.TestCase):
             thread=Thread(target=server.serve_forever,daemon=True);thread.start()
             try:
                 value={'url':f'http://127.0.0.1:{server.server_port}/','executable':browser_executable(profile(settings)['browser']),
-                    'token':token,'source':'<template><div>Local UI test</div></template><script>export default {}</script><style></style>'}
-                process=subprocess.run(['node',str(PROJECT/'browser/workbench-smoke.mjs')],input=json.dumps(value).encode(),capture_output=True,timeout=90)
+                    'source':'<template><div>Local UI test</div></template><script>export default {}</script><style></style>'}
+                process=subprocess.run(['node',str(PROJECT/'tests/browser/workbench-smoke.mjs')],input=json.dumps(value).encode(),capture_output=True,timeout=90)
                 self.assertEqual(process.returncode,0,process.stderr.decode()[:1000])
                 result=json.loads(process.stdout);self.assertEqual(result['page_errors'],[])
                 from card_migration_system.application.migrations import MigrationService

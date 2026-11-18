@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import SsmPanel from './SsmPanel.vue'
-import MigrationWorkbench from './MigrationWorkbench.vue'
 import { Api, ApiError, errorText } from '../lib/api.ts'
 import { canDownload, decodeSource, dimensionNames, eventNames, idFromHash, profileNames, shortId, statusNames, timeLabel, validateDraft, validToken } from '../lib/model.ts'
 import { statuses } from '../lib/types.ts'
 import type { Configuration, Draft, EventRow, Health, Report, RunInfo, RunPage, RunStatus, Submission } from '../lib/types.ts'
 
 const api = new Api()
-const workspaceMode = ref<'migration'|'development'>('development')
 const configuration = ref<Configuration | null>(null)
 const live = ref<Health | null>(null)
 const ready = ref<Health | null>(null)
@@ -192,14 +190,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <nav aria-label="工作台模式" class="workspace-switcher"><button @click="workspaceMode='migration'">真实迁移系统</button><button @click="workspaceMode='development'">开发夹具与 SSM 历史</button></nav>
-  <MigrationWorkbench v-if="workspaceMode==='migration'" />
-  <div v-else class="workbench">
+  <div class="workbench">
     <header class="masthead">
       <div class="brand"><div class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M6 9h12m-4-4 4 4-4 4M26 23H14m4-4-4 4 4 4M7 18v7h4M25 14V7h-4" /></svg></div><div><strong>CardMigrator</strong><span>Vue → SSM → San · 本地工作台</span></div></div>
       <div class="header-meta"><span class="mode-tag">开发模式</span><span class="version">WORKBENCH / 0.1</span></div>
     </header>
-    <div class="mode-notice"><span class="notice-dot" aria-hidden="true"></span><div><strong>创建运行仍是开发夹具，不是迁移结果。</strong><span>下方可只读查看真实 SSM 提取；真实生成与目标质量评估尚未接入。</span></div></div>
+    <div class="mode-notice"><span class="notice-dot" aria-hidden="true"></span><div><strong>创建运行仍是开发夹具，不是迁移结果。</strong><span>本页用于控制流程验证与独立 SSM 提取历史；真实迁移请使用左侧迁移工作台。</span></div></div>
 
     <main class="layout">
       <aside class="creation-panel panel">

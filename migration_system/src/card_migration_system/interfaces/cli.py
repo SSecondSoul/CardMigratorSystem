@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import secrets
 from pathlib import Path
 import sys
 
@@ -165,7 +166,7 @@ def main(argv=None):
             elif args.command == "serve":
                 from werkzeug.serving import make_server
                 from .api.app import create_app
-                app = create_app(settings, write_token=os.environ.get("CARDMIG_SYSTEM_WRITE_TOKEN", ""))
+                app = create_app(settings, write_token=os.environ.get("CARDMIG_SYSTEM_WRITE_TOKEN") or secrets.token_urlsafe(32))
                 try:
                     with make_server(settings.host, settings.port, app) as server:
                         server.serve_forever()

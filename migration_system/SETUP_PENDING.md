@@ -29,7 +29,7 @@
 | 模型网络许可 | 保留用户现有 TOML，不替用户重置 | 以 `model.network_enabled` 为准；启用前确认费用政策，新请求才使用新配置 |
 | 模型名称／区域 | 默认 qwen-plus／北京 DashScope HTTPS | 同 TOML；需要与账户开通区域一致；其他供应商未宣称兼容 |
 | 模型费用控制 | 最多四次请求、每次输出 8192、已知 usage 停止线 131072 | 这些不是硬账单限额；严格总预算需计数器／账户限额，未确认则保持网络关闭 |
-| 本地写入令牌 | 每次启动 API 自行生成 | `$env:CARDMIG_SYSTEM_WRITE_TOKEN = [guid]::NewGuid().ToString('N')`；页面填这个，不是模型 key |
+| 本地操作会话 | 用户无需配置 | 普通工作台自动建立同源会话；实验脚本／旧开发夹具可在启动 API 前设置 `CARDMIG_SYSTEM_WRITE_TOKEN`，用户页面不填写 |
 | Chromium／Edge | 本机 Edge 已用于真实校准 | 自动发现或 `CARDMIG_BROWSER_EXECUTABLE`；其他机器需安装兼容浏览器 |
 | LangSmith key／上传同意 | 默认关闭；未上传 | `tracing.enabled=true`，对应进程设 `LANGSMITH_API_KEY`；只导出哈希、阶段、耗时、成本／状态摘要 |
 | few-shot 研究语料 | 已提供两个自建开发演示，默认选择一个 | 严格研究用语料需审核 group／split／来源与目标正确性；更换 manifest 并建立新实验版本 |
