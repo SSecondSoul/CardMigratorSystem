@@ -1,0 +1,2375 @@
+{
+  "schema_basis": "0008_multi_user",
+  "table_count": 34,
+  "status": "implemented_sqlite_mysql_runtime_not_adapted",
+  "tables": [
+    {
+      "name": "alembic_version",
+      "group": "版本管理",
+      "purpose": "结构迁移版本；交接脚本建空表，不伪造升级完成记录。",
+      "columns": [
+        {
+          "name": "version_num",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "Alembic 修订号；本交接不填充。"
+        }
+      ],
+      "primary_key": [
+        "version_num"
+      ],
+      "unique": [],
+      "foreign_keys": [],
+      "checks": []
+    },
+    {
+      "name": "auth_throttle",
+      "group": "多用户",
+      "purpose": "持久化登录限流窗口，bucket 是账号/IP 组合摘要。",
+      "columns": [
+        {
+          "name": "bucket",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "不含明文凭据的登录限流摘要键。"
+        },
+        {
+          "name": "window_start",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "限流窗口开始 Unix 秒。"
+        },
+        {
+          "name": "failures",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前窗口的已预留登录尝试计数。"
+        }
+      ],
+      "primary_key": [
+        "bucket"
+      ],
+      "unique": [],
+      "foreign_keys": [],
+      "checks": []
+    },
+    {
+      "name": "source_inputs",
+      "group": "共享输入",
+      "purpose": "上传源码的路径与内容哈希；源码本体在产物目录。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "filename",
+          "mysql_type": "VARCHAR(120)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "源文件名，不是服务器任意路径。"
+        },
+        {
+          "name": "relative_path",
+          "mysql_type": "VARCHAR(240)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "相对产物目录的路径；不表示数据库电脑上的绝对路径。"
+        },
+        {
+          "name": "sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "文件字节的 SHA-256 十六进制摘要。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [],
+      "checks": []
+    },
+    {
+      "name": "users",
+      "group": "多用户",
+      "purpose": "账号、密码哈希、角色、启用与强制改密状态。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "username",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "ASCII 登录名原值。"
+        },
+        {
+          "name": "username_normalized",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "后台小写规范化的唯一登录名。"
+        },
+        {
+          "name": "display_name",
+          "mysql_type": "VARCHAR(120)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "界面显示名称。"
+        },
+        {
+          "name": "password_hash",
+          "mysql_type": "VARCHAR(255)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "Werkzeug scrypt 编码哈希，不能存明文密码。"
+        },
+        {
+          "name": "role",
+          "mysql_type": "VARCHAR(16)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "admin 或 user，实际权限由后台每次校验。"
+        },
+        {
+          "name": "is_active",
+          "mysql_type": "BOOLEAN",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "账号启用状态。"
+        },
+        {
+          "name": "must_change_password",
+          "mysql_type": "BOOLEAN",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "管理员创建/重置密码后必须先改密。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        },
+        {
+          "name": "password_changed_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "最近改密 Unix 秒。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "username_normalized"
+        ]
+      ],
+      "foreign_keys": [],
+      "checks": [
+        "role IN ('admin','user')"
+      ]
+    },
+    {
+      "name": "worker_health",
+      "group": "运行监控",
+      "purpose": "Worker 心跳；run_id 仅提示当前运行，不是所有权或锁。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "pid",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "Worker 进程号。"
+        },
+        {
+          "name": "state",
+          "mysql_type": "VARCHAR(24)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "Worker 状态字符串，或 migration_jobs 的完整运行状态 JSON（以字段类型为准）。"
+        },
+        {
+          "name": "run_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "关联旧开发运行；worker_health 中仅作提示。"
+        },
+        {
+          "name": "last_seen",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "最近心跳时间，Unix 秒。"
+        },
+        {
+          "name": "binding_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "Worker 实现绑定摘要。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [],
+      "checks": []
+    },
+    {
+      "name": "audit_logs",
+      "group": "多用户",
+      "purpose": "账号、安全与关键任务操作审计，不保存明文密码或模型密钥。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "actor_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "可选操作者用户 ID；初始化/失败登录可为空。"
+        },
+        {
+          "name": "action",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "接受／回退等决策。"
+        },
+        {
+          "name": "target_id",
+          "mysql_type": "VARCHAR(100)",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "被操作对象的不透明 ID，不是数据库外键。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        },
+        {
+          "name": "details",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "事件详情 JSON。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "actor_id"
+          ],
+          "target_table": "users",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "auth_sessions",
+      "group": "多用户",
+      "purpose": "可撤销登录会话；只保存高熵凭据摘要。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "user_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联 users.id；不是由客户端自由指定的所有者。"
+        },
+        {
+          "name": "token_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "256 位随机登录凭据的 SHA-256 摘要，不是密码哈希。"
+        },
+        {
+          "name": "origin",
+          "mysql_type": "VARCHAR(240)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "登录绑定的完整同源地址。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        },
+        {
+          "name": "expires_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "到期时间，Unix 秒。"
+        },
+        {
+          "name": "revoked_at",
+          "mysql_type": "DOUBLE",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "撤销时间，NULL 表示尚未撤销。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "token_sha256"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "user_id"
+          ],
+          "target_table": "users",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "input_owners",
+      "group": "多用户",
+      "purpose": "源码所有者及实际源码字节数；不重写旧输入表。",
+      "columns": [
+        {
+          "name": "input_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联上传源码。"
+        },
+        {
+          "name": "user_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联 users.id；不是由客户端自由指定的所有者。"
+        },
+        {
+          "name": "byte_size",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "对应上传源码的实际 UTF-8 字节数。"
+        }
+      ],
+      "primary_key": [
+        "input_id"
+      ],
+      "unique": [
+        [
+          "user_id",
+          "input_id"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "input_id"
+          ],
+          "target_table": "source_inputs",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "columns": [
+            "user_id"
+          ],
+          "target_table": "users",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "migration_jobs",
+      "group": "当前迁移主链",
+      "purpose": "真实 Vue→SSM→San 任务、请求快照、运行状态与版本绑定。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "input_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联上传源码。"
+        },
+        {
+          "name": "idempotency_key",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "幂等提交标识；唯一作用域见各表约束。"
+        },
+        {
+          "name": "request",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求 JSON；保留原内容、嵌套数据和 Unicode。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "binding",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "实现、依赖与协议的版本绑定 JSON。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "stage",
+          "mysql_type": "VARCHAR(40)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前真实迁移阶段，供队列与报告展示。"
+        },
+        {
+          "name": "stop_reason",
+          "mysql_type": "VARCHAR(120)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "停止原因代码。"
+        },
+        {
+          "name": "state",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "Worker 状态字符串，或 migration_jobs 的完整运行状态 JSON（以字段类型为准）。"
+        },
+        {
+          "name": "cancel_requested",
+          "mysql_type": "BOOLEAN",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "安全取消请求标志。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        },
+        {
+          "name": "updated_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "最后更新时间，Unix 秒。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "idempotency_key"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "input_id"
+          ],
+          "target_table": "source_inputs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "tasks",
+      "group": "历史开发夹具",
+      "purpose": "旧开发任务，不等同 migration_jobs。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "input_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联上传源码。"
+        },
+        {
+          "name": "name",
+          "mysql_type": "VARCHAR(120)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "显示名称。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "input_id"
+          ],
+          "target_table": "source_inputs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "user_limits",
+      "group": "多用户",
+      "purpose": "按账号限制任务、调用、Token 停止线与已注册源码字节。",
+      "columns": [
+        {
+          "name": "user_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联 users.id；不是由客户端自由指定的所有者。"
+        },
+        {
+          "name": "max_active_jobs",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "排队或执行中任务数上限。"
+        },
+        {
+          "name": "daily_jobs",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "UTC 日任务准入上限。"
+        },
+        {
+          "name": "daily_model_calls",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "UTC 日模型调用预留次数上限。"
+        },
+        {
+          "name": "daily_tokens_soft",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "已知 Tokens 达线后停止下一调用，非硬计费上限。"
+        },
+        {
+          "name": "storage_bytes",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "已注册源码字节上限，不包括生成代码和截图。"
+        }
+      ],
+      "primary_key": [
+        "user_id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "user_id"
+          ],
+          "target_table": "users",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "max_active_jobs >= 0 AND daily_jobs >= 0 AND daily_model_calls >= 0 AND daily_tokens_soft >= 0 AND storage_bytes >= 0"
+      ]
+    },
+    {
+      "name": "user_usage_daily",
+      "group": "多用户",
+      "purpose": "按 UTC 日记录任务准入、调用预留和已知 Tokens。",
+      "columns": [
+        {
+          "name": "user_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联 users.id；不是由客户端自由指定的所有者。"
+        },
+        {
+          "name": "day",
+          "mysql_type": "VARCHAR(10)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "UTC 日期 YYYY-MM-DD。"
+        },
+        {
+          "name": "jobs_count",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "该日成功准入任务数，幂等重试不重复增加。"
+        },
+        {
+          "name": "calls_count",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "该日已持久预留的模型调用次数，未知调用也占用。"
+        },
+        {
+          "name": "known_tokens",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "实际收据确认的总 Tokens，按调用开始的 UTC 日结算。"
+        }
+      ],
+      "primary_key": [
+        "user_id",
+        "day"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "user_id"
+          ],
+          "target_table": "users",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "job_owners",
+      "group": "多用户",
+      "purpose": "真实迁移任务所有者；未分配的历史记录只允许管理员访问。",
+      "columns": [
+        {
+          "name": "job_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联本表所属账本的任务；不同账本的 job_id 不可混用。"
+        },
+        {
+          "name": "user_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联 users.id；不是由客户端自由指定的所有者。"
+        }
+      ],
+      "primary_key": [
+        "job_id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id"
+          ],
+          "target_table": "migration_jobs",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "columns": [
+            "user_id"
+          ],
+          "target_table": "users",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "migration_feedback",
+      "group": "当前迁移主链",
+      "purpose": "指定接受产物版本上的人工验收，独立于自动质量结论。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "job_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联本表所属账本的任务；不同账本的 job_id 不可混用。"
+        },
+        {
+          "name": "revision_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "人工确认的接受产物 SHA-256；不是当前数据库外键。"
+        },
+        {
+          "name": "passed",
+          "mysql_type": "BOOLEAN",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "人工验收结果，不覆盖自动质量结论。"
+        },
+        {
+          "name": "changed_lines",
+          "mysql_type": "INTEGER",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "人工修改行数，可为空。"
+        },
+        {
+          "name": "elapsed_seconds",
+          "mysql_type": "DOUBLE",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "人工耗时秒数，可为空。"
+        },
+        {
+          "name": "notes",
+          "mysql_type": "VARCHAR(4000)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "人工备注，当前最大 4000 字符。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id"
+          ],
+          "target_table": "migration_jobs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "migration_files",
+      "group": "当前迁移主链",
+      "purpose": "任务所属文件索引及 SHA-256；不保存文件二进制。",
+      "columns": [
+        {
+          "name": "relative_path",
+          "mysql_type": "VARCHAR(240)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "相对产物目录的路径；不表示数据库电脑上的绝对路径。"
+        },
+        {
+          "name": "sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "文件字节的 SHA-256 十六进制摘要。"
+        },
+        {
+          "name": "job_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联本表所属账本的任务；不同账本的 job_id 不可混用。"
+        },
+        {
+          "name": "kind",
+          "mysql_type": "VARCHAR(40)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "尝试／文件／事件类型，具体取值由账本决定。"
+        }
+      ],
+      "primary_key": [
+        "relative_path"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id"
+          ],
+          "target_table": "migration_jobs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "migration_model_calls",
+      "group": "当前迁移主链",
+      "purpose": "实际模型调用状态、顺序及响应／用量收据。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "job_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联本表所属账本的任务；不同账本的 job_id 不可混用。"
+        },
+        {
+          "name": "ordinal",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "同一真实迁移任务内的调用序号，不允许重复。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(24)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "receipt",
+          "mysql_type": "JSON",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "真实调用收据／用量 JSON；未返回时可为空，不得填伪造的零用量。"
+        },
+        {
+          "name": "started_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "调用或尝试开始时间，Unix 秒。"
+        },
+        {
+          "name": "finished_at",
+          "mysql_type": "DOUBLE",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "调用结束时间，未完成时可为空。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "job_id",
+          "ordinal"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id"
+          ],
+          "target_table": "migration_jobs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "runs",
+      "group": "历史开发夹具",
+      "purpose": "旧开发运行、幂等提交与固定请求／版本。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "task_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联旧开发任务。"
+        },
+        {
+          "name": "idempotency_key",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "幂等提交标识；唯一作用域见各表约束。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "request",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求 JSON；保留原内容、嵌套数据和 Unicode。"
+        },
+        {
+          "name": "binding",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "实现、依赖与协议的版本绑定 JSON。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "outcome",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "旧开发运行结果，不冒充真实迁移质量。"
+        },
+        {
+          "name": "final_revision_id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "旧运行接受的产物标识；当前无数据库外键，由应用审查。"
+        },
+        {
+          "name": "cancel_requested",
+          "mysql_type": "BOOLEAN",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "安全取消请求标志。"
+        },
+        {
+          "name": "stop_reason",
+          "mysql_type": "VARCHAR(120)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "停止原因代码。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "task_id",
+          "idempotency_key"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id"
+          ],
+          "target_table": "tasks",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "artifact_revisions",
+      "group": "历史开发夹具",
+      "purpose": "旧开发产物版本及同一运行内的父子关系。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "run_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联旧开发运行；worker_health 中仅作提示。"
+        },
+        {
+          "name": "parent_id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "父产物标识；artifact_revisions 有复合外键，generation_candidates 则 CHECK 必须为空。"
+        },
+        {
+          "name": "relative_path",
+          "mysql_type": "VARCHAR(240)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "相对产物目录的路径；不表示数据库电脑上的绝对路径。"
+        },
+        {
+          "name": "sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "文件字节的 SHA-256 十六进制摘要。"
+        },
+        {
+          "name": "source_kind",
+          "mysql_type": "VARCHAR(40)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "产物来源，不能把离线测试产物改记成真实模型生成。"
+        },
+        {
+          "name": "fixture_assertions",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "历史夹具验证数据 JSON，不代表真实迁移通过。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "id",
+          "run_id"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "parent_id",
+            "run_id"
+          ],
+          "target_table": "artifact_revisions",
+          "target_columns": [
+            "id",
+            "run_id"
+          ]
+        },
+        {
+          "columns": [
+            "run_id"
+          ],
+          "target_table": "runs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "attempts",
+      "group": "历史开发夹具",
+      "purpose": "旧开发尝试及响应；不替代真实迁移模型账本。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(100)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "run_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联旧开发运行；worker_health 中仅作提示。"
+        },
+        {
+          "name": "kind",
+          "mysql_type": "VARCHAR(40)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "尝试／文件／事件类型，具体取值由账本决定。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(24)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "result",
+          "mysql_type": "JSON",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "尝试结果 JSON，可为空表示尚未返回等状态。"
+        },
+        {
+          "name": "started_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "调用或尝试开始时间，Unix 秒。"
+        },
+        {
+          "name": "model_tokens",
+          "mysql_type": "INTEGER",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "旧尝试的 Token 记录，可为空。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "run_id"
+          ],
+          "target_table": "runs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "run_events",
+      "group": "历史开发夹具",
+      "purpose": "旧开发运行事件；唯一的自增主键表。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "INTEGER",
+          "nullable": false,
+          "autoincrement": true,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "run_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联旧开发运行；worker_health 中仅作提示。"
+        },
+        {
+          "name": "event_key",
+          "mysql_type": "VARCHAR(120)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "同一旧运行内的幂等事件键。"
+        },
+        {
+          "name": "kind",
+          "mysql_type": "VARCHAR(40)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "尝试／文件／事件类型，具体取值由账本决定。"
+        },
+        {
+          "name": "details",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "事件详情 JSON。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "run_id",
+          "event_key"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "run_id"
+          ],
+          "target_table": "runs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "ssm_extractions",
+      "group": "历史独立 SSM 提取",
+      "purpose": "注册源码独立提取的请求及状态；当前主链 SSM 也可作为任务文件保存。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "input_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联上传源码。"
+        },
+        {
+          "name": "referenced_run_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "可选的旧开发运行引用，不是当前 migration_jobs 外键。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(24)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "request",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求 JSON；保留原内容、嵌套数据和 Unicode。"
+        },
+        {
+          "name": "stop_reason",
+          "mysql_type": "VARCHAR(100)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "停止原因代码。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "input_id"
+          ],
+          "target_table": "source_inputs",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "columns": [
+            "referenced_run_id"
+          ],
+          "target_table": "runs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "status IN ('prepared','started','received','completed','blocked','review_required')"
+      ]
+    },
+    {
+      "name": "worker_locks",
+      "group": "历史开发夹具",
+      "purpose": "旧开发 Worker 租约，不能当作跨机器任务调度方案。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(20)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "owner",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "Worker 租约持有者标识，不是用户 ID。"
+        },
+        {
+          "name": "run_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联旧开发运行；worker_health 中仅作提示。"
+        },
+        {
+          "name": "expires_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "到期时间，Unix 秒。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "run_id"
+          ],
+          "target_table": "runs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "candidate_decisions",
+      "group": "历史开发夹具",
+      "purpose": "旧开发候选接受／回退关系。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(100)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "run_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联旧开发运行；worker_health 中仅作提示。"
+        },
+        {
+          "name": "previous_id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "候选之前的接受产物标识。"
+        },
+        {
+          "name": "candidate_id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "本次候选产物标识。"
+        },
+        {
+          "name": "action",
+          "mysql_type": "VARCHAR(24)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "接受／回退等决策。"
+        },
+        {
+          "name": "reason",
+          "mysql_type": "VARCHAR(120)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "决策原因代码。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "candidate_id",
+            "run_id"
+          ],
+          "target_table": "artifact_revisions",
+          "target_columns": [
+            "id",
+            "run_id"
+          ]
+        },
+        {
+          "columns": [
+            "previous_id",
+            "run_id"
+          ],
+          "target_table": "artifact_revisions",
+          "target_columns": [
+            "id",
+            "run_id"
+          ]
+        },
+        {
+          "columns": [
+            "run_id"
+          ],
+          "target_table": "runs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "evaluations",
+      "group": "历史开发夹具",
+      "purpose": "旧开发评估记录，不等同真实迁移的 assessment。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(100)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "run_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联旧开发运行；worker_health 中仅作提示。"
+        },
+        {
+          "name": "revision_id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "被评估产物版本。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "scope",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "旧评估的范围标识。"
+        },
+        {
+          "name": "fixture_assertions",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "历史夹具验证数据 JSON，不代表真实迁移通过。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "revision_id",
+            "run_id"
+          ],
+          "target_table": "artifact_revisions",
+          "target_columns": [
+            "id",
+            "run_id"
+          ]
+        },
+        {
+          "columns": [
+            "run_id"
+          ],
+          "target_table": "runs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": []
+    },
+    {
+      "name": "generation_approvals",
+      "group": "历史生成审批",
+      "purpose": "单一生成计划的审批、过期与使用状态。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "extraction_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联独立 SSM 提取记录。"
+        },
+        {
+          "name": "idempotency_key",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "幂等提交标识；唯一作用域见各表约束。"
+        },
+        {
+          "name": "request",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求 JSON；保留原内容、嵌套数据和 Unicode。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(16)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        },
+        {
+          "name": "expires_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "到期时间，Unix 秒。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "extraction_id",
+          "idempotency_key"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "extraction_id"
+          ],
+          "target_table": "ssm_extractions",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "status IN ('pending','approved','revoked','consumed')"
+      ]
+    },
+    {
+      "name": "generation_jobs",
+      "group": "历史离线生成账本",
+      "purpose": "离线测试生成请求，不是在线模型迁移任务。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "extraction_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联独立 SSM 提取记录。"
+        },
+        {
+          "name": "input_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联上传源码。"
+        },
+        {
+          "name": "idempotency_key",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "幂等提交标识；唯一作用域见各表约束。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(24)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "request",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求 JSON；保留原内容、嵌套数据和 Unicode。"
+        },
+        {
+          "name": "stop_reason",
+          "mysql_type": "VARCHAR(100)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "停止原因代码。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "extraction_id",
+          "idempotency_key"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "extraction_id"
+          ],
+          "target_table": "ssm_extractions",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "columns": [
+            "input_id"
+          ],
+          "target_table": "source_inputs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "status IN ('prepared','started','received','completed','blocked','review_required')"
+      ]
+    },
+    {
+      "name": "provider_generation_jobs",
+      "group": "历史记录式生成",
+      "purpose": "记录式提供方生成请求，不混入离线候选来源。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "extraction_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联独立 SSM 提取记录。"
+        },
+        {
+          "name": "idempotency_key",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "幂等提交标识；唯一作用域见各表约束。"
+        },
+        {
+          "name": "request",
+          "mysql_type": "JSON",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求 JSON；保留原内容、嵌套数据和 Unicode。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(24)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "stop_reason",
+          "mysql_type": "VARCHAR(100)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "停止原因代码。"
+        },
+        {
+          "name": "created_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用提供的 Unix 秒时间戳，包含小数。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "extraction_id",
+          "idempotency_key"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "extraction_id"
+          ],
+          "target_table": "ssm_extractions",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "status IN ('prepared','started','received','completed','blocked','review_required')"
+      ]
+    },
+    {
+      "name": "ssm_extraction_files",
+      "group": "历史独立 SSM 提取",
+      "purpose": "独立提取的 request／ssm／receipt 文件索引。",
+      "columns": [
+        {
+          "name": "relative_path",
+          "mysql_type": "VARCHAR(240)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "相对产物目录的路径；不表示数据库电脑上的绝对路径。"
+        },
+        {
+          "name": "sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "文件字节的 SHA-256 十六进制摘要。"
+        },
+        {
+          "name": "extraction_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联独立 SSM 提取记录。"
+        },
+        {
+          "name": "kind",
+          "mysql_type": "VARCHAR(16)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "尝试／文件／事件类型，具体取值由账本决定。"
+        }
+      ],
+      "primary_key": [
+        "relative_path"
+      ],
+      "unique": [
+        [
+          "extraction_id",
+          "kind"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "extraction_id"
+          ],
+          "target_table": "ssm_extractions",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "kind IN ('request','ssm','receipt')"
+      ]
+    },
+    {
+      "name": "generation_approval_files",
+      "group": "历史生成审批",
+      "purpose": "审批、撤销和领取证据文件索引。",
+      "columns": [
+        {
+          "name": "relative_path",
+          "mysql_type": "VARCHAR(240)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "相对产物目录的路径；不表示数据库电脑上的绝对路径。"
+        },
+        {
+          "name": "sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "文件字节的 SHA-256 十六进制摘要。"
+        },
+        {
+          "name": "approval_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联生成审批。"
+        },
+        {
+          "name": "kind",
+          "mysql_type": "VARCHAR(16)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "尝试／文件／事件类型，具体取值由账本决定。"
+        }
+      ],
+      "primary_key": [
+        "relative_path"
+      ],
+      "unique": [
+        [
+          "approval_id",
+          "kind"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "approval_id"
+          ],
+          "target_table": "generation_approvals",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "kind IN ('request','approval','revocation','claim')"
+      ]
+    },
+    {
+      "name": "generation_attempts",
+      "group": "历史离线生成账本",
+      "purpose": "每个离线生成任务最多一个尝试。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "job_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联本表所属账本的任务；不同账本的 job_id 不可混用。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(24)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "started_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "调用或尝试开始时间，Unix 秒。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "job_id"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id"
+          ],
+          "target_table": "generation_jobs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "status IN ('started','received','review_required')"
+      ]
+    },
+    {
+      "name": "generation_files",
+      "group": "历史离线生成账本",
+      "purpose": "离线生成文件索引。",
+      "columns": [
+        {
+          "name": "relative_path",
+          "mysql_type": "VARCHAR(240)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "相对产物目录的路径；不表示数据库电脑上的绝对路径。"
+        },
+        {
+          "name": "sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "文件字节的 SHA-256 十六进制摘要。"
+        },
+        {
+          "name": "job_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联本表所属账本的任务；不同账本的 job_id 不可混用。"
+        },
+        {
+          "name": "kind",
+          "mysql_type": "VARCHAR(16)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "尝试／文件／事件类型，具体取值由账本决定。"
+        }
+      ],
+      "primary_key": [
+        "relative_path"
+      ],
+      "unique": [
+        [
+          "job_id",
+          "kind"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id"
+          ],
+          "target_table": "generation_jobs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "kind IN ('request','receipt','candidate')"
+      ]
+    },
+    {
+      "name": "provider_generation_attempts",
+      "group": "历史记录式生成",
+      "purpose": "每个记录式生成任务最多一个尝试。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "job_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联本表所属账本的任务；不同账本的 job_id 不可混用。"
+        },
+        {
+          "name": "request_sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "固定请求摘要，不能因更换数据库重新计算覆盖历史。"
+        },
+        {
+          "name": "status",
+          "mysql_type": "VARCHAR(24)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "当前账本状态字符串；已有 CHECK 或应用约束见下。"
+        },
+        {
+          "name": "started_at",
+          "mysql_type": "DOUBLE",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "调用或尝试开始时间，Unix 秒。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "job_id"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id"
+          ],
+          "target_table": "provider_generation_jobs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "status IN ('started','received','review_required')"
+      ]
+    },
+    {
+      "name": "provider_generation_files",
+      "group": "历史记录式生成",
+      "purpose": "计划、请求、响应、收据与候选文件索引。",
+      "columns": [
+        {
+          "name": "relative_path",
+          "mysql_type": "VARCHAR(240)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "相对产物目录的路径；不表示数据库电脑上的绝对路径。"
+        },
+        {
+          "name": "sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "文件字节的 SHA-256 十六进制摘要。"
+        },
+        {
+          "name": "job_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联本表所属账本的任务；不同账本的 job_id 不可混用。"
+        },
+        {
+          "name": "kind",
+          "mysql_type": "VARCHAR(16)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "尝试／文件／事件类型，具体取值由账本决定。"
+        }
+      ],
+      "primary_key": [
+        "relative_path"
+      ],
+      "unique": [
+        [
+          "job_id",
+          "kind"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id"
+          ],
+          "target_table": "provider_generation_jobs",
+          "target_columns": [
+            "id"
+          ]
+        }
+      ],
+      "checks": [
+        "kind IN ('plan','request','response','receipt','candidate')"
+      ]
+    },
+    {
+      "name": "generation_candidates",
+      "group": "历史离线生成账本",
+      "purpose": "离线测试候选；parent_id 必须为空，来源固定。",
+      "columns": [
+        {
+          "name": "id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "应用生成的记录标识；仅 run_events.id 为自增整数。"
+        },
+        {
+          "name": "job_id",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "关联本表所属账本的任务；不同账本的 job_id 不可混用。"
+        },
+        {
+          "name": "relative_path",
+          "mysql_type": "VARCHAR(240)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "相对产物目录的路径；不表示数据库电脑上的绝对路径。"
+        },
+        {
+          "name": "sha256",
+          "mysql_type": "VARCHAR(64)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "文件字节的 SHA-256 十六进制摘要。"
+        },
+        {
+          "name": "parent_id",
+          "mysql_type": "VARCHAR(80)",
+          "nullable": true,
+          "autoincrement": false,
+          "meaning": "父产物标识；artifact_revisions 有复合外键，generation_candidates 则 CHECK 必须为空。"
+        },
+        {
+          "name": "source_kind",
+          "mysql_type": "VARCHAR(32)",
+          "nullable": false,
+          "autoincrement": false,
+          "meaning": "产物来源，不能把离线测试产物改记成真实模型生成。"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique": [
+        [
+          "job_id"
+        ],
+        [
+          "relative_path"
+        ]
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id"
+          ],
+          "target_table": "generation_jobs",
+          "target_columns": [
+            "id"
+          ]
+        },
+        {
+          "columns": [
+            "relative_path"
+          ],
+          "target_table": "generation_files",
+          "target_columns": [
+            "relative_path"
+          ]
+        }
+      ],
+      "checks": [
+        "parent_id IS NULL",
+        "source_kind = 'offline_client_test'"
+      ]
+    }
+  ],
+  "source_sha256": {
+    "src/card_migration_system/persistence/schema_v1.py": "9920f313a80ae4f2f8f34711818bdd8088428d2f68d959ed7f85cdc8338405d3",
+    "src/card_migration_system/persistence/worker_health.py": "18aded42ed6ba5858a0e9d4302daa496b5eb2b16edbef652bb600a3d653b9f91",
+    "src/card_migration_system/persistence/ssm_extractions.py": "43b234d4708b9108338fa7809ab30e12992884303b00f52f0c655ad31d2f4792",
+    "src/card_migration_system/persistence/generations.py": "82b4ab65adee1e74e6089dfae84be8e3f19aeac6f013a6d87ea746e8668e0c65",
+    "src/card_migration_system/persistence/provider_generations.py": "de862e806d97cb8f26eaaa0f6c0e6b858149a8ba8ab32086c60deca88da5438c",
+    "src/card_migration_system/persistence/generation_approvals.py": "6f79d429c6447603c963ee2934da1facda9261afaadbb14eab7106123f212863",
+    "src/card_migration_system/persistence/migrations.py": "cc85a5f38660a8c899d8d9455e3d7e0dfbf9b723ae078fcad29443682394a1a7",
+    "src/card_migration_system/persistence/accounts.py": "afbba90b9cdb911b3ed470dd7d2c88d8fc78ae9826d920d3af59255d120e6af1",
+    "migrations/versions/0001_development_slice.py": "9e177a7b69523a4b4fd9bf3c43baf353a3da2cfaf7eb7b50e0ec21e239461b10",
+    "migrations/versions/0002_worker_health.py": "0f9ebaf046bbaea3dd5265fcb07551a883473ccc62ae1dc6421c7eb7945b02e5",
+    "migrations/versions/0003_ssm_extractions.py": "2a09e8486a2539315cad8b136bb8bdc1500d996ba4ab30bed92efb1d6f7fcc2e",
+    "migrations/versions/0004_generation_ledger.py": "21583f3caf0862ef2357412bfd0ce643ca8913264f67f840a1fbe1050b2a7f8c",
+    "migrations/versions/0005_provider_generation.py": "84aa1711129c6aa83da5d619a0ae51b1833eee74c0ce74bb7131e50d2cdbddfd",
+    "migrations/versions/0006_generation_approvals.py": "b3dad8dc783f2258f388109346b3009cd854e3d70a41ad008e90229184d61547",
+    "migrations/versions/0007_modular_migration.py": "4a8665745540e4284f38207835ecc72f8d0654f9417143bef0012b90d9569b6f",
+    "migrations/versions/0008_multi_user.py": "2a51be21fbbea07e59b2335d05a7139e2eef1ec80dd0daa8c496878aecb7d7ef"
+  }
+}

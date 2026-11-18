@@ -46,9 +46,10 @@ class MigrationService:
         if not isinstance(key,str) or not re.fullmatch('[0-9a-f]{32}',key):raise ServiceError('invalid_migration_id',400)
         with transaction(self.engine) as s:return self.base.get(s,MigrationJob,key)
 
-    def create(self,payload,idempotency_key):
+    def create(self,payload,idempotency_key,owner_id=None):
         fields(payload,('input_id','name','max_repair_rounds','props','actions','trusted_source','source_group','strategy','excluded_example_groups','confirm_model_calls'),('input_id','trusted_source'))
         if not isinstance(idempotency_key,str) or not re.fullmatch('[A-Za-z0-9_-]{1,80}',idempotency_key):raise ServiceError('idempotency_key_required',400)
+        if owner_id:idempotency_key=digest({'user_id':owner_id,'key':idempotency_key})
         if payload['trusted_source'] is not True:raise ServiceError('trusted_local_component_required',400)
         rounds=payload.get('max_repair_rounds',3)
         if type(rounds) is not int or not 0<=rounds<=3:raise ServiceError('invalid_repair_budget',400)
@@ -71,6 +72,10 @@ class MigrationService:
         name=payload.get('name','Vue to San migration')
         if type(name) is not str or not 1<=len(name.strip())<=120:raise ServiceError('invalid_task_name',400)
         with transaction(self.engine) as session:
+            if owner_id:
+                from ..persistence.accounts import InputOwner
+                ownership=session.get(InputOwner,payload['input_id'])
+                if not ownership or ownership.user_id!=owner_id:raise ServiceError('not_found',404)
             source=self.base.get(session,SourceInput,payload['input_id'])
             spec={'input_id':source.id,'source_sha256':source.sha256,'filename':source.filename,'name':name,
                 'max_repair_rounds':rounds,'props':props,'actions':actions,'source_group':group,'strategy':strategy,
@@ -89,16 +94,28 @@ class MigrationService:
                 if prior.request_sha256!=fingerprint:raise ServiceError('idempotency_conflict')
                 return {'migration_id':prior.id,'status':prior.status}
             key=uuid4().hex
+            if owner_id:
+                from .accounts import reserve_job
+                reserve_job(session,owner_id,source.id)
             row=MigrationJob(id=key,input_id=source.id,idempotency_key=idempotency_key,request=spec,request_sha256=fingerprint,
                 binding=binding(self.settings),status='queued',stage='queued',stop_reason='',state={},cancel_requested=False,
                 created_at=time.time(),updated_at=time.time())
             session.add(row)
+            session.flush()
+            if owner_id:
+                from ..persistence.accounts import JobOwner
+                from .accounts import audit_event
+                session.add(JobOwner(job_id=key,user_id=owner_id));audit_event(session,owner_id,'migration_created',key)
         self.put_json(key,'request.json','request',{'request':spec,'request_sha256':fingerprint,'binding':row.binding})
         return {'migration_id':key,'status':'queued'}
 
-    def list(self):
+    def list(self,owner_id=None):
         with transaction(self.engine) as s:
-            rows=s.scalars(select(MigrationJob).order_by(MigrationJob.created_at.desc()).limit(100)).all()
+            query=select(MigrationJob)
+            if owner_id:
+                from ..persistence.accounts import JobOwner
+                query=query.join(JobOwner,JobOwner.job_id==MigrationJob.id).where(JobOwner.user_id==owner_id)
+            rows=s.scalars(query.order_by(MigrationJob.created_at.desc()).limit(100)).all()
             return {'items':[{'migration_id':r.id,'name':r.request['name'],'filename':r.request['filename'],
                 'status':r.status,'stage':r.stage,'stop_reason':r.stop_reason,'created_at':r.created_at} for r in rows]}
 
@@ -110,6 +127,11 @@ class MigrationService:
 
     def guard(self,key):
         row=self.job(key)
+        from ..persistence.accounts import JobOwner
+        from .accounts import require_active
+        with transaction(self.engine) as s:
+            owner=s.get(JobOwner,key)
+            if owner:require_active(s,owner.user_id)
         if row.cancel_requested:raise ServiceError('migration_cancel_requested')
         if row.request_sha256!=digest(row.request) or row.binding!=binding(self.settings):raise ServiceError('migration_binding_drift')
         if profile(self.settings)!=row.request['runtime']:raise ServiceError('migration_runtime_profile_drift')
@@ -202,6 +224,8 @@ class MigrationService:
         self.guard(key)
         with transaction(self.engine) as s:
             if s.get(ModelCall,call_id):raise ServiceError('concurrent_model_attempt')
+            from .accounts import reserve_call
+            reserve_call(s,key)
             s.add(ModelCall(id=call_id,job_id=key,ordinal=ordinal,status='started',request_sha256=request_hash,
                 receipt=None,started_at=time.time()))
         try:
@@ -218,6 +242,8 @@ class MigrationService:
             self.put_json(key,f'calls/{ordinal}/receipt.json','model_receipt',receipt)
             with transaction(self.engine) as s:
                 call=self.base.get(s,ModelCall,call_id);call.status='returned';call.receipt=receipt;call.finished_at=time.time()
+                from .accounts import settle_call
+                settle_call(s,key,call.started_at,result['usage'])
         except Exception:
             with transaction(self.engine) as s:
                 call=self.base.get(s,ModelCall,call_id)

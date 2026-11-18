@@ -1,5 +1,5 @@
 /** Display projections only. No scores, success states or model calls are invented. */
-export type WorkspaceView = 'workbench' | 'records' | 'settings' | 'development'
+export type WorkspaceView = 'workbench' | 'records' | 'settings' | 'development' | 'account' | 'admin'
 export interface MigrationRow { migration_id:string; name:string; filename:string; status:string; stage:string; stop_reason:string; created_at:number }
 export interface FileRef { relative_path:string; sha256:string; kind:string }
 export interface Diagnostic { code:string; message:string; location?:unknown; differences?:unknown[]; details?:unknown }

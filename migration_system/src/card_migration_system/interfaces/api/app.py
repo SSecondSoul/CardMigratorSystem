@@ -11,10 +11,12 @@ from .browser_session import BrowserSessions
 
 
 def create_app(settings, *, write_token):
+    if settings.public_origin and settings.auth_mode!='multi_user':
+        raise ValueError('Public origin requires multi_user authentication')
     if type(write_token) is not str or len(write_token) < 24:
         raise ValueError("write_token_must_be_at_least_24_characters")
     app = Flask(__name__, static_folder=None)
-    app.config.update(MAX_CONTENT_LENGTH=300000, ALLOWED_PORT=settings.port)
+    app.config.update(MAX_CONTENT_LENGTH=300000, ALLOWED_PORT=settings.port, PUBLIC_HTTPS=bool(settings.public_origin))
     service = Service(settings)
     app.extensions["migration_service"] = service
     browser_sessions = BrowserSessions()
@@ -22,16 +24,18 @@ def create_app(settings, *, write_token):
     @app.before_request
     def local_boundary():
         request.environ["cardmig.request_id"] = uuid4().hex
-        allowed = request.host in (f"127.0.0.1:{app.config['ALLOWED_PORT']}",
-                                   f"[::1]:{app.config['ALLOWED_PORT']}")
+        from urllib.parse import urlsplit
+        expected= urlsplit(settings.public_origin).netloc if settings.public_origin else None
+        allowed = request.host==expected if expected else request.host in (f"127.0.0.1:{app.config['ALLOWED_PORT']}", f"[::1]:{app.config['ALLOWED_PORT']}")
         if not allowed:
             raise ServiceError("host_not_allowed", 403)
         origin = request.headers.get("Origin")
-        if origin is not None and origin != request.host_url.rstrip("/"):
+        if origin is not None and origin != (settings.public_origin or request.host_url.rstrip("/")):
             raise ServiceError("origin_not_allowed", 403)
         if request.method not in ("GET", "HEAD", "OPTIONS"):
             if request.headers.get("Sec-Fetch-Site") not in (None, "same-origin"):
                 raise ServiceError("origin_not_allowed", 403)
+            if settings.auth_mode=='multi_user':return
             supplied = request.headers.get("X-Cardmig-Token")
             if supplied is not None:
                 if not compare_digest(supplied.encode(), write_token.encode()):
@@ -46,6 +50,9 @@ def create_app(settings, *, write_token):
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["Cache-Control"] = "no-store"
         return response
+
+    from .accounts import install_accounts
+    session_response=install_accounts(app,service,browser_sessions)
 
     @app.errorhandler(Exception)
     def error_response(error):
@@ -65,7 +72,7 @@ def create_app(settings, *, write_token):
 
     @app.get("/api/v1/browser-session")
     def browser_session():
-        return browser_sessions.bootstrap()
+        return session_response()
 
     @app.get("/health/ready")
     def ready():
@@ -127,7 +134,9 @@ def create_app(settings, *, write_token):
 
     @app.post("/api/v1/inputs")
     def create_input():
-        return jsonify(service.create_input(request.get_json())), 201
+        from flask import g
+        owner=g.account['user']['id'] if settings.auth_mode=='multi_user' else None
+        return jsonify(service.create_input(request.get_json(),owner_id=owner)), 201
 
     @app.post("/api/v1/tasks")
     def create_task():

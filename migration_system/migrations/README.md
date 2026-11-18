@@ -1,6 +1,8 @@
 # 数据库变更
 
-当前 HEAD 为 **0007_modular_migration**；用户实际库已确认 0006，本次未自动升级。请统一部署时显式 init-db，详见本文末的 0007 说明及 [系统指南](../SYSTEM_GUIDE.md)。以下 0001—0006 状态保留为历史，不覆盖当前迁移要求。
+当前 HEAD 为 **0008_multi_user**（2026-11-18）：原 26 张表基础上新增 8 张账号表，采用独立 metadata 与增量迁移，不原地改写冻结 schema_v1 或旧任务 JSON。多用户库请按 [多用户指南](../MULTI_USER_GUIDE.md) 使用 `--config configs/multi_user.toml` 显式初始化；本轮未升级实际旧库、未自动创建管理员。以下 0001—0007 的用户实际版本与旧 HEAD 描述保留为历史，以本段为准。
+
+0008 新表为 users、auth_sessions、user_limits、user_usage_daily、input_owners、job_owners、audit_logs、auth_throttle。所有权与原 source_inputs／migration_jobs 外键关联；旧无 owner 记录只向管理员开放，不自动分配。迁移只增表，downgrade 仍阻断，不能删库来掩盖版本问题。恢复备份会撤销会话，防止历史登录凭据被恢复。
 
 P2b 已提供 `versions/0001_development_slice.py`，由显式 `run_system.py init-db` 使用 Alembic 创建受限开发业务表。env.py 只接受应用传入的连接，不猜测旧数据库位置。重复初始化保持同一版本；非空且无法识别的数据库拒绝初始化。
 

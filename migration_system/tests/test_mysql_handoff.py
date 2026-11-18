@@ -1,6 +1,7 @@
 """Offline handoff checks against real temporary SQLite/Alembic schema, not MySQL QA."""
 import importlib.util
 import json
+import sys
 from pathlib import Path
 import unittest
 from unittest.mock import patch
@@ -29,7 +30,10 @@ class MysqlHandoffTests(unittest.TestCase):
         snapshot = json.loads(export.build()['schema_current.json'])
         inspector = inspect(self.service.engine)
         self.assertEqual(snapshot['table_count'], 26)
-        self.assertEqual({t['name'] for t in snapshot['tables']}, set(inspector.get_table_names()))
+        # v1 handoff is a frozen 0007 baseline; 0008 accounts are additive.
+        baseline={t['name'] for t in snapshot['tables']}
+        self.assertTrue(baseline <= set(inspector.get_table_names()))
+        self.assertEqual(set(inspector.get_table_names())-baseline,{'users','auth_sessions','user_limits','user_usage_daily','input_owners','job_owners','audit_logs','auth_throttle'})
         for table in snapshot['tables']:
             actual = inspector.get_columns(table['name'])
             self.assertEqual([c['name'] for c in actual], [c['name'] for c in table['columns']])
@@ -79,6 +83,27 @@ class MysqlHandoffTests(unittest.TestCase):
         self.assertEqual(len(files), 4)
         self.assertIn('offline_mysql_preparation_not_runtime_adapter', files['schema_current.json'])
         self.assertEqual(json.loads(files['schema_current.json'])['alembic_version_rows'], 0)
+
+    def test_multi_user_handoff_matches_all_34_tables_without_mutating_v1(self):
+        module_spec=importlib.util.spec_from_file_location('multi_user_export',PROJECT/'scripts/export_multi_user_schema.py')
+        module=importlib.util.module_from_spec(module_spec)
+        before=export.build()
+        with patch.dict(sys.modules,{'export_mysql_handoff':export}):module_spec.loader.exec_module(module)
+        with patch('sqlalchemy.create_engine',side_effect=AssertionError('Export is offline')):files=module.build()
+        self.assertEqual(export.build(),before,'v2 must not mutate the frozen v1 exporter')
+        for name,content in files.items():
+            self.assertEqual((PROJECT/module.DESTINATION/name).read_text(encoding='utf-8'),content,name)
+        snapshot=json.loads(files['schema_multi_user.json']);inspector=inspect(self.service.engine)
+        self.assertEqual(snapshot['table_count'],34)
+        self.assertEqual({t['name'] for t in snapshot['tables']},set(inspector.get_table_names()))
+        for table in snapshot['tables']:
+            name=table['name'];columns=inspector.get_columns(name)
+            self.assertEqual([(c['name'],c['nullable']) for c in columns],[(c['name'],c['nullable']) for c in table['columns']],name)
+            self.assertEqual(inspector.get_pk_constraint(name)['constrained_columns'],table['primary_key'],name)
+            self.assertEqual({tuple(u['column_names']) for u in inspector.get_unique_constraints(name)},{tuple(u) for u in table['unique']},name)
+            self.assertEqual({(tuple(f['constrained_columns']),f['referred_table'],tuple(f['referred_columns'])) for f in inspector.get_foreign_keys(name)},
+                             {(tuple(f['columns']),f['target_table'],tuple(f['target_columns'])) for f in table['foreign_keys']},name)
+            self.assertEqual({c['sqltext'] for c in inspector.get_check_constraints(name)},set(table['checks']),name)
 
 
 if __name__ == '__main__':

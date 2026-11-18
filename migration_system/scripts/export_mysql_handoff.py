@@ -90,9 +90,9 @@ MEANINGS = {
 }
 
 
-def model_tables():
+def model_tables(include_accounts=False):
     combined = MetaData()
-    for name in MODULES:
+    for name in MODULES + (['accounts'] if include_accounts else []):
         module = importlib.import_module('card_migration_system.persistence.' + name)
         for table in module.metadata.tables.values():
             table.to_metadata(combined)
@@ -119,14 +119,16 @@ def constraint_key(constraint):
     return (type(constraint).__name__, tuple(c.name for c in constraint.columns), str(getattr(constraint, 'sqltext', '')))
 
 
-def describe(table):
-    result = {'name': table.name, 'group': PURPOSES[table.name][0], 'purpose': PURPOSES[table.name][1],
+def describe(table, *, purposes=None, meanings=None):
+    purposes = PURPOSES if purposes is None else purposes
+    meanings = MEANINGS if meanings is None else meanings
+    result = {'name': table.name, 'group': purposes[table.name][0], 'purpose': purposes[table.name][1],
               'columns': [], 'primary_key': [c.name for c in table.primary_key.columns],
               'unique': [], 'foreign_keys': [], 'checks': []}
     for c in table.columns:
         result['columns'].append({'name': c.name, 'mysql_type': sql_type(c), 'nullable': c.nullable,
                                   'autoincrement': c.autoincrement is True,
-                                  'meaning': MEANINGS[c.name]})
+                                  'meaning': meanings[c.name]})
     for c in sorted(table.constraints, key=constraint_key):
         if isinstance(c, UniqueConstraint): result['unique'].append([x.name for x in c.columns])
         elif isinstance(c, CheckConstraint): result['checks'].append(str(c.sqltext))
@@ -137,8 +139,8 @@ def describe(table):
     return result
 
 
-def ddl(table):
-    info = describe(table)
+def ddl(table, *, purposes=None, meanings=None):
+    info = describe(table, purposes=purposes, meanings=meanings)
     entries = []
     for c in info['columns']:
         text = f"  {quoted(c['name'])} {c['mysql_type']}" + (' NULL' if c['nullable'] else ' NOT NULL')
@@ -325,7 +327,7 @@ SELECT tc.TABLE_NAME, cc.CONSTRAINT_NAME, cc.CHECK_CLAUSE FROM information_schem
 SELECT COUNT(*) AS alembic_rows_must_be_zero FROM {quoted(DATABASE)}.alembic_version;
 """
     source_paths = [f'src/card_migration_system/persistence/{n}.py' for n in MODULES]
-    source_paths += [str(p.relative_to(PROJECT)).replace('\\', '/') for p in sorted((PROJECT / 'migrations/versions').glob('*.py'))]
+    source_paths += [str(p.relative_to(PROJECT)).replace('\\', '/') for p in sorted((PROJECT / 'migrations/versions').glob('*.py')) if p.name[:4]<='0007']
     hashes = {p: sha256((PROJECT / p).read_bytes()).hexdigest() for p in source_paths}
     document = INTRO + '| 表名 | 分组 | 作用 |\n|---|---|---|\n'
     document += ''.join(f"| `{t.name}` | {PURPOSES[t.name][0]} | {PURPOSES[t.name][1]} |\n" for t in tables)

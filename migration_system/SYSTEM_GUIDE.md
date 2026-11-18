@@ -1,6 +1,8 @@
 # 安装与运行
 
-远程 MySQL 准备：给另一台电脑 AI 的[完整建库交接文件](docs/deployment/mysql_handoff_v1/MYSQL_DATABASE_HANDOFF.md)包含当前 26 张表、全部字段、关系及 SQL。当前系统仍使用 SQLite；该文件只准备新的 MySQL 空库，不会自动完成数据库适配或多用户登录，原实验库不要覆盖。
+**2026-11-18 SQLite 多用户版已实现。现在要用账号登录／用户管理，请直接按 [多用户启动指南](MULTI_USER_GUIDE.md) 操作**：使用 `--config configs/multi_user.toml` 初始化独立库、隐藏密码提示创建首个管理员，再以同一配置启动 API 和迁移 Worker。下面未带该参数的命令仍是原本机单用户实验模式，不要混用两个模式的 API／Worker。
+
+远程 MySQL 准备更新为 [多用户 34 表交接 v2](docs/deployment/mysql_handoff_v2/MYSQL_MULTI_USER_HANDOFF.md)，与当前 SQLite 0008 实现对齐。原 [v1 交接](docs/deployment/mysql_handoff_v1/MYSQL_DATABASE_HANDOFF.md) 保留为 0007 的 26 表与早期草案，不再代表最新账号实现。当前没有自动连接 MySQL 或迁移原实验库。
 
 最新增量（2026-11-18 闭环 v2）：修正普通对象键／简写比较误报，补齐 `this.computed.*` 的 AST 检测与有界修复，并用控件身份／父拓扑证据区分候选诊断细化与新缺陷。沿用 v4 范围，生成仍走模型，历史失败不改判；五次冻结重放仍有真实或未获准归一化的结构差异，不能宣称全部通过。见 [结果与边界](docs/CLOSED_LOOP_V2.md)。
 

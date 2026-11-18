@@ -136,7 +136,7 @@ class Service:
         if session.scalar(select(RunEvent).where(RunEvent.run_id == run_id, RunEvent.event_key == key)) is None:
             session.add(RunEvent(run_id=run_id, event_key=key, kind=kind, details=details or {}))
 
-    def create_input(self, payload):
+    def create_input(self, payload, owner_id=None):
         fields(payload, ("filename", "source"), ("filename", "source"))
         name, source = payload["filename"], payload["source"]
         if type(name) is not str or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]{0,100}\.vue", name):
@@ -145,9 +145,21 @@ class Service:
             raise ServiceError("invalid_source_size", 400)
         key = identifier()
         relative = f"inputs/{key}/{name}"
-        fingerprint = self.storage.put(relative, source.encode("utf-8"))
         with transaction(self.engine) as session:
+            if owner_id:
+                from .accounts import require_active, audit_event
+                from ..persistence.accounts import InputOwner, UserLimit
+                from sqlalchemy import func
+                require_active(session,owner_id)
+                limit=session.get(UserLimit,owner_id)
+                stored=session.scalar(select(func.coalesce(func.sum(InputOwner.byte_size),0)).where(InputOwner.user_id==owner_id))
+                if stored+len(source.encode('utf-8'))>limit.storage_bytes:raise ServiceError('source_storage_limit_reached',429)
+            fingerprint = self.storage.put(relative, source.encode("utf-8"))
             session.add(SourceInput(id=key, filename=name, relative_path=relative, sha256=fingerprint))
+            session.flush()
+            if owner_id:
+                session.add(InputOwner(input_id=key,user_id=owner_id,byte_size=len(source.encode('utf-8'))))
+                audit_event(session,owner_id,'source_uploaded',key)
         return {"input_id": key, "filename": name, "sha256": fingerprint}
 
     def create_task(self, payload):

@@ -10,6 +10,23 @@ export class ApiError extends Error {
   }
 }
 const explanations: Record<string, string> = {
+  auth_required:'请先登录，或重新登录已过期的账号。',
+  invalid_credentials:'账号或密码不正确，或账号已被禁用。',
+  login_rate_limited:'登录尝试过于频繁，请在 15 分钟后再试。',
+  admin_required:'此操作仅管理员可用。',
+  password_change_required:'首次登录或密码重置后，请先修改密码。',
+  password_length_12_to_128:'密码长度应为 12–128 个字符。',
+  current_password_incorrect:'当前密码不正确。',
+  password_must_change:'新密码不能与旧密码相同。',
+  username_unavailable:'账号名已被使用。',
+  invalid_username:'账号须以英文字母开头，3–64 位，仅含字母、数字、下划线、点或横线。',
+  cannot_disable_self:'不能禁用当前管理员账号。',
+  invalid_user_limits:'额度须为允许范围内的非负整数。',
+  account_disabled:'账号已禁用，请联系管理员。',
+  active_job_limit_reached:'排队／执行中任务已达到个人上限，请等待或取消已有任务。',
+  daily_job_limit_reached:'今日任务额度已用完（按 UTC 日统计）。',
+  source_storage_limit_reached:'已注册源码字节额度不足，请联系管理员。',
+  script_token_disabled_in_multi_user:'账号模式不接受全局本地令牌，请使用登录会话。',
   write_token_required: '本地写入令牌不正确，请核对 API 启动窗口。',
   browser_session_required: '本地会话已失效，请刷新连接状态后重新操作；原写入请求不会自动重发。',
   browser_csrf_required: '操作会话校验失败，请刷新连接状态后重新操作；原写入请求不会自动重发。',

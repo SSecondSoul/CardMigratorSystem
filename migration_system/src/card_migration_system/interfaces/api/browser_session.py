@@ -7,7 +7,7 @@ HttpOnly cookie prevent ordinary foreign websites from authorizing writes.
 from hmac import compare_digest
 import secrets
 
-from flask import jsonify, request
+from flask import jsonify, request, current_app
 from itsdangerous import BadSignature, URLSafeTimedSerializer
 
 from ...application.service import ServiceError
@@ -43,7 +43,7 @@ class BrowserSessions:
         data = self.read() or {"host": request.host, "csrf": secrets.token_urlsafe(32)}
         response = jsonify(status="ready", csrf_token=data["csrf"], expires_in=self.lifetime)
         response.set_cookie(self.cookie_name(), self.signer.dumps(data), max_age=self.lifetime,
-                            httponly=True, samesite="Strict", secure=request.is_secure, path="/api/v1")
+                            httponly=True, samesite="Strict", secure=request.is_secure or current_app.config.get('PUBLIC_HTTPS',False), path="/api/v1")
         return response
 
     def authorize(self):

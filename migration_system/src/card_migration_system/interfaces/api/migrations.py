@@ -1,7 +1,7 @@
 """Real task endpoints reuse the enclosing API's token, origin and host boundaries."""
 import io
 import time
-from flask import jsonify,request,send_file
+from flask import jsonify,request,send_file,g
 from sqlalchemy import select
 from ...application.migrations import MigrationService
 from ...application.service import fields,ServiceError
@@ -26,10 +26,17 @@ def register_migration_routes(app,base):
 
     @app.post('/api/v1/migrations')
     def create_migration():
-        return jsonify(service.create(request.get_json(),request.headers.get('Idempotency-Key'))),202
+        owner=g.account['user']['id'] if base.settings.auth_mode=='multi_user' else None
+        return jsonify(service.create(request.get_json(),request.headers.get('Idempotency-Key'),owner_id=owner)),202
 
     @app.get('/api/v1/migrations')
-    def list_migrations():return jsonify(service.list())
+    def list_migrations():
+        owner=None
+        if base.settings.auth_mode=='multi_user':
+            if request.args.get('scope')=='all':
+                if g.account['user']['role']!='admin':raise ServiceError('admin_required',403)
+            else:owner=g.account['user']['id']
+        return jsonify(service.list(owner_id=owner))
 
     @app.get('/api/v1/migrations/<key>/report')
     def migration_report(key):return jsonify(service.report(key))
@@ -59,7 +66,11 @@ def register_migration_routes(app,base):
             service.guard(key);row=service.job(key)
             if row.status not in ('review_required','blocked'):raise ServiceError('migration_not_resumable')
             if any(c['status']!='returned' for c in service.report(key)['calls']):raise ServiceError('model_response_unknown_no_automatic_retry')
-            service.update(key,status='queued',stop_reason='resume_requested')
+            from ...application.accounts import check_resume_limit
+            from ...persistence.migrations import MigrationJob
+            with transaction(base.engine) as s:
+                check_resume_limit(s,key)
+                current=base.get(s,MigrationJob,key);current.status='queued';current.stop_reason='resume_requested';current.updated_at=time.time()
         return jsonify(service.report(key)),202
 
     @app.post('/api/v1/migrations/<key>/feedback')

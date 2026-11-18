@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from .runtime_lock import execution_guard
 
 
-HEAD = "0007_modular_migration"
+HEAD = "0008_multi_user"
 
 
 def engine_for(path):

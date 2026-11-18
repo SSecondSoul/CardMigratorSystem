@@ -39,6 +39,8 @@ class Settings:
     host: str
     port: int
     mode: str
+    auth_mode: str = 'local'
+    public_origin: str = ''
 
     @property
     def engine_root(self) -> Path:
@@ -57,6 +59,7 @@ class Settings:
         # Explicit allowlist: never dump os.environ, model credentials or raw TOML.
         return {
             "mode": self.mode, "host": self.host, "port": self.port,
+            "auth_mode": self.auth_mode, "public_origin": self.public_origin,
             "project_root": str(self.project_root),
             "engine_root": str(self.engine_root),
             "runtime_dir": str(self.runtime_dir), "artifact_dir": str(self.artifact_dir),
@@ -86,19 +89,29 @@ def load_settings(*, project_root: Path | str | None = None,
     if type(payload.get("schema_version")) is not int or payload["schema_version"] != 1:
         raise ConfigurationError("Unsupported configuration schema")
     app, paths = payload.get("app"), payload.get("paths")
-    _keys(app, ("mode", "host", "port"), "app")
+    _keys(app, ("mode", "host", "port", "auth_mode", "public_origin"), "app")
     _keys(paths, ("runtime_dir", "artifact_dir"), "paths")
     env = os.environ if environ is None else environ
     mode = env.get("CARDMIG_SYSTEM_MODE", app.get("mode"))
     host = env.get("CARDMIG_SYSTEM_HOST", app.get("host"))
     port = env.get("CARDMIG_SYSTEM_PORT", app.get("port"))
+    auth_mode = env.get('CARDMIG_AUTH_MODE', app.get('auth_mode','local'))
+    origin = env.get('CARDMIG_PUBLIC_ORIGIN',app.get('public_origin',''))
+    if auth_mode not in ('local','multi_user'):
+        raise ConfigurationError('Invalid authentication mode')
+    if origin and auth_mode!='multi_user':
+        raise ConfigurationError('Public origin requires multi_user authentication')
+    from urllib.parse import urlsplit
+    address=urlsplit(origin) if type(origin) is str else None
+    if not address or origin and (address.scheme!='https' or not address.hostname or address.username or address.password or address.path or address.query or address.fragment):
+        raise ConfigurationError('Public origin must be an exact HTTPS origin without a path')
     if "CARDMIG_SYSTEM_PORT" in env:
         if type(port) is not str or not re.fullmatch(r"[0-9]{1,5}", port):
             raise ConfigurationError("Invalid CARDMIG_SYSTEM_PORT")
         port = int(port)
     if mode != "development_stub":
         raise ConfigurationError("P2a only supports development_stub configuration, not real execution")
-    if host not in ("127.0.0.1", "::1"):
+    if host not in ("127.0.0.1", "::1") and not (auth_mode=='multi_user' and origin and host=='0.0.0.0'):
         raise ConfigurationError("Only explicit loopback hosts are supported")
     if type(port) is not int or not 1 <= port <= 65535:
         raise ConfigurationError("Port must be an integer in 1..65535")
@@ -109,4 +122,4 @@ def load_settings(*, project_root: Path | str | None = None,
     artifacts = _inside(project / paths["artifact_dir"], project / 'var/artifacts', "Artifact")
     if runtime == artifacts or runtime.is_relative_to(artifacts) or artifacts.is_relative_to(runtime):
         raise ConfigurationError("Runtime and evidence directories must differ")
-    return Settings(project, repository, runtime, artifacts, host, port, mode)
+    return Settings(project, repository, runtime, artifacts, host, port, mode, auth_mode, origin)

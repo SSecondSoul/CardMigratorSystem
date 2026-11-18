@@ -261,6 +261,8 @@ def restore_backup(settings, backup_id):
         # Presence is operational, not historical run evidence. Old workers must not look alive.
         with closing(sqlite3.connect(Path(temporary) / "db/business.sqlite3")) as connection:
             connection.execute("UPDATE worker_health SET state='stopped', run_id=NULL, last_seen=0")
+            # Restoring a historical DB must not resurrect logged-out browser credentials.
+            connection.execute("UPDATE auth_sessions SET revoked_at=? WHERE revoked_at IS NULL", (time.time(),))
             connection.commit()
         settings.runtime_dir.mkdir(exist_ok=False)
         marker = settings.runtime_dir / ".restore-in-progress"

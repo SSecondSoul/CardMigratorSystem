@@ -9,6 +9,7 @@ export class MigrationApi {
   constructor(fetcher:typeof fetch=globalThis.fetch) {this.fetcher=fetcher.bind(globalThis)}
   clearSession() {this.csrf='';this.expires=0}
   async session():Promise<void> {await this.sessionToken()}
+  async authSession<T>():Promise<T> {return this.json<T>('/api/v1/auth/session',undefined,undefined,undefined,undefined,true)}
   private async sessionToken():Promise<string> {
     if(this.csrf&&Date.now()<this.expires)return this.csrf
     if(!this.pendingSession)this.pendingSession=this.json<{csrf_token:string;expires_in:number}>('/api/v1/browser-session',undefined,undefined,undefined,undefined,true).then(data=>{
@@ -33,7 +34,10 @@ export class MigrationApi {
     try { response=await this.fetcher(path,{method:body===undefined?'GET':'POST',headers,body:body===undefined?undefined:JSON.stringify(body),credentials:'same-origin',redirect:'error',signal:signal?AbortSignal.any([signal,AbortSignal.timeout(10000)]):AbortSignal.timeout(10000)}) }
     catch(e) { if(signal?.aborted)throw new ApiError('query_aborted');throw new ApiError(e instanceof DOMException&&e.name==='TimeoutError'?'request_timeout':'network_unavailable') }
     let data:any;try{data=await response.json()}catch{throw new ApiError('invalid_api_response',response.status)}
-    if(!response.ok)throw new ApiError(typeof data?.error?.code==='string'?data.error.code.slice(0,100):'request_failed',response.status)
+    if(!response.ok){
+      if(response.status===401&&data?.error?.code==='auth_required'&&typeof window!=='undefined')window.dispatchEvent(new Event('cardmig-auth-required'))
+      throw new ApiError(typeof data?.error?.code==='string'?data.error.code.slice(0,100):'request_failed',response.status)
+    }
     return data as T
   }
   async file(id:string,path:string,signal?:AbortSignal) {

@@ -37,6 +37,8 @@ def check_scaffold(*, project_root=None, config_file=None, environ=None):
 def main(argv=None):
     from .system_cli import COMMANDS, main as system_main
     raw = sys.argv[1:] if argv is None else argv
+    from .accounts_cli import COMMANDS as AUTH_COMMANDS, main as auth_main
+    if raw and raw[0] in AUTH_COMMANDS:return auth_main(raw)
     if raw and raw[0]=='worker':
         return system_main(['migration-worker',*raw[1:]])
     if raw and raw[0] in COMMANDS:
@@ -164,6 +166,8 @@ def main(argv=None):
                 action = {"backup": create_backup, "verify-backup": verify_backup, "restore": restore_backup}[args.command]
                 result = action(settings, backup_id=args.backup_id)
             elif args.command == "serve":
+                if settings.host not in ('127.0.0.1','::1') or settings.public_origin:
+                    raise ValueError('Use a production WSGI server and HTTPS reverse proxy for non-loopback deployments')
                 from werkzeug.serving import make_server
                 from .api.app import create_app
                 app = create_app(settings, write_token=os.environ.get("CARDMIG_SYSTEM_WRITE_TOKEN") or secrets.token_urlsafe(32))
