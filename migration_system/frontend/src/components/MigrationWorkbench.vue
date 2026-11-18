@@ -4,7 +4,7 @@ type Row = {migration_id:string;name:string;filename:string;status:string;stage:
 type FileRef = {relative_path:string;sha256:string;kind:string}
 type Assessment = {dimensions:Record<string,string>;ui_restoration:number;ssim:number;different_pixel_ratio:number;coverage:string;images:Record<string,FileRef>;diagnostics?:{code:string;message:string}[];initial_control_state?:{equal:boolean}}
 type SourceDiagnostic = {code:string;message:string;location?:{line:number;column:number;offset:number};location_precision?:string;excerpt?:string}
-type SupportScope = {id:string;label:string;full_public_instance_compatibility:boolean;experimental_public_instance_runtime_enabled:boolean}
+type SupportScope = {id:string;label:string;full_public_instance_compatibility:boolean;experimental_public_instance_runtime_enabled:boolean;dynamic_assignment_contract?:string}
 type Report = {migration_id:string;status:string;stage:string;stop_reason:string;request_sha256:string;generation_origin?:string|null;support_scope?:SupportScope|null;assessment:Assessment|null;final_artifact:FileRef|null;files:FileRef[];usage:{known_total_tokens:number;complete:boolean};model_calls_started:number;unknown_calls:number;state:{decisions?:unknown[];failure_diagnostics?:SourceDiagnostic[]};manual_feedback:unknown[];request:Record<string,unknown>}
 const token=ref(''),source=ref(''),filename=ref('Example.vue'),name=ref(''),rounds=ref(3),strategy=ref('ssm')
 const propsText=ref('{}'),actionsText=ref('[]'),trusted=ref(false),confirmed=ref(false),busy=ref(false),error=ref(''),notice=ref('')
@@ -70,6 +70,7 @@ onMounted(poll);onBeforeUnmount(()=>{active=false;controller.abort();if(timer)cl
     <details class="message info"><summary>当前迁移支持范围 · {{ readiness?.support_scope?.id ?? '等待 API 确认' }}</summary>
       <p>面向无外部导入的 JavaScript Options API 单文件组件，目标仍是 San；复用已有 SSM、生成 Prompt、校验和修复规则。通过预检查不等于全部功能已支持。</p>
       <p>setValue 中的 this[key] = value 不再单独触发预检查阻断，仍走原有模型生成、校验和有界修复；不修改 Vue 源码、不按固定键改写，也不接入额外实例代理。放行源码不等于生成结果通过。</p>
+      <p v-if="readiness?.support_scope?.dynamic_assignment_contract">动态赋值按行为而非方法名检查：仅证明源码内部可静态确认的普通 data 状态键调用，不证明任意外部公开键等价。未知键、点号键、Symbol、props／computed 和实例命名冲突仍需诊断。</p>
       <p>LangSmith 上传、LoRA 训练和辅助嵌入模型不阻碍普通迁移；未配置交互时报告“未测”，不视为完整验收。</p>
     </details>
     <div v-if="readiness?.pending.length" class="message info">待配置：{{ readiness.pending.join('、') }}。任务可以登记，但未满足条件不会伪造运行结果。详见 migration_system/SETUP_PENDING.md。</div>
@@ -91,6 +92,7 @@ onMounted(poll);onBeforeUnmount(()=>{active=false;controller.abort();if(timer)cl
       <div class="migration-main"><section class="panel"><h2>迁移记录</h2><div class="table-scroll"><table><thead><tr><th>任务</th><th>执行状态</th><th>当前阶段</th></tr></thead><tbody><tr v-for="row in rows" :key="row.migration_id" :class="{selected:selected===row.migration_id}"><td><button class="text-button" @click="choose(row.migration_id)">{{row.name}}</button><small>{{row.filename}}</small></td><td>{{statuses[row.status]??row.status}}</td><td>{{row.stage}}</td></tr></tbody></table></div><p v-if="!rows.length">暂无真实迁移任务。开发夹具记录在另一个页签，不混入统计。</p></section>
       <section v-if="report" class="panel"><div class="section-heading"><h2>运行与质量报告</h2><span>{{statuses[report.status]}}</span></div><code>{{report.migration_id}}</code><p>停止原因：{{report.stop_reason||'尚未停止'}}</p><p>模型已开始 {{report.model_calls_started}} 次；未知调用 {{report.unknown_calls}} 次；已知 Tokens {{report.usage.known_total_tokens}} {{report.usage.complete?'':'（不完整）'}}</p>
         <p class="field-help">任务支持范围：{{ report.support_scope?.id ?? '历史任务未登记此范围，不追溯改判' }}。该范围不是任意输入／全部公开 API 等价承诺。</p>
+        <p v-if="report.support_scope?.dynamic_assignment_contract" class="field-help">动态赋值契约：仅限源码内部可证明的普通 data 状态键；不证明任意外部公开键调用等价。逐方法证据保存在下载报告的 assessment.source_method_contracts。</p>
         <p v-if="report.generation_origin === 'source_ast_rule_generation'" class="field-help">历史生成来源：已撤销的源 AST 规则转换（非模型生成）。新任务不再采用此路径；该历史报告不改判，也不计作模型迁移效果。</p>
         <section v-if="report.state.failure_diagnostics?.length" class="message error source-diagnostics" role="alert">
           <h3>{{ sourceReasons[report.stop_reason] ?? '源代码解析诊断' }}</h3>

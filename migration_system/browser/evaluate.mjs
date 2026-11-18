@@ -6,6 +6,7 @@ import { pixels } from './metrics.mjs'
 import { emptyClassPolicy } from './empty-class-policy.mjs'
 import { inspectTarget } from './target-syntax.mjs'
 import { inspectSourceContracts } from './source-contracts.mjs'
+import { sourceClassTokens,targetClassTokens } from './class-projection.mjs'
 const input=JSON.parse(fs.readFileSync(0,'utf8')), require=createRequire(path.join(input.repository,'package.json'))
 const {parse,compileStyle}=require('@vue/compiler-sfc'), babel=require('@babel/parser'), san=require('san')
 const vueRuntime=fs.readFileSync(path.join(input.project,'frontend/node_modules/vue/dist/vue.global.js'),'utf8')
@@ -93,36 +94,42 @@ function canonicalTemplate(template,source,templateOffset=0){
     if(expr.type===7)return expr.segs.map(part=>part.type===1?part.value:'@binding').join('')
     return '@binding'
   }
-  const tokens=value=>String(value).trim().split(/\s+/).filter(Boolean)
-  function staticClass(expr){
-    if(expr.type===1)return tokens(expr.value)
-    if(expr.type===5)return staticClass(expr.expr)
-    if(expr.type===7)return expr.segs.flatMap(part=>part.type===1?tokens(part.value):staticClass(part))
-    if(expr.type===8&&expr.operator===43)return expr.segs.flatMap(staticClass)
-    if(expr.type===10){const left=staticClass(expr.segs[1]),right=new Set(staticClass(expr.segs[2]));return left.filter(token=>right.has(token))}
-    return []
-  }
+  const tokens=value=>String(value).split(/[\t\n\f\r ]+/).filter(Boolean)
+  const classBindings={}
   const classValue=value=>[...new Set(tokens(value))].sort().join(' ')
+  function mergedClasses(attrs){
+    const values=attrs.filter(x=>x.startsWith('class=')).flatMap(x=>tokens(x.slice(6)))
+    return [...new Set([...attrs.filter(x=>!x.startsWith('class=')),...(values.length?['class='+classValue(values.join(' '))]:[])])].sort()
+  }
   function visit(node){
     if(source){
       if(node.type===2)return textNode(node.content)
       if(node.type===5)return {label:'#text:@binding',children:[]}
       if(node.type!==0&&node.type!==1)return null
-      const attrs=(node.props??[]).map(p=>p.type===6?p.name+'='+(p.name==='class'?classValue(p.value?.content??''):String(p.value?.content??'')):p.name==='on'?'event:'+p.arg?.content:p.name==='bind'?'binding:'+p.arg?.content:p.name==='model'?'binding:value':'directive:'+p.name).sort()
-      return {label:node.type===0?'#root':node.tag+'|'+attrs.join('|'),children:mergeText((node.children??[]).map(visit).filter(Boolean))}
+      const attrs=(node.props??[]).flatMap(p=>{
+        if(p.type===6)return [p.name+'='+(p.name==='class'?classValue(p.value?.content??''):String(p.value?.content??''))]
+        const result=[p.name==='on'?'event:'+p.arg?.content:p.name==='bind'?'binding:'+p.arg?.content:p.name==='model'?'binding:value':'directive:'+p.name]
+        if(p.name==='bind'&&p.arg?.content==='class'&&p.exp){
+          const fixed=sourceClassTokens(p.exp.content,babel);classBindings[p.exp.content]=fixed
+          if(fixed.length)result.push('class='+fixed.join(' '))
+        }
+        return result
+      })
+      return {label:node.type===0?'#root':node.tag+'|'+mergedClasses(attrs).join('|'),children:mergeText((node.children??[]).map(visit).filter(Boolean))}
     }
     if(node.textExpr)return textNode(sanText(node.textExpr))
     const attrs=(node.props??[]).flatMap(p=>{
       if(p.expr?.type===1)return [p.name+'='+(p.name==='class'?classValue(p.expr.value):String(p.expr.value))]
       const result=['binding:'+p.name]
-      if(p.name==='class'){const fixed=[...new Set(staticClass(p.expr))].sort().join(' ');if(fixed)result.push('class='+fixed)}
+      if(p.name==='class'){const fixed=targetClassTokens(p.expr).join(' ');if(fixed)result.push('class='+fixed)}
       return result
     })
     for(const event of node.events??[])attrs.push('event:'+event.name)
     for(const [name] of Object.entries(node.directives??{}))attrs.push('directive:'+name)
-    return {label:node.tagName?node.tagName+'|'+attrs.sort().join('|'):'#root',children:mergeText((node.children??[]).map(visit).filter(Boolean))}
+    return {label:node.tagName?node.tagName+'|'+mergedClasses(attrs).join('|'):'#root',children:mergeText((node.children??[]).map(visit).filter(Boolean))}
   }
-  return {tree:visit(ast),normalization:'template_projection_v2_san_expression_kinds_and_static_class_tokens',
+  const tree=visit(ast)
+  return {tree,class_bindings:classBindings,normalization:'template_projection_v3_symmetric_boundary_safe_class_tokens',
     ...(source?{source_parser:'vue_compiler_dom_html_v1'}:{}),
     limitations:['binding_expression_equivalence_and_class_token_boundaries_are_checked_separately','component_expansion_not_in_template_ted']}
 }

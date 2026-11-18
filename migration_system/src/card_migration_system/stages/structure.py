@@ -3,12 +3,16 @@ from ..application.service import ServiceError
 import re
 
 
-def ssm_template_tree(ssm):
+def ssm_template_tree(ssm,class_bindings=None):
     """Project the actual extracted template dimension, not a source-code string diff."""
     def text(value):return re.sub(r'\s+',' ',value).strip()
     def visit(node):
-        attrs=[str(k)+'='+(' '.join(sorted(set(str(v).split()))) if k=='class' else str(v))
-               for k,v in node.get('static_attrs',{}).items() if k!='key']
+        static=node.get('static_attrs',{})
+        classes=set(re.split(r'[\t\n\f\r ]+',str(static.get('class',''))))-{''}
+        for item in node.get('dynamic_attrs',[]):
+            if item['target_attr']=='class':classes.update((class_bindings or {}).get(item.get('expression'),[]))
+        attrs=[str(k)+'='+str(v) for k,v in static.items() if k not in ('key','class')]
+        if classes:attrs.append('class='+' '.join(sorted(classes)))
         attrs+=['binding:'+item['target_attr'] for item in node.get('dynamic_attrs',[]) if item['target_attr']!='key']
         attrs+=['event:'+item.get('event_name',item.get('event','')) for item in node.get('event_bindings',[])]
         for directive in node.get('directives',[]):

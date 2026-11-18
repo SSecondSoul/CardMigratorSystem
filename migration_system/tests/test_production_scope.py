@@ -23,7 +23,8 @@ class ProductionScopeTests(ModularFixture, unittest.TestCase):
         self.assertFalse(result['support_scope']['experimental_public_instance_runtime_enabled'])
         self.assertFalse(result['support_scope']['source_ast_rule_generation_enabled'])
         self.assertEqual(result['support_scope']['runtime_admission'],'not_enabled_in_production')
-        self.assertEqual(result['support_scope']['id'],'san-supported-migration-v3')
+        self.assertEqual(result['support_scope']['id'],'san-supported-migration-v4')
+        self.assertEqual(result['support_scope']['dynamic_assignment_contract'],'source_internal_declared_state_assignment_v1')
 
     def test_client_cannot_select_an_unimplemented_contract_or_waive_checks(self):
         with self.assertRaises(ServiceError):

@@ -87,7 +87,7 @@ def compact_issues(issues):
         details={'duplicate_count':1}
         for key,value in item.get('details',{}).items():
             details[key]=style_summary(value) if key=='styles' and isinstance(value,dict) else bounded(value)
-        for key in ('differences','dom_differences','raw_dom_differences','control_state_differences'):
+        for key in ('differences','dom_differences','raw_dom_differences','control_state_differences','representation_differences'):
             if key in item:details[key]=observations(item[key])
         if 'style_differences' in item:details['style_summary']=style_summary({'differences':item['style_differences']})
         for key in ('comparison_policy','action','live_control_state'):
@@ -112,6 +112,7 @@ def model_evidence(evaluation):
 
 TEMPLATE_CODES={'invalid_s_for_key_binding','event_arguments_not_landed','missing_event_bindings',
     'missing_event_handlers','rendered_dom_mismatch','rendered_control_state_mismatch',
+    'rendered_control_position_mismatch','template_structure_mismatch','dom_child_order_mismatch',
     'representative_interaction_mismatch','hidden_template_reactive_dependency',
     'source_render_dependency_not_landed','dom_structure_similarity_low',
     'dom_critical_attribute_mismatch','source_class_binding_not_landed'}

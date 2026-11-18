@@ -144,12 +144,14 @@ class RepairPromptBuilder:
                 "guard, fallback, index or notification. Do not make a source-mismatched method pass "
                 "by deleting the diagnostic or by merely adding a spread.\n")
         if any(e.get('code') == 'source_dynamic_assignment_unproven' for e in prompt_input.validation_errors):
-            prompt += ("\nSource dynamic instance assignment: callable presence is not semantic proof. "
-                "this[key]=value is not equivalent to data.set(key,value): declared roots, literal dotted keys, "
-                "ToPropertyKey conversion exactly once, symbols, extra instance fields and San runtime namespace "
-                "collisions differ. An empty method, finite-key guard or fallback cannot silently restrict the "
-                "source API. Keep the unresolved diagnostic unless a source-equivalent implementation is proven; "
-                "do not invent a provider, compatibility layer or new caller protocol to force a pass.\n")
+            prompt += ("\nDynamic instance assignment has a bounded production contract: source-internal, "
+                "statically resolved ordinary declared data keys ONLY. Follow each diagnostic's refusal evidence. "
+                "For that supported shape preserve the two parameters, one this.data.set(key,value) statement "
+                "and implicit undefined return; keep source caller/key multiplicity and lifecycle mapping. "
+                "Do not add guards, default keys, return values, notifications or a compatibility runtime. "
+                "Unknown/escaped keys, dotted keys, Symbols, props/computed and runtime names remain unproven. "
+                "A scoped proof is NOT arbitrary external public-key equivalence; never suppress a refusal "
+                "or rewrite source callers to manufacture the scoped proof.\n")
         if any(e.get('code') == 'source_filter_method_not_landed' for e in prompt_input.validation_errors):
             prompt += ("\nSource native filter methods: preserve the complete source body, sparse holes, snapshot length, "
                 "callback order, record identity, return values and exceptions. Keep root commit / flag / notification "

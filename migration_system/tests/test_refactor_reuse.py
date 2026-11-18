@@ -33,7 +33,13 @@ class ReuseEquivalenceTests(unittest.TestCase):
             if item['transformation']=='none':
                 self.assertEqual((PROJECT/'engine'/name).read_bytes(),(ORIGINAL/item['source_path']).read_bytes(),name)
                 same+=1
-        self.assertEqual(same,96)
+        self.assertEqual(same,93)
+        # Three explicitly versioned advances; all other reused bytes remain exact.
+        modified={name:item for name,item in manifest['files'].items() if item['transformation'].startswith('2026-11-18_')}
+        self.assertEqual(set(modified),{'migration_pipeline/stages/validate.py',
+            'migration_pipeline/utils/method_interface_semantics.cjs','migration_pipeline/utils/repair_prompt.py'})
+        for name,item in modified.items():
+            self.assertEqual(sha256((ORIGINAL/item['source_path']).read_bytes()).hexdigest(),item['source_sha256'])
         self.assertFalse((PROJECT/'engine/migration_pipeline/orchestrator.py').exists())
 
     def test_generation_messages_are_byte_equal_to_original_pure_builder(self):

@@ -81,6 +81,7 @@ class ValidateStageResult:
     source_file: str = ""
     validation_summary: str = ""
     san_compile_result: dict[str, Any] | None = None
+    source_method_contracts: list[dict[str, Any]] = field(default_factory=list)
 
     def to_state_update(self) -> dict[str, Any]:
         return {
@@ -282,6 +283,7 @@ class ValidateStage:
         self._validate_style_rules(blocks.get("style", ""), issues, checks, strict=stage_input.strict)
         san_compile_result = self._validate_san_compile(code, stage_input, issues, checks)
         self._validate_ssm_consistency(code, blocks, ssm, issues, checks)
+        source_check = {}
         if stage_input.vue_file_path and Path(stage_input.vue_file_path).is_file():
             vue = Path(stage_input.vue_file_path).read_text(encoding="utf-8")
             source_check = inspect_semantics(code, vue, ssm=ssm)
@@ -387,6 +389,7 @@ class ValidateStage:
             source_file=stage_input.source_file,
             validation_summary=summary,
             san_compile_result=san_compile_result,
+            source_method_contracts=source_check.get('method_contracts', []),
         )
 
     def run_from_state(self, state: dict[str, Any]) -> dict[str, Any]:

@@ -1,5 +1,17 @@
 # 模块化系统开发记录 2026 年 11 月 16 日
 
+## 2026-11-18：模板／DOM 通用比较与明确受限动态 setter 契约
+
+用户明确同意仅按“源码内部可静态确认调用＋普通 data 状态键”验收动态 setter，不证明任意外部公开键等价。新请求登记 `san-supported-migration-v4`，旧请求、旧失败和原完整公开键口径不改判。详见 [实现边界](docs/SEMANTIC_COMPARISON_V1.md) 与新 Notebook `2026-11-18_semantic_comparison_v1.ipynb`。
+
+三项通用修改：源／San 动态 class 固定 token 对称且保留拼接边界；DOM 原件不变，受控 class 表示归一化与控件路径／值差异分开诊断；setter 按 AST 行为、普通状态根、常量键、完整调用者体和保留／内联形式证明。不是按 setValue 或组件名特判，也没有恢复 AST 生成或代理。内置引擎 3 项显式增量已登记源／新指纹，其余复用清单继续验证；生成 Prompt、图、规则调度／模型账本和质量阈值不变。修复 Prompt 同步受限契约，新增 DOM 表示证据继续走紧凑修复上下文。
+
+两次原失败共 90 个历史 payload 字节未变，另存与原请求匹配的两份源码并冻结。未改产物重评：HabitWeekTracker 模板 93.75% → 100%，受限 setter 通过、静态整体 pass，但 23 处 class 表示差异未获保守归一化批准，DOM 仍 fail；PollResults setter 通过，但真实多出 span、静态／结构仍 fail，控件路径变化不再误报成值变化。交互保持 not_run，不能把工程修复或离线重评计为新的模型成功实验。
+
+最终合并回归 **152／152 通过，0 跳过，369.747 秒**：模块回归 102、新专项 16、修复上下文 10、模型路径准入 7、San 业务策略边界 7、范围记录 5、复用对照 5。前端 `npm run build`（含 vue-tsc）通过，系统 check 的 98 项引擎清单校验通过；系统目录外隔离副本验证图、SSM、修复候选、评估、API／下载通过，使用明确响应替身，实际云模型调用为 0。临时库不触及真实队列，没有改 configs/system.toml、提高预算或推送。已有 CRLF/LF 原件保留，按 `git -c core.whitespace=cr-at-eol diff --check` 核对新增行无额外空白。
+
+本轮证据单独在 `docs/verification/2026-11-18_semantic_comparison_v1` 封存，旧 repair_context_v1 不覆盖。部署需重启 API／迁移 Worker、硬刷新并新建任务；不跨实现续跑旧检查点。新任务结果与人工检查仍需独立确认。
+
 ## 2026-11-18：删除完整评估追加，精简修复证据但不放宽校验
 
 针对任务 ee5d500651ea484bafeac17873bd0e04 的真实修复输入 91,540 Tokens，先冻结 calls/2 请求／收据、SSM、evaluations/1 和接受的 revisions/1。修改前修复阶段及来源对照测试另存 before，不覆盖历史观察与费用。

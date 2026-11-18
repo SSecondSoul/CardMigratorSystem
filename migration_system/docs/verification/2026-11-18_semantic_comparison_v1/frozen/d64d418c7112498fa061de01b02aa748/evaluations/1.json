@@ -1,0 +1,657 @@
+{
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "source_dynamic_assignment_unproven",
+      "location": "script.methods.setValue",
+      "message": "A callable method is not proof of the source dynamic instance assignment. Preserve declared-state writes, literal extra keys, one ToPropertyKey conversion, symbols and runtime namespace boundaries; a path setter, empty body or finite-key fallback is not full proof.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "template_structure_mismatch",
+      "differences": [
+        {
+          "actual": "div|binding:class|class=habit-row|directive:for|event:click|text:",
+          "expected": "div|binding:class|directive:for|event:click|text:",
+          "path": "root.0.2"
+        }
+      ],
+      "message": "SSM/target template projection differs."
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "reasons": [
+          "source:dynamic_member",
+          "source:unknown_bound_attribute",
+          "source:unknown_member_call",
+          "target:active_template_attribute",
+          "target:dynamic_member",
+          "target:unknown_member_call"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "empty_class_presence_v1"
+      },
+      "differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.4"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.5"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.6"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.7"
+        },
+        {
+          "actual": "div|class=habit-row ",
+          "expected": "div|class=habit-row",
+          "path": "root.0.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.4"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.5"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.6"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.7"
+        },
+        {
+          "actual": "div|class=habit-row ",
+          "expected": "div|class=habit-row",
+          "path": "root.0.4"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.4"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.5"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.6"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.7"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 22,
+        "target_count": 22
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.4"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.5"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.6"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.7"
+        },
+        {
+          "actual": "div|class=habit-row ",
+          "expected": "div|class=habit-row",
+          "path": "root.0.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.4"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.5"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.6"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.3.7"
+        },
+        {
+          "actual": "div|class=habit-row ",
+          "expected": "div|class=habit-row",
+          "path": "root.0.4"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.4"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.5"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.6"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.4.7"
+        }
+      ]
+    }
+  ],
+  "different_pixel_ratio": 0,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "reasons": [
+      "source:dynamic_member",
+      "source:unknown_bound_attribute",
+      "source:unknown_member_call",
+      "target:active_template_attribute",
+      "target:dynamic_member",
+      "target:unknown_member_call"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "empty_class_presence_v1"
+  },
+  "dom_differences": [
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.2"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.4"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.5"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.6"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.7"
+    },
+    {
+      "actual": "div|class=habit-row ",
+      "expected": "div|class=habit-row",
+      "path": "root.0.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.2"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.4"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.5"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.6"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.7"
+    },
+    {
+      "actual": "div|class=habit-row ",
+      "expected": "div|class=habit-row",
+      "path": "root.0.4"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.2"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.4"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.5"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.6"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.7"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 23,
+    "similarity": 0.7325581395348837,
+    "source_nodes": 86,
+    "target_nodes": 86
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/d64d418c7112498fa061de01b02aa748/evaluations/1/heatmap.png",
+      "sha256": "8cc8432817a06b900897449c031036bfdcd1a9769c523e2d50468db31bf39646"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/d64d418c7112498fa061de01b02aa748/evaluations/1/san.png",
+      "sha256": "7f408ac25ad2bef9e6640a881eea7a9852137f2b6b104625b6ec0da77922cebf"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/d64d418c7112498fa061de01b02aa748/evaluations/1/vue.png",
+      "sha256": "7f408ac25ad2bef9e6640a881eea7a9852137f2b6b104625b6ec0da77922cebf"
+    }
+  },
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 22,
+    "target_count": 22
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.2"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.4"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.5"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.6"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.2.7"
+    },
+    {
+      "actual": "div|class=habit-row ",
+      "expected": "div|class=habit-row",
+      "path": "root.0.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.2"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.4"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.5"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.6"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.3.7"
+    },
+    {
+      "actual": "div|class=habit-row ",
+      "expected": "div|class=habit-row",
+      "path": "root.0.4"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.2"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.4"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.5"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.6"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.4.7"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 23,
+    "similarity": 0.7325581395348837,
+    "source_nodes": 86,
+    "target_nodes": 86
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "f08eebdb8f442ffcea745692c35bcd9c6dd6c6adfbd1e78dc2694018516a8d6f",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 3,
+    "similarity": 0.875,
+    "source_nodes": 24,
+    "target_nodes": 24
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "ssim": 1,
+  "structure_differences": [
+    {
+      "actual": "div|binding:class|class=habit-row|directive:for|event:click|text:",
+      "expected": "div|binding:class|directive:for|event:click|text:",
+      "path": "root.0.2"
+    }
+  ],
+  "structure_projection": "ssm_v3_element_attributes_events_directives_direct_text_v2",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.9375,
+    "source_nodes": 16,
+    "target_nodes": 16
+  },
+  "styles": {
+    "compared_properties": 624,
+    "differences": [],
+    "matching": "child_index_path",
+    "similarity": 1.0,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 855.0389,
+    "target": 839.4888000000001
+  },
+  "ui_restoration": 100
+}

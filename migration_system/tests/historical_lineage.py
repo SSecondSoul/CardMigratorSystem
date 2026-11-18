@@ -30,4 +30,12 @@ def assert_production_lineage(case):
         'src/card_migration_system/application/migrations.py',
         'src/card_migration_system/interfaces/api/migrations.py',
         'src/card_migration_system/stages/repair.py',
-    },'Only scope/admission, API report and repair evidence projection changed; generation, graph and vendored engine exact')
+        'src/card_migration_system/stages/dom_comparison.py',
+        'src/card_migration_system/stages/evaluation.py',
+        'src/card_migration_system/stages/structure.py',
+        'engine/migration_pipeline/stages/validate.py',
+        'engine/migration_pipeline/utils/method_interface_semantics.cjs',
+        'engine/migration_pipeline/utils/repair_prompt.py',
+        'browser/empty-class-policy.mjs',
+        'browser/evaluate.mjs',
+    },'Explicit scoped validation/projection advances; generation and graph remain exact, old evidence remains sealed')

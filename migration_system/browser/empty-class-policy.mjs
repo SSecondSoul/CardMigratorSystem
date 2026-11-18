@@ -123,7 +123,8 @@ export function emptyClassPolicy(source,target,require){
       }
     }catch(_){block(kind+':analysis_unavailable')}
   }
-  return {version:'empty_class_presence_v1',approved:reasons.size===0,reasons:[...reasons].sort(),
+  return {version:'class_serialization_v2',approved:reasons.size===0,reasons:[...reasons].sort(),
+    operations:['empty_class_presence','html_class_token_whitespace_order_duplicates'],
     scope:'comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation',
     limitations:['raw_DOM_and_attribute_presence_retained','unknown_dependencies_keep_strict_comparison','not_arbitrary_external_DOM_observer_equivalence']}
 }

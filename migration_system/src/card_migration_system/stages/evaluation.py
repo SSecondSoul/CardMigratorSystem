@@ -5,7 +5,7 @@ from .dom_comparison import compare_dom,compare_control_state
 
 def assess(static,browser,actions,thresholds,ssm=None):
     ast=tree_distance(browser['source_ast']['tree'],browser['target_ast']['tree'])
-    expected_tree=ssm_template_tree(ssm) if ssm and 'template' in ssm else browser['source_ast']['tree']
+    expected_tree=ssm_template_tree(ssm,browser['source_ast'].get('class_bindings')) if ssm and 'template' in ssm else browser['source_ast']['tree']
     actual_tree=target_template_tree(browser['target_ast']['tree']) if ssm and 'template' in ssm else browser['target_ast']['tree']
     structure=tree_distance(expected_tree,actual_tree)
     source=browser['vue'];target=browser['san'];image=browser['image']
@@ -24,6 +24,7 @@ def assess(static,browser,actions,thresholds,ssm=None):
         interaction.append({'name':a['name'],'dom':diff,'raw_dom':comparison['raw_metric'],
             'dom_differences':comparison['differences'],'raw_dom_differences':comparison['raw_differences'],
             'normalization_changes':comparison['normalization_changes'],'styles':css,'control_state_equal':live_controls['equal'],
+            'representation_differences':comparison['representation_differences'],
             'control_state_differences':live_controls['differences'],
             'passed':diff['similarity']>thresholds['structure'] and css['similarity']>thresholds['ui'] and live_controls['equal']})
     ui=max(0,min(100,100*(.5*image['ssim']+.3*(1-image['different_pixel_ratio'])+.2*styles['similarity'])))
@@ -42,10 +43,12 @@ def assess(static,browser,actions,thresholds,ssm=None):
     if dom['similarity']<=thresholds['structure']:
         diagnostics.append({'code':'rendered_dom_mismatch','message':'Rendered DOM differs; preserve source structure and observable attributes.',
             'differences':dom_comparison['differences'],'raw_differences':dom_comparison['raw_differences'],
+            'representation_differences':dom_comparison['representation_differences'],
             'comparison_policy':dom_comparison['policy'],'live_control_state':controls,
             'interpretation':'Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.'})
     if not controls['equal']:
-        diagnostics.append({'code':'rendered_control_state_mismatch','message':'Initial live control values differ even if screenshots or HTML attributes match.',
+        diagnostics.append({'code':'rendered_control_position_mismatch' if controls['values_equal_in_order'] else 'rendered_control_state_mismatch',
+            'message':'Control paths differ; captured live values match in order. Inspect actual wrapper/structure changes.' if controls['values_equal_in_order'] else 'Initial live control values/types/counts differ even if screenshots or HTML attributes match.',
             'differences':controls['differences']})
     for item in interaction:
         if not item['passed']:
@@ -59,13 +62,15 @@ def assess(static,browser,actions,thresholds,ssm=None):
         'raw_dom_ted':dom_comparison['raw_metric'],'dom_differences':dom_comparison['differences'],
         'raw_dom_differences':dom_comparison['raw_differences'],'dom_comparison_policy':dom_comparison['policy'],
         'dom_normalization_changes':dom_comparison['normalization_changes'],
+        'dom_representation_differences':dom_comparison['representation_differences'],
         'initial_control_state':controls,
         'structure_differences':tree_differences(expected_tree,actual_tree),
-        'structure_projection':'ssm_v3_element_attributes_events_directives_direct_text_v2',
+        'structure_projection':'ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3',
         'projection_limitations':['mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted','key_identity_not_proven_by_ted','script_binding_event_style_dimensions_checked_by_legacy_validator'],
         'ssim':image['ssim'],'different_pixel_ratio':image['different_pixel_ratio'],'interaction':interaction,
         'thresholds':thresholds,'coverage':'configured_props_and_representative_actions_only',
         'functional_equivalence':'not_proven','embedding_similarity':None,
+        'source_method_contracts':static.get('source_method_contracts',[]),
         'diagnostics':diagnostics,
         'source_diagnostics':source['errors']+source['warnings'],
         'target_warnings':target['warnings'],'timing_ms':{'source':source['render_ms'],'target':target['render_ms']}}

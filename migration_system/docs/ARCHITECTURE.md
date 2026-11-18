@@ -1,5 +1,7 @@
 # 当前架构：一条主链、内部引擎、两个持久化职责
 
+2026-11-18 比较／契约增量：`browser/class-projection.mjs` 为源／目标提供对称、token 边界保守的 class 投影；`stages/dom_comparison.py` 保留原始证据并分类表示差异与控件属性／路径差异。内置 `method_interface_semantics.cjs` 在源码内部普通 data 键调用范围内核对 setter 形状、完整调用者函数及生命周期映射，支持保留 helper 或等效内联写入；不新增运行时、不重写源码、不替代模型生成。新范围 v4 与逐方法证据随新任务／报告持久化；原生成阶段、图和质量阈值不改。详见 [通用修复](SEMANTIC_COMPARISON_V1.md)。
+
 2026-11-18 修复边界增量：`prompts/repair_context.py` 只负责发给修复模型的证据投影。`stages/repair.py` 保留原规则调度、语法分支、模型账本和候选机制，调用旧 Prompt builder 后替换全量 SSM 文本为有明确范围的相关证据，不再拼接整份评估。原 engine、生成阶段、原始评估数据和质量判定不改；没有增加迁移路径或兼容运行时。详见 [验证记录](verification/2026-11-18_repair_context_v1/README.md)。
 
 当前更正：按用户要求删除 `stages/business.py` 及其生成／专用校验／停止分支。生产范围为 `san-supported-migration-v3`；动态 setter 不再单独触发源码预检查阻断，随后使用与其他源码相同的模型生成、原静态校验、原浏览器评估和有界修复。没有额外源到 San 编译器或实例代理接入。`runtime/san_business_v1` 与 `research/` 仅离线研究保留，不是生产依赖，也不纳入当前运行绑定。放行不代表完整契约实现。
