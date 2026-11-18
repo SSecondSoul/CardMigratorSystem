@@ -1,0 +1,87 @@
+<template>
+  <section class="audio-segment-marker"><h2>访谈片段标注</h2><input class="scrubber" type="range" min="0" max="{{ duration }}" value="{{ position }}" on-input="updatePosition"><div class="timeline"><span class="head" style="{{ headStyle }}"></span><button s-for="marker in markers trackby marker.id" class="{{ marker.id === selectedId ? 'selected' : '' }}" style="{{ markerStyle(marker, duration) }}" on-click="select(marker.id)">{{ marker.label }}</button></div><form on-submit="add"><input type="number" value="{{ start }}" on-input="updateField('start', $event)" placeholder="开始秒"><input type="number" value="{{ end }}" on-input="updateField('end', $event)" placeholder="结束秒"><input value="{{ label }}" on-input="updateField('label', $event)" placeholder="标签"><button class="primary" type="submit">添加</button></form><ul><li s-for="marker in markers trackby marker.id">{{ marker.start }}–{{ marker.end }}s {{ marker.label }}<button on-click="remove(marker.id)">删除</button></li></ul></section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'AudioSegmentMarker',
+  dataTypes: {
+    duration: DataTypes.number,
+    initialMarkers: DataTypes.array
+  },
+  initData() {
+    return {
+      duration: 300,
+      initialMarkers: [
+        {
+          "id": 1,
+          "start": 20,
+          "end": 55,
+          "label": "引言"
+        },
+        {
+          "id": 2,
+          "start": 120,
+          "end": 165,
+          "label": "核心观点"
+        }
+      ],
+      position: 0,
+      markers: [],
+      start: 0,
+      end: 30,
+      label: "",
+      selectedId: null,
+      nextId: 10
+    };
+  },
+  computed: {
+    headStyle() {
+      return 'left:' + this.data.get('position') / this.data.get('duration') * 100 + '%';
+    }
+  },
+  inited() {
+    this.setValue('markers', this.data.get('initialMarkers').map(item => Object.assign({}, item)));
+  },
+  setValue(key, value) { this.data.set(key, value); },
+  emitEvent(name, payload) { this.fire(name, payload); },
+  updatePosition(event) {
+    this.setValue('position', Number(event.target.value));
+  },
+  updateField(field, event) {
+    this.setValue(field, field === 'label' ? event.target.value : Number(event.target.value) || 0);
+  },
+  add(event) {
+    event.preventDefault(); if (!this.data.get('label').trim() || this.data.get('start') >= this.data.get('end') || this.data.get('end') > this.data.get('duration')) return; this.setValue('markers', this.data.get('markers').concat({ id: this.data.get('nextId'), start: this.data.get('start'), end: this.data.get('end'), label: this.data.get('label').trim() })); this.setValue('nextId', this.data.get('nextId') + 1); this.setValue('label', ''); this.notify();
+  },
+  remove(id) {
+    this.setValue('markers', this.data.get('markers').filter(item => item.id !== id)); this.notify();
+  },
+  select(id) {
+    this.setValue('selectedId', id);
+  },
+  markerStyle(marker, duration) {
+    return 'left:' + marker.start / duration * 100 + '%;width:' + (marker.end - marker.start) / duration * 100 + '%';
+  },
+  notify() {
+    this.emitEvent('markers-change', this.data.get('markers').slice());
+  }
+});
+</script>
+
+<style>
+
+.audio-segment-marker{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.audio-segment-marker *{box-sizing:border-box}
+.audio-segment-marker h2,.audio-segment-marker h3,.audio-segment-marker p{margin-top:0}
+.audio-segment-marker button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.audio-segment-marker button.primary{border-color:#be185d;background:#be185d;color:#fff}
+.audio-segment-marker button:disabled{opacity:.45;cursor:not-allowed}
+.audio-segment-marker input,.audio-segment-marker select,.audio-segment-marker textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.audio-segment-marker .muted{color:#71808e;font-size:12px}
+.audio-segment-marker .toolbar,.audio-segment-marker .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.scrubber{width:100%}.timeline{position:relative;height:70px;margin:10px 0;background:#f1f5f9}.timeline .head{position:absolute;top:0;bottom:0;width:2px;background:#be185d}.timeline button{position:absolute;top:20px;overflow:hidden;white-space:nowrap}.timeline button.selected{background:#fce7f3}form{display:grid;grid-template-columns:90px 90px 1fr auto;gap:8px}ul{padding:0;list-style:none}li{display:flex;justify-content:space-between;padding:6px}
+</style>

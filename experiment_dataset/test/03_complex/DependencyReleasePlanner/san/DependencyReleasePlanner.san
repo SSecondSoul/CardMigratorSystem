@@ -1,0 +1,130 @@
+<template>
+  <section class="dependency-release-planner"><header><div><small>{{ environment }} · {{ releaseStatus }}</small><h2>{{ releaseName }}</h2></div><select value="{{ environment }}" on-change="setEnvironment"><option s-for="env in environments trackby env" value="{{ env }}">{{ env }}</option></select></header><div class="release-layout"><aside><h3>未编排服务</h3><button s-for="service in unplanned trackby service.id" class="{{ selectedServiceId === service.id ? 'selected' : '' }}" on-click="chooseService(service.id)"><strong>{{ service.id }}</strong><span>{{ service.version }} · {{ service.health }}</span></button><h3>依赖边</h3><p s-for="edge in dependencies trackby edge.from + edge.to">{{ edge.from }} → {{ edge.to }}</p></aside><main><section s-for="wave, index in waves trackby index" class="wave"><header><h3>波次 {{ index + 1 }}</h3><button on-click="assignWave(index)" disabled="{{ !selectedServiceId }}">放入此波次</button></header><article s-for="id in wave trackby id"><strong>{{ serviceLabel(id) }}</strong><button on-click="removeFromWave(id)">移出</button></article></section></main><aside class="gate"><h3>发布门禁</h3><p class="{{ unplanned.length ? 'bad' : 'good' }}">未编排 {{ unplanned.length }}</p><p class="{{ dependencyViolations.length ? 'bad' : 'good' }}">依赖冲突 {{ dependencyViolations.length }}</p><p>审批 {{ approvals.length }}/{{ requiredApprovals }}</p><button on-click="approve('技术负责人')">技术审批</button><button on-click="approve('运维负责人')">运维审批</button><button class="primary" on-click="release" disabled="{{ !canRelease }}">执行发布</button><button on-click="rollback" disabled="{{ releaseStatus !== 'released' }}">回滚</button></aside></div></section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'DependencyReleasePlanner',
+  dataTypes: {
+    releaseName: DataTypes.string,
+    initialServices: DataTypes.array,
+    dependencies: DataTypes.array,
+    environments: DataTypes.array,
+    requiredApprovals: DataTypes.number
+  },
+  initData() {
+    return {
+      releaseName: "秋季平台发布",
+      initialServices: [
+        {
+          "id": "web",
+          "version": "2.4.0"
+        },
+        {
+          "id": "api",
+          "version": "3.1.0"
+        },
+        {
+          "id": "billing",
+          "version": "1.8.2"
+        },
+        {
+          "id": "notify",
+          "version": "1.3.5"
+        }
+      ],
+      dependencies: [
+        {
+          "from": "web",
+          "to": "api"
+        },
+        {
+          "from": "api",
+          "to": "billing"
+        },
+        {
+          "from": "api",
+          "to": "notify"
+        }
+      ],
+      environments: [
+        "测试",
+        "预发",
+        "生产"
+      ],
+      requiredApprovals: 2,
+      services: [],
+      waves: [
+        [],
+        [],
+        []
+      ],
+      selectedServiceId: null,
+      environment: "测试",
+      approvals: [],
+      releaseStatus: "planning",
+      history: []
+    };
+  },
+  computed: {
+    plannedIds() {
+      return this.data.get('waves').reduce((out, wave) => out.concat(wave), []);
+    },
+    unplanned() {
+      return this.data.get('services').filter(service => this.data.get('plannedIds').indexOf(service.id) < 0);
+    },
+    dependencyViolations() {
+      const position = {}; this.data.get('waves').forEach((wave, index) => wave.forEach(id => { position[id] = index; })); return this.data.get('dependencies').filter(edge => position[edge.from] !== undefined && (position[edge.to] === undefined || position[edge.to] > position[edge.from]));
+    },
+    canRelease() {
+      return this.data.get('unplanned').length === 0 && this.data.get('dependencyViolations').length === 0 && this.data.get('approvals').length >= this.data.get('requiredApprovals') && this.data.get('releaseStatus') !== 'released';
+    }
+  },
+  inited() {
+    this.setValue('services', this.data.get('initialServices').map(item => Object.assign({}, item, { health: 'ready' })));
+  },
+  setValue(key, value) { this.data.set(key, value); },
+  emitEvent(name, payload) { this.fire(name, payload); },
+  chooseService(id) {
+    this.setValue('selectedServiceId', id);
+  },
+  assignWave(index) {
+    if (!this.data.get('selectedServiceId')) return; const id = this.data.get('selectedServiceId'); this.setValue('waves', this.data.get('waves').map((wave, waveIndex) => waveIndex === index ? wave.filter(item => item !== id).concat(id) : wave.filter(item => item !== id))); this.setValue('selectedServiceId', null); this.setValue('approvals', []); this.emitEvent('plan', this.data.get('waves'));
+  },
+  removeFromWave(id) {
+    this.setValue('waves', this.data.get('waves').map(wave => wave.filter(item => item !== id))); this.setValue('approvals', []);
+  },
+  approve(role) {
+    if (this.data.get('approvals').indexOf(role) >= 0) return; this.setValue('approvals', this.data.get('approvals').concat(role)); this.emitEvent('approve', this.data.get('approvals'));
+  },
+  setEnvironment(event) {
+    this.setValue('environment', event.target.value); this.setValue('approvals', []);
+  },
+  release() {
+    if (!this.data.get('canRelease')) return; this.setValue('history', [{ id: Date.now(), environment: this.data.get('environment'), waves: this.data.get('waves').map(wave => wave.slice()) }].concat(this.data.get('history'))); this.setValue('releaseStatus', 'released'); this.emitEvent('release', this.data.get('history')[0]);
+  },
+  rollback() {
+    if (!this.data.get('history').length) return; this.setValue('releaseStatus', 'rolled-back'); this.emitEvent('rollback', this.data.get('history')[0]);
+  },
+  serviceLabel(id) {
+    const service = this.data.get('services').find(item => item.id === id); return service ? service.id + '@' + service.version : id;
+  }
+});
+</script>
+
+<style>
+
+.dependency-release-planner{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}
+.dependency-release-planner *{box-sizing:border-box}
+.dependency-release-planner h2,.dependency-release-planner h3,.dependency-release-planner p{margin-top:0}
+.dependency-release-planner button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}
+.dependency-release-planner button.primary{border-color:#4f46e5;background:#4f46e5;color:#fff}
+.dependency-release-planner button:disabled{opacity:.45;cursor:not-allowed}
+.dependency-release-planner input,.dependency-release-planner select,.dependency-release-planner textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}
+.dependency-release-planner .muted{color:#71808e;font-size:12px}
+.dependency-release-planner .toolbar,.dependency-release-planner .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+header{display:flex;justify-content:space-between}.release-layout{display:grid;grid-template-columns:180px 1fr 190px;gap:12px}.release-layout>aside{padding:10px;background:#f8fafc}.release-layout>aside>button{display:grid;width:100%;margin:6px 0;text-align:left}.release-layout>aside>button.selected{background:#e0e7ff}.release-layout main{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.wave{min-height:260px;padding:9px;border:1px dashed #818cf8}.wave header{display:block}.wave article{display:flex;justify-content:space-between;padding:8px;margin-top:7px;background:#eef2ff}.gate button{width:100%;margin:4px 0}.good{color:#15803d}.bad{color:#b91c1c}
+</style>

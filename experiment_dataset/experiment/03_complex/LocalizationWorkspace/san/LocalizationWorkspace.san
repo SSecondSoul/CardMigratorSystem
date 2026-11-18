@@ -1,0 +1,165 @@
+<template>
+  <section class="localization-workspace"><header><div><p class="muted">{{ projectName }} · {{ currentLanguageName }}</p><h2>本地化翻译</h2></div><div class="actions"><select value="{{ language }}" on-change="updateLanguage"><option s-for="item in languages" value="{{ item.code }}">{{ item.name }}</option></select><button on-click="toggleGlossary">术语表</button><button class="primary" on-click="submitBatch">提交 {{ dirtyKeys.length }} 项</button></div></header><div class="locale-metrics"><span>审核 {{ progress }}%</span><span>缺失 {{ missingCount }} 项</span><span s-if="submittedAt">{{ submittedAt }}</span></div><div class="{{ 'locale-layout ' + (showGlossary ? 'with-glossary' : '') }}"><aside class="entry-list"><input value="{{ query }}" on-input="updateQuery" placeholder="搜索"><select value="{{ filter }}" on-change="updateFilter"><option value="all">全部</option><option value="missing">缺失</option><option value="unreviewed">待审核</option></select><button s-for="record in visibleRecords" class="{{ (record.key === selectedKey ? 'selected ' : '') + (record.reviewed[language] ? 'reviewed' : '') }}" on-click="selectRecord(record.key)"><strong>{{ record.key }}</strong><span>{{ record.source }}</span><small>{{ translationFor(record) }}</small></button><p s-if="!visibleRecords.length" class="empty">无匹配文案</p></aside><main s-if="selectedRecord"><div class="source-panel"><span>源文案</span><strong>{{ selectedRecord.source }}</strong><small>{{ selectedRecord.key }}</small></div><label>目标译文<textarea value="{{ draft }}" on-input="updateDraft"></textarea></label><div class="editor-actions"><span>{{ draft.length }} 字符</span><button class="primary" on-click="markReviewed" disabled="{{ !draft }}">保存并审核</button></div></main><aside s-if="showGlossary" class="glossary"><h3>推荐术语</h3><button s-for="term in glossary" on-click="applyTerm(term)"><span>{{ term.source }}</span><strong>{{ term.target }}</strong></button></aside></div></section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'LocalizationWorkspace',
+  dataTypes: {
+    projectName: DataTypes.string,
+    languages: DataTypes.array,
+    entries: DataTypes.array,
+    glossary: DataTypes.array
+  },
+  initData() {
+    return {
+      projectName: "管理后台",
+      languages: [
+        {
+          "code": "en",
+          "name": "English"
+        },
+        {
+          "code": "ja",
+          "name": "日本語"
+        }
+      ],
+      entries: [
+        {
+          "key": "nav.home",
+          "source": "首页",
+          "translations": {
+            "en": "Home",
+            "ja": "ホーム"
+          },
+          "reviewed": {
+            "en": true,
+            "ja": false
+          }
+        },
+        {
+          "key": "action.save",
+          "source": "保存",
+          "translations": {
+            "en": "Save",
+            "ja": ""
+          },
+          "reviewed": {
+            "en": false,
+            "ja": false
+          }
+        },
+        {
+          "key": "message.empty",
+          "source": "暂无数据",
+          "translations": {
+            "en": "No data",
+            "ja": "データなし"
+          },
+          "reviewed": {
+            "en": true,
+            "ja": true
+          }
+        }
+      ],
+      glossary: [
+        {
+          "source": "保存",
+          "target": "Save"
+        },
+        {
+          "source": "数据",
+          "target": "data"
+        }
+      ],
+      records: [],
+      language: "en",
+      query: "",
+      filter: "all",
+      selectedKey: "",
+      draft: "",
+      showGlossary: true,
+      dirtyKeys: [],
+      submittedAt: ""
+    };
+  },
+  computed: {
+    visibleRecords() {
+      const q = this.data.get('query').toLowerCase(); return this.data.get('records').filter(item => (item.key.toLowerCase().indexOf(q) >= 0 || item.source.indexOf(this.data.get('query')) >= 0) && (this.data.get('filter') === 'all' || (this.data.get('filter') === 'missing' ? !item.translations[this.data.get('language')] : !item.reviewed[this.data.get('language')])));
+    },
+    selectedRecord() {
+      return this.data.get('records').find(item => item.key === this.data.get('selectedKey')) || null;
+    },
+    progress() {
+      const records = this.data.get('records'); return records.length ? Math.round(records.filter(item => item.reviewed[this.data.get('language')]).length / records.length * 100) : 0;
+    },
+    missingCount() {
+      return this.data.get('records').filter(item => !item.translations[this.data.get('language')]).length;
+    },
+    currentLanguageName() {
+      const item = this.data.get('languages').find(row => row.code === this.data.get('language')); return item ? item.name : '';
+    }
+  },
+  inited() {
+    this.setValue('records', this.data.get('entries').map(item => ({ key: item.key, source: item.source, translations: Object.assign({}, item.translations), reviewed: Object.assign({}, item.reviewed) }))); this.setValue('language', this.data.get('languages')[0] ? this.data.get('languages')[0].code : ''); this.setValue('selectedKey', this.data.get('entries')[0] ? this.data.get('entries')[0].key : ''); this.loadDraft();
+  },
+  setValue(key, value) { this.data.set(key, value); },
+  emitEvent(name, payload) { this.fire(name, payload); },
+  updateLanguage(event) {
+    this.commitDraft(); this.setValue('language', event.target.value); this.loadDraft();
+  },
+  updateQuery(event) {
+    this.setValue('query', event.target.value);
+  },
+  updateFilter(event) {
+    this.setValue('filter', event.target.value);
+  },
+  selectRecord(key) {
+    this.commitDraft(); this.setValue('selectedKey', key); this.loadDraft();
+  },
+  updateDraft(event) {
+    this.setValue('draft', event.target.value);
+  },
+  loadDraft() {
+    const record = this.data.get('records').find(item => item.key === this.data.get('selectedKey')); this.setValue('draft', record ? record.translations[this.data.get('language')] || '' : '');
+  },
+  commitDraft() {
+    const key = this.data.get('selectedKey'); if (!key) return; const language = this.data.get('language'); const value = this.data.get('draft'); this.setValue('records', this.data.get('records').map(item => item.key === key ? Object.assign({}, item, { translations: Object.assign({}, item.translations, { [language]: value }), reviewed: Object.assign({}, item.reviewed, { [language]: false }) }) : item)); if (this.data.get('dirtyKeys').indexOf(key) < 0) this.setValue('dirtyKeys', this.data.get('dirtyKeys').concat(key)); this.emitEvent('translation-change', { key, language, value });
+  },
+  markReviewed() {
+    this.commitDraft(); const key = this.data.get('selectedKey'); const language = this.data.get('language'); this.setValue('records', this.data.get('records').map(item => item.key === key ? Object.assign({}, item, { reviewed: Object.assign({}, item.reviewed, { [language]: true }) }) : item)); this.emitEvent('review', { key, language });
+  },
+  applyTerm(term) {
+    this.setValue('draft', this.data.get('draft') + (this.data.get('draft') ? ' ' : '') + term.target);
+  },
+  toggleGlossary() {
+    this.setValue('showGlossary', !this.data.get('showGlossary'));
+  },
+  submitBatch() {
+    this.commitDraft(); this.setValue('submittedAt', new Date().toLocaleString('zh-CN', { hour12: false })); this.emitEvent('submit', { language: this.data.get('language'), keys: this.data.get('dirtyKeys') }); this.setValue('dirtyKeys', []);
+  },
+  translationFor(record) {
+    return record.translations[this.data.get('language')] || '未翻译';
+  }
+});
+</script>
+
+<style>
+
+.localization-workspace { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.localization-workspace * { box-sizing: border-box; }
+.localization-workspace h2, .localization-workspace h3, .localization-workspace p { margin-top: 0; }
+.localization-workspace h2 { margin-bottom: 14px; font-size: 21px; }
+.localization-workspace button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.localization-workspace button.primary { border-color: #6d28d9; background: #6d28d9; color: #fff; }
+.localization-workspace button:disabled { opacity: .45; cursor: not-allowed; }
+.localization-workspace input, .localization-workspace select, .localization-workspace textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.localization-workspace .toolbar, .localization-workspace .summary, .localization-workspace .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.localization-workspace .muted { color: #71808e; font-size: 12px; }
+.localization-workspace .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+header,.locale-metrics{display:flex;justify-content:space-between}.locale-metrics{padding:10px;background:#f5f3ff}.locale-layout{display:grid;grid-template-columns:220px 1fr;gap:12px;margin-top:12px}.locale-layout.with-glossary{grid-template-columns:220px 1fr 150px}.entry-list{max-height:450px;overflow:auto}.entry-list>button{display:grid;width:100%;margin:6px 0;text-align:left}.entry-list>button.selected{background:#ede9fe}.entry-list>button.reviewed{border-left:4px solid #15803d}.entry-list small{color:#77818e}.locale-layout main{padding:16px;background:#fafafa}.source-panel{display:grid;padding:12px;background:#f1f2f4}.locale-layout main label{display:grid;gap:6px;margin-top:14px}.locale-layout main textarea{min-height:160px}.editor-actions{display:flex;justify-content:space-between}.glossary{padding:10px;background:#f7f5fb}.glossary button{display:grid;width:100%;margin:6px 0}
+
+</style>

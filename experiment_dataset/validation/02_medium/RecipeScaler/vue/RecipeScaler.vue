@@ -1,0 +1,73 @@
+<template>
+  <section class="recipe-scaler"><header><h2>烘焙配方</h2><div><button @click="changeServings(-1)">−</button><strong>{{ servings }} 份</strong><button @click="changeServings(1)">＋</button></div></header><table><tbody><tr v-for="item in scaledIngredients" :key="item.name"><td>{{ item.name }}</td><td>{{ formatAmount(item.amount) }}</td></tr></tbody></table><footer><strong>总重量 {{ formatAmount(totalWeight) }}</strong><button @click="toggleUnit">切换单位</button></footer></section>
+</template>
+
+<script>
+module.exports = {
+  name: 'RecipeScaler',
+  props: {
+    baseServings: { type: Number, default: 4 },
+    ingredients: { type: Array, default: () => ([
+          {
+            "name": "面粉",
+            "grams": 320
+          },
+          {
+            "name": "牛奶",
+            "grams": 240
+          },
+          {
+            "name": "黄油",
+            "grams": 60
+          }
+        ]) }
+  },
+  data() {
+    return {
+        servings: 4,
+        unit: "g"
+    };
+  },
+  computed: {
+    scaledIngredients() {
+      const factor = this.servings / this.baseServings; return this.ingredients.map(item => ({ name: item.name, amount: item.grams * factor }));
+    },
+    totalWeight() {
+      return this.scaledIngredients.reduce((sum, item) => sum + item.amount, 0);
+    }
+  },
+  created() {
+    this.setValue('servings', this.baseServings);
+  },
+  methods: {
+    setValue(key, value) { this[key] = value; },
+    emitEvent(name, payload) { this.$emit(name, payload); },
+    changeServings(delta) {
+      this.setValue('servings', Math.max(1, this.servings + delta));
+    },
+    toggleUnit() {
+      this.setValue('unit', this.unit === 'g' ? 'kg' : 'g');
+    },
+    formatAmount(value) {
+      return this.unit === 'g' ? Math.round(value) + ' g' : (value / 1000).toFixed(2) + ' kg';
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.recipe-scaler { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.recipe-scaler * { box-sizing: border-box; }
+.recipe-scaler h2, .recipe-scaler h3, .recipe-scaler p { margin-top: 0; }
+.recipe-scaler h2 { margin-bottom: 14px; font-size: 21px; }
+.recipe-scaler button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.recipe-scaler button.primary { border-color: #15803d; background: #15803d; color: #fff; }
+.recipe-scaler button:disabled { opacity: .45; cursor: not-allowed; }
+.recipe-scaler input, .recipe-scaler select, .recipe-scaler textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.recipe-scaler .toolbar, .recipe-scaler .summary, .recipe-scaler .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.recipe-scaler .muted { color: #71808e; font-size: 12px; }
+.recipe-scaler .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+header,footer{display:flex;justify-content:space-between;align-items:center}header div{display:flex;gap:8px;align-items:center}table{width:100%;margin:12px 0;border-collapse:collapse}td{padding:9px;border-bottom:1px solid #dce3df}td:last-child{text-align:right}
+
+</style>

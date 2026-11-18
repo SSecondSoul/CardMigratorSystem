@@ -1,0 +1,155 @@
+<template>
+  <section class="inventory-batch-manager"><header class="page-head"><div><p class="muted">最后同步 {{ lastSynced }}</p><h2>{{ title }}</h2></div><button on-click="exportData">导出视图</button></header><div class="metric-strip"><article><span>库存件数</span><strong>{{ summary.units }}</strong></article><article><span>临期批次</span><strong>{{ summary.expiring }}</strong></article><article><span>低库存</span><strong>{{ summary.low }}</strong></article></div><div class="toolbar"><select value="{{ warehouse }}" on-change="updateWarehouse"><option value="all">全部仓库</option><option s-for="item in warehouses" value="{{ item }}">{{ item }}</option></select><label><input type="checkbox" checked="{{ riskOnly }}" on-change="toggleRisk"> 仅看风险</label><button on-click="selectVisible">全选结果</button><button on-click="undo" disabled="{{ !history.length }}">撤销</button></div><div class="inventory-layout"><div><table><thead><tr><th></th><th>批次</th><th>仓库</th><th>库存</th><th>保质期</th></tr></thead><tbody><tr s-for="batch in visibleBatches" class="{{ batchRowClass(batch, selectedIds) }}"><td><input type="checkbox" checked="{{ isSelected(batch.id, selectedIds) }}" on-change="toggleBatch(batch.id)"></td><td><strong>{{ batch.product }}</strong><small>{{ batch.sku }}</small></td><td>{{ batch.warehouse }}</td><td><div class="stock-bar"><span style="{{ stockStyle(batch) }}"></span></div>{{ batch.quantity }}/{{ batch.capacity }}</td><td>{{ batch.expiryDays }} 天</td></tr></tbody></table><p s-if="!visibleBatches.length" class="empty">没有匹配批次</p></div><aside><h3>批量调整</h3><p>已选 {{ selectedCount }} 批</p><label>数量变化<input type="number" value="{{ adjustment }}" on-input="updateAdjustment"></label><label>原因<select value="{{ reason }}" on-change="updateReason"><option>盘点修正</option><option>损耗登记</option><option>入库补录</option></select></label><button class="primary" on-click="applyAdjustment" disabled="{{ !canApply }}">应用</button><h3>操作历史</h3><ol><li s-for="entry in history">{{ entry.reason }}：{{ entry.count }} 批</li></ol></aside></div></section>
+</template>
+
+<script>
+const san = require('san');
+const DataTypes = san.DataTypes;
+
+module.exports = san.defineComponent({
+  name: 'InventoryBatchManager',
+  dataTypes: {
+    title: DataTypes.string,
+    warehouses: DataTypes.array,
+    initialBatches: DataTypes.array
+  },
+  initData() {
+    return {
+      title: "冷链库存控制台",
+      warehouses: [
+        "华东仓",
+        "华南仓"
+      ],
+      initialBatches: [
+        {
+          "id": 1,
+          "sku": "FD-101",
+          "product": "鲜奶",
+          "warehouse": "华东仓",
+          "quantity": 38,
+          "capacity": 80,
+          "expiryDays": 2
+        },
+        {
+          "id": 2,
+          "sku": "FD-205",
+          "product": "酸奶",
+          "warehouse": "华东仓",
+          "quantity": 64,
+          "capacity": 80,
+          "expiryDays": 8
+        },
+        {
+          "id": 3,
+          "sku": "FR-311",
+          "product": "果汁",
+          "warehouse": "华南仓",
+          "quantity": 21,
+          "capacity": 60,
+          "expiryDays": 14
+        },
+        {
+          "id": 4,
+          "sku": "FD-402",
+          "product": "奶酪",
+          "warehouse": "华南仓",
+          "quantity": 9,
+          "capacity": 40,
+          "expiryDays": 1
+        }
+      ],
+      batches: [],
+      warehouse: "all",
+      riskOnly: false,
+      selectedIds: [],
+      adjustment: 0,
+      reason: "盘点修正",
+      history: [],
+      lastSynced: "",
+      timer: null
+    };
+  },
+  computed: {
+    visibleBatches() {
+      return this.data.get('batches').filter(item => (this.data.get('warehouse') === 'all' || item.warehouse === this.data.get('warehouse')) && (!this.data.get('riskOnly') || item.expiryDays <= 3 || item.quantity <= 10));
+    },
+    summary() {
+      return this.data.get('batches').reduce((result, item) => { result.units += item.quantity; if (item.expiryDays <= 3) result.expiring += 1; if (item.quantity <= 10) result.low += 1; return result; }, { units: 0, expiring: 0, low: 0 });
+    },
+    selectedCount() {
+      return this.data.get('selectedIds').length;
+    },
+    canApply() {
+      return this.data.get('selectedCount') > 0 && this.data.get('adjustment') !== 0;
+    }
+  },
+  inited() {
+    this.setValue('batches', this.data.get('initialBatches').map(item => Object.assign({}, item)));
+    this.watch('warehouse', () => { this.setValue('selectedIds', []); });
+  },
+  attached() {
+    this.refreshClock(); this._timer = setInterval(() => this.refreshClock(), 30000);
+  },
+  disposed() {
+    clearInterval(this._timer);
+  },
+  setValue(key, value) { this.data.set(key, value); },
+  emitEvent(name, payload) { this.fire(name, payload); },
+  refreshClock() {
+    this.setValue('lastSynced', new Date().toLocaleTimeString('zh-CN', { hour12: false }));
+  },
+  updateWarehouse(event) {
+    this.setValue('warehouse', event.target.value);
+  },
+  toggleRisk(event) {
+    this.setValue('riskOnly', event.target.checked);
+  },
+  isSelected(id, selectedIds) {
+    return selectedIds.indexOf(id) >= 0;
+  },
+  toggleBatch(id) {
+    const list = this.data.get('selectedIds'); this.setValue('selectedIds', list.indexOf(id) >= 0 ? list.filter(item => item !== id) : list.concat(id));
+  },
+  selectVisible() {
+    this.setValue('selectedIds', this.data.get('visibleBatches').map(item => item.id));
+  },
+  updateAdjustment(event) {
+    this.setValue('adjustment', Number(event.target.value) || 0);
+  },
+  updateReason(event) {
+    this.setValue('reason', event.target.value);
+  },
+  applyAdjustment() {
+    if (!this.data.get('canApply')) return; const ids = this.data.get('selectedIds'); const before = this.data.get('batches').map(item => Object.assign({}, item)); const next = this.data.get('batches').map(item => ids.indexOf(item.id) >= 0 ? Object.assign({}, item, { quantity: Math.max(0, Math.min(item.capacity, item.quantity + this.data.get('adjustment'))) }) : item); this.setValue('batches', next); this.setValue('history', [{ id: Date.now(), reason: this.data.get('reason'), count: ids.length, delta: this.data.get('adjustment'), before }].concat(this.data.get('history')).slice(0, 5)); this.setValue('selectedIds', []); this.setValue('adjustment', 0); this.emitEvent('inventory-change', next);
+  },
+  undo() {
+    const history = this.data.get('history'); if (!history.length) return; this.setValue('batches', history[0].before.map(item => Object.assign({}, item))); this.setValue('history', history.slice(1)); this.emitEvent('inventory-change', this.data.get('batches'));
+  },
+  exportData() {
+    this.emitEvent('export', this.data.get('visibleBatches'));
+  },
+  stockStyle(batch) {
+    return 'width:' + Math.round(batch.quantity / batch.capacity * 100) + '%';
+  },
+  batchRowClass(batch, selectedIds) {
+    return (this.isSelected(batch.id, selectedIds) ? 'selected ' : '') + (batch.expiryDays <= 3 ? 'risk' : '');
+  }
+});
+</script>
+
+<style>
+
+.inventory-batch-manager { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.inventory-batch-manager * { box-sizing: border-box; }
+.inventory-batch-manager h2, .inventory-batch-manager h3, .inventory-batch-manager p { margin-top: 0; }
+.inventory-batch-manager h2 { margin-bottom: 14px; font-size: 21px; }
+.inventory-batch-manager button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.inventory-batch-manager button.primary { border-color: #0f766e; background: #0f766e; color: #fff; }
+.inventory-batch-manager button:disabled { opacity: .45; cursor: not-allowed; }
+.inventory-batch-manager input, .inventory-batch-manager select, .inventory-batch-manager textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.inventory-batch-manager .toolbar, .inventory-batch-manager .summary, .inventory-batch-manager .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.inventory-batch-manager .muted { color: #71808e; font-size: 12px; }
+.inventory-batch-manager .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+.page-head,.metric-strip{display:flex;justify-content:space-between}.metric-strip{margin:12px 0;gap:8px}.metric-strip article{flex:1;padding:12px;background:#edf7f5}.metric-strip strong{display:block;font-size:23px}.inventory-layout{display:grid;grid-template-columns:1fr 200px;gap:14px}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid #e0e5e9;text-align:left}td small{display:block}tr.selected{background:#ecfdf5}tr.risk{box-shadow:inset 3px 0 #dc2626}.stock-bar{width:75px;height:6px;background:#e5e7eb}.stock-bar span{display:block;height:100%;background:#0f766e}aside{padding:12px;background:#f7f9fa}aside label{display:grid;gap:5px;margin:8px 0}
+
+</style>

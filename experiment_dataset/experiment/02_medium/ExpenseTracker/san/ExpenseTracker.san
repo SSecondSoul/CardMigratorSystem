@@ -1,0 +1,657 @@
+<template>
+  <div class="{{ trackerClass }}">
+    <div class="header">
+      <h2>💰 记账本</h2>
+      <button class="theme-btn" on-click="toggleTheme">
+        {{ isDarkMode ? '☀️' : '🌙' }}
+      </button>
+    </div>
+
+    <div class="balance-card">
+      <div class="balance-item">
+        <span class="balance-label">总收入</span>
+        <span class="balance-value income">+¥{{ totalIncome }}</span>
+      </div>
+      <div class="balance-item">
+        <span class="balance-label">总支出</span>
+        <span class="balance-value expense">-¥{{ totalExpense }}</span>
+      </div>
+      <div class="balance-item">
+        <span class="balance-label">结余</span>
+        <span class="balance-value {{ balanceClass }}">¥{{ balance }}</span>
+      </div>
+    </div>
+
+    <div class="add-form">
+      <select value="{= newType =}">
+        <option value="income">收入</option>
+        <option value="expense">支出</option>
+      </select>
+      <input
+        value="{= newAmount =}"
+        type="number"
+        placeholder="金额"
+        on-keyup="onAddFormKeyup($event)"
+      />
+      <input
+        value="{= newCategory =}"
+        type="text"
+        placeholder="分类"
+        on-keyup="onAddFormKeyup($event)"
+      />
+      <button type="button" on-click="addRecord">添加</button>
+    </div>
+
+    <div class="filter-bar">
+      <select value="{= filterType =}">
+        <option value="all">全部</option>
+        <option value="income">收入</option>
+        <option value="expense">支出</option>
+      </select>
+      <select value="{= filterCategory =}">
+        <option value="all">全部分类</option>
+        <option s-for="cat in categories" value="{{ cat }}">{{ cat }}</option>
+      </select>
+      <button s-if="hasFilter" class="clear-filter" on-click="clearFilter">清除</button>
+    </div>
+
+    <div s-if="expenseByCategory.length > 0" class="chart-section">
+      <h3>支出分类统计</h3>
+      <div class="chart-bars">
+        <div s-for="item in expenseByCategory" class="chart-item">
+          <span class="chart-label">{{ item.category }}</span>
+          <div class="bar-container">
+            <div class="bar" style="{{ getBarStyle(item.amount) }}"></div>
+            <span class="bar-value">¥{{ item.amount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="records-list">
+      <div s-for="record in filteredRecords" class="record-item {{ record.type }}">
+        <div class="record-info">
+          <span class="record-category">{{ record.category }}</span>
+          <span class="record-date">{{ formatDate(record.date) }}</span>
+        </div>
+        <div class="record-amount {{ record.type }}">
+          {{ record.type === 'income' ? '+' : '-' }}¥{{ record.amount }}
+        </div>
+        <button class="delete-btn" on-click="deleteRecord(record.id)">删除</button>
+      </div>
+
+      <div s-if="filteredRecords.length === 0" class="empty-state">
+        暂无记录，添加一笔吧
+      </div>
+    </div>
+
+    <div s-if="records.length > 0" class="footer">
+      <span>共 {{ filteredRecords.length }} 条记录</span>
+      <button class="clear-all" on-click="clearAll">清空全部</button>
+    </div>
+  </div>
+</template>
+
+<script>
+const san = require('san');
+
+module.exports = san.defineComponent({
+  initData() {
+    return {
+      isDarkMode: false,
+      records: [],
+      newType: 'expense',
+      newAmount: '',
+      newCategory: '',
+      filterType: 'all',
+      filterCategory: 'all'
+    };
+  },
+  computed: {
+    trackerClass() {
+      return this.data.get('isDarkMode') ? 'expense-tracker dark-mode' : 'expense-tracker';
+    },
+    totalIncome() {
+      const records = this.data.get('records') || [];
+      return records
+        .filter(record => record.type === 'income')
+        .reduce((sum, record) => sum + record.amount, 0);
+    },
+    totalExpense() {
+      const records = this.data.get('records') || [];
+      return records
+        .filter(record => record.type === 'expense')
+        .reduce((sum, record) => sum + record.amount, 0);
+    },
+    balance() {
+      return this.data.get('totalIncome') - this.data.get('totalExpense');
+    },
+    balanceClass() {
+      return this.data.get('balance') >= 0 ? 'positive' : 'negative';
+    },
+    categories() {
+      const records = this.data.get('records') || [];
+      const categories = Array.from(new Set(records.map(record => record.category)));
+      return categories.sort();
+    },
+    expenseByCategory() {
+      const records = this.data.get('records') || [];
+      const categoryMap = new Map();
+      records
+        .filter(record => record.type === 'expense')
+        .forEach(record => {
+          const current = categoryMap.get(record.category) || 0;
+          categoryMap.set(record.category, current + record.amount);
+        });
+
+      return Array.from(categoryMap.entries())
+        .map(entry => ({ category: entry[0], amount: entry[1] }))
+        .sort((a, b) => b.amount - a.amount);
+    },
+    maxExpenseAmount() {
+      const expenseByCategory = this.data.get('expenseByCategory') || [];
+      if (!expenseByCategory.length) {
+        return 0;
+      }
+      return Math.max.apply(null, expenseByCategory.map(item => item.amount));
+    },
+    filteredRecords() {
+      const filterType = this.data.get('filterType');
+      const filterCategory = this.data.get('filterCategory');
+      let result = (this.data.get('records') || []).slice();
+
+      if (filterType !== 'all') {
+        result = result.filter(record => record.type === filterType);
+      }
+
+      if (filterCategory !== 'all') {
+        result = result.filter(record => record.category === filterCategory);
+      }
+
+      return result.sort((a, b) => b.date - a.date);
+    },
+    hasFilter() {
+      return this.data.get('filterType') !== 'all' || this.data.get('filterCategory') !== 'all';
+    }
+  },
+  attached() {
+    this.loadFromLocal();
+  },
+  onAddFormKeyup(event) {
+    if (event.key === 'Enter') {
+      this.addRecord();
+    }
+  },
+  addRecord() {
+    const amount = parseFloat(this.data.get('newAmount'));
+    const category = String(this.data.get('newCategory') || '').trim();
+
+    if (isNaN(amount) || amount <= 0) {
+      alert('请输入有效的金额');
+      return;
+    }
+    if (!category) {
+      alert('请输入分类');
+      return;
+    }
+
+    const records = (this.data.get('records') || []).slice();
+    records.push({
+      id: Date.now(),
+      type: this.data.get('newType'),
+      amount: amount,
+      category: category,
+      date: Date.now()
+    });
+
+    this.data.set('records', records);
+    this.data.set('newAmount', '');
+    this.data.set('newCategory', '');
+    this.saveToLocal();
+  },
+  deleteRecord(id) {
+    const records = (this.data.get('records') || []).filter(record => record.id !== id);
+    this.data.set('records', records);
+    this.saveToLocal();
+  },
+  clearAll() {
+    if (confirm('确定要清空所有记录吗？')) {
+      this.data.set('records', []);
+      this.saveToLocal();
+    }
+  },
+  clearFilter() {
+    this.data.set('filterType', 'all');
+    this.data.set('filterCategory', 'all');
+  },
+  getBarWidth(amount) {
+    const maxExpenseAmount = this.data.get('maxExpenseAmount');
+    if (maxExpenseAmount === 0) {
+      return 0;
+    }
+    return (amount / maxExpenseAmount) * 100;
+  },
+  getBarStyle(amount) {
+    return 'width: ' + this.getBarWidth(amount) + '%';
+  },
+  formatDate(timestamp) {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterday = new Date(today - 86400000);
+
+    if (timestamp >= today) {
+      return '今天 ' + date.getHours() + ':' + String(date.getMinutes()).padStart(2, '0');
+    }
+    if (timestamp >= yesterday) {
+      return '昨天';
+    }
+    return (date.getMonth() + 1) + '/' + date.getDate();
+  },
+  toggleTheme() {
+    this.data.set('isDarkMode', !this.data.get('isDarkMode'));
+  },
+  saveToLocal() {
+    localStorage.setItem('expense_records', JSON.stringify(this.data.get('records') || []));
+  },
+  loadFromLocal() {
+    const saved = localStorage.getItem('expense_records');
+    if (saved) {
+      try {
+        this.data.set('records', this.normalizeRecords(JSON.parse(saved)));
+        return;
+      }
+      catch (e) {
+      }
+    }
+    this.data.set('records', this.getSampleRecords());
+  },
+  normalizeRecords(records) {
+    if (!Array.isArray(records)) {
+      return this.getSampleRecords();
+    }
+
+    return records
+      .map((record, index) => {
+        if (!record || typeof record !== 'object') {
+          return null;
+        }
+
+        const type = record.type === 'income' ? 'income' : (record.type === 'expense' ? 'expense' : null);
+        const amount = Number(record.amount);
+        const category = typeof record.category === 'string' ? record.category.trim() : '';
+        const date = Number(record.date);
+        const id = record.id != null ? record.id : Date.now() + index;
+
+        if (!type || !Number.isFinite(amount) || amount <= 0 || !category || !Number.isFinite(date)) {
+          return null;
+        }
+
+        return {
+          id,
+          type,
+          amount,
+          category,
+          date
+        };
+      })
+      .filter(Boolean);
+  },
+  getSampleRecords() {
+    const now = Date.now();
+    return [
+      { id: 1, type: 'income', amount: 5000, category: '工资', date: now - 2 * 86400000 },
+      { id: 2, type: 'expense', amount: 68, category: '餐饮', date: now - 1 * 86400000 },
+      { id: 3, type: 'expense', amount: 120, category: '交通', date: now - 1 * 86400000 },
+      { id: 4, type: 'expense', amount: 299, category: '购物', date: now },
+      { id: 5, type: 'income', amount: 200, category: '红包', date: now }
+    ];
+  }
+});
+</script>
+
+<style>
+.expense-tracker {
+  max-width: 550px;
+  margin: 40px auto;
+  padding: 24px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.expense-tracker.dark-mode {
+  background: #1e293b;
+  color: #e2e8f0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.theme-btn {
+  padding: 8px 16px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dark-mode .theme-btn {
+  background: #334155;
+}
+
+.balance-card {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 16px;
+}
+
+.dark-mode .balance-card {
+  background: #0f172a;
+}
+
+.balance-item {
+  flex: 1;
+  text-align: center;
+}
+
+.balance-label {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.balance-value {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.balance-value.income {
+  color: #10b981;
+}
+
+.balance-value.expense {
+  color: #ef4444;
+}
+
+.balance-value.positive {
+  color: #10b981;
+}
+
+.balance-value.negative {
+  color: #ef4444;
+}
+
+.add-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.add-form select,
+.add-form input {
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  background: white;
+}
+
+.dark-mode .add-form select,
+.dark-mode .add-form input {
+  background: #0f172a;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+.add-form select {
+  width: 80px;
+}
+
+.add-form input:first-of-type {
+  width: 100px;
+}
+
+.add-form input:last-of-type {
+  width: 120px;
+}
+
+.add-form button {
+  padding: 10px 20px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-bar select {
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+}
+
+.dark-mode .filter-bar select {
+  background: #0f172a;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+.clear-filter {
+  padding: 8px 16px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.chart-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 16px;
+}
+
+.dark-mode .chart-section {
+  background: #0f172a;
+}
+
+.chart-section h3 {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+}
+
+.chart-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+
+.chart-label {
+  width: 50px;
+  font-weight: 500;
+}
+
+.bar-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar {
+  height: 8px;
+  background: #3b82f6;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.bar-value {
+  font-size: 12px;
+  color: #64748b;
+  min-width: 45px;
+}
+
+.records-list {
+  margin-bottom: 16px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: #f8fafc;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.dark-mode .record-item {
+  background: #0f172a;
+}
+
+.record-item.income {
+  border-left: 4px solid #10b981;
+}
+
+.record-item.expense {
+  border-left: 4px solid #ef4444;
+}
+
+.record-info {
+  flex: 1;
+}
+
+.record-category {
+  display: block;
+  font-weight: 500;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.record-date {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.record-amount {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.record-amount.income {
+  color: #10b981;
+}
+
+.record-amount.expense {
+  color: #ef4444;
+}
+
+.delete-btn {
+  padding: 4px 12px;
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 12px;
+}
+
+.dark-mode .delete-btn {
+  background: #450a0a;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  font-size: 13px;
+}
+
+.dark-mode .footer {
+  border-top-color: #334155;
+}
+
+.clear-all {
+  padding: 6px 12px;
+  background: #f1f5f9;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.dark-mode .clear-all {
+  background: #334155;
+  color: #e2e8f0;
+}
+
+@media (max-width: 500px) {
+  .expense-tracker {
+    margin: 20px;
+    padding: 16px;
+  }
+
+  .balance-card {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .add-form {
+    flex-direction: column;
+  }
+
+  .add-form select,
+  .add-form input,
+  .add-form button {
+    width: 100%;
+  }
+}
+</style>
