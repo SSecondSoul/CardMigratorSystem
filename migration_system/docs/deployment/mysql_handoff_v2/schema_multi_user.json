@@ -2,6 +2,10 @@
   "schema_basis": "0008_multi_user",
   "table_count": 34,
   "status": "implemented_sqlite_mysql_runtime_not_adapted",
+  "mysql_version_target": "8.4",
+  "database": "cardmigrator_multi_user_staging",
+  "collation": "utf8mb4_0900_bin",
+  "alembic_version_rows": 0,
   "tables": [
     {
       "name": "alembic_version",
@@ -266,7 +270,7 @@
           "mysql_type": "VARCHAR(80)",
           "nullable": false,
           "autoincrement": false,
-          "meaning": "接受／回退等决策。"
+          "meaning": "当前表的操作类型：安全审计动作，或旧候选接受／回退决策。"
         },
         {
           "name": "target_id",
@@ -1510,7 +1514,7 @@
           "mysql_type": "VARCHAR(24)",
           "nullable": false,
           "autoincrement": false,
-          "meaning": "接受／回退等决策。"
+          "meaning": "当前表的操作类型：安全审计动作，或旧候选接受／回退决策。"
         },
         {
           "name": "reason",
@@ -2371,5 +2375,12 @@
     "migrations/versions/0006_generation_approvals.py": "b3dad8dc783f2258f388109346b3009cd854e3d70a41ad008e90229184d61547",
     "migrations/versions/0007_modular_migration.py": "4a8665745540e4284f38207835ecc72f8d0654f9417143bef0012b90d9569b6f",
     "migrations/versions/0008_multi_user.py": "2a51be21fbbea07e59b2335d05a7139e2eef1ec80dd0daa8c496878aecb7d7ef"
+  },
+  "schema_sql_sha256": "e25c4b9dd15294f18d6fb8a2a1ae5770df91fab4dbab162f51e469d30fd342c3",
+  "constraint_counts": {
+    "primary_keys": 34,
+    "unique": 19,
+    "foreign_keys": 38,
+    "checks": 14
   }
 }

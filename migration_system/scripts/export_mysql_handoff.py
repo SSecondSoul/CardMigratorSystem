@@ -159,6 +159,8 @@ def ddl(table, *, purposes=None, meanings=None):
 
 INTRO = """# 给另一台电脑 AI 的 MySQL 建库交接文件 v1
 
+> **历史版本，勿按本文件创建当前系统数据库。** 本文保留 0007 的 26 表及当时的未实现草案；当前系统已是 0008_multi_user／34 表。请给另一台 AI 发送 [完整 MySQL 多用户交接 v2](../mysql_handoff_v2/MYSQL_MULTI_USER_HANDOFF.md)，它包含全部字段、关系、SQL、核验和回报模板，不再依赖本文件。下文“当前／尚未实现”均指 v1 当时状态。
+
 日期：2026-11-18。用途：电脑 B 准备 MySQL；电脑 A 保持现有迁移系统与 SQLite 实验数据。你可以只发送本 Markdown 文件，它已包含建表 SQL、字段字典、关系、验收和停止条件；同目录 SQL／JSON 是方便执行和机器核对的副本。
 
 ## 0. 请另一台电脑的 AI 先读此段

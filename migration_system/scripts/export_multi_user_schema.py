@@ -6,6 +6,8 @@ import argparse
 import export_mysql_handoff as baseline
 
 DESTINATION='docs/deployment/mysql_handoff_v2'
+DATABASE='cardmigrator_multi_user_staging'
+HEAD='0008_multi_user'
 PURPOSES={**baseline.PURPOSES,**{
     'users':('多用户','账号、密码哈希、角色、启用与强制改密状态。'),
     'auth_sessions':('多用户','可撤销登录会话；只保存高熵凭据摘要。'),
@@ -31,51 +33,71 @@ MEANINGS={**baseline.MEANINGS,**{
     'byte_size':'对应上传源码的实际 UTF-8 字节数。','actor_id':'可选操作者用户 ID；初始化/失败登录可为空。',
     'target_id':'被操作对象的不透明 ID，不是数据库外键。','bucket':'不含明文凭据的登录限流摘要键。',
     'window_start':'限流窗口开始 Unix 秒。','failures':'当前窗口的已预留登录尝试计数。',
+    'action':'当前表的操作类型：安全审计动作，或旧候选接受／回退决策。',
 }}
+
+def verification_sql(infos):
+    """Read-only metadata and empty-row checks, never output business contents."""
+    expected='\nUNION ALL\n'.join("SELECT '"+i['name']+"' AS table_name" for i in infos)
+    counts='\nUNION ALL\n'.join(f"SELECT '{i['name']}' AS table_name, COUNT(*) AS rows_must_be_zero FROM `{DATABASE}`.`{i['name']}`" for i in infos)
+    return f"""-- Read-only; expect {len(infos)} tables, zero missing/extra tables and zero rows in every table.
+SELECT VERSION() AS mysql_version, @@hostname AS db_host, @@port AS db_port, @@SESSION.sql_mode AS sql_mode;
+SELECT SCHEMA_NAME, DEFAULT_CHARACTER_SET_NAME, DEFAULT_COLLATION_NAME FROM information_schema.SCHEMATA WHERE SCHEMA_NAME='{DATABASE}';
+SELECT COLLATION_NAME, PAD_ATTRIBUTE FROM information_schema.COLLATIONS WHERE COLLATION_NAME='utf8mb4_0900_bin';
+SELECT COUNT(*) AS table_count_must_be_{len(infos)} FROM information_schema.TABLES WHERE TABLE_SCHEMA='{DATABASE}' AND TABLE_TYPE='BASE TABLE';
+WITH expected AS (
+{expected}
+)
+SELECT e.table_name AS missing_table FROM expected e LEFT JOIN information_schema.TABLES t ON t.TABLE_SCHEMA='{DATABASE}' AND t.TABLE_NAME=e.table_name AND t.TABLE_TYPE='BASE TABLE' WHERE t.TABLE_NAME IS NULL;
+WITH expected AS (
+{expected}
+)
+SELECT t.TABLE_NAME AS unexpected_table FROM information_schema.TABLES t LEFT JOIN expected e ON e.table_name=t.TABLE_NAME WHERE t.TABLE_SCHEMA='{DATABASE}' AND t.TABLE_TYPE='BASE TABLE' AND e.table_name IS NULL;
+SELECT TABLE_NAME, ENGINE, TABLE_COLLATION FROM information_schema.TABLES WHERE TABLE_SCHEMA='{DATABASE}' ORDER BY TABLE_NAME;
+SELECT TABLE_NAME, COLUMN_NAME, ORDINAL_POSITION, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, EXTRA, CHARACTER_SET_NAME, COLLATION_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='{DATABASE}' ORDER BY TABLE_NAME, ORDINAL_POSITION;
+SELECT TABLE_NAME, CONSTRAINT_NAME, CONSTRAINT_TYPE, ENFORCED FROM information_schema.TABLE_CONSTRAINTS WHERE CONSTRAINT_SCHEMA='{DATABASE}' ORDER BY TABLE_NAME, CONSTRAINT_NAME;
+SELECT TABLE_NAME, CONSTRAINT_NAME, COLUMN_NAME, ORDINAL_POSITION, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME FROM information_schema.KEY_COLUMN_USAGE WHERE CONSTRAINT_SCHEMA='{DATABASE}' ORDER BY TABLE_NAME, CONSTRAINT_NAME, ORDINAL_POSITION;
+SELECT TABLE_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, UPDATE_RULE, DELETE_RULE FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE CONSTRAINT_SCHEMA='{DATABASE}' ORDER BY TABLE_NAME, CONSTRAINT_NAME;
+SELECT tc.TABLE_NAME, cc.CONSTRAINT_NAME, cc.CHECK_CLAUSE FROM information_schema.CHECK_CONSTRAINTS cc JOIN information_schema.TABLE_CONSTRAINTS tc ON tc.CONSTRAINT_SCHEMA=cc.CONSTRAINT_SCHEMA AND tc.CONSTRAINT_NAME=cc.CONSTRAINT_NAME WHERE tc.CONSTRAINT_SCHEMA='{DATABASE}' ORDER BY tc.TABLE_NAME, cc.CONSTRAINT_NAME;
+SELECT TABLE_NAME, INDEX_NAME, NON_UNIQUE, SEQ_IN_INDEX, COLUMN_NAME, SUB_PART FROM information_schema.STATISTICS WHERE TABLE_SCHEMA='{DATABASE}' ORDER BY TABLE_NAME, INDEX_NAME, SEQ_IN_INDEX;
+{counts};
+SELECT COUNT(*) AS alembic_rows_must_be_zero FROM `{DATABASE}`.alembic_version;
+"""
+
 
 def build():
     tables=baseline.model_tables(include_accounts=True);infos=[baseline.describe(t,purposes=PURPOSES,meanings=MEANINGS) for t in tables]
+    from card_migration_system.persistence.database import HEAD as current_head
+    if current_head!=HEAD or set(PURPOSES)!={i['name'] for i in infos}:raise ValueError('Review schema changes before updating the handoff')
     sql='-- FUTURE MYSQL PREPARATION ONLY. Runtime is currently tested on SQLite.\n'
-    sql+='CREATE DATABASE `cardmigrator_multi_user_staging` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;\nUSE `cardmigrator_multi_user_staging`;\n\n'
+    sql+=f'CREATE DATABASE `{DATABASE}` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;\nUSE `{DATABASE}`;\n\n'
     sql+='\n\n'.join(baseline.ddl(t,purposes=PURPOSES,meanings=MEANINGS) for t in tables)+'\n'
     sources=['src/card_migration_system/persistence/'+n+'.py' for n in baseline.MODULES+['accounts']]
     sources += [str(p.relative_to(baseline.PROJECT)).replace('\\','/') for p in sorted((baseline.PROJECT/'migrations/versions').glob('*.py'))]
     hashes={p:sha256((baseline.PROJECT/p).read_bytes()).hexdigest() for p in sources}
-    data={'schema_basis':'0008_multi_user','table_count':len(tables),'status':'implemented_sqlite_mysql_runtime_not_adapted','tables':infos,'source_sha256':hashes}
-    doc='''# 多用户数据库交接 v2：与 SQLite 0008 实现对齐
-
-日期：2026-11-18。此文件替代 v1 草案用于后续 MySQL 适配：users、会话、所有权、额度、审计与限流已在本电脑的 SQLite 实现；**MySQL 驱动、初始化、事务、备份与检查点仍未适配，不代表切换连接串即可使用。**
-
-仅允许另一台 AI 经确认后，在 MySQL 8.4 的全新 `cardmigrator_multi_user_staging` 准备库执行下方 SQL；不得覆盖 v1 准备库、原 SQLite 或任何现有库。遇到同名库/语句失败立即停止，不用 IF NOT EXISTS、关闭外键检查或删表掩盖错误。DDL 不保证整批回滚。密码、模型 Key、演示用户和 Alembic 版本行不包含在 SQL 中。
-
-本文件可单独交给另一台 AI；同目录 SQL/JSON 是对应副本。网络监听、最小权限账号、TLS、验收和非敏感回报模板继续参考 v1 第 1、8、9 节，但**本版表数与字段以本文件为准**。另一个 AI 不应执行 v1 第 7 节旧草案，尤其不能另加已被实现替代的字段。
-
-## 结构与边界
-
-- 保留原 26 张基线表，再新增 8 张账号相关表，共 34 张。不修改旧 request、binding、哈希或实验来源。
-- `users → input_owners → source_inputs`，`users → job_owners → migration_jobs`。创建任务时后台在事务中验证源码所属账号与任务账号相同；当前没有为此新增复合数据库 FK，不要误称数据库单独证明了所有权。
-- `users → auth_sessions / user_limits / user_usage_daily / audit_logs(actor_id)`。audit_logs.target_id 是不透明审计对象，不是所有表的通用外键。
-- 任务文件、模型调用和人工反馈沿 job 所有权鉴权；历史无 owner 的记录仅管理员访问，不自动分配。
-- 任务表仍是全局 UNIQUE(idempotency_key)，后台把用户 ID 与客户端幂等键一起哈希后保存，实现用户范围内幂等；不擅自用草案的复合唯一键替换。
-- Auth Cookie 明文不入库；CSRF 从当前随机 Cookie 凭据派生并校验，不存在草案中的 csrf_token_sha256 列。账号密码使用 scrypt；登录 token 的 SHA-256 不是密码存储方案。
-- user_usage_daily 的调用次数在模型发出前与调用开始记录同事务预留；响应未知/用量未知阻断该用户后续调用，重放收据不重复结算。Token 限制是软停止线，源码配额不包含全部产物。
-- Float 映射为 DOUBLE 保持 Unix 秒精度；INTEGER 为有符号 32 位，后续搬迁若有超范围值必须先审查，不截断。字符串保持原长度与区分大小写的 utf8mb4_0900_bin。保留 JSON、NULL、CHECK、UNIQUE 和 FK，引用删除使用 RESTRICT。
-- Vue/San/SSM/截图等文件仍在应用产物目录，数据库不是文件备份。LangGraph 检查点仍由 SQLite saver 管理，不手工猜建检查点表。
-- alembic_version 在准备库保持空表，不能手动 stamp 为 0008 冒充完成 MySQL 接入；实际升级由后续已验证的迁移流程执行。
-- 用户初始数据应由应用 init-admin 隐藏密码提示和管理界面创建，不在 SQL 中填默认管理员/明文密码。
-
-## 字段与约束
-
-'''
+    data={'schema_basis':HEAD,'table_count':len(tables),'status':'implemented_sqlite_mysql_runtime_not_adapted',
+          'mysql_version_target':'8.4','database':DATABASE,'collation':baseline.COLLATION,'alembic_version_rows':0,
+          'tables':infos,'source_sha256':hashes,'schema_sql_sha256':sha256(sql.encode('utf-8')).hexdigest(),
+          'constraint_counts':{'primary_keys':len(infos),'unique':sum(len(i['unique']) for i in infos),
+                               'foreign_keys':sum(len(i['foreign_keys']) for i in infos),'checks':sum(len(i['checks']) for i in infos)}}
+    template=Path(__file__).resolve().parent/'templates'
+    doc=(template/'mysql_handoff_v2_intro.md').read_text(encoding='utf-8')+'\n'
+    doc+='| 表 | 分组 | 作用 |\n| --- | --- | --- |\n'
+    for info in infos:doc+=f"| `{info['name']}` | {info['group']} | {info['purpose']} |\n"
+    doc+='\n关系简图（具体 FK 以逐字段约束为准）：\n\n```text\nusers 1 → N auth_sessions / user_usage_daily / input_owners / job_owners / audit_logs(actor_id)\nusers 1 → 0..1 user_limits（应用创建账号时同时创建）\nsource_inputs 1 → 0..1 input_owners；migration_jobs 1 → 0..1 job_owners\nsource_inputs 1 → N migration_jobs → N migration_files / migration_model_calls / migration_feedback\nsource_inputs 1 → N tasks → N runs → N artifact_revisions / attempts / evaluations / candidate_decisions / run_events / worker_locks\nsource_inputs 1 → N ssm_extractions → N ssm_extraction_files / generation_jobs / provider_generation_jobs / generation_approvals\ngeneration_jobs 1 → 0..1 generation_attempts / generation_candidates；1 → N generation_files\nprovider_generation_jobs 1 → 0..1 provider_generation_attempts；1 → N provider_generation_files\ngeneration_approvals 1 → N generation_approval_files\n```\n\nauth_throttle 独立按摘要 bucket 限流；worker_health 是心跳表，不是用户所有权。旧数据允许无 owner，不能把可选关系改成必填并自动归档到新账号。\n\n## 4. 全部字段与约束\n\n除自增事件 ID 外没有数据库生成的业务默认值。NULL／非空、PRIMARY KEY、UNIQUE、FK、CHECK 均按当前模型导出，不补造约束。\n\n'
     for info in infos:
         doc+=f"### {info['name']}\n\n{info['purpose']}\n\n| 字段 | 类型 | 可空 | 含义 |\n|---|---|---|---|\n"
         for c in info['columns']:doc+=f"| `{c['name']}` | {c['mysql_type']} | {'是' if c['nullable'] else '否'} | {c['meaning']}{'；PK' if c['name'] in info['primary_key'] else ''} |\n"
-        doc+='\nUNIQUE：'+str(info['unique'])+'；CHECK：'+str(info['checks'])+'。\n\n'
+        doc+='\n主键：('+', '.join(info['primary_key'])+')；额外 UNIQUE：'+('；'.join('('+', '.join(u)+')' for u in info['unique']) or '无')+'。\n\n'
+        if info['checks']:doc+='CHECK：'+'；'.join('`'+c+'`' for c in info['checks'])+'。\n\n'
         for f in info['foreign_keys']:doc+=f"- `{info['name']}({', '.join(f['columns'])})` → `{f['target_table']}({', '.join(f['target_columns'])})`。\n"
         doc+='\n'
-    doc+='## 完整 SQL（仅新空库，未在真实 MySQL 实机执行）\n\n```sql\n'+sql+'```\n\n'
-    doc+='## 回报要求\n\n报告 MySQL 版本、内网地址/端口、准备库名、专用账号名（不含密码）、来源 IP 限制/TLS、34 张表的核验、失败语句、CHECK/FK/UNIQUE 负例结果、空 Alembic 版本表。不得宣称账号表建好即完成公网不可信代码执行隔离；系统当前支持受邀可信账号、单 Worker 排队，公网任意源码沙箱尚未交付。\n'
-    return {'MYSQL_MULTI_USER_HANDOFF.md':doc,'schema_multi_user.sql':sql,'schema_multi_user.json':json.dumps(data,ensure_ascii=False,indent=2)+'\n'}
+    doc+='## 5. 完整建库 SQL（仅新的空准备库）\n\n包含全部 34 表；不插入用户、版本或业务数据。确认目标实例后执行，遇错停止。\n\n```sql\n'+sql+'```\n\n'
+    verify=verification_sql(infos)
+    doc+='## 6. 完整只读核验 SQL\n\n建表成功后执行，所有业务表和版本表必须为空。不能代替第 7 节约束实测。\n\n```sql\n'+verify+'```\n\n'
+    doc+=(template/'mysql_handoff_v2_finish.md').read_text(encoding='utf-8')+'\n'
+    doc+='\n'.join(f'| `{p}` | `{h}` |' for p,h in hashes.items())+'\n'
+    return {'MYSQL_MULTI_USER_HANDOFF.md':doc,'schema_multi_user.sql':sql,'schema_multi_user.json':json.dumps(data,ensure_ascii=False,indent=2)+'\n','verify_schema.sql':verify}
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--json',action='store_true');parser.add_argument('--check',action='store_true');args=parser.parse_args()
