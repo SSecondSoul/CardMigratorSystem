@@ -33,11 +33,13 @@ class ReuseEquivalenceTests(unittest.TestCase):
             if item['transformation']=='none':
                 self.assertEqual((PROJECT/'engine'/name).read_bytes(),(ORIGINAL/item['source_path']).read_bytes(),name)
                 same+=1
-        self.assertEqual(same,93)
-        # Three explicitly versioned advances; all other reused bytes remain exact.
+        self.assertEqual(same,90)
+        # Six explicitly versioned advances; all other reused bytes remain exact.
         modified={name:item for name,item in manifest['files'].items() if item['transformation'].startswith('2026-11-18_')}
         self.assertEqual(set(modified),{'migration_pipeline/stages/validate.py',
-            'migration_pipeline/utils/method_interface_semantics.cjs','migration_pipeline/utils/repair_prompt.py'})
+            'migration_pipeline/utils/method_interface_semantics.cjs','migration_pipeline/utils/repair_prompt.py',
+            'migration_pipeline/utils/bounded_semantics.cjs','migration_pipeline/stages/repair.py',
+            'migration_pipeline/utils/repair_scheduler.py'})
         for name,item in modified.items():
             self.assertEqual(sha256((ORIGINAL/item['source_path']).read_bytes()).hexdigest(),item['source_sha256'])
         self.assertFalse((PROJECT/'engine/migration_pipeline/orchestrator.py').exists())
@@ -57,7 +59,7 @@ class ReuseEquivalenceTests(unittest.TestCase):
         old=SSMExtractor(ORIGINAL).extract(SOURCE.encode(),'CounterCard.vue',sha256(SOURCE.encode()).hexdigest())['ssm']
         self.assertEqual(self.ssm,old)
 
-    def test_static_rules_and_repair_prompt_match_original_experiment_implementation(self):
+    def test_static_rules_and_repair_prompt_match_original_except_versioned_computed_read_instruction(self):
         first=legacy_stage(ORIGINAL,'validate',source=self.source,code=self.target,ssm=self.ssm)
         second=legacy_stage(PROJECT/'engine','validate',source=self.source,code=self.target,ssm=self.ssm)
         for key in ('validation_passed','validation_errors','validation_warnings'):
@@ -70,6 +72,12 @@ class ReuseEquivalenceTests(unittest.TestCase):
                            errors=[],visual_errors=[{'code':'visual_mismatch'}])
             b=legacy_stage(PROJECT/'engine',action,source=self.source,code=broken,ssm=self.ssm,
                            errors=[],visual_errors=[{'code':'visual_mismatch'}])
+            if action=='repair_prompt':
+                # Assert the ONE declared prompt delta; no broad ignore/normalizer.
+                old='"this.computed.foo()"'
+                new='"this.computed.foo or this.computed.foo(); computed values live in this.data.get(\'foo\'), not an instance computed namespace"'
+                self.assertEqual(a['prompt'].count(old),1)
+                a={'prompt':a['prompt'].replace(old,new)}
             self.assertEqual(a,b,action)
 
     @unittest.skipUnless((ORIGINAL/'data/experiments/evaluator_calibration/2026-11-17_modular_product_filter_contract_replay_v4/implementation/migration_system/src/card_migration_system/application/migrations.py').is_file(), 'Historical pre-refactor implementation snapshot is unavailable')

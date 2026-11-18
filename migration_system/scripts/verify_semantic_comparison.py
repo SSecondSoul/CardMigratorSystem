@@ -18,7 +18,7 @@ def main():
     sys.path.insert(0,str(PROJECT/'tests'));sys.path.insert(0,str(PROJECT/'src'))
     loader=unittest.TestLoader()
     suites=[loader.discover(str(PROJECT/'tests'),pattern='test_modular_*.py')]
-    names=['test_semantic_comparison_v1','test_repair_context','test_dynamic_setter_production',
+    names=['test_semantic_comparison_v1','test_closed_loop_v2','test_repair_context','test_dynamic_setter_production',
            'test_san_business_contract_policy','test_production_scope','test_refactor_reuse']
     suites.extend(loader.loadTestsFromName(name) for name in names)
     counts=[s.countTestCases() for s in suites]

@@ -109,6 +109,66 @@ function processInput(input) {
     }
   });
   const edit = (start, end, text) => edits.push({start, end, text});
+  // San computed callbacks are not an instance namespace. Diagnose all known
+  // component scopes; repair only source-declared root computed VALUE reads.
+  // No component/method names are hard-coded; no source or target is executed.
+  let sourceRoot = null;
+  try {
+    const sourceScript=/<script\b[^>]*>([\s\S]*?)<\/script\s*>/i.exec(input.vue||'')?.[1];
+    if(sourceScript)traverse(parser.parse(sourceScript,{sourceType:'unambiguous'}),{
+      ExportDefaultDeclaration(p){if(p.node.declaration.type==='ObjectExpression')sourceRoot=p.node.declaration;},
+      AssignmentExpression(p){const n=p.node;
+        if(member(n.left,'Identifier','exports')&&n.left.object.name==='module'&&n.right.type==='ObjectExpression')sourceRoot=n.right;}
+    });
+  } catch (_) { /* No proof means no automatic repair. */ }
+  const unique=(object,name)=>object?.properties.filter(p=>key(p)===name).length===1
+    ?object.properties.find(p=>key(p)===name):null;
+  const sourceComputed=unique(sourceRoot,'computed')?.value;
+  const sourceNames=new Set(sourceComputed?.type==='ObjectExpression'?sourceComputed.properties.filter(p=>
+    p.type==='ObjectMethod'&&p.kind==='method'&&!p.params.length&&!p.async&&!p.generator
+    &&unique(sourceComputed,key(p))===p).map(key):[]);
+  const components=[...new Set([parent,...children].filter(Boolean))];
+  const unsafeStores=new Set();
+  traverse(ast,{
+    AssignmentExpression(p){let n=p.node.left;
+      while(n?.type==='MemberExpression'&&n.object.type==='MemberExpression')n=n.object;
+      if(member(n,'ThisExpression','data'))for(const c of components)
+        if(c.start<p.node.start&&c.end>p.node.end)unsafeStores.add(c);},
+    UpdateExpression(p){if(member(p.node.argument,'ThisExpression','data'))for(const c of components)
+      if(c.start<p.node.start&&c.end>p.node.end)unsafeStores.add(c);}
+  });
+  traverse(ast,{
+    MemberExpression(path){
+      const n=path.node, namespace=n.object;
+      if(!member(namespace,'ThisExpression','computed'))return;
+      const component=components.filter(c=>c.start<n.start&&c.end>n.end).sort((a,b)=>(a.end-a.start)-(b.end-b.start))[0];
+      const computed=unique(component,'computed')?.value;
+      if(computed?.type!=='ObjectExpression')return;
+      let owner=path.getFunctionParent();while(owner?.isArrowFunctionExpression())owner=owner.getFunctionParent();
+      const direct=owner?.node.type==='ObjectMethod'?owner.parent:owner?.parentPath?.parent;
+      if(direct!==component&&direct!==computed)return; // Nested ordinary function has a different this.
+      const name=!n.computed&&n.property.type==='Identifier'?n.property.name:
+        n.computed&&n.property.type==='StringLiteral'?n.property.value:null;
+      let context=path;
+      while(context.parentPath?.isMemberExpression()&&context.parent.object===context.node)context=context.parentPath;
+      const use=context.parent;
+      const unsafe=use?.type==='AssignmentExpression'&&use.left===context.node
+        ||use?.type==='UpdateExpression'||use?.type==='UnaryExpression'&&use.operator==='delete'
+        ||['CallExpression','NewExpression','OptionalCallExpression','TaggedTemplateExpression'].includes(use?.type);
+      const entry=name&&unique(computed,name);
+      const safe=component===parent&&sourceNames.has(name)&&entry?.type==='ObjectMethod'&&entry.kind==='method'
+        &&!entry.params.length&&!entry.async&&!entry.generator&&!unsafe
+        &&!['data','mixins','extends'].some(k=>component.properties.some(p=>key(p)===k))
+        &&!unsafeStores.has(component)
+        &&!component.properties.some(p=>key(p)===name);
+      findings.push({code:'invalid_san_computed_namespace_access',location:'script',
+        message:'Read San computed values through this.data.get(name), not this.computed: '+(name||'<dynamic>'),
+        details:{contract:'computed_namespace_v1',component:component===parent?'root':'inline_child',
+          name,line:n.loc.start.line,column:n.loc.start.column,source_declared_read_repairable:!!safe}});
+      if(input.repair&&safe){edit(offset+n.start,offset+n.end,'this.data.get('+JSON.stringify(name)+')');
+        changes.push('source_declared_computed_namespace_value_read');}
+    }
+  });
   if (parent) {
     for (const method of parent.properties) {
       const name = key(method), target = wrapperTarget(method);

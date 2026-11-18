@@ -35,6 +35,7 @@ PARENT_WATCH_REVIEW_CODES = frozenset({
 SEMANTIC_REGRESSION_CODES = frozenset({
     *CLASS_BINDING_CODES,
     "hidden_template_reactive_dependency", "invalid_san_computed_instance_method_call",
+    "invalid_san_computed_namespace_access",
     "invalid_san_inline_computed_method_invocation",
     "source_dom_event_not_landed", "source_dom_loop_not_landed", "source_dom_analysis_unavailable",
     "source_event_payload_not_landed", "source_event_payload_analysis_unavailable",
@@ -156,6 +157,13 @@ def candidate_gate(before, after):
     # Recompute source record contracts independently of caller-supplied flags.
     before_records = inspect_semantics(before['generated_code'], vue_source)
     after_records = inspect_semantics(after['generated_code'], vue_source)
+    # Independently retain namespace diagnostics even if a caller omits them.
+    namespace_findings=[f for f in after_records.get('findings',[])
+                        if f['code']=='invalid_san_computed_namespace_access']
+    waived_namespace=[f for f in namespace_findings if (f['code'],f['location']) not in reported]
+    gate['waived_computed_namespace_findings']=waived_namespace
+    if waived_namespace:
+        gate['should_stop']=True;gate['decision']='reject'
     # Reassess both absent and merely callable dynamic setters. Error counts or
     # caller-supplied success flags must not turn unknown assignment semantics
     # into a landed source interface.

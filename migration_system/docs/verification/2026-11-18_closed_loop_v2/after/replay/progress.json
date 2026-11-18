@@ -1,0 +1,2059 @@
+[
+  {
+    "job_id": "48d2324015a14e6292b9eb3c94272772",
+    "source_sha256": "f84efcfbc0b57731e358ff24264f6600a3a64fa58e725290f77799f4e7ac1d02",
+    "original_revision": "1",
+    "original_revision_sha256": "1cc7cb4e8bfe9b53d9e89c80cfbadb545470124a9cd73ce3a4bf404ab15a3ec7",
+    "before": {
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "fail"
+      },
+      "codes": [
+        "invalid_s_for_key_binding",
+        "source_dynamic_assignment_unproven",
+        "event_arguments_not_landed",
+        "missing_event_bindings",
+        "rendered_dom_mismatch",
+        "rendered_control_state_mismatch"
+      ]
+    },
+    "unchanged": {
+      "dimensions": {
+        "static": "fail",
+        "compile_runtime": "pass",
+        "structure": "fail",
+        "visual": "fail",
+        "interaction": "not_run",
+        "source_baseline": "pass"
+      },
+      "codes": [
+        "invalid_s_for_key_binding",
+        "event_arguments_not_landed",
+        "missing_event_bindings",
+        "rendered_dom_mismatch",
+        "rendered_control_state_mismatch"
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "proven_for_source_internal_calls",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 15,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "proven_for_source_internal_calls",
+            "scoped_proof": {
+              "contract": "source_internal_declared_state_assignment_v1",
+              "status": "proven_for_source_internal_calls",
+              "arbitrary_key_semantics_proven": false,
+              "source_keys": [
+                "members",
+                "workItems",
+                "cycle",
+                "selectedWorkId",
+                "skillFilter",
+                "saved",
+                "changeLog"
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "members",
+                    "line": 99
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "workItems",
+                    "line": 99
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "cycle",
+                    "line": 99
+                  },
+                  {
+                    "caller": "updateCycle",
+                    "key": "cycle",
+                    "line": 105
+                  },
+                  {
+                    "caller": "updateCycle",
+                    "key": "selectedWorkId",
+                    "line": 105
+                  },
+                  {
+                    "caller": "updateSkill",
+                    "key": "skillFilter",
+                    "line": 108
+                  },
+                  {
+                    "caller": "selectWork",
+                    "key": "selectedWorkId",
+                    "line": 111
+                  },
+                  {
+                    "caller": "assign",
+                    "key": "workItems",
+                    "line": 114
+                  },
+                  {
+                    "caller": "assign",
+                    "key": "saved",
+                    "line": 114
+                  },
+                  {
+                    "caller": "unassign",
+                    "key": "workItems",
+                    "line": 117
+                  },
+                  {
+                    "caller": "unassign",
+                    "key": "saved",
+                    "line": 117
+                  },
+                  {
+                    "caller": "changeCapacity",
+                    "key": "members",
+                    "line": 120
+                  },
+                  {
+                    "caller": "changeCapacity",
+                    "key": "saved",
+                    "line": 120
+                  },
+                  {
+                    "caller": "save",
+                    "key": "saved",
+                    "line": 123
+                  },
+                  {
+                    "caller": "log",
+                    "key": "changeLog",
+                    "line": 126
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "key": "members",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "workItems",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "cycle",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "updateCycle",
+                    "key": "cycle",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "updateCycle",
+                    "key": "selectedWorkId",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "updateSkill",
+                    "key": "skillFilter",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "selectWork",
+                    "key": "selectedWorkId",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "assign",
+                    "key": "workItems",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "assign",
+                    "key": "saved",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "unassign",
+                    "key": "workItems",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "unassign",
+                    "key": "saved",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "changeCapacity",
+                    "key": "members",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "changeCapacity",
+                    "key": "saved",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "save",
+                    "key": "saved",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "log",
+                    "key": "changeLog",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  }
+                ]
+              },
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "updateCycle",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "updateSkill",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "selectWork",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "assign",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "unassign",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "changeCapacity",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "save",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "log",
+                  "status": "complete_caller_with_inlined_write"
+                }
+              ],
+              "refusals": [],
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ]
+            }
+          }
+        },
+        {
+          "name": "emitEvent",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 3,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 3,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "updateCycle",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "updateSkill",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "selectWork",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "assign",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "unassign",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "changeCapacity",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "save",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "log",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 3,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 3,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "laneClass",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "isSelected",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "joinValues",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 0,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        }
+      ]
+    },
+    "historical_candidate_gates": [
+      {
+        "revision": 2,
+        "decision": {
+          "accepted": false,
+          "reason": "candidate_regression",
+          "dimensions": [],
+          "added_errors": [
+            "hidden_template_reactive_dependency",
+            "source_render_dependency_not_landed",
+            "template_structure_mismatch"
+          ]
+        },
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "fail",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "codes": [
+          "hidden_template_reactive_dependency",
+          "source_render_dependency_not_landed",
+          "source_render_dependency_not_landed",
+          "event_arguments_not_landed",
+          "missing_event_bindings",
+          "template_structure_mismatch",
+          "rendered_dom_mismatch",
+          "rendered_control_state_mismatch"
+        ]
+      },
+      {
+        "revision": 3,
+        "decision": {
+          "accepted": false,
+          "reason": "candidate_regression",
+          "dimensions": [],
+          "added_errors": [
+            "hidden_template_reactive_dependency",
+            "source_render_dependency_not_landed",
+            "template_structure_mismatch"
+          ]
+        },
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "fail",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "codes": [
+          "hidden_template_reactive_dependency",
+          "source_render_dependency_not_landed",
+          "source_render_dependency_not_landed",
+          "event_arguments_not_landed",
+          "missing_event_bindings",
+          "template_structure_mismatch",
+          "rendered_dom_mismatch",
+          "rendered_control_state_mismatch"
+        ]
+      }
+    ]
+  },
+  {
+    "job_id": "d090a489fe47472aabe62194668b7e6d",
+    "source_sha256": "6fbfdb50f664a52dee564bdb2f5d7217ce65155114613449cf3cf04b909c3c77",
+    "original_revision": "2",
+    "original_revision_sha256": "6a099261ae15ff66aceff66c79d0f1067b2d4929cf0fab0e1aa27e472d8e148b",
+    "before": {
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "codes": [
+        "source_dynamic_assignment_unproven",
+        "rendered_dom_mismatch"
+      ]
+    },
+    "unchanged": {
+      "dimensions": {
+        "static": "pass",
+        "compile_runtime": "pass",
+        "structure": "fail",
+        "visual": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass"
+      },
+      "codes": [
+        "rendered_dom_mismatch"
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "proven_for_source_internal_calls",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 13,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "proven_for_source_internal_calls",
+            "scoped_proof": {
+              "contract": "source_internal_declared_state_assignment_v1",
+              "status": "proven_for_source_internal_calls",
+              "arbitrary_key_semantics_proven": false,
+              "source_keys": [
+                "services",
+                "selectedServiceId",
+                "waves",
+                "approvals",
+                "environment",
+                "history",
+                "releaseStatus"
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "services",
+                    "line": 75
+                  },
+                  {
+                    "caller": "chooseService",
+                    "key": "selectedServiceId",
+                    "line": 81
+                  },
+                  {
+                    "caller": "assignWave",
+                    "key": "waves",
+                    "line": 84
+                  },
+                  {
+                    "caller": "assignWave",
+                    "key": "selectedServiceId",
+                    "line": 84
+                  },
+                  {
+                    "caller": "assignWave",
+                    "key": "approvals",
+                    "line": 84
+                  },
+                  {
+                    "caller": "removeFromWave",
+                    "key": "waves",
+                    "line": 87
+                  },
+                  {
+                    "caller": "removeFromWave",
+                    "key": "approvals",
+                    "line": 87
+                  },
+                  {
+                    "caller": "approve",
+                    "key": "approvals",
+                    "line": 90
+                  },
+                  {
+                    "caller": "setEnvironment",
+                    "key": "environment",
+                    "line": 93
+                  },
+                  {
+                    "caller": "setEnvironment",
+                    "key": "approvals",
+                    "line": 93
+                  },
+                  {
+                    "caller": "release",
+                    "key": "history",
+                    "line": 96
+                  },
+                  {
+                    "caller": "release",
+                    "key": "releaseStatus",
+                    "line": 96
+                  },
+                  {
+                    "caller": "rollback",
+                    "key": "releaseStatus",
+                    "line": 99
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "key": "services",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "chooseService",
+                    "key": "selectedServiceId",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "assignWave",
+                    "key": "waves",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "assignWave",
+                    "key": "selectedServiceId",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "assignWave",
+                    "key": "approvals",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "removeFromWave",
+                    "key": "waves",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "removeFromWave",
+                    "key": "approvals",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "approve",
+                    "key": "approvals",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "setEnvironment",
+                    "key": "environment",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "setEnvironment",
+                    "key": "approvals",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "release",
+                    "key": "history",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "release",
+                    "key": "releaseStatus",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "rollback",
+                    "key": "releaseStatus",
+                    "line": 1,
+                    "form": "inlined_data_set"
+                  }
+                ]
+              },
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "chooseService",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "assignWave",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "removeFromWave",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "approve",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "setEnvironment",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "release",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "rollback",
+                  "status": "complete_caller_with_inlined_write"
+                }
+              ],
+              "refusals": [],
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ]
+            }
+          }
+        },
+        {
+          "name": "emitEvent",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 4,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 4,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "chooseService",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "assignWave",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "removeFromWave",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "approve",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "setEnvironment",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "release",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "rollback",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "serviceLabel",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        }
+      ]
+    },
+    "historical_candidate_gates": [
+      {
+        "revision": 3,
+        "decision": {
+          "accepted": false,
+          "reason": "candidate_regression",
+          "dimensions": [
+            "static"
+          ],
+          "added_errors": [
+            "hidden_template_reactive_dependency"
+          ]
+        },
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "pass",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "codes": [
+          "hidden_template_reactive_dependency",
+          "rendered_dom_mismatch"
+        ]
+      }
+    ]
+  },
+  {
+    "job_id": "5d333886f6cb413f91ea2bdedaa97fd5",
+    "source_sha256": "bb2082cd22d2746a659c6ace56b55b2b130bffd37d84b5b563be672aa8f961b5",
+    "original_revision": "1",
+    "original_revision_sha256": "85ce60d27b48b9184a18ee763c999e8efe694f01908c14f8aa376456bfcdd7a2",
+    "before": {
+      "dimensions": {
+        "compile_runtime": "fail",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "pass",
+        "structure": "fail",
+        "visual": "fail"
+      },
+      "codes": [
+        "target_browser_error",
+        "rendered_dom_mismatch",
+        "rendered_control_state_mismatch"
+      ]
+    },
+    "unchanged": {
+      "dimensions": {
+        "static": "fail",
+        "compile_runtime": "fail",
+        "structure": "fail",
+        "visual": "fail",
+        "interaction": "not_run",
+        "source_baseline": "pass"
+      },
+      "codes": [
+        "invalid_san_computed_namespace_access",
+        "invalid_san_computed_namespace_access",
+        "target_browser_error",
+        "rendered_dom_mismatch",
+        "rendered_control_state_mismatch"
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "proven_for_source_internal_calls",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 5,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "proven_for_source_internal_calls",
+            "scoped_proof": {
+              "contract": "source_internal_declared_state_assignment_v1",
+              "status": "proven_for_source_internal_calls",
+              "arbitrary_key_semantics_proven": false,
+              "source_keys": [
+                "records",
+                "selectedHabit"
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "records",
+                    "line": 50
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "selectedHabit",
+                    "line": 50
+                  },
+                  {
+                    "caller": "toggle",
+                    "key": "records",
+                    "line": 56
+                  },
+                  {
+                    "caller": "selectHabit",
+                    "key": "selectedHabit",
+                    "line": 59
+                  },
+                  {
+                    "caller": "resetWeek",
+                    "key": "records",
+                    "line": 62
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "key": "records",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "selectedHabit",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "toggle",
+                    "key": "records",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "selectHabit",
+                    "key": "selectedHabit",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "resetWeek",
+                    "key": "records",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  }
+                ]
+              },
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "toggle",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "selectHabit",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "resetWeek",
+                  "status": "complete_caller_with_inlined_write"
+                }
+              ],
+              "refusals": [],
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ]
+            }
+          }
+        },
+        {
+          "name": "emitEvent",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "toggle",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "selectHabit",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "resetWeek",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "isDone",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "rowCount",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        }
+      ]
+    },
+    "rule_proposal": {
+      "changes": [
+        [
+          "bounded_ast_semantics",
+          "source_declared_computed_namespace_value_read"
+        ]
+      ],
+      "decision": {
+        "accepted": true,
+        "reason": "strict_improvement"
+      },
+      "dimensions": {
+        "static": "pass",
+        "compile_runtime": "pass",
+        "structure": "fail",
+        "visual": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass"
+      },
+      "codes": [
+        "rendered_dom_mismatch"
+      ],
+      "sha256": "ae1aab54173a8c6a9e97bf2884d91f1098eb58e8bcda0ebca84a80241127d5d3"
+    },
+    "historical_candidate_gates": [
+      {
+        "revision": 2,
+        "decision": {
+          "accepted": false,
+          "reason": "candidate_regression",
+          "dimensions": [],
+          "added_errors": [
+            "missing_prop_defaults",
+            "source_dynamic_assignment_unproven"
+          ]
+        },
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "fail",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "codes": [
+          "source_dynamic_assignment_unproven",
+          "missing_prop_defaults",
+          "rendered_dom_mismatch",
+          "rendered_control_state_mismatch"
+        ]
+      },
+      {
+        "revision": 3,
+        "decision": {
+          "accepted": false,
+          "reason": "candidate_regression",
+          "dimensions": [],
+          "added_errors": [
+            "missing_prop_defaults",
+            "source_dynamic_assignment_unproven"
+          ]
+        },
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "fail",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "codes": [
+          "source_dynamic_assignment_unproven",
+          "missing_prop_defaults",
+          "rendered_dom_mismatch",
+          "rendered_control_state_mismatch"
+        ]
+      }
+    ]
+  },
+  {
+    "job_id": "42acb66baae046dc84c8dc862e321abc",
+    "source_sha256": "7b5a1d3365f5465ed61c92a76e58453da4eb2798932c4b76a85118372d8dbbf8",
+    "original_revision": "1",
+    "original_revision_sha256": "7c701a41f1e99e67d47768143d89a4d518eec50fbc21c1188384a0fd60d44854",
+    "before": {
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "fail"
+      },
+      "codes": [
+        "dom_child_order_mismatch",
+        "source_computed_collection_not_landed",
+        "template_structure_mismatch",
+        "rendered_dom_mismatch",
+        "rendered_control_state_mismatch"
+      ]
+    },
+    "unchanged": {
+      "dimensions": {
+        "static": "fail",
+        "compile_runtime": "pass",
+        "structure": "fail",
+        "visual": "fail",
+        "interaction": "not_run",
+        "source_baseline": "pass"
+      },
+      "codes": [
+        "dom_child_order_mismatch",
+        "source_computed_collection_not_landed",
+        "template_structure_mismatch",
+        "rendered_dom_mismatch",
+        "rendered_control_state_mismatch"
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "proven_for_source_internal_calls",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 6,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "proven_for_source_internal_calls",
+            "scoped_proof": {
+              "contract": "source_internal_declared_state_assignment_v1",
+              "status": "proven_for_source_internal_calls",
+              "arbitrary_key_semantics_proven": false,
+              "source_keys": [
+                "options",
+                "selectedId",
+                "showResults"
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "options",
+                    "line": 40
+                  },
+                  {
+                    "caller": "vote",
+                    "key": "options",
+                    "line": 46
+                  },
+                  {
+                    "caller": "vote",
+                    "key": "selectedId",
+                    "line": 46
+                  },
+                  {
+                    "caller": "toggleResults",
+                    "key": "showResults",
+                    "line": 49
+                  },
+                  {
+                    "caller": "reset",
+                    "key": "options",
+                    "line": 52
+                  },
+                  {
+                    "caller": "reset",
+                    "key": "selectedId",
+                    "line": 52
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "key": "options",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "vote",
+                    "key": "options",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "vote",
+                    "key": "selectedId",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "toggleResults",
+                    "key": "showResults",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "reset",
+                    "key": "options",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "reset",
+                    "key": "selectedId",
+                    "line": 16,
+                    "form": "inlined_data_set"
+                  }
+                ]
+              },
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "vote",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "toggleResults",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "reset",
+                  "status": "complete_caller_with_inlined_write"
+                }
+              ],
+              "refusals": [],
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ]
+            }
+          }
+        },
+        {
+          "name": "emitEvent",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "vote",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "toggleResults",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "reset",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        }
+      ]
+    },
+    "historical_candidate_gates": [
+      {
+        "revision": 2,
+        "decision": {
+          "accepted": true,
+          "reason": "strict_improvement",
+          "diagnostic_refinements": [
+            "rendered_control_state_mismatch_to_existing_position_defect"
+          ],
+          "migration_passed": false
+        },
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "pass",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "codes": [
+          "dom_child_order_mismatch",
+          "template_structure_mismatch",
+          "rendered_dom_mismatch",
+          "rendered_control_position_mismatch"
+        ]
+      },
+      {
+        "revision": 3,
+        "decision": {
+          "accepted": true,
+          "reason": "strict_improvement",
+          "diagnostic_refinements": [
+            "rendered_control_state_mismatch_to_existing_position_defect"
+          ],
+          "migration_passed": false
+        },
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "pass",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "codes": [
+          "dom_child_order_mismatch",
+          "template_structure_mismatch",
+          "rendered_dom_mismatch",
+          "rendered_control_position_mismatch"
+        ]
+      }
+    ]
+  },
+  {
+    "job_id": "bd8061db7fed4bc280df537729d22863",
+    "source_sha256": "f84efcfbc0b57731e358ff24264f6600a3a64fa58e725290f77799f4e7ac1d02",
+    "original_revision": "1",
+    "original_revision_sha256": "1cc7cb4e8bfe9b53d9e89c80cfbadb545470124a9cd73ce3a4bf404ab15a3ec7",
+    "before": {
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "fail"
+      },
+      "codes": [
+        "invalid_s_for_key_binding",
+        "source_dynamic_assignment_unproven",
+        "event_arguments_not_landed",
+        "missing_event_bindings",
+        "rendered_dom_mismatch",
+        "rendered_control_state_mismatch"
+      ]
+    },
+    "unchanged": {
+      "dimensions": {
+        "static": "fail",
+        "compile_runtime": "pass",
+        "structure": "fail",
+        "visual": "fail",
+        "interaction": "not_run",
+        "source_baseline": "pass"
+      },
+      "codes": [
+        "invalid_s_for_key_binding",
+        "event_arguments_not_landed",
+        "missing_event_bindings",
+        "rendered_dom_mismatch",
+        "rendered_control_state_mismatch"
+      ],
+      "contracts": [
+        {
+          "name": "setValue",
+          "status": "proven_for_source_internal_calls",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 15,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false,
+          "dynamic_assignment": {
+            "key_parameter": "key",
+            "value_parameter": "value",
+            "source_shape": "exact_this_computed_key_assignment",
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "target_status": "proven_for_source_internal_calls",
+            "scoped_proof": {
+              "contract": "source_internal_declared_state_assignment_v1",
+              "status": "proven_for_source_internal_calls",
+              "arbitrary_key_semantics_proven": false,
+              "source_keys": [
+                "members",
+                "workItems",
+                "cycle",
+                "selectedWorkId",
+                "skillFilter",
+                "saved",
+                "changeLog"
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "members",
+                    "line": 99
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "workItems",
+                    "line": 99
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "cycle",
+                    "line": 99
+                  },
+                  {
+                    "caller": "updateCycle",
+                    "key": "cycle",
+                    "line": 105
+                  },
+                  {
+                    "caller": "updateCycle",
+                    "key": "selectedWorkId",
+                    "line": 105
+                  },
+                  {
+                    "caller": "updateSkill",
+                    "key": "skillFilter",
+                    "line": 108
+                  },
+                  {
+                    "caller": "selectWork",
+                    "key": "selectedWorkId",
+                    "line": 111
+                  },
+                  {
+                    "caller": "assign",
+                    "key": "workItems",
+                    "line": 114
+                  },
+                  {
+                    "caller": "assign",
+                    "key": "saved",
+                    "line": 114
+                  },
+                  {
+                    "caller": "unassign",
+                    "key": "workItems",
+                    "line": 117
+                  },
+                  {
+                    "caller": "unassign",
+                    "key": "saved",
+                    "line": 117
+                  },
+                  {
+                    "caller": "changeCapacity",
+                    "key": "members",
+                    "line": 120
+                  },
+                  {
+                    "caller": "changeCapacity",
+                    "key": "saved",
+                    "line": 120
+                  },
+                  {
+                    "caller": "save",
+                    "key": "saved",
+                    "line": 123
+                  },
+                  {
+                    "caller": "log",
+                    "key": "changeLog",
+                    "line": 126
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "key": "members",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "workItems",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "cycle",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "updateCycle",
+                    "key": "cycle",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "updateCycle",
+                    "key": "selectedWorkId",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "updateSkill",
+                    "key": "skillFilter",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "selectWork",
+                    "key": "selectedWorkId",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "assign",
+                    "key": "workItems",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "assign",
+                    "key": "saved",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "unassign",
+                    "key": "workItems",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "unassign",
+                    "key": "saved",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "changeCapacity",
+                    "key": "members",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "changeCapacity",
+                    "key": "saved",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "save",
+                    "key": "saved",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  },
+                  {
+                    "caller": "log",
+                    "key": "changeLog",
+                    "line": 47,
+                    "form": "inlined_data_set"
+                  }
+                ]
+              },
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "updateCycle",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "updateSkill",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "selectWork",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "assign",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "unassign",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "changeCapacity",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "save",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "log",
+                  "status": "complete_caller_with_inlined_write"
+                }
+              ],
+              "refusals": [],
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ]
+            }
+          }
+        },
+        {
+          "name": "emitEvent",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 3,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 3,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "updateCycle",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "updateSkill",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "selectWork",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "assign",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "unassign",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "changeCapacity",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "save",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "log",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 3,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 3,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "laneClass",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "isSelected",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        },
+        {
+          "name": "joinValues",
+          "status": "callable_present",
+          "legacy_wrapper": false,
+          "source_references": {
+            "count": 0,
+            "uncertain": true
+          },
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          },
+          "restore_eligible": false
+        }
+      ]
+    },
+    "historical_candidate_gates": [
+      {
+        "revision": 2,
+        "decision": {
+          "accepted": false,
+          "reason": "candidate_regression",
+          "dimensions": [],
+          "added_errors": [
+            "hidden_template_reactive_dependency",
+            "source_render_dependency_not_landed",
+            "template_structure_mismatch"
+          ]
+        },
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "fail",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "codes": [
+          "hidden_template_reactive_dependency",
+          "source_render_dependency_not_landed",
+          "source_render_dependency_not_landed",
+          "event_arguments_not_landed",
+          "missing_event_bindings",
+          "template_structure_mismatch",
+          "rendered_dom_mismatch",
+          "rendered_control_state_mismatch"
+        ]
+      },
+      {
+        "revision": 3,
+        "decision": {
+          "accepted": false,
+          "reason": "candidate_regression",
+          "dimensions": [],
+          "added_errors": [
+            "hidden_template_reactive_dependency",
+            "source_render_dependency_not_landed",
+            "template_structure_mismatch"
+          ]
+        },
+        "dimensions": {
+          "static": "fail",
+          "compile_runtime": "pass",
+          "structure": "fail",
+          "visual": "fail",
+          "interaction": "not_run",
+          "source_baseline": "pass"
+        },
+        "codes": [
+          "invalid_s_for_key_binding",
+          "hidden_template_reactive_dependency",
+          "source_render_dependency_not_landed",
+          "source_render_dependency_not_landed",
+          "event_arguments_not_landed",
+          "missing_event_bindings",
+          "template_structure_mismatch",
+          "rendered_dom_mismatch",
+          "rendered_control_state_mismatch"
+        ]
+      }
+    ]
+  }
+]

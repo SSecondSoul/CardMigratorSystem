@@ -1089,7 +1089,7 @@ class RepairPromptBuilder:
                 "methods:",
                 "this.props",
                 "this.$emit",
-                "this.computed.foo()",
+                "this.computed.foo or this.computed.foo(); computed values live in this.data.get('foo'), not an instance computed namespace",
                 "this.<stateField>",
                 "const { field } = this.data or any other direct destructuring of the San data store",
                 "this.data.map(...), this.data.length, or other array operations directly on the San data store, including inline children",

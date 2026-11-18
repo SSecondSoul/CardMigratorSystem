@@ -1,6 +1,6 @@
 """Multi-dimensional target checks. Missing coverage never becomes equivalence."""
 from .structure import tree_distance,tree_differences,compare_styles,ssm_template_tree,target_template_tree
-from .dom_comparison import compare_dom,compare_control_state
+from .dom_comparison import compare_dom,compare_control_state,control_gate_evidence,proven_control_diagnostic_refinement
 
 
 def assess(static,browser,actions,thresholds,ssm=None):
@@ -64,6 +64,8 @@ def assess(static,browser,actions,thresholds,ssm=None):
         'dom_normalization_changes':dom_comparison['normalization_changes'],
         'dom_representation_differences':dom_comparison['representation_differences'],
         'initial_control_state':controls,
+        'control_gate_evidence':control_gate_evidence(source['snapshots'][0],target['snapshots'][0],
+            source_bad or target_bad),
         'structure_differences':tree_differences(expected_tree,actual_tree),
         'structure_projection':'ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3',
         'projection_limitations':['mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted','key_identity_not_proven_by_ted','script_binding_event_style_dimensions_checked_by_legacy_validator'],
@@ -92,8 +94,16 @@ def candidate_decision(previous,candidate):
         if new_syntax.get('status')=='fail' and not added and not new_syntax.get('overflow') and not old_syntax.get('overflow'):
             improved=new_syntax['diagnostic_count']<old_syntax['diagnostic_count']
             return {'accepted':improved,'reason':'syntax_diagnostics_reduced' if improved else 'no_syntax_progress'}
+    refinements=[]
+    if ('rendered_control_position_mismatch' in added and 'rendered_control_state_mismatch' in old_errors
+            and 'rendered_control_state_mismatch' not in new_errors
+            and proven_control_diagnostic_refinement(previous,candidate)):
+        added.remove('rendered_control_position_mismatch')
+        refinements.append('rendered_control_state_mismatch_to_existing_position_defect')
     if candidate['source_blocked'] or regressions or added:
         return {'accepted':False,'reason':'candidate_regression','dimensions':regressions,'added_errors':sorted(added)}
     def score(value):return (sum(v=='pass' for v in value['dimensions'].values()),-len(value.get('diagnostics',[])),
         value['structure_ted']['similarity'],value.get('dom_ted',{}).get('similarity',0),value['ui_restoration'])
-    return {'accepted':score(candidate)>score(previous),'reason':'strict_improvement' if score(candidate)>score(previous) else 'no_strict_improvement'}
+    decision={'accepted':score(candidate)>score(previous),'reason':'strict_improvement' if score(candidate)>score(previous) else 'no_strict_improvement'}
+    if refinements:decision.update(diagnostic_refinements=refinements,migration_passed=candidate['passed'])
+    return decision

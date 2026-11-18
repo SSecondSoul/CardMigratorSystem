@@ -36,6 +36,9 @@ def assert_production_lineage(case):
         'engine/migration_pipeline/stages/validate.py',
         'engine/migration_pipeline/utils/method_interface_semantics.cjs',
         'engine/migration_pipeline/utils/repair_prompt.py',
+        'engine/migration_pipeline/stages/repair.py',
+        'engine/migration_pipeline/utils/bounded_semantics.cjs',
+        'engine/migration_pipeline/utils/repair_scheduler.py',
         'browser/empty-class-policy.mjs',
         'browser/evaluate.mjs',
     },'Explicit scoped validation/projection advances; generation and graph remain exact, old evidence remains sealed')

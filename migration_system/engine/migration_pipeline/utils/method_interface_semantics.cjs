@@ -196,8 +196,21 @@ function declaredStateAssignment(ctx,src,methods,name,target) {
   if(!calls.source.length)fail('no_proven_internal_calls');
   if(JSON.stringify(identities('source'))!==JSON.stringify(identities('target')))fail('caller_key_multiplicity_mismatch');
   const state=fieldNames(src.object,true),callerMappings=[];
-  const clean=n=>Array.isArray(n)?n.map(clean):n&&typeof n==='object'
-    ?Object.fromEntries(Object.entries(n).filter(([k])=>!['extra','loc','start','end','leadingComments','trailingComments','innerComments'].includes(k)).map(([k,v])=>[k,clean(v)])):n;
+  const clean=n=>{
+    if(Array.isArray(n))return n.map(clean);
+    if(!n||typeof n!=='object')return n;
+    const out=Object.fromEntries(Object.entries(n).filter(([k])=>!['extra','loc','start','end','leadingComments','trailingComments','innerComments'].includes(k)).map(([k,v])=>[k,clean(v)]));
+    // Only ordinary object EXPRESSION properties. Never sort, fold computed
+    // keys, change patterns/accessors/methods, or erase evaluation order.
+    if(out.type==='ObjectExpression')for(const p of out.properties){
+      if(p.type!=='ObjectProperty'||p.computed||!['Identifier','StringLiteral'].includes(p.key.type))continue;
+      const name=p.key.type==='Identifier'?p.key.name:p.key.value;
+      // {__proto__} is an own data property, unlike {__proto__: value}.
+      if(name==='__proto__'&&p.shorthand)continue;
+      p.key={type:'StringLiteral',value:name};p.shorthand=false;
+    }
+    return out;
+  };
   const compact=n=>generate(clean(n),{compact:true,comments:false}).code;
   // Compare COMPLETE caller bodies, not just field names/counts. The two
   // accepted forms preserve the helper or inline its one supported write.

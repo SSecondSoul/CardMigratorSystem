@@ -121,7 +121,7 @@ SCRIPT_CODES={'source_dynamic_assignment_unproven','event_arguments_not_landed',
     'hidden_template_reactive_dependency','source_render_dependency_not_landed',
     'missing_prop_defaults','missing_datatypes_for_props','datatypes_type_mismatch',
     'missing_data_types','nested_state_mutation','lifecycle_behavior_not_landed',
-    'missing_lifecycle_mapping','invalid_san_computed_instance_method_call',
+    'missing_lifecycle_mapping','invalid_san_computed_instance_method_call','invalid_san_computed_namespace_access',
     'invalid_san_init_data_store_access','missing_inline_prop_dependent_initialization'}
 REACTIVE_CODES={'hidden_template_reactive_dependency','source_render_dependency_not_landed',
     'invalid_san_computed_instance_method_call','nested_state_mutation'}

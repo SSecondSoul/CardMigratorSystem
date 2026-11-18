@@ -1,6 +1,65 @@
 """Keep raw evidence; distinguish representation, structure and live properties."""
 import re
+from hashlib import sha256
+import json
 from .structure import tree_distance,tree_differences
+
+
+def control_gate_evidence(source,target,overflow=False):
+    """Small, versioned identity witnesses; NOT a substitute for DOM checks.
+
+    Bound path-only diagnostic refinement to an already present target control
+    and its unchanged parent topology. Text values stay in control identities;
+    parent topology ignores text contents, not text/element boundaries.
+    """
+    def digest(value):return sha256(json.dumps(value,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
+    def shape(n):return {k:v for k,v in n.items() if k not in ('label','children')}|{
+        'text_node':n.get('tag') is None,'children':[shape(c) for c in n.get('children',[])]}
+    def witnesses(snapshot):
+        nodes={}
+        def walk(n,path):
+            nodes[path]=n
+            for i,c in enumerate(c for c in n.get('children',[]) if c.get('tag')):walk(c,path+'.'+str(i))
+        walk(snapshot['dom'],'root')
+        controls=[i for i in snapshot['styles'] if i.get('tag') in {'input','select','textarea','option','button'}]
+        if len(controls)>128:return None
+        result=[]
+        for item in controls:
+            path=item['path'];node=nodes.get(path);parent=nodes.get(path.rsplit('.',1)[0])
+            if not node or not parent or node.get('tag')!=item['tag']:return None
+            result.append({'path':path,'identity':digest(node),'parent_shape':digest(shape(parent))})
+        return result
+    first,second=witnesses(source),witnesses(target)
+    return {'contract':'control_diagnostic_refinement_v1','complete':not overflow and first is not None and second is not None,
+        'source_snapshot':digest({'dom':source['dom'],'controls':first}),'source':first,'target':second}
+
+
+def proven_control_diagnostic_refinement(previous,candidate):
+    """Only missing controls restored, with the remaining path defect unchanged.
+
+    Missing/old/truncated witnesses refuse refinement. New wrapper changes,
+    changed control identities, state changes, source changes all refuse it.
+    The candidate STILL fails structure; this only allows useful repair progress.
+    """
+    a,b=previous.get('initial_control_state',{}),candidate.get('initial_control_state',{})
+    x,y=previous.get('control_gate_evidence',{}),candidate.get('control_gate_evidence',{})
+    if not (x.get('contract')==y.get('contract')=='control_diagnostic_refinement_v1'
+            and x.get('complete') is True and y.get('complete') is True
+            and x.get('source_snapshot')==y.get('source_snapshot') and x.get('source')==y.get('source')
+            and a.get('source_count')==b.get('source_count')==b.get('target_count')
+            and isinstance(a.get('target_count'),int) and a['target_count']<b['target_count']
+            and b.get('values_equal_in_order') is True and b.get('equal') is False):return False
+    if not (previous['structure_ted']['similarity']<=candidate['structure_ted']['similarity']
+            and previous['dom_ted']['similarity']<candidate['dom_ted']['similarity']):return False
+    source,target=y.get('source'),y.get('target');old={i['path']:i for i in x.get('target') or []}
+    if not (isinstance(source,list) and isinstance(target,list) and len(source)==len(target)==b['source_count']):return False
+    shifted=0
+    for expected,actual in zip(source,target):
+        if expected['identity']!=actual['identity']:return False
+        if expected['path']!=actual['path']:
+            shifted+=1
+            if old.get(actual['path'])!=actual:return False
+    return bool(shifted)
 
 
 def compare_control_state(expected,actual):

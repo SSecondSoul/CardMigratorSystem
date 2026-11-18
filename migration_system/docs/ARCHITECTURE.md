@@ -1,5 +1,7 @@
 # 当前架构：一条主链、内部引擎、两个持久化职责
 
+2026-11-18 闭环 v2：没有新增运行时或编排层。原 `bounded_semantics.cjs` 增加 computed 命名空间诊断／源声明约束下的值读取修复，既有修复入口及调度保护使用同一错误码；方法比较仅归一化普通对象表达式的等效表示。`dom_comparison.py` 提供有上限的控件身份／父拓扑证据，原候选门据此允许可证明的诊断细化，结构检查仍失败。详见 [闭环修复记录](CLOSED_LOOP_V2.md)。
+
 2026-11-18 比较／契约增量：`browser/class-projection.mjs` 为源／目标提供对称、token 边界保守的 class 投影；`stages/dom_comparison.py` 保留原始证据并分类表示差异与控件属性／路径差异。内置 `method_interface_semantics.cjs` 在源码内部普通 data 键调用范围内核对 setter 形状、完整调用者函数及生命周期映射，支持保留 helper 或等效内联写入；不新增运行时、不重写源码、不替代模型生成。新范围 v4 与逐方法证据随新任务／报告持久化；原生成阶段、图和质量阈值不改。详见 [通用修复](SEMANTIC_COMPARISON_V1.md)。
 
 2026-11-18 修复边界增量：`prompts/repair_context.py` 只负责发给修复模型的证据投影。`stages/repair.py` 保留原规则调度、语法分支、模型账本和候选机制，调用旧 Prompt builder 后替换全量 SSM 文本为有明确范围的相关证据，不再拼接整份评估。原 engine、生成阶段、原始评估数据和质量判定不改；没有增加迁移路径或兼容运行时。详见 [验证记录](verification/2026-11-18_repair_context_v1/README.md)。

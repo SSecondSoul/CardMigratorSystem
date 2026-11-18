@@ -1,0 +1,931 @@
+{
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "hidden_template_reactive_dependency",
+      "location": "template/script",
+      "message": "\u6a21\u677f text \u6e32\u67d3\u8868\u8fbe\u5f0f\u8c03\u7528 serviceLabel(...)\uff0c\u4f46\u8be5\u65b9\u6cd5\u5185\u90e8\u9690\u85cf\u8bfb\u53d6\u54cd\u5e94\u5f0f\u5b57\u6bb5\uff1aservices\u3002\u8fd9\u4e9b\u5b57\u6bb5\u53d8\u5316\u65f6\uff0cSan \u53ef\u80fd\u4e0d\u4f1a\u91cd\u65b0\u8ba1\u7b97\u8be5\u7ed1\u5b9a\u3002",
+      "severity": "error",
+      "suggestion": "\u5728\u6a21\u677f\u8868\u8fbe\u5f0f\u4e2d\u76f4\u63a5\u5f15\u7528 services\uff0c\u6216\u5c06\u8fd9\u4e9b\u5b57\u6bb5\u4f5c\u4e3a\u53c2\u6570\u663e\u5f0f\u4f20\u7ed9 serviceLabel(...)\u3002"
+    },
+    {
+      "code": "source_dynamic_assignment_unproven",
+      "details": {
+        "arbitrary_key_semantics_proven": false,
+        "caller_mappings": [
+          {
+            "caller": "inited",
+            "status": "complete_caller_with_inlined_write"
+          },
+          {
+            "caller": "chooseService",
+            "status": "complete_caller_with_inlined_write"
+          },
+          {
+            "caller": "assignWave",
+            "status": "complete_caller_with_inlined_write"
+          },
+          {
+            "caller": "removeFromWave",
+            "status": "complete_caller_with_inlined_write"
+          },
+          {
+            "caller": "approve",
+            "status": "complete_caller_with_inlined_write"
+          },
+          {
+            "caller": "setEnvironment",
+            "status": "complete_caller_with_inlined_write"
+          },
+          {
+            "caller": "release",
+            "status": "unproven"
+          },
+          {
+            "caller": "rollback",
+            "status": "complete_caller_with_inlined_write"
+          }
+        ],
+        "calls": {
+          "source": [
+            {
+              "caller": "inited",
+              "key": "services",
+              "line": 75
+            },
+            {
+              "caller": "chooseService",
+              "key": "selectedServiceId",
+              "line": 81
+            },
+            {
+              "caller": "assignWave",
+              "key": "waves",
+              "line": 84
+            },
+            {
+              "caller": "assignWave",
+              "key": "selectedServiceId",
+              "line": 84
+            },
+            {
+              "caller": "assignWave",
+              "key": "approvals",
+              "line": 84
+            },
+            {
+              "caller": "removeFromWave",
+              "key": "waves",
+              "line": 87
+            },
+            {
+              "caller": "removeFromWave",
+              "key": "approvals",
+              "line": 87
+            },
+            {
+              "caller": "approve",
+              "key": "approvals",
+              "line": 90
+            },
+            {
+              "caller": "setEnvironment",
+              "key": "environment",
+              "line": 93
+            },
+            {
+              "caller": "setEnvironment",
+              "key": "approvals",
+              "line": 93
+            },
+            {
+              "caller": "release",
+              "key": "history",
+              "line": 96
+            },
+            {
+              "caller": "release",
+              "key": "releaseStatus",
+              "line": 96
+            },
+            {
+              "caller": "rollback",
+              "key": "releaseStatus",
+              "line": 99
+            }
+          ],
+          "target": [
+            {
+              "caller": "inited",
+              "form": "inlined_data_set",
+              "key": "services",
+              "line": 1
+            },
+            {
+              "caller": "chooseService",
+              "form": "inlined_data_set",
+              "key": "selectedServiceId",
+              "line": 1
+            },
+            {
+              "caller": "assignWave",
+              "form": "inlined_data_set",
+              "key": "waves",
+              "line": 1
+            },
+            {
+              "caller": "assignWave",
+              "form": "inlined_data_set",
+              "key": "selectedServiceId",
+              "line": 1
+            },
+            {
+              "caller": "assignWave",
+              "form": "inlined_data_set",
+              "key": "approvals",
+              "line": 1
+            },
+            {
+              "caller": "removeFromWave",
+              "form": "inlined_data_set",
+              "key": "waves",
+              "line": 1
+            },
+            {
+              "caller": "removeFromWave",
+              "form": "inlined_data_set",
+              "key": "approvals",
+              "line": 1
+            },
+            {
+              "caller": "approve",
+              "form": "inlined_data_set",
+              "key": "approvals",
+              "line": 1
+            },
+            {
+              "caller": "setEnvironment",
+              "form": "inlined_data_set",
+              "key": "environment",
+              "line": 1
+            },
+            {
+              "caller": "setEnvironment",
+              "form": "inlined_data_set",
+              "key": "approvals",
+              "line": 1
+            },
+            {
+              "caller": "release",
+              "form": "inlined_data_set",
+              "key": "history",
+              "line": 1
+            },
+            {
+              "caller": "release",
+              "form": "inlined_data_set",
+              "key": "releaseStatus",
+              "line": 1
+            },
+            {
+              "caller": "rollback",
+              "form": "inlined_data_set",
+              "key": "releaseStatus",
+              "line": 1
+            }
+          ]
+        },
+        "contract": "source_internal_declared_state_assignment_v1",
+        "limitations": [
+          "not_arbitrary_external_public_key_equivalence",
+          "surrounding_call_timing_values_and_other_methods_checked_separately"
+        ],
+        "refusals": [
+          "caller_body_not_source_matched:release"
+        ],
+        "source_keys": [
+          "services",
+          "selectedServiceId",
+          "waves",
+          "approvals",
+          "environment",
+          "history",
+          "releaseStatus"
+        ],
+        "status": "unproven"
+      },
+      "location": "script.methods.setValue",
+      "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:release. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:unknown_member_call",
+          "source:unknown_or_dom_global",
+          "target:dom_or_reflective_member",
+          "target:dynamic_member",
+          "target:unknown_member_call",
+          "target:unknown_or_dom_global",
+          "target:unknown_target_loop"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "select|",
+          "expected": "select|value=\u6d4b\u8bd5",
+          "path": "root.0.0.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.4"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 15,
+        "target_count": 15,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "select|",
+          "expected": "select|value=\u6d4b\u8bd5",
+          "path": "root.0.0.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.4"
+        }
+      ],
+      "representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.0.1",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.0.2",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.0.3",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.0.4",
+          "source": "",
+          "target": null
+        }
+      ]
+    }
+  ],
+  "different_pixel_ratio": 0,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "source:unknown_member_call",
+      "source:unknown_or_dom_global",
+      "target:dom_or_reflective_member",
+      "target:dynamic_member",
+      "target:unknown_member_call",
+      "target:unknown_or_dom_global",
+      "target:unknown_target_loop"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "select|",
+      "expected": "select|value=\u6d4b\u8bd5",
+      "path": "root.0.0.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.2"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.4"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.1.0.1",
+      "source": "",
+      "target": null
+    },
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.1.0.2",
+      "source": "",
+      "target": null
+    },
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.1.0.3",
+      "source": "",
+      "target": null
+    },
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.1.0.4",
+      "source": "",
+      "target": null
+    }
+  ],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 5,
+    "similarity": 0.9397590361445783,
+    "source_nodes": 83,
+    "target_nodes": 83
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/d090a489fe47472aabe62194668b7e6d/evaluations/3/heatmap.png",
+      "sha256": "fda01e760a6c52ca139f8ca0a78b469770f4b39be248477654988aa1b184dace"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/d090a489fe47472aabe62194668b7e6d/evaluations/3/san.png",
+      "sha256": "28d5c037c958207be758559b39cd3220df15f0cd26b0c47d587db1c86ba66dfe"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/d090a489fe47472aabe62194668b7e6d/evaluations/3/vue.png",
+      "sha256": "28d5c037c958207be758559b39cd3220df15f0cd26b0c47d587db1c86ba66dfe"
+    }
+  },
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 15,
+    "target_count": 15,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "select|",
+      "expected": "select|value=\u6d4b\u8bd5",
+      "path": "root.0.0.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.1"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.2"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.3"
+    },
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.4"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 5,
+    "similarity": 0.9397590361445783,
+    "source_nodes": 83,
+    "target_nodes": 83
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "9a187a146f56d1ed2536e71cdbbc91ff721ec6b35161d54d56c97129faa8e118",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 5,
+    "similarity": 0.9056603773584906,
+    "source_nodes": 53,
+    "target_nodes": 53
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "chooseService",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "assignWave",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "removeFromWave",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "approve",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "setEnvironment",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "release",
+              "status": "unproven"
+            },
+            {
+              "caller": "rollback",
+              "status": "complete_caller_with_inlined_write"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "services",
+                "line": 75
+              },
+              {
+                "caller": "chooseService",
+                "key": "selectedServiceId",
+                "line": 81
+              },
+              {
+                "caller": "assignWave",
+                "key": "waves",
+                "line": 84
+              },
+              {
+                "caller": "assignWave",
+                "key": "selectedServiceId",
+                "line": 84
+              },
+              {
+                "caller": "assignWave",
+                "key": "approvals",
+                "line": 84
+              },
+              {
+                "caller": "removeFromWave",
+                "key": "waves",
+                "line": 87
+              },
+              {
+                "caller": "removeFromWave",
+                "key": "approvals",
+                "line": 87
+              },
+              {
+                "caller": "approve",
+                "key": "approvals",
+                "line": 90
+              },
+              {
+                "caller": "setEnvironment",
+                "key": "environment",
+                "line": 93
+              },
+              {
+                "caller": "setEnvironment",
+                "key": "approvals",
+                "line": 93
+              },
+              {
+                "caller": "release",
+                "key": "history",
+                "line": 96
+              },
+              {
+                "caller": "release",
+                "key": "releaseStatus",
+                "line": 96
+              },
+              {
+                "caller": "rollback",
+                "key": "releaseStatus",
+                "line": 99
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "services",
+                "line": 1
+              },
+              {
+                "caller": "chooseService",
+                "form": "inlined_data_set",
+                "key": "selectedServiceId",
+                "line": 1
+              },
+              {
+                "caller": "assignWave",
+                "form": "inlined_data_set",
+                "key": "waves",
+                "line": 1
+              },
+              {
+                "caller": "assignWave",
+                "form": "inlined_data_set",
+                "key": "selectedServiceId",
+                "line": 1
+              },
+              {
+                "caller": "assignWave",
+                "form": "inlined_data_set",
+                "key": "approvals",
+                "line": 1
+              },
+              {
+                "caller": "removeFromWave",
+                "form": "inlined_data_set",
+                "key": "waves",
+                "line": 1
+              },
+              {
+                "caller": "removeFromWave",
+                "form": "inlined_data_set",
+                "key": "approvals",
+                "line": 1
+              },
+              {
+                "caller": "approve",
+                "form": "inlined_data_set",
+                "key": "approvals",
+                "line": 1
+              },
+              {
+                "caller": "setEnvironment",
+                "form": "inlined_data_set",
+                "key": "environment",
+                "line": 1
+              },
+              {
+                "caller": "setEnvironment",
+                "form": "inlined_data_set",
+                "key": "approvals",
+                "line": 1
+              },
+              {
+                "caller": "release",
+                "form": "inlined_data_set",
+                "key": "history",
+                "line": 1
+              },
+              {
+                "caller": "release",
+                "form": "inlined_data_set",
+                "key": "releaseStatus",
+                "line": 1
+              },
+              {
+                "caller": "rollback",
+                "form": "inlined_data_set",
+                "key": "releaseStatus",
+                "line": 1
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:release"
+          ],
+          "source_keys": [
+            "services",
+            "selectedServiceId",
+            "waves",
+            "approvals",
+            "environment",
+            "history",
+            "releaseStatus"
+          ],
+          "status": "unproven"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "callable_unproven",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 13,
+        "uncertain": true
+      },
+      "status": "callable_semantics_unproven",
+      "target_references": {
+        "count": 0,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 4,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 4,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "chooseService",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "assignWave",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "removeFromWave",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "approve",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 2,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 2,
+        "uncertain": true
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "setEnvironment",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "release",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": true
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "rollback",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": true
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "serviceLabel",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 1,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 33,
+    "target_nodes": 33
+  },
+  "styles": {
+    "compared_properties": 663,
+    "differences": [],
+    "matching": "child_index_path",
+    "similarity": 1.0,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 883.9091999999998,
+    "target": 778.0917
+  },
+  "ui_restoration": 100
+}
