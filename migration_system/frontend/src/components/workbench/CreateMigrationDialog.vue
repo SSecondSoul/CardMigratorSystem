@@ -29,10 +29,10 @@ onBeforeUnmount(()=>document.body.classList.remove('cm-dialog-open'))
         <label><span class="cm-between">Vue 源码 <small :class="{danger:bytes>262144}">{{bytes.toLocaleString()}} / 262,144 B</small></span><textarea v-model="draft.source" rows="8" spellcheck="false" placeholder="或在这里粘贴完整的 template、script 和 style…" required /></label>
         <div class="cm-form-two"><label>迁移策略<input value="SSM ＋ 有界修复" readonly aria-label="迁移策略" /></label><label>最大修复轮数<select v-model.number="draft.rounds"><option v-for="n in [0,1,2,3]" :key="n" :value="n">{{n}} 轮</option></select></label></div>
         <details class="cm-details"><summary>评估配置 <span>props 与代表性交互</span><UiIcon name="chevron" :size="16"/></summary><div class="cm-form-two"><label>props JSON<textarea v-model="draft.propsText" rows="4" spellcheck="false" /></label><label>交互 JSON<textarea v-model="draft.actionsText" rows="4" spellcheck="false" /></label></div><p class="cm-help">没有交互场景请保留 []，报告将显示“未测试”，不会视为交互通过。</p></details>
-        <p class="cm-help">创建任务后将执行源码并调用模型，请仅提交可信源码；模型调用可能产生费用。</p>
+        <p class="cm-help">创建任务后将执行源码并调用模型，请仅提交可信源码。</p>
         <p v-if="submitHint" class="cm-help" role="status">{{submitHint}}</p>
       </fieldset>
-      <footer class="cm-dialog-footer"><span>写入请求不自动重试 · 原源码保持不变</span><button type="button" :disabled="busy" @click="emit('close')">取消</button><button class="cm-primary" type="submit" :disabled="!canSubmit"><UiIcon :name="busy?'refresh':'plus'" :size="17"/>{{busy?'正在提交…':'创建真实迁移任务'}}</button></footer>
+      <footer class="cm-dialog-footer"><button type="button" :disabled="busy" @click="emit('close')">取消</button><button class="cm-primary" type="submit" :disabled="!canSubmit"><UiIcon :name="busy?'refresh':'plus'" :size="17"/>{{busy?'正在提交…':'创建真实迁移任务'}}</button></footer>
     </form>
   </dialog>
 </template>

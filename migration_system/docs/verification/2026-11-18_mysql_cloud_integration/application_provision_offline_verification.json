@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-18",
+  "scope": "application_account_provisioning_offline_tests_not_live_account_creation",
+  "user_data_decision": "fresh_cloud_database_new_admin_no_sqlite_migration",
+  "tests": {
+    "test_mysql_app_provision.py": 9,
+    "test_mysql_connection.py": 24,
+    "test_mysql_runtime.py": 17,
+    "test_mysql_bootstrap_cli.py": 7
+  },
+  "total": 57,
+  "result": "passed",
+  "database_network_used_by_these_tests": false,
+  "model_calls": 0,
+  "application_account_created": false,
+  "administrator_initialized": false,
+  "runtime_switch_performed": false,
+  "verified_boundaries": [
+    "offline_default_no_prompt_no_network",
+    "database_only_select_insert_update_delete",
+    "database_underscore_wildcard_scope_restricted",
+    "source_ip_restricted_and_require_ssl",
+    "no_root_or_application_password_in_configs_or_reports",
+    "no_existing_account_reset_or_local_file_overwrite",
+    "fresh_business_database_required",
+    "partial_failure_records_account_and_secret_progress",
+    "administrator_reuses_existing_accounts_cli",
+    "sqlite_runtime_defaults_unchanged"
+  ],
+  "pending": [
+    "user_hidden_password_input_and_live_account_creation",
+    "live_new_administrator_initialization",
+    "cloud_api_worker_end_to_end_verification",
+    "native_cloud_backup_restore_acceptance"
+  ]
+}

@@ -14,7 +14,7 @@ from uuid import uuid4
 from sqlalchemy import select, or_, and_
 
 from ..contracts import load_p1_contracts
-from ..persistence.database import engine_for, require_schema, transaction
+from ..persistence.database import engine_for_settings, require_schema, transaction
 from ..persistence.schema_v1 import (Attempt, CandidateDecision, Evaluation, Revision,
                                     Run, RunEvent, SourceInput, Task, WorkerLock)
 from ..persistence.worker_health import WorkerHealth
@@ -57,12 +57,12 @@ class Service:
     def __init__(self, settings):
         if (settings.runtime_dir / ".restore-in-progress").exists():
             raise ServiceError("restore_incomplete_requires_review", 503)
-        if not settings.business_database.is_file():
+        if settings.database_backend == 'sqlite' and not settings.business_database.is_file():
             raise ServiceError("database_not_initialized", 503)
         self.settings = settings
         self.binding = load_p1_contracts(settings.repository_root)
         self.storage = Storage(settings.artifact_dir)
-        self.engine = engine_for(settings.business_database)
+        self.engine = engine_for_settings(settings)
         try:
             require_schema(self.engine)
         except Exception:

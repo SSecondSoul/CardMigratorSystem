@@ -41,6 +41,8 @@ class Settings:
     mode: str
     auth_mode: str = 'local'
     public_origin: str = ''
+    database_backend: str = 'sqlite'
+    mysql_connection_file: Path | None = None
 
     @property
     def engine_root(self) -> Path:
@@ -63,7 +65,8 @@ class Settings:
             "project_root": str(self.project_root),
             "engine_root": str(self.engine_root),
             "runtime_dir": str(self.runtime_dir), "artifact_dir": str(self.artifact_dir),
-            "business_database": str(self.business_database),
+            "business_database": str(self.business_database) if self.database_backend == 'sqlite' else 'mysql (credentials redacted)',
+            "database_backend": self.database_backend,
             "graph_database": str(self.graph_database),
         }
 
@@ -85,7 +88,7 @@ def load_settings(*, project_root: Path | str | None = None,
         payload = tomllib.loads(data.decode("utf-8"))
     except (OSError, UnicodeError, tomllib.TOMLDecodeError) as error:
         raise ConfigurationError("Cannot read valid UTF-8 TOML configuration") from error
-    _keys(payload, ("schema_version", "app", "paths"), "top-level")
+    _keys(payload, ("schema_version", "app", "paths", "database"), "top-level")
     if type(payload.get("schema_version")) is not int or payload["schema_version"] != 1:
         raise ConfigurationError("Unsupported configuration schema")
     app, paths = payload.get("app"), payload.get("paths")
@@ -122,4 +125,19 @@ def load_settings(*, project_root: Path | str | None = None,
     artifacts = _inside(project / paths["artifact_dir"], project / 'var/artifacts', "Artifact")
     if runtime == artifacts or runtime.is_relative_to(artifacts) or artifacts.is_relative_to(runtime):
         raise ConfigurationError("Runtime and evidence directories must differ")
-    return Settings(project, repository, runtime, artifacts, host, port, mode, auth_mode, origin)
+    database = payload.get('database', {'backend': 'sqlite'})
+    _keys(database, ('backend', 'connection_file'), 'database')
+    backend = database.get('backend', 'sqlite')
+    if backend not in ('sqlite', 'mysql'):
+        raise ConfigurationError('Unsupported database backend')
+    connection_file = None
+    if backend == 'mysql':
+        filename = database.get('connection_file')
+        if type(filename) is not str or not filename.strip():
+            raise ConfigurationError('MySQL requires a connection config file')
+        connection_file = _inside(project / filename, project / 'configs', 'MySQL config')
+        if auth_mode != 'multi_user':
+            raise ConfigurationError('MySQL requires multi_user authentication')
+    elif 'connection_file' in database:
+        raise ConfigurationError('SQLite must not specify MySQL connection config')
+    return Settings(project, repository, runtime, artifacts, host, port, mode, auth_mode, origin, backend, connection_file)

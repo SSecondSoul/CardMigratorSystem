@@ -1,0 +1,21 @@
+# Connection inspection only. This does not switch the API/Worker off SQLite.
+# Copy to mysql_connection.local.toml and fill the non-secret connection fields.
+schema_version = 1
+
+[database]
+host = ""
+port = 3306
+name = "cardmigrator_multi_user_staging"
+username = ""
+password_env = "CARDMIG_MYSQL_PASSWORD"
+connect_timeout = 5
+read_timeout = 10
+
+[tls]
+mode = "verify_identity"
+# Empty means OS/Python trust store; self-signed CA needs an explicit PEM file.
+ca_file = ""
+# Explicitly approved provider compatibility may use mode="verify_ca" instead;
+# that mode REQUIRES a CA file and does not verify the hostname. No auto fallback.
+# To inspect a controlled private-IP LAN without TLS, explicitly set mode to
+# "disabled" AND pass --allow-insecure-lan. It is never an automatic fallback.

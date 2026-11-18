@@ -1,0 +1,15 @@
+# Opt-in only. Do not replace the working SQLite configuration before cloud tests.
+schema_version = 1
+[app]
+mode = "development_stub"
+host = "127.0.0.1"
+port = 8790
+auth_mode = "multi_user"
+public_origin = ""
+[paths]
+# Independent local graph/checkpoints. Artifacts remain on this server, not in MySQL.
+runtime_dir = "var/mysql_multi_user/runtime"
+artifact_dir = "var/artifacts/mysql_multi_user"
+[database]
+backend = "mysql"
+connection_file = "configs/mysql_connection.local.toml"

@@ -1,0 +1,189 @@
+{
+  "status": "mysql_schema_review_required",
+  "network_connected": true,
+  "server_version": "8.0.30-cynos-3.1.19.002",
+  "handoff_target_version": "8.4",
+  "version_warnings": [
+    "mysql_8_0_differs_from_handoff_target_8_4"
+  ],
+  "application_compatibility_status": "not_validated",
+  "tls_verified": true,
+  "tls_verification_mode": "verify_ca",
+  "tls_identity_verified": false,
+  "tls_encrypted": true,
+  "schema": {
+    "expected_tables": 34,
+    "actual_tables": 34,
+    "differences": [
+      {
+        "table": "users",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "role IN ('admin','user')"
+        ],
+        "actual": [
+          {
+            "clause": "(`role` in (_utf8mb4\\'admin\\',_utf8mb4\\'user\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "ssm_extractions",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "status IN ('prepared','started','received','completed','blocked','review_required')"
+        ],
+        "actual": [
+          {
+            "clause": "(`status` in (_utf8mb4\\'prepared\\',_utf8mb4\\'started\\',_utf8mb4\\'received\\',_utf8mb4\\'completed\\',_utf8mb4\\'blocked\\',_utf8mb4\\'review_required\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "generation_approvals",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "status IN ('pending','approved','revoked','consumed')"
+        ],
+        "actual": [
+          {
+            "clause": "(`status` in (_utf8mb4\\'pending\\',_utf8mb4\\'approved\\',_utf8mb4\\'revoked\\',_utf8mb4\\'consumed\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "generation_jobs",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "status IN ('prepared','started','received','completed','blocked','review_required')"
+        ],
+        "actual": [
+          {
+            "clause": "(`status` in (_utf8mb4\\'prepared\\',_utf8mb4\\'started\\',_utf8mb4\\'received\\',_utf8mb4\\'completed\\',_utf8mb4\\'blocked\\',_utf8mb4\\'review_required\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "provider_generation_jobs",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "status IN ('prepared','started','received','completed','blocked','review_required')"
+        ],
+        "actual": [
+          {
+            "clause": "(`status` in (_utf8mb4\\'prepared\\',_utf8mb4\\'started\\',_utf8mb4\\'received\\',_utf8mb4\\'completed\\',_utf8mb4\\'blocked\\',_utf8mb4\\'review_required\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "ssm_extraction_files",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "kind IN ('request','ssm','receipt')"
+        ],
+        "actual": [
+          {
+            "clause": "(`kind` in (_utf8mb4\\'request\\',_utf8mb4\\'ssm\\',_utf8mb4\\'receipt\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "generation_approval_files",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "kind IN ('request','approval','revocation','claim')"
+        ],
+        "actual": [
+          {
+            "clause": "(`kind` in (_utf8mb4\\'request\\',_utf8mb4\\'approval\\',_utf8mb4\\'revocation\\',_utf8mb4\\'claim\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "generation_attempts",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "status IN ('started','received','review_required')"
+        ],
+        "actual": [
+          {
+            "clause": "(`status` in (_utf8mb4\\'started\\',_utf8mb4\\'received\\',_utf8mb4\\'review_required\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "generation_files",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "kind IN ('request','receipt','candidate')"
+        ],
+        "actual": [
+          {
+            "clause": "(`kind` in (_utf8mb4\\'request\\',_utf8mb4\\'receipt\\',_utf8mb4\\'candidate\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "provider_generation_attempts",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "status IN ('started','received','review_required')"
+        ],
+        "actual": [
+          {
+            "clause": "(`status` in (_utf8mb4\\'started\\',_utf8mb4\\'received\\',_utf8mb4\\'review_required\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "provider_generation_files",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "kind IN ('plan','request','response','receipt','candidate')"
+        ],
+        "actual": [
+          {
+            "clause": "(`kind` in (_utf8mb4\\'plan\\',_utf8mb4\\'request\\',_utf8mb4\\'response\\',_utf8mb4\\'receipt\\',_utf8mb4\\'candidate\\'))",
+            "enforced": "YES"
+          }
+        ]
+      },
+      {
+        "table": "generation_candidates",
+        "kind": "check_constraint_mismatch_or_unsupported",
+        "expected": [
+          "parent_id IS NULL",
+          "source_kind = 'offline_client_test'"
+        ],
+        "actual": [
+          {
+            "clause": "(`parent_id` is null)",
+            "enforced": "YES"
+          },
+          {
+            "clause": "(`source_kind` = _utf8mb4\\'offline_client_test\\')",
+            "enforced": "YES"
+          }
+        ]
+      }
+    ],
+    "differences_total": 12,
+    "nonempty_tables": [],
+    "prepared_empty_database": true
+  },
+  "runtime_switch_performed": false,
+  "active_business_backend": "not_inspected",
+  "read_only": true,
+  "created_at": "2026-11-18T11:14:25.844405+00:00",
+  "report_file": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\migration_system\\var\\mysql-inspection-reports\\bca864eae76e412fb13f57bc01cd158c.json"
+}

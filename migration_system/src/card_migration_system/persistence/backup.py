@@ -85,7 +85,8 @@ def audit_ssm_archive(settings, folder):
     """Validate extraction ownership/receipts using the copied DB AND copied files."""
     from ..application.extractions import ExtractionService
     from ..persistence.ssm_extractions import SSMExtraction
-    archived = Service(replace(settings, runtime_dir=folder / 'db', artifact_dir=folder / 'artifacts'))
+    archived = Service(replace(settings, runtime_dir=folder / 'db', artifact_dir=folder / 'artifacts',
+                               database_backend='sqlite', mysql_connection_file=None))
     try:
         with transaction(archived.engine) as session:
             keys = list(session.scalars(select(SSMExtraction.id)))
@@ -157,7 +158,11 @@ def create_backup(settings, *, backup_id=None):
                 if len(files) > MAX_FILES or sum(row["size"] for row in files.values()) > MAX_BYTES:
                     raise ServiceError("development_backup_limit_exceeded")
 
-            copy_database(settings.business_database, folder / "db/business.sqlite3")
+            if settings.database_backend == 'mysql':
+                from .portable_database import snapshot_to_sqlite
+                snapshot_to_sqlite(settings, session, folder / 'db/business.sqlite3')
+            else:
+                copy_database(settings.business_database, folder / "db/business.sqlite3")
             references = inspect_business(folder / "db/business.sqlite3")
             register("db/business.sqlite3")
             if settings.graph_database.exists():
@@ -173,6 +178,7 @@ def create_backup(settings, *, backup_id=None):
             manifest = {"schema_version": 1, "database_schema": HEAD, "mode": "development_stub",
                         "created_at": datetime.now(timezone.utc).isoformat(),
                         "binding": service.implementation_binding(), "files": files,
+                        "source_database_backend": settings.database_backend,
                         "scope": "registered_files_and_databases_not_orphans_or_credentials"}
             storage.put("manifest.json", json.dumps(manifest, sort_keys=True, indent=2).encode())
             (folder / ".incomplete").unlink()  # Only our own completion marker.
@@ -241,6 +247,8 @@ def verify_backup(settings, backup_id):
 
 
 def restore_backup(settings, backup_id):
+    if settings.database_backend != 'sqlite':
+        return _restore_mysql_backup(settings, backup_id)
     # Verify before creating any destination. Existing databases/artifacts are never replaced.
     manifest, _ = _verified_manifest(settings, backup_id)
     folder = backup_directory(settings, backup_id)
@@ -282,3 +290,71 @@ def restore_backup(settings, backup_id):
             marker.unlink()  # Only clear after both destinations are installed.
     return {"status": "backup_restored", "backup_id": backup_id,
             "worker_restart_required": True, "production_ready": False}
+
+
+def _restore_mysql_backup(settings, backup_id):
+    """Restore only into an initialized empty cloud DB and fresh local folders.
+
+    Never overwrite records, delete an existing database, revive sessions, or
+    pretend that a cloud commit and local filesystem are one atomic resource.
+    The local marker is retained after any uncertain/failed installation.
+    """
+    from .database import engine_for, engine_for_settings, require_schema
+    from .portable_database import copy_business_rows, _snapshot
+    manifest, _ = _verified_manifest(settings, backup_id)
+    folder = backup_directory(settings, backup_id)
+    for target, allowed in ((settings.runtime_dir, settings.project_root / 'var'),
+                            (settings.artifact_dir, settings.project_root / 'var/artifacts')):
+        if target == allowed.resolve() or not target.is_relative_to(allowed.resolve()):
+            raise ServiceError('restore_requires_fresh_child_directories')
+        if target.exists() or target.is_symlink():
+            raise ServiceError('restore_destination_exists')
+    engine = engine_for_settings(settings)
+    try:
+        require_schema(engine)
+        settings.runtime_dir.parent.mkdir(parents=True, exist_ok=True)
+        with TemporaryDirectory(prefix='.mysql-restore-stage-', dir=settings.runtime_dir.parent) as temporary:
+            staging = Storage(Path(temporary))
+            origin = Storage(folder)
+            for relative, row in manifest['files'].items():
+                staging.put(relative, origin.read(relative, row['sha256']))
+            path = Path(temporary) / 'db/business.sqlite3'
+            inspect_business(path)
+            with closing(sqlite3.connect(path)) as connection:
+                connection.execute("UPDATE worker_health SET state='stopped', run_id=NULL, last_seen=0")
+                connection.execute('UPDATE auth_sessions SET revoked_at=? WHERE revoked_at IS NULL', (time.time(),))
+                connection.commit()
+            source = engine_for(path)
+            try:
+                with transaction(engine) as session:
+                    # Check before creating destination folders or writing any rows.
+                    expected = _snapshot(settings.project_root)
+                    from sqlalchemy import inspect, text
+                    if set(inspect(session.connection()).get_table_names()) != set(expected):
+                        raise ServiceError('portable_database_table_inventory_mismatch')
+                    for table in expected:
+                        if table != 'alembic_version' and session.execute(text(f'SELECT 1 FROM `{table}` LIMIT 1')).first():
+                            raise ServiceError('portable_database_destination_not_empty')
+                    settings.runtime_dir.mkdir(exist_ok=False)
+                    marker = settings.runtime_dir / '.restore-in-progress'
+                    marker.touch(exist_ok=False)
+                    with execution_guard(settings.runtime_dir):
+                        settings.artifact_dir.mkdir(parents=True, exist_ok=False)
+                        artifacts = Storage(settings.artifact_dir)
+                        runtime = Storage(settings.runtime_dir)
+                        for relative, row in manifest['files'].items():
+                            if relative.startswith('artifacts/'):
+                                artifacts.put(relative[len('artifacts/'):], staging.read(relative, row['sha256']))
+                            elif relative == 'db/langgraph.sqlite3':
+                                runtime.put('langgraph.sqlite3', staging.read(relative, row['sha256']))
+                        with source.connect() as source_connection:
+                            inventory = copy_business_rows(source_connection, session.connection(), settings.project_root)
+                # Only after the cloud commit succeeded and all files were installed.
+                marker.unlink()
+            finally:
+                source.dispose()
+    finally:
+        engine.dispose()
+    return {'status': 'backup_restored', 'backup_id': backup_id,
+            'database_backend': 'mysql', 'rows': inventory['rows'],
+            'sessions_revoked': True, 'worker_restart_required': True, 'production_ready': False}

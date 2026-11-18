@@ -25,6 +25,22 @@ export interface MigrationReport {
 }
 export interface MigrationDraft { name:string;filename:string;source:string;strategy:string;rounds:number;propsText:string;actionsText:string;trusted:boolean;confirmed:boolean }
 export const migrationStatuses:Record<string,string>={queued:'排队中',running:'迁移中',finished:'配置检查通过',failed:'检查未通过',blocked:'已阻断',review_required:'待复核',cancelled:'已取消'}
+const stopReasons:Record<string,string>={
+  passed_configured_checks:'已通过配置的检查',repair_budget_exhausted:'已达到最大修复轮数',
+  source_baseline_blocked:'源组件基准检查未通过',controlled_graph_interrupt:'流程已暂停，等待复核',
+  migration_cancel_requested:'任务已取消',repair:'正在进行修复',
+  model_usage_stop_reached:'已达到模型用量停止线',model_call_budget_exhausted:'已达到模型调用次数上限',
+  model_network_disabled:'模型网络调用未启用',model_api_key_missing:'尚未配置模型密钥',
+  model_response_unknown_no_automatic_retry:'模型响应结果未确认，需人工复核',
+  model_usage_unknown_requires_review:'模型用量未确认，需人工复核',
+  browser_evaluation_blocked:'浏览器评估未能执行',unsupported_source_sfc:'当前暂不支持此源组件格式',
+  migration_binding_drift:'系统实现已变化，不能继续原任务',migration_runtime_profile_drift:'运行配置已变化，不能继续原任务',
+  account_disabled:'账号已禁用',daily_model_call_limit_reached:'已达到今日模型调用次数上限',daily_token_stop_reached:'已达到今日 Token 用量停止线',
+}
+export function stopReasonLabel(reason:string) {
+  if(!reason)return '尚未停止'
+  return Object.hasOwn(stopReasons,reason)?stopReasons[reason]:'执行已停止，请查看诊断详情'
+}
 export const dimensionLabels:Record<string,string>={static:'静态语义',compile_runtime:'编译／运行',structure:'AST／DOM 结构',visual:'视觉还原',interaction:'代表性交互',source_baseline:'源基准'}
 export const dimensionStatus:Record<string,string>={pass:'通过',fail:'未通过',blocked:'阻断',not_run:'未测试'}
 export const strategyLabels:Record<string,string>={ssm:'SSM + 有界修复',ssm_no_repair:'SSM · 无修复',direct:'源码直接生成 · 基线'}
