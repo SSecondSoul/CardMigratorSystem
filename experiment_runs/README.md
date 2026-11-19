@@ -1,5 +1,7 @@
 # 当前真实迁移系统的实验批次
 
+2026-11-19 通用修复进度：已进入规则／校验器／共享 Prompt 的集中修复，而非继续扩展原基线。最新记录在 [通用修复说明](../migration_system/docs/GENERAL_REPAIRS_V3.md)，完整离线结果及 Notebook 在 `general_repairs_v5_review_20261119/`。v3／v4／v5 是本次开发重放的证据版本，不是新的正式模型批次或新的支持范围；原请求仍为 `san-supported-migration-v4`。所有 70 个组件、72 条跨版本记录及旧失败保留，尚未把工程测试当作新生成通过率。
+
 综合分析已生成：[70 个组件跨版本问题覆盖报告](analysis_70_v1_v2_20261119/REPORT.md) 与 [分析 Notebook](analysis_70_v1_v2_20261119/analysis.ipynb)。保留 72 条任务到 70 个组件的映射，包含分版本统计、原始证据校验和通用修复优先级，不计算混合通过率。可只读重算（输出内容不同则要求新建分析版本）：
 
 ```powershell

@@ -1,0 +1,723 @@
+{
+  "generated_file_path": "",
+  "san_compile_result": null,
+  "source_file": "C:\\Users\\soul\\AppData\\Local\\Temp\\cardmig-check-_k878g06\\Source.vue",
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "updateField",
+              "status": "unproven"
+            },
+            {
+              "caller": "toggleRule",
+              "status": "unproven"
+            },
+            {
+              "caller": "submit",
+              "status": "unproven"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "updateField",
+                "key": "form",
+                "line": 48
+              },
+              {
+                "caller": "updateField",
+                "key": "submitted",
+                "line": 48
+              },
+              {
+                "caller": "toggleRule",
+                "key": "enabled",
+                "line": 51
+              },
+              {
+                "caller": "submit",
+                "key": "submitted",
+                "line": 57
+              }
+            ],
+            "target": [
+              {
+                "caller": "updateField",
+                "form": "inlined_data_set",
+                "key": "form",
+                "line": 13
+              },
+              {
+                "caller": "updateField",
+                "form": "inlined_data_set",
+                "key": "submitted",
+                "line": 13
+              },
+              {
+                "caller": "toggleRule",
+                "form": "inlined_data_set",
+                "key": "enabled",
+                "line": 13
+              },
+              {
+                "caller": "toggleRule",
+                "form": "inlined_data_set",
+                "key": "enabled",
+                "line": 13
+              },
+              {
+                "caller": "submit",
+                "form": "inlined_data_set",
+                "key": "submitted",
+                "line": 13
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:submit",
+            "caller_body_not_source_matched:toggleRule",
+            "caller_body_not_source_matched:updateField",
+            "caller_key_multiplicity_mismatch"
+          ],
+          "source_keys": [
+            "form",
+            "submitted",
+            "enabled"
+          ],
+          "status": "unproven"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "callable_unproven",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 4,
+        "uncertain": true
+      },
+      "status": "callable_semantics_unproven",
+      "target_references": {
+        "count": 0,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "updateField",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 3,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 3,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "toggleRule",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "isEnabled",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "submit",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": true
+      }
+    }
+  ],
+  "validation_checks": [
+    {
+      "message": "包含 <template> 块",
+      "name": "sfc_template_block",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "包含 <script> 块",
+      "name": "sfc_script_block",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "包含 <style> 块",
+      "name": "sfc_style_block",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "显式引入 san",
+      "name": "require_san",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "显式声明 DataTypes",
+      "name": "require_datatypes",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "使用 san.defineComponent 导出组件",
+      "name": "define_component",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "定义 initData()",
+      "name": "init_data",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "使用 dataTypes 描述组件入参",
+      "name": "data_types_option",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "单文件 San 组件仅通过 require('san') 引入运行时",
+      "name": "self_contained_san_imports",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Inline child custom events carry one payload object",
+      "name": "inline_custom_events_use_one_payload",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Inline child template events call San methods instead of assigning state directly",
+      "name": "no_inline_event_assignments",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Inline child templates do not call the JavaScript Math global directly",
+      "name": "no_inline_template_math_global",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Inline child render bindings call top-level component methods with explicit reactive arguments",
+      "name": "no_inline_template_member_calls",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Inline child templates use CSS strings instead of Vue style objects",
+      "name": "no_inline_style_object_binding",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Inline San component declarations use valid JavaScript identifiers.",
+      "name": "inline_component_identifier_syntax",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San this.watch receives a callable listener, not a Vue descriptor object.",
+      "name": "san_watch_listener_is_callable",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San this.fire carries at most one payload argument.",
+      "name": "san_custom_event_single_payload",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San event attributes use nonempty method calls and value-based modifiers",
+      "name": "san_template_event_handler_syntax",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San s-for index aliases omit Vue tuple parentheses",
+      "name": "san_for_alias_syntax",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Inline child templates do not invoke computed values as formatting methods",
+      "name": "inline_computed_values_not_invoked_as_methods",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San initData does not access this.data before the store exists",
+      "name": "init_data_does_not_access_data_store",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_event_shorthand",
+      "name": "no_vue_event_shorthand",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_v_if",
+      "name": "no_vue_v_if",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_v_else_if",
+      "name": "no_vue_v_else_if",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_v_else",
+      "name": "no_vue_v_else",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_v_for",
+      "name": "no_vue_v_for",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_v_model",
+      "name": "no_vue_v_model",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_bind_shorthand",
+      "name": "no_vue_bind_shorthand",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "disabled/checked/selected 使用 {{ ... }} 单向插值，而不是 {= ... =} 双向绑定",
+      "name": "derived_attributes_use_one_way_binding",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San s-if/s-else-if/s-for directive values use raw expressions",
+      "name": "san_directives_use_raw_expressions",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Each template element has exactly one class attribute",
+      "name": "single_class_attribute_per_element",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "普通自定义组件 props 使用 {{ ... }} 单向绑定，而不是 {= ... =}",
+      "name": "custom_component_props_use_one_way_binding",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Vue :key 使用 San s-for 内联 trackby 迁移，而不是独立 key 属性",
+      "name": "s_for_uses_inline_trackby",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San 模板插值分隔符完整闭合",
+      "name": "template_interpolations_balanced",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Complete parent/inline class expressions preserve proven source conditional maps.",
+      "name": "class_bindings_use_san_string_expressions",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Vue @click.self remains guarded in San",
+      "name": "source_self_click_semantics",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Vue native dragstart/dragend retain DOM event names in San",
+      "name": "source_native_drag_event_names",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "s-for 标签表达式使用的循环索引变量均已声明",
+      "name": "loop_scope_variables_declared",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_export_default",
+      "name": "no_vue_export_default",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_props_option",
+      "name": "no_vue_props_option",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_methods_wrapper",
+      "name": "no_vue_methods_wrapper",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_watch_option",
+      "name": "no_vue_watch_option",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_emit",
+      "name": "no_vue_emit",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 vue_this_state",
+      "name": "no_vue_this_state",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 invalid_san_data_destructuring",
+      "name": "no_invalid_san_data_destructuring",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "未残留 invalid_san_data_store_array_access",
+      "name": "no_invalid_san_data_store_array_access",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San computed values are read through this.data.get(...) in every component",
+      "name": "no_direct_computed_instance_access",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San computed callbacks do not call component instance methods",
+      "name": "no_computed_instance_method_calls",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Every expected child component is registered with a defined identifier.",
+      "name": "component_registration_integrity",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Vue business initData does not collide with San's initData state factory.",
+      "name": "reserved_init_data_method_collision",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "模板渲染表达式的方法调用没有隐藏 San 响应式字段依赖",
+      "name": "template_reactive_dependencies_visible",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Inline child template elements have at most one class attribute",
+      "name": "single_class_attribute_per_inline_element",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "响应式对象和数组通过 San data API 更新",
+      "name": "reactive_state_uses_data_updates",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Vue 与 San 模板直接子节点顺序一致",
+      "name": "dom_child_order_consistency",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San style 不使用 scoped",
+      "name": "style_without_scoped",
+      "passed": true,
+      "severity": "warning"
+    },
+    {
+      "message": "已按配置跳过 San 编译校验",
+      "name": "san_compile_check",
+      "passed": true,
+      "severity": "warning"
+    },
+    {
+      "message": "组件名与 SSM 一致：FormRulePlayground",
+      "name": "component_name_consistency",
+      "passed": true,
+      "severity": "warning"
+    },
+    {
+      "message": "SSM props 已迁移为 dataTypes",
+      "name": "props_to_datatypes_consistency",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "SSM data 字段在 San 脚本中有对应初始化或声明",
+      "name": "data_fields_consistency",
+      "passed": true,
+      "severity": "warning"
+    },
+    {
+      "message": "SSM 事件处理函数在 San 脚本中存在",
+      "name": "event_handlers_consistency",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Vue props 默认值已迁移到 San initData",
+      "name": "prop_defaults_in_init_data",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "无法取得 San initData 的结构化结果",
+      "name": "data_initial_values_equivalent",
+      "passed": false,
+      "severity": "warning"
+    },
+    {
+      "message": "SSM 事件调用参数已在 San template 中完整保留",
+      "name": "event_arguments_consistency",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "Vue $emit 已迁移为 San this.fire",
+      "name": "custom_event_fire_consistency",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "San dataTypes 类型与 SSM props 类型一致",
+      "name": "datatypes_accuracy",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "SSM 事件 handler 已在 San template 中绑定",
+      "name": "event_binding_completeness",
+      "passed": true,
+      "severity": "error"
+    },
+    {
+      "message": "SSM computed 字段已在 San 中保留",
+      "name": "computed_migration_consistency",
+      "passed": false,
+      "severity": "warning"
+    },
+    {
+      "message": "SSM migration_hints 已在 San 中落地",
+      "name": "migration_hints_landing",
+      "passed": false,
+      "severity": "warning"
+    }
+  ],
+  "validation_errors": [
+    {
+      "code": "source_dynamic_assignment_unproven",
+      "details": {
+        "arbitrary_key_semantics_proven": false,
+        "caller_mappings": [
+          {
+            "caller": "updateField",
+            "status": "unproven"
+          },
+          {
+            "caller": "toggleRule",
+            "status": "unproven"
+          },
+          {
+            "caller": "submit",
+            "status": "unproven"
+          }
+        ],
+        "calls": {
+          "source": [
+            {
+              "caller": "updateField",
+              "key": "form",
+              "line": 48
+            },
+            {
+              "caller": "updateField",
+              "key": "submitted",
+              "line": 48
+            },
+            {
+              "caller": "toggleRule",
+              "key": "enabled",
+              "line": 51
+            },
+            {
+              "caller": "submit",
+              "key": "submitted",
+              "line": 57
+            }
+          ],
+          "target": [
+            {
+              "caller": "updateField",
+              "form": "inlined_data_set",
+              "key": "form",
+              "line": 13
+            },
+            {
+              "caller": "updateField",
+              "form": "inlined_data_set",
+              "key": "submitted",
+              "line": 13
+            },
+            {
+              "caller": "toggleRule",
+              "form": "inlined_data_set",
+              "key": "enabled",
+              "line": 13
+            },
+            {
+              "caller": "toggleRule",
+              "form": "inlined_data_set",
+              "key": "enabled",
+              "line": 13
+            },
+            {
+              "caller": "submit",
+              "form": "inlined_data_set",
+              "key": "submitted",
+              "line": 13
+            }
+          ]
+        },
+        "contract": "source_internal_declared_state_assignment_v1",
+        "limitations": [
+          "not_arbitrary_external_public_key_equivalence",
+          "surrounding_call_timing_values_and_other_methods_checked_separately"
+        ],
+        "refusals": [
+          "caller_body_not_source_matched:submit",
+          "caller_body_not_source_matched:toggleRule",
+          "caller_body_not_source_matched:updateField",
+          "caller_key_multiplicity_mismatch"
+        ],
+        "source_keys": [
+          "form",
+          "submitted",
+          "enabled"
+        ],
+        "status": "unproven"
+      },
+      "location": "script.methods.setValue",
+      "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:submit, caller_body_not_source_matched:toggleRule, caller_body_not_source_matched:updateField, caller_key_multiplicity_mismatch. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    }
+  ],
+  "validation_passed": false,
+  "validation_summary": "San 静态校验未通过：65/68 项检查通过，1 个错误，3 个警告。",
+  "validation_warnings": [
+    {
+      "code": "data_initial_values_unavailable",
+      "location": "script",
+      "message": "SSM 包含可静态验证的 data 初始值，但未取得 San initData 结果。",
+      "severity": "warning",
+      "suggestion": "确认 Node 编译校验可运行，且 initData 返回可序列化对象。"
+    },
+    {
+      "code": "missing_computed_migration",
+      "location": "script",
+      "message": "以下 computed 未在 San script 中找到明显对应：errors, valid。",
+      "severity": "warning",
+      "suggestion": "将 Vue computed 迁移为 San computed 方法，或确认其逻辑已等价内联。"
+    },
+    {
+      "code": "migration_hints_not_landed",
+      "location": "script/template",
+      "message": "data 读取策略未落地：enabled 应使用 this.data.get('enabled')；data 写入策略未落地：enabled 应使用 this.data.set('enabled', ...)；data 读取策略未落地：form 应使用 this.data.get('form')；data 写入策略未落地：form 应使用 this.data.set('form', ...)；data 读取策略未落地：submitted 应使用 this.data.get('submitted')；data 写入策略未落地：submitted 应使用 this.data.set('submitted', ...)",
+      "severity": "warning",
+      "suggestion": "根据 SSM migration_hints 补齐 San 迁移策略。"
+    }
+  ]
+}

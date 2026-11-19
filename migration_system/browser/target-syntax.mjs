@@ -1,4 +1,5 @@
 // Parse only: never execute uploaded/generated JavaScript. Edits are bounded and audited.
+import {attributeDiagnostics, attributeEdits, templateRegions} from './attribute-syntax.mjs'
 export const syntaxPolicy = 'target_syntax_first_v1'
 
 function position(code, offset) {
@@ -23,12 +24,17 @@ export function inspectTarget(code, require) {
     catch (error) {errors.push(finding(code, 'target_script_syntax_error', error.message,
       descriptor.script.loc.start.offset + (error.pos ?? 0)))}
   }
-  if (descriptor.template && !outerErrors.length) {
-    try {san.parseTemplate(descriptor.template.content)}
-    catch (error) {errors.push(finding(code, 'target_template_syntax_error', error.message, descriptor.template.loc.start.offset,'template_block_start'))}
+  if (descriptor.template) {
+    const attributes = attributeDiagnostics(code,require)
+    for (const item of attributes) errors.push({...finding(code,'target_template_syntax_error',item.message,item.offset),attribute:item.attribute})
+    for (const region of templateRegions(code,require)) try {san.parseTemplate(region.text)}
+    catch (error) {
+      if (!attributes.some(a=>a.offset>=region.offset && a.offset<region.offset+region.text.length))
+        errors.push(finding(code,'target_template_syntax_error',error.message,region.offset,'template_block_start'))
+    }
   }
   return {policy: syntaxPolicy, status: errors.length ? 'fail' : 'pass',
-    diagnostics: errors.slice(0, 64), diagnostic_count: errors.length, overflow: errors.length > 64}
+    diagnostics: errors.slice(0, 128), diagnostic_count: errors.length, diagnostic_limit:128, overflow: errors.length > 128}
 }
 
 function walk(node, visit) {
@@ -347,6 +353,8 @@ export function normalizeTarget(source, code, require) {
   const before = inspectTarget(code, require), edits = []
   if (before.status === 'pass') return {code, changes: [], before, after: before}
   // Each edit is relative to the current bytes; apply right to left.
+  const attributes=attributeEdits(source,code,require)
+  code=applyEdits(code,attributes); edits.push(...attributes)
   const loops = loopEdits(source, code, require)
   for (const edit of [...loops].sort((a,b) => b.start-a.start)) code = code.slice(0, edit.start) + edit.replacement + code.slice(edit.end)
   edits.push(...loops)

@@ -1,0 +1,985 @@
+{
+  "browser_version": "Edg/157.0.4341.60",
+  "comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "target:dom_or_reflective_member"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "image": {
+    "algorithm": "luminance_uniform_8x8_population_ssim_v1",
+    "channel_threshold": 10,
+    "different_pixel_ratio": 0,
+    "heatmap": "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AACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAACM1QAAAAAAYzUAAAAAwFgNAAAAADBWAwAAAPx3e3BAAgAAgAAo+j+6H6EC3GoAAAAAgFsNAAAAAHCrAQAAAABuNQAAAADArQYAAAAAuNUAAAAAALcaAAAAAOBWAwAAAADcagAAAACAWw0AAAAAcKsBAAAAAG41AAAAAMCtBgAAAAC41QAAAAAAtxoAAAAA4FYDAAAAANxqAAAAAIBbDQAAAABwqwEAAAAAbjUAAAAAwK0GAAAAALjVAAAAAAC3GgAAAADgVgMAAAAA3GoAAAAAgFsNAAAAAHCrAQAAAABuNQAAAADArQYAAAAAuNUAAAAAALcaAAAAAOBWAwAAAADcagAAAACAWw0AAAAAcKsBAAAAAG41AAAAAMCtBgAAAAC41QAAAAAAtxoAAAAA4FYDAAAAANxqAAAAAIBbDQAAAABwqwEAAAAAbjUAAAAAwK0GAAAAALjVAAAAAAC3GgAAAADgVgMAAAAA3GoAAAAAgFsNAAAAAHCrAQAAAABuNQAAAADArQYAAAAAuNUAAAAAALcaAAAAAOBWAwAAAADcagAAAACAWw0AAAAAcKsBAAAAAG4NSrKUHydyg84AAAAASUVORK5CYII=",
+    "height": 900,
+    "ssim": 1,
+    "width": 1280
+  },
+  "puppeteer_version": "25.17.0",
+  "san": {
+    "blocked_requests": [],
+    "errors": [],
+    "evidence_limits": {
+      "complete": true,
+      "dom_nodes": 3000,
+      "styled_elements": 3000
+    },
+    "evidence_overflow": false,
+    "render_ms": 1161.4076999999997,
+    "resource_policy": "bounded_passive_inline_images_v1",
+    "snapshots": [
+      {
+        "dom": {
+          "attributes": {},
+          "children": [
+            {
+              "attributes": {
+                "class": "tip-split-calculator"
+              },
+              "children": [
+                {
+                  "attributes": {},
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:聚餐分摊"
+                    }
+                  ],
+                  "label": "h2|",
+                  "tag": "h2"
+                },
+                {
+                  "attributes": {},
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:账单"
+                    },
+                    {
+                      "attributes": {
+                        "type": "number"
+                      },
+                      "children": [],
+                      "label": "input|type=number",
+                      "tag": "input"
+                    }
+                  ],
+                  "label": "label|",
+                  "tag": "label"
+                },
+                {
+                  "attributes": {},
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:小费 10%"
+                    }
+                  ],
+                  "label": "button|",
+                  "tag": "button"
+                },
+                {
+                  "attributes": {
+                    "class": "people"
+                  },
+                  "children": [
+                    {
+                      "attributes": {},
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:−"
+                        }
+                      ],
+                      "label": "button|",
+                      "tag": "button"
+                    },
+                    {
+                      "attributes": {},
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:2 人"
+                        }
+                      ],
+                      "label": "span|",
+                      "tag": "span"
+                    },
+                    {
+                      "attributes": {},
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:＋"
+                        }
+                      ],
+                      "label": "button|",
+                      "tag": "button"
+                    }
+                  ],
+                  "label": "div|class=people",
+                  "tag": "div"
+                },
+                {
+                  "attributes": {},
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:总计 ¥294.80 · 每人 ¥147.40"
+                    }
+                  ],
+                  "label": "output|",
+                  "tag": "output"
+                }
+              ],
+              "label": "section|class=tip-split-calculator",
+              "tag": "section"
+            }
+          ],
+          "label": "div|",
+          "tag": "div"
+        },
+        "name": "initial",
+        "styles": [
+          {
+            "checked": null,
+            "path": "root",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(0, 0, 0)",
+              "display": "block",
+              "fontFamily": "\"Noto Sans SC\"",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "209px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "1264px"
+            },
+            "tag": "div",
+            "text": "聚餐分摊账单小费 10%−2 人＋总计 ¥294.80 · 每人 ¥147.40",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(36, 49, 61)",
+              "display": "grid",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "209px",
+              "marginLeft": "252px",
+              "marginTop": "18px",
+              "paddingLeft": "20px",
+              "paddingTop": "20px",
+              "position": "static",
+              "width": "760px"
+            },
+            "tag": "section",
+            "text": "聚餐分摊账单小费 10%−2 人＋总计 ¥294.80 · 每人 ¥147.40",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0.0",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(36, 49, 61)",
+              "display": "block",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "24px",
+              "fontWeight": "700",
+              "height": "40.0938px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "495px"
+            },
+            "tag": "h2",
+            "text": "聚餐分摊",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0.1",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(36, 49, 61)",
+              "display": "grid",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "60px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "213px"
+            },
+            "tag": "label",
+            "text": "账单",
+            "value": null
+          },
+          {
+            "checked": false,
+            "path": "root.0.1.0",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(0, 0, 0)",
+              "display": "block",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "36px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "8px",
+              "paddingTop": "8px",
+              "position": "static",
+              "width": "213px"
+            },
+            "tag": "input",
+            "text": "",
+            "value": "268"
+          },
+          {
+            "checked": null,
+            "path": "root.0.2",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(39, 55, 70)",
+              "display": "block",
+              "fontFamily": "Arial",
+              "fontSize": "13.3333px",
+              "fontWeight": "400",
+              "height": "35px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "11px",
+              "paddingTop": "7px",
+              "position": "static",
+              "width": "495px"
+            },
+            "tag": "button",
+            "text": "小费 10%",
+            "value": ""
+          },
+          {
+            "checked": null,
+            "path": "root.0.3",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(36, 49, 61)",
+              "display": "flex",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "35px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "213px"
+            },
+            "tag": "div",
+            "text": "−2 人＋",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0.3.0",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(39, 55, 70)",
+              "display": "block",
+              "fontFamily": "Arial",
+              "fontSize": "13.3333px",
+              "fontWeight": "400",
+              "height": "31px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "11px",
+              "paddingTop": "7px",
+              "position": "static",
+              "width": "31.7969px"
+            },
+            "tag": "button",
+            "text": "−",
+            "value": ""
+          },
+          {
+            "checked": null,
+            "path": "root.0.3.1",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(36, 49, 61)",
+              "display": "block",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "24px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "29.3438px"
+            },
+            "tag": "span",
+            "text": "2 人",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0.3.2",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(39, 55, 70)",
+              "display": "block",
+              "fontFamily": "Arial",
+              "fontSize": "13.3333px",
+              "fontWeight": "400",
+              "height": "35px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "11px",
+              "paddingTop": "7px",
+              "position": "static",
+              "width": "37.3438px"
+            },
+            "tag": "button",
+            "text": "＋",
+            "value": ""
+          },
+          {
+            "checked": null,
+            "path": "root.0.4",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(236, 254, 255)",
+              "color": "rgb(36, 49, 61)",
+              "display": "block",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "52px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "14px",
+              "paddingTop": "14px",
+              "position": "static",
+              "width": "718px"
+            },
+            "tag": "output",
+            "text": "总计 ¥294.80 · 每人 ¥147.40",
+            "value": "总计 ¥294.80 · 每人 ¥147.40"
+          }
+        ]
+      }
+    ],
+    "storage": "fresh_context",
+    "url": "http://component.invalid/",
+    "warnings": []
+  },
+  "source_ast": {
+    "class_bindings": {},
+    "limitations": [
+      "binding_expression_equivalence_and_class_token_boundaries_are_checked_separately",
+      "component_expansion_not_in_template_ted"
+    ],
+    "normalization": "template_projection_v3_symmetric_boundary_safe_class_tokens",
+    "source_parser": "vue_compiler_dom_html_v1",
+    "tree": {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [],
+                  "label": "#text:聚餐分摊"
+                }
+              ],
+              "label": "h2|"
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "label": "#text:账单"
+                },
+                {
+                  "children": [],
+                  "label": "input|binding:value|event:input|type=number"
+                }
+              ],
+              "label": "label|"
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "label": "#text:小费 @binding%"
+                }
+              ],
+              "label": "button|event:click"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:−"
+                    }
+                  ],
+                  "label": "button|event:click"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:@binding 人"
+                    }
+                  ],
+                  "label": "span|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:＋"
+                    }
+                  ],
+                  "label": "button|event:click"
+                }
+              ],
+              "label": "div|class=people"
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "label": "#text:总计 ¥@binding · 每人 ¥@binding"
+                }
+              ],
+              "label": "output|"
+            }
+          ],
+          "label": "section|class=tip-split-calculator"
+        }
+      ],
+      "label": "#root"
+    }
+  },
+  "status": "completed",
+  "target_ast": {
+    "class_bindings": {},
+    "limitations": [
+      "binding_expression_equivalence_and_class_token_boundaries_are_checked_separately",
+      "component_expansion_not_in_template_ted"
+    ],
+    "normalization": "template_projection_v3_symmetric_boundary_safe_class_tokens",
+    "tree": {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [],
+                  "label": "#text:聚餐分摊"
+                }
+              ],
+              "label": "h2|"
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "label": "#text:账单"
+                },
+                {
+                  "children": [],
+                  "label": "input|binding:value|event:input|type=number"
+                }
+              ],
+              "label": "label|"
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "label": "#text:小费 @binding%"
+                }
+              ],
+              "label": "button|event:click"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:−"
+                    }
+                  ],
+                  "label": "button|event:click"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:@binding 人"
+                    }
+                  ],
+                  "label": "span|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:＋"
+                    }
+                  ],
+                  "label": "button|event:click"
+                }
+              ],
+              "label": "div|class=people"
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "label": "#text:总计 ¥@binding · 每人 ¥@binding"
+                }
+              ],
+              "label": "output|"
+            }
+          ],
+          "label": "section|class=tip-split-calculator"
+        }
+      ],
+      "label": "#root"
+    }
+  },
+  "vue": {
+    "blocked_requests": [],
+    "errors": [],
+    "evidence_limits": {
+      "complete": true,
+      "dom_nodes": 3000,
+      "styled_elements": 3000
+    },
+    "evidence_overflow": false,
+    "render_ms": 1828.9605000000001,
+    "resource_policy": "bounded_passive_inline_images_v1",
+    "snapshots": [
+      {
+        "dom": {
+          "attributes": {},
+          "children": [
+            {
+              "attributes": {
+                "class": "tip-split-calculator"
+              },
+              "children": [
+                {
+                  "attributes": {},
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:聚餐分摊"
+                    }
+                  ],
+                  "label": "h2|",
+                  "tag": "h2"
+                },
+                {
+                  "attributes": {},
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:账单"
+                    },
+                    {
+                      "attributes": {
+                        "type": "number",
+                        "value": "268"
+                      },
+                      "children": [],
+                      "label": "input|type=number|value=268",
+                      "tag": "input"
+                    }
+                  ],
+                  "label": "label|",
+                  "tag": "label"
+                },
+                {
+                  "attributes": {},
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:小费 10%"
+                    }
+                  ],
+                  "label": "button|",
+                  "tag": "button"
+                },
+                {
+                  "attributes": {
+                    "class": "people"
+                  },
+                  "children": [
+                    {
+                      "attributes": {},
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:−"
+                        }
+                      ],
+                      "label": "button|",
+                      "tag": "button"
+                    },
+                    {
+                      "attributes": {},
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:2 人"
+                        }
+                      ],
+                      "label": "span|",
+                      "tag": "span"
+                    },
+                    {
+                      "attributes": {},
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:＋"
+                        }
+                      ],
+                      "label": "button|",
+                      "tag": "button"
+                    }
+                  ],
+                  "label": "div|class=people",
+                  "tag": "div"
+                },
+                {
+                  "attributes": {},
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:总计 ¥294.80 · 每人 ¥147.40"
+                    }
+                  ],
+                  "label": "output|",
+                  "tag": "output"
+                }
+              ],
+              "label": "section|class=tip-split-calculator",
+              "tag": "section"
+            }
+          ],
+          "label": "div|",
+          "tag": "div"
+        },
+        "name": "initial",
+        "styles": [
+          {
+            "checked": null,
+            "path": "root",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(0, 0, 0)",
+              "display": "block",
+              "fontFamily": "\"Noto Sans SC\"",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "209px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "1264px"
+            },
+            "tag": "div",
+            "text": "聚餐分摊账单小费 10%−2 人＋总计 ¥294.80 · 每人 ¥147.40",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(36, 49, 61)",
+              "display": "grid",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "209px",
+              "marginLeft": "252px",
+              "marginTop": "18px",
+              "paddingLeft": "20px",
+              "paddingTop": "20px",
+              "position": "static",
+              "width": "760px"
+            },
+            "tag": "section",
+            "text": "聚餐分摊账单小费 10%−2 人＋总计 ¥294.80 · 每人 ¥147.40",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0.0",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(36, 49, 61)",
+              "display": "block",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "24px",
+              "fontWeight": "700",
+              "height": "40.0938px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "495px"
+            },
+            "tag": "h2",
+            "text": "聚餐分摊",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0.1",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(36, 49, 61)",
+              "display": "grid",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "60px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "213px"
+            },
+            "tag": "label",
+            "text": "账单",
+            "value": null
+          },
+          {
+            "checked": false,
+            "path": "root.0.1.0",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(0, 0, 0)",
+              "display": "block",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "36px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "8px",
+              "paddingTop": "8px",
+              "position": "static",
+              "width": "213px"
+            },
+            "tag": "input",
+            "text": "",
+            "value": "268"
+          },
+          {
+            "checked": null,
+            "path": "root.0.2",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(39, 55, 70)",
+              "display": "block",
+              "fontFamily": "Arial",
+              "fontSize": "13.3333px",
+              "fontWeight": "400",
+              "height": "35px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "11px",
+              "paddingTop": "7px",
+              "position": "static",
+              "width": "495px"
+            },
+            "tag": "button",
+            "text": "小费 10%",
+            "value": ""
+          },
+          {
+            "checked": null,
+            "path": "root.0.3",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(36, 49, 61)",
+              "display": "flex",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "35px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "213px"
+            },
+            "tag": "div",
+            "text": "−2 人＋",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0.3.0",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(39, 55, 70)",
+              "display": "block",
+              "fontFamily": "Arial",
+              "fontSize": "13.3333px",
+              "fontWeight": "400",
+              "height": "31px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "11px",
+              "paddingTop": "7px",
+              "position": "static",
+              "width": "31.7969px"
+            },
+            "tag": "button",
+            "text": "−",
+            "value": ""
+          },
+          {
+            "checked": null,
+            "path": "root.0.3.1",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgba(0, 0, 0, 0)",
+              "color": "rgb(36, 49, 61)",
+              "display": "block",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "24px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "0px",
+              "paddingTop": "0px",
+              "position": "static",
+              "width": "29.3438px"
+            },
+            "tag": "span",
+            "text": "2 人",
+            "value": null
+          },
+          {
+            "checked": null,
+            "path": "root.0.3.2",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(255, 255, 255)",
+              "color": "rgb(39, 55, 70)",
+              "display": "block",
+              "fontFamily": "Arial",
+              "fontSize": "13.3333px",
+              "fontWeight": "400",
+              "height": "35px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "11px",
+              "paddingTop": "7px",
+              "position": "static",
+              "width": "37.3438px"
+            },
+            "tag": "button",
+            "text": "＋",
+            "value": ""
+          },
+          {
+            "checked": null,
+            "path": "root.0.4",
+            "selected_values": null,
+            "styles": {
+              "backgroundColor": "rgb(236, 254, 255)",
+              "color": "rgb(36, 49, 61)",
+              "display": "block",
+              "fontFamily": "Arial, sans-serif",
+              "fontSize": "16px",
+              "fontWeight": "400",
+              "height": "52px",
+              "marginLeft": "0px",
+              "marginTop": "0px",
+              "paddingLeft": "14px",
+              "paddingTop": "14px",
+              "position": "static",
+              "width": "718px"
+            },
+            "tag": "output",
+            "text": "总计 ¥294.80 · 每人 ¥147.40",
+            "value": "总计 ¥294.80 · 每人 ¥147.40"
+          }
+        ]
+      }
+    ],
+    "storage": "fresh_context",
+    "url": "http://component.invalid/",
+    "warnings": []
+  }
+}

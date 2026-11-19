@@ -1926,6 +1926,15 @@ class RepairStage:
         normalized = code
         applied: list[tuple[str, str]] = []
 
+        # Structural normalization must precede source-aware AST contracts.
+        # Otherwise a leftover Vue methods wrapper prevents those rules from
+        # seeing callable options, consuming another repair round for no gain.
+        if "vue_methods_wrapper" in error_codes:
+            candidate = cls._normalize_vue_methods_wrapper(normalized)
+            if candidate != normalized:
+                normalized = candidate
+                applied.append(("san_methods_wrapper_normalizer", "unwrapped_san_component_methods_options"))
+
         if error_codes & CLASS_BINDING_CODES:
             class_vue = (Path(vue_file_path).read_text(encoding="utf-8")
                          if vue_file_path and Path(vue_file_path).is_file() else "")
@@ -1935,6 +1944,12 @@ class RepairStage:
                 applied.extend(('source_class_binding_normalizer', name) for name in classes['changes'])
 
         if enable_residual_v2:
+            # Source-proved inline props/literal factories must exist before
+            # helper/dependency normalizers inspect the registered children.
+            shape = residual_semantics(normalized, ssm, repair=True)
+            if shape['code'] != normalized:
+                normalized = shape['code']
+                applied.extend(('residual_v2_ast', name) for name in shape['changes'])
             vue = (Path(vue_file_path).read_text(encoding="utf-8")
                    if vue_file_path and Path(vue_file_path).is_file() else "")
             template = source_template_semantics(normalized, vue, repair=True)
@@ -2000,14 +2015,14 @@ class RepairStage:
                 normalized = residual["code"]
                 applied.extend(("residual_v2_ast", name) for name in residual["changes"])
 
-        if error_codes & {"missing_self_click_guard", "invalid_san_inline_computed_method_invocation", "event_arguments_not_landed",
+        if error_codes & {"vue_methods_wrapper", "missing_self_click_guard", "invalid_san_inline_computed_method_invocation", "event_arguments_not_landed",
                           "lifecycle_behavior_not_landed", "missing_lifecycle_mapping", "source_watch_persistence_not_landed",
                           "source_watch_persistence_unproven",
                           "missing_watch_migration", "source_watcher_option_not_landed",
                           "source_mounted_order_not_landed", "source_startup_phase_not_landed",
-                          "source_method_interface_not_landed", "source_method_trigger_added",
+                          "source_method_interface_not_landed", "source_method_trigger_added", "source_dynamic_assignment_unproven",
                           "source_record_update_not_landed", "source_shared_record_projection_not_landed",
-                          "source_parent_initialization_not_landed", "source_computed_collection_not_landed", "source_filter_method_not_landed",
+                          "source_parent_initialization_not_landed", "source_computed_collection_not_landed", "source_computed_option_not_landed", "source_filter_method_not_landed",
                           "invalid_san_computed_namespace_access"}:
             vue = (Path(vue_file_path).read_text(encoding="utf-8")
                    if vue_file_path and Path(vue_file_path).is_file() else "")
@@ -2035,12 +2050,10 @@ class RepairStage:
                     "san_directive_expression_normalizer",
                     "unwrapped_san_directive_expression",
                 ))
-        if (error_codes
-                and error_codes <= {
+        if (error_codes & {
                     "invalid_san_event_handler_syntax", "invalid_san_for_alias_syntax",
                     "duplicate_class_attribute",
-                }
-                and not visual_eval_errors):
+                }):
             candidate = cls._normalize_simple_template_syntax(normalized)
             if candidate != normalized:
                 normalized = candidate
@@ -2048,7 +2061,7 @@ class RepairStage:
                     "san_template_syntax_normalizer",
                     "normalized_simple_san_template_syntax",
                 ))
-        if "invalid_san_event_handler_syntax" in error_codes and not visual_eval_errors:
+        if "invalid_san_event_handler_syntax" in error_codes:
             candidate = cls._normalize_empty_modifier_handlers(normalized)
             if candidate != normalized:
                 normalized = candidate
@@ -2095,13 +2108,7 @@ class RepairStage:
                     "san_component_registration_normalizer",
                     "registered_defined_inline_components",
                 ))
-        if ("duplicate_class_attribute" in error_codes
-                and error_codes <= {
-                    "duplicate_class_attribute",
-                    "invalid_san_event_handler_syntax",
-                    "invalid_san_for_alias_syntax",
-                }
-                and not visual_eval_errors):
+        if "duplicate_class_attribute" in error_codes:
             candidate = cls._normalize_duplicate_class_attributes(normalized)
             if candidate != normalized:
                 normalized = candidate
@@ -2117,7 +2124,7 @@ class RepairStage:
                     "san_state_array_clone_normalizer",
                     "cloned_state_array_before_local_mutation",
                 ))
-        if error_codes == {"invalid_s_for_key_binding"} and not visual_eval_errors:
+        if "invalid_s_for_key_binding" in error_codes:
             candidate = cls._normalize_redundant_s_for_attributes(normalized)
             if candidate != normalized:
                 normalized = candidate

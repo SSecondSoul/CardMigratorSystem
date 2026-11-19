@@ -1,0 +1,499 @@
+{
+  "batch": "real_system_experiment70_v1_20261118",
+  "component": "BookmarkToggleCard",
+  "effective_assessment": {
+    "browser_evidence": "reused_hash_verified_exact_source_and_target_capture",
+    "capture_reference": "general_repairs_v3_final_replay_20261119/real_system_experiment70_v1_20261118/002_bookmark_toggle_card/before-browser.json",
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "08964b4f65f29866e741ee6423ed2375f0294597242660168506cb8a2dce8802",
+          "parent_shape": "3416966da2fdbff410dba39d9405fe5d051d389da396734aacaac3f3ea383564",
+          "path": "root.0.1"
+        }
+      ],
+      "source_snapshot": "4b41a9f66444e4cbb8e8e1de4ca7f90700c580c1096629b3c0495a71cf276e9c",
+      "target": [
+        {
+          "identity": "08964b4f65f29866e741ee6423ed2375f0294597242660168506cb8a2dce8802",
+          "parent_shape": "3416966da2fdbff410dba39d9405fe5d051d389da396734aacaac3f3ea383564",
+          "path": "root.0.1"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "pass",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dynamic_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 11,
+      "target_nodes": 11
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 1,
+      "target_count": 1,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": true,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 11,
+      "target_nodes": 11
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "d9a2ccd97b991e0e715cac948e199444208ac5d76458e39828f69d7f2413d89d",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 11,
+      "target_nodes": 11
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "toggle",
+                "status": "complete_caller_with_inlined_write_and_verified_emit_passthrough"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "bookmarked",
+                  "line": 14
+                },
+                {
+                  "caller": "toggle",
+                  "key": "bookmarked",
+                  "line": 20
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "bookmarked",
+                  "line": 1
+                },
+                {
+                  "caller": "toggle",
+                  "form": "inlined_data_set",
+                  "key": "bookmarked",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "bookmarked"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "toggle",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 7,
+      "target_nodes": 7
+    },
+    "styles": {
+      "compared_properties": 91,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1855.8621999999996,
+      "target": 1455.0059999999994
+    },
+    "ui_restoration": 100
+  },
+  "effective_sha256": "d9a2ccd97b991e0e715cac948e199444208ac5d76458e39828f69d7f2413d89d",
+  "historical_passed": false,
+  "initial_assessment": {
+    "browser_evidence": "reused_hash_verified_exact_source_and_target_capture",
+    "capture_reference": "general_repairs_v3_final_replay_20261119/real_system_experiment70_v1_20261118/002_bookmark_toggle_card/before-browser.json",
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "08964b4f65f29866e741ee6423ed2375f0294597242660168506cb8a2dce8802",
+          "parent_shape": "3416966da2fdbff410dba39d9405fe5d051d389da396734aacaac3f3ea383564",
+          "path": "root.0.1"
+        }
+      ],
+      "source_snapshot": "4b41a9f66444e4cbb8e8e1de4ca7f90700c580c1096629b3c0495a71cf276e9c",
+      "target": [
+        {
+          "identity": "08964b4f65f29866e741ee6423ed2375f0294597242660168506cb8a2dce8802",
+          "parent_shape": "3416966da2fdbff410dba39d9405fe5d051d389da396734aacaac3f3ea383564",
+          "path": "root.0.1"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "pass",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dynamic_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 11,
+      "target_nodes": 11
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 1,
+      "target_count": 1,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": true,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 11,
+      "target_nodes": 11
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "d9a2ccd97b991e0e715cac948e199444208ac5d76458e39828f69d7f2413d89d",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 11,
+      "target_nodes": 11
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "toggle",
+                "status": "complete_caller_with_inlined_write_and_verified_emit_passthrough"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "bookmarked",
+                  "line": 14
+                },
+                {
+                  "caller": "toggle",
+                  "key": "bookmarked",
+                  "line": 20
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "bookmarked",
+                  "line": 1
+                },
+                {
+                  "caller": "toggle",
+                  "form": "inlined_data_set",
+                  "key": "bookmarked",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "bookmarked"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "toggle",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 7,
+      "target_nodes": 7
+    },
+    "styles": {
+      "compared_properties": 91,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1855.8621999999996,
+      "target": 1455.0059999999994
+    },
+    "ui_restoration": 100
+  },
+  "model_calls": 0,
+  "new_browser_captures": 0,
+  "passed": true,
+  "rule_decisions": [],
+  "run_key": "real_system_experiment70_v1_20261118/bookmark_toggle_card",
+  "source_sha256": "8c11bcbef315ec28032a68d3243e9cc4fb57cceebe9fee2af684e0919958c1ab",
+  "status": "reconciled"
+}

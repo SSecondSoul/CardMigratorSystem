@@ -1,0 +1,733 @@
+{
+  "source": {
+    "class_bindings": {
+      "record.type": [],
+      "{ 'dark-mode': isDarkMode }": [],
+      "{ positive: balance >= 0, negative: balance < 0 }": []
+    },
+    "limitations": [
+      "binding_expression_equivalence_and_class_token_boundaries_are_checked_separately",
+      "component_expansion_not_in_template_ted"
+    ],
+    "normalization": "template_projection_v4_ordered_conditional_siblings",
+    "source_parser": "vue_compiler_dom_html_v1",
+    "tree": {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:💰 记账本"
+                    }
+                  ],
+                  "label": "h2|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:@binding"
+                    }
+                  ],
+                  "label": "button|class=theme-btn|event:click"
+                }
+              ],
+              "label": "div|class=header"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:总收入"
+                        }
+                      ],
+                      "label": "span|class=balance-label"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:+¥@binding"
+                        }
+                      ],
+                      "label": "span|class=balance-value income"
+                    }
+                  ],
+                  "label": "div|class=balance-item"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:总支出"
+                        }
+                      ],
+                      "label": "span|class=balance-label"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:-¥@binding"
+                        }
+                      ],
+                      "label": "span|class=balance-value expense"
+                    }
+                  ],
+                  "label": "div|class=balance-item"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:结余"
+                        }
+                      ],
+                      "label": "span|class=balance-label"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:¥@binding"
+                        }
+                      ],
+                      "label": "span|binding:class|class=balance-value"
+                    }
+                  ],
+                  "label": "div|class=balance-item"
+                }
+              ],
+              "label": "div|class=balance-card"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:收入"
+                        }
+                      ],
+                      "label": "option|value=income"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:支出"
+                        }
+                      ],
+                      "label": "option|value=expense"
+                    }
+                  ],
+                  "label": "select|binding:value"
+                },
+                {
+                  "children": [],
+                  "label": "input|binding:value|event:keyup|placeholder=金额|type=number"
+                },
+                {
+                  "children": [],
+                  "label": "input|binding:value|event:keyup|placeholder=分类|type=text"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:添加"
+                    }
+                  ],
+                  "label": "button|event:click"
+                }
+              ],
+              "label": "div|class=add-form"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:全部"
+                        }
+                      ],
+                      "label": "option|value=all"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:收入"
+                        }
+                      ],
+                      "label": "option|value=income"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:支出"
+                        }
+                      ],
+                      "label": "option|value=expense"
+                    }
+                  ],
+                  "label": "select|binding:value"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:全部分类"
+                        }
+                      ],
+                      "label": "option|value=all"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:@binding"
+                        }
+                      ],
+                      "label": "option|binding:key|binding:value|directive:for"
+                    }
+                  ],
+                  "label": "select|binding:value"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:清除"
+                    }
+                  ],
+                  "label": "button|class=clear-filter|directive:if|event:click"
+                }
+              ],
+              "label": "div|class=filter-bar"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:支出分类统计"
+                    }
+                  ],
+                  "label": "h3|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "span|class=chart-label"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "div|binding:style|class=bar"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:¥@binding"
+                                }
+                              ],
+                              "label": "span|class=bar-value"
+                            }
+                          ],
+                          "label": "div|class=bar-container"
+                        }
+                      ],
+                      "label": "div|binding:key|class=chart-item|directive:for"
+                    }
+                  ],
+                  "label": "div|class=chart-bars"
+                }
+              ],
+              "label": "div|class=chart-section|directive:if"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "span|class=record-category"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "span|class=record-date"
+                        }
+                      ],
+                      "label": "div|class=record-info"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:@binding¥@binding"
+                        }
+                      ],
+                      "label": "div|binding:class|class=record-amount"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:删除"
+                        }
+                      ],
+                      "label": "button|class=delete-btn|event:click"
+                    }
+                  ],
+                  "label": "div|binding:class|binding:key|class=record-item|directive:for"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:暂无记录，添加一笔吧"
+                    }
+                  ],
+                  "label": "div|class=empty-state|directive:if"
+                }
+              ],
+              "label": "div|class=records-list"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:共 @binding 条记录"
+                    }
+                  ],
+                  "label": "span|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:清空全部"
+                    }
+                  ],
+                  "label": "button|class=clear-all|event:click"
+                }
+              ],
+              "label": "div|class=footer|directive:if"
+            }
+          ],
+          "label": "div|binding:class|class=expense-tracker"
+        }
+      ],
+      "label": "#root"
+    }
+  },
+  "target": {
+    "class_bindings": {},
+    "limitations": [
+      "binding_expression_equivalence_and_class_token_boundaries_are_checked_separately",
+      "component_expansion_not_in_template_ted"
+    ],
+    "normalization": "template_projection_v4_ordered_conditional_siblings",
+    "tree": {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:💰 记账本"
+                    }
+                  ],
+                  "label": "h2|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:@binding"
+                    }
+                  ],
+                  "label": "button|class=theme-btn|event:click"
+                }
+              ],
+              "label": "div|class=header"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:总收入"
+                        }
+                      ],
+                      "label": "span|class=balance-label"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:+¥@binding"
+                        }
+                      ],
+                      "label": "span|class=balance-value income"
+                    }
+                  ],
+                  "label": "div|class=balance-item"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:总支出"
+                        }
+                      ],
+                      "label": "span|class=balance-label"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:-¥@binding"
+                        }
+                      ],
+                      "label": "span|class=balance-value expense"
+                    }
+                  ],
+                  "label": "div|class=balance-item"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:结余"
+                        }
+                      ],
+                      "label": "span|class=balance-label"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:¥@binding"
+                        }
+                      ],
+                      "label": "span|binding:class|class=balance-value"
+                    }
+                  ],
+                  "label": "div|class=balance-item"
+                }
+              ],
+              "label": "div|class=balance-card"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:收入"
+                        }
+                      ],
+                      "label": "option|value=income"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:支出"
+                        }
+                      ],
+                      "label": "option|value=expense"
+                    }
+                  ],
+                  "label": "select|binding:value"
+                },
+                {
+                  "children": [],
+                  "label": "input|binding:value|event:keyup|placeholder=金额|type=number"
+                },
+                {
+                  "children": [],
+                  "label": "input|binding:value|event:keyup|placeholder=分类|type=text"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:添加"
+                    }
+                  ],
+                  "label": "button|event:click"
+                }
+              ],
+              "label": "div|class=add-form"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:全部"
+                        }
+                      ],
+                      "label": "option|value=all"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:收入"
+                        }
+                      ],
+                      "label": "option|value=income"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:支出"
+                        }
+                      ],
+                      "label": "option|value=expense"
+                    }
+                  ],
+                  "label": "select|binding:value"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:全部分类"
+                        }
+                      ],
+                      "label": "option|value=all"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:@binding"
+                        }
+                      ],
+                      "label": "option|directive:for"
+                    }
+                  ],
+                  "label": "select|binding:value"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:清除"
+                    }
+                  ],
+                  "label": "button|class=clear-filter|directive:if|event:click"
+                }
+              ],
+              "label": "div|class=filter-bar"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:支出分类统计"
+                    }
+                  ],
+                  "label": "h3|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "span|class=chart-label"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "div|binding:style|class=bar"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:¥@binding"
+                                }
+                              ],
+                              "label": "span|class=bar-value"
+                            }
+                          ],
+                          "label": "div|class=bar-container"
+                        }
+                      ],
+                      "label": "div|class=chart-item|directive:for"
+                    }
+                  ],
+                  "label": "div|class=chart-bars"
+                }
+              ],
+              "label": "div|class=chart-section|directive:if"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "span|class=record-category"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "span|class=record-date"
+                        }
+                      ],
+                      "label": "div|class=record-info"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:@binding¥@binding"
+                        }
+                      ],
+                      "label": "div|binding:class|class=record-amount"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:删除"
+                        }
+                      ],
+                      "label": "button|class=delete-btn|event:click"
+                    }
+                  ],
+                  "label": "div|binding:class|directive:for"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:暂无记录，添加一笔吧"
+                    }
+                  ],
+                  "label": "div|class=empty-state|directive:if"
+                }
+              ],
+              "label": "div|class=records-list"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:共 @binding 条记录"
+                    }
+                  ],
+                  "label": "span|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:清空全部"
+                    }
+                  ],
+                  "label": "button|class=clear-all|event:click"
+                }
+              ],
+              "label": "div|class=footer"
+            }
+          ],
+          "label": "div|binding:class|class=expense-tracker|directive:if"
+        }
+      ],
+      "label": "#root"
+    }
+  }
+}

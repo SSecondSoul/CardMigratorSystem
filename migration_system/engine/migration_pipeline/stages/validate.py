@@ -909,23 +909,16 @@ class ValidateStage:
         issues: list[ValidationIssue],
         checks: list[ValidationCheck],
     ) -> None:
-        findings = []
-        component_pattern = (
-            r"\b(?:const\s+([A-Za-z_$][\w$]*)|module\.exports)\s*=\s*"
-            r"san\.defineComponent\s*\(\s*\{"
-        )
-        for component_match in re.finditer(component_pattern, script):
-            name = component_match.group(1) or "exported component"
-            component = self._extract_braced_body(script, component_match.end() - 1)
-            init_match = re.search(r"\binitData\s*\([^)]*\)\s*\{", component)
-            if not init_match:
-                continue
-            init_body = self._extract_braced_body(component, init_match.end() - 1)
-            if re.search(r"\bthis\.data\b", init_body):
-                findings.append(name)
+        analysis = inspect_semantics('<template><div></div></template><script>' + script + '</script>')
+        unavailable = analysis.get('error') or analysis.get('init_data_analysis_errors') or 'init_data_store_access' not in analysis
+        findings = sorted({item['component'] for item in analysis.get('init_data_store_access', [])})
+        if unavailable:
+            issues.append(ValidationIssue(code='init_data_store_analysis_unavailable',
+                message='Cannot prove initData store-access safety with the AST; keep the check blocked, not a regex fallback.',
+                location='script.initData'))
         checks.append(ValidationCheck(
             name="init_data_does_not_access_data_store",
-            passed=not findings,
+            passed=not findings and not unavailable,
             message="San initData does not access this.data before the store exists",
         ))
         if findings:
@@ -933,6 +926,8 @@ class ValidateStage:
                 code="invalid_san_init_data_store_access",
                 message="initData accesses this.data before initialization: " + ", ".join(findings),
                 location="script",
+                details={'contract':'init_data_store_access_ast_v1',
+                         'accesses':analysis.get('init_data_store_access', []),'location_scope':'script_relative'},
                 suggestion=(
                     "Return stable defaults from initData; synchronize prop-dependent values "
                     "in inited() using this.data.get/set, including inline child components."

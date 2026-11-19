@@ -1,0 +1,714 @@
+{
+  "batch": "real_system_experiment70_v1_20261118",
+  "candidate_gate": {
+    "accepted": false,
+    "reason": "no_strict_improvement"
+  },
+  "candidate_sha256": "f1dbd931d1be09eb2cb2237e75eae6a50c72dc8e3e40caa17ea21d22d3fdcdc2",
+  "changed": false,
+  "changes": [],
+  "component": "PasswordStrengthMeter",
+  "current_after": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "b7e9bae79df995662c4ad084839c5eeff98b9471aaece824c6f659bf80ed5c1e",
+          "parent_shape": "604e142c13a97b77da7e1615f596353f4d01f9ff170f3c3b8b8e8cf47fb3c901",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "dca76655978720d87b2a1b2331ed50a763ee493cff42a496b4a1d9a8cbe21775",
+          "parent_shape": "604e142c13a97b77da7e1615f596353f4d01f9ff170f3c3b8b8e8cf47fb3c901",
+          "path": "root.0.1.1"
+        }
+      ],
+      "source_snapshot": "2938170dbaacd5b999380e3ed49db77cfa9f963679384ceaaafe7e0903cdc3f1",
+      "target": [
+        {
+          "identity": "1d6c8a94ccbed1fad56eb6fa6913b16d005ba92e943a7c76f18d0380177af6ff",
+          "parent_shape": "99500c1c30468dd23085d8faf3e71a9704e9a02b9dbdfad7d6b45dd790be6a5c",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "dca76655978720d87b2a1b2331ed50a763ee493cff42a496b4a1d9a8cbe21775",
+          "parent_shape": "99500c1c30468dd23085d8faf3e71a9704e9a02b9dbdfad7d6b45dd790be6a5c",
+          "path": "root.0.1.1"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "source:unknown_bound_attribute",
+            "source:unknown_member_call",
+            "target:active_template_attribute",
+            "target:dom_or_reflective_member",
+            "target:dynamic_member",
+            "target:unknown_member_call"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "input|placeholder=输入密码|type=password",
+            "expected": "input|placeholder=输入密码|type=password|value=",
+            "path": "root.0.1.0"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 2,
+          "target_count": 2,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "input|placeholder=输入密码|type=password",
+            "expected": "input|placeholder=输入密码|type=password|value=",
+            "path": "root.0.1.0"
+          }
+        ],
+        "representation_differences": []
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "source:unknown_bound_attribute",
+        "source:unknown_member_call",
+        "target:active_template_attribute",
+        "target:dom_or_reflective_member",
+        "target:dynamic_member",
+        "target:unknown_member_call"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "input|placeholder=输入密码|type=password",
+        "expected": "input|placeholder=输入密码|type=password|value=",
+        "path": "root.0.1.0"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9166666666666666,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 2,
+      "target_count": 2,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "input|placeholder=输入密码|type=password",
+        "expected": "input|placeholder=输入密码|type=password|value=",
+        "path": "root.0.1.0"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9166666666666666,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "f1dbd931d1be09eb2cb2237e75eae6a50c72dc8e3e40caa17ea21d22d3fdcdc2",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "updatePassword",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "clear",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "updatePassword",
+                  "key": "password",
+                  "line": 28
+                },
+                {
+                  "caller": "clear",
+                  "key": "password",
+                  "line": 31
+                }
+              ],
+              "target": [
+                {
+                  "caller": "updatePassword",
+                  "key": "password",
+                  "line": 1
+                },
+                {
+                  "caller": "clear",
+                  "key": "password",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "password"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 0,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updatePassword",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "clear",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 9,
+      "target_nodes": 9
+    },
+    "styles": {
+      "compared_properties": 117,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1153.8745,
+      "target": 906.5340999999999
+    },
+    "ui_restoration": 100
+  },
+  "current_before": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "b7e9bae79df995662c4ad084839c5eeff98b9471aaece824c6f659bf80ed5c1e",
+          "parent_shape": "604e142c13a97b77da7e1615f596353f4d01f9ff170f3c3b8b8e8cf47fb3c901",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "dca76655978720d87b2a1b2331ed50a763ee493cff42a496b4a1d9a8cbe21775",
+          "parent_shape": "604e142c13a97b77da7e1615f596353f4d01f9ff170f3c3b8b8e8cf47fb3c901",
+          "path": "root.0.1.1"
+        }
+      ],
+      "source_snapshot": "2938170dbaacd5b999380e3ed49db77cfa9f963679384ceaaafe7e0903cdc3f1",
+      "target": [
+        {
+          "identity": "1d6c8a94ccbed1fad56eb6fa6913b16d005ba92e943a7c76f18d0380177af6ff",
+          "parent_shape": "99500c1c30468dd23085d8faf3e71a9704e9a02b9dbdfad7d6b45dd790be6a5c",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "dca76655978720d87b2a1b2331ed50a763ee493cff42a496b4a1d9a8cbe21775",
+          "parent_shape": "99500c1c30468dd23085d8faf3e71a9704e9a02b9dbdfad7d6b45dd790be6a5c",
+          "path": "root.0.1.1"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "source:unknown_bound_attribute",
+            "source:unknown_member_call",
+            "target:active_template_attribute",
+            "target:dom_or_reflective_member",
+            "target:dynamic_member",
+            "target:unknown_member_call"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "input|placeholder=输入密码|type=password",
+            "expected": "input|placeholder=输入密码|type=password|value=",
+            "path": "root.0.1.0"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 2,
+          "target_count": 2,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "input|placeholder=输入密码|type=password",
+            "expected": "input|placeholder=输入密码|type=password|value=",
+            "path": "root.0.1.0"
+          }
+        ],
+        "representation_differences": []
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "source:unknown_bound_attribute",
+        "source:unknown_member_call",
+        "target:active_template_attribute",
+        "target:dom_or_reflective_member",
+        "target:dynamic_member",
+        "target:unknown_member_call"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "input|placeholder=输入密码|type=password",
+        "expected": "input|placeholder=输入密码|type=password|value=",
+        "path": "root.0.1.0"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9166666666666666,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 2,
+      "target_count": 2,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "input|placeholder=输入密码|type=password",
+        "expected": "input|placeholder=输入密码|type=password|value=",
+        "path": "root.0.1.0"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9166666666666666,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "f1dbd931d1be09eb2cb2237e75eae6a50c72dc8e3e40caa17ea21d22d3fdcdc2",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "updatePassword",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "clear",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "updatePassword",
+                  "key": "password",
+                  "line": 28
+                },
+                {
+                  "caller": "clear",
+                  "key": "password",
+                  "line": 31
+                }
+              ],
+              "target": [
+                {
+                  "caller": "updatePassword",
+                  "key": "password",
+                  "line": 1
+                },
+                {
+                  "caller": "clear",
+                  "key": "password",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "password"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 0,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updatePassword",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "clear",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 9,
+      "target_nodes": 9
+    },
+    "styles": {
+      "compared_properties": 117,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1153.8745,
+      "target": 906.5340999999999
+    },
+    "ui_restoration": 100
+  },
+  "historical_codes": [
+    "rendered_dom_mismatch"
+  ],
+  "historical_passed": false,
+  "model_calls": 0,
+  "parent_sha256": "f1dbd931d1be09eb2cb2237e75eae6a50c72dc8e3e40caa17ea21d22d3fdcdc2",
+  "repair_targets": [],
+  "run_key": "real_system_experiment70_v1_20261118/password_strength_meter",
+  "scope": "offline_existing_parent_rule_replay_not_fresh_generation",
+  "source_sha256": "de4677bc542a0331ea4e6e3ccdb3cfc1b73317f8b9144d2f84e1ad78cc6888d7",
+  "static_after": {
+    "codes": [],
+    "passed": true
+  },
+  "status": "replayed",
+  "syntax_after": {
+    "diagnostic_count": 0,
+    "diagnostic_limit": 128,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "syntax_before": {
+    "diagnostic_count": 0,
+    "diagnostic_limit": 128,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  }
+}

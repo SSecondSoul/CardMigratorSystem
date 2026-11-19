@@ -1,0 +1,946 @@
+{
+  "batch": "real_system_experiment70_v1_20261118",
+  "candidate_gate": {
+    "accepted": false,
+    "reason": "no_strict_improvement"
+  },
+  "candidate_sha256": "a6ac6302e481a51ae1f361394627075fc0609d32db4ef6ea7a04eaa2d9f87f08",
+  "changed": false,
+  "changes": [],
+  "component": "BatchRenamer",
+  "current_after": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "11a43a7609acf7a261db83a9ed67416ed4bdd269f64645184c24d40c7a867a3a",
+          "parent_shape": "b05db69c1d89e24ba631e4d6f65b92994f51b75357545fd1ebe56f3af54d2da4",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "identity": "4aa784ccbbe473844544bf45c37288b1428c5cba1d4ea4f11be58784bedc711d",
+          "parent_shape": "ceab1bc3ea091db93cbb21379648aeae46b1cc3b77671f6a261ff298776ae5a9",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "identity": "cd2866b16d1a36e6817db2467579ac5a76c30028e44f1027a376f8afb2feb565",
+          "parent_shape": "3dcae0ba58078d01c89e1959c7dee2f89df6b17cca2f89332392f1162febaa1e",
+          "path": "root.0.1.2"
+        },
+        {
+          "identity": "447a5baffae79f8a51beddf2a47b06430c02cb943a234bdc22e16986e21d7306",
+          "parent_shape": "201e2ddef3a080b85ebcde1a762b11a534908c2087bd84db8c3971fd8c33418b",
+          "path": "root.0.3"
+        }
+      ],
+      "source_snapshot": "a065c8293f9effb24d1ecb5bb1da01b7c8793a29f02df199429d8369506c89a4",
+      "target": [
+        {
+          "identity": "13e1a7a9f3447de361e60cbcdf1425bad96aa58576f015f321be54fbdeb6644d",
+          "parent_shape": "5ca16f7d13da961fe03ed622e09c2a6a9f2277b4adec00247995d250b6bf68e0",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "identity": "5f945274acf27f9be7b56bb731fb1d52e60949d03d5058aca1b322325e5d0a08",
+          "parent_shape": "6172e4a7e66e41cd07e29930046ab2fef7af907aed75c9c87b441e91a993c657",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "identity": "cd2866b16d1a36e6817db2467579ac5a76c30028e44f1027a376f8afb2feb565",
+          "parent_shape": "4b3722e852614edcb2416c23b606cb239c428eec23b6661af466db906acbef6b",
+          "path": "root.0.1.2"
+        },
+        {
+          "identity": "447a5baffae79f8a51beddf2a47b06430c02cb943a234bdc22e16986e21d7306",
+          "parent_shape": "8918dea56f82c8fdcfa729c306b886089397e3e508032aa6cd92fde8b54ce406",
+          "path": "root.0.3"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:constructor_call",
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "source:unknown_or_dom_global",
+            "target:constructor_call",
+            "target:dom_or_reflective_member",
+            "target:unknown_or_dom_global"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "input|",
+            "expected": "input|value=asset",
+            "path": "root.0.1.0.1"
+          },
+          {
+            "actual": "input|min=1|type=number",
+            "expected": "input|min=1|type=number|value=1",
+            "path": "root.0.1.1.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 4,
+          "target_count": 4,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "input|",
+            "expected": "input|value=asset",
+            "path": "root.0.1.0.1"
+          },
+          {
+            "actual": "input|min=1|type=number",
+            "expected": "input|min=1|type=number|value=1",
+            "path": "root.0.1.1.1"
+          }
+        ],
+        "representation_differences": []
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:constructor_call",
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "source:unknown_or_dom_global",
+        "target:constructor_call",
+        "target:dom_or_reflective_member",
+        "target:unknown_or_dom_global"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "input|",
+        "expected": "input|value=asset",
+        "path": "root.0.1.0.1"
+      },
+      {
+        "actual": "input|min=1|type=number",
+        "expected": "input|min=1|type=number|value=1",
+        "path": "root.0.1.1.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.9473684210526316,
+      "source_nodes": 38,
+      "target_nodes": 38
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 4,
+      "target_count": 4,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "input|",
+        "expected": "input|value=asset",
+        "path": "root.0.1.0.1"
+      },
+      {
+        "actual": "input|min=1|type=number",
+        "expected": "input|min=1|type=number|value=1",
+        "path": "root.0.1.1.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.9473684210526316,
+      "source_nodes": 38,
+      "target_nodes": 38
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "a6ac6302e481a51ae1f361394627075fc0609d32db4ef6ea7a04eaa2d9f87f08",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9666666666666667,
+      "source_nodes": 30,
+      "target_nodes": 30
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "updatePrefix",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "updateStart",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "togglePreview",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "apply",
+                "status": "complete_caller_with_inlined_write"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "currentFiles",
+                  "line": 28
+                },
+                {
+                  "caller": "updatePrefix",
+                  "key": "prefix",
+                  "line": 34
+                },
+                {
+                  "caller": "updateStart",
+                  "key": "startAt",
+                  "line": 37
+                },
+                {
+                  "caller": "togglePreview",
+                  "key": "previewVisible",
+                  "line": 40
+                },
+                {
+                  "caller": "apply",
+                  "key": "currentFiles",
+                  "line": 43
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "currentFiles",
+                  "line": 1
+                },
+                {
+                  "caller": "updatePrefix",
+                  "form": "inlined_data_set",
+                  "key": "prefix",
+                  "line": 1
+                },
+                {
+                  "caller": "updateStart",
+                  "form": "inlined_data_set",
+                  "key": "startAt",
+                  "line": 1
+                },
+                {
+                  "caller": "togglePreview",
+                  "form": "inlined_data_set",
+                  "key": "previewVisible",
+                  "line": 1
+                },
+                {
+                  "caller": "apply",
+                  "form": "inlined_data_set",
+                  "key": "currentFiles",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "currentFiles",
+              "prefix",
+              "startAt",
+              "previewVisible"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 5,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updatePrefix",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateStart",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "togglePreview",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "apply",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": true
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 20,
+      "target_nodes": 20
+    },
+    "styles": {
+      "compared_properties": 325,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1418.0500000000002,
+      "target": 2280.2438999999995
+    },
+    "ui_restoration": 100
+  },
+  "current_before": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "11a43a7609acf7a261db83a9ed67416ed4bdd269f64645184c24d40c7a867a3a",
+          "parent_shape": "b05db69c1d89e24ba631e4d6f65b92994f51b75357545fd1ebe56f3af54d2da4",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "identity": "4aa784ccbbe473844544bf45c37288b1428c5cba1d4ea4f11be58784bedc711d",
+          "parent_shape": "ceab1bc3ea091db93cbb21379648aeae46b1cc3b77671f6a261ff298776ae5a9",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "identity": "cd2866b16d1a36e6817db2467579ac5a76c30028e44f1027a376f8afb2feb565",
+          "parent_shape": "3dcae0ba58078d01c89e1959c7dee2f89df6b17cca2f89332392f1162febaa1e",
+          "path": "root.0.1.2"
+        },
+        {
+          "identity": "447a5baffae79f8a51beddf2a47b06430c02cb943a234bdc22e16986e21d7306",
+          "parent_shape": "201e2ddef3a080b85ebcde1a762b11a534908c2087bd84db8c3971fd8c33418b",
+          "path": "root.0.3"
+        }
+      ],
+      "source_snapshot": "a065c8293f9effb24d1ecb5bb1da01b7c8793a29f02df199429d8369506c89a4",
+      "target": [
+        {
+          "identity": "13e1a7a9f3447de361e60cbcdf1425bad96aa58576f015f321be54fbdeb6644d",
+          "parent_shape": "5ca16f7d13da961fe03ed622e09c2a6a9f2277b4adec00247995d250b6bf68e0",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "identity": "5f945274acf27f9be7b56bb731fb1d52e60949d03d5058aca1b322325e5d0a08",
+          "parent_shape": "6172e4a7e66e41cd07e29930046ab2fef7af907aed75c9c87b441e91a993c657",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "identity": "cd2866b16d1a36e6817db2467579ac5a76c30028e44f1027a376f8afb2feb565",
+          "parent_shape": "4b3722e852614edcb2416c23b606cb239c428eec23b6661af466db906acbef6b",
+          "path": "root.0.1.2"
+        },
+        {
+          "identity": "447a5baffae79f8a51beddf2a47b06430c02cb943a234bdc22e16986e21d7306",
+          "parent_shape": "8918dea56f82c8fdcfa729c306b886089397e3e508032aa6cd92fde8b54ce406",
+          "path": "root.0.3"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:constructor_call",
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "source:unknown_or_dom_global",
+            "target:constructor_call",
+            "target:dom_or_reflective_member",
+            "target:unknown_or_dom_global"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "input|",
+            "expected": "input|value=asset",
+            "path": "root.0.1.0.1"
+          },
+          {
+            "actual": "input|min=1|type=number",
+            "expected": "input|min=1|type=number|value=1",
+            "path": "root.0.1.1.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 4,
+          "target_count": 4,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "input|",
+            "expected": "input|value=asset",
+            "path": "root.0.1.0.1"
+          },
+          {
+            "actual": "input|min=1|type=number",
+            "expected": "input|min=1|type=number|value=1",
+            "path": "root.0.1.1.1"
+          }
+        ],
+        "representation_differences": []
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:constructor_call",
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "source:unknown_or_dom_global",
+        "target:constructor_call",
+        "target:dom_or_reflective_member",
+        "target:unknown_or_dom_global"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "input|",
+        "expected": "input|value=asset",
+        "path": "root.0.1.0.1"
+      },
+      {
+        "actual": "input|min=1|type=number",
+        "expected": "input|min=1|type=number|value=1",
+        "path": "root.0.1.1.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.9473684210526316,
+      "source_nodes": 38,
+      "target_nodes": 38
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 4,
+      "target_count": 4,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "input|",
+        "expected": "input|value=asset",
+        "path": "root.0.1.0.1"
+      },
+      {
+        "actual": "input|min=1|type=number",
+        "expected": "input|min=1|type=number|value=1",
+        "path": "root.0.1.1.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.9473684210526316,
+      "source_nodes": 38,
+      "target_nodes": 38
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "a6ac6302e481a51ae1f361394627075fc0609d32db4ef6ea7a04eaa2d9f87f08",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9666666666666667,
+      "source_nodes": 30,
+      "target_nodes": 30
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "updatePrefix",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "updateStart",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "togglePreview",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "apply",
+                "status": "complete_caller_with_inlined_write"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "currentFiles",
+                  "line": 28
+                },
+                {
+                  "caller": "updatePrefix",
+                  "key": "prefix",
+                  "line": 34
+                },
+                {
+                  "caller": "updateStart",
+                  "key": "startAt",
+                  "line": 37
+                },
+                {
+                  "caller": "togglePreview",
+                  "key": "previewVisible",
+                  "line": 40
+                },
+                {
+                  "caller": "apply",
+                  "key": "currentFiles",
+                  "line": 43
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "currentFiles",
+                  "line": 1
+                },
+                {
+                  "caller": "updatePrefix",
+                  "form": "inlined_data_set",
+                  "key": "prefix",
+                  "line": 1
+                },
+                {
+                  "caller": "updateStart",
+                  "form": "inlined_data_set",
+                  "key": "startAt",
+                  "line": 1
+                },
+                {
+                  "caller": "togglePreview",
+                  "form": "inlined_data_set",
+                  "key": "previewVisible",
+                  "line": 1
+                },
+                {
+                  "caller": "apply",
+                  "form": "inlined_data_set",
+                  "key": "currentFiles",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "currentFiles",
+              "prefix",
+              "startAt",
+              "previewVisible"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 5,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updatePrefix",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateStart",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "togglePreview",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "apply",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": true
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 20,
+      "target_nodes": 20
+    },
+    "styles": {
+      "compared_properties": 325,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1418.0500000000002,
+      "target": 2280.2438999999995
+    },
+    "ui_restoration": 100
+  },
+  "historical_codes": [
+    "rendered_dom_mismatch"
+  ],
+  "historical_passed": false,
+  "model_calls": 0,
+  "parent_sha256": "a6ac6302e481a51ae1f361394627075fc0609d32db4ef6ea7a04eaa2d9f87f08",
+  "repair_targets": [],
+  "run_key": "real_system_experiment70_v1_20261118/batch_renamer",
+  "scope": "offline_existing_parent_rule_replay_not_fresh_generation",
+  "source_sha256": "c646db8cf35287e77b0c58aae4dc277ad0f35aeeec78dd8d8c28b5d89626be43",
+  "static_after": {
+    "codes": [],
+    "passed": true
+  },
+  "status": "replayed",
+  "syntax_after": {
+    "diagnostic_count": 0,
+    "diagnostic_limit": 128,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "syntax_before": {
+    "diagnostic_count": 0,
+    "diagnostic_limit": 128,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  }
+}

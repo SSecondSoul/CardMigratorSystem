@@ -1,0 +1,848 @@
+{
+  "source": {
+    "class_bindings": {
+      "'sla ' + slaState": [
+        "sla"
+      ],
+      "message.internal ? 'internal' : ''": [],
+      "tag === selectedTag ? 'active' : ''": [],
+      "{ selected: ticket.id === selectedId, urgent: ticket.priority === 'urgent' }": []
+    },
+    "limitations": [
+      "binding_expression_equivalence_and_class_token_boundaries_are_checked_separately",
+      "component_expansion_not_in_template_ted"
+    ],
+    "normalization": "template_projection_v4_ordered_conditional_siblings",
+    "source_parser": "vue_compiler_dom_html_v1",
+    "tree": {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:@binding 个处理中"
+                        }
+                      ],
+                      "label": "p|class=muted"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:@binding"
+                        }
+                      ],
+                      "label": "h2|"
+                    }
+                  ],
+                  "label": "div|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "input|binding:value|event:input|placeholder=搜索"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:全部状态"
+                            }
+                          ],
+                          "label": "option|value=all"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:处理中"
+                            }
+                          ],
+                          "label": "option|value=open"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:等待客户"
+                            }
+                          ],
+                          "label": "option|value=pending"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:已关闭"
+                            }
+                          ],
+                          "label": "option|value=closed"
+                        }
+                      ],
+                      "label": "select|binding:value|event:change"
+                    }
+                  ],
+                  "label": "div|class=actions"
+                }
+              ],
+              "label": "header|"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:@binding"
+                    }
+                  ],
+                  "label": "button|binding:class|binding:key|directive:for|event:click"
+                }
+              ],
+              "label": "div|class=tag-strip"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:#@binding @binding"
+                                }
+                              ],
+                              "label": "strong|"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding · @binding"
+                                }
+                              ],
+                              "label": "small|"
+                            }
+                          ],
+                          "label": "span|"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "i|"
+                        }
+                      ],
+                      "label": "button|binding:class|binding:key|directive:for|event:click"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:无匹配工单"
+                        }
+                      ],
+                      "label": "p|class=empty|directive:if"
+                    }
+                  ],
+                  "label": "aside|class=ticket-list"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "h3|"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "span|"
+                            }
+                          ],
+                          "label": "div|"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:SLA @binding 分钟"
+                            }
+                          ],
+                          "label": "span|binding:class|class=sla"
+                        }
+                      ],
+                      "label": "div|class=conversation-head"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "strong|"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "p|"
+                            }
+                          ],
+                          "label": "article|binding:class|binding:key|directive:for"
+                        }
+                      ],
+                      "label": "div|class=messages"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "button|binding:key|directive:for|event:click|type=button"
+                            }
+                          ],
+                          "label": "div|"
+                        },
+                        {
+                          "children": [],
+                          "label": "textarea|binding:value|event:input"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "input|binding:checked|event:change|type=checkbox"
+                                },
+                                {
+                                  "children": [],
+                                  "label": "#text:内部备注"
+                                }
+                              ],
+                              "label": "label|"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:发送"
+                                }
+                              ],
+                              "label": "button|binding:disabled|class=primary|type=submit"
+                            }
+                          ],
+                          "label": "footer|"
+                        }
+                      ],
+                      "label": "form|class=reply-box|event:submit"
+                    }
+                  ],
+                  "label": "main|directive:if"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:工单属性"
+                        }
+                      ],
+                      "label": "h3|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:负责人"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:未分配"
+                                }
+                              ],
+                              "label": "option|value="
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "option|binding:key|binding:value|directive:for"
+                            }
+                          ],
+                          "label": "select|binding:value|event:change"
+                        }
+                      ],
+                      "label": "label|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "b|binding:key|directive:for"
+                        }
+                      ],
+                      "label": "div|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:处理中"
+                            }
+                          ],
+                          "label": "button|event:click"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:等待"
+                            }
+                          ],
+                          "label": "button|event:click"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:关闭"
+                            }
+                          ],
+                          "label": "button|event:click"
+                        }
+                      ],
+                      "label": "div|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:合并到"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:选择工单"
+                                }
+                              ],
+                              "label": "option|value="
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:#@binding"
+                                }
+                              ],
+                              "label": "option|binding:key|binding:value|directive:for"
+                            }
+                          ],
+                          "label": "select|binding:value|event:change"
+                        }
+                      ],
+                      "label": "label|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:执行合并"
+                        }
+                      ],
+                      "label": "button|binding:disabled|event:click"
+                    }
+                  ],
+                  "label": "aside|class=ticket-properties|directive:if"
+                }
+              ],
+              "label": "div|class=ticket-layout"
+            }
+          ],
+          "label": "section|class=support-ticket-console"
+        }
+      ],
+      "label": "#root"
+    }
+  },
+  "target": {
+    "class_bindings": {},
+    "limitations": [
+      "binding_expression_equivalence_and_class_token_boundaries_are_checked_separately",
+      "component_expansion_not_in_template_ted"
+    ],
+    "normalization": "template_projection_v4_ordered_conditional_siblings",
+    "tree": {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:@binding 个处理中"
+                        }
+                      ],
+                      "label": "p|class=muted"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:@binding"
+                        }
+                      ],
+                      "label": "h2|"
+                    }
+                  ],
+                  "label": "div|"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "input|binding:value|event:input|placeholder=搜索"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:全部状态"
+                            }
+                          ],
+                          "label": "option|value=all"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:处理中"
+                            }
+                          ],
+                          "label": "option|value=open"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:等待客户"
+                            }
+                          ],
+                          "label": "option|value=pending"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:已关闭"
+                            }
+                          ],
+                          "label": "option|value=closed"
+                        }
+                      ],
+                      "label": "select|binding:value|event:change"
+                    }
+                  ],
+                  "label": "div|class=actions"
+                }
+              ],
+              "label": "header|"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "label": "#text:@binding"
+                    }
+                  ],
+                  "label": "button|binding:class|directive:for|event:click"
+                }
+              ],
+              "label": "div|class=tag-strip"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:#@binding @binding"
+                                }
+                              ],
+                              "label": "strong|"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding · @binding"
+                                }
+                              ],
+                              "label": "small|"
+                            }
+                          ],
+                          "label": "span|"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "i|"
+                        }
+                      ],
+                      "label": "button|binding:class|directive:for|event:click"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:无匹配工单"
+                        }
+                      ],
+                      "label": "p|class=empty|directive:if"
+                    }
+                  ],
+                  "label": "aside|class=ticket-list"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "h3|"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "span|"
+                            }
+                          ],
+                          "label": "div|"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:SLA @binding 分钟"
+                            }
+                          ],
+                          "label": "span|binding:class|class=sla"
+                        }
+                      ],
+                      "label": "div|class=conversation-head"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "strong|"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "p|"
+                            }
+                          ],
+                          "label": "article|binding:class|directive:for"
+                        }
+                      ],
+                      "label": "div|class=messages"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "button|directive:for|event:click|type=button"
+                            }
+                          ],
+                          "label": "div|"
+                        },
+                        {
+                          "children": [],
+                          "label": "textarea|binding:value|event:input"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "input|binding:checked|event:change|type=checkbox"
+                                },
+                                {
+                                  "children": [],
+                                  "label": "#text:内部备注"
+                                }
+                              ],
+                              "label": "label|"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:发送"
+                                }
+                              ],
+                              "label": "button|binding:disabled|class=primary|type=submit"
+                            }
+                          ],
+                          "label": "footer|"
+                        }
+                      ],
+                      "label": "form|class=reply-box|event:submit"
+                    }
+                  ],
+                  "label": "main|directive:if"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:工单属性"
+                        }
+                      ],
+                      "label": "h3|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:负责人"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:未分配"
+                                }
+                              ],
+                              "label": "option|value="
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:@binding"
+                                }
+                              ],
+                              "label": "option|binding:value|directive:for"
+                            }
+                          ],
+                          "label": "select|binding:value|event:change"
+                        }
+                      ],
+                      "label": "label|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:@binding"
+                            }
+                          ],
+                          "label": "b|directive:for"
+                        }
+                      ],
+                      "label": "div|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:处理中"
+                            }
+                          ],
+                          "label": "button|event:click"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:等待"
+                            }
+                          ],
+                          "label": "button|event:click"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "label": "#text:关闭"
+                            }
+                          ],
+                          "label": "button|event:click"
+                        }
+                      ],
+                      "label": "div|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:合并到"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:选择工单"
+                                }
+                              ],
+                              "label": "option|value="
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "label": "#text:#@binding"
+                                }
+                              ],
+                              "label": "option|binding:value|directive:for"
+                            }
+                          ],
+                          "label": "select|binding:value|event:change"
+                        }
+                      ],
+                      "label": "label|"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "label": "#text:执行合并"
+                        }
+                      ],
+                      "label": "button|binding:disabled|event:click"
+                    }
+                  ],
+                  "label": "aside|class=ticket-properties|directive:if"
+                }
+              ],
+              "label": "div|class=ticket-layout"
+            }
+          ],
+          "label": "section|class=support-ticket-console"
+        }
+      ],
+      "label": "#root"
+    }
+  }
+}

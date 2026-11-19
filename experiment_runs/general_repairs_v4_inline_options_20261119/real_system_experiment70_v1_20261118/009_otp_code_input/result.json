@@ -1,0 +1,811 @@
+{
+  "batch": "real_system_experiment70_v1_20261118",
+  "before_assessment": {
+    "capture_reference": "general_repairs_v3_final_replay_20261119/real_system_experiment70_v1_20261118/009_otp_code_input/before-browser.json",
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "3703dbe4d8eff488e60ea9a472c3053d99a3995cf379f4f32795b8f21088409c",
+          "parent_shape": "0626396dd997222698b7df931064ee42abc7287867c727832f869862f73d06fc",
+          "path": "root.0.1"
+        },
+        {
+          "identity": "22381d0c99c1f8585c106a626310e152c6ba4b7ef3af55b9b9a9af4ae3412e4c",
+          "parent_shape": "c77b8725856f98bd5e13b2076adcc0d52c8cb05217158d81cc23ba53990215ab",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "6574181e5cfb64038be0f990b2b2479a4405469018ffa65abbdfc03cd2449b37",
+          "parent_shape": "c77b8725856f98bd5e13b2076adcc0d52c8cb05217158d81cc23ba53990215ab",
+          "path": "root.0.3.1"
+        }
+      ],
+      "source_snapshot": "af515b16bdc8c50657de1a31cd5495f3737d03726fce74d2660f984cae8619ed",
+      "target": [
+        {
+          "identity": "0cd8724f17f41cdae0a23f08bbea78d2c9a2d9409438d7d0f8c87bda105e6568",
+          "parent_shape": "5c3fa7ef26e37b3fd8b426ade6b7d7272a646d79847141084c9ad5d485a117f2",
+          "path": "root.0.1"
+        },
+        {
+          "identity": "22381d0c99c1f8585c106a626310e152c6ba4b7ef3af55b9b9a9af4ae3412e4c",
+          "parent_shape": "c77b8725856f98bd5e13b2076adcc0d52c8cb05217158d81cc23ba53990215ab",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "6574181e5cfb64038be0f990b2b2479a4405469018ffa65abbdfc03cd2449b37",
+          "parent_shape": "c77b8725856f98bd5e13b2076adcc0d52c8cb05217158d81cc23ba53990215ab",
+          "path": "root.0.3.1"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "source:unknown_bound_attribute",
+            "source:unknown_member_call",
+            "target:dom_or_reflective_member",
+            "target:unknown_member_call"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字",
+            "expected": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字|value=",
+            "path": "root.0.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 3,
+          "target_count": 3,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字",
+            "expected": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字|value=",
+            "path": "root.0.1"
+          }
+        ],
+        "representation_differences": []
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "source:unknown_bound_attribute",
+        "source:unknown_member_call",
+        "target:dom_or_reflective_member",
+        "target:unknown_member_call"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字",
+        "expected": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字|value=",
+        "path": "root.0.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9166666666666666,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "embedding_similarity": null,
+    "evidence_mode": "new_real_parser_projection_plus_identical_code_static_and_render_capture_reuse",
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 3,
+      "target_count": 3,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字",
+        "expected": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字|value=",
+        "path": "root.0.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9166666666666666,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "d90e24c3635ef82b332b51916365d6ab09816eb27c9412de15973ec28d785bd3",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 14,
+      "target_nodes": 14
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "updateCode",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "clear",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "verify",
+                "status": "complete_caller_with_inlined_write"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "updateCode",
+                  "key": "code",
+                  "line": 25
+                },
+                {
+                  "caller": "updateCode",
+                  "key": "submitted",
+                  "line": 25
+                },
+                {
+                  "caller": "clear",
+                  "key": "code",
+                  "line": 28
+                },
+                {
+                  "caller": "clear",
+                  "key": "submitted",
+                  "line": 28
+                },
+                {
+                  "caller": "verify",
+                  "key": "submitted",
+                  "line": 31
+                }
+              ],
+              "target": [
+                {
+                  "caller": "updateCode",
+                  "form": "inlined_data_set",
+                  "key": "code",
+                  "line": 3
+                },
+                {
+                  "caller": "updateCode",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 3
+                },
+                {
+                  "caller": "clear",
+                  "form": "inlined_data_set",
+                  "key": "code",
+                  "line": 3
+                },
+                {
+                  "caller": "clear",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 3
+                },
+                {
+                  "caller": "verify",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 3
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "code",
+              "submitted"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 5,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateCode",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "clear",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "verify",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "static_reused": true,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 9,
+      "target_nodes": 9
+    },
+    "styles": {
+      "compared_properties": 104,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostics": [],
+      "policy": "real_syntax_retested_with_projection_v4",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1436.1137999999992,
+      "target": 1276.2499000000007
+    },
+    "ui_restoration": 100
+  },
+  "candidate_sha256": "d90e24c3635ef82b332b51916365d6ab09816eb27c9412de15973ec28d785bd3",
+  "changed": false,
+  "changes": [],
+  "component": "OtpCodeInput",
+  "effective_assessment": {
+    "capture_reference": "general_repairs_v3_final_replay_20261119/real_system_experiment70_v1_20261118/009_otp_code_input/before-browser.json",
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "3703dbe4d8eff488e60ea9a472c3053d99a3995cf379f4f32795b8f21088409c",
+          "parent_shape": "0626396dd997222698b7df931064ee42abc7287867c727832f869862f73d06fc",
+          "path": "root.0.1"
+        },
+        {
+          "identity": "22381d0c99c1f8585c106a626310e152c6ba4b7ef3af55b9b9a9af4ae3412e4c",
+          "parent_shape": "c77b8725856f98bd5e13b2076adcc0d52c8cb05217158d81cc23ba53990215ab",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "6574181e5cfb64038be0f990b2b2479a4405469018ffa65abbdfc03cd2449b37",
+          "parent_shape": "c77b8725856f98bd5e13b2076adcc0d52c8cb05217158d81cc23ba53990215ab",
+          "path": "root.0.3.1"
+        }
+      ],
+      "source_snapshot": "af515b16bdc8c50657de1a31cd5495f3737d03726fce74d2660f984cae8619ed",
+      "target": [
+        {
+          "identity": "0cd8724f17f41cdae0a23f08bbea78d2c9a2d9409438d7d0f8c87bda105e6568",
+          "parent_shape": "5c3fa7ef26e37b3fd8b426ade6b7d7272a646d79847141084c9ad5d485a117f2",
+          "path": "root.0.1"
+        },
+        {
+          "identity": "22381d0c99c1f8585c106a626310e152c6ba4b7ef3af55b9b9a9af4ae3412e4c",
+          "parent_shape": "c77b8725856f98bd5e13b2076adcc0d52c8cb05217158d81cc23ba53990215ab",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "6574181e5cfb64038be0f990b2b2479a4405469018ffa65abbdfc03cd2449b37",
+          "parent_shape": "c77b8725856f98bd5e13b2076adcc0d52c8cb05217158d81cc23ba53990215ab",
+          "path": "root.0.3.1"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "source:unknown_bound_attribute",
+            "source:unknown_member_call",
+            "target:dom_or_reflective_member",
+            "target:unknown_member_call"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字",
+            "expected": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字|value=",
+            "path": "root.0.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 3,
+          "target_count": 3,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字",
+            "expected": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字|value=",
+            "path": "root.0.1"
+          }
+        ],
+        "representation_differences": []
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "source:unknown_bound_attribute",
+        "source:unknown_member_call",
+        "target:dom_or_reflective_member",
+        "target:unknown_member_call"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字",
+        "expected": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字|value=",
+        "path": "root.0.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9166666666666666,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "embedding_similarity": null,
+    "evidence_mode": "new_real_parser_projection_plus_identical_code_static_and_render_capture_reuse",
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 3,
+      "target_count": 3,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字",
+        "expected": "input|inputmode=numeric|maxlength=6|placeholder=仅输入数字|value=",
+        "path": "root.0.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9166666666666666,
+      "source_nodes": 12,
+      "target_nodes": 12
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "d90e24c3635ef82b332b51916365d6ab09816eb27c9412de15973ec28d785bd3",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 14,
+      "target_nodes": 14
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "updateCode",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "clear",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "verify",
+                "status": "complete_caller_with_inlined_write"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "updateCode",
+                  "key": "code",
+                  "line": 25
+                },
+                {
+                  "caller": "updateCode",
+                  "key": "submitted",
+                  "line": 25
+                },
+                {
+                  "caller": "clear",
+                  "key": "code",
+                  "line": 28
+                },
+                {
+                  "caller": "clear",
+                  "key": "submitted",
+                  "line": 28
+                },
+                {
+                  "caller": "verify",
+                  "key": "submitted",
+                  "line": 31
+                }
+              ],
+              "target": [
+                {
+                  "caller": "updateCode",
+                  "form": "inlined_data_set",
+                  "key": "code",
+                  "line": 3
+                },
+                {
+                  "caller": "updateCode",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 3
+                },
+                {
+                  "caller": "clear",
+                  "form": "inlined_data_set",
+                  "key": "code",
+                  "line": 3
+                },
+                {
+                  "caller": "clear",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 3
+                },
+                {
+                  "caller": "verify",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 3
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "code",
+              "submitted"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 5,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateCode",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "clear",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "verify",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "static_reused": true,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 9,
+      "target_nodes": 9
+    },
+    "styles": {
+      "compared_properties": 104,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostics": [],
+      "policy": "real_syntax_retested_with_projection_v4",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1436.1137999999992,
+      "target": 1276.2499000000007
+    },
+    "ui_restoration": 100
+  },
+  "effective_sha256": "d90e24c3635ef82b332b51916365d6ab09816eb27c9412de15973ec28d785bd3",
+  "evidence_mode": "fresh_capture_if_code_changed_otherwise_explicit_v4_observation_reuse",
+  "historical_passed": false,
+  "model_calls": 0,
+  "new_browser_captures": 0,
+  "parent_sha256": "d90e24c3635ef82b332b51916365d6ab09816eb27c9412de15973ec28d785bd3",
+  "passed": false,
+  "rule_decisions": [],
+  "run_key": "real_system_experiment70_v1_20261118/otp_code_input",
+  "status": "replayed"
+}

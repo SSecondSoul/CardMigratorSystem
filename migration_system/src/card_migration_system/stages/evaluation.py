@@ -67,7 +67,7 @@ def assess(static,browser,actions,thresholds,ssm=None):
         'control_gate_evidence':control_gate_evidence(source['snapshots'][0],target['snapshots'][0],
             source_bad or target_bad),
         'structure_differences':tree_differences(expected_tree,actual_tree),
-        'structure_projection':'ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3',
+        'structure_projection':'ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4',
         'projection_limitations':['mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted','key_identity_not_proven_by_ted','script_binding_event_style_dimensions_checked_by_legacy_validator'],
         'ssim':image['ssim'],'different_pixel_ratio':image['different_pixel_ratio'],'interaction':interaction,
         'thresholds':thresholds,'coverage':'configured_props_and_representative_actions_only',

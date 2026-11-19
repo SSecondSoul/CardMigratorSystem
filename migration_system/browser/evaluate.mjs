@@ -7,6 +7,7 @@ import { emptyClassPolicy } from './empty-class-policy.mjs'
 import { inspectTarget } from './target-syntax.mjs'
 import { inspectSourceContracts } from './source-contracts.mjs'
 import { sourceClassTokens,targetClassTokens } from './class-projection.mjs'
+import {inlineImage,resourcePolicy} from './resource-policy.mjs'
 const input=JSON.parse(fs.readFileSync(0,'utf8')), require=createRequire(path.join(input.repository,'package.json'))
 const {parse,compileStyle}=require('@vue/compiler-sfc'), babel=require('@babel/parser'), san=require('san')
 const vueRuntime=fs.readFileSync(path.join(input.project,'frontend/node_modules/vue/dist/vue.global.js'),'utf8')
@@ -101,6 +102,18 @@ function canonicalTemplate(template,source,templateOffset=0){
     const values=attrs.filter(x=>x.startsWith('class=')).flatMap(x=>tokens(x.slice(6)))
     return [...new Set([...attrs.filter(x=>!x.startsWith('class=')),...(values.length?['class='+classValue(values.join(' '))]:[])])].sort()
   }
+  // San stores elif/else nodes on their preceding if node, not in the ordinary
+  // children array. Vue and SSM retain conditional branches as ordered siblings.
+  // Expand every branch exactly once; do NOT drop conditions or flatten actual
+  // element/template wrappers. Missing/extra branches must remain differences.
+  function sanChildren(children){
+    const result=[]
+    for(const child of children??[]){
+      const value=visit(child);if(value)result.push(value)
+      result.push(...sanChildren(child.elses))
+    }
+    return result
+  }
   function visit(node){
     if(source){
       if(node.type===2)return textNode(node.content)
@@ -125,11 +138,11 @@ function canonicalTemplate(template,source,templateOffset=0){
       return result
     })
     for(const event of node.events??[])attrs.push('event:'+event.name)
-    for(const [name] of Object.entries(node.directives??{}))attrs.push('directive:'+name)
-    return {label:node.tagName?node.tagName+'|'+mergedClasses(attrs).join('|'):'#root',children:mergeText((node.children??[]).map(visit).filter(Boolean))}
+    for(const [name] of Object.entries(node.directives??{}))attrs.push('directive:'+(name==='elif'?'else-if':name))
+    return {label:node.tagName?node.tagName+'|'+mergedClasses(attrs).join('|'):'#root',children:mergeText(sanChildren(node.children))}
   }
   const tree=visit(ast)
-  return {tree,class_bindings:classBindings,normalization:'template_projection_v3_symmetric_boundary_safe_class_tokens',
+  return {tree,class_bindings:classBindings,normalization:'template_projection_v4_ordered_conditional_siblings',
     ...(source?{source_parser:'vue_compiler_dom_html_v1'}:{}),
     limitations:['binding_expression_equivalence_and_class_token_boundaries_are_checked_separately','component_expansion_not_in_template_ted']}
 }
@@ -145,6 +158,8 @@ async function capture(browser,code,kind,actions){
   page.on('request',req=>{
     if(req.isInterceptResolutionHandled())return
     if(req.url()==='http://component.invalid/'&&req.isNavigationRequest()&&req.method()==='GET')return req.respond({status:200,contentType:'text/html',body:'<!doctype html><html><head><link rel="icon" href="data:,"></head><body><div id="mount"></div></body></html>'})
+    const embedded=inlineImage(req.url(),req.resourceType(),req.method())
+    if(embedded)return req.respond({status:200,...embedded})
     remember(blocked,req.url());return req.abort()
   })
   await page.evaluateOnNewDocument(()=>{
@@ -168,7 +183,9 @@ async function capture(browser,code,kind,actions){
   async function snapshot(name){return {name,...await page.evaluate(()=>{
     let count=0;const styles=[]
     function walk(n,p){if(++count>3000)throw Error('dom_node_limit');if(n.nodeType===3){const text=n.textContent.replace(/\s+/g,' ').trim();return text?{label:'#text:'+text,children:[]}:null}if(n.nodeType!==1)return null
-      if(styles.length>=300)throw Error('style_capacity_exceeded')
+      // Every element admitted by the existing 3000-node cap gets evidence;
+      // never silently sample the first 300 elements of a complex page.
+      if(styles.length>=3000)throw Error('style_capacity_exceeded')
       const css=getComputedStyle(n);styles.push({path:p,tag:n.tagName.toLowerCase(),text:n.textContent.slice(0,200),value:n.value??null,checked:n.checked??null,
         selected_values:n.tagName==='SELECT'&&n.multiple?Array.from(n.selectedOptions,o=>o.value):null,
         styles:Object.fromEntries(['color','backgroundColor','fontSize','fontFamily','fontWeight','marginTop','marginLeft','paddingTop','paddingLeft','width','height','display','position'].map(k=>[k,css[k]]))})
@@ -194,7 +211,7 @@ async function capture(browser,code,kind,actions){
     snapshots.push(await snapshot(action.name))
   }
   const png=await page.screenshot({type:'png',fullPage:false})
-  const result={snapshots,png:Buffer.from(png).toString('base64'),errors,warnings,blocked_requests:blocked,evidence_overflow:overflow,render_ms:performance.now()-begin,url:'http://component.invalid/',storage:'fresh_context'}
+  const result={snapshots,png:Buffer.from(png).toString('base64'),errors,warnings,blocked_requests:blocked,evidence_overflow:overflow,render_ms:performance.now()-begin,url:'http://component.invalid/',storage:'fresh_context',resource_policy:resourcePolicy,evidence_limits:{dom_nodes:3000,styled_elements:3000,complete:true}}
   await context.close();return result
 }
 
@@ -219,6 +236,6 @@ try{
   const image=pixels(Buffer.from(vue.png,'base64'),Buffer.from(sanResult.png,'base64'))
   process.stdout.write(JSON.stringify({status:'completed',source_ast:source,target_ast:target,vue,san:sanResult,image,
     comparison_policy:emptyClassPolicy(input.source,input.code,require),browser_version:await browser.version(),puppeteer_version:JSON.parse(fs.readFileSync(new URL('./node_modules/puppeteer-core/package.json',import.meta.url))).version}))
-}catch(e){process.stdout.write(JSON.stringify({status:'blocked',error:String(e.message).slice(0,250),
+}catch(e){process.stdout.write(JSON.stringify({status:'blocked',error:String(e.message).split('\n',1)[0].trim().slice(0,250),
   ...(e.sourceDiagnostics?{diagnostics:e.sourceDiagnostics}:{})}));process.exitCode=2}
 finally{if(browser)await browser.close()}

@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from .generation import build_generation_messages, compact_generation_context
+from .san_contract import CONSTRAINTS, POLICY, SHA256
 from ..application.service import ServiceError
 from ..reporting.identity import digest
 
@@ -38,6 +39,8 @@ def generation_messages(settings, ssm, selected, *, strategy='ssm', source=''):
     else:
         messages, pins = build_generation_messages(settings.repository_root, ssm)
         messages, context = compact_generation_context(messages, ssm)
+        messages[0] = {**messages[0], 'content': messages[0]['content'] + '\n\n' + CONSTRAINTS}
+        context['shared_san_contract'] = {'policy': POLICY, 'sha256': SHA256}
     demonstrations = []
     for item in selected:
         demonstrations.extend([{'role': 'user', 'content': json.dumps(item['ssm'], ensure_ascii=False)},

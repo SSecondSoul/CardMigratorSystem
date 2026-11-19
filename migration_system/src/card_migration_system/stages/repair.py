@@ -6,6 +6,7 @@ Dependencies stay explicit so existing boundary and replay tests remain valid.
 import json
 from ..application.service import ServiceError
 from ..prompts.repair_context import model_evidence,project_prompt
+from ..prompts.san_contract import CONSTRAINTS, POLICY, SHA256, repair_targets
 
 
 def propose_repair(self,key,current,evaluation,number,*,BrowserEvaluator,syntax_repair_messages):
@@ -25,7 +26,7 @@ def propose_repair(self,key,current,evaluation,number,*,BrowserEvaluator,syntax_
     for decision in self.job(key).state.get('decisions',[]):
         if not decision['accepted'] and decision['previous']==current['file']['sha256']:
             prior=self.cached(key,f'revisions/{decision["round"]}.json')
-            if prior and prior['origin']=='rule_repair':rejected_rule=True
+            if prior and prior['origin']=='rule_repair' and prior['code']==rule['code']:rejected_rule=True
     if rule['code']!=current['code'] and not rejected_rule:
         code=rule['code'];origin='rule_repair'
     else:
@@ -36,10 +37,12 @@ def propose_repair(self,key,current,evaluation,number,*,BrowserEvaluator,syntax_
             model_errors,model_visual=model_evidence(evaluation)
             prompt=self.checks(self.settings.repository_root,'repair_prompt',source=source,code=current['code'],ssm=ssm,errors=model_errors,visual_errors=model_visual)['prompt']
             prompt,context=project_prompt(prompt,ssm,evaluation)
+            prompt+='\nCausal repair checklist (not a waiver):\n'+json.dumps(repair_targets(errors),ensure_ascii=False)
             if feedback:prompt+='\nRejected attempts from this accepted parent (do not repeat):\n'+json.dumps(feedback,ensure_ascii=False)
             context['model_prompt_chars']=len(prompt)
+            context['shared_san_contract']={'policy':POLICY,'sha256':SHA256}
             self.put_json(key,f'calls/{number}/repair-context.json','repair_context',context)
-            messages=[{'role':'system','content':'Repair the current San SFC with minimal changes. Preserve correct behavior. Output only complete San SFC.'},{'role':'user','content':prompt}]
+            messages=[{'role':'system','content':'Repair the current San SFC with minimal changes. Preserve correct behavior. Output only complete San SFC.\n'+CONSTRAINTS},{'role':'user','content':prompt}]
         for prior_number in range(1,number):
             prior=self.cached(key,f'calls/{prior_number}/request.json')
             if prior and prior.get('messages')==messages:raise ServiceError('repeated_repair_request_blocked')

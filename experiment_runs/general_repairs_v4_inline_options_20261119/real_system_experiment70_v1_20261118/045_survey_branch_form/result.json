@@ -1,0 +1,1213 @@
+{
+  "batch": "real_system_experiment70_v1_20261118",
+  "before_assessment": {
+    "capture_reference": "general_repairs_v3_final_replay_20261119/real_system_experiment70_v1_20261118/045_survey_branch_form/before-browser.json",
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "07c0920d8228e06c771c0789fe9efdd63f493e0b9b048ff406fdfb6ee41ff082",
+          "parent_shape": "3deaabb0f9153f2dd0fc8a6c438a1d7d2122898433db9131e7b1d20048c8ad1e",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "identity": "c0e15225dc3b7545864daabdabd61e293d75a413a2b045dab9fa6a3ed9a7494e",
+          "parent_shape": "3deaabb0f9153f2dd0fc8a6c438a1d7d2122898433db9131e7b1d20048c8ad1e",
+          "path": "root.0.1.0.2"
+        },
+        {
+          "identity": "96d1e06769c2f92d42a77d5125c6d74d2cffc5c6948906e12bb83153902876b9",
+          "parent_shape": "7aea14d7a2f823a70f049d55626fc0ffe0672d0307f0d9aefa9c18c15c492226",
+          "path": "root.0.1.1"
+        },
+        {
+          "identity": "259a944a3b770cb65e63bdef2bcc1802875de7c2b433bafbce53c151f8bd4d16",
+          "parent_shape": "7aea14d7a2f823a70f049d55626fc0ffe0672d0307f0d9aefa9c18c15c492226",
+          "path": "root.0.1.2"
+        }
+      ],
+      "source_snapshot": "5a3e66d2efdaa48095a49e3492e4c9c97b20ed278fd0ef64f4befb8296da63ba",
+      "target": [
+        {
+          "identity": "2844ad109f4ffea4150312a4f7d175a3554f586bf2fe01cf21467085d758a488",
+          "parent_shape": "4f4925b6f3b90111799784502b9c501a7259e04bf13102555fa97fff8e2e6a3a",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "identity": "b617298dd501e20657ac238c5eb8413b199c624ad85f42af1d1bc00a4c9b2e5f",
+          "parent_shape": "4f4925b6f3b90111799784502b9c501a7259e04bf13102555fa97fff8e2e6a3a",
+          "path": "root.0.1.0.2"
+        },
+        {
+          "identity": "89ed1bb7e50746fabb6a8c2b74ed1a350d295f03386fd9472d441c812189378c",
+          "parent_shape": "82887191e18a8e78417f40f0ca758ffbdf18a20a14b1dd411c2cb226ec65a524",
+          "path": "root.0.1.1"
+        },
+        {
+          "identity": "259a944a3b770cb65e63bdef2bcc1802875de7c2b433bafbce53c151f8bd4d16",
+          "parent_shape": "82887191e18a8e78417f40f0ca758ffbdf18a20a14b1dd411c2cb226ec65a524",
+          "path": "root.0.1.2"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "source:unknown_member_call",
+            "target:dom_or_reflective_member",
+            "target:unknown_member_call"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.1.0.1"
+          },
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.1.0.2"
+          },
+          {
+            "actual": "textarea|placeholder=其他建议",
+            "expected": "textarea|placeholder=其他建议|value=",
+            "path": "root.0.1.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 4,
+          "target_count": 4,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.1.0.1"
+          },
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.1.0.2"
+          },
+          {
+            "actual": "textarea|placeholder=其他建议",
+            "expected": "textarea|placeholder=其他建议|value=",
+            "path": "root.0.1.1"
+          }
+        ],
+        "representation_differences": [
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.1.0.1",
+            "source": "",
+            "target": null
+          },
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.1.0.2",
+            "source": "",
+            "target": null
+          }
+        ]
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "source:unknown_member_call",
+        "target:dom_or_reflective_member",
+        "target:unknown_member_call"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.1.0.1"
+      },
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.1.0.2"
+      },
+      {
+        "actual": "textarea|placeholder=其他建议",
+        "expected": "textarea|placeholder=其他建议|value=",
+        "path": "root.0.1.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.1.0.1",
+        "source": "",
+        "target": null
+      },
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.1.0.2",
+        "source": "",
+        "target": null
+      }
+    ],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.8,
+      "source_nodes": 15,
+      "target_nodes": 15
+    },
+    "embedding_similarity": null,
+    "evidence_mode": "new_real_parser_projection_plus_identical_code_static_and_render_capture_reuse",
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 4,
+      "target_count": 4,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.1.0.1"
+      },
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.1.0.2"
+      },
+      {
+        "actual": "textarea|placeholder=其他建议",
+        "expected": "textarea|placeholder=其他建议|value=",
+        "path": "root.0.1.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.8,
+      "source_nodes": 15,
+      "target_nodes": 15
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "719a50a931a59856782004bc4350246133d6f4b663b8885da413e2dddbc45e75",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9666666666666667,
+      "source_nodes": 30,
+      "target_nodes": 30
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "selectRole",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "toggleTool",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "updateComment",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "submit",
+                "status": "complete_caller_with_inlined_write_and_verified_emit_passthrough"
+              },
+              {
+                "caller": "restart",
+                "status": "complete_caller_with_inlined_write"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "selectRole",
+                  "key": "role",
+                  "line": 33
+                },
+                {
+                  "caller": "selectRole",
+                  "key": "selectedTools",
+                  "line": 33
+                },
+                {
+                  "caller": "toggleTool",
+                  "key": "selectedTools",
+                  "line": 36
+                },
+                {
+                  "caller": "updateComment",
+                  "key": "comment",
+                  "line": 39
+                },
+                {
+                  "caller": "submit",
+                  "key": "error",
+                  "line": 42
+                },
+                {
+                  "caller": "submit",
+                  "key": "error",
+                  "line": 42
+                },
+                {
+                  "caller": "submit",
+                  "key": "submitted",
+                  "line": 42
+                },
+                {
+                  "caller": "restart",
+                  "key": "role",
+                  "line": 45
+                },
+                {
+                  "caller": "restart",
+                  "key": "selectedTools",
+                  "line": 45
+                },
+                {
+                  "caller": "restart",
+                  "key": "comment",
+                  "line": 45
+                },
+                {
+                  "caller": "restart",
+                  "key": "submitted",
+                  "line": 45
+                }
+              ],
+              "target": [
+                {
+                  "caller": "selectRole",
+                  "form": "inlined_data_set",
+                  "key": "role",
+                  "line": 4
+                },
+                {
+                  "caller": "selectRole",
+                  "form": "inlined_data_set",
+                  "key": "selectedTools",
+                  "line": 4
+                },
+                {
+                  "caller": "toggleTool",
+                  "form": "inlined_data_set",
+                  "key": "selectedTools",
+                  "line": 4
+                },
+                {
+                  "caller": "updateComment",
+                  "form": "inlined_data_set",
+                  "key": "comment",
+                  "line": 4
+                },
+                {
+                  "caller": "submit",
+                  "form": "inlined_data_set",
+                  "key": "error",
+                  "line": 4
+                },
+                {
+                  "caller": "submit",
+                  "form": "inlined_data_set",
+                  "key": "error",
+                  "line": 4
+                },
+                {
+                  "caller": "submit",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 4
+                },
+                {
+                  "caller": "restart",
+                  "form": "inlined_data_set",
+                  "key": "role",
+                  "line": 4
+                },
+                {
+                  "caller": "restart",
+                  "form": "inlined_data_set",
+                  "key": "selectedTools",
+                  "line": 4
+                },
+                {
+                  "caller": "restart",
+                  "form": "inlined_data_set",
+                  "key": "comment",
+                  "line": 4
+                },
+                {
+                  "caller": "restart",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 4
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "role",
+              "selectedTools",
+              "comment",
+              "error",
+              "submitted"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 11,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "selectRole",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "toggleTool",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateComment",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "submit",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": true
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "restart",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "isIncluded",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 0,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "static_reused": true,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 19,
+      "target_nodes": 19
+    },
+    "styles": {
+      "compared_properties": 130,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostics": [],
+      "policy": "real_syntax_retested_with_projection_v4",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 2276.5055999999995,
+      "target": 975.0349000000006
+    },
+    "ui_restoration": 100
+  },
+  "candidate_sha256": "719a50a931a59856782004bc4350246133d6f4b663b8885da413e2dddbc45e75",
+  "changed": false,
+  "changes": [],
+  "component": "SurveyBranchForm",
+  "effective_assessment": {
+    "capture_reference": "general_repairs_v3_final_replay_20261119/real_system_experiment70_v1_20261118/045_survey_branch_form/before-browser.json",
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "07c0920d8228e06c771c0789fe9efdd63f493e0b9b048ff406fdfb6ee41ff082",
+          "parent_shape": "3deaabb0f9153f2dd0fc8a6c438a1d7d2122898433db9131e7b1d20048c8ad1e",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "identity": "c0e15225dc3b7545864daabdabd61e293d75a413a2b045dab9fa6a3ed9a7494e",
+          "parent_shape": "3deaabb0f9153f2dd0fc8a6c438a1d7d2122898433db9131e7b1d20048c8ad1e",
+          "path": "root.0.1.0.2"
+        },
+        {
+          "identity": "96d1e06769c2f92d42a77d5125c6d74d2cffc5c6948906e12bb83153902876b9",
+          "parent_shape": "7aea14d7a2f823a70f049d55626fc0ffe0672d0307f0d9aefa9c18c15c492226",
+          "path": "root.0.1.1"
+        },
+        {
+          "identity": "259a944a3b770cb65e63bdef2bcc1802875de7c2b433bafbce53c151f8bd4d16",
+          "parent_shape": "7aea14d7a2f823a70f049d55626fc0ffe0672d0307f0d9aefa9c18c15c492226",
+          "path": "root.0.1.2"
+        }
+      ],
+      "source_snapshot": "5a3e66d2efdaa48095a49e3492e4c9c97b20ed278fd0ef64f4befb8296da63ba",
+      "target": [
+        {
+          "identity": "2844ad109f4ffea4150312a4f7d175a3554f586bf2fe01cf21467085d758a488",
+          "parent_shape": "4f4925b6f3b90111799784502b9c501a7259e04bf13102555fa97fff8e2e6a3a",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "identity": "b617298dd501e20657ac238c5eb8413b199c624ad85f42af1d1bc00a4c9b2e5f",
+          "parent_shape": "4f4925b6f3b90111799784502b9c501a7259e04bf13102555fa97fff8e2e6a3a",
+          "path": "root.0.1.0.2"
+        },
+        {
+          "identity": "89ed1bb7e50746fabb6a8c2b74ed1a350d295f03386fd9472d441c812189378c",
+          "parent_shape": "82887191e18a8e78417f40f0ca758ffbdf18a20a14b1dd411c2cb226ec65a524",
+          "path": "root.0.1.1"
+        },
+        {
+          "identity": "259a944a3b770cb65e63bdef2bcc1802875de7c2b433bafbce53c151f8bd4d16",
+          "parent_shape": "82887191e18a8e78417f40f0ca758ffbdf18a20a14b1dd411c2cb226ec65a524",
+          "path": "root.0.1.2"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "source:unknown_member_call",
+            "target:dom_or_reflective_member",
+            "target:unknown_member_call"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.1.0.1"
+          },
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.1.0.2"
+          },
+          {
+            "actual": "textarea|placeholder=其他建议",
+            "expected": "textarea|placeholder=其他建议|value=",
+            "path": "root.0.1.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 4,
+          "target_count": 4,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.1.0.1"
+          },
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.1.0.2"
+          },
+          {
+            "actual": "textarea|placeholder=其他建议",
+            "expected": "textarea|placeholder=其他建议|value=",
+            "path": "root.0.1.1"
+          }
+        ],
+        "representation_differences": [
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.1.0.1",
+            "source": "",
+            "target": null
+          },
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.1.0.2",
+            "source": "",
+            "target": null
+          }
+        ]
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "source:unknown_member_call",
+        "target:dom_or_reflective_member",
+        "target:unknown_member_call"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.1.0.1"
+      },
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.1.0.2"
+      },
+      {
+        "actual": "textarea|placeholder=其他建议",
+        "expected": "textarea|placeholder=其他建议|value=",
+        "path": "root.0.1.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.1.0.1",
+        "source": "",
+        "target": null
+      },
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.1.0.2",
+        "source": "",
+        "target": null
+      }
+    ],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.8,
+      "source_nodes": 15,
+      "target_nodes": 15
+    },
+    "embedding_similarity": null,
+    "evidence_mode": "new_real_parser_projection_plus_identical_code_static_and_render_capture_reuse",
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 4,
+      "target_count": 4,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.1.0.1"
+      },
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.1.0.2"
+      },
+      {
+        "actual": "textarea|placeholder=其他建议",
+        "expected": "textarea|placeholder=其他建议|value=",
+        "path": "root.0.1.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.8,
+      "source_nodes": 15,
+      "target_nodes": 15
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "719a50a931a59856782004bc4350246133d6f4b663b8885da413e2dddbc45e75",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9666666666666667,
+      "source_nodes": 30,
+      "target_nodes": 30
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "selectRole",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "toggleTool",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "updateComment",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "submit",
+                "status": "complete_caller_with_inlined_write_and_verified_emit_passthrough"
+              },
+              {
+                "caller": "restart",
+                "status": "complete_caller_with_inlined_write"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "selectRole",
+                  "key": "role",
+                  "line": 33
+                },
+                {
+                  "caller": "selectRole",
+                  "key": "selectedTools",
+                  "line": 33
+                },
+                {
+                  "caller": "toggleTool",
+                  "key": "selectedTools",
+                  "line": 36
+                },
+                {
+                  "caller": "updateComment",
+                  "key": "comment",
+                  "line": 39
+                },
+                {
+                  "caller": "submit",
+                  "key": "error",
+                  "line": 42
+                },
+                {
+                  "caller": "submit",
+                  "key": "error",
+                  "line": 42
+                },
+                {
+                  "caller": "submit",
+                  "key": "submitted",
+                  "line": 42
+                },
+                {
+                  "caller": "restart",
+                  "key": "role",
+                  "line": 45
+                },
+                {
+                  "caller": "restart",
+                  "key": "selectedTools",
+                  "line": 45
+                },
+                {
+                  "caller": "restart",
+                  "key": "comment",
+                  "line": 45
+                },
+                {
+                  "caller": "restart",
+                  "key": "submitted",
+                  "line": 45
+                }
+              ],
+              "target": [
+                {
+                  "caller": "selectRole",
+                  "form": "inlined_data_set",
+                  "key": "role",
+                  "line": 4
+                },
+                {
+                  "caller": "selectRole",
+                  "form": "inlined_data_set",
+                  "key": "selectedTools",
+                  "line": 4
+                },
+                {
+                  "caller": "toggleTool",
+                  "form": "inlined_data_set",
+                  "key": "selectedTools",
+                  "line": 4
+                },
+                {
+                  "caller": "updateComment",
+                  "form": "inlined_data_set",
+                  "key": "comment",
+                  "line": 4
+                },
+                {
+                  "caller": "submit",
+                  "form": "inlined_data_set",
+                  "key": "error",
+                  "line": 4
+                },
+                {
+                  "caller": "submit",
+                  "form": "inlined_data_set",
+                  "key": "error",
+                  "line": 4
+                },
+                {
+                  "caller": "submit",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 4
+                },
+                {
+                  "caller": "restart",
+                  "form": "inlined_data_set",
+                  "key": "role",
+                  "line": 4
+                },
+                {
+                  "caller": "restart",
+                  "form": "inlined_data_set",
+                  "key": "selectedTools",
+                  "line": 4
+                },
+                {
+                  "caller": "restart",
+                  "form": "inlined_data_set",
+                  "key": "comment",
+                  "line": 4
+                },
+                {
+                  "caller": "restart",
+                  "form": "inlined_data_set",
+                  "key": "submitted",
+                  "line": 4
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "role",
+              "selectedTools",
+              "comment",
+              "error",
+              "submitted"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 11,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "selectRole",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "toggleTool",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateComment",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "submit",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": true
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "restart",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "isIncluded",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 0,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "static_reused": true,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 19,
+      "target_nodes": 19
+    },
+    "styles": {
+      "compared_properties": 130,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostics": [],
+      "policy": "real_syntax_retested_with_projection_v4",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 2276.5055999999995,
+      "target": 975.0349000000006
+    },
+    "ui_restoration": 100
+  },
+  "effective_sha256": "719a50a931a59856782004bc4350246133d6f4b663b8885da413e2dddbc45e75",
+  "evidence_mode": "fresh_capture_if_code_changed_otherwise_explicit_v4_observation_reuse",
+  "historical_passed": false,
+  "model_calls": 0,
+  "new_browser_captures": 0,
+  "parent_sha256": "719a50a931a59856782004bc4350246133d6f4b663b8885da413e2dddbc45e75",
+  "passed": false,
+  "rule_decisions": [],
+  "run_key": "real_system_experiment70_v1_20261118/survey_branch_form",
+  "status": "replayed"
+}

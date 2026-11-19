@@ -1,0 +1,484 @@
+{
+  "browser_evidence": "reused_hash_verified_exact_source_and_target_capture",
+  "capture_reference": "general_repairs_v3_final_replay_20261119/real_system_experiment70_v1_20261118/023_tip_split_calculator/before-browser.json",
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "925f46e94751eebc1b173f2be8f8cd52363bb6d727292f45166989098a9e0f9d",
+        "parent_shape": "470d2c914634340eea5fd23cce5e2091ca2f5844cedde1eb0208c32902075888",
+        "path": "root.0.1.0"
+      },
+      {
+        "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+        "parent_shape": "f03ab15e744d470e34b5cfdecf5b93c6c6d4f8e860cf87faeddcd36737ed7469",
+        "path": "root.0.2"
+      },
+      {
+        "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+        "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+        "path": "root.0.3.0"
+      },
+      {
+        "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+        "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+        "path": "root.0.3.2"
+      }
+    ],
+    "source_snapshot": "88a3be85aefeefd810b85a0764f525f9c903e79bd9deacd830320729997554a1",
+    "target": [
+      {
+        "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+        "parent_shape": "56e9122388c37cf5cd692942c8538801dcde01a0e267fc34a8ed2f9ce482263f",
+        "path": "root.0.1.0"
+      },
+      {
+        "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+        "parent_shape": "73084a5acbd5aeabd750311acdab337f015c59e975cc636e311e31d0d3cc08a0",
+        "path": "root.0.2"
+      },
+      {
+        "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+        "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+        "path": "root.0.3.0"
+      },
+      {
+        "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+        "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+        "path": "root.0.3.2"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "source_dynamic_assignment_unproven",
+      "details": {
+        "arbitrary_key_semantics_proven": false,
+        "caller_mappings": [
+          {
+            "caller": "inited",
+            "status": "unproven"
+          },
+          {
+            "caller": "updateBill",
+            "status": "complete_caller_with_preserved_helper"
+          },
+          {
+            "caller": "cycleTip",
+            "status": "complete_caller_with_preserved_helper"
+          },
+          {
+            "caller": "changePeople",
+            "status": "complete_caller_with_preserved_helper"
+          }
+        ],
+        "calls": {
+          "source": [
+            {
+              "caller": "inited",
+              "key": "bill",
+              "line": 23
+            },
+            {
+              "caller": "updateBill",
+              "key": "bill",
+              "line": 29
+            },
+            {
+              "caller": "cycleTip",
+              "key": "tipRate",
+              "line": 32
+            },
+            {
+              "caller": "changePeople",
+              "key": "people",
+              "line": 35
+            }
+          ],
+          "target": [
+            {
+              "caller": "inited",
+              "form": "inlined_data_set",
+              "key": "bill",
+              "line": 1
+            },
+            {
+              "caller": "updateBill",
+              "key": "bill",
+              "line": 1
+            },
+            {
+              "caller": "cycleTip",
+              "key": "tipRate",
+              "line": 1
+            },
+            {
+              "caller": "changePeople",
+              "key": "people",
+              "line": 1
+            }
+          ]
+        },
+        "contract": "source_internal_declared_state_assignment_v1",
+        "limitations": [
+          "not_arbitrary_external_public_key_equivalence",
+          "surrounding_call_timing_values_and_other_methods_checked_separately"
+        ],
+        "refusals": [
+          "caller_body_not_source_matched:inited"
+        ],
+        "source_keys": [
+          "bill",
+          "tipRate",
+          "people"
+        ],
+        "status": "unproven"
+      },
+      "location": "script.methods.setValue",
+      "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "target:dom_or_reflective_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 4,
+        "target_count": 4,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        }
+      ],
+      "representation_differences": []
+    }
+  ],
+  "different_pixel_ratio": 0,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "target:dom_or_reflective_member"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=268",
+      "path": "root.0.1.1"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.9444444444444444,
+    "source_nodes": 18,
+    "target_nodes": 18
+  },
+  "embedding_similarity": null,
+  "functional_equivalence": "not_proven",
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 4,
+    "target_count": 4,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=268",
+      "path": "root.0.1.1"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.9444444444444444,
+    "source_nodes": 18,
+    "target_nodes": 18
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "706862e620b40da31d93a60da41e7373e82e1ade1bfcdb4ea6b4b5f0c8601529",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 18,
+    "target_nodes": 18
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "unproven"
+            },
+            {
+              "caller": "updateBill",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "cycleTip",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "changePeople",
+              "status": "complete_caller_with_preserved_helper"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "bill",
+                "line": 23
+              },
+              {
+                "caller": "updateBill",
+                "key": "bill",
+                "line": 29
+              },
+              {
+                "caller": "cycleTip",
+                "key": "tipRate",
+                "line": 32
+              },
+              {
+                "caller": "changePeople",
+                "key": "people",
+                "line": 35
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "bill",
+                "line": 1
+              },
+              {
+                "caller": "updateBill",
+                "key": "bill",
+                "line": 1
+              },
+              {
+                "caller": "cycleTip",
+                "key": "tipRate",
+                "line": 1
+              },
+              {
+                "caller": "changePeople",
+                "key": "people",
+                "line": 1
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:inited"
+          ],
+          "source_keys": [
+            "bill",
+            "tipRate",
+            "people"
+          ],
+          "status": "unproven"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "callable_unproven",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 4,
+        "uncertain": true
+      },
+      "status": "callable_semantics_unproven",
+      "target_references": {
+        "count": 3,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 0,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 0,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "updateBill",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "cycleTip",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "changePeople",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 2,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 2,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 1,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 11,
+    "target_nodes": 11
+  },
+  "styles": {
+    "compared_properties": 143,
+    "differences": [],
+    "matching": "child_index_path",
+    "similarity": 1.0,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostic_limit": 128,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 1132.4067000000005,
+    "target": 957.5075999999999
+  },
+  "ui_restoration": 100
+}

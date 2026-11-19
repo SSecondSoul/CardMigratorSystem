@@ -112,7 +112,7 @@ function declaredStateAssignment(ctx,src,methods,name,target) {
     &&!one(methods,k)&&!one(one(src.object,'computed')?.value,k)
     &&!one(one(src.object,'props')?.value,k)
     &&!one(src.object,'props')?.value?.elements?.some(p=>p?.value===k)
-    &&!one(ctx.parent,k)&&!!one(b,k)));
+    &&!resolvedFunction(one(ctx.parent,k),ctx.target_function_bindings)&&!!one(b,k)));
   if(one(src.object,'mixins')||one(src.object,'extends')||one(src.object,'setup')
     ||one(ctx.parent,'mixins')||one(ctx.parent,'extends'))fail('runtime_extension');
   const fn=resolvedFunction(target,ctx.target_function_bindings);
@@ -214,25 +214,39 @@ function declaredStateAssignment(ctx,src,methods,name,target) {
   const compact=n=>generate(clean(n),{compact:true,comments:false}).code;
   // Compare COMPLETE caller bodies, not just field names/counts. The two
   // accepted forms preserve the helper or inline its one supported write.
-  function translate(node,inline,lexicalThis=true,parent=null){
+  const forwarding=eventForwarders(ctx,src,methods), repairs=[];
+  function translate(node,inline,inlineEvents=false,lexicalThis=true,parent=null){
     if(!node||typeof node!=='object')return node;
-    if(Array.isArray(node))return node.map(n=>translate(n,inline,lexicalThis,parent));
+    if(Array.isArray(node))return node.map(n=>translate(n,inline,inlineEvents,lexicalThis,parent));
     if(['FunctionExpression','FunctionDeclaration','ObjectMethod'].includes(node.type)&&parent)lexicalThis=false;
     if(node.type==='CallExpression'&&node.callee.type==='MemberExpression'&&!node.callee.computed
         &&node.callee.object.type==='ThisExpression'&&node.callee.property.name===name&&inline){
       if(!lexicalThis)throw Error('unknown_this_owner');
-      return t.callExpression(parser.parseExpression('this.data.set'),node.arguments.map(n=>translate(n,inline,lexicalThis,node)));
+      return t.callExpression(parser.parseExpression('this.data.set'),node.arguments.map(n=>translate(n,inline,inlineEvents,lexicalThis,node)));
+    }
+    if(inlineEvents&&lexicalThis&&node.type==='CallExpression'&&!node.optional
+        &&parent?.type==='ExpressionStatement'&&node.callee.type==='MemberExpression'&&!node.callee.computed
+        &&node.callee.object.type==='ThisExpression'){
+      const plan=forwarding.get(node.callee.property.name), fn=plan?.node;
+      const call=fn?.body.body[0]?.expression;
+      // Only a one-level, exact argument-order passthrough. No return-value,
+      // dropped/duplicated/reordered argument or nested forwarding assumption.
+      if(fn&&call?.callee?.property?.name==='fire'&&node.arguments.length===fn.params.length
+          &&!node.arguments.some(a=>a.type==='SpreadElement')&&call.arguments.length===fn.params.length
+          &&call.arguments.every((a,i)=>a.type==='Identifier'&&a.name===fn.params[i].name))
+        return t.callExpression(parser.parseExpression('this.fire'),node.arguments.map(n=>translate(n,inline,inlineEvents,lexicalThis,node)));
     }
     if(node.type==='MemberExpression'&&!node.computed&&node.object.type==='ThisExpression'){
       if(!lexicalThis)throw Error('unknown_this_owner');
       const k=node.property.name;
-      if(parent?.type==='CallExpression'&&parent.callee===node&&one(methods,k))return t.cloneNode(node,true);
+      if(parent?.type==='CallExpression'&&parent.callee===node&&one(methods,k)
+          &&resolvedFunction(one(ctx.parent,k),ctx.target_function_bindings))return t.cloneNode(node,true);
       if(!state.has(k)||parent?.type==='AssignmentExpression'&&parent.left===node||parent?.type==='UpdateExpression')throw Error('unsupported_instance_access');
       return parser.parseExpression('this.data.get('+JSON.stringify(k)+')');
     }
     if(node.type==='ThisExpression')throw Error('instance_escape');
     const out={...node};
-    for(const [k,v] of Object.entries(node))if(v&&typeof v==='object'&&!['loc','extra','comments'].includes(k))out[k]=translate(v,inline,lexicalThis,node);
+    for(const [k,v] of Object.entries(node))if(v&&typeof v==='object'&&!['loc','extra','comments'].includes(k))out[k]=translate(v,inline,inlineEvents,lexicalThis,node);
     return out;
   }
   for(const [caller,sourceFn] of sourceOwners){
@@ -240,12 +254,35 @@ function declaredStateAssignment(ctx,src,methods,name,target) {
     let mapping=null;
     if(targetFn&&!sourceFn.async&&!sourceFn.generator&&!targetFn.async&&!targetFn.generator&&targetFn.type!=='ArrowFunctionExpression'
         &&sourceFn.params.map(compact).join(',')===targetFn.params.map(compact).join(',')){
-      for(const inline of [false,true])try{
-        if(compact(translate(sourceFn.body,inline))===compact(targetFn.body))mapping=inline?'complete_caller_with_inlined_write':'complete_caller_with_preserved_helper';
+      for(const inline of [false,true])for(const events of [false,true])try{
+        if(mapping)continue;
+        if(compact(translate(sourceFn.body,inline,events))===compact(targetFn.body))
+          mapping=(inline?'complete_caller_with_inlined_write':'complete_caller_with_preserved_helper')+(events?'_and_verified_emit_passthrough':'');
+      }catch(_){}
+      if(!mapping)try{
+        // A repair restores a COMPLETE, translatable source body, never just
+        // its key counts. Forbid unknown captured bindings/global shadowing.
+        let closed=true;
+        traverse(src.ast,{ReferencedIdentifier(path){
+          if(path.node.start<sourceFn.start||path.node.end>sourceFn.end)return;
+          const binding=path.scope.getBinding(path.node.name);
+          if(binding&&binding.path.node.start>=sourceFn.start&&binding.path.node.end<=sourceFn.end)return;
+          if(!globals.has(path.node.name)||binding||ctx.target_function_bindings.has(path.node.name)
+              ||programBindings(ctx.ast).has(path.node.name))closed=false;
+        }});
+        if(closed)repairs.push({caller,start:targetFn.body.start,end:targetFn.body.end,
+          text:generate(translate(sourceFn.body,false),{comments:false}).code});
       }catch(_){}
     }
     if(!mapping)fail('caller_body_not_source_matched:'+caller);
     callerMappings.push({caller,status:mapping||'unproven'});
+  }
+  // Do not repair an unknown key/owner/escape, or a mismatched write count.
+  // The resulting candidate still goes through validation and rollback gates.
+  if(ctx.input.repair&&repairs.length&&calls.target.every(c=>sourceOwners.has(c.caller))
+      &&[...reasons].every(r=>r.startsWith('caller_body_not_source_matched:')||r==='caller_key_multiplicity_mismatch')){
+    for(const repair of repairs)ctx.edit(ctx.offset+repair.start,ctx.offset+repair.end,repair.text);
+    ctx.changes.push('restored_source_internal_setter_caller_bodies');
   }
   // Deliberate exclusion: namespace mutations, literal dotted keys, Symbols,
   // props/computed and unknown/escaped calls NEVER acquire a finite-key waiver.

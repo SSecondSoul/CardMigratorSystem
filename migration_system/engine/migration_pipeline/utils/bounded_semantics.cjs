@@ -3,6 +3,9 @@ const fs = require('fs');
 const parser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
 const sourcePhaseRepairs = require('./source_phase_semantics.cjs');
+const t = require('@babel/types');
+const {parentOf} = require('./inline_identifier_recovery.cjs');
+const {one,safe,sourceParent,declared,same} = require('./source_render_call_semantics.cjs');
 
 const key = p => !p.computed && p.key && (p.key.name || p.key.value);
 const escapeRE = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -82,13 +85,105 @@ function sourceHandler(source, parent, dataNames) {
   return statements.length ? `${source.name}(${param}) {\n    ${statements.join('\n    ')}\n  }` : null;
 }
 
+function normalizeOptionShape(code) {
+  const block=/<script\b[^>]*>([\s\S]*?)<\/script\s*>/i.exec(code);
+  if(!block)return {code,changes:[]};
+  const script=block[1],offset=block.index+block[0].indexOf('>')+1,edits=[];
+  const ast=parser.parse(script,{sourceType:'unambiguous'});
+  const reserved=new Set(['initData','data','computed','components','template','watch','fire','attach','detach','dispose',
+    'inited','created','attached','detached','disposed','updated','compiled','dataTypes','filters','constructor','__proto__']);
+  traverse(ast,{CallExpression(path){
+    if(!isComponent(path.node))return;
+    const object=path.node.arguments[0],wrappers=object.properties.filter(p=>key(p)==='methods');
+    if(wrappers.length!==1||wrappers[0].type!=='ObjectProperty'||wrappers[0].value.type!=='ObjectExpression')return;
+    const wrapper=wrappers[0],methods=wrapper.value.properties,names=methods.map(key);
+    if(!methods.length||new Set(names).size!==names.length||methods.some(p=>!key(p)||p.computed
+        ||!(p.type==='ObjectMethod'&&p.kind==='method'||p.type==='ObjectProperty'&&['FunctionExpression','ArrowFunctionExpression'].includes(p.value.type)))
+        ||names.some(n=>reserved.has(n)||object.properties.some(p=>p!==wrapper&&key(p)===n)))return;
+    edits.push({start:offset+wrapper.start,end:offset+wrapper.end,text:script.slice(wrapper.value.start+1,wrapper.value.end-1)});
+  }});
+  edits.sort((a,b)=>b.start-a.start);
+  if(edits.some((e,i)=>i&&e.end>edits[i-1].start))return {code,changes:[]};
+  let next=code;for(const e of edits)next=next.slice(0,e.start)+e.text+next.slice(e.end);
+  if(edits.length)parser.parse(/<script\b[^>]*>([\s\S]*?)<\/script\s*>/i.exec(next)[1],{sourceType:'unambiguous'});
+  return {code:next,changes:edits.length?['flattened_parsed_component_method_options']:[]};
+}
+
+// Source computed values must not silently become ordinary San methods. Move
+// only an existing exact source-body translation with no script/event callers,
+// unknown captures, writes or ambiguous option shapes. Never invent a getter.
+function computedOptions(code,vue,repair) {
+  const result={code,changes:[],findings:[]},src=/<script\b[^>]*>([\s\S]*?)<\/script\s*>/i.exec(vue||''),
+    block=/<script\b[^>]*>([\s\S]*?)<\/script\s*>/i.exec(code);
+  if(!src||!block)return result;
+  const original=sourceParent(parser.parse(src[1],{sourceType:'unambiguous'})),script=block[1],
+    ast=parser.parse(script,{sourceType:'unambiguous'}),parent=parentOf(ast),computed=one(original,'computed')?.value;
+  if(!safe(original)||!safe(parent)||!safe(computed)||['mixins','extends'].some(k=>one(original,k)||one(parent,k)))return result;
+  const fn=p=>t.isObjectMethod(p)&&p.kind==='method'?p:t.isObjectProperty(p)&&t.isFunctionExpression(p.value)?p.value:null;
+  const targetComputed=one(parent,'computed')?.value,fields=declared(original,true),names=new Set(computed.properties.map(key));
+  const globals=new Set(['undefined','NaN','Infinity','Math','Date','String','Number','Boolean','Array','Object','JSON']);
+  const readonly=new Set(['filter','map','find','findIndex','some','every','includes','indexOf','lastIndexOf','slice','concat','join','reduce',
+    'split','trim','toLowerCase','toUpperCase','toFixed','toString','getTime','getHours','getMinutes','getSeconds','getDate','getMonth','getFullYear',
+    'toLocaleTimeString','toLocaleDateString','abs','min','max','floor','ceil','round','pow','sqrt','isArray','keys','values','entries','stringify']);
+  const moved=new Map();let trusted=false;
+  traverse(ast,{Program(p){const b=p.scope.getBinding('san'),n=b?.path.node;
+    trusted=!!b?.constant&&t.isVariableDeclarator(n)&&t.isCallExpression(n.init)&&t.isIdentifier(n.init.callee,{name:'require'})
+      &&!b.path.scope.getBinding('require')&&n.init.arguments.length===1&&t.isStringLiteral(n.init.arguments[0],{value:'san'});}});
+  for(const prop of computed.properties){
+    const name=key(prop),source=fn(prop),existing=one(targetComputed,name),candidate=one(parent,name),target=fn(candidate);
+    if(!source||source.async||source.generator||source.params.length||fn(existing))continue;
+    let eligible=!!target&&!target.async&&!target.generator&&!target.params.length&&trusted
+      &&/^[A-Za-z_$][\w$]*$/.test(name)&&!['data','watch','fire','initData','inited','attached','disposed','constructor','prototype','__proto__'].includes(name)
+      &&!existing&&(!targetComputed||safe(targetComputed))&&!fields.has(name)&&!one(one(original,'methods')?.value,name);
+    const tree=t.file(t.program([t.expressionStatement(t.functionExpression(null,[],t.cloneNode(source.body,true)))]));
+    const root=tree.program.body[0].expression;
+    traverse(tree,{
+      ReferencedIdentifier(p){if(!p.scope.getBinding(p.node.name)&&!globals.has(p.node.name))eligible=false;},
+      ThisExpression(p){const n=p.parent;if(!t.isMemberExpression(n)||n.object!==p.node||n.computed
+        ||!fields.has(n.property.name)&&!names.has(n.property.name))eligible=false;
+        let owner=p.getFunctionParent();while(owner?.isArrowFunctionExpression())owner=owner.getFunctionParent();
+        if(owner?.node!==root)eligible=false;},
+      AssignmentExpression(){eligible=false;},UpdateExpression(){eligible=false;},AwaitExpression(){eligible=false;},YieldExpression(){eligible=false;},
+      Super(){eligible=false;},TaggedTemplateExpression(){eligible=false;},
+      UnaryExpression(p){if(p.node.operator==='delete')eligible=false;},
+      NewExpression(p){if(!t.isIdentifier(p.node.callee,{name:'Date'})||p.scope.getBinding('Date'))eligible=false;},
+      CallExpression(p){const c=p.node.callee;if(!t.isMemberExpression(c)||c.computed||!readonly.has(c.property.name)
+        ||t.isThisExpression(c.object)||p.node.optional||p.node.arguments.some(a=>t.isSpreadElement(a)))eligible=false;},
+      MemberExpression:{exit(p){const n=p.node;if(t.isThisExpression(n.object)&&!n.computed&&(fields.has(n.property.name)||names.has(n.property.name))){
+        p.replaceWith(t.callExpression(t.memberExpression(t.memberExpression(t.thisExpression(),t.identifier('data')),t.identifier('get')),[t.stringLiteral(n.property.name)]));p.skip();}}}
+    });
+    if(!target||!same(root.body,target.body))eligible=false;
+    traverse(ast,{MemberExpression(p){const n=p.node;if(t.isThisExpression(n.object)&&(!n.computed&&n.property.name===name||n.computed&&n.property.value===name))eligible=false;},
+      AssignmentExpression(p){let n=p.node.left;while(t.isMemberExpression(n))n=n.object;if(t.isIdentifier(n,{name:'san'}))eligible=false;}});
+    const template=/<template\b[^>]*>([\s\S]*?)<\/template\s*>/i.exec(code)?.[1]||'',escaped=escapeRE(name);
+    if(new RegExp('\\b'+escaped+'\\s*\\(').test(template)||new RegExp('on-[\\w-]+\\s*=\\s*["\\\']\\s*'+escaped+'(?:\\s*["\\\']|\\b)').test(template))eligible=false;
+    result.findings.push({code:'source_computed_option_not_landed',location:'script.computed.'+name,
+      message:'Source computed value '+name+' is missing from San computed options; an ordinary method does not supply a reactive template value.',
+      details:{contract:'source_computed_option_shape_v1',name,source_matched_relocation_eligible:!!eligible}});
+    if(repair&&eligible)moved.set(name,candidate);
+  }
+  if(moved.size){
+    const properties=parent.properties.filter(p=>!moved.has(key(p))&&key(p)!=='computed').map(p=>script.slice(p.start,p.end));
+    const getters=[...(targetComputed?.properties||[]).map(p=>script.slice(p.start,p.end)),...moved.values()].map(p=>typeof p==='string'?p:script.slice(p.start,p.end));
+    properties.push('computed:{'+getters.join(',')+'}');
+    const offset=block.index+block[0].indexOf('>')+1;
+    result.code=code.slice(0,offset+parent.start)+'{'+properties.join(',')+'}'+code.slice(offset+parent.end);
+    parser.parse(/<script\b[^>]*>([\s\S]*?)<\/script\s*>/i.exec(result.code)[1],{sourceType:'unambiguous'});
+    result.changes.push('restored_source_matched_computed_option_shape');
+  }
+  return result;
+}
+
 function processInput(input) {
-  const code = input.code;
+  const prepass=input.repair?normalizeOptionShape(input.code):{code:input.code,changes:[]};
+  const values=computedOptions(prepass.code,input.vue,input.repair);
+  const code = values.code;
+  input={...input,code};
   const block = /<script\b[^>]*>([\s\S]*?)<\/script\s*>/i.exec(code);
   if (!block) return {code, changes: [], wrappers: {}};
   const script = block[1], offset = block.index + block[0].indexOf('>') + 1;
   const ast = parser.parse(script, {sourceType: 'unambiguous'});
-  const edits = [], changes = [], wrappers = {}, findings = [], startup_contracts = [], method_contracts = [], watcher_contracts = [];
+  const edits = [], changes = [...prepass.changes,...values.changes], wrappers = {}, findings = [...values.findings], startup_contracts = [], method_contracts = [], watcher_contracts = [];
   const record_update_contracts = [];
   const shared_record_contracts = [];
   const parent_initialization_contracts = [];
@@ -96,7 +191,9 @@ function processInput(input) {
   const filter_method_contracts = [];
   let parent = null;
   const children = [];
+  const definitions=[];
   traverse(ast, {
+    CallExpression(path) {if(isComponent(path.node))definitions.push({path,object:path.node.arguments[0]});},
     AssignmentExpression(path) {
       const n = path.node;
       if (member(n.left, 'Identifier', 'exports') && n.left.object.name === 'module' && isComponent(n.right)) {
@@ -127,7 +224,42 @@ function processInput(input) {
   const sourceNames=new Set(sourceComputed?.type==='ObjectExpression'?sourceComputed.properties.filter(p=>
     p.type==='ObjectMethod'&&p.kind==='method'&&!p.params.length&&!p.async&&!p.generator
     &&unique(sourceComputed,key(p))===p).map(key):[]);
-  const components=[...new Set([parent,...children].filter(Boolean))];
+  const components=[...new Set([parent,...children,...definitions.map(d=>d.object)].filter(Boolean))];
+  const init_data_store_access=[],init_data_analysis_errors=[];
+  for(const definition of definitions){
+    const fields=definition.object.properties.filter(p=>key(p)==='initData');
+    if(!fields.length)continue;
+    const item=fields[0];let fn=item.type==='ObjectMethod'?item:item.value;
+    if(fields.length!==1){init_data_analysis_errors.push('duplicate_initData');continue;}
+    if(fn?.type==='Identifier'){
+      const binding=definition.path.scope.getBinding(fn.name),n=binding?.path.node;
+      fn=binding?.constant?(n?.type==='FunctionDeclaration'?n:n?.type==='VariableDeclarator'?n.init:null):null;
+    }
+    if(!fn||!['ObjectMethod','FunctionExpression','ArrowFunctionExpression','FunctionDeclaration'].includes(fn.type)){
+      init_data_analysis_errors.push('unresolved_initData_factory');continue;
+    }
+    if(fn.params.length||fn.async||fn.generator){init_data_analysis_errors.push('initData_signature_unassessed');continue;}
+    const component=definition.object===parent?'exported component':'inline component at '+definition.object.loc.start.line;
+    // Use Babel nodes, never text searching: strings, comments and template
+    // literal text are data. A nested ordinary function has another this.
+    traverse(ast,{MemberExpression:inspect,OptionalMemberExpression:inspect});
+    function inspect(path){
+      const n=path.node;
+      if(n.start<fn.body.start||n.end>fn.body.end)return;
+      const name=n.computed?n.property.value:n.property.name;
+      if(name!=='data')return;
+      let owner=path.getFunctionParent();while(owner?.isArrowFunctionExpression()&&owner.node!==fn)owner=owner.getFunctionParent();
+      if(owner?.node!==fn)return;
+      let receiver=n.object,seen=new Set();
+      while(receiver?.type==='Identifier'&&!seen.has(receiver.name)){
+        seen.add(receiver.name);const binding=path.scope.getBinding(receiver.name),decl=binding?.path.node;
+        if(!binding?.constant||decl?.type!=='VariableDeclarator'||!decl.init
+            ||decl.start<fn.start||decl.end>fn.end)break;
+        receiver=decl.init;
+      }
+      if(receiver?.type==='ThisExpression')init_data_store_access.push({component,line:n.loc.start.line,column:n.loc.start.column});
+    }
+  }
   const unsafeStores=new Set();
   traverse(ast,{
     AssignmentExpression(p){let n=p.node.left;
@@ -273,7 +405,7 @@ function processInput(input) {
     const next = /<script\b[^>]*>([\s\S]*?)<\/script\s*>/i.exec(result);
     parser.parse(next[1], {sourceType: 'unambiguous'});
   }
-  return {code: result, changes: [...new Set(changes)], wrappers, findings, startup_contracts, method_contracts, watcher_contracts, record_update_contracts, shared_record_contracts, parent_initialization_contracts, computed_collection_contracts, filter_method_contracts};
+  return {code: result, changes: [...new Set(changes)], wrappers, findings, startup_contracts, method_contracts, watcher_contracts, record_update_contracts, shared_record_contracts, parent_initialization_contracts, computed_collection_contracts, filter_method_contracts,init_data_store_access,init_data_analysis_errors};
 }
 
 try { process.stdout.write(JSON.stringify(processInput(JSON.parse(fs.readFileSync(0, 'utf8'))))); }

@@ -312,6 +312,8 @@ class MigrationService:
                 diagnostics.append({'code':str(item.get('code',''))[:120],'message':str(item.get('message',''))[:500],
                     'location':item.get('location'),'excerpt':str(item.get('excerpt',''))[:300]})
             attempts.append({'round':decision['round'],'candidate_sha256':decision['candidate'],
+                'unchanged_from_parent':decision['candidate']==decision['previous'],
+                'instruction':'Previous output was byte-identical: change the actual failing locations.' if decision['candidate']==decision['previous'] else 'Do not repeat rejected edits.',
                 'reason':decision['reason'],'syntax_status':observed.get('syntax',{}).get('status'),
                 'diagnostic_count':observed.get('syntax',{}).get('diagnostic_count',len(observed.get('diagnostics',[]))),
                 'diagnostics':diagnostics})

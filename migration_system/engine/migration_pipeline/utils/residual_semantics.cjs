@@ -2,6 +2,7 @@
 const fs = require('fs');
 const parser = require('@babel/parser');
 const traverse = require('@babel/traverse').default;
+const t = require('@babel/types');
 const {normalize: normalizeSourceFormatters} = require('./source_inline_formatter_semantics.cjs');
 const key = p => !p.computed && p.key && (p.key.name || p.key.value);
 const isComponent = n => n?.type === 'CallExpression' && n.callee.type === 'MemberExpression'
@@ -64,8 +65,11 @@ function propSchema(source) {
     if (props.length !== 1 || props[0].type !== 'ObjectProperty') return null;
     const node = props[0].value;
     const types = {String: 'string', Number: 'number', Boolean: 'bool', Array: 'array', Object: 'object', Function: 'func'};
-    if (node.type === 'ArrayExpression' && node.elements.every(p => p?.type === 'StringLiteral'))
-      return {source: source.slice(node.start, node.end), fields: node.elements.map(p => [p.value, 'any'])};
+    const valid = names => names.length === new Set(names).size
+      && names.every(n => /^[A-Za-z_$][\w$]*$/.test(n) && !['__proto__','constructor','prototype'].includes(n));
+    if (node.type === 'ArrayExpression' && node.elements.every(p => p?.type === 'StringLiteral')
+        && valid(node.elements.map(p => p.value)))
+      return {object: ast, node, source: source.slice(node.start, node.end), fields: node.elements.map(p => [p.value, 'any'])};
     if (node.type !== 'ObjectExpression') return null;
     const fields = [];
     for (const prop of node.properties) {
@@ -82,8 +86,40 @@ function propSchema(source) {
       if (type.type !== 'Identifier' || !types[type.name]) return null;
       fields.push([key(prop), types[type.name] + (required ? '.isRequired' : '')]);
     }
-    return {source: source.slice(node.start, node.end), fields};
+    return valid(fields.map(p => p[0])) ? {object: ast, node, source: source.slice(node.start, node.end), fields} : null;
   } catch (_) { return null; }
+}
+
+// Source-bound option-shape repair only. It never synthesizes a component or
+// rewrites arbitrary business methods. Literal factories exclude calls, this,
+// spreads, computed keys, accessors and prototype changes.
+const canonical = n => JSON.stringify(n, (k,v) => ['start','end','loc','extra','leadingComments','trailingComments','innerComments'].includes(k) ? undefined : v);
+function literal(n) {
+  if (t.isStringLiteral(n) || t.isNumericLiteral(n) || t.isBooleanLiteral(n) || t.isNullLiteral(n)) return true;
+  if (t.isUnaryExpression(n) && ['+','-','!'].includes(n.operator)) return literal(n.argument);
+  if (t.isArrayExpression(n)) return n.elements.every(e => e && literal(e));
+  if (!t.isObjectExpression(n)) return false;
+  const names=n.properties.map(key);
+  return names.length===new Set(names).size && n.properties.every(p => t.isObjectProperty(p) && !p.computed
+    && typeof key(p)==='string' && !['__proto__','prototype','constructor'].includes(key(p)) && literal(p.value));
+}
+function literalFactory(p) {
+  const fn=t.isObjectMethod(p) ? p : t.isObjectProperty(p) && t.isFunctionExpression(p.value) ? p.value : null;
+  if (!fn || fn.async || fn.generator || fn.params.length || (t.isObjectMethod(fn) && fn.kind!=='method')
+      || fn.body.body.length!==1 || !t.isReturnStatement(fn.body.body[0]) || !t.isObjectExpression(fn.body.body[0].argument)
+      || !literal(fn.body.body[0].argument)) return null;
+  return fn.body.body[0].argument;
+}
+function runtimeTrusted(ast) {
+  let binding, safe=true;
+  traverse(ast,{Program(p){binding=p.scope.getBinding('san');},
+    CallExpression(p){if(isComponent(p.node) && p.scope.getBinding('san')!==binding) safe=false;},
+    AssignmentExpression(p){let n=p.node.left;while(t.isMemberExpression(n)) n=n.object;if(t.isIdentifier(n,{name:'san'})) safe=false;},
+    UpdateExpression(p){let n=p.node.argument;while(t.isMemberExpression(n)) n=n.object;if(t.isIdentifier(n,{name:'san'})) safe=false;}});
+  return safe && binding?.constant && binding.path.isVariableDeclarator() && t.isIdentifier(binding.path.node.id,{name:'san'})
+    && t.isCallExpression(binding.path.node.init) && t.isIdentifier(binding.path.node.init.callee,{name:'require'})
+    && !binding.path.scope.getBinding('require') && binding.path.node.init.arguments.length===1
+    && t.isStringLiteral(binding.path.node.init.arguments[0],{value:'san'});
 }
 
 function run(input) {
@@ -135,6 +171,7 @@ function run(input) {
     }});
   }
   const registry = parent?.object.properties.find(p => key(p) === 'components' && p.value?.type === 'ObjectExpression');
+  const trusted=runtimeTrusted(ast), visited=new Set();
   for (const source of input.ssm?.script?.options?.components || []) {
     const schema = propSchema(source.inline_definition?.source_code || '');
     if (!schema) continue;
@@ -143,12 +180,35 @@ function run(input) {
     const registrations = registry.value.properties.filter(p => key(p) === source.registered_tag && p.value?.type === 'Identifier');
     if (registrations.length !== 1) continue;
     const targets = components.filter(c => c.identifier === registrations[0].value.name);
-    if (targets.length !== 1 || targets[0].object.properties.some(p => key(p) === 'dataTypes')) continue;
-    // Do not overwrite unsupported propTypes or a Vue props option here.
-    if (targets[0].object.properties.some(p => ['props', 'propTypes'].includes(key(p)))) continue;
+    if (targets.length !== 1 || visited.has(targets[0])) continue;
+    visited.add(targets[0]);
+    const object=targets[0].object, options=name=>object.properties.filter(p=>key(p)===name);
+    // Restore only an exact, side-effect-free source factory. Existing initData
+    // or overlapping prop/state names are not guessed or overwritten.
+    if (trusted && !object.properties.some(p=>t.isSpreadElement(p) || p.computed)
+        && !options('initData').length && options('data').length===1) {
+      const sourceFactories=schema.object.properties.filter(p=>key(p)==='data');
+      const a=sourceFactories.length===1 && literalFactory(sourceFactories[0]), b=literalFactory(options('data')[0]);
+      if (a && b && canonical(a)===canonical(b) && !a.properties.some(p=>schema.fields.some(f=>f[0]===key(p)))) {
+        const name=options('data')[0].key;
+        edits.push({start:name.start,end:name.end,text:'initData'});
+        changes.push('restored_inline_source_literal_factory_option');
+      }
+    }
+    if (options('dataTypes').length || options('propTypes').length) continue;
+    const props=options('props');
+    // Array props carry no defaults/coercion to lose. Typed/defaulted Vue
+    // options are left to their dedicated contract normalizer, never erased.
+    if (props.length && (!trusted || props.length!==1 || !t.isObjectProperty(props[0])
+        || !t.isArrayExpression(schema.node) || canonical(props[0].value)!==canonical(schema.node))) continue;
     const text = '\n  dataTypes: {' + schema.fields.map(([name, type]) => `${JSON.stringify(name)}: san.DataTypes.${type}`).join(', ') + '},\n';
-    edits.push({start: targets[0].object.start + 1, end: targets[0].object.start + 1, text});
-    changes.push('restored_inline_source_prop_schema');
+    if (props.length) {
+      edits.push({start:props[0].start,end:props[0].end,text:text.trim().replace(/,$/,'')});
+      changes.push('normalized_source_matched_inline_array_props');
+    } else {
+      edits.push({start: object.start + 1, end: object.start + 1, text});
+      changes.push('restored_inline_source_prop_schema');
+    }
   }
   if (helpers.length) edits.push({start: 0, end: 0, text: '\n' + helpers.join('\n') + '\n'});
   edits.sort((a, b) => b.start - a.start);

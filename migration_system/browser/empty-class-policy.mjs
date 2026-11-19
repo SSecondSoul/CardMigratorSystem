@@ -20,6 +20,30 @@ export function emptyClassPolicy(source,target,require){
       if(descriptor.script?.src||descriptor.template?.src||descriptor.styles.some(s=>s.src))block(kind+':external_sfc_block')
       const script=descriptor.script?.content??'',ast=parser.parse(script,{sourceType:'unambiguous'})
       const localMethods=new Set()
+      // A data-array index read cannot observe an HTML class attribute. Prove
+      // its receiver, not the spelling of an index/variable/component name.
+      // Unknown receivers, nested dynamic lookups, writes and props stay strict.
+      const arrayFields=new Set()
+      traverse(ast,{ObjectMethod(p){
+        const name=p.node.key.name??p.node.key.value
+        if(name!==(kind==='source'?'data':'initData')||p.node.params.length||p.node.body.body.length!==1)return
+        const statement=p.node.body.body[0],object=statement.type==='ReturnStatement'&&statement.argument
+        if(object?.type!=='ObjectExpression')return
+        for(const field of object.properties)if(field.type==='ObjectProperty'&&!field.computed&&field.value.type==='ArrayExpression')
+          arrayFields.add(field.key.name??field.key.value)
+      }})
+      function arrayReceiver(n,path,seen=new Set()) {
+        if(n.type==='MemberExpression'&&!n.computed&&n.object.type==='ThisExpression')return arrayFields.has(n.property.name)
+        if(kind==='target'&&n.type==='CallExpression'&&!n.optional&&n.arguments.length===1&&n.arguments[0].type==='StringLiteral'&&
+            n.callee.type==='MemberExpression'&&!n.callee.computed&&n.callee.property.name==='get'&&
+            n.callee.object.type==='MemberExpression'&&!n.callee.object.computed&&n.callee.object.property.name==='data'&&
+            n.callee.object.object.type==='ThisExpression')return arrayFields.has(n.arguments[0].value)
+        if(n.type!=='Identifier'||seen.has(n.name))return false
+        const binding=path.scope.getBinding(n.name),decl=binding?.path.node
+        if(!binding?.constant||binding.path.parent.kind!=='const'||decl?.type!=='VariableDeclarator'||!decl.init)return false
+        seen.add(n.name)
+        return decl.init.type==='ArrayExpression'||arrayReceiver(decl.init,binding.path,seen)
+      }
       traverse(ast,{ObjectMethod(p){
         const name=p.node.key.name??p.node.key.value
         localMethods.add(name)
@@ -33,7 +57,9 @@ export function emptyClassPolicy(source,target,require){
         ThisExpression(p){if(p.parent.type!=='MemberExpression'||p.parent.object!==p.node)block(kind+':instance_reflection')},
         MemberExpression(p){
           const n=p.node,key=n.computed?n.property.value:n.property.name
-          if(n.computed&&!['StringLiteral','NumericLiteral'].includes(n.property.type))block(kind+':dynamic_member')
+          const use=p.parent,read=!(use.type==='AssignmentExpression'&&use.left===n||use.type==='UpdateExpression'||
+            use.type==='UnaryExpression'&&use.operator==='delete'||['CallExpression','NewExpression'].includes(use.type)&&use.callee===n)
+          if(n.computed&&!['StringLiteral','NumericLiteral'].includes(n.property.type)&&!(read&&arrayReceiver(n.object,p)))block(kind+':dynamic_member')
           if(forbidden.has(String(key))||(String(key).startsWith('$')&&key!=='$emit'))block(kind+':dom_or_reflective_member')
         },
         OptionalMemberExpression(){block(kind+':optional_member')},

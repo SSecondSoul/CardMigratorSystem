@@ -174,7 +174,8 @@ class RealSyntaxTests(unittest.TestCase):
         self.assertTrue(result['diagnostics'])
         specific=[d for d in result['diagnostics'] if d['code']=='target_template_syntax_error']
         self.assertTrue(specific)
-        self.assertEqual(specific[0]['location_precision'],'template_block_start')
+        self.assertEqual(specific[0]['location_precision'],'exact')
+        self.assertEqual(specific[0]['attribute'],'on-click')
 
 
 class SyntaxGateTests(unittest.TestCase):

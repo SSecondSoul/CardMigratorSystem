@@ -1,5 +1,6 @@
 """Golden equivalence against the experiment checkout; not a runtime dependency."""
 import ast
+from copy import deepcopy
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -33,13 +34,13 @@ class ReuseEquivalenceTests(unittest.TestCase):
             if item['transformation']=='none':
                 self.assertEqual((PROJECT/'engine'/name).read_bytes(),(ORIGINAL/item['source_path']).read_bytes(),name)
                 same+=1
-        self.assertEqual(same,90)
-        # Six explicitly versioned advances; all other reused bytes remain exact.
+        self.assertEqual(same,89)
+        # Seven explicitly versioned advances; all other reused bytes remain exact.
         modified={name:item for name,item in manifest['files'].items() if item['transformation'].startswith('2026-11-18_')}
         self.assertEqual(set(modified),{'migration_pipeline/stages/validate.py',
             'migration_pipeline/utils/method_interface_semantics.cjs','migration_pipeline/utils/repair_prompt.py',
             'migration_pipeline/utils/bounded_semantics.cjs','migration_pipeline/stages/repair.py',
-            'migration_pipeline/utils/repair_scheduler.py'})
+            'migration_pipeline/utils/repair_scheduler.py','migration_pipeline/utils/residual_semantics.cjs'})
         for name,item in modified.items():
             self.assertEqual(sha256((ORIGINAL/item['source_path']).read_bytes()).hexdigest(),item['source_sha256'])
         self.assertFalse((PROJECT/'engine/migration_pipeline/orchestrator.py').exists())
@@ -94,8 +95,17 @@ class ReuseEquivalenceTests(unittest.TestCase):
         def branch(fn):
             return next(n for n in fn.body if isinstance(n,ast.If) and "rule['code']" in ast.unparse(n.test))
         old_branch,new_branch=branch(before),branch(after)
+        # v3 narrows a previously overbroad rejection cache: only the exact
+        # rejected rule candidate is suppressed, not every rule on that parent.
+        # Pin this ONE AST delta; all other orchestration/gates stay compared.
+        projected=deepcopy(after)
+        loop=next(n for n in projected.body if isinstance(n,ast.For))
+        guard=loop.body[0].body[-1]
+        self.assertIsInstance(guard,ast.If)
+        self.assertEqual(ast.unparse(guard.test.values[-1]),"prior['code'] == rule['code']")
+        guard.test.values.pop()
         self.assertEqual([ast.dump(n) for n in before.body[:before.body.index(old_branch)]],
-                         [ast.dump(n) for n in after.body[:after.body.index(new_branch)]])
+                         [ast.dump(n) for n in projected.body[:projected.body.index(branch(projected))]])
         self.assertEqual([ast.dump(n) for n in old_branch.body],[ast.dump(n) for n in new_branch.body])
         for kind in (ast.For,):
             self.assertEqual(ast.dump(next(n for n in old_branch.orelse if isinstance(n,kind))),
