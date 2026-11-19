@@ -1,0 +1,13 @@
+{
+  "code": "<template><section class=\"search-clear-field\"><h2>\u5feb\u901f\u641c\u7d22</h2><div class=\"search-box\"><input value=\"{= query =}\" placeholder=\"{{placeholder}}\" on-input=\"updateQuery\"/><button s-if=\"query\" on-click=\"clear\">\u00d7</button></div><p>{{query ? '\u6b63\u5728\u641c\u7d22\uff1a' + query : '\u8f93\u5165\u5185\u5bb9\u5f00\u59cb\u641c\u7d22'}}</p></section></template><script>const san = require('san');const DataTypes = san.DataTypes;module.exports = san.defineComponent({name: 'SearchClearField',dataTypes: {placeholder: DataTypes.string},initData() {return {placeholder: '\u641c\u7d22\u6587\u6863',query: ''};},inited() {this.data.set('query', '');},setValue(key, value) {this.data.set(key, value);},emitEvent(name, payload) {this.fire(name, payload);},updateQuery(event) {this.setValue('query', event.target.value);},clear() {this.setValue('query', '');}});</script><style>.search-clear-field { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }\n.search-clear-field * { box-sizing: border-box; }\n.search-clear-field h2, .search-clear-field h3, .search-clear-field p { margin-top: 0; }\n.search-clear-field h2 { margin-bottom: 14px; font-size: 21px; }\n.search-clear-field button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }\n.search-clear-field button.primary { border-color: #0369a1; background: #0369a1; color: #fff; }\n.search-clear-field button:disabled { opacity: .45; cursor: not-allowed; }\n.search-clear-field input, .search-clear-field select, .search-clear-field textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }\n.search-clear-field .toolbar, .search-clear-field .summary, .search-clear-field .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }\n.search-clear-field .muted { color: #71808e; font-size: 12px; }\n.search-clear-field .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }\n.search-box{display:grid;grid-template-columns:1fr 40px;gap:6px}.search-box button{font-size:18px}</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/fa05eb65164340e79f3e949c568860c1/revisions/3.san",
+    "sha256": "5610df3dfbe8170a6d4ab375ed7a8d00081ce8578a3f57be14b9c076e2eeaa16"
+  },
+  "number": 3,
+  "origin": "model_repair",
+  "parent": "d03c55561a73119f5c4ea2845a33b54a12391204c1d3bd81b2d8995b074de99e",
+  "repair_focus": "semantics_and_observations",
+  "rules": []
+}

@@ -1,0 +1,262 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [],
+    "source_snapshot": "e8a4bdd2d42827c4b493258d7b56dea72c6f206b133e8d4d131a5a63c67514db",
+    "target": []
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "missing_prop_defaults",
+      "details": {
+        "affected_fields": [
+          "icon",
+          "time"
+        ],
+        "contract": "prop_defaults_v1"
+      },
+      "location": "script",
+      "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1atime, icon\u3002",
+      "severity": "error",
+      "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:constructor_call",
+          "source:unknown_member_call",
+          "source:unknown_or_dom_global",
+          "target:constructor_call",
+          "target:unknown_or_dom_global"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": null,
+          "expected": "#text:\ud83d\udd14",
+          "path": "root.0.0.0"
+        },
+        {
+          "actual": "#text:NaN\u5929\u524d",
+          "expected": "#text:\u521a\u521a",
+          "path": "root.0.1.2.0"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 0,
+        "target_count": 0,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": null,
+          "expected": "#text:\ud83d\udd14",
+          "path": "root.0.0.0"
+        },
+        {
+          "actual": "#text:NaN\u5929\u524d",
+          "expected": "#text:\u521a\u521a",
+          "path": "root.0.1.2.0"
+        }
+      ],
+      "representation_differences": []
+    }
+  ],
+  "different_pixel_ratio": 0.0008342013888888889,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:constructor_call",
+      "source:unknown_member_call",
+      "source:unknown_or_dom_global",
+      "target:constructor_call",
+      "target:unknown_or_dom_global"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": null,
+      "expected": "#text:\ud83d\udd14",
+      "path": "root.0.0.0"
+    },
+    {
+      "actual": "#text:NaN\u5929\u524d",
+      "expected": "#text:\u521a\u521a",
+      "path": "root.0.1.2.0"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.8,
+    "source_nodes": 10,
+    "target_nodes": 9
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/683f25a4a0764c068901f51b99785264/evaluations/3/heatmap.png",
+      "sha256": "a379ae97a26287f7e997f6c20d7b4ad73f9db6adb21a3272f6ddf9ba121e6a59"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/683f25a4a0764c068901f51b99785264/evaluations/3/san.png",
+      "sha256": "97831049cd45badfc2b3f0710dd3e3f3ef2fe8272748dab3410929f43b70b559"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/683f25a4a0764c068901f51b99785264/evaluations/3/vue.png",
+      "sha256": "8e272c2b763f47509b8665130de1a3ce9be0f5962a22982b36ace4ce962c7cc7"
+    }
+  },
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 0,
+    "target_count": 0,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": null,
+      "expected": "#text:\ud83d\udd14",
+      "path": "root.0.0.0"
+    },
+    {
+      "actual": "#text:NaN\u5929\u524d",
+      "expected": "#text:\u521a\u521a",
+      "path": "root.0.1.2.0"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.8,
+    "source_nodes": 10,
+    "target_nodes": 9
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "70b09dea471da714fa67b47b209e2cebdcfb4afa34c1b78cb027456ddd728908",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 12,
+    "target_nodes": 12
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "legacy_wrapper": false,
+      "name": "markAsRead",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": false
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 0.9989731185237505,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 8,
+    "target_nodes": 8
+  },
+  "styles": {
+    "compared_properties": 104,
+    "differences": [],
+    "matching": "child_index_path",
+    "similarity": 1.0,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 857.3754000000004,
+    "target": 762.1332000000002
+  },
+  "ui_restoration": 99.92362988452086
+}

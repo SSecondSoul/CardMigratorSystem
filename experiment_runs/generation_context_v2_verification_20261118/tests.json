@@ -1,0 +1,32 @@
+{
+  "scope": "offline_only_no_model_or_live_database_writes",
+  "focused_runs": [
+    {"pattern": "test_generation_context_v2.py", "tests": 5, "result": "passed"},
+    {"pattern": "experiment_runs/tests", "tests": 6, "result": "passed"},
+    {"pattern": "test_generation_boundary.py", "tests": 18, "result": "passed"},
+    {"pattern": "test_refactor_reuse.py", "tests": 5, "result": "passed"},
+    {"pattern": "test_modular_safety.py", "tests": 13, "result": "passed_after_fixture_update"},
+    {"pattern": "test_repair_context.py", "tests": 10, "result": "passed"}
+  ],
+  "expanded_initial_run": {
+    "pattern": "test_modular*.py",
+    "tests": 102,
+    "passed": 100,
+    "failures": [
+      {
+        "test": "test_overbudget_response_cannot_be_reenabled_by_receipt_replay",
+        "cause": "The old fixed 9000-token test response is no longer over the 32768-token ceiling.",
+        "resolution": "Fixture now emits configured max_output_tokens + 1; all 13 safety tests pass on rerun. Production over-budget rejection was not relaxed."
+      },
+      {
+        "test": "test_built_workbench_displays_actual_blocked_report_line_column_and_escaped_excerpt",
+        "error": "TimeoutError waiting for selector .migration-main .text-button",
+        "isolated_rerun": "same_failure",
+        "resolution": "open_separate_UI_smoke_issue_not_fixed_in_generation_scope",
+        "notes": "Source preflight blocks before any generation call. No frontend or browser implementation was changed in this work. Do not report the expanded suite as fully passed."
+      }
+    ]
+  },
+  "frozen_replay": {"requests": 49, "result": "lossless_verified", "paid_calls": 0},
+  "v2_probe": {"configured": 2, "queued": 0, "model_calls": 0, "status": "prepared_not_quality_verified"}
+}

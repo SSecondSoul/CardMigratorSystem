@@ -1,0 +1,11 @@
+{
+  "code": "<template><div class=\"step-card\" on-click=\"addSteps\"><div class=\"steps-display\"><span class=\"steps-value\">{{steps}}</span><span class=\"steps-unit\">\u6b65</span></div><div class=\"steps-label\">\u4eca\u65e5\u6b65\u6570</div><div class=\"hint\">\u70b9\u51fb\u5361\u7247 +1000 \u6b65</div></div></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"StepCard\",dataTypes:{initialSteps:DataTypes.number},initData(){return {steps:0}},inited(){this.data.set(\"steps\",this.data.get(\"initialSteps\")||0)},addSteps(){this.data.set(\"steps\",this.data.get(\"steps\")+1000)}});</script><style>\n.step-card {\n  width: 260px;\n  padding: 24px 20px;\n  background: linear-gradient(135deg, #43c6ac 0%, #191654 100%);\n  border-radius: 20px;\n  text-align: center;\n  color: white;\n  cursor: pointer;\n  transition: transform 0.2s;\n  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;\n}\n.step-card:hover {\n  transform: translateY(-3px);\n  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);\n}\n.steps-display {\n  margin-bottom: 12px;\n}\n.steps-value {\n  font-size: 48px;\n  font-weight: bold;\n}\n.steps-unit {\n  font-size: 20px;\n  margin-left: 4px;\n  opacity: 0.8;\n}\n.steps-label {\n  font-size: 18px;\n  margin-bottom: 8px;\n  opacity: 0.9;\n}\n.hint {\n  font-size: 12px;\n  opacity: 0.6;\n}\n</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/19483ecbe3714a2c85c76052b66cb87f/revisions/0.san",
+    "sha256": "59b1b8519b3fa0991253f788133fa876e87a5241306bd3ac43a223d0d2817d85"
+  },
+  "number": 0,
+  "origin": "generation",
+  "parent": null
+}

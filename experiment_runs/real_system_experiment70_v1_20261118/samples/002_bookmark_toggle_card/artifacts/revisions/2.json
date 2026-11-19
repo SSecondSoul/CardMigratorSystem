@@ -1,0 +1,13 @@
+{
+  "code": "<template><article class=\"bookmark-toggle-card{{ bookmarked ? ' saved' : '' }}\"><div><span>\u7814\u7a76\u8d44\u6599</span><h2>{{title}}</h2><p>{{bookmarked ? '\u5df2\u52a0\u5165\u7a0d\u540e\u9605\u8bfb' : '\u5c1a\u672a\u6536\u85cf'}}</p></div><button on-click=\"toggle\">{{bookmarked ? '\u2605 \u53d6\u6d88\u6536\u85cf' : '\u2606 \u6536\u85cf'}}</button></article></template><script>const san = require('san');const DataTypes = san.DataTypes;module.exports = san.defineComponent({name: 'BookmarkToggleCard',dataTypes: {title: DataTypes.string,initialBookmarked: DataTypes.bool},initData() {return {title: 'Vue \u5230 San \u7684\u8fc1\u79fb\u7b14\u8bb0',initialBookmarked: false,bookmarked: false};},inited() {this.data.set('bookmarked', this.data.get('initialBookmarked'));},setValue(key, value) {this.data.set(key, value);},emitEvent(name, payload) {this.fire(name, payload);},toggle() {const next = !this.data.get('bookmarked');this.data.set('bookmarked', next);this.fire('change', next);}});</script><style>.bookmark-toggle-card{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}.bookmark-toggle-card *{box-sizing:border-box}.bookmark-toggle-card h2,.bookmark-toggle-card h3,.bookmark-toggle-card p{margin-top:0}.bookmark-toggle-card button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}.bookmark-toggle-card button.primary{border-color:#be185d;background:#be185d;color:#fff}.bookmark-toggle-card button:disabled{opacity:.45;cursor:not-allowed}.bookmark-toggle-card input,.bookmark-toggle-card select,.bookmark-toggle-card textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}.bookmark-toggle-card .muted{color:#71808e;font-size:12px}.bookmark-toggle-card .toolbar,.bookmark-toggle-card .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.bookmark-toggle-card{display:flex;justify-content:space-between;align-items:center}.bookmark-toggle-card.saved{border-color:#be185d;background:#fdf2f8}</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/23b064c449894eac933a99f79ba8164e/revisions/2.san",
+    "sha256": "d9a2ccd97b991e0e715cac948e199444208ac5d76458e39828f69d7f2413d89d"
+  },
+  "number": 2,
+  "origin": "model_repair",
+  "parent": "279cc7991926c7d2c79cc4b1943dddbd65e35b2f9997860e8444635a5220a668",
+  "repair_focus": "semantics_and_observations",
+  "rules": []
+}

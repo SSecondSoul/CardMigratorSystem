@@ -1,0 +1,81 @@
+<template>
+  <form class="shipping-estimator" @submit="estimate"><h2>配送费用估算</h2><div class="shipping-grid"><label>目的地区<select :value="regionCode" @change="updateRegion"><option v-for="region in regions" :key="region.code" :value="region.code">{{ region.name }}</option></select></label><label>重量（kg）<input type="number" min="0" :value="weight" @input="updateWeight"></label><label class="check-line"><input type="checkbox" :checked="express" @change="toggleExpress"> 加急配送</label></div><p class="muted">{{ weightBand }}</p><p v-if="error" class="error">{{ error }}</p><div v-if="result" class="quote"><strong>¥{{ result.fee }}</strong><span>预计 {{ result.days }} 天送达</span></div><div class="actions"><button type="button" @click="reset">重置</button><button class="primary" type="submit">计算运费</button></div></form>
+</template>
+
+<script>
+module.exports = {
+  name: 'ShippingEstimator',
+  props: {
+    regions: { type: Array, default: () => ([
+          {
+            "code": "near",
+            "name": "同城",
+            "base": 8
+          },
+          {
+            "code": "domestic",
+            "name": "国内",
+            "base": 16
+          },
+          {
+            "code": "remote",
+            "name": "偏远",
+            "base": 28
+          }
+        ]) }
+  },
+  data() {
+    return {
+        regionCode: "near",
+        weight: 1,
+        express: false,
+        result: null,
+        error: ""
+    };
+  },
+  computed: {
+    selectedRegion() {
+      return this.regions.find(item => item.code === this.regionCode) || this.regions[0];
+    },
+    weightBand() {
+      return this.weight <= 1 ? '首重' : '续重 ' + Math.ceil(this.weight - 1) + ' kg';
+    }
+  },
+  methods: {
+    setValue(key, value) { this[key] = value; },
+    emitEvent(name, payload) { this.$emit(name, payload); },
+    updateRegion(event) {
+      this.setValue('regionCode', event.target.value);
+    },
+    updateWeight(event) {
+      this.setValue('weight', Number(event.target.value) || 0);
+    },
+    toggleExpress(event) {
+      this.setValue('express', event.target.checked);
+    },
+    estimate(event) {
+      event.preventDefault(); if (this.weight <= 0) { this.setValue('error', '重量必须大于 0'); this.setValue('result', null); return; } const region = this.selectedRegion; const fee = (region.base + Math.max(0, Math.ceil(this.weight - 1)) * 5) * (this.express ? 1.5 : 1); const result = { fee: fee.toFixed(2), days: this.express ? 1 : region.code === 'remote' ? 5 : 3 }; this.setValue('error', ''); this.setValue('result', result); this.emitEvent('estimate', result);
+    },
+    reset() {
+      this.setValue('weight', 1); this.setValue('express', false); this.setValue('result', null); this.setValue('error', '');
+    }
+  }
+};
+</script>
+
+<style scoped>
+
+.shipping-estimator { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }
+.shipping-estimator * { box-sizing: border-box; }
+.shipping-estimator h2, .shipping-estimator h3, .shipping-estimator p { margin-top: 0; }
+.shipping-estimator h2 { margin-bottom: 14px; font-size: 21px; }
+.shipping-estimator button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }
+.shipping-estimator button.primary { border-color: #0369a1; background: #0369a1; color: #fff; }
+.shipping-estimator button:disabled { opacity: .45; cursor: not-allowed; }
+.shipping-estimator input, .shipping-estimator select, .shipping-estimator textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }
+.shipping-estimator .toolbar, .shipping-estimator .summary, .shipping-estimator .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.shipping-estimator .muted { color: #71808e; font-size: 12px; }
+.shipping-estimator .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }
+.shipping-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.shipping-grid label{display:grid;gap:5px}.check-line{display:flex!important;align-items:center}.quote{display:flex;justify-content:space-between;padding:16px;background:#e0f2fe}.quote strong{font-size:24px}.error{color:#b42318}
+
+</style>

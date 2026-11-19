@@ -106,13 +106,15 @@ class SafetyTests(ModularFixture,unittest.TestCase):
 
     def test_overbudget_response_cannot_be_reenabled_by_receipt_replay(self):
         original=self.model.exchange
+        # Stay above the configured ceiling even when the deployment budget changes.
+        excess=profile(self.settings)['model']['max_output_tokens']+1
         def oversized(messages):
             exchange=original(messages);value=json.loads(exchange.body)
-            value['usage']={'prompt_tokens':10,'completion_tokens':9000,'total_tokens':9010}
+            value['usage']={'prompt_tokens':10,'completion_tokens':excess,'total_tokens':excess+10}
             exchange.body=json.dumps(value).encode();return exchange
         self.model.exchange=oversized;key=self.enqueue();result=self.run_graph(key)
         self.assertEqual(result['stop_reason'],'provider_output_budget_exceeded')
-        self.assertEqual(result['usage']['known_total_tokens'],9010)
+        self.assertEqual(result['usage']['known_total_tokens'],excess+10)
         with self.assertRaisesRegex(ServiceError,'provider_output_budget_exceeded'):
             self.service.invoke(key,0,[{'role':'user','content':'test'}])
         self.assertEqual(self.model.calls,1)

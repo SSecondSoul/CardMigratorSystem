@@ -1,0 +1,371 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "62a2e1eeafbc0e603d1ab964a0ecc73e60e626070ad8cdc6c56bb114bf971f29",
+        "parent_shape": "ff06588c56947902e066341018bba5bd374578e5af7d46b3229f6819b99d2ef0",
+        "path": "root.0.3"
+      }
+    ],
+    "source_snapshot": "368c885d83e4780637a46063617cd9481d6d53061bcd9c8325c6da78d2a77003",
+    "target": [
+      {
+        "identity": "62a2e1eeafbc0e603d1ab964a0ecc73e60e626070ad8cdc6c56bb114bf971f29",
+        "parent_shape": "f1a2e9088443a985c583459ad39dfbd7be50a2f66c8ffc55c1a2afb62b039250",
+        "path": "root.0.3"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dynamic_member",
+          "target:dynamic_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": null,
+          "expected": "#text:\u5df2\u6253\u5305",
+          "path": "root.0.0.1.0"
+        },
+        {
+          "actual": "span|",
+          "expected": "span|class=",
+          "path": "root.0.1.1"
+        },
+        {
+          "actual": "span|",
+          "expected": "span|class=",
+          "path": "root.0.1.2"
+        },
+        {
+          "actual": null,
+          "expected": "#text:\u5305\u88f9\u7b49\u5f85\u63fd\u6536",
+          "path": "root.0.2.0"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 1,
+        "target_count": 1,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": null,
+          "expected": "#text:\u5df2\u6253\u5305",
+          "path": "root.0.0.1.0"
+        },
+        {
+          "actual": "span|",
+          "expected": "span|class=",
+          "path": "root.0.1.1"
+        },
+        {
+          "actual": "span|",
+          "expected": "span|class=",
+          "path": "root.0.1.2"
+        },
+        {
+          "actual": null,
+          "expected": "#text:\u5305\u88f9\u7b49\u5f85\u63fd\u6536",
+          "path": "root.0.2.0"
+        }
+      ],
+      "representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.1",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.2",
+          "source": "",
+          "target": null
+        }
+      ]
+    }
+  ],
+  "different_pixel_ratio": 0.010455729166666667,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dynamic_member",
+      "target:dynamic_member"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": null,
+      "expected": "#text:\u5df2\u6253\u5305",
+      "path": "root.0.0.1.0"
+    },
+    {
+      "actual": "span|",
+      "expected": "span|class=",
+      "path": "root.0.1.1"
+    },
+    {
+      "actual": "span|",
+      "expected": "span|class=",
+      "path": "root.0.1.2"
+    },
+    {
+      "actual": null,
+      "expected": "#text:\u5305\u88f9\u7b49\u5f85\u63fd\u6536",
+      "path": "root.0.2.0"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.1.1",
+      "source": "",
+      "target": null
+    },
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.1.2",
+      "source": "",
+      "target": null
+    }
+  ],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 4,
+    "similarity": 0.7333333333333334,
+    "source_nodes": 15,
+    "target_nodes": 13
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/8e663c0a23f24a4089f7783e99607abb/evaluations/1/heatmap.png",
+      "sha256": "3602ad2eb9aeb31f5133c26c30f6351a54ea61df721c51e6e6b023c8a3a46600"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/8e663c0a23f24a4089f7783e99607abb/evaluations/1/san.png",
+      "sha256": "32c738e1972089ada5a703c24e72a7c2b29660b444f1dd624b4f62d0023c90e1"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/8e663c0a23f24a4089f7783e99607abb/evaluations/1/vue.png",
+      "sha256": "7db4eb83a34fae1f3ab260674f2ea5aa7edfe39b9718ea2618735e7e06217d28"
+    }
+  },
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 1,
+    "target_count": 1,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": null,
+      "expected": "#text:\u5df2\u6253\u5305",
+      "path": "root.0.0.1.0"
+    },
+    {
+      "actual": "span|",
+      "expected": "span|class=",
+      "path": "root.0.1.1"
+    },
+    {
+      "actual": "span|",
+      "expected": "span|class=",
+      "path": "root.0.1.2"
+    },
+    {
+      "actual": null,
+      "expected": "#text:\u5305\u88f9\u7b49\u5f85\u63fd\u6536",
+      "path": "root.0.2.0"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 4,
+    "similarity": 0.7333333333333334,
+    "source_nodes": 15,
+    "target_nodes": 13
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "e6486b12e8e60e09e1fe780427eee2f3a672d0da5b09cc5a3bdb63125059f908",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.9230769230769231,
+    "source_nodes": 13,
+    "target_nodes": 13
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "legacy_wrapper": false,
+      "name": "advance",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": false
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 0.9779461195214508,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 9,
+    "target_nodes": 9
+  },
+  "styles": {
+    "compared_properties": 143,
+    "differences": [
+      {
+        "path": "root",
+        "property": "height",
+        "source": "182px",
+        "target": "173px"
+      },
+      {
+        "path": "root.0",
+        "property": "height",
+        "source": "144px",
+        "target": "135px"
+      },
+      {
+        "path": "root.0.0",
+        "property": "height",
+        "source": "24px",
+        "target": "19px"
+      },
+      {
+        "path": "root.0.0.0",
+        "property": "height",
+        "source": "24px",
+        "target": "19px"
+      },
+      {
+        "path": "root.0.0.1",
+        "property": "width",
+        "source": "48px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.0.1",
+        "property": "height",
+        "source": "24px",
+        "target": "19px"
+      },
+      {
+        "path": "root.0.2",
+        "property": "height",
+        "source": "24px",
+        "target": "20px"
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.951048951048951,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 842.0262,
+    "target": 775.6397000000002
+  },
+  "ui_restoration": 97.60461312205156
+}

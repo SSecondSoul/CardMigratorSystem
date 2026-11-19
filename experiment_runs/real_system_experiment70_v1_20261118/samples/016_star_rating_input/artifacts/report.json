@@ -1,0 +1,2432 @@
+{
+  "actual_cloud_model_calls": 3,
+  "assessment": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+          "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+          "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+          "path": "root.0.1.1"
+        },
+        {
+          "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+          "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+          "path": "root.0.1.2"
+        },
+        {
+          "identity": "6cf73fb95182a6d60056be5d817f0f5cf7160debad39a26d4ee7adf25fc080cf",
+          "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+          "path": "root.0.1.3"
+        },
+        {
+          "identity": "6cf73fb95182a6d60056be5d817f0f5cf7160debad39a26d4ee7adf25fc080cf",
+          "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+          "path": "root.0.1.4"
+        }
+      ],
+      "source_snapshot": "83cf26a768157c4597f44f6eb9b0cf1dc8d3dfb405813d2c119d9acc90c3509f",
+      "target": [
+        {
+          "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+          "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+          "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+          "path": "root.0.1.1"
+        },
+        {
+          "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+          "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+          "path": "root.0.1.2"
+        },
+        {
+          "identity": "9719de8d7501bd4a67935c145cf7476e5f151d5da4bc3baac639a767a34c1515",
+          "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+          "path": "root.0.1.3"
+        },
+        {
+          "identity": "9719de8d7501bd4a67935c145cf7476e5f151d5da4bc3baac639a767a34c1515",
+          "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+          "path": "root.0.1.4"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dynamic_member"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.1.3"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.1.4"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 5,
+          "target_count": 5,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.1.3"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.1.4"
+          }
+        ],
+        "representation_differences": [
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.1.3",
+            "source": "",
+            "target": null
+          },
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.1.4",
+            "source": "",
+            "target": null
+          }
+        ]
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dynamic_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.1.3"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.1.4"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.1.3",
+        "source": "",
+        "target": null
+      },
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.1.4",
+        "source": "",
+        "target": null
+      }
+    ],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.8823529411764706,
+      "source_nodes": 17,
+      "target_nodes": 17
+    },
+    "embedding_similarity": {
+      "similarity": null,
+      "status": "not_configured"
+    },
+    "functional_equivalence": "not_proven",
+    "images": {
+      "heatmap": {
+        "kind": "screenshot",
+        "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/heatmap.png",
+        "sha256": "1a1b590f471f7a0718e74d4b95a668ec598d07f3afa6e32a4cb81257c5985fca"
+      },
+      "san": {
+        "kind": "screenshot",
+        "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/san.png",
+        "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+      },
+      "vue": {
+        "kind": "screenshot",
+        "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/vue.png",
+        "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+      }
+    },
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 5,
+      "target_count": 5,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.1.3"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.1.4"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.8823529411764706,
+      "source_nodes": 17,
+      "target_nodes": 17
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "9a0685fbae1a64dd2401cb5a87ed1d21fab72cd9e2ff4cfab47bb8ccef2b3e11",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.8888888888888888,
+      "source_nodes": 9,
+      "target_nodes": 9
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "preview",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "clearPreview",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "choose",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "rating",
+                  "line": 23
+                },
+                {
+                  "caller": "preview",
+                  "key": "hoverRating",
+                  "line": 29
+                },
+                {
+                  "caller": "clearPreview",
+                  "key": "hoverRating",
+                  "line": 32
+                },
+                {
+                  "caller": "choose",
+                  "key": "rating",
+                  "line": 35
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "rating",
+                  "line": 1
+                },
+                {
+                  "caller": "preview",
+                  "key": "hoverRating",
+                  "line": 1
+                },
+                {
+                  "caller": "clearPreview",
+                  "key": "hoverRating",
+                  "line": 1
+                },
+                {
+                  "caller": "choose",
+                  "key": "rating",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "rating",
+              "hoverRating"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 4,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 3,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "preview",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "clearPreview",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "choose",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 6,
+      "target_nodes": 6
+    },
+    "styles": {
+      "compared_properties": 130,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 903.0789,
+      "target": 743.9931000000001
+    },
+    "ui_restoration": 100
+  },
+  "binding": {
+    "legacy": "20ccf386e92616bfa8214fd7147bd24271c86012efbef7768c52bd602d955d0a",
+    "protocol": "modular-migration-v1",
+    "ssm": "7eb6a96d7b6ccfa8e6cb6de59ea002b7cf3a4fb80a3b5ceb27c178b1a8e8c756",
+    "system": "86e94bb9457c6020df97f6b77af0ca4daff6b83b21b48c971d9f758395ee1d43"
+  },
+  "calls": [
+    {
+      "ordinal": 0,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "dd35682a2ab553c00231de2baa565cfeb35b0323562488a75000697c84fe6a8a",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/0/response.json",
+          "sha256": "ab93d4891b64ac1116d2cf2933f251a1d8006dc1bfa388a1dbdaca59ed18f5de"
+        },
+        "usage": {
+          "completion_tokens": 606,
+          "prompt_tokens": 13607,
+          "prompt_tokens_details": {
+            "cached_tokens": 4096
+          },
+          "total_tokens": 14213
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 2,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "b1cbabe5df1b508475e5e38a8f64c876f367217535f08fa3995c5b2a96239030",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/2/response.json",
+          "sha256": "46fc4d49bdbedd509015124b538ed29c9d8bd20c570718bae78ba214012e6969"
+        },
+        "usage": {
+          "completion_tokens": 646,
+          "prompt_tokens": 12956,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 13602
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 3,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "745dc242dc1e66b0ce0c2ae227c8514e6d54c1bf12f134a33790a3918b51179e",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/3/response.json",
+          "sha256": "2d92da5089b9291eaf3be92dc6889d2a73bb7e0ece134efdde78029dc08e94e3"
+        },
+        "usage": {
+          "completion_tokens": 644,
+          "prompt_tokens": 10096,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 10740
+        },
+        "valid": true
+      },
+      "status": "returned"
+    }
+  ],
+  "coverage": "configured_props_and_representative_actions_only",
+  "created_at": 1795009207.066336,
+  "files": [
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/0/receipt.json",
+      "sha256": "1a7266328cfd5512eec1f8fee39bbb85bac963ad7624fadd32e234daa063520c"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/0/request.json",
+      "sha256": "8b9d518af809439e34da6e2b1a08cde71ad9694b1f56c61b9ffdf3141cf11458"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/0/response.json",
+      "sha256": "ab93d4891b64ac1116d2cf2933f251a1d8006dc1bfa388a1dbdaca59ed18f5de"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/2/receipt.json",
+      "sha256": "b1527023534e43371a73f8e0c071d63d31b2b1da18bed4d0b1032c854bedb245"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/2/repair-context.json",
+      "sha256": "1e268b05c750e46b218a781228ee9f205d838b6ecad380cd562ba094b41db387"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/2/request.json",
+      "sha256": "bcfe52e02e5edfc8d746a349434e3a7944771a656e15f48ddc481c1033c4ac66"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/2/response.json",
+      "sha256": "46fc4d49bdbedd509015124b538ed29c9d8bd20c570718bae78ba214012e6969"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/3/receipt.json",
+      "sha256": "8828df3cc9cd61b1d4ceebb4a15ec05a297326075db454358fcdd0fed403abd9"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/3/repair-context.json",
+      "sha256": "37c2ec470f14d06afc4ac817b054584dd568bb86bcb890d166fc62940384d78a"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/3/request.json",
+      "sha256": "d9116192e43322ce378dec9fb94b86e13c074b0e30a238568230aed360934b72"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/calls/3/response.json",
+      "sha256": "2d92da5089b9291eaf3be92dc6889d2a73bb7e0ece134efdde78029dc08e94e3"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/decisions/1.json",
+      "sha256": "2cc8d5f117f8286b59795e575d5d2fcf4fd830679de6d5f11ec221a66d0c9db8"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/decisions/2.json",
+      "sha256": "cd706d7fac10068871d49c86a722353db237f5ee552a647f48c0420059ba95ad"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/decisions/3.json",
+      "sha256": "e9dc747f3331c8067137b4ff08f78f9df3ce3106489c5d6788e60054829f5559"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/0.json",
+      "sha256": "997ed4e78ce9fb91abac0b2f4ad75253ccb732fa1bfd4f11292bcfe3475bb9f9"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/0/heatmap.png",
+      "sha256": "b1690bd47b5b44b1dfb4e7d504a41c39d41ca963d375534fa7d514229b047e8a"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/0/raw.json",
+      "sha256": "71495b0f0e2e2178da11694d14c87606c79f4a8b0001819b879ee1a879ad6d50"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/0/san.png",
+      "sha256": "24b75da63a15680b527a115be708d08a46f4f41ed2198e3e6f5450104709f295"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/0/vue.png",
+      "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/1.json",
+      "sha256": "278bdff126c8edca1543a0fa69d1d4731ffed6f18ea86d69a9a355af79ce8aa9"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/1/heatmap.png",
+      "sha256": "1e687e2535b8ae431c891f3ae280fa94f2ba2bb0d0ee60cde2d65b1a2cb4bbdb"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/1/raw.json",
+      "sha256": "fd3b0ad1e8befbb0eb30451fb554de4b1da6174b6041d8ee52d35676897a9a17"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/1/san.png",
+      "sha256": "a6530972537febf4f3ff00539665fbe4c090d97b4288cc1b7e161bde5c732f80"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/1/vue.png",
+      "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/2.json",
+      "sha256": "a79cb38046000e09f54e32d88cc6431b5d7d3e4de48d03e3aa4d0cf1f283fc52"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/2/heatmap.png",
+      "sha256": "1a1b590f471f7a0718e74d4b95a668ec598d07f3afa6e32a4cb81257c5985fca"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/2/raw.json",
+      "sha256": "22b9bb3b333123b74e71a3cd070c6b1709022f61124f00fa7fbba8a8bc74062a"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/2/san.png",
+      "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/2/vue.png",
+      "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3.json",
+      "sha256": "7681dd6ed21997255a1c251b038f2cb70e933f3f02e9d2bc1767b75240f8d04d"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/heatmap.png",
+      "sha256": "1a1b590f471f7a0718e74d4b95a668ec598d07f3afa6e32a4cb81257c5985fca"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/raw.json",
+      "sha256": "e68f09f19d5a20f2a8321e85c6e900b280a0c3e2de5c2a0b5ea069b5e5f673af"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/san.png",
+      "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/vue.png",
+      "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+    },
+    {
+      "kind": "prompt_selection",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/prompt-selection.json",
+      "sha256": "e3e6fad3d662366ce060242fc589fdc6e3a8dbf158a8ae81554d6f82c2ce05f0"
+    },
+    {
+      "kind": "request",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/request.json",
+      "sha256": "06e084f5f3b5ec3177166fad66a5c09692a14674cb865076ba3b34a8d6c78c46"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/revisions/0.json",
+      "sha256": "58c3d51a2b73969253ce2ff777986edc800ff274dfaa0ba40a42a38ae3ad201f"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/revisions/0.san",
+      "sha256": "d260cb83cd4179a637626debf980bdfc8da43c79394bfc1ba1dc31ab2b1842f8"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/revisions/1.json",
+      "sha256": "28affaefa167082a69340592957c47fede5f68a1286624c28aeee18b8b642d38"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/revisions/1.san",
+      "sha256": "a916de538961dce65e8942e8e9c4aa34289178206554f0f018e5725fa890fcb6"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/revisions/2.json",
+      "sha256": "fce6cb60148c9539fbab1c58412e6f41753e2edccbdc179708ac96f2d0159721"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/revisions/2.san",
+      "sha256": "285f744abe3d562574d6585b3c8bf4cac49afcc3ad87bf5125ae3c7f1f6a4db2"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/revisions/3.json",
+      "sha256": "bc831576d8bb0bbd43f2d6fc0397c6b05e75e1f1a8aeaebe84ab8006aa8e2df6"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/revisions/3.san",
+      "sha256": "9a0685fbae1a64dd2401cb5a87ed1d21fab72cd9e2ff4cfab47bb8ccef2b3e11"
+    },
+    {
+      "kind": "ssm",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/ssm.json",
+      "sha256": "49e6b082a95191c83d4eb6efa48fe674fea6a088bb43c13043d5700802789a4c"
+    },
+    {
+      "kind": "trace",
+      "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/trace.json",
+      "sha256": "12eacee22c934e08f4c6d15331a1e04f1a06c0f8854ebbc90e65d52cf56ada4a"
+    }
+  ],
+  "final_artifact": {
+    "kind": "san",
+    "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/revisions/3.san",
+    "sha256": "9a0685fbae1a64dd2401cb5a87ed1d21fab72cd9e2ff4cfab47bb8ccef2b3e11"
+  },
+  "generation_origin": "model_repair",
+  "manual_feedback": [],
+  "migration_id": "70032e36f7c14179b6323dd1477da779",
+  "model_calls_returned": 3,
+  "model_calls_started": 3,
+  "name": "real_system_experiment70_v1_20261118 / StarRatingInput",
+  "production_ready": false,
+  "request": {
+    "actions": [],
+    "authorization": {
+      "billing_cap": "not_guaranteed",
+      "max_calls": 4,
+      "max_output_tokens_per_call": 8192,
+      "network_enabled": true,
+      "scope": "one_generation_and_bounded_repairs",
+      "usage_stop_tokens": 131072
+    },
+    "evidence_class": "development_or_disclosed_exploratory_not_independent_test",
+    "excluded_example_groups": [
+      "AccessMatrix",
+      "AnalyticsDashboard",
+      "AttendanceRoster",
+      "AudioSegmentMarker",
+      "BatchRenamer",
+      "BookmarkToggleCard",
+      "BreadcrumbNavigator",
+      "BudgetThreshold",
+      "CapacityPlanningBoard",
+      "ChoiceChips",
+      "ColorContrastBadge",
+      "CourseModuleAccordion",
+      "CrisisCommunicationHub",
+      "DataPaginationTable",
+      "DeliveryPhaseCard",
+      "DeliveryRouteTimeline",
+      "DocumentApprovalFlow",
+      "EnergyLoadScheduler",
+      "ExpenseTracker",
+      "ExperimentRolloutConsole",
+      "FileDropIndicator",
+      "FleetDispatchConsole",
+      "ForecastSimulator",
+      "FormRulePlayground",
+      "GradebookMatrix",
+      "HabitWeekTracker",
+      "ImageCropControls",
+      "IncidentResponseBoard",
+      "InlineRename",
+      "InventoryBatchManager",
+      "KanbanColumnBoard",
+      "LocalizationWorkspace",
+      "MediaReviewStudio",
+      "MeetingPollScheduler",
+      "MilestoneTimeline",
+      "MonitoringDashboard",
+      "NotificationCard",
+      "OtpCodeInput",
+      "PasswordStrengthMeter",
+      "PlaybackQueue",
+      "PollResults",
+      "PriceStepper",
+      "QuizNavigator",
+      "ReadingProgressCard",
+      "RuleBuilder",
+      "SchemaMappingWorkbench",
+      "SearchClearField",
+      "SeatBookingMap",
+      "SessionTimeoutNotice",
+      "ShippingEstimator",
+      "SortCycleButton",
+      "StarRatingInput",
+      "StatusSwitch",
+      "StockReservationBadge",
+      "SupportTicketConsole",
+      "SurveyBranchForm",
+      "TaskManager",
+      "TemperatureDial",
+      "TextLengthGauge",
+      "ThemePreviewToggle",
+      "TipSplitCalculator",
+      "TodoList",
+      "TopologyEditor",
+      "TransferList",
+      "TripItineraryPlanner",
+      "VolumeControl",
+      "WarehousePickingWave",
+      "WorkflowDiagramEditor",
+      "WorkoutPlanner",
+      "access_matrix",
+      "analytics_dashboard",
+      "attendance_roster",
+      "audio_segment_marker",
+      "batch_renamer",
+      "bookmark_toggle_card",
+      "breadcrumb_navigator",
+      "budget_threshold",
+      "capacity_planning_board",
+      "choice_chips",
+      "color_contrast_badge",
+      "course_module_accordion",
+      "crisis_communication_hub",
+      "data_pagination_table",
+      "delivery_phase_card",
+      "delivery_route_timeline",
+      "document_approval_flow",
+      "energy_load_scheduler",
+      "experiment_rollout_console",
+      "file_drop_indicator",
+      "fleet_dispatch_console",
+      "forecast_simulator",
+      "form_rule_playground",
+      "gradebook_matrix",
+      "habit_week_tracker",
+      "image_crop_controls",
+      "incident_response_board",
+      "inline_rename",
+      "inventory_batch_manager",
+      "kanban_column_board",
+      "localization_workspace",
+      "media_review_studio",
+      "meeting_poll_scheduler",
+      "milestone_timeline",
+      "otp_code_input",
+      "password_strength_meter",
+      "playback_queue",
+      "poll_results",
+      "price_stepper",
+      "quiz_navigator",
+      "reading_progress_card",
+      "rule_builder",
+      "schema_mapping_workbench",
+      "search_clear_field",
+      "seat_booking_map",
+      "session_timeout_notice",
+      "shipping_estimator",
+      "sort_cycle_button",
+      "star_rating_input",
+      "status_switch",
+      "step",
+      "step_card",
+      "stock_reservation_badge",
+      "support_ticket_console",
+      "survey_branch_form",
+      "temperature_dial",
+      "text_length_gauge",
+      "theme_preview_toggle",
+      "tip_split_calculator",
+      "topology_editor",
+      "transfer_list",
+      "trip_itinerary_planner",
+      "volume_control",
+      "warehouse_picking_wave",
+      "workflow_diagram_editor",
+      "workout_planner"
+    ],
+    "few_shot_examples": [
+      {
+        "group": "CounterCard",
+        "id": "builtin-counter",
+        "provenance": "synthetic_development_demonstration_not_dataset_test_answer",
+        "san": "<template><button class=\"card\" on-click=\"increment\">{{count}}</button></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"CounterCard\",dataTypes:{},initData(){return {count:0}},increment(){this.data.set(\"count\",this.data.get(\"count\")+1)}});</script><style>.card{color:rgb(20,40,60)}</style>",
+        "san_sha256": "ad21d808c4670d7650247cd5406fad51917928239ead6df87a1feca219238303",
+        "source_sha256": "6f83b604da4b7e8cc490e857d834ab4e70f082edb7d5f286414a4a4c2317d507",
+        "split": "train",
+        "ssm": {
+          "binding_graph": {
+            "data_fields_usage": [
+              {
+                "field_name": "count",
+                "initialized_from_external": null,
+                "initialized_from_props": false,
+                "read_in_computed": [],
+                "read_in_methods": [
+                  "increment"
+                ],
+                "read_in_template_nodes": [
+                  "template.root_button_0"
+                ],
+                "watched_by": [],
+                "written_in_methods": [
+                  "increment"
+                ]
+              }
+            ],
+            "edges": [
+              {
+                "edge_type": "binds_to",
+                "expression": "{{count}}",
+                "from": "template.root_button_0",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              },
+              {
+                "edge_type": "reads",
+                "expression": "count",
+                "from": "method.increment",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              }
+            ],
+            "nodes": [
+              {
+                "kind": "data",
+                "name": "count",
+                "node_id": "data.count",
+                "source_location": "script.data"
+              },
+              {
+                "kind": "method",
+                "name": "increment",
+                "node_id": "method.increment",
+                "source_location": "script.methods"
+              },
+              {
+                "kind": "template_node",
+                "name": "root_button_0",
+                "node_id": "template.root_button_0",
+                "source_location": "template.button"
+              }
+            ]
+          },
+          "event_model": {
+            "custom_events": [],
+            "dom_events": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_method_ref": "increment",
+                "handler_name": "increment",
+                "handler_signature_inferred": "increment()",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "is_native": true,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "reads": [
+                  "count"
+                ],
+                "san_event_syntax": "on-click=\"increment\"",
+                "side_effects": [],
+                "writes": [
+                  "count"
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "component_name": "CounterCard",
+            "sfc_blocks": {
+              "has_script": true,
+              "has_style": true,
+              "has_template": true,
+              "style_lang": "css",
+              "style_scoped": false
+            },
+            "source_file": "CounterCard.vue",
+            "source_framework": "Vue",
+            "target_framework": "San"
+          },
+          "migration_hints": {
+            "data_access_conversion_plan": {
+              "count": {
+                "init_plan": "initData \u4e2d\u58f0\u660e count\uff0c\u9ed8\u8ba4\u503c 0",
+                "read_plan": "this.data.get('count')",
+                "write_plan": "this.data.set('count', value)"
+              }
+            },
+            "detected_patterns": [
+              {
+                "affected_nodes": [],
+                "detected_by": "AST \u7279\u5f81\u81ea\u52a8\u68c0\u6d4b",
+                "pattern_id": "event_click",
+                "pattern_name": "event_click",
+                "risk_level": "low",
+                "san_strategy": "\u5b58\u5728 @click \u6216 v-on\uff0c\u9700\u8f6c\u4e3a on-click"
+              },
+              {
+                "affected_nodes": [],
+                "detected_by": "AST \u7279\u5f81\u81ea\u52a8\u68c0\u6d4b",
+                "pattern_id": "data_access",
+                "pattern_name": "data_access",
+                "risk_level": "high",
+                "san_strategy": "methods \u4e2d\u5b58\u5728 this.xxx \u8bbf\u95ee\uff0c\u9700\u7edf\u4e00\u6539\u4e3a this.data.get/set"
+              }
+            ]
+          },
+          "san_generation_contract": {
+            "description": "\u7ea6\u675f\u5927\u6a21\u578b\u57fa\u4e8e\u672c schema \u751f\u6210 San \u7ec4\u4ef6\u65f6\u5fc5\u987b\u6ee1\u8db3\u7684\u6761\u4ef6\u3002",
+            "must_preserve": [
+              "metadata.component_name \u548c\u6839\u8282\u70b9\u8bed\u4e49",
+              "template.dom_tree \u7684\u5c42\u7ea7\u7ed3\u6784\u3001\u8282\u70b9\u987a\u5e8f\u4e0e\u8bed\u4e49\u89d2\u8272",
+              "template.component_refs \u4e2d\u6bcf\u4e2a\u5b50\u7ec4\u4ef6\u7684\u6ce8\u518c\u540d\u548c\u7236\u5b50\u901a\u4fe1\u4e8b\u4ef6",
+              "binding_graph \u4e2d data/props/computed \u5230\u6a21\u677f\u8282\u70b9\u7684\u53ef\u89c1\u7ed1\u5b9a",
+              "event_model \u4e2d\u6bcf\u4e2a DOM \u4e8b\u4ef6\u548c\u81ea\u5b9a\u4e49\u4e8b\u4ef6\u7684\u89e6\u53d1\u65f6\u673a\u4e0e payload",
+              "style_model \u4e2d\u52a8\u6001\u7c7b\u540d\u3001\u52a8\u6001\u6837\u5f0f\u3001scoped CSS \u548c\u5173\u952e\u89c6\u89c9\u72b6\u6001",
+              "script.options.lifecycle_hooks \u4e2d\u7684\u526f\u4f5c\u7528\u521d\u59cb\u5316\u4e0e\u6e05\u7406\u903b\u8f91",
+              "script.options.data \u4e2d\u6240\u6709\u5b57\u6bb5\u7684\u9ed8\u8ba4\u503c\u548c\u5916\u90e8\u521d\u59cb\u5316\u6765\u6e90"
+            ],
+            "quality_checks": [
+              "template.component_refs \u4e2d\u6bcf\u4e2a\u5b50\u7ec4\u4ef6\u90fd\u5728 script.components \u6216 san_registration \u4e2d\u6709\u5b9a\u4e49",
+              "binding_graph.edges \u4e2d\u6bcf\u6761 template \u4f9d\u8d56\u90fd\u80fd\u5728 script.options \u4e2d\u627e\u5230\u6765\u6e90",
+              "event_model.dom_events \u4e2d\u6bcf\u4e2a handler_name \u90fd\u5b58\u5728\u4e8e script.options.methods",
+              "event_model.custom_events \u4e2d\u6bcf\u4e2a emit_points \u90fd\u5bf9\u5e94 method \u4e2d\u7684 $emit \u8c03\u7528",
+              "style_model.dynamic_class_bindings \u7684 dependencies \u90fd\u5b58\u5728\u4e8e binding_graph.nodes",
+              "script.options.watch \u4e2d\u7684 deep watcher \u5728 migration_hints \u4e2d\u88ab\u6807\u8bb0\u5e76\u7ed9\u51fa\u66ff\u4ee3\u7b56\u7565"
+            ],
+            "san_syntax_requirements": [
+              "\u8f93\u51fa\u5b8c\u6574\u7684 .san \u5355\u6587\u4ef6\u7ec4\u4ef6\uff0c\u5305\u542b <template>\u3001<script>\u3001<style> \u4e09\u4e2a\u4ee3\u7801\u5757\uff1b\u82e5\u65e0\u6837\u5f0f\u4e5f\u4fdd\u7559\u7a7a style \u6216\u663e\u5f0f\u8bf4\u660e\u65e0\u6837\u5f0f",
+              "\u811a\u672c\u5757\u663e\u5f0f\u5f15\u5165 san\uff1aconst san = require('san')\uff0c\u5e76\u4f7f\u7528 module.exports = san.defineComponent(...) \u5bfc\u51fa\u7ec4\u4ef6",
+              "props \u4f7f\u7528 san.DataTypes \u58f0\u660e\uff0c\u4e0e script.options.props \u4e00\u4e00\u5bf9\u5e94\uff1b\u4f18\u5148\u8f93\u51fa DataTypes.number / string / bool / array / object",
+              "\u7ec4\u4ef6\u5b9a\u4e49\u4f7f\u7528 san.defineComponent",
+              "\u7ec4\u4ef6\u540d\u6765\u81ea metadata.component_name\uff0c\u5e76\u663e\u5f0f\u8f93\u51fa name \u5b57\u6bb5",
+              "data \u4f7f\u7528 initData \u8fd4\u56de\u9ed8\u8ba4\u503c\uff0c\u4e0e script.options.data \u4e00\u4e00\u5bf9\u5e94\uff1b\u4e0d\u8981\u5728 initData \u4e2d\u76f4\u63a5\u4f9d\u8d56\u590d\u6742\u8fd0\u884c\u65f6\u8bfb\u53d6",
+              "\u5f53 data \u5b57\u6bb5\u6765\u6e90\u4e8e props \u6216\u5916\u90e8\u521d\u59cb\u5316\u65f6\uff0c\u4f18\u5148\u5728 inited/attached \u4e2d\u7528 this.data.set \u5b8c\u6210\u540c\u6b65",
+              "\u6a21\u677f\u4e2d\u4f7f\u7528 s-if\u3001s-for\u3001on-event\u3001value={= =}\u3001checked={= =} \u7b49 San \u8bed\u6cd5",
+              "\u72b6\u6001\u8bbf\u95ee\u7edf\u4e00\u4f7f\u7528 this.data.get() / this.data.set()",
+              "\u4f18\u5148\u5c06 methods \u76f4\u63a5\u5b9a\u4e49\u5728\u7ec4\u4ef6\u5bf9\u8c61\u9876\u5c42\uff0c\u907f\u514d\u4fdd\u7559 Vue \u98ce\u683c\u7684 methods: {} \u5305\u88f9",
+              "\u5b50\u7ec4\u4ef6\u6807\u7b7e\u4f7f\u7528\u77ed\u6a2a\u7ebf\u547d\u540d",
+              "\u5b50\u7ec4\u4ef6\u5728 components \u4e2d\u663e\u5f0f\u6ce8\u518c",
+              "\u6837\u5f0f\u5757\u9700\u5c3d\u91cf\u5b8c\u6574\u8f93\u51fa\uff0c\u4f18\u5148\u590d\u7528 styles/style_model \u4e2d\u5df2\u6709 class \u4e0e css_rules \u4fe1\u606f",
+              "\u5b9a\u65f6\u5668\u3001timeout\u3001\u5916\u90e8\u76d1\u542c\u7b49\u526f\u4f5c\u7528\u5728 attached/disposed \u4e2d\u7ba1\u7406"
+            ]
+          },
+          "schema_name": "San Source Model (Generic)",
+          "schema_version": "3.0",
+          "script": {
+            "export_info": {
+              "export_type": "default_export",
+              "has_export": true
+            },
+            "imports": [],
+            "options": {
+              "components": [],
+              "computed": [],
+              "data": [
+                {
+                  "default_value": 0,
+                  "default_value_expression": "0",
+                  "default_value_static": true,
+                  "default_value_summary": "0",
+                  "name": "count",
+                  "value_type_inferred": "number"
+                }
+              ],
+              "emits": [],
+              "extends": [],
+              "filters": [],
+              "inject_keys": [],
+              "lifecycle_hooks": [],
+              "methods": [
+                {
+                  "body": "{this.count++}",
+                  "body_full": "{this.count++}",
+                  "calls_inferred": [],
+                  "emits_inferred": [],
+                  "is_async": false,
+                  "name": "increment",
+                  "params": [],
+                  "reads_inferred": [
+                    "count"
+                  ],
+                  "side_effects_inferred": [],
+                  "writes_inferred": [
+                    "count"
+                  ]
+                }
+              ],
+              "mixins": [],
+              "name": "CounterCard",
+              "props": [],
+              "provide_keys": [],
+              "watch": []
+            },
+            "top_level_declarations": []
+          },
+          "style_model": {
+            "css_rules_summary": [
+              {
+                "affected_classes": [
+                  "card"
+                ],
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "migration_keep": true,
+                "pseudo_state": null,
+                "selector": ".card"
+              }
+            ],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "scoped": false,
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [
+                  "root_button_0"
+                ],
+                "semantic_role": "card"
+              }
+            ]
+          },
+          "styles": {
+            "css_rules": [
+              {
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "has_keyframes": false,
+                "has_media": false,
+                "has_pseudo": false,
+                "related_classes": [
+                  "card"
+                ],
+                "selectors": [
+                  ".card"
+                ]
+              }
+            ],
+            "css_variables": [],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [],
+                "semantic_role": "card"
+              }
+            ],
+            "style_blocks": [
+              {
+                "attrs": {},
+                "content": ".card{color:rgb(20,40,60)}",
+                "lang": "css",
+                "module": false,
+                "scoped": false
+              }
+            ]
+          },
+          "sub_components": [],
+          "template": {
+            "component_refs": [],
+            "directives_registry": [
+              {
+                "count": 1,
+                "directive_name": "v-on",
+                "example_nodes": [
+                  "root_button_0"
+                ]
+              }
+            ],
+            "dom_tree": {
+              "children": [],
+              "depth": 0,
+              "directives": [
+                {
+                  "argument": "click",
+                  "dependencies": [
+                    "increment"
+                  ],
+                  "directive_name": "v-on",
+                  "expression": "increment",
+                  "migration_note": "v-on \u9700\u8981\u8fc1\u79fb\u5230 San",
+                  "modifiers": [],
+                  "san_equivalent": "on-event"
+                }
+              ],
+              "dynamic_attrs": [],
+              "event_bindings": [
+                {
+                  "arguments": [],
+                  "element_tag": "button",
+                  "event_name": "click",
+                  "handler_expression": "increment",
+                  "handler_name": "increment",
+                  "handler_type": "identifier",
+                  "is_component_event": false,
+                  "modifiers": [],
+                  "node_id": "root_button_0",
+                  "san_event_syntax": "on-click=\"increment\""
+                }
+              ],
+              "is_root": true,
+              "is_void": false,
+              "node_id": "root_button_0",
+              "node_type": "element",
+              "parent_id": null,
+              "path": "/button[0]",
+              "san_tag": "button",
+              "semantic_role": "card",
+              "source_tag": "button",
+              "static_attrs": {
+                "class": "card"
+              },
+              "text_bindings": [
+                {
+                  "dependencies": [
+                    "count"
+                  ],
+                  "expression": "count",
+                  "is_interpolation": true,
+                  "raw_text": "{{count}}",
+                  "san_text": "{{count}}"
+                }
+              ]
+            },
+            "event_bindings": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_name": "increment",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "san_event_syntax": "on-click=\"increment\""
+              }
+            ],
+            "slot_distribution": []
+          }
+        },
+        "ssm_sha256": "9fd2dde9bc8a8b5f0593597db090776792a38eddff676acedae6ab512e6e0cda"
+      }
+    ],
+    "filename": "StarRatingInput.vue",
+    "input_id": "b2bcbac1f8474b828da16328481b1cba",
+    "max_repair_rounds": 3,
+    "name": "real_system_experiment70_v1_20261118 / StarRatingInput",
+    "props": {},
+    "runtime": {
+      "browser": {
+        "enabled": true,
+        "executable": "",
+        "height": 900,
+        "settle_ms": 500,
+        "width": 1280
+      },
+      "learning": {
+        "adapter_path": "",
+        "base_model_path": "",
+        "embedding_model_path": "",
+        "few_shot_count": 1,
+        "few_shot_manifest": "configs/few-shot-builtin-v1.json"
+      },
+      "model": {
+        "api_key_env": "LLM_API_KEY",
+        "backend": "qwen",
+        "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "max_calls": 4,
+        "max_output_tokens": 8192,
+        "model": "qwen-plus",
+        "network_enabled": true,
+        "timeout_seconds": 240,
+        "usage_stop_tokens": 131072
+      },
+      "schema_version": 1,
+      "tracing": {
+        "api_key_env": "LANGSMITH_API_KEY",
+        "enabled": false,
+        "endpoint": "https://api.smith.langchain.com",
+        "project": "card-migrator"
+      }
+    },
+    "source_group": "StarRatingInput",
+    "source_sha256": "6307ba095c1b8db449db300652fe7222f6d18ebcacd36e306c43d53afa83cd89",
+    "strategy": "ssm",
+    "support_scope": {
+      "deployment": "trusted_local_single_user",
+      "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+      "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+      "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+      "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+      "experimental_public_instance_runtime_enabled": false,
+      "exports": [
+        "export default",
+        "module.exports"
+      ],
+      "full_public_instance_compatibility": false,
+      "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+      "historical_results_reclassified": false,
+      "id": "san-supported-migration-v4",
+      "label": "\u6709\u660e\u786e\u652f\u6301\u8303\u56f4\u7684 Vue \u2192 SSM \u2192 San \u8fc1\u79fb\u95ed\u73af",
+      "missing_interactions": "not_run_not_pass",
+      "not_required_for_basic_migration": [
+        "langsmith_upload",
+        "lora_training",
+        "clip_embeddings"
+      ],
+      "pipeline": [
+        "preflight",
+        "extract_ssm",
+        "generate",
+        "evaluate",
+        "bounded_repair",
+        "candidate_retest_and_gate",
+        "report_and_download"
+      ],
+      "preflight_is_full_support_proof": false,
+      "runtime_admission": "not_enabled_in_production",
+      "source_ast_rule_generation_enabled": false,
+      "source_profile": "single_file_javascript_options_api_without_external_imports",
+      "styles": [
+        "css",
+        "scoped_css"
+      ],
+      "target": "San",
+      "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+    },
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "trusted_source": true
+  },
+  "request_sha256": "980d99bbbd2419281ad74d6aa7951094cab247d0b25155021953f1473e30bd21",
+  "schema_version": 1,
+  "scope": "real_migration_local_single_user",
+  "stage": "report",
+  "state": {
+    "candidate_evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.1"
+          },
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.2"
+          },
+          {
+            "identity": "6cf73fb95182a6d60056be5d817f0f5cf7160debad39a26d4ee7adf25fc080cf",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.3"
+          },
+          {
+            "identity": "6cf73fb95182a6d60056be5d817f0f5cf7160debad39a26d4ee7adf25fc080cf",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.4"
+          }
+        ],
+        "source_snapshot": "83cf26a768157c4597f44f6eb9b0cf1dc8d3dfb405813d2c119d9acc90c3509f",
+        "target": [
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.1"
+          },
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.2"
+          },
+          {
+            "identity": "9719de8d7501bd4a67935c145cf7476e5f151d5da4bc3baac639a767a34c1515",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.3"
+          },
+          {
+            "identity": "9719de8d7501bd4a67935c145cf7476e5f151d5da4bc3baac639a767a34c1515",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.4"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dynamic_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.1.3"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.1.4"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [],
+            "equal": true,
+            "paths_equal": true,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 5,
+            "target_count": 5,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.1.3"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.1.4"
+            }
+          ],
+          "representation_differences": [
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.1.3",
+              "source": "",
+              "target": null
+            },
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.1.4",
+              "source": "",
+              "target": null
+            }
+          ]
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "pass",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dynamic_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.4"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.3",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.4",
+          "source": "",
+          "target": null
+        }
+      ],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.8823529411764706,
+        "source_nodes": 17,
+        "target_nodes": 17
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/heatmap.png",
+          "sha256": "1a1b590f471f7a0718e74d4b95a668ec598d07f3afa6e32a4cb81257c5985fca"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/san.png",
+          "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/vue.png",
+          "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+        }
+      },
+      "initial_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 5,
+        "target_count": 5,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.4"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.8823529411764706,
+        "source_nodes": 17,
+        "target_nodes": 17
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "9a0685fbae1a64dd2401cb5a87ed1d21fab72cd9e2ff4cfab47bb8ccef2b3e11",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.8888888888888888,
+        "source_nodes": 9,
+        "target_nodes": 9
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "preview",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "clearPreview",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "choose",
+                  "status": "complete_caller_with_preserved_helper"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "rating",
+                    "line": 23
+                  },
+                  {
+                    "caller": "preview",
+                    "key": "hoverRating",
+                    "line": 29
+                  },
+                  {
+                    "caller": "clearPreview",
+                    "key": "hoverRating",
+                    "line": 32
+                  },
+                  {
+                    "caller": "choose",
+                    "key": "rating",
+                    "line": 35
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "rating",
+                    "line": 1
+                  },
+                  {
+                    "caller": "preview",
+                    "key": "hoverRating",
+                    "line": 1
+                  },
+                  {
+                    "caller": "clearPreview",
+                    "key": "hoverRating",
+                    "line": 1
+                  },
+                  {
+                    "caller": "choose",
+                    "key": "rating",
+                    "line": 1
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [],
+              "source_keys": [
+                "rating",
+                "hoverRating"
+              ],
+              "status": "proven_for_source_internal_calls"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "proven_for_source_internal_calls",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 4,
+            "uncertain": true
+          },
+          "status": "proven_for_source_internal_calls",
+          "target_references": {
+            "count": 3,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "preview",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "clearPreview",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "choose",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 6,
+        "target_nodes": 6
+      },
+      "styles": {
+        "compared_properties": 130,
+        "differences": [],
+        "matching": "child_index_path",
+        "similarity": 1.0,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 903.0789,
+        "target": 743.9931000000001
+      },
+      "ui_restoration": 100
+    },
+    "decisions": [
+      {
+        "accepted": true,
+        "candidate": "a916de538961dce65e8942e8e9c4aa34289178206554f0f018e5725fa890fcb6",
+        "previous": "d260cb83cd4179a637626debf980bdfc8da43c79394bfc1ba1dc31ab2b1842f8",
+        "reason": "strict_improvement",
+        "round": 1
+      },
+      {
+        "accepted": true,
+        "candidate": "285f744abe3d562574d6585b3c8bf4cac49afcc3ad87bf5125ae3c7f1f6a4db2",
+        "previous": "a916de538961dce65e8942e8e9c4aa34289178206554f0f018e5725fa890fcb6",
+        "reason": "strict_improvement",
+        "round": 2
+      },
+      {
+        "accepted": true,
+        "candidate": "9a0685fbae1a64dd2401cb5a87ed1d21fab72cd9e2ff4cfab47bb8ccef2b3e11",
+        "previous": "285f744abe3d562574d6585b3c8bf4cac49afcc3ad87bf5125ae3c7f1f6a4db2",
+        "reason": "strict_improvement",
+        "round": 3
+      }
+    ],
+    "evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.1"
+          },
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.2"
+          },
+          {
+            "identity": "6cf73fb95182a6d60056be5d817f0f5cf7160debad39a26d4ee7adf25fc080cf",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.3"
+          },
+          {
+            "identity": "6cf73fb95182a6d60056be5d817f0f5cf7160debad39a26d4ee7adf25fc080cf",
+            "parent_shape": "10d624312b229a345a33dd94deb284ad0d965ac29fdf5375b32ee03d2a2fcff7",
+            "path": "root.0.1.4"
+          }
+        ],
+        "source_snapshot": "83cf26a768157c4597f44f6eb9b0cf1dc8d3dfb405813d2c119d9acc90c3509f",
+        "target": [
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.1"
+          },
+          {
+            "identity": "67a4fc10ac9f065c772e9fceba46b878e2019971dc292981ac131da74293e870",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.2"
+          },
+          {
+            "identity": "9719de8d7501bd4a67935c145cf7476e5f151d5da4bc3baac639a767a34c1515",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.3"
+          },
+          {
+            "identity": "9719de8d7501bd4a67935c145cf7476e5f151d5da4bc3baac639a767a34c1515",
+            "parent_shape": "45c4c549c8a0c018141709a4347045562e6f073cce3c08a6cd81200741e8a6cf",
+            "path": "root.0.1.4"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dynamic_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.1.3"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.1.4"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [],
+            "equal": true,
+            "paths_equal": true,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 5,
+            "target_count": 5,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.1.3"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.1.4"
+            }
+          ],
+          "representation_differences": [
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.1.3",
+              "source": "",
+              "target": null
+            },
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.1.4",
+              "source": "",
+              "target": null
+            }
+          ]
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "pass",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dynamic_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.4"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.3",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.4",
+          "source": "",
+          "target": null
+        }
+      ],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.8823529411764706,
+        "source_nodes": 17,
+        "target_nodes": 17
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/heatmap.png",
+          "sha256": "1a1b590f471f7a0718e74d4b95a668ec598d07f3afa6e32a4cb81257c5985fca"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/san.png",
+          "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/70032e36f7c14179b6323dd1477da779/evaluations/3/vue.png",
+          "sha256": "3a9451e477e00be6541e8395cda80d795d8f83df8fed0b338e5bcb47d0876f55"
+        }
+      },
+      "initial_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 5,
+        "target_count": 5,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.1.4"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.8823529411764706,
+        "source_nodes": 17,
+        "target_nodes": 17
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "9a0685fbae1a64dd2401cb5a87ed1d21fab72cd9e2ff4cfab47bb8ccef2b3e11",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.8888888888888888,
+        "source_nodes": 9,
+        "target_nodes": 9
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "preview",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "clearPreview",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "choose",
+                  "status": "complete_caller_with_preserved_helper"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "rating",
+                    "line": 23
+                  },
+                  {
+                    "caller": "preview",
+                    "key": "hoverRating",
+                    "line": 29
+                  },
+                  {
+                    "caller": "clearPreview",
+                    "key": "hoverRating",
+                    "line": 32
+                  },
+                  {
+                    "caller": "choose",
+                    "key": "rating",
+                    "line": 35
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "rating",
+                    "line": 1
+                  },
+                  {
+                    "caller": "preview",
+                    "key": "hoverRating",
+                    "line": 1
+                  },
+                  {
+                    "caller": "clearPreview",
+                    "key": "hoverRating",
+                    "line": 1
+                  },
+                  {
+                    "caller": "choose",
+                    "key": "rating",
+                    "line": 1
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [],
+              "source_keys": [
+                "rating",
+                "hoverRating"
+              ],
+              "status": "proven_for_source_internal_calls"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "proven_for_source_internal_calls",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 4,
+            "uncertain": true
+          },
+          "status": "proven_for_source_internal_calls",
+          "target_references": {
+            "count": 3,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "preview",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "clearPreview",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "choose",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 6,
+        "target_nodes": 6
+      },
+      "styles": {
+        "compared_properties": 130,
+        "differences": [],
+        "matching": "child_index_path",
+        "similarity": 1.0,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 903.0789,
+        "target": 743.9931000000001
+      },
+      "ui_restoration": 100
+    },
+    "migration_id": "70032e36f7c14179b6323dd1477da779",
+    "request_sha256": "980d99bbbd2419281ad74d6aa7951094cab247d0b25155021953f1473e30bd21",
+    "round": 3,
+    "stop_reason": "repair_budget_exhausted"
+  },
+  "status": "failed",
+  "stop_reason": "repair_budget_exhausted",
+  "support_scope": {
+    "deployment": "trusted_local_single_user",
+    "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+    "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+    "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+    "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+    "experimental_public_instance_runtime_enabled": false,
+    "exports": [
+      "export default",
+      "module.exports"
+    ],
+    "full_public_instance_compatibility": false,
+    "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+    "historical_results_reclassified": false,
+    "id": "san-supported-migration-v4",
+    "label": "\u6709\u660e\u786e\u652f\u6301\u8303\u56f4\u7684 Vue \u2192 SSM \u2192 San \u8fc1\u79fb\u95ed\u73af",
+    "missing_interactions": "not_run_not_pass",
+    "not_required_for_basic_migration": [
+      "langsmith_upload",
+      "lora_training",
+      "clip_embeddings"
+    ],
+    "pipeline": [
+      "preflight",
+      "extract_ssm",
+      "generate",
+      "evaluate",
+      "bounded_repair",
+      "candidate_retest_and_gate",
+      "report_and_download"
+    ],
+    "preflight_is_full_support_proof": false,
+    "runtime_admission": "not_enabled_in_production",
+    "source_ast_rule_generation_enabled": false,
+    "source_profile": "single_file_javascript_options_api_without_external_imports",
+    "styles": [
+      "css",
+      "scoped_css"
+    ],
+    "target": "San",
+    "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+  },
+  "unknown_calls": 0,
+  "usage": {
+    "complete": true,
+    "known_total_tokens": 38555
+  }
+}

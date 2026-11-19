@@ -9,6 +9,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from ..reporting.identity import digest
+
 
 PINS = {'prompts/generation_builder.py': '4c20260e79a35b0d9f16d5d1ba943b84642eb563784bda1f293e4c9f1c450aa2'}
 SYSTEM = 'You are an expert Vue-to-San code generator. Output only San component code.'
@@ -48,3 +50,37 @@ def build_generation_messages(repository_root, ssm):
     messages = [{'role': 'system', 'content': SYSTEM},
                 {'role': 'user', 'content': namespace['_build_generation_prompt'](detached)}]
     return messages, dict(PINS)
+
+
+def compact_generation_context(messages, ssm):
+    """Remove JSON formatting only, never fields, source text, or semantic rules.
+
+    Keep the pinned experiment builder intact. Fail closed if its SSM boundary
+    changes; guessing a substring could otherwise modify instructions or code.
+    The caller persists the returned manifest alongside the actual request.
+    """
+    detached = json.loads(json.dumps(messages, ensure_ascii=False, allow_nan=False))
+    original = json.dumps(ssm, ensure_ascii=False, indent=2, allow_nan=False)
+    suffix = '--- SSM ---\n' + original
+    if (not detached or detached[-1].get('role') != 'user'
+            or not isinstance(detached[-1].get('content'), str)
+            or not detached[-1]['content'].endswith(suffix)):
+        raise PromptBindingError('generation_ssm_boundary_mismatch')
+    compact = json.dumps(ssm, ensure_ascii=False, separators=(',', ':'), allow_nan=False)
+    if digest(json.loads(compact)) != digest(ssm):
+        raise PromptBindingError('generation_ssm_roundtrip_mismatch')
+    prefix = detached[-1]['content'][:-len(original)]
+    before = detached[-1]['content']
+    detached[-1]['content'] = prefix + compact
+    after = detached[-1]['content']
+    return detached, {
+        'policy': 'generation-lossless-json-v2',
+        'ssm_sha256': digest(ssm),
+        'instructions_sha256': sha256(prefix.encode()).hexdigest(),
+        'before_message_sha256': sha256(before.encode()).hexdigest(),
+        'after_message_sha256': sha256(after.encode()).hexdigest(),
+        'before_chars': len(before), 'after_chars': len(after),
+        'before_utf8_bytes': len(before.encode()), 'after_utf8_bytes': len(after.encode()),
+        'all_ssm_values_preserved': True,
+        'token_reduction': 'not_measured_offline_characters_are_not_tokens',
+    }

@@ -1,0 +1,279 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "c1f6b521450e362974b707d6c934772dac6f27ec52728eb7b6f29483327fe5be",
+        "parent_shape": "cbf5a1115e7a3aa869d582f17d5567f32c160c9e8dc32a989ac08307b5d8a8f4",
+        "path": "root.0.1"
+      }
+    ],
+    "source_snapshot": "16fa974ab6254222e8acee68c5e745c06dc10162743ec04e94165c4a98aa011e",
+    "target": [
+      {
+        "identity": "55b3849fd7ace349d78541dec75c2125a71a5b175cadf962a0802a56eb71429c",
+        "parent_shape": "55fad7518fe86feba740abbd99ef94898d4c0badc456ed35ed887acbf5f1834c",
+        "path": "root.0.1"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "template_structure_mismatch",
+      "differences": [
+        {
+          "actual": "section|binding:aria-pressed|binding:class|class=status-switch|text:",
+          "expected": "section|binding:class|class=status-switch|text:",
+          "path": "root.0"
+        },
+        {
+          "actual": "button|event:click|type=button|text:@binding",
+          "expected": "button|binding:aria-pressed|event:click|type=button|text:@binding",
+          "path": "root.0.1"
+        }
+      ],
+      "message": "SSM/target template projection differs."
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:unknown_bound_attribute"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "section|aria-pressed=false|class=status-switch",
+          "expected": "section|class=status-switch",
+          "path": "root.0"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|aria-pressed=false|type=button",
+          "path": "root.0.1"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 1,
+        "target_count": 1,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "section|aria-pressed=false|class=status-switch",
+          "expected": "section|class=status-switch",
+          "path": "root.0"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|aria-pressed=false|type=button",
+          "path": "root.0.1"
+        }
+      ],
+      "representation_differences": []
+    }
+  ],
+  "different_pixel_ratio": 0,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:unknown_bound_attribute"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "section|aria-pressed=false|class=status-switch",
+      "expected": "section|class=status-switch",
+      "path": "root.0"
+    },
+    {
+      "actual": "button|type=button",
+      "expected": "button|aria-pressed=false|type=button",
+      "path": "root.0.1"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.7777777777777778,
+    "source_nodes": 9,
+    "target_nodes": 9
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/5ebafeac156b4b9f86a770d8a4779b24/evaluations/3/heatmap.png",
+      "sha256": "b12946984c929e4db44b80e4141ddcb9ee22623388b9bb19db78f7af7d4b2870"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/5ebafeac156b4b9f86a770d8a4779b24/evaluations/3/san.png",
+      "sha256": "30526f9a0730b6870dd20440cd70717b007cba51680d304adf35aaa108a18619"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/5ebafeac156b4b9f86a770d8a4779b24/evaluations/3/vue.png",
+      "sha256": "30526f9a0730b6870dd20440cd70717b007cba51680d304adf35aaa108a18619"
+    }
+  },
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 1,
+    "target_count": 1,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "section|aria-pressed=false|class=status-switch",
+      "expected": "section|class=status-switch",
+      "path": "root.0"
+    },
+    {
+      "actual": "button|type=button",
+      "expected": "button|aria-pressed=false|type=button",
+      "path": "root.0.1"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.7777777777777778,
+    "source_nodes": 9,
+    "target_nodes": 9
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "0073e82074e7a11fdacc1c1d175a22f97051685e8e5860cad502eb516f24b855",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.7777777777777778,
+    "source_nodes": 9,
+    "target_nodes": 9
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "legacy_wrapper": false,
+      "name": "toggle",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": false
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 1,
+  "structure_differences": [
+    {
+      "actual": "section|binding:aria-pressed|binding:class|class=status-switch|text:",
+      "expected": "section|binding:class|class=status-switch|text:",
+      "path": "root.0"
+    },
+    {
+      "actual": "button|event:click|type=button|text:@binding",
+      "expected": "button|binding:aria-pressed|event:click|type=button|text:@binding",
+      "path": "root.0.1"
+    }
+  ],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.6666666666666667,
+    "source_nodes": 6,
+    "target_nodes": 6
+  },
+  "styles": {
+    "compared_properties": 78,
+    "differences": [],
+    "matching": "child_index_path",
+    "similarity": 1.0,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 855.2899000000002,
+    "target": 752.1037000000001
+  },
+  "ui_restoration": 100
+}

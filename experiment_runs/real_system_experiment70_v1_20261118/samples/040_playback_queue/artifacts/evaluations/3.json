@@ -1,0 +1,2213 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "25702120dba48767d5701f2c285dc5a37d87794bd922234c94700b687b052e3b",
+        "parent_shape": "7b665ef9e0a86d899bacd99f0795844e5dfe4f5bf1c1211666453812f3ad02a7",
+        "path": "root.0.0.1"
+      },
+      {
+        "identity": "d9d70d0144a394df83d1ad9b353aae330b6918ef4a87145ac4f863f4c4ebb817",
+        "parent_shape": "a2c99774f6a4975966848acde9c251aa7f4a90a988b11bd6aabbb12a2d5bec06",
+        "path": "root.0.1.0.0"
+      },
+      {
+        "identity": "deb0fbdb465794907b6264a692327fb0b9712e91f15521f6c15c3efc97b14af9",
+        "parent_shape": "a2c99774f6a4975966848acde9c251aa7f4a90a988b11bd6aabbb12a2d5bec06",
+        "path": "root.0.1.0.2"
+      },
+      {
+        "identity": "47ffe6762a3e464442eae31754ac2184eb49929a62f549f163b71c5ade6e0d39",
+        "parent_shape": "a2c99774f6a4975966848acde9c251aa7f4a90a988b11bd6aabbb12a2d5bec06",
+        "path": "root.0.1.0.3"
+      },
+      {
+        "identity": "475ac7cc32b8bdf094f21e1d78506209de083d37f7b0d29888d8ea74f6169b20",
+        "parent_shape": "b1f91ea446461c12154ea6e6449862d3c8b57cbe4601f5414d778c9f7b7165d3",
+        "path": "root.0.1.1.0"
+      },
+      {
+        "identity": "daf42418699c7ef156dcaabed48c34cb50c16e1c2f30e8211ceceedbee2e9737",
+        "parent_shape": "b1f91ea446461c12154ea6e6449862d3c8b57cbe4601f5414d778c9f7b7165d3",
+        "path": "root.0.1.1.2"
+      },
+      {
+        "identity": "47ffe6762a3e464442eae31754ac2184eb49929a62f549f163b71c5ade6e0d39",
+        "parent_shape": "b1f91ea446461c12154ea6e6449862d3c8b57cbe4601f5414d778c9f7b7165d3",
+        "path": "root.0.1.1.3"
+      },
+      {
+        "identity": "77b91c1317339df246e1d4ef241f57e3086afa247418b7766e8371603766c2c6",
+        "parent_shape": "b1f91ea446461c12154ea6e6449862d3c8b57cbe4601f5414d778c9f7b7165d3",
+        "path": "root.0.1.2.0"
+      },
+      {
+        "identity": "daf42418699c7ef156dcaabed48c34cb50c16e1c2f30e8211ceceedbee2e9737",
+        "parent_shape": "b1f91ea446461c12154ea6e6449862d3c8b57cbe4601f5414d778c9f7b7165d3",
+        "path": "root.0.1.2.2"
+      },
+      {
+        "identity": "47ffe6762a3e464442eae31754ac2184eb49929a62f549f163b71c5ade6e0d39",
+        "parent_shape": "b1f91ea446461c12154ea6e6449862d3c8b57cbe4601f5414d778c9f7b7165d3",
+        "path": "root.0.1.2.3"
+      }
+    ],
+    "source_snapshot": "19a113ce4ee97e9eb09939968dd9f1508b1741fddc800a36872959548cd646de",
+    "target": [
+      {
+        "identity": "3e80b474aa770aa6fb9dcc00aa1d677768504e737f7f4923df607cc0c127c6f1",
+        "parent_shape": "c216f54cf8c908b0d07885b25575ba0209e953a2062356d4c45df769cd380db3",
+        "path": "root.0.0.1"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "source_dynamic_assignment_unproven",
+      "details": {
+        "arbitrary_key_semantics_proven": false,
+        "caller_mappings": [
+          {
+            "caller": "inited",
+            "status": "unproven"
+          },
+          {
+            "caller": "play",
+            "status": "unproven"
+          },
+          {
+            "caller": "moveUp",
+            "status": "unproven"
+          },
+          {
+            "caller": "remove",
+            "status": "unproven"
+          },
+          {
+            "caller": "toggleLoop",
+            "status": "complete_caller_with_inlined_write"
+          }
+        ],
+        "calls": {
+          "source": [
+            {
+              "caller": "inited",
+              "key": "queue",
+              "line": 39
+            },
+            {
+              "caller": "play",
+              "key": "currentId",
+              "line": 45
+            },
+            {
+              "caller": "moveUp",
+              "key": "queue",
+              "line": 48
+            },
+            {
+              "caller": "remove",
+              "key": "queue",
+              "line": 51
+            },
+            {
+              "caller": "remove",
+              "key": "currentId",
+              "line": 51
+            },
+            {
+              "caller": "toggleLoop",
+              "key": "loop",
+              "line": 54
+            }
+          ],
+          "target": [
+            {
+              "caller": "inited",
+              "form": "inlined_data_set",
+              "key": "queue",
+              "line": 1
+            },
+            {
+              "caller": "play",
+              "form": "inlined_data_set",
+              "key": "currentId",
+              "line": 1
+            },
+            {
+              "caller": "moveUp",
+              "form": "inlined_data_set",
+              "key": "queue",
+              "line": 1
+            },
+            {
+              "caller": "remove",
+              "form": "inlined_data_set",
+              "key": "queue",
+              "line": 1
+            },
+            {
+              "caller": "remove",
+              "form": "inlined_data_set",
+              "key": "currentId",
+              "line": 1
+            },
+            {
+              "caller": "toggleLoop",
+              "form": "inlined_data_set",
+              "key": "loop",
+              "line": 1
+            }
+          ]
+        },
+        "contract": "source_internal_declared_state_assignment_v1",
+        "limitations": [
+          "not_arbitrary_external_public_key_equivalence",
+          "surrounding_call_timing_values_and_other_methods_checked_separately"
+        ],
+        "refusals": [
+          "caller_body_not_source_matched:inited",
+          "caller_body_not_source_matched:moveUp",
+          "caller_body_not_source_matched:play",
+          "caller_body_not_source_matched:remove"
+        ],
+        "source_keys": [
+          "queue",
+          "currentId",
+          "loop"
+        ],
+        "status": "unproven"
+      },
+      "location": "script.methods.setValue",
+      "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited, caller_body_not_source_matched:moveUp, caller_body_not_source_matched:play, caller_body_not_source_matched:remove. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "missing_prop_defaults",
+      "details": {
+        "affected_fields": [
+          "tracks"
+        ],
+        "contract": "prop_defaults_v1"
+      },
+      "location": "script",
+      "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1atracks\u3002",
+      "severity": "error",
+      "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dynamic_member",
+          "source:unknown_member_call",
+          "target:unknown_member_call"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "li|class=",
+          "path": "root.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "li|class=",
+          "path": "root.0.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "li|class=",
+          "path": "root.0.1.2"
+        },
+        {
+          "actual": "#text:\u603b\u65f6\u957f 0:00",
+          "expected": "#text:\u603b\u65f6\u957f 9:56",
+          "path": "root.0.2.0"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.0.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.0.2",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.0.3",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.1.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.1.2",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.1.3",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.2.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.2.2",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.2.3",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          }
+        ],
+        "equal": false,
+        "paths_equal": false,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 10,
+        "target_count": 1,
+        "values_equal_in_order": false
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "li|class=",
+          "path": "root.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "li|class=",
+          "path": "root.0.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "li|class=",
+          "path": "root.0.1.2"
+        },
+        {
+          "actual": "#text:\u603b\u65f6\u957f 0:00",
+          "expected": "#text:\u603b\u65f6\u957f 9:56",
+          "path": "root.0.2.0"
+        }
+      ],
+      "representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.0.1",
+          "source": "",
+          "target": null
+        }
+      ]
+    },
+    {
+      "code": "rendered_control_state_mismatch",
+      "differences": [
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.0.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.0.2",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.0.3",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.1.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.1.2",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.1.3",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.2.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.2.2",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.2.3",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        }
+      ],
+      "message": "Initial live control values/types/counts differ even if screenshots or HTML attributes match."
+    }
+  ],
+  "different_pixel_ratio": 0.008513020833333333,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dynamic_member",
+      "source:unknown_member_call",
+      "target:unknown_member_call"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.0.1"
+    },
+    {
+      "actual": null,
+      "expected": "li|class=",
+      "path": "root.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "li|class=",
+      "path": "root.0.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "li|class=",
+      "path": "root.0.1.2"
+    },
+    {
+      "actual": "#text:\u603b\u65f6\u957f 0:00",
+      "expected": "#text:\u603b\u65f6\u957f 9:56",
+      "path": "root.0.2.0"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.0.1",
+      "source": "",
+      "target": null
+    }
+  ],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 29,
+    "similarity": 0.275,
+    "source_nodes": 40,
+    "target_nodes": 13
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/09b6f62dd0af4c5a913619d1bfa5aee6/evaluations/3/heatmap.png",
+      "sha256": "4790e470069b06f583493c11c8fa2cb413d3585d18fecc7dad961822de614edd"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/09b6f62dd0af4c5a913619d1bfa5aee6/evaluations/3/san.png",
+      "sha256": "c8df13b6c9bc1b314430372a616bfb64341b571948245444cdf2a11550c9434d"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/09b6f62dd0af4c5a913619d1bfa5aee6/evaluations/3/vue.png",
+      "sha256": "b55b75d6a9eaab4fb8bf65ecc17bffe4b13b701b457c9225e2f3350da511f458"
+    }
+  },
+  "initial_control_state": {
+    "differences": [
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.0.0",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.0.2",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.0.3",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.1.0",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.1.2",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.1.3",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.2.0",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.2.2",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.2.3",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      }
+    ],
+    "equal": false,
+    "paths_equal": false,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 10,
+    "target_count": 1,
+    "values_equal_in_order": false
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "button|",
+      "expected": "button|class=",
+      "path": "root.0.0.1"
+    },
+    {
+      "actual": null,
+      "expected": "li|class=",
+      "path": "root.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "li|class=",
+      "path": "root.0.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "li|class=",
+      "path": "root.0.1.2"
+    },
+    {
+      "actual": "#text:\u603b\u65f6\u957f 0:00",
+      "expected": "#text:\u603b\u65f6\u957f 9:56",
+      "path": "root.0.2.0"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 29,
+    "similarity": 0.275,
+    "source_nodes": 40,
+    "target_nodes": 13
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "b5be8f9a8c7d2dc3ea40517436b97bc96f9e3c5dcf158f24a8f152aebdf19177",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.9545454545454546,
+    "source_nodes": 22,
+    "target_nodes": 22
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "unproven"
+            },
+            {
+              "caller": "play",
+              "status": "unproven"
+            },
+            {
+              "caller": "moveUp",
+              "status": "unproven"
+            },
+            {
+              "caller": "remove",
+              "status": "unproven"
+            },
+            {
+              "caller": "toggleLoop",
+              "status": "complete_caller_with_inlined_write"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "queue",
+                "line": 39
+              },
+              {
+                "caller": "play",
+                "key": "currentId",
+                "line": 45
+              },
+              {
+                "caller": "moveUp",
+                "key": "queue",
+                "line": 48
+              },
+              {
+                "caller": "remove",
+                "key": "queue",
+                "line": 51
+              },
+              {
+                "caller": "remove",
+                "key": "currentId",
+                "line": 51
+              },
+              {
+                "caller": "toggleLoop",
+                "key": "loop",
+                "line": 54
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "queue",
+                "line": 1
+              },
+              {
+                "caller": "play",
+                "form": "inlined_data_set",
+                "key": "currentId",
+                "line": 1
+              },
+              {
+                "caller": "moveUp",
+                "form": "inlined_data_set",
+                "key": "queue",
+                "line": 1
+              },
+              {
+                "caller": "remove",
+                "form": "inlined_data_set",
+                "key": "queue",
+                "line": 1
+              },
+              {
+                "caller": "remove",
+                "form": "inlined_data_set",
+                "key": "currentId",
+                "line": 1
+              },
+              {
+                "caller": "toggleLoop",
+                "form": "inlined_data_set",
+                "key": "loop",
+                "line": 1
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:inited",
+            "caller_body_not_source_matched:moveUp",
+            "caller_body_not_source_matched:play",
+            "caller_body_not_source_matched:remove"
+          ],
+          "source_keys": [
+            "queue",
+            "currentId",
+            "loop"
+          ],
+          "status": "unproven"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "callable_unproven",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 6,
+        "uncertain": true
+      },
+      "status": "callable_semantics_unproven",
+      "target_references": {
+        "count": 0,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 3,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 0,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "play",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": true
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "moveUp",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "remove",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "toggleLoop",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "formatTime",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 2,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 2,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 0.9585423500552926,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 14,
+    "target_nodes": 14
+  },
+  "styles": {
+    "compared_properties": 312,
+    "differences": [
+      {
+        "path": "root",
+        "property": "height",
+        "source": "324px",
+        "target": "155px"
+      },
+      {
+        "path": "root.0",
+        "property": "height",
+        "source": "324px",
+        "target": "155px"
+      },
+      {
+        "path": "root.0.1",
+        "property": "height",
+        "source": "153px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "paddingTop",
+        "source": "8px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "paddingLeft",
+        "source": "8px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "width",
+        "source": "694px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "height",
+        "source": "51px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "display",
+        "source": "grid",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "width",
+        "source": "513.328px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "width",
+        "source": "55px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "width",
+        "source": "38px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "width",
+        "source": "50.6719px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "paddingTop",
+        "source": "8px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "paddingLeft",
+        "source": "8px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "width",
+        "source": "694px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "height",
+        "source": "51px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "display",
+        "source": "grid",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "width",
+        "source": "513.328px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "width",
+        "source": "55px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "width",
+        "source": "38px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "width",
+        "source": "50.6719px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "paddingTop",
+        "source": "8px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "paddingLeft",
+        "source": "8px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "width",
+        "source": "694px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "height",
+        "source": "51px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "display",
+        "source": "grid",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "width",
+        "source": "513.328px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "width",
+        "source": "55px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "width",
+        "source": "38px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "width",
+        "source": "50.6719px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.2.3",
+        "property": "position",
+        "source": "static",
+        "target": null
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.36538461538461536,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 1515.4086,
+    "target": 1221.6589
+  },
+  "ui_restoration": 84.97941918545693
+}

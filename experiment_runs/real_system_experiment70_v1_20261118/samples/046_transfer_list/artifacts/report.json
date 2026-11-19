@@ -1,0 +1,4208 @@
+{
+  "actual_cloud_model_calls": 3,
+  "assessment": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "30f517df6b98c0d3412a78ff69d680e6d579a1a74c68a103087353d2ba612939",
+          "parent_shape": "1dcff9ccf090667daea0355fcb014e6b90f8e4718f546a6ca4bba1efe5fc95ad",
+          "path": "root.0.1"
+        },
+        {
+          "identity": "47e2fff2b4fe36d0ffe32820e382babace7053edf9a17fa275fc1d2d5ee0b96e",
+          "parent_shape": "7364595c0cdb4726e4aedfd8458c6368e5c4ff744872147854486b32ff99e3d4",
+          "path": "root.0.2.0.1"
+        },
+        {
+          "identity": "28a5a67df1c58e1896db5204b162e20f24460614d12661edac60bc52ac5013d5",
+          "parent_shape": "7364595c0cdb4726e4aedfd8458c6368e5c4ff744872147854486b32ff99e3d4",
+          "path": "root.0.2.0.2"
+        },
+        {
+          "identity": "d07acf1025b6930cdf84f0c8bd43b2cdcd1d1465176032d869d3b2939f54192b",
+          "parent_shape": "7364595c0cdb4726e4aedfd8458c6368e5c4ff744872147854486b32ff99e3d4",
+          "path": "root.0.2.0.3"
+        },
+        {
+          "identity": "9213411c95b730437f4602185e3c6c85780e436ab8036b0abe8e1093e9ab48fc",
+          "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+          "path": "root.0.2.1.0"
+        },
+        {
+          "identity": "a44b2684b1196f50a7c820a5109d0e4fcd95f77ecd7eb475922f075b2ba12e05",
+          "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+          "path": "root.0.2.1.1"
+        },
+        {
+          "identity": "851d1ca7b4e9438db499ecdf7ffcc6a7ab9d3e8b1d82ecb982d18e36c67f13c1",
+          "parent_shape": "401fb3da6886c53439a32f3967025f4a013d3997d7a4f227a3b54b5ba497a753",
+          "path": "root.0.2.2.1"
+        }
+      ],
+      "source_snapshot": "accc8a44a85465f45bfed6c6e598076ae41709ca9074ad21892417be4af32837",
+      "target": [
+        {
+          "identity": "dcae99200a40f67ee3be1ebff5b3b73809f0aa801396533a4844cab5f1d008e3",
+          "parent_shape": "1d08d3eb660d9e39d9b17eebeb6f409cec61374e03862021be743ed805bc4e03",
+          "path": "root.0.1"
+        },
+        {
+          "identity": "32a714cba774491ba406d88028a4d31682a42e7dab90907d7b53775caff922fa",
+          "parent_shape": "feb5ccbc7b16bdb296037f1efb48d38da2872bf594515937d34bb1daba1eb9e5",
+          "path": "root.0.2.0.1"
+        },
+        {
+          "identity": "b0f9a47c8ca603697728dc2a2b135a3af463b770e8304099b6655ac057419603",
+          "parent_shape": "feb5ccbc7b16bdb296037f1efb48d38da2872bf594515937d34bb1daba1eb9e5",
+          "path": "root.0.2.0.2"
+        },
+        {
+          "identity": "1166aa614e594c01f04ebd23acf6cc4559514495c4cd451d0cd6e1504c62de25",
+          "parent_shape": "feb5ccbc7b16bdb296037f1efb48d38da2872bf594515937d34bb1daba1eb9e5",
+          "path": "root.0.2.0.3"
+        },
+        {
+          "identity": "9213411c95b730437f4602185e3c6c85780e436ab8036b0abe8e1093e9ab48fc",
+          "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+          "path": "root.0.2.1.0"
+        },
+        {
+          "identity": "a44b2684b1196f50a7c820a5109d0e4fcd95f77ecd7eb475922f075b2ba12e05",
+          "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+          "path": "root.0.2.1.1"
+        },
+        {
+          "identity": "f0c993d3f316da079fedea0eb7146b290f3529e3d5253d139c6e760888ee4aed",
+          "parent_shape": "65b3ee0ec7148bafd339bf8c57f8d37b8443e9784f3dccad8f545f05f59275db",
+          "path": "root.0.2.2.1"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "source_dynamic_assignment_unproven",
+        "details": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "unproven"
+            },
+            {
+              "caller": "updateQuery",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "selectLeft",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "selectRight",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "moveRight",
+              "status": "unproven"
+            },
+            {
+              "caller": "moveLeft",
+              "status": "unproven"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "available",
+                "line": 41
+              },
+              {
+                "caller": "inited",
+                "key": "chosen",
+                "line": 41
+              },
+              {
+                "caller": "updateQuery",
+                "key": "query",
+                "line": 47
+              },
+              {
+                "caller": "selectLeft",
+                "key": "leftId",
+                "line": 50
+              },
+              {
+                "caller": "selectRight",
+                "key": "rightId",
+                "line": 53
+              },
+              {
+                "caller": "moveRight",
+                "key": "available",
+                "line": 56
+              },
+              {
+                "caller": "moveRight",
+                "key": "chosen",
+                "line": 56
+              },
+              {
+                "caller": "moveRight",
+                "key": "leftId",
+                "line": 56
+              },
+              {
+                "caller": "moveLeft",
+                "key": "chosen",
+                "line": 59
+              },
+              {
+                "caller": "moveLeft",
+                "key": "available",
+                "line": 59
+              },
+              {
+                "caller": "moveLeft",
+                "key": "rightId",
+                "line": 59
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "available",
+                "line": 16
+              },
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "chosen",
+                "line": 16
+              },
+              {
+                "caller": "updateQuery",
+                "form": "inlined_data_set",
+                "key": "query",
+                "line": 16
+              },
+              {
+                "caller": "selectLeft",
+                "form": "inlined_data_set",
+                "key": "leftId",
+                "line": 16
+              },
+              {
+                "caller": "selectRight",
+                "form": "inlined_data_set",
+                "key": "rightId",
+                "line": 16
+              },
+              {
+                "caller": "moveRight",
+                "form": "inlined_data_set",
+                "key": "available",
+                "line": 16
+              },
+              {
+                "caller": "moveRight",
+                "form": "inlined_data_set",
+                "key": "chosen",
+                "line": 16
+              },
+              {
+                "caller": "moveRight",
+                "form": "inlined_data_set",
+                "key": "leftId",
+                "line": 16
+              },
+              {
+                "caller": "moveLeft",
+                "form": "inlined_data_set",
+                "key": "chosen",
+                "line": 16
+              },
+              {
+                "caller": "moveLeft",
+                "form": "inlined_data_set",
+                "key": "available",
+                "line": 16
+              },
+              {
+                "caller": "moveLeft",
+                "form": "inlined_data_set",
+                "key": "rightId",
+                "line": 16
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:inited",
+            "caller_body_not_source_matched:moveLeft",
+            "caller_body_not_source_matched:moveRight"
+          ],
+          "source_keys": [
+            "available",
+            "chosen",
+            "query",
+            "leftId",
+            "rightId"
+          ],
+          "status": "unproven"
+        },
+        "location": "script.methods.setValue",
+        "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited, caller_body_not_source_matched:moveLeft, caller_body_not_source_matched:moveRight. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+        "severity": "error",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "target:dom_or_reflective_member"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+            "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+            "path": "root.0.1"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.2.0.1"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.2.0.2"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.2.0.3"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.2.2.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 7,
+          "target_count": 7,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+            "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+            "path": "root.0.1"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.2.0.1"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.2.0.2"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.2.0.3"
+          },
+          {
+            "actual": "button|",
+            "expected": "button|class=",
+            "path": "root.0.2.2.1"
+          }
+        ],
+        "representation_differences": [
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.2.0.1",
+            "source": "",
+            "target": null
+          },
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.2.0.2",
+            "source": "",
+            "target": null
+          },
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.2.0.3",
+            "source": "",
+            "target": null
+          },
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.2.2.1",
+            "source": "",
+            "target": null
+          }
+        ]
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "target:dom_or_reflective_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+        "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+        "path": "root.0.1"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.2.0.1"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.2.0.2"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.2.0.3"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.2.2.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.2.0.1",
+        "source": "",
+        "target": null
+      },
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.2.0.2",
+        "source": "",
+        "target": null
+      },
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.2.0.3",
+        "source": "",
+        "target": null
+      },
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.2.2.1",
+        "source": "",
+        "target": null
+      }
+    ],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 5,
+      "similarity": 0.8,
+      "source_nodes": 25,
+      "target_nodes": 25
+    },
+    "embedding_similarity": {
+      "similarity": null,
+      "status": "not_configured"
+    },
+    "functional_equivalence": "not_proven",
+    "images": {
+      "heatmap": {
+        "kind": "screenshot",
+        "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/heatmap.png",
+        "sha256": "e577cc16de2ec0e62e8cad85839b78c2ce4aba4a03100c95db703863ebd1c590"
+      },
+      "san": {
+        "kind": "screenshot",
+        "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/san.png",
+        "sha256": "d536b52cf87f60543ebfd876478e1be1a53f3b5666e25f79a696855a1baff632"
+      },
+      "vue": {
+        "kind": "screenshot",
+        "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/vue.png",
+        "sha256": "d536b52cf87f60543ebfd876478e1be1a53f3b5666e25f79a696855a1baff632"
+      }
+    },
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 7,
+      "target_count": 7,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+        "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+        "path": "root.0.1"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.2.0.1"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.2.0.2"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.2.0.3"
+      },
+      {
+        "actual": "button|",
+        "expected": "button|class=",
+        "path": "root.0.2.2.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 5,
+      "similarity": 0.8,
+      "source_nodes": 25,
+      "target_nodes": 25
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "d231f36248770900fa75927d4c1a844b7c427affeddf05f45cb00090dd5150b4",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.9047619047619048,
+      "source_nodes": 21,
+      "target_nodes": 21
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "unproven"
+              },
+              {
+                "caller": "updateQuery",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "selectLeft",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "selectRight",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "moveRight",
+                "status": "unproven"
+              },
+              {
+                "caller": "moveLeft",
+                "status": "unproven"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "available",
+                  "line": 41
+                },
+                {
+                  "caller": "inited",
+                  "key": "chosen",
+                  "line": 41
+                },
+                {
+                  "caller": "updateQuery",
+                  "key": "query",
+                  "line": 47
+                },
+                {
+                  "caller": "selectLeft",
+                  "key": "leftId",
+                  "line": 50
+                },
+                {
+                  "caller": "selectRight",
+                  "key": "rightId",
+                  "line": 53
+                },
+                {
+                  "caller": "moveRight",
+                  "key": "available",
+                  "line": 56
+                },
+                {
+                  "caller": "moveRight",
+                  "key": "chosen",
+                  "line": 56
+                },
+                {
+                  "caller": "moveRight",
+                  "key": "leftId",
+                  "line": 56
+                },
+                {
+                  "caller": "moveLeft",
+                  "key": "chosen",
+                  "line": 59
+                },
+                {
+                  "caller": "moveLeft",
+                  "key": "available",
+                  "line": 59
+                },
+                {
+                  "caller": "moveLeft",
+                  "key": "rightId",
+                  "line": 59
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "available",
+                  "line": 16
+                },
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "chosen",
+                  "line": 16
+                },
+                {
+                  "caller": "updateQuery",
+                  "form": "inlined_data_set",
+                  "key": "query",
+                  "line": 16
+                },
+                {
+                  "caller": "selectLeft",
+                  "form": "inlined_data_set",
+                  "key": "leftId",
+                  "line": 16
+                },
+                {
+                  "caller": "selectRight",
+                  "form": "inlined_data_set",
+                  "key": "rightId",
+                  "line": 16
+                },
+                {
+                  "caller": "moveRight",
+                  "form": "inlined_data_set",
+                  "key": "available",
+                  "line": 16
+                },
+                {
+                  "caller": "moveRight",
+                  "form": "inlined_data_set",
+                  "key": "chosen",
+                  "line": 16
+                },
+                {
+                  "caller": "moveRight",
+                  "form": "inlined_data_set",
+                  "key": "leftId",
+                  "line": 16
+                },
+                {
+                  "caller": "moveLeft",
+                  "form": "inlined_data_set",
+                  "key": "chosen",
+                  "line": 16
+                },
+                {
+                  "caller": "moveLeft",
+                  "form": "inlined_data_set",
+                  "key": "available",
+                  "line": 16
+                },
+                {
+                  "caller": "moveLeft",
+                  "form": "inlined_data_set",
+                  "key": "rightId",
+                  "line": 16
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [
+              "caller_body_not_source_matched:inited",
+              "caller_body_not_source_matched:moveLeft",
+              "caller_body_not_source_matched:moveRight"
+            ],
+            "source_keys": [
+              "available",
+              "chosen",
+              "query",
+              "leftId",
+              "rightId"
+            ],
+            "status": "unproven"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "callable_unproven",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 11,
+          "uncertain": true
+        },
+        "status": "callable_semantics_unproven",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateQuery",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "selectLeft",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "selectRight",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "moveRight",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "moveLeft",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "notify",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 14,
+      "target_nodes": 14
+    },
+    "styles": {
+      "compared_properties": 208,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 861.6807000000001,
+      "target": 772.3373000000001
+    },
+    "ui_restoration": 100
+  },
+  "binding": {
+    "legacy": "20ccf386e92616bfa8214fd7147bd24271c86012efbef7768c52bd602d955d0a",
+    "protocol": "modular-migration-v1",
+    "ssm": "7eb6a96d7b6ccfa8e6cb6de59ea002b7cf3a4fb80a3b5ceb27c178b1a8e8c756",
+    "system": "86e94bb9457c6020df97f6b77af0ca4daff6b83b21b48c971d9f758395ee1d43"
+  },
+  "calls": [
+    {
+      "ordinal": 0,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "f6d3937c565e8e3a53e5f0ec747a0c8c1cdb59a9f79bdbb0d8d87b5af4e31da9",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/0/response.json",
+          "sha256": "8341ed29b0834ad0ff09ef38de100c9be9e94992ff268ee51152df6f569d23da"
+        },
+        "usage": {
+          "completion_tokens": 1135,
+          "prompt_tokens": 21091,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 22226
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 2,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "c470b61f1b958e94d9d23bccffe79095f33fe809b6a14509b30f1380037d04a5",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/2/response.json",
+          "sha256": "de75b11c015b09585edcaad0a572187370646c5ef62467433a8aff30e28b8a6a"
+        },
+        "usage": {
+          "completion_tokens": 1159,
+          "prompt_tokens": 14230,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 15389
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 3,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "51258f8d0ab1ac471cf0e0d389bf3a9be8d3cdac6809b1092344d13529e93d43",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/3/response.json",
+          "sha256": "9060250ccf43b7d5c4c9fcf1775eef190c2af07227035cf3eb8b76fe571ebedb"
+        },
+        "usage": {
+          "completion_tokens": 1170,
+          "prompt_tokens": 14464,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 15634
+        },
+        "valid": true
+      },
+      "status": "returned"
+    }
+  ],
+  "coverage": "configured_props_and_representative_actions_only",
+  "created_at": 1795014778.1295342,
+  "files": [
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/0/receipt.json",
+      "sha256": "8b4f140b9b16a61c9e44869179e888e7e012d0e90edba993e5943c91b031422b"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/0/request.json",
+      "sha256": "d1a1a473654e582069294051c5135c5f9949b359e33982470f91be89e3ab89c9"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/0/response.json",
+      "sha256": "8341ed29b0834ad0ff09ef38de100c9be9e94992ff268ee51152df6f569d23da"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/2/receipt.json",
+      "sha256": "da346da94917a17405ca0f60d4f612de94ee7596a807fb31dd637866f2b403ac"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/2/repair-context.json",
+      "sha256": "578811e67909e1745f8b21bef361dd06e3475f531f509b9265197134a43babf6"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/2/request.json",
+      "sha256": "4b4978f3909d58ab0113dcd89e4d617296c9ae7ff334725c073f4b3ad5d1f4d4"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/2/response.json",
+      "sha256": "de75b11c015b09585edcaad0a572187370646c5ef62467433a8aff30e28b8a6a"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/3/receipt.json",
+      "sha256": "516f76f109a4d921a7e21da6f28a14f6df049f4bde39766250abcf1bf42fd1c6"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/3/repair-context.json",
+      "sha256": "448485673c851da8ae8dcdf6990743b3c8ed527284a31c6195bf25179bc63c0e"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/3/request.json",
+      "sha256": "9d015332dec20ff311c56d04d3811a0ad509854be425e28ec855efe64179bf1e"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/calls/3/response.json",
+      "sha256": "9060250ccf43b7d5c4c9fcf1775eef190c2af07227035cf3eb8b76fe571ebedb"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/decisions/1.json",
+      "sha256": "9d5aed0ae878cc5d4e1577a500ecdbeb4c93b8ef3501c5ac2d4364f82f5f7e03"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/decisions/2.json",
+      "sha256": "4ad19b4196e40a29b0e88ecc033c9308d51a93238e6a4fb5bcbb3f78508fd07f"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/decisions/3.json",
+      "sha256": "fc09f406db263b751b40cff8ca0edda2e89b13d0389c986e8cc0e2092ae78ae1"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/0.json",
+      "sha256": "cc9adaf3f1c1909bfb6e4dce0439de7621536047e884aa4dd889a66a5ccc384b"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/0/heatmap.png",
+      "sha256": "c4de230c922abde6a2714be43a689c99007f2834043b35ff4d6cd6c243bd1958"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/0/raw.json",
+      "sha256": "1496beee05fbe8e5813ed7749655a46270a41a47bda38dbcee35b886ccca572a"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/0/san.png",
+      "sha256": "c092bf6dbb0b2238d1ab31bdd0ca10667d2a43c66e519851eb0f6bcc3b19c8a7"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/0/vue.png",
+      "sha256": "d536b52cf87f60543ebfd876478e1be1a53f3b5666e25f79a696855a1baff632"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1.json",
+      "sha256": "edcce50e16fc279e465516cebc74eb01ad326994b61a184c9d10efeb924a44fa"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/heatmap.png",
+      "sha256": "e577cc16de2ec0e62e8cad85839b78c2ce4aba4a03100c95db703863ebd1c590"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/raw.json",
+      "sha256": "44d4b36bc47a6647a4f90ec43a2a099059ba031439c32416593aa8388589037d"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/san.png",
+      "sha256": "d536b52cf87f60543ebfd876478e1be1a53f3b5666e25f79a696855a1baff632"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/vue.png",
+      "sha256": "d536b52cf87f60543ebfd876478e1be1a53f3b5666e25f79a696855a1baff632"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/2.json",
+      "sha256": "a20cc12eba852341b8b208694f2f592d44d1cbeb6251cfa5eeafa7fda095c140"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/3.json",
+      "sha256": "61b2c8d7d6b1bf38c4883d046c7e0e26eb7cd92fcdac9d6ea20687fc735cb3e4"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/3/heatmap.png",
+      "sha256": "c4de230c922abde6a2714be43a689c99007f2834043b35ff4d6cd6c243bd1958"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/3/raw.json",
+      "sha256": "9359922aea971eb6925987540489c59005b95f2e04ecc139fb9f4a68aac88002"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/3/san.png",
+      "sha256": "c092bf6dbb0b2238d1ab31bdd0ca10667d2a43c66e519851eb0f6bcc3b19c8a7"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/3/vue.png",
+      "sha256": "d536b52cf87f60543ebfd876478e1be1a53f3b5666e25f79a696855a1baff632"
+    },
+    {
+      "kind": "prompt_selection",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/prompt-selection.json",
+      "sha256": "e3e6fad3d662366ce060242fc589fdc6e3a8dbf158a8ae81554d6f82c2ce05f0"
+    },
+    {
+      "kind": "request",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/request.json",
+      "sha256": "21e78ea1cc91ebaaeef575de9f612bbc898575dcfd3d932dad280a386fcbea81"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/revisions/0.json",
+      "sha256": "0d4de9b55ae6e6b5b72b4d1764b1c5b5cda1b9cb7d50aa5049221b762985a79d"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/revisions/0.san",
+      "sha256": "ac2ccc45a73dfa903a02aadde9e0db7dcec33f0dd4c44daf9d2cd0c1c6b62906"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/revisions/1.json",
+      "sha256": "4c21b8ac69ae698c47e09906f31e462d36e15eca16ba120e5bf8789ec7a6fc31"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/revisions/1.san",
+      "sha256": "d231f36248770900fa75927d4c1a844b7c427affeddf05f45cb00090dd5150b4"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/revisions/2.json",
+      "sha256": "ed6120dd7a65968731aa111ba83e6d4af4a5469f4d9a5c06c62fe589d8987bc9"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/revisions/2.san",
+      "sha256": "c4c8e55089c1c4b70140a860c8d660628e1cf53e90e555efffe1233f633f68a3"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/revisions/3.json",
+      "sha256": "8358a75cf44d5ef9202185d9d9c12938b5bbadbbf7cad61c6de8dc6512c23d11"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/revisions/3.san",
+      "sha256": "31d519d5aca4b039fdf652fc3bd5b821b0158f02657355c6c493aa0ceba2f79b"
+    },
+    {
+      "kind": "ssm",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/ssm.json",
+      "sha256": "ed6a02c4d0ea34765d36ebb1227a4ff6803c29b99a7534118d9319792147baf1"
+    },
+    {
+      "kind": "trace",
+      "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/trace.json",
+      "sha256": "40e209159f9f6da5dd92aa20e09f9d7ef43cc34b9b9cb7b0dff3cc22581acb36"
+    }
+  ],
+  "final_artifact": {
+    "kind": "san",
+    "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/revisions/1.san",
+    "sha256": "d231f36248770900fa75927d4c1a844b7c427affeddf05f45cb00090dd5150b4"
+  },
+  "generation_origin": "rule_repair",
+  "manual_feedback": [],
+  "migration_id": "03526bae62294b2cb2ccb82dc99d3351",
+  "model_calls_returned": 3,
+  "model_calls_started": 3,
+  "name": "real_system_experiment70_v1_20261118 / TransferList",
+  "production_ready": false,
+  "request": {
+    "actions": [],
+    "authorization": {
+      "billing_cap": "not_guaranteed",
+      "max_calls": 4,
+      "max_output_tokens_per_call": 8192,
+      "network_enabled": true,
+      "scope": "one_generation_and_bounded_repairs",
+      "usage_stop_tokens": 131072
+    },
+    "evidence_class": "development_or_disclosed_exploratory_not_independent_test",
+    "excluded_example_groups": [
+      "AccessMatrix",
+      "AnalyticsDashboard",
+      "AttendanceRoster",
+      "AudioSegmentMarker",
+      "BatchRenamer",
+      "BookmarkToggleCard",
+      "BreadcrumbNavigator",
+      "BudgetThreshold",
+      "CapacityPlanningBoard",
+      "ChoiceChips",
+      "ColorContrastBadge",
+      "CourseModuleAccordion",
+      "CrisisCommunicationHub",
+      "DataPaginationTable",
+      "DeliveryPhaseCard",
+      "DeliveryRouteTimeline",
+      "DocumentApprovalFlow",
+      "EnergyLoadScheduler",
+      "ExpenseTracker",
+      "ExperimentRolloutConsole",
+      "FileDropIndicator",
+      "FleetDispatchConsole",
+      "ForecastSimulator",
+      "FormRulePlayground",
+      "GradebookMatrix",
+      "HabitWeekTracker",
+      "ImageCropControls",
+      "IncidentResponseBoard",
+      "InlineRename",
+      "InventoryBatchManager",
+      "KanbanColumnBoard",
+      "LocalizationWorkspace",
+      "MediaReviewStudio",
+      "MeetingPollScheduler",
+      "MilestoneTimeline",
+      "MonitoringDashboard",
+      "NotificationCard",
+      "OtpCodeInput",
+      "PasswordStrengthMeter",
+      "PlaybackQueue",
+      "PollResults",
+      "PriceStepper",
+      "QuizNavigator",
+      "ReadingProgressCard",
+      "RuleBuilder",
+      "SchemaMappingWorkbench",
+      "SearchClearField",
+      "SeatBookingMap",
+      "SessionTimeoutNotice",
+      "ShippingEstimator",
+      "SortCycleButton",
+      "StarRatingInput",
+      "StatusSwitch",
+      "StockReservationBadge",
+      "SupportTicketConsole",
+      "SurveyBranchForm",
+      "TaskManager",
+      "TemperatureDial",
+      "TextLengthGauge",
+      "ThemePreviewToggle",
+      "TipSplitCalculator",
+      "TodoList",
+      "TopologyEditor",
+      "TransferList",
+      "TripItineraryPlanner",
+      "VolumeControl",
+      "WarehousePickingWave",
+      "WorkflowDiagramEditor",
+      "WorkoutPlanner",
+      "access_matrix",
+      "analytics_dashboard",
+      "attendance_roster",
+      "audio_segment_marker",
+      "batch_renamer",
+      "bookmark_toggle_card",
+      "breadcrumb_navigator",
+      "budget_threshold",
+      "capacity_planning_board",
+      "choice_chips",
+      "color_contrast_badge",
+      "course_module_accordion",
+      "crisis_communication_hub",
+      "data_pagination_table",
+      "delivery_phase_card",
+      "delivery_route_timeline",
+      "document_approval_flow",
+      "energy_load_scheduler",
+      "experiment_rollout_console",
+      "file_drop_indicator",
+      "fleet_dispatch_console",
+      "forecast_simulator",
+      "form_rule_playground",
+      "gradebook_matrix",
+      "habit_week_tracker",
+      "image_crop_controls",
+      "incident_response_board",
+      "inline_rename",
+      "inventory_batch_manager",
+      "kanban_column_board",
+      "localization_workspace",
+      "media_review_studio",
+      "meeting_poll_scheduler",
+      "milestone_timeline",
+      "otp_code_input",
+      "password_strength_meter",
+      "playback_queue",
+      "poll_results",
+      "price_stepper",
+      "quiz_navigator",
+      "reading_progress_card",
+      "rule_builder",
+      "schema_mapping_workbench",
+      "search_clear_field",
+      "seat_booking_map",
+      "session_timeout_notice",
+      "shipping_estimator",
+      "sort_cycle_button",
+      "star_rating_input",
+      "status_switch",
+      "step",
+      "step_card",
+      "stock_reservation_badge",
+      "support_ticket_console",
+      "survey_branch_form",
+      "temperature_dial",
+      "text_length_gauge",
+      "theme_preview_toggle",
+      "tip_split_calculator",
+      "topology_editor",
+      "transfer_list",
+      "trip_itinerary_planner",
+      "volume_control",
+      "warehouse_picking_wave",
+      "workflow_diagram_editor",
+      "workout_planner"
+    ],
+    "few_shot_examples": [
+      {
+        "group": "CounterCard",
+        "id": "builtin-counter",
+        "provenance": "synthetic_development_demonstration_not_dataset_test_answer",
+        "san": "<template><button class=\"card\" on-click=\"increment\">{{count}}</button></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"CounterCard\",dataTypes:{},initData(){return {count:0}},increment(){this.data.set(\"count\",this.data.get(\"count\")+1)}});</script><style>.card{color:rgb(20,40,60)}</style>",
+        "san_sha256": "ad21d808c4670d7650247cd5406fad51917928239ead6df87a1feca219238303",
+        "source_sha256": "6f83b604da4b7e8cc490e857d834ab4e70f082edb7d5f286414a4a4c2317d507",
+        "split": "train",
+        "ssm": {
+          "binding_graph": {
+            "data_fields_usage": [
+              {
+                "field_name": "count",
+                "initialized_from_external": null,
+                "initialized_from_props": false,
+                "read_in_computed": [],
+                "read_in_methods": [
+                  "increment"
+                ],
+                "read_in_template_nodes": [
+                  "template.root_button_0"
+                ],
+                "watched_by": [],
+                "written_in_methods": [
+                  "increment"
+                ]
+              }
+            ],
+            "edges": [
+              {
+                "edge_type": "binds_to",
+                "expression": "{{count}}",
+                "from": "template.root_button_0",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              },
+              {
+                "edge_type": "reads",
+                "expression": "count",
+                "from": "method.increment",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              }
+            ],
+            "nodes": [
+              {
+                "kind": "data",
+                "name": "count",
+                "node_id": "data.count",
+                "source_location": "script.data"
+              },
+              {
+                "kind": "method",
+                "name": "increment",
+                "node_id": "method.increment",
+                "source_location": "script.methods"
+              },
+              {
+                "kind": "template_node",
+                "name": "root_button_0",
+                "node_id": "template.root_button_0",
+                "source_location": "template.button"
+              }
+            ]
+          },
+          "event_model": {
+            "custom_events": [],
+            "dom_events": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_method_ref": "increment",
+                "handler_name": "increment",
+                "handler_signature_inferred": "increment()",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "is_native": true,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "reads": [
+                  "count"
+                ],
+                "san_event_syntax": "on-click=\"increment\"",
+                "side_effects": [],
+                "writes": [
+                  "count"
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "component_name": "CounterCard",
+            "sfc_blocks": {
+              "has_script": true,
+              "has_style": true,
+              "has_template": true,
+              "style_lang": "css",
+              "style_scoped": false
+            },
+            "source_file": "CounterCard.vue",
+            "source_framework": "Vue",
+            "target_framework": "San"
+          },
+          "migration_hints": {
+            "data_access_conversion_plan": {
+              "count": {
+                "init_plan": "initData \u4e2d\u58f0\u660e count\uff0c\u9ed8\u8ba4\u503c 0",
+                "read_plan": "this.data.get('count')",
+                "write_plan": "this.data.set('count', value)"
+              }
+            },
+            "detected_patterns": [
+              {
+                "affected_nodes": [],
+                "detected_by": "AST \u7279\u5f81\u81ea\u52a8\u68c0\u6d4b",
+                "pattern_id": "event_click",
+                "pattern_name": "event_click",
+                "risk_level": "low",
+                "san_strategy": "\u5b58\u5728 @click \u6216 v-on\uff0c\u9700\u8f6c\u4e3a on-click"
+              },
+              {
+                "affected_nodes": [],
+                "detected_by": "AST \u7279\u5f81\u81ea\u52a8\u68c0\u6d4b",
+                "pattern_id": "data_access",
+                "pattern_name": "data_access",
+                "risk_level": "high",
+                "san_strategy": "methods \u4e2d\u5b58\u5728 this.xxx \u8bbf\u95ee\uff0c\u9700\u7edf\u4e00\u6539\u4e3a this.data.get/set"
+              }
+            ]
+          },
+          "san_generation_contract": {
+            "description": "\u7ea6\u675f\u5927\u6a21\u578b\u57fa\u4e8e\u672c schema \u751f\u6210 San \u7ec4\u4ef6\u65f6\u5fc5\u987b\u6ee1\u8db3\u7684\u6761\u4ef6\u3002",
+            "must_preserve": [
+              "metadata.component_name \u548c\u6839\u8282\u70b9\u8bed\u4e49",
+              "template.dom_tree \u7684\u5c42\u7ea7\u7ed3\u6784\u3001\u8282\u70b9\u987a\u5e8f\u4e0e\u8bed\u4e49\u89d2\u8272",
+              "template.component_refs \u4e2d\u6bcf\u4e2a\u5b50\u7ec4\u4ef6\u7684\u6ce8\u518c\u540d\u548c\u7236\u5b50\u901a\u4fe1\u4e8b\u4ef6",
+              "binding_graph \u4e2d data/props/computed \u5230\u6a21\u677f\u8282\u70b9\u7684\u53ef\u89c1\u7ed1\u5b9a",
+              "event_model \u4e2d\u6bcf\u4e2a DOM \u4e8b\u4ef6\u548c\u81ea\u5b9a\u4e49\u4e8b\u4ef6\u7684\u89e6\u53d1\u65f6\u673a\u4e0e payload",
+              "style_model \u4e2d\u52a8\u6001\u7c7b\u540d\u3001\u52a8\u6001\u6837\u5f0f\u3001scoped CSS \u548c\u5173\u952e\u89c6\u89c9\u72b6\u6001",
+              "script.options.lifecycle_hooks \u4e2d\u7684\u526f\u4f5c\u7528\u521d\u59cb\u5316\u4e0e\u6e05\u7406\u903b\u8f91",
+              "script.options.data \u4e2d\u6240\u6709\u5b57\u6bb5\u7684\u9ed8\u8ba4\u503c\u548c\u5916\u90e8\u521d\u59cb\u5316\u6765\u6e90"
+            ],
+            "quality_checks": [
+              "template.component_refs \u4e2d\u6bcf\u4e2a\u5b50\u7ec4\u4ef6\u90fd\u5728 script.components \u6216 san_registration \u4e2d\u6709\u5b9a\u4e49",
+              "binding_graph.edges \u4e2d\u6bcf\u6761 template \u4f9d\u8d56\u90fd\u80fd\u5728 script.options \u4e2d\u627e\u5230\u6765\u6e90",
+              "event_model.dom_events \u4e2d\u6bcf\u4e2a handler_name \u90fd\u5b58\u5728\u4e8e script.options.methods",
+              "event_model.custom_events \u4e2d\u6bcf\u4e2a emit_points \u90fd\u5bf9\u5e94 method \u4e2d\u7684 $emit \u8c03\u7528",
+              "style_model.dynamic_class_bindings \u7684 dependencies \u90fd\u5b58\u5728\u4e8e binding_graph.nodes",
+              "script.options.watch \u4e2d\u7684 deep watcher \u5728 migration_hints \u4e2d\u88ab\u6807\u8bb0\u5e76\u7ed9\u51fa\u66ff\u4ee3\u7b56\u7565"
+            ],
+            "san_syntax_requirements": [
+              "\u8f93\u51fa\u5b8c\u6574\u7684 .san \u5355\u6587\u4ef6\u7ec4\u4ef6\uff0c\u5305\u542b <template>\u3001<script>\u3001<style> \u4e09\u4e2a\u4ee3\u7801\u5757\uff1b\u82e5\u65e0\u6837\u5f0f\u4e5f\u4fdd\u7559\u7a7a style \u6216\u663e\u5f0f\u8bf4\u660e\u65e0\u6837\u5f0f",
+              "\u811a\u672c\u5757\u663e\u5f0f\u5f15\u5165 san\uff1aconst san = require('san')\uff0c\u5e76\u4f7f\u7528 module.exports = san.defineComponent(...) \u5bfc\u51fa\u7ec4\u4ef6",
+              "props \u4f7f\u7528 san.DataTypes \u58f0\u660e\uff0c\u4e0e script.options.props \u4e00\u4e00\u5bf9\u5e94\uff1b\u4f18\u5148\u8f93\u51fa DataTypes.number / string / bool / array / object",
+              "\u7ec4\u4ef6\u5b9a\u4e49\u4f7f\u7528 san.defineComponent",
+              "\u7ec4\u4ef6\u540d\u6765\u81ea metadata.component_name\uff0c\u5e76\u663e\u5f0f\u8f93\u51fa name \u5b57\u6bb5",
+              "data \u4f7f\u7528 initData \u8fd4\u56de\u9ed8\u8ba4\u503c\uff0c\u4e0e script.options.data \u4e00\u4e00\u5bf9\u5e94\uff1b\u4e0d\u8981\u5728 initData \u4e2d\u76f4\u63a5\u4f9d\u8d56\u590d\u6742\u8fd0\u884c\u65f6\u8bfb\u53d6",
+              "\u5f53 data \u5b57\u6bb5\u6765\u6e90\u4e8e props \u6216\u5916\u90e8\u521d\u59cb\u5316\u65f6\uff0c\u4f18\u5148\u5728 inited/attached \u4e2d\u7528 this.data.set \u5b8c\u6210\u540c\u6b65",
+              "\u6a21\u677f\u4e2d\u4f7f\u7528 s-if\u3001s-for\u3001on-event\u3001value={= =}\u3001checked={= =} \u7b49 San \u8bed\u6cd5",
+              "\u72b6\u6001\u8bbf\u95ee\u7edf\u4e00\u4f7f\u7528 this.data.get() / this.data.set()",
+              "\u4f18\u5148\u5c06 methods \u76f4\u63a5\u5b9a\u4e49\u5728\u7ec4\u4ef6\u5bf9\u8c61\u9876\u5c42\uff0c\u907f\u514d\u4fdd\u7559 Vue \u98ce\u683c\u7684 methods: {} \u5305\u88f9",
+              "\u5b50\u7ec4\u4ef6\u6807\u7b7e\u4f7f\u7528\u77ed\u6a2a\u7ebf\u547d\u540d",
+              "\u5b50\u7ec4\u4ef6\u5728 components \u4e2d\u663e\u5f0f\u6ce8\u518c",
+              "\u6837\u5f0f\u5757\u9700\u5c3d\u91cf\u5b8c\u6574\u8f93\u51fa\uff0c\u4f18\u5148\u590d\u7528 styles/style_model \u4e2d\u5df2\u6709 class \u4e0e css_rules \u4fe1\u606f",
+              "\u5b9a\u65f6\u5668\u3001timeout\u3001\u5916\u90e8\u76d1\u542c\u7b49\u526f\u4f5c\u7528\u5728 attached/disposed \u4e2d\u7ba1\u7406"
+            ]
+          },
+          "schema_name": "San Source Model (Generic)",
+          "schema_version": "3.0",
+          "script": {
+            "export_info": {
+              "export_type": "default_export",
+              "has_export": true
+            },
+            "imports": [],
+            "options": {
+              "components": [],
+              "computed": [],
+              "data": [
+                {
+                  "default_value": 0,
+                  "default_value_expression": "0",
+                  "default_value_static": true,
+                  "default_value_summary": "0",
+                  "name": "count",
+                  "value_type_inferred": "number"
+                }
+              ],
+              "emits": [],
+              "extends": [],
+              "filters": [],
+              "inject_keys": [],
+              "lifecycle_hooks": [],
+              "methods": [
+                {
+                  "body": "{this.count++}",
+                  "body_full": "{this.count++}",
+                  "calls_inferred": [],
+                  "emits_inferred": [],
+                  "is_async": false,
+                  "name": "increment",
+                  "params": [],
+                  "reads_inferred": [
+                    "count"
+                  ],
+                  "side_effects_inferred": [],
+                  "writes_inferred": [
+                    "count"
+                  ]
+                }
+              ],
+              "mixins": [],
+              "name": "CounterCard",
+              "props": [],
+              "provide_keys": [],
+              "watch": []
+            },
+            "top_level_declarations": []
+          },
+          "style_model": {
+            "css_rules_summary": [
+              {
+                "affected_classes": [
+                  "card"
+                ],
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "migration_keep": true,
+                "pseudo_state": null,
+                "selector": ".card"
+              }
+            ],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "scoped": false,
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [
+                  "root_button_0"
+                ],
+                "semantic_role": "card"
+              }
+            ]
+          },
+          "styles": {
+            "css_rules": [
+              {
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "has_keyframes": false,
+                "has_media": false,
+                "has_pseudo": false,
+                "related_classes": [
+                  "card"
+                ],
+                "selectors": [
+                  ".card"
+                ]
+              }
+            ],
+            "css_variables": [],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [],
+                "semantic_role": "card"
+              }
+            ],
+            "style_blocks": [
+              {
+                "attrs": {},
+                "content": ".card{color:rgb(20,40,60)}",
+                "lang": "css",
+                "module": false,
+                "scoped": false
+              }
+            ]
+          },
+          "sub_components": [],
+          "template": {
+            "component_refs": [],
+            "directives_registry": [
+              {
+                "count": 1,
+                "directive_name": "v-on",
+                "example_nodes": [
+                  "root_button_0"
+                ]
+              }
+            ],
+            "dom_tree": {
+              "children": [],
+              "depth": 0,
+              "directives": [
+                {
+                  "argument": "click",
+                  "dependencies": [
+                    "increment"
+                  ],
+                  "directive_name": "v-on",
+                  "expression": "increment",
+                  "migration_note": "v-on \u9700\u8981\u8fc1\u79fb\u5230 San",
+                  "modifiers": [],
+                  "san_equivalent": "on-event"
+                }
+              ],
+              "dynamic_attrs": [],
+              "event_bindings": [
+                {
+                  "arguments": [],
+                  "element_tag": "button",
+                  "event_name": "click",
+                  "handler_expression": "increment",
+                  "handler_name": "increment",
+                  "handler_type": "identifier",
+                  "is_component_event": false,
+                  "modifiers": [],
+                  "node_id": "root_button_0",
+                  "san_event_syntax": "on-click=\"increment\""
+                }
+              ],
+              "is_root": true,
+              "is_void": false,
+              "node_id": "root_button_0",
+              "node_type": "element",
+              "parent_id": null,
+              "path": "/button[0]",
+              "san_tag": "button",
+              "semantic_role": "card",
+              "source_tag": "button",
+              "static_attrs": {
+                "class": "card"
+              },
+              "text_bindings": [
+                {
+                  "dependencies": [
+                    "count"
+                  ],
+                  "expression": "count",
+                  "is_interpolation": true,
+                  "raw_text": "{{count}}",
+                  "san_text": "{{count}}"
+                }
+              ]
+            },
+            "event_bindings": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_name": "increment",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "san_event_syntax": "on-click=\"increment\""
+              }
+            ],
+            "slot_distribution": []
+          }
+        },
+        "ssm_sha256": "9fd2dde9bc8a8b5f0593597db090776792a38eddff676acedae6ab512e6e0cda"
+      }
+    ],
+    "filename": "TransferList.vue",
+    "input_id": "e1a8800264f04f09a1c5b409f1978ac7",
+    "max_repair_rounds": 3,
+    "name": "real_system_experiment70_v1_20261118 / TransferList",
+    "props": {},
+    "runtime": {
+      "browser": {
+        "enabled": true,
+        "executable": "",
+        "height": 900,
+        "settle_ms": 500,
+        "width": 1280
+      },
+      "learning": {
+        "adapter_path": "",
+        "base_model_path": "",
+        "embedding_model_path": "",
+        "few_shot_count": 1,
+        "few_shot_manifest": "configs/few-shot-builtin-v1.json"
+      },
+      "model": {
+        "api_key_env": "LLM_API_KEY",
+        "backend": "qwen",
+        "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "max_calls": 4,
+        "max_output_tokens": 8192,
+        "model": "qwen-plus",
+        "network_enabled": true,
+        "timeout_seconds": 240,
+        "usage_stop_tokens": 131072
+      },
+      "schema_version": 1,
+      "tracing": {
+        "api_key_env": "LANGSMITH_API_KEY",
+        "enabled": false,
+        "endpoint": "https://api.smith.langchain.com",
+        "project": "card-migrator"
+      }
+    },
+    "source_group": "TransferList",
+    "source_sha256": "878daeae592faf7d69b534c298083fba2bfaf9ca21a72ea425224cc88571988b",
+    "strategy": "ssm",
+    "support_scope": {
+      "deployment": "trusted_local_single_user",
+      "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+      "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+      "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+      "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+      "experimental_public_instance_runtime_enabled": false,
+      "exports": [
+        "export default",
+        "module.exports"
+      ],
+      "full_public_instance_compatibility": false,
+      "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+      "historical_results_reclassified": false,
+      "id": "san-supported-migration-v4",
+      "label": "\u6709\u660e\u786e\u652f\u6301\u8303\u56f4\u7684 Vue \u2192 SSM \u2192 San \u8fc1\u79fb\u95ed\u73af",
+      "missing_interactions": "not_run_not_pass",
+      "not_required_for_basic_migration": [
+        "langsmith_upload",
+        "lora_training",
+        "clip_embeddings"
+      ],
+      "pipeline": [
+        "preflight",
+        "extract_ssm",
+        "generate",
+        "evaluate",
+        "bounded_repair",
+        "candidate_retest_and_gate",
+        "report_and_download"
+      ],
+      "preflight_is_full_support_proof": false,
+      "runtime_admission": "not_enabled_in_production",
+      "source_ast_rule_generation_enabled": false,
+      "source_profile": "single_file_javascript_options_api_without_external_imports",
+      "styles": [
+        "css",
+        "scoped_css"
+      ],
+      "target": "San",
+      "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+    },
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "trusted_source": true
+  },
+  "request_sha256": "1670470776bcb36648a14b659e869120c130b6b135cc6f4ba95b339476d564bc",
+  "schema_version": 1,
+  "scope": "real_migration_local_single_user",
+  "stage": "report",
+  "state": {
+    "candidate_evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "30f517df6b98c0d3412a78ff69d680e6d579a1a74c68a103087353d2ba612939",
+            "parent_shape": "1dcff9ccf090667daea0355fcb014e6b90f8e4718f546a6ca4bba1efe5fc95ad",
+            "path": "root.0.1"
+          },
+          {
+            "identity": "47e2fff2b4fe36d0ffe32820e382babace7053edf9a17fa275fc1d2d5ee0b96e",
+            "parent_shape": "7364595c0cdb4726e4aedfd8458c6368e5c4ff744872147854486b32ff99e3d4",
+            "path": "root.0.2.0.1"
+          },
+          {
+            "identity": "28a5a67df1c58e1896db5204b162e20f24460614d12661edac60bc52ac5013d5",
+            "parent_shape": "7364595c0cdb4726e4aedfd8458c6368e5c4ff744872147854486b32ff99e3d4",
+            "path": "root.0.2.0.2"
+          },
+          {
+            "identity": "d07acf1025b6930cdf84f0c8bd43b2cdcd1d1465176032d869d3b2939f54192b",
+            "parent_shape": "7364595c0cdb4726e4aedfd8458c6368e5c4ff744872147854486b32ff99e3d4",
+            "path": "root.0.2.0.3"
+          },
+          {
+            "identity": "9213411c95b730437f4602185e3c6c85780e436ab8036b0abe8e1093e9ab48fc",
+            "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+            "path": "root.0.2.1.0"
+          },
+          {
+            "identity": "a44b2684b1196f50a7c820a5109d0e4fcd95f77ecd7eb475922f075b2ba12e05",
+            "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+            "path": "root.0.2.1.1"
+          },
+          {
+            "identity": "851d1ca7b4e9438db499ecdf7ffcc6a7ab9d3e8b1d82ecb982d18e36c67f13c1",
+            "parent_shape": "401fb3da6886c53439a32f3967025f4a013d3997d7a4f227a3b54b5ba497a753",
+            "path": "root.0.2.2.1"
+          }
+        ],
+        "source_snapshot": "accc8a44a85465f45bfed6c6e598076ae41709ca9074ad21892417be4af32837",
+        "target": [
+          {
+            "identity": "dcae99200a40f67ee3be1ebff5b3b73809f0aa801396533a4844cab5f1d008e3",
+            "parent_shape": "bab7212d4fe91e13077ff3ebc0c9c94ff86b5dce4fb4f8cb8d475aa832bf939b",
+            "path": "root.0.1"
+          },
+          {
+            "identity": "9213411c95b730437f4602185e3c6c85780e436ab8036b0abe8e1093e9ab48fc",
+            "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+            "path": "root.0.2.1.0"
+          },
+          {
+            "identity": "a44b2684b1196f50a7c820a5109d0e4fcd95f77ecd7eb475922f075b2ba12e05",
+            "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+            "path": "root.0.2.1.1"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "details": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "unproven"
+              },
+              {
+                "caller": "updateQuery",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "selectLeft",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "selectRight",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "moveRight",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "moveLeft",
+                "status": "complete_caller_with_inlined_write"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "available",
+                  "line": 41
+                },
+                {
+                  "caller": "inited",
+                  "key": "chosen",
+                  "line": 41
+                },
+                {
+                  "caller": "updateQuery",
+                  "key": "query",
+                  "line": 47
+                },
+                {
+                  "caller": "selectLeft",
+                  "key": "leftId",
+                  "line": 50
+                },
+                {
+                  "caller": "selectRight",
+                  "key": "rightId",
+                  "line": 53
+                },
+                {
+                  "caller": "moveRight",
+                  "key": "available",
+                  "line": 56
+                },
+                {
+                  "caller": "moveRight",
+                  "key": "chosen",
+                  "line": 56
+                },
+                {
+                  "caller": "moveRight",
+                  "key": "leftId",
+                  "line": 56
+                },
+                {
+                  "caller": "moveLeft",
+                  "key": "chosen",
+                  "line": 59
+                },
+                {
+                  "caller": "moveLeft",
+                  "key": "available",
+                  "line": 59
+                },
+                {
+                  "caller": "moveLeft",
+                  "key": "rightId",
+                  "line": 59
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "available",
+                  "line": 1
+                },
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "chosen",
+                  "line": 1
+                },
+                {
+                  "caller": "updateQuery",
+                  "form": "inlined_data_set",
+                  "key": "query",
+                  "line": 1
+                },
+                {
+                  "caller": "selectLeft",
+                  "form": "inlined_data_set",
+                  "key": "leftId",
+                  "line": 1
+                },
+                {
+                  "caller": "selectRight",
+                  "form": "inlined_data_set",
+                  "key": "rightId",
+                  "line": 1
+                },
+                {
+                  "caller": "moveRight",
+                  "form": "inlined_data_set",
+                  "key": "available",
+                  "line": 1
+                },
+                {
+                  "caller": "moveRight",
+                  "form": "inlined_data_set",
+                  "key": "chosen",
+                  "line": 1
+                },
+                {
+                  "caller": "moveRight",
+                  "form": "inlined_data_set",
+                  "key": "leftId",
+                  "line": 1
+                },
+                {
+                  "caller": "moveLeft",
+                  "form": "inlined_data_set",
+                  "key": "chosen",
+                  "line": 1
+                },
+                {
+                  "caller": "moveLeft",
+                  "form": "inlined_data_set",
+                  "key": "available",
+                  "line": 1
+                },
+                {
+                  "caller": "moveLeft",
+                  "form": "inlined_data_set",
+                  "key": "rightId",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [
+              "caller_body_not_source_matched:inited"
+            ],
+            "source_keys": [
+              "available",
+              "chosen",
+              "query",
+              "leftId",
+              "rightId"
+            ],
+            "status": "unproven"
+          },
+          "location": "script.methods.setValue",
+          "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+          "severity": "error",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        },
+        {
+          "code": "missing_prop_defaults",
+          "details": {
+            "affected_fields": [
+              "initialAvailable",
+              "initialChosen"
+            ],
+            "contract": "prop_defaults_v1"
+          },
+          "location": "script",
+          "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1ainitialAvailable, initialChosen\u3002",
+          "severity": "error",
+          "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+        },
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "target:dom_or_reflective_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+              "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+              "path": "root.0.1"
+            },
+            {
+              "actual": null,
+              "expected": "button|class=",
+              "path": "root.0.2.0.1"
+            },
+            {
+              "actual": null,
+              "expected": "button|class=",
+              "path": "root.0.2.0.2"
+            },
+            {
+              "actual": null,
+              "expected": "button|class=",
+              "path": "root.0.2.0.3"
+            },
+            {
+              "actual": null,
+              "expected": "button|class=",
+              "path": "root.0.2.2.1"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [
+              {
+                "actual": [
+                  "root.0.2.1.0",
+                  "button",
+                  "",
+                  null,
+                  null
+                ],
+                "expected": [
+                  "root.0.2.0.1",
+                  "button",
+                  "",
+                  null,
+                  null
+                ],
+                "kind": "control_path_changed"
+              },
+              {
+                "actual": [
+                  "root.0.2.1.1",
+                  "button",
+                  "",
+                  null,
+                  null
+                ],
+                "expected": [
+                  "root.0.2.0.2",
+                  "button",
+                  "",
+                  null,
+                  null
+                ],
+                "kind": "control_path_changed"
+              },
+              {
+                "actual": null,
+                "expected": [
+                  "root.0.2.0.3",
+                  "button",
+                  "",
+                  null,
+                  null
+                ],
+                "kind": "control_added_or_removed"
+              },
+              {
+                "actual": null,
+                "expected": [
+                  "root.0.2.1.0",
+                  "button",
+                  "",
+                  null,
+                  null
+                ],
+                "kind": "control_added_or_removed"
+              },
+              {
+                "actual": null,
+                "expected": [
+                  "root.0.2.1.1",
+                  "button",
+                  "",
+                  null,
+                  null
+                ],
+                "kind": "control_added_or_removed"
+              },
+              {
+                "actual": null,
+                "expected": [
+                  "root.0.2.2.1",
+                  "button",
+                  "",
+                  null,
+                  null
+                ],
+                "kind": "control_added_or_removed"
+              }
+            ],
+            "equal": false,
+            "paths_equal": false,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 7,
+            "target_count": 3,
+            "values_equal_in_order": false
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+              "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+              "path": "root.0.1"
+            },
+            {
+              "actual": null,
+              "expected": "button|class=",
+              "path": "root.0.2.0.1"
+            },
+            {
+              "actual": null,
+              "expected": "button|class=",
+              "path": "root.0.2.0.2"
+            },
+            {
+              "actual": null,
+              "expected": "button|class=",
+              "path": "root.0.2.0.3"
+            },
+            {
+              "actual": null,
+              "expected": "button|class=",
+              "path": "root.0.2.2.1"
+            }
+          ],
+          "representation_differences": []
+        },
+        {
+          "code": "rendered_control_state_mismatch",
+          "differences": [
+            {
+              "actual": [
+                "root.0.2.1.0",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "expected": [
+                "root.0.2.0.1",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_path_changed"
+            },
+            {
+              "actual": [
+                "root.0.2.1.1",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "expected": [
+                "root.0.2.0.2",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_path_changed"
+            },
+            {
+              "actual": null,
+              "expected": [
+                "root.0.2.0.3",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_added_or_removed"
+            },
+            {
+              "actual": null,
+              "expected": [
+                "root.0.2.1.0",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_added_or_removed"
+            },
+            {
+              "actual": null,
+              "expected": [
+                "root.0.2.1.1",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_added_or_removed"
+            },
+            {
+              "actual": null,
+              "expected": [
+                "root.0.2.2.1",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_added_or_removed"
+            }
+          ],
+          "message": "Initial live control values/types/counts differ even if screenshots or HTML attributes match."
+        }
+      ],
+      "different_pixel_ratio": 0.0031215277777777778,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "fail"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "target:dom_or_reflective_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+          "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+          "path": "root.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.2.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.2.0.2"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.2.0.3"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.2.2.1"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 9,
+        "similarity": 0.64,
+        "source_nodes": 25,
+        "target_nodes": 17
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/3/heatmap.png",
+          "sha256": "c4de230c922abde6a2714be43a689c99007f2834043b35ff4d6cd6c243bd1958"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/3/san.png",
+          "sha256": "c092bf6dbb0b2238d1ab31bdd0ca10667d2a43c66e519851eb0f6bcc3b19c8a7"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/3/vue.png",
+          "sha256": "d536b52cf87f60543ebfd876478e1be1a53f3b5666e25f79a696855a1baff632"
+        }
+      },
+      "initial_control_state": {
+        "differences": [
+          {
+            "actual": [
+              "root.0.2.1.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "expected": [
+              "root.0.2.0.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_path_changed"
+          },
+          {
+            "actual": [
+              "root.0.2.1.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "expected": [
+              "root.0.2.0.2",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_path_changed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.0.3",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.1.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.2.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          }
+        ],
+        "equal": false,
+        "paths_equal": false,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 7,
+        "target_count": 3,
+        "values_equal_in_order": false
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+          "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+          "path": "root.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.2.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.2.0.2"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.2.0.3"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.2.2.1"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 9,
+        "similarity": 0.64,
+        "source_nodes": 25,
+        "target_nodes": 17
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "31d519d5aca4b039fdf652fc3bd5b821b0158f02657355c6c493aa0ceba2f79b",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.9047619047619048,
+        "source_nodes": 21,
+        "target_nodes": 21
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "unproven"
+                },
+                {
+                  "caller": "updateQuery",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "selectLeft",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "selectRight",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "moveRight",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "moveLeft",
+                  "status": "complete_caller_with_inlined_write"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "available",
+                    "line": 41
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "chosen",
+                    "line": 41
+                  },
+                  {
+                    "caller": "updateQuery",
+                    "key": "query",
+                    "line": 47
+                  },
+                  {
+                    "caller": "selectLeft",
+                    "key": "leftId",
+                    "line": 50
+                  },
+                  {
+                    "caller": "selectRight",
+                    "key": "rightId",
+                    "line": 53
+                  },
+                  {
+                    "caller": "moveRight",
+                    "key": "available",
+                    "line": 56
+                  },
+                  {
+                    "caller": "moveRight",
+                    "key": "chosen",
+                    "line": 56
+                  },
+                  {
+                    "caller": "moveRight",
+                    "key": "leftId",
+                    "line": 56
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "key": "chosen",
+                    "line": 59
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "key": "available",
+                    "line": 59
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "key": "rightId",
+                    "line": 59
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "available",
+                    "line": 1
+                  },
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "chosen",
+                    "line": 1
+                  },
+                  {
+                    "caller": "updateQuery",
+                    "form": "inlined_data_set",
+                    "key": "query",
+                    "line": 1
+                  },
+                  {
+                    "caller": "selectLeft",
+                    "form": "inlined_data_set",
+                    "key": "leftId",
+                    "line": 1
+                  },
+                  {
+                    "caller": "selectRight",
+                    "form": "inlined_data_set",
+                    "key": "rightId",
+                    "line": 1
+                  },
+                  {
+                    "caller": "moveRight",
+                    "form": "inlined_data_set",
+                    "key": "available",
+                    "line": 1
+                  },
+                  {
+                    "caller": "moveRight",
+                    "form": "inlined_data_set",
+                    "key": "chosen",
+                    "line": 1
+                  },
+                  {
+                    "caller": "moveRight",
+                    "form": "inlined_data_set",
+                    "key": "leftId",
+                    "line": 1
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "form": "inlined_data_set",
+                    "key": "chosen",
+                    "line": 1
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "form": "inlined_data_set",
+                    "key": "available",
+                    "line": 1
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "form": "inlined_data_set",
+                    "key": "rightId",
+                    "line": 1
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [
+                "caller_body_not_source_matched:inited"
+              ],
+              "source_keys": [
+                "available",
+                "chosen",
+                "query",
+                "leftId",
+                "rightId"
+              ],
+              "status": "unproven"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "callable_unproven",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 11,
+            "uncertain": true
+          },
+          "status": "callable_semantics_unproven",
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "updateQuery",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "selectLeft",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "selectRight",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "moveRight",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "moveLeft",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "notify",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 0.9815234472066088,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 14,
+        "target_nodes": 14
+      },
+      "styles": {
+        "compared_properties": 208,
+        "differences": [
+          {
+            "path": "root.0.2.0.1",
+            "property": "color",
+            "source": "rgb(39, 55, 70)",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "backgroundColor",
+            "source": "rgb(255, 255, 255)",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "fontSize",
+            "source": "13.3333px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "fontFamily",
+            "source": "Arial",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "fontWeight",
+            "source": "400",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "marginTop",
+            "source": "5px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "marginLeft",
+            "source": "0px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "paddingTop",
+            "source": "7px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "paddingLeft",
+            "source": "11px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "width",
+            "source": "305px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "height",
+            "source": "35px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "display",
+            "source": "block",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.1",
+            "property": "position",
+            "source": "static",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "color",
+            "source": "rgb(39, 55, 70)",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "backgroundColor",
+            "source": "rgb(255, 255, 255)",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "fontSize",
+            "source": "13.3333px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "fontFamily",
+            "source": "Arial",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "fontWeight",
+            "source": "400",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "marginTop",
+            "source": "5px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "marginLeft",
+            "source": "0px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "paddingTop",
+            "source": "7px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "paddingLeft",
+            "source": "11px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "width",
+            "source": "305px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "height",
+            "source": "35px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "display",
+            "source": "block",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.2",
+            "property": "position",
+            "source": "static",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "color",
+            "source": "rgb(39, 55, 70)",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "backgroundColor",
+            "source": "rgb(255, 255, 255)",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "fontSize",
+            "source": "13.3333px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "fontFamily",
+            "source": "Arial",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "fontWeight",
+            "source": "400",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "marginTop",
+            "source": "5px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "marginLeft",
+            "source": "0px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "paddingTop",
+            "source": "7px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "paddingLeft",
+            "source": "11px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "width",
+            "source": "305px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "height",
+            "source": "35px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "display",
+            "source": "block",
+            "target": null
+          },
+          {
+            "path": "root.0.2.0.3",
+            "property": "position",
+            "source": "static",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "color",
+            "source": "rgb(39, 55, 70)",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "backgroundColor",
+            "source": "rgb(255, 255, 255)",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "fontSize",
+            "source": "13.3333px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "fontFamily",
+            "source": "Arial",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "fontWeight",
+            "source": "400",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "marginTop",
+            "source": "5px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "marginLeft",
+            "source": "0px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "paddingTop",
+            "source": "7px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "paddingLeft",
+            "source": "11px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "width",
+            "source": "305px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "height",
+            "source": "35px",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "display",
+            "source": "block",
+            "target": null
+          },
+          {
+            "path": "root.0.2.2.1",
+            "property": "position",
+            "source": "static",
+            "target": null
+          }
+        ],
+        "matching": "child_index_path",
+        "similarity": 0.75,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 889.0083000000002,
+        "target": 785.7799
+      },
+      "ui_restoration": 93.9825265269971
+    },
+    "decisions": [
+      {
+        "accepted": true,
+        "candidate": "d231f36248770900fa75927d4c1a844b7c427affeddf05f45cb00090dd5150b4",
+        "previous": "ac2ccc45a73dfa903a02aadde9e0db7dcec33f0dd4c44daf9d2cd0c1c6b62906",
+        "reason": "strict_improvement",
+        "round": 1
+      },
+      {
+        "accepted": false,
+        "added_errors": [
+          "target_sfc_syntax_error"
+        ],
+        "candidate": "c4c8e55089c1c4b70140a860c8d660628e1cf53e90e555efffe1233f633f68a3",
+        "dimensions": [
+          "compile_runtime",
+          "visual",
+          "source_baseline"
+        ],
+        "previous": "d231f36248770900fa75927d4c1a844b7c427affeddf05f45cb00090dd5150b4",
+        "reason": "candidate_regression",
+        "round": 2
+      },
+      {
+        "accepted": false,
+        "added_errors": [
+          "missing_prop_defaults",
+          "rendered_control_state_mismatch"
+        ],
+        "candidate": "31d519d5aca4b039fdf652fc3bd5b821b0158f02657355c6c493aa0ceba2f79b",
+        "dimensions": [
+          "visual"
+        ],
+        "previous": "d231f36248770900fa75927d4c1a844b7c427affeddf05f45cb00090dd5150b4",
+        "reason": "candidate_regression",
+        "round": 3
+      }
+    ],
+    "evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "30f517df6b98c0d3412a78ff69d680e6d579a1a74c68a103087353d2ba612939",
+            "parent_shape": "1dcff9ccf090667daea0355fcb014e6b90f8e4718f546a6ca4bba1efe5fc95ad",
+            "path": "root.0.1"
+          },
+          {
+            "identity": "47e2fff2b4fe36d0ffe32820e382babace7053edf9a17fa275fc1d2d5ee0b96e",
+            "parent_shape": "7364595c0cdb4726e4aedfd8458c6368e5c4ff744872147854486b32ff99e3d4",
+            "path": "root.0.2.0.1"
+          },
+          {
+            "identity": "28a5a67df1c58e1896db5204b162e20f24460614d12661edac60bc52ac5013d5",
+            "parent_shape": "7364595c0cdb4726e4aedfd8458c6368e5c4ff744872147854486b32ff99e3d4",
+            "path": "root.0.2.0.2"
+          },
+          {
+            "identity": "d07acf1025b6930cdf84f0c8bd43b2cdcd1d1465176032d869d3b2939f54192b",
+            "parent_shape": "7364595c0cdb4726e4aedfd8458c6368e5c4ff744872147854486b32ff99e3d4",
+            "path": "root.0.2.0.3"
+          },
+          {
+            "identity": "9213411c95b730437f4602185e3c6c85780e436ab8036b0abe8e1093e9ab48fc",
+            "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+            "path": "root.0.2.1.0"
+          },
+          {
+            "identity": "a44b2684b1196f50a7c820a5109d0e4fcd95f77ecd7eb475922f075b2ba12e05",
+            "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+            "path": "root.0.2.1.1"
+          },
+          {
+            "identity": "851d1ca7b4e9438db499ecdf7ffcc6a7ab9d3e8b1d82ecb982d18e36c67f13c1",
+            "parent_shape": "401fb3da6886c53439a32f3967025f4a013d3997d7a4f227a3b54b5ba497a753",
+            "path": "root.0.2.2.1"
+          }
+        ],
+        "source_snapshot": "accc8a44a85465f45bfed6c6e598076ae41709ca9074ad21892417be4af32837",
+        "target": [
+          {
+            "identity": "dcae99200a40f67ee3be1ebff5b3b73809f0aa801396533a4844cab5f1d008e3",
+            "parent_shape": "1d08d3eb660d9e39d9b17eebeb6f409cec61374e03862021be743ed805bc4e03",
+            "path": "root.0.1"
+          },
+          {
+            "identity": "32a714cba774491ba406d88028a4d31682a42e7dab90907d7b53775caff922fa",
+            "parent_shape": "feb5ccbc7b16bdb296037f1efb48d38da2872bf594515937d34bb1daba1eb9e5",
+            "path": "root.0.2.0.1"
+          },
+          {
+            "identity": "b0f9a47c8ca603697728dc2a2b135a3af463b770e8304099b6655ac057419603",
+            "parent_shape": "feb5ccbc7b16bdb296037f1efb48d38da2872bf594515937d34bb1daba1eb9e5",
+            "path": "root.0.2.0.2"
+          },
+          {
+            "identity": "1166aa614e594c01f04ebd23acf6cc4559514495c4cd451d0cd6e1504c62de25",
+            "parent_shape": "feb5ccbc7b16bdb296037f1efb48d38da2872bf594515937d34bb1daba1eb9e5",
+            "path": "root.0.2.0.3"
+          },
+          {
+            "identity": "9213411c95b730437f4602185e3c6c85780e436ab8036b0abe8e1093e9ab48fc",
+            "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+            "path": "root.0.2.1.0"
+          },
+          {
+            "identity": "a44b2684b1196f50a7c820a5109d0e4fcd95f77ecd7eb475922f075b2ba12e05",
+            "parent_shape": "9e6fd89cb064543e0e3aeae75dfdfe22afbf955e1a83979f8d9e45012c8e2b0e",
+            "path": "root.0.2.1.1"
+          },
+          {
+            "identity": "f0c993d3f316da079fedea0eb7146b290f3529e3d5253d139c6e760888ee4aed",
+            "parent_shape": "65b3ee0ec7148bafd339bf8c57f8d37b8443e9784f3dccad8f545f05f59275db",
+            "path": "root.0.2.2.1"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "details": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "unproven"
+              },
+              {
+                "caller": "updateQuery",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "selectLeft",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "selectRight",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "moveRight",
+                "status": "unproven"
+              },
+              {
+                "caller": "moveLeft",
+                "status": "unproven"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "available",
+                  "line": 41
+                },
+                {
+                  "caller": "inited",
+                  "key": "chosen",
+                  "line": 41
+                },
+                {
+                  "caller": "updateQuery",
+                  "key": "query",
+                  "line": 47
+                },
+                {
+                  "caller": "selectLeft",
+                  "key": "leftId",
+                  "line": 50
+                },
+                {
+                  "caller": "selectRight",
+                  "key": "rightId",
+                  "line": 53
+                },
+                {
+                  "caller": "moveRight",
+                  "key": "available",
+                  "line": 56
+                },
+                {
+                  "caller": "moveRight",
+                  "key": "chosen",
+                  "line": 56
+                },
+                {
+                  "caller": "moveRight",
+                  "key": "leftId",
+                  "line": 56
+                },
+                {
+                  "caller": "moveLeft",
+                  "key": "chosen",
+                  "line": 59
+                },
+                {
+                  "caller": "moveLeft",
+                  "key": "available",
+                  "line": 59
+                },
+                {
+                  "caller": "moveLeft",
+                  "key": "rightId",
+                  "line": 59
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "available",
+                  "line": 16
+                },
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "chosen",
+                  "line": 16
+                },
+                {
+                  "caller": "updateQuery",
+                  "form": "inlined_data_set",
+                  "key": "query",
+                  "line": 16
+                },
+                {
+                  "caller": "selectLeft",
+                  "form": "inlined_data_set",
+                  "key": "leftId",
+                  "line": 16
+                },
+                {
+                  "caller": "selectRight",
+                  "form": "inlined_data_set",
+                  "key": "rightId",
+                  "line": 16
+                },
+                {
+                  "caller": "moveRight",
+                  "form": "inlined_data_set",
+                  "key": "available",
+                  "line": 16
+                },
+                {
+                  "caller": "moveRight",
+                  "form": "inlined_data_set",
+                  "key": "chosen",
+                  "line": 16
+                },
+                {
+                  "caller": "moveRight",
+                  "form": "inlined_data_set",
+                  "key": "leftId",
+                  "line": 16
+                },
+                {
+                  "caller": "moveLeft",
+                  "form": "inlined_data_set",
+                  "key": "chosen",
+                  "line": 16
+                },
+                {
+                  "caller": "moveLeft",
+                  "form": "inlined_data_set",
+                  "key": "available",
+                  "line": 16
+                },
+                {
+                  "caller": "moveLeft",
+                  "form": "inlined_data_set",
+                  "key": "rightId",
+                  "line": 16
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [
+              "caller_body_not_source_matched:inited",
+              "caller_body_not_source_matched:moveLeft",
+              "caller_body_not_source_matched:moveRight"
+            ],
+            "source_keys": [
+              "available",
+              "chosen",
+              "query",
+              "leftId",
+              "rightId"
+            ],
+            "status": "unproven"
+          },
+          "location": "script.methods.setValue",
+          "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited, caller_body_not_source_matched:moveLeft, caller_body_not_source_matched:moveRight. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+          "severity": "error",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        },
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "target:dom_or_reflective_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+              "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+              "path": "root.0.1"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.2.0.1"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.2.0.2"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.2.0.3"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.2.2.1"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [],
+            "equal": true,
+            "paths_equal": true,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 7,
+            "target_count": 7,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+              "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+              "path": "root.0.1"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.2.0.1"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.2.0.2"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.2.0.3"
+            },
+            {
+              "actual": "button|",
+              "expected": "button|class=",
+              "path": "root.0.2.2.1"
+            }
+          ],
+          "representation_differences": [
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.0.1",
+              "source": "",
+              "target": null
+            },
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.0.2",
+              "source": "",
+              "target": null
+            },
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.0.3",
+              "source": "",
+              "target": null
+            },
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.2.1",
+              "source": "",
+              "target": null
+            }
+          ]
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "target:dom_or_reflective_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+          "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+          "path": "root.0.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.0.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.0.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.0.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.2.1"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.0.1",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.0.2",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.0.3",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.1",
+          "source": "",
+          "target": null
+        }
+      ],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 5,
+        "similarity": 0.8,
+        "source_nodes": 25,
+        "target_nodes": 25
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/heatmap.png",
+          "sha256": "e577cc16de2ec0e62e8cad85839b78c2ce4aba4a03100c95db703863ebd1c590"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/san.png",
+          "sha256": "d536b52cf87f60543ebfd876478e1be1a53f3b5666e25f79a696855a1baff632"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/03526bae62294b2cb2ccb82dc99d3351/evaluations/1/vue.png",
+          "sha256": "d536b52cf87f60543ebfd876478e1be1a53f3b5666e25f79a696855a1baff632"
+        }
+      },
+      "initial_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 7,
+        "target_count": 7,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272",
+          "expected": "input|class=transfer-search|placeholder=\u7b5b\u9009\u53ef\u7528\u89d2\u8272|value=",
+          "path": "root.0.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.0.1"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.0.2"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.0.3"
+        },
+        {
+          "actual": "button|",
+          "expected": "button|class=",
+          "path": "root.0.2.2.1"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 5,
+        "similarity": 0.8,
+        "source_nodes": 25,
+        "target_nodes": 25
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "d231f36248770900fa75927d4c1a844b7c427affeddf05f45cb00090dd5150b4",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.9047619047619048,
+        "source_nodes": 21,
+        "target_nodes": 21
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "unproven"
+                },
+                {
+                  "caller": "updateQuery",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "selectLeft",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "selectRight",
+                  "status": "complete_caller_with_inlined_write"
+                },
+                {
+                  "caller": "moveRight",
+                  "status": "unproven"
+                },
+                {
+                  "caller": "moveLeft",
+                  "status": "unproven"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "available",
+                    "line": 41
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "chosen",
+                    "line": 41
+                  },
+                  {
+                    "caller": "updateQuery",
+                    "key": "query",
+                    "line": 47
+                  },
+                  {
+                    "caller": "selectLeft",
+                    "key": "leftId",
+                    "line": 50
+                  },
+                  {
+                    "caller": "selectRight",
+                    "key": "rightId",
+                    "line": 53
+                  },
+                  {
+                    "caller": "moveRight",
+                    "key": "available",
+                    "line": 56
+                  },
+                  {
+                    "caller": "moveRight",
+                    "key": "chosen",
+                    "line": 56
+                  },
+                  {
+                    "caller": "moveRight",
+                    "key": "leftId",
+                    "line": 56
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "key": "chosen",
+                    "line": 59
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "key": "available",
+                    "line": 59
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "key": "rightId",
+                    "line": 59
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "available",
+                    "line": 16
+                  },
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "chosen",
+                    "line": 16
+                  },
+                  {
+                    "caller": "updateQuery",
+                    "form": "inlined_data_set",
+                    "key": "query",
+                    "line": 16
+                  },
+                  {
+                    "caller": "selectLeft",
+                    "form": "inlined_data_set",
+                    "key": "leftId",
+                    "line": 16
+                  },
+                  {
+                    "caller": "selectRight",
+                    "form": "inlined_data_set",
+                    "key": "rightId",
+                    "line": 16
+                  },
+                  {
+                    "caller": "moveRight",
+                    "form": "inlined_data_set",
+                    "key": "available",
+                    "line": 16
+                  },
+                  {
+                    "caller": "moveRight",
+                    "form": "inlined_data_set",
+                    "key": "chosen",
+                    "line": 16
+                  },
+                  {
+                    "caller": "moveRight",
+                    "form": "inlined_data_set",
+                    "key": "leftId",
+                    "line": 16
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "form": "inlined_data_set",
+                    "key": "chosen",
+                    "line": 16
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "form": "inlined_data_set",
+                    "key": "available",
+                    "line": 16
+                  },
+                  {
+                    "caller": "moveLeft",
+                    "form": "inlined_data_set",
+                    "key": "rightId",
+                    "line": 16
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [
+                "caller_body_not_source_matched:inited",
+                "caller_body_not_source_matched:moveLeft",
+                "caller_body_not_source_matched:moveRight"
+              ],
+              "source_keys": [
+                "available",
+                "chosen",
+                "query",
+                "leftId",
+                "rightId"
+              ],
+              "status": "unproven"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "callable_unproven",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 11,
+            "uncertain": true
+          },
+          "status": "callable_semantics_unproven",
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "updateQuery",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "selectLeft",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "selectRight",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "moveRight",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "moveLeft",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "notify",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 14,
+        "target_nodes": 14
+      },
+      "styles": {
+        "compared_properties": 208,
+        "differences": [],
+        "matching": "child_index_path",
+        "similarity": 1.0,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 861.6807000000001,
+        "target": 772.3373000000001
+      },
+      "ui_restoration": 100
+    },
+    "migration_id": "03526bae62294b2cb2ccb82dc99d3351",
+    "request_sha256": "1670470776bcb36648a14b659e869120c130b6b135cc6f4ba95b339476d564bc",
+    "round": 3,
+    "stop_reason": "repair_budget_exhausted"
+  },
+  "status": "failed",
+  "stop_reason": "repair_budget_exhausted",
+  "support_scope": {
+    "deployment": "trusted_local_single_user",
+    "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+    "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+    "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+    "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+    "experimental_public_instance_runtime_enabled": false,
+    "exports": [
+      "export default",
+      "module.exports"
+    ],
+    "full_public_instance_compatibility": false,
+    "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+    "historical_results_reclassified": false,
+    "id": "san-supported-migration-v4",
+    "label": "\u6709\u660e\u786e\u652f\u6301\u8303\u56f4\u7684 Vue \u2192 SSM \u2192 San \u8fc1\u79fb\u95ed\u73af",
+    "missing_interactions": "not_run_not_pass",
+    "not_required_for_basic_migration": [
+      "langsmith_upload",
+      "lora_training",
+      "clip_embeddings"
+    ],
+    "pipeline": [
+      "preflight",
+      "extract_ssm",
+      "generate",
+      "evaluate",
+      "bounded_repair",
+      "candidate_retest_and_gate",
+      "report_and_download"
+    ],
+    "preflight_is_full_support_proof": false,
+    "runtime_admission": "not_enabled_in_production",
+    "source_ast_rule_generation_enabled": false,
+    "source_profile": "single_file_javascript_options_api_without_external_imports",
+    "styles": [
+      "css",
+      "scoped_css"
+    ],
+    "target": "San",
+    "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+  },
+  "unknown_calls": 0,
+  "usage": {
+    "complete": true,
+    "known_total_tokens": 53249
+  }
+}

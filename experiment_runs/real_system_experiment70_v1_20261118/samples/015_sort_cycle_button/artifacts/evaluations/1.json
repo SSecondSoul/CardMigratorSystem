@@ -1,0 +1,305 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "7396088c51d55809cee9778bd09cae01ea509c417814db6039bf1f6d9a4e857f",
+        "parent_shape": "9c5b454bf2f1a7c6f6cef7fb905e7a873f9b067ae995dcc9cfe4472427b643d7",
+        "path": "root.0.1"
+      }
+    ],
+    "source_snapshot": "a4a2d1b593305b33ba153ef6f22993c0eaef3eaa85033668ff80e9a918931f69",
+    "target": [
+      {
+        "identity": "e6dac13d0e5af9eceb5a1974c75d867225408479898cc85417f5568533c23332",
+        "parent_shape": "d384f841a47405f6de31deed8a128d7333ba31101ecf7c37ce2536f03fe53326",
+        "path": "root.0.1"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dynamic_member",
+          "target:dynamic_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=none",
+          "path": "root.0.1"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 1,
+        "target_count": 1,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "button|",
+          "expected": "button|class=none",
+          "path": "root.0.1"
+        }
+      ],
+      "representation_differences": []
+    }
+  ],
+  "different_pixel_ratio": 0,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dynamic_member",
+      "target:dynamic_member"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "button|",
+      "expected": "button|class=none",
+      "path": "root.0.1"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.8333333333333334,
+    "source_nodes": 6,
+    "target_nodes": 6
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/f38289acfd37455b850cb9cd4a6d98b6/evaluations/1/heatmap.png",
+      "sha256": "24004824a4c64b0455f2dda49cc187824eb42f37c128b725c618d2b0d71e81c6"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/f38289acfd37455b850cb9cd4a6d98b6/evaluations/1/san.png",
+      "sha256": "d5cf7a0d46162cc5e460da6d8190184daec63ab7e387c602b20bcabec4b47da0"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/f38289acfd37455b850cb9cd4a6d98b6/evaluations/1/vue.png",
+      "sha256": "d5cf7a0d46162cc5e460da6d8190184daec63ab7e387c602b20bcabec4b47da0"
+    }
+  },
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 1,
+    "target_count": 1,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "button|",
+      "expected": "button|class=none",
+      "path": "root.0.1"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.8333333333333334,
+    "source_nodes": 6,
+    "target_nodes": 6
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "6f8fb2f01c961577e403cd6525cb3b665c3aa8a87c0b17c47b58a83b508c6d56",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 6,
+    "target_nodes": 6
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "cycle",
+              "status": "complete_caller_with_preserved_helper"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "cycle",
+                "key": "direction",
+                "line": 21
+              }
+            ],
+            "target": [
+              {
+                "caller": "cycle",
+                "key": "direction",
+                "line": 3
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [],
+          "source_keys": [
+            "direction"
+          ],
+          "status": "proven_for_source_internal_calls"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "proven_for_source_internal_calls",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "proven_for_source_internal_calls",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "cycle",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 1,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 4,
+    "target_nodes": 4
+  },
+  "styles": {
+    "compared_properties": 52,
+    "differences": [],
+    "matching": "child_index_path",
+    "similarity": 1.0,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 932.2602999999999,
+    "target": 998.5357999999997
+  },
+  "ui_restoration": 100
+}

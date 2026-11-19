@@ -1,0 +1,22 @@
+{
+  "code": "<template><section class=\"{{'status-switch' + (this.data.get('enabled') ? ' enabled' : '')}}\" aria-pressed=\"{{this.data.get('enabled')}}\"><div class=\"status-copy\"><strong>{{label}}</strong><span>{{enabled?'\u5df2\u542f\u7528':'\u5df2\u505c\u7528'}}</span></div><button type=\"button\" on-click=\"toggle\">{{enabled?'\u5173\u95ed':'\u5f00\u542f'}}</button></section></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"StatusSwitch\",dataTypes:{label:DataTypes.string,initialEnabled:DataTypes.bool},initData(){return {\nlabel: '\u81ea\u52a8\u540c\u6b65',\ninitialEnabled: false,\nenabled:null}},inited(){this.data.set(\"enabled\",this.data.get(\"initialEnabled\")||false)},toggle(){const newValue=!this.data.get(\"enabled\");this.data.set(\"enabled\",newValue);this.fire(\"change\",newValue)}});</script><style>\n.status-switch { width: 300px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px; border: 1px solid #cbd5e1; border-left: 5px solid #64748b; border-radius: 6px; background: #ffffff; color: #172026; font-family: Arial, sans-serif; }\n.status-switch.enabled { border-left-color: #15803d; background: #f0fdf4; }\n.status-copy { display: grid; gap: 5px; }\n.status-copy span { color: #64748b; font-size: 13px; }\n.status-switch button { min-width: 62px; padding: 8px 12px; border: 1px solid #94a3b8; border-radius: 16px; background: #ffffff; cursor: pointer; }\n.status-switch.enabled button { border-color: #15803d; color: #166534; }\n</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/5ebafeac156b4b9f86a770d8a4779b24/revisions/1.san",
+    "sha256": "2f6d1898753fc971e6cbb6d3cdee3161041cc50646d46a85b19d45eaa633b583"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "de748ccb59e970c725ee9635ee960678167eb44a4be20aec57a727220b693394",
+  "repair_focus": "semantics_and_observations",
+  "rules": [
+    [
+      "source_template_bindings",
+      "restored_source_render_field_bindings"
+    ],
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ]
+  ]
+}

@@ -1,0 +1,2556 @@
+{
+  "actual_cloud_model_calls": 3,
+  "assessment": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "925f46e94751eebc1b173f2be8f8cd52363bb6d727292f45166989098a9e0f9d",
+          "parent_shape": "470d2c914634340eea5fd23cce5e2091ca2f5844cedde1eb0208c32902075888",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+          "parent_shape": "f03ab15e744d470e34b5cfdecf5b93c6c6d4f8e860cf87faeddcd36737ed7469",
+          "path": "root.0.2"
+        },
+        {
+          "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.2"
+        }
+      ],
+      "source_snapshot": "88a3be85aefeefd810b85a0764f525f9c903e79bd9deacd830320729997554a1",
+      "target": [
+        {
+          "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+          "parent_shape": "56e9122388c37cf5cd692942c8538801dcde01a0e267fc34a8ed2f9ce482263f",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+          "parent_shape": "73084a5acbd5aeabd750311acdab337f015c59e975cc636e311e31d0d3cc08a0",
+          "path": "root.0.2"
+        },
+        {
+          "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.2"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "source_dynamic_assignment_unproven",
+        "details": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "unproven"
+            },
+            {
+              "caller": "updateBill",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "cycleTip",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "changePeople",
+              "status": "complete_caller_with_preserved_helper"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "bill",
+                "line": 23
+              },
+              {
+                "caller": "updateBill",
+                "key": "bill",
+                "line": 29
+              },
+              {
+                "caller": "cycleTip",
+                "key": "tipRate",
+                "line": 32
+              },
+              {
+                "caller": "changePeople",
+                "key": "people",
+                "line": 35
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "bill",
+                "line": 1
+              },
+              {
+                "caller": "updateBill",
+                "key": "bill",
+                "line": 1
+              },
+              {
+                "caller": "cycleTip",
+                "key": "tipRate",
+                "line": 1
+              },
+              {
+                "caller": "changePeople",
+                "key": "people",
+                "line": 1
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:inited"
+          ],
+          "source_keys": [
+            "bill",
+            "tipRate",
+            "people"
+          ],
+          "status": "unproven"
+        },
+        "location": "script.methods.setValue",
+        "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+        "severity": "error",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "target:dom_or_reflective_member",
+            "target:dynamic_member"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "input|type=number",
+            "expected": "input|type=number|value=268",
+            "path": "root.0.1.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 4,
+          "target_count": 4,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "input|type=number",
+            "expected": "input|type=number|value=268",
+            "path": "root.0.1.1"
+          }
+        ],
+        "representation_differences": []
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "target:dom_or_reflective_member",
+        "target:dynamic_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "input|type=number",
+        "expected": "input|type=number|value=268",
+        "path": "root.0.1.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9444444444444444,
+      "source_nodes": 18,
+      "target_nodes": 18
+    },
+    "embedding_similarity": {
+      "similarity": null,
+      "status": "not_configured"
+    },
+    "functional_equivalence": "not_proven",
+    "images": {
+      "heatmap": {
+        "kind": "screenshot",
+        "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/heatmap.png",
+        "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+      },
+      "san": {
+        "kind": "screenshot",
+        "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/san.png",
+        "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+      },
+      "vue": {
+        "kind": "screenshot",
+        "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/vue.png",
+        "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+      }
+    },
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 4,
+      "target_count": 4,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "input|type=number",
+        "expected": "input|type=number|value=268",
+        "path": "root.0.1.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9444444444444444,
+      "source_nodes": 18,
+      "target_nodes": 18
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "706862e620b40da31d93a60da41e7373e82e1ade1bfcdb4ea6b4b5f0c8601529",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 18,
+      "target_nodes": 18
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "unproven"
+              },
+              {
+                "caller": "updateBill",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "cycleTip",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "changePeople",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 23
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 29
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 32
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 35
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 1
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [
+              "caller_body_not_source_matched:inited"
+            ],
+            "source_keys": [
+              "bill",
+              "tipRate",
+              "people"
+            ],
+            "status": "unproven"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "callable_unproven",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 4,
+          "uncertain": true
+        },
+        "status": "callable_semantics_unproven",
+        "target_references": {
+          "count": 3,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 0,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateBill",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "cycleTip",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "changePeople",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 11,
+      "target_nodes": 11
+    },
+    "styles": {
+      "compared_properties": 143,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1009.3914,
+      "target": 1170.1414000000004
+    },
+    "ui_restoration": 100
+  },
+  "binding": {
+    "legacy": "20ccf386e92616bfa8214fd7147bd24271c86012efbef7768c52bd602d955d0a",
+    "protocol": "modular-migration-v1",
+    "ssm": "7eb6a96d7b6ccfa8e6cb6de59ea002b7cf3a4fb80a3b5ceb27c178b1a8e8c756",
+    "system": "86e94bb9457c6020df97f6b77af0ca4daff6b83b21b48c971d9f758395ee1d43"
+  },
+  "calls": [
+    {
+      "ordinal": 0,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "dec243bc430a90d54c915200135dc175a94264492c826b945243a06ba310fb2d",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/0/response.json",
+          "sha256": "1f3bf8a990170c83cd64cbfe7f78bf5c5a798795f11311ad8e85348c025e6725"
+        },
+        "usage": {
+          "completion_tokens": 751,
+          "prompt_tokens": 15469,
+          "prompt_tokens_details": {
+            "cached_tokens": 4096
+          },
+          "total_tokens": 16220
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 2,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "d8d5c4bff6aa9505deadacc1486afb1966a06220993f143290dd4d3e2393fc19",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/2/response.json",
+          "sha256": "5ed6fe7d08c32574dbf98d3698a17e2297060ea81209689bd318c2e883e2f1da"
+        },
+        "usage": {
+          "completion_tokens": 794,
+          "prompt_tokens": 11715,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 12509
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 3,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "efbe6596f4b0379deadfe0d33e0e099304927ea0f3b3f8fa932b5996e6e3fdc3",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/3/response.json",
+          "sha256": "b1101e57a79743d68afab72157294e38da81d1646750fa1205dce5c34ba5bd19"
+        },
+        "usage": {
+          "completion_tokens": 786,
+          "prompt_tokens": 11059,
+          "prompt_tokens_details": {
+            "cached_tokens": 3456
+          },
+          "total_tokens": 11845
+        },
+        "valid": true
+      },
+      "status": "returned"
+    }
+  ],
+  "coverage": "configured_props_and_representative_actions_only",
+  "created_at": 1795010130.7682996,
+  "files": [
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/0/receipt.json",
+      "sha256": "9d09cbf0da551891a8e420c6bd3bce6e33f89a5e9788ce434f4d0848d29a0770"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/0/request.json",
+      "sha256": "284a98cfa3609b1dce81553d1ab2ff934eaa6d5b30541ab804666d6b51bc51b0"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/0/response.json",
+      "sha256": "1f3bf8a990170c83cd64cbfe7f78bf5c5a798795f11311ad8e85348c025e6725"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/2/receipt.json",
+      "sha256": "f53442e5799d31750d2a3db6f2be5763269dd288a90604ced4027285bd093a48"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/2/repair-context.json",
+      "sha256": "78ae759c56b3ad3b71fe002841cf63158d6b888556785ce90df91ae8512c4af3"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/2/request.json",
+      "sha256": "c6764b6c25b1ce81bb4d884ca40c9c4e8e0b801c83eb34cbd5652d59a47a69e9"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/2/response.json",
+      "sha256": "5ed6fe7d08c32574dbf98d3698a17e2297060ea81209689bd318c2e883e2f1da"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/3/receipt.json",
+      "sha256": "d38564a701f07e0c3c15b2b0fea9ddb13b2dc2f5c41ae7a7cf638c54a6e74c76"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/3/repair-context.json",
+      "sha256": "41d59c4dcb92545fddc9ef35f2b367d16032ecd1449ac6bd8b0d0be48b831afb"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/3/request.json",
+      "sha256": "619212422659d598a12b2015d86f7eda2819d4a9c777655da7591fd8a8b43ca5"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/calls/3/response.json",
+      "sha256": "b1101e57a79743d68afab72157294e38da81d1646750fa1205dce5c34ba5bd19"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/decisions/1.json",
+      "sha256": "efbfe68b854e7727349a2ce1073511a5c4b1667b569e12590156bcadae8f09c5"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/decisions/2.json",
+      "sha256": "c5d55ad49c318f63e201ec0639c1203c922647465e2b3f1d9d760247d52f4b80"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/decisions/3.json",
+      "sha256": "9b2c7f6931fe0c83c81d0f4452258c2570019681a9fe01a22267f24910d0a296"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/0.json",
+      "sha256": "40797cde1ef0d3d16f7277b59842ac7a04fd0625b8582af3c7afba61ee912b93"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/0/heatmap.png",
+      "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/0/raw.json",
+      "sha256": "c9e48f4b9617e0d629e2fba8b68685ee8b1737ab0a882ab0184fc306bc1a89a3"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/0/san.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/0/vue.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/1.json",
+      "sha256": "10f5777c85dbb819c6a8713d182fa3ae4f01b573d3379e00bd021f5c75d34615"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/1/heatmap.png",
+      "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/1/raw.json",
+      "sha256": "23bba99d389af57c69dc9f14fb8ac575e84cb4656e7f450e274e3cba7b84f085"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/1/san.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/1/vue.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2.json",
+      "sha256": "36477fafa42763cfe8919b927dfb4b6cb456d5e031a2bcd2ad5c02db8d910d0d"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/heatmap.png",
+      "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/raw.json",
+      "sha256": "edcdaf799b7f4ef8f1043729516c863eb34053113f28003bd47f5e68ce3aa205"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/san.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/vue.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/3.json",
+      "sha256": "2def3f4016a09a80e6a4f6dde323b59a615d65e9c3b00f320c02387c160c506d"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/3/heatmap.png",
+      "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/3/raw.json",
+      "sha256": "3d0b6574756a2a5110bea83535084a103dd6709cac3a0340baf6bddcb91c3295"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/3/san.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/3/vue.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "prompt_selection",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/prompt-selection.json",
+      "sha256": "e3e6fad3d662366ce060242fc589fdc6e3a8dbf158a8ae81554d6f82c2ce05f0"
+    },
+    {
+      "kind": "report",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/report.json",
+      "sha256": "92bdd7551c070a2329359cea0dfac3fa752b8e6ffa20fb5d0cf936644749c3b8"
+    },
+    {
+      "kind": "request",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/request.json",
+      "sha256": "6ea983dfd6cce4142c3e8dcc2e3f144393c1d4d86e5995fc27a25d0c8e10d1c9"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/revisions/0.json",
+      "sha256": "91a0b4d8c118c6f68845af9f6ad39a422418a919c5f2b2dc3b7dac9e03b2029f"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/revisions/0.san",
+      "sha256": "b53841a1729ce35dbab29e1d13a7f13e4387f8c02268e0a4b1b55c3c71fb78ae"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/revisions/1.json",
+      "sha256": "f0a19d93a6faef553bebc4b3c5b312fd350d6db0fd95ac13fe34d21be35298af"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/revisions/1.san",
+      "sha256": "f858041d0a88893705750752c9f2fc5a59048958e24a4ed47d86b7f56d139557"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/revisions/2.json",
+      "sha256": "8bc0dd853b5ad8c81dc9acc0e60d8c3c31cd595ff7ff71942ce07763cf84755f"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/revisions/2.san",
+      "sha256": "706862e620b40da31d93a60da41e7373e82e1ade1bfcdb4ea6b4b5f0c8601529"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/revisions/3.json",
+      "sha256": "ec761aec1037cfe6f710c07596d811e1d6d03f303e41d1ee2ef101fab4141def"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/revisions/3.san",
+      "sha256": "efb161a86b52e27e00a531421845184dccd4c7fd0d0f27caf2c344c59a075c17"
+    },
+    {
+      "kind": "ssm",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/ssm.json",
+      "sha256": "734fa96c6f983844c0eaaf3c226ba9df928a24a59f73c0febc609cfa421d97e0"
+    },
+    {
+      "kind": "trace",
+      "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/trace.json",
+      "sha256": "304f36deb0b022f20f7da90efead8082915477be77dc04c0b84019951bb2be94"
+    }
+  ],
+  "final_artifact": {
+    "kind": "san",
+    "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/revisions/2.san",
+    "sha256": "706862e620b40da31d93a60da41e7373e82e1ade1bfcdb4ea6b4b5f0c8601529"
+  },
+  "generation_origin": "model_repair",
+  "manual_feedback": [],
+  "migration_id": "eda8451013fc40ce8605ac7364c9a094",
+  "model_calls_returned": 3,
+  "model_calls_started": 3,
+  "name": "real_system_experiment70_v1_20261118 / TipSplitCalculator",
+  "production_ready": false,
+  "request": {
+    "actions": [],
+    "authorization": {
+      "billing_cap": "not_guaranteed",
+      "max_calls": 4,
+      "max_output_tokens_per_call": 8192,
+      "network_enabled": true,
+      "scope": "one_generation_and_bounded_repairs",
+      "usage_stop_tokens": 131072
+    },
+    "evidence_class": "development_or_disclosed_exploratory_not_independent_test",
+    "excluded_example_groups": [
+      "AccessMatrix",
+      "AnalyticsDashboard",
+      "AttendanceRoster",
+      "AudioSegmentMarker",
+      "BatchRenamer",
+      "BookmarkToggleCard",
+      "BreadcrumbNavigator",
+      "BudgetThreshold",
+      "CapacityPlanningBoard",
+      "ChoiceChips",
+      "ColorContrastBadge",
+      "CourseModuleAccordion",
+      "CrisisCommunicationHub",
+      "DataPaginationTable",
+      "DeliveryPhaseCard",
+      "DeliveryRouteTimeline",
+      "DocumentApprovalFlow",
+      "EnergyLoadScheduler",
+      "ExpenseTracker",
+      "ExperimentRolloutConsole",
+      "FileDropIndicator",
+      "FleetDispatchConsole",
+      "ForecastSimulator",
+      "FormRulePlayground",
+      "GradebookMatrix",
+      "HabitWeekTracker",
+      "ImageCropControls",
+      "IncidentResponseBoard",
+      "InlineRename",
+      "InventoryBatchManager",
+      "KanbanColumnBoard",
+      "LocalizationWorkspace",
+      "MediaReviewStudio",
+      "MeetingPollScheduler",
+      "MilestoneTimeline",
+      "MonitoringDashboard",
+      "NotificationCard",
+      "OtpCodeInput",
+      "PasswordStrengthMeter",
+      "PlaybackQueue",
+      "PollResults",
+      "PriceStepper",
+      "QuizNavigator",
+      "ReadingProgressCard",
+      "RuleBuilder",
+      "SchemaMappingWorkbench",
+      "SearchClearField",
+      "SeatBookingMap",
+      "SessionTimeoutNotice",
+      "ShippingEstimator",
+      "SortCycleButton",
+      "StarRatingInput",
+      "StatusSwitch",
+      "StockReservationBadge",
+      "SupportTicketConsole",
+      "SurveyBranchForm",
+      "TaskManager",
+      "TemperatureDial",
+      "TextLengthGauge",
+      "ThemePreviewToggle",
+      "TipSplitCalculator",
+      "TodoList",
+      "TopologyEditor",
+      "TransferList",
+      "TripItineraryPlanner",
+      "VolumeControl",
+      "WarehousePickingWave",
+      "WorkflowDiagramEditor",
+      "WorkoutPlanner",
+      "access_matrix",
+      "analytics_dashboard",
+      "attendance_roster",
+      "audio_segment_marker",
+      "batch_renamer",
+      "bookmark_toggle_card",
+      "breadcrumb_navigator",
+      "budget_threshold",
+      "capacity_planning_board",
+      "choice_chips",
+      "color_contrast_badge",
+      "course_module_accordion",
+      "crisis_communication_hub",
+      "data_pagination_table",
+      "delivery_phase_card",
+      "delivery_route_timeline",
+      "document_approval_flow",
+      "energy_load_scheduler",
+      "experiment_rollout_console",
+      "file_drop_indicator",
+      "fleet_dispatch_console",
+      "forecast_simulator",
+      "form_rule_playground",
+      "gradebook_matrix",
+      "habit_week_tracker",
+      "image_crop_controls",
+      "incident_response_board",
+      "inline_rename",
+      "inventory_batch_manager",
+      "kanban_column_board",
+      "localization_workspace",
+      "media_review_studio",
+      "meeting_poll_scheduler",
+      "milestone_timeline",
+      "otp_code_input",
+      "password_strength_meter",
+      "playback_queue",
+      "poll_results",
+      "price_stepper",
+      "quiz_navigator",
+      "reading_progress_card",
+      "rule_builder",
+      "schema_mapping_workbench",
+      "search_clear_field",
+      "seat_booking_map",
+      "session_timeout_notice",
+      "shipping_estimator",
+      "sort_cycle_button",
+      "star_rating_input",
+      "status_switch",
+      "step",
+      "step_card",
+      "stock_reservation_badge",
+      "support_ticket_console",
+      "survey_branch_form",
+      "temperature_dial",
+      "text_length_gauge",
+      "theme_preview_toggle",
+      "tip_split_calculator",
+      "topology_editor",
+      "transfer_list",
+      "trip_itinerary_planner",
+      "volume_control",
+      "warehouse_picking_wave",
+      "workflow_diagram_editor",
+      "workout_planner"
+    ],
+    "few_shot_examples": [
+      {
+        "group": "CounterCard",
+        "id": "builtin-counter",
+        "provenance": "synthetic_development_demonstration_not_dataset_test_answer",
+        "san": "<template><button class=\"card\" on-click=\"increment\">{{count}}</button></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"CounterCard\",dataTypes:{},initData(){return {count:0}},increment(){this.data.set(\"count\",this.data.get(\"count\")+1)}});</script><style>.card{color:rgb(20,40,60)}</style>",
+        "san_sha256": "ad21d808c4670d7650247cd5406fad51917928239ead6df87a1feca219238303",
+        "source_sha256": "6f83b604da4b7e8cc490e857d834ab4e70f082edb7d5f286414a4a4c2317d507",
+        "split": "train",
+        "ssm": {
+          "binding_graph": {
+            "data_fields_usage": [
+              {
+                "field_name": "count",
+                "initialized_from_external": null,
+                "initialized_from_props": false,
+                "read_in_computed": [],
+                "read_in_methods": [
+                  "increment"
+                ],
+                "read_in_template_nodes": [
+                  "template.root_button_0"
+                ],
+                "watched_by": [],
+                "written_in_methods": [
+                  "increment"
+                ]
+              }
+            ],
+            "edges": [
+              {
+                "edge_type": "binds_to",
+                "expression": "{{count}}",
+                "from": "template.root_button_0",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              },
+              {
+                "edge_type": "reads",
+                "expression": "count",
+                "from": "method.increment",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              }
+            ],
+            "nodes": [
+              {
+                "kind": "data",
+                "name": "count",
+                "node_id": "data.count",
+                "source_location": "script.data"
+              },
+              {
+                "kind": "method",
+                "name": "increment",
+                "node_id": "method.increment",
+                "source_location": "script.methods"
+              },
+              {
+                "kind": "template_node",
+                "name": "root_button_0",
+                "node_id": "template.root_button_0",
+                "source_location": "template.button"
+              }
+            ]
+          },
+          "event_model": {
+            "custom_events": [],
+            "dom_events": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_method_ref": "increment",
+                "handler_name": "increment",
+                "handler_signature_inferred": "increment()",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "is_native": true,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "reads": [
+                  "count"
+                ],
+                "san_event_syntax": "on-click=\"increment\"",
+                "side_effects": [],
+                "writes": [
+                  "count"
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "component_name": "CounterCard",
+            "sfc_blocks": {
+              "has_script": true,
+              "has_style": true,
+              "has_template": true,
+              "style_lang": "css",
+              "style_scoped": false
+            },
+            "source_file": "CounterCard.vue",
+            "source_framework": "Vue",
+            "target_framework": "San"
+          },
+          "migration_hints": {
+            "data_access_conversion_plan": {
+              "count": {
+                "init_plan": "initData 中声明 count，默认值 0",
+                "read_plan": "this.data.get('count')",
+                "write_plan": "this.data.set('count', value)"
+              }
+            },
+            "detected_patterns": [
+              {
+                "affected_nodes": [],
+                "detected_by": "AST 特征自动检测",
+                "pattern_id": "event_click",
+                "pattern_name": "event_click",
+                "risk_level": "low",
+                "san_strategy": "存在 @click 或 v-on，需转为 on-click"
+              },
+              {
+                "affected_nodes": [],
+                "detected_by": "AST 特征自动检测",
+                "pattern_id": "data_access",
+                "pattern_name": "data_access",
+                "risk_level": "high",
+                "san_strategy": "methods 中存在 this.xxx 访问，需统一改为 this.data.get/set"
+              }
+            ]
+          },
+          "san_generation_contract": {
+            "description": "约束大模型基于本 schema 生成 San 组件时必须满足的条件。",
+            "must_preserve": [
+              "metadata.component_name 和根节点语义",
+              "template.dom_tree 的层级结构、节点顺序与语义角色",
+              "template.component_refs 中每个子组件的注册名和父子通信事件",
+              "binding_graph 中 data/props/computed 到模板节点的可见绑定",
+              "event_model 中每个 DOM 事件和自定义事件的触发时机与 payload",
+              "style_model 中动态类名、动态样式、scoped CSS 和关键视觉状态",
+              "script.options.lifecycle_hooks 中的副作用初始化与清理逻辑",
+              "script.options.data 中所有字段的默认值和外部初始化来源"
+            ],
+            "quality_checks": [
+              "template.component_refs 中每个子组件都在 script.components 或 san_registration 中有定义",
+              "binding_graph.edges 中每条 template 依赖都能在 script.options 中找到来源",
+              "event_model.dom_events 中每个 handler_name 都存在于 script.options.methods",
+              "event_model.custom_events 中每个 emit_points 都对应 method 中的 $emit 调用",
+              "style_model.dynamic_class_bindings 的 dependencies 都存在于 binding_graph.nodes",
+              "script.options.watch 中的 deep watcher 在 migration_hints 中被标记并给出替代策略"
+            ],
+            "san_syntax_requirements": [
+              "输出完整的 .san 单文件组件，包含 <template>、<script>、<style> 三个代码块；若无样式也保留空 style 或显式说明无样式",
+              "脚本块显式引入 san：const san = require('san')，并使用 module.exports = san.defineComponent(...) 导出组件",
+              "props 使用 san.DataTypes 声明，与 script.options.props 一一对应；优先输出 DataTypes.number / string / bool / array / object",
+              "组件定义使用 san.defineComponent",
+              "组件名来自 metadata.component_name，并显式输出 name 字段",
+              "data 使用 initData 返回默认值，与 script.options.data 一一对应；不要在 initData 中直接依赖复杂运行时读取",
+              "当 data 字段来源于 props 或外部初始化时，优先在 inited/attached 中用 this.data.set 完成同步",
+              "模板中使用 s-if、s-for、on-event、value={= =}、checked={= =} 等 San 语法",
+              "状态访问统一使用 this.data.get() / this.data.set()",
+              "优先将 methods 直接定义在组件对象顶层，避免保留 Vue 风格的 methods: {} 包裹",
+              "子组件标签使用短横线命名",
+              "子组件在 components 中显式注册",
+              "样式块需尽量完整输出，优先复用 styles/style_model 中已有 class 与 css_rules 信息",
+              "定时器、timeout、外部监听等副作用在 attached/disposed 中管理"
+            ]
+          },
+          "schema_name": "San Source Model (Generic)",
+          "schema_version": "3.0",
+          "script": {
+            "export_info": {
+              "export_type": "default_export",
+              "has_export": true
+            },
+            "imports": [],
+            "options": {
+              "components": [],
+              "computed": [],
+              "data": [
+                {
+                  "default_value": 0,
+                  "default_value_expression": "0",
+                  "default_value_static": true,
+                  "default_value_summary": "0",
+                  "name": "count",
+                  "value_type_inferred": "number"
+                }
+              ],
+              "emits": [],
+              "extends": [],
+              "filters": [],
+              "inject_keys": [],
+              "lifecycle_hooks": [],
+              "methods": [
+                {
+                  "body": "{this.count++}",
+                  "body_full": "{this.count++}",
+                  "calls_inferred": [],
+                  "emits_inferred": [],
+                  "is_async": false,
+                  "name": "increment",
+                  "params": [],
+                  "reads_inferred": [
+                    "count"
+                  ],
+                  "side_effects_inferred": [],
+                  "writes_inferred": [
+                    "count"
+                  ]
+                }
+              ],
+              "mixins": [],
+              "name": "CounterCard",
+              "props": [],
+              "provide_keys": [],
+              "watch": []
+            },
+            "top_level_declarations": []
+          },
+          "style_model": {
+            "css_rules_summary": [
+              {
+                "affected_classes": [
+                  "card"
+                ],
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "migration_keep": true,
+                "pseudo_state": null,
+                "selector": ".card"
+              }
+            ],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "scoped": false,
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [
+                  "root_button_0"
+                ],
+                "semantic_role": "card"
+              }
+            ]
+          },
+          "styles": {
+            "css_rules": [
+              {
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "has_keyframes": false,
+                "has_media": false,
+                "has_pseudo": false,
+                "related_classes": [
+                  "card"
+                ],
+                "selectors": [
+                  ".card"
+                ]
+              }
+            ],
+            "css_variables": [],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [],
+                "semantic_role": "card"
+              }
+            ],
+            "style_blocks": [
+              {
+                "attrs": {},
+                "content": ".card{color:rgb(20,40,60)}",
+                "lang": "css",
+                "module": false,
+                "scoped": false
+              }
+            ]
+          },
+          "sub_components": [],
+          "template": {
+            "component_refs": [],
+            "directives_registry": [
+              {
+                "count": 1,
+                "directive_name": "v-on",
+                "example_nodes": [
+                  "root_button_0"
+                ]
+              }
+            ],
+            "dom_tree": {
+              "children": [],
+              "depth": 0,
+              "directives": [
+                {
+                  "argument": "click",
+                  "dependencies": [
+                    "increment"
+                  ],
+                  "directive_name": "v-on",
+                  "expression": "increment",
+                  "migration_note": "v-on 需要迁移到 San",
+                  "modifiers": [],
+                  "san_equivalent": "on-event"
+                }
+              ],
+              "dynamic_attrs": [],
+              "event_bindings": [
+                {
+                  "arguments": [],
+                  "element_tag": "button",
+                  "event_name": "click",
+                  "handler_expression": "increment",
+                  "handler_name": "increment",
+                  "handler_type": "identifier",
+                  "is_component_event": false,
+                  "modifiers": [],
+                  "node_id": "root_button_0",
+                  "san_event_syntax": "on-click=\"increment\""
+                }
+              ],
+              "is_root": true,
+              "is_void": false,
+              "node_id": "root_button_0",
+              "node_type": "element",
+              "parent_id": null,
+              "path": "/button[0]",
+              "san_tag": "button",
+              "semantic_role": "card",
+              "source_tag": "button",
+              "static_attrs": {
+                "class": "card"
+              },
+              "text_bindings": [
+                {
+                  "dependencies": [
+                    "count"
+                  ],
+                  "expression": "count",
+                  "is_interpolation": true,
+                  "raw_text": "{{count}}",
+                  "san_text": "{{count}}"
+                }
+              ]
+            },
+            "event_bindings": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_name": "increment",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "san_event_syntax": "on-click=\"increment\""
+              }
+            ],
+            "slot_distribution": []
+          }
+        },
+        "ssm_sha256": "9fd2dde9bc8a8b5f0593597db090776792a38eddff676acedae6ab512e6e0cda"
+      }
+    ],
+    "filename": "TipSplitCalculator.vue",
+    "input_id": "c533b34fac13452298ad9779bf59a40d",
+    "max_repair_rounds": 3,
+    "name": "real_system_experiment70_v1_20261118 / TipSplitCalculator",
+    "props": {},
+    "runtime": {
+      "browser": {
+        "enabled": true,
+        "executable": "",
+        "height": 900,
+        "settle_ms": 500,
+        "width": 1280
+      },
+      "learning": {
+        "adapter_path": "",
+        "base_model_path": "",
+        "embedding_model_path": "",
+        "few_shot_count": 1,
+        "few_shot_manifest": "configs/few-shot-builtin-v1.json"
+      },
+      "model": {
+        "api_key_env": "LLM_API_KEY",
+        "backend": "qwen",
+        "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "max_calls": 4,
+        "max_output_tokens": 8192,
+        "model": "qwen-plus",
+        "network_enabled": true,
+        "timeout_seconds": 240,
+        "usage_stop_tokens": 131072
+      },
+      "schema_version": 1,
+      "tracing": {
+        "api_key_env": "LANGSMITH_API_KEY",
+        "enabled": false,
+        "endpoint": "https://api.smith.langchain.com",
+        "project": "card-migrator"
+      }
+    },
+    "source_group": "TipSplitCalculator",
+    "source_sha256": "49555185c27bc956ea4f0930a4ce1bd6366e072dc924ce9aefb822568c0ca085",
+    "strategy": "ssm",
+    "support_scope": {
+      "deployment": "trusted_local_single_user",
+      "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+      "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+      "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+      "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+      "experimental_public_instance_runtime_enabled": false,
+      "exports": [
+        "export default",
+        "module.exports"
+      ],
+      "full_public_instance_compatibility": false,
+      "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+      "historical_results_reclassified": false,
+      "id": "san-supported-migration-v4",
+      "label": "有明确支持范围的 Vue → SSM → San 迁移闭环",
+      "missing_interactions": "not_run_not_pass",
+      "not_required_for_basic_migration": [
+        "langsmith_upload",
+        "lora_training",
+        "clip_embeddings"
+      ],
+      "pipeline": [
+        "preflight",
+        "extract_ssm",
+        "generate",
+        "evaluate",
+        "bounded_repair",
+        "candidate_retest_and_gate",
+        "report_and_download"
+      ],
+      "preflight_is_full_support_proof": false,
+      "runtime_admission": "not_enabled_in_production",
+      "source_ast_rule_generation_enabled": false,
+      "source_profile": "single_file_javascript_options_api_without_external_imports",
+      "styles": [
+        "css",
+        "scoped_css"
+      ],
+      "target": "San",
+      "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+    },
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "trusted_source": true
+  },
+  "request_sha256": "62bb337980c5fba47730de4412d37853b61ae741a1ef9d3a1b9566e626fee9f5",
+  "schema_version": 1,
+  "scope": "real_migration_local_single_user",
+  "stage": "report",
+  "state": {
+    "candidate_evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "925f46e94751eebc1b173f2be8f8cd52363bb6d727292f45166989098a9e0f9d",
+            "parent_shape": "470d2c914634340eea5fd23cce5e2091ca2f5844cedde1eb0208c32902075888",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+            "parent_shape": "f03ab15e744d470e34b5cfdecf5b93c6c6d4f8e860cf87faeddcd36737ed7469",
+            "path": "root.0.2"
+          },
+          {
+            "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.0"
+          },
+          {
+            "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.2"
+          }
+        ],
+        "source_snapshot": "88a3be85aefeefd810b85a0764f525f9c903e79bd9deacd830320729997554a1",
+        "target": [
+          {
+            "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+            "parent_shape": "56e9122388c37cf5cd692942c8538801dcde01a0e267fc34a8ed2f9ce482263f",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+            "parent_shape": "73084a5acbd5aeabd750311acdab337f015c59e975cc636e311e31d0d3cc08a0",
+            "path": "root.0.2"
+          },
+          {
+            "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.0"
+          },
+          {
+            "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.2"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "details": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "unproven"
+              },
+              {
+                "caller": "updateBill",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "cycleTip",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "changePeople",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 23
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 29
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 32
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 35
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 1
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [
+              "caller_body_not_source_matched:inited"
+            ],
+            "source_keys": [
+              "bill",
+              "tipRate",
+              "people"
+            ],
+            "status": "unproven"
+          },
+          "location": "script.methods.setValue",
+          "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+          "severity": "error",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        },
+        {
+          "code": "missing_prop_defaults",
+          "details": {
+            "affected_fields": [
+              "initialBill"
+            ],
+            "contract": "prop_defaults_v1"
+          },
+          "location": "script",
+          "message": "以下带默认值的 Vue props 未在 San initData 中落地：initialBill。",
+          "severity": "error",
+          "suggestion": "将 SSM props.default 的等价值作为同名字段加入 initData 返回对象。"
+        },
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "target:dom_or_reflective_member",
+              "target:dynamic_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "input|type=number",
+              "expected": "input|type=number|value=268",
+              "path": "root.0.1.1"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [],
+            "equal": true,
+            "paths_equal": true,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 4,
+            "target_count": 4,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "input|type=number",
+              "expected": "input|type=number|value=268",
+              "path": "root.0.1.1"
+            }
+          ],
+          "representation_differences": []
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "target:dom_or_reflective_member",
+          "target:dynamic_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9444444444444444,
+        "source_nodes": 18,
+        "target_nodes": 18
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/3/heatmap.png",
+          "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/3/san.png",
+          "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/3/vue.png",
+          "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+        }
+      },
+      "initial_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 4,
+        "target_count": 4,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9444444444444444,
+        "source_nodes": 18,
+        "target_nodes": 18
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "efb161a86b52e27e00a531421845184dccd4c7fd0d0f27caf2c344c59a075c17",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 18,
+        "target_nodes": 18
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "unproven"
+                },
+                {
+                  "caller": "updateBill",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "cycleTip",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "changePeople",
+                  "status": "complete_caller_with_preserved_helper"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "bill",
+                    "line": 23
+                  },
+                  {
+                    "caller": "updateBill",
+                    "key": "bill",
+                    "line": 29
+                  },
+                  {
+                    "caller": "cycleTip",
+                    "key": "tipRate",
+                    "line": 32
+                  },
+                  {
+                    "caller": "changePeople",
+                    "key": "people",
+                    "line": 35
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "bill",
+                    "line": 1
+                  },
+                  {
+                    "caller": "updateBill",
+                    "key": "bill",
+                    "line": 1
+                  },
+                  {
+                    "caller": "cycleTip",
+                    "key": "tipRate",
+                    "line": 1
+                  },
+                  {
+                    "caller": "changePeople",
+                    "key": "people",
+                    "line": 1
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [
+                "caller_body_not_source_matched:inited"
+              ],
+              "source_keys": [
+                "bill",
+                "tipRate",
+                "people"
+              ],
+              "status": "unproven"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "callable_unproven",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 4,
+            "uncertain": true
+          },
+          "status": "callable_semantics_unproven",
+          "target_references": {
+            "count": 3,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 0,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "updateBill",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "cycleTip",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "changePeople",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 11,
+        "target_nodes": 11
+      },
+      "styles": {
+        "compared_properties": 143,
+        "differences": [],
+        "matching": "child_index_path",
+        "similarity": 1.0,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 892.2277999999999,
+        "target": 761.5007999999998
+      },
+      "ui_restoration": 100
+    },
+    "decisions": [
+      {
+        "accepted": true,
+        "candidate": "f858041d0a88893705750752c9f2fc5a59048958e24a4ed47d86b7f56d139557",
+        "previous": "b53841a1729ce35dbab29e1d13a7f13e4387f8c02268e0a4b1b55c3c71fb78ae",
+        "reason": "strict_improvement",
+        "round": 1
+      },
+      {
+        "accepted": true,
+        "candidate": "706862e620b40da31d93a60da41e7373e82e1ade1bfcdb4ea6b4b5f0c8601529",
+        "previous": "f858041d0a88893705750752c9f2fc5a59048958e24a4ed47d86b7f56d139557",
+        "reason": "strict_improvement",
+        "round": 2
+      },
+      {
+        "accepted": false,
+        "added_errors": [
+          "missing_prop_defaults"
+        ],
+        "candidate": "efb161a86b52e27e00a531421845184dccd4c7fd0d0f27caf2c344c59a075c17",
+        "dimensions": [],
+        "previous": "706862e620b40da31d93a60da41e7373e82e1ade1bfcdb4ea6b4b5f0c8601529",
+        "reason": "candidate_regression",
+        "round": 3
+      }
+    ],
+    "evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "925f46e94751eebc1b173f2be8f8cd52363bb6d727292f45166989098a9e0f9d",
+            "parent_shape": "470d2c914634340eea5fd23cce5e2091ca2f5844cedde1eb0208c32902075888",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+            "parent_shape": "f03ab15e744d470e34b5cfdecf5b93c6c6d4f8e860cf87faeddcd36737ed7469",
+            "path": "root.0.2"
+          },
+          {
+            "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.0"
+          },
+          {
+            "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.2"
+          }
+        ],
+        "source_snapshot": "88a3be85aefeefd810b85a0764f525f9c903e79bd9deacd830320729997554a1",
+        "target": [
+          {
+            "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+            "parent_shape": "56e9122388c37cf5cd692942c8538801dcde01a0e267fc34a8ed2f9ce482263f",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+            "parent_shape": "73084a5acbd5aeabd750311acdab337f015c59e975cc636e311e31d0d3cc08a0",
+            "path": "root.0.2"
+          },
+          {
+            "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.0"
+          },
+          {
+            "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.2"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "details": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "unproven"
+              },
+              {
+                "caller": "updateBill",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "cycleTip",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "changePeople",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 23
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 29
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 32
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 35
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 1
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [
+              "caller_body_not_source_matched:inited"
+            ],
+            "source_keys": [
+              "bill",
+              "tipRate",
+              "people"
+            ],
+            "status": "unproven"
+          },
+          "location": "script.methods.setValue",
+          "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+          "severity": "error",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        },
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "target:dom_or_reflective_member",
+              "target:dynamic_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "input|type=number",
+              "expected": "input|type=number|value=268",
+              "path": "root.0.1.1"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [],
+            "equal": true,
+            "paths_equal": true,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 4,
+            "target_count": 4,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "input|type=number",
+              "expected": "input|type=number|value=268",
+              "path": "root.0.1.1"
+            }
+          ],
+          "representation_differences": []
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "target:dom_or_reflective_member",
+          "target:dynamic_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9444444444444444,
+        "source_nodes": 18,
+        "target_nodes": 18
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/heatmap.png",
+          "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/san.png",
+          "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/eda8451013fc40ce8605ac7364c9a094/evaluations/2/vue.png",
+          "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+        }
+      },
+      "initial_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 4,
+        "target_count": 4,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9444444444444444,
+        "source_nodes": 18,
+        "target_nodes": 18
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "706862e620b40da31d93a60da41e7373e82e1ade1bfcdb4ea6b4b5f0c8601529",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 18,
+        "target_nodes": 18
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "unproven"
+                },
+                {
+                  "caller": "updateBill",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "cycleTip",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "changePeople",
+                  "status": "complete_caller_with_preserved_helper"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "bill",
+                    "line": 23
+                  },
+                  {
+                    "caller": "updateBill",
+                    "key": "bill",
+                    "line": 29
+                  },
+                  {
+                    "caller": "cycleTip",
+                    "key": "tipRate",
+                    "line": 32
+                  },
+                  {
+                    "caller": "changePeople",
+                    "key": "people",
+                    "line": 35
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "bill",
+                    "line": 1
+                  },
+                  {
+                    "caller": "updateBill",
+                    "key": "bill",
+                    "line": 1
+                  },
+                  {
+                    "caller": "cycleTip",
+                    "key": "tipRate",
+                    "line": 1
+                  },
+                  {
+                    "caller": "changePeople",
+                    "key": "people",
+                    "line": 1
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [
+                "caller_body_not_source_matched:inited"
+              ],
+              "source_keys": [
+                "bill",
+                "tipRate",
+                "people"
+              ],
+              "status": "unproven"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "callable_unproven",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 4,
+            "uncertain": true
+          },
+          "status": "callable_semantics_unproven",
+          "target_references": {
+            "count": 3,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 0,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "updateBill",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "cycleTip",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "changePeople",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 11,
+        "target_nodes": 11
+      },
+      "styles": {
+        "compared_properties": 143,
+        "differences": [],
+        "matching": "child_index_path",
+        "similarity": 1.0,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 1009.3914,
+        "target": 1170.1414000000004
+      },
+      "ui_restoration": 100
+    },
+    "migration_id": "eda8451013fc40ce8605ac7364c9a094",
+    "request_sha256": "62bb337980c5fba47730de4412d37853b61ae741a1ef9d3a1b9566e626fee9f5",
+    "round": 3,
+    "stop_reason": "repair_budget_exhausted"
+  },
+  "status": "failed",
+  "stop_reason": "repair_budget_exhausted",
+  "support_scope": {
+    "deployment": "trusted_local_single_user",
+    "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+    "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+    "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+    "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+    "experimental_public_instance_runtime_enabled": false,
+    "exports": [
+      "export default",
+      "module.exports"
+    ],
+    "full_public_instance_compatibility": false,
+    "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+    "historical_results_reclassified": false,
+    "id": "san-supported-migration-v4",
+    "label": "有明确支持范围的 Vue → SSM → San 迁移闭环",
+    "missing_interactions": "not_run_not_pass",
+    "not_required_for_basic_migration": [
+      "langsmith_upload",
+      "lora_training",
+      "clip_embeddings"
+    ],
+    "pipeline": [
+      "preflight",
+      "extract_ssm",
+      "generate",
+      "evaluate",
+      "bounded_repair",
+      "candidate_retest_and_gate",
+      "report_and_download"
+    ],
+    "preflight_is_full_support_proof": false,
+    "runtime_admission": "not_enabled_in_production",
+    "source_ast_rule_generation_enabled": false,
+    "source_profile": "single_file_javascript_options_api_without_external_imports",
+    "styles": [
+      "css",
+      "scoped_css"
+    ],
+    "target": "San",
+    "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+  },
+  "unknown_calls": 0,
+  "usage": {
+    "complete": true,
+    "known_total_tokens": 40574
+  }
+}

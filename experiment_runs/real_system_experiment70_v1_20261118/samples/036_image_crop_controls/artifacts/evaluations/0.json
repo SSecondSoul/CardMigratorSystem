@@ -1,0 +1,945 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "37b2011e34eb5f0a15a72d9d02f92c0296a2db048548796211b56dd55faae992",
+        "parent_shape": "51872f1c46db7277d2a08a4a3b16b1b903e4c22331840801c9a479c52c8fa515",
+        "path": "root.0.1.1.0.0"
+      },
+      {
+        "identity": "37b2011e34eb5f0a15a72d9d02f92c0296a2db048548796211b56dd55faae992",
+        "parent_shape": "51872f1c46db7277d2a08a4a3b16b1b903e4c22331840801c9a479c52c8fa515",
+        "path": "root.0.1.1.1.0"
+      },
+      {
+        "identity": "5449b8b0ac94d93fb9c325b5da14808deef1461efb9edbc50be61e42b551fbc7",
+        "parent_shape": "4aea27e4d068bcb91c2caa29ac05d052145f03b4e13d42a9757fcd2df5d3c16a",
+        "path": "root.0.1.1.2.0"
+      },
+      {
+        "identity": "46638a0fe30e4952af2021d960e541e32197fa74906b1e9b60a8f6d0ea810a10",
+        "parent_shape": "345684a7a7909c4a94282e78f4c7fe196f8571e7bd3e84169e04d1e7ef9d5bf0",
+        "path": "root.0.1.1.3.0"
+      },
+      {
+        "identity": "a48f781cd5d14b16abe213b74682b7824824cc7dc3b6fe3cd89ec3b3e5d980e2",
+        "parent_shape": "0a38236033850c1f0a73a550ed182041fc88be9ae3dc8ef5243c4416b68cce89",
+        "path": "root.0.1.1.4.0"
+      },
+      {
+        "identity": "0924a1f6ee98f31875d854de71e6ff9c0efd15278b24ebe5fc4f86fbf2d57a24",
+        "parent_shape": "9b90cfc798cacabe9385a30bae41694671c93a1cf9f43b470c6e771982df62f3",
+        "path": "root.0.1.1.5"
+      }
+    ],
+    "source_snapshot": "86a6632235c6d803bd77f592a3287103ec77a80038a3b352726a266ddd6e1112",
+    "target": [
+      {
+        "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+        "parent_shape": "56e9122388c37cf5cd692942c8538801dcde01a0e267fc34a8ed2f9ce482263f",
+        "path": "root.0.1.1.0.0"
+      },
+      {
+        "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+        "parent_shape": "56e9122388c37cf5cd692942c8538801dcde01a0e267fc34a8ed2f9ce482263f",
+        "path": "root.0.1.1.1.0"
+      },
+      {
+        "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+        "parent_shape": "56e9122388c37cf5cd692942c8538801dcde01a0e267fc34a8ed2f9ce482263f",
+        "path": "root.0.1.1.2.0"
+      },
+      {
+        "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+        "parent_shape": "56e9122388c37cf5cd692942c8538801dcde01a0e267fc34a8ed2f9ce482263f",
+        "path": "root.0.1.1.3.0"
+      },
+      {
+        "identity": "a48f781cd5d14b16abe213b74682b7824824cc7dc3b6fe3cd89ec3b3e5d980e2",
+        "parent_shape": "f06392c071b224dca9f0138c10ea7f4db9cd47c2f0d50ed318d8e33e3a084f57",
+        "path": "root.0.1.1.4.0"
+      },
+      {
+        "identity": "0924a1f6ee98f31875d854de71e6ff9c0efd15278b24ebe5fc4f86fbf2d57a24",
+        "parent_shape": "fcf6e2c1fa787f937d56eaef6e51e23f8c5b92bbeef31b7c0dacf4cbf6f8eaf6",
+        "path": "root.0.1.1.5"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "dom_child_order_mismatch",
+      "location": "template",
+      "message": "San \u6a21\u677f\u6539\u53d8\u4e86 Vue \u8282\u70b9\u7684\u76f4\u63a5\u5b50\u8282\u70b9\u987a\u5e8f\uff1a/section[1]/div[1]/div[1]/label: Vue ['input', '\u9501\u5b9a\u5bbd\u9ad8\u6bd4'] / San ['\u9501\u5b9a\u5bbd\u9ad8\u6bd4', 'input']\u3002",
+      "severity": "error",
+      "suggestion": "\u4fdd\u6301 Vue \u539f\u59cb DOM \u5b50\u8282\u70b9\u987a\u5e8f\uff0c\u5c24\u5176\u662f input/checkbox \u4e0e\u76f8\u90bb\u6587\u5b57\u3001\u767e\u5206\u53f7\u3001label \u6587\u672c\u7684\u5148\u540e\u5173\u7cfb\uff1b\u4e0d\u8981\u4f9d\u8d56 CSS \u6392\u5e8f\u66ff\u4ee3 DOM \u987a\u5e8f\u3002"
+    },
+    {
+      "code": "source_dynamic_assignment_unproven",
+      "details": {
+        "arbitrary_key_semantics_proven": false,
+        "caller_mappings": [
+          {
+            "caller": "inited",
+            "status": "unproven"
+          },
+          {
+            "caller": "update",
+            "status": "complete_caller_with_preserved_helper"
+          },
+          {
+            "caller": "toggleLock",
+            "status": "complete_caller_with_preserved_helper"
+          },
+          {
+            "caller": "reset",
+            "status": "complete_caller_with_preserved_helper"
+          }
+        ],
+        "calls": {
+          "source": [
+            {
+              "caller": "inited",
+              "key": "crop",
+              "line": 33
+            },
+            {
+              "caller": "update",
+              "key": "crop",
+              "line": 39
+            },
+            {
+              "caller": "toggleLock",
+              "key": "locked",
+              "line": 42
+            },
+            {
+              "caller": "reset",
+              "key": "crop",
+              "line": 45
+            }
+          ],
+          "target": [
+            {
+              "caller": "inited",
+              "key": "crop",
+              "line": 1
+            },
+            {
+              "caller": "update",
+              "key": "crop",
+              "line": 1
+            },
+            {
+              "caller": "toggleLock",
+              "key": "locked",
+              "line": 1
+            },
+            {
+              "caller": "reset",
+              "key": "crop",
+              "line": 1
+            }
+          ]
+        },
+        "contract": "source_internal_declared_state_assignment_v1",
+        "limitations": [
+          "not_arbitrary_external_public_key_equivalence",
+          "surrounding_call_timing_values_and_other_methods_checked_separately"
+        ],
+        "refusals": [
+          "caller_body_not_source_matched:inited",
+          "source:unknown_this_owner",
+          "target:unknown_state_write_owner"
+        ],
+        "source_keys": [
+          "crop",
+          "locked"
+        ],
+        "status": "unproven"
+      },
+      "location": "script.methods.setValue",
+      "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited, source:unknown_this_owner, target:unknown_state_write_owner. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "missing_prop_defaults",
+      "details": {
+        "affected_fields": [
+          "canvas",
+          "initialCrop"
+        ],
+        "contract": "prop_defaults_v1"
+      },
+      "location": "script",
+      "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1acanvas, initialCrop\u3002",
+      "severity": "error",
+      "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:dynamic_template_member",
+          "source:reflective_property",
+          "source:unknown_bound_attribute",
+          "target:active_template_attribute",
+          "target:dom_or_reflective_member",
+          "target:dynamic_template_member",
+          "target:reflective_property",
+          "target:unknown_member_call",
+          "target:unknown_target_loop"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "div|class=crop-box|style=",
+          "expected": "div|class=crop-box|style=left: 10%; top: 10%; width: 45%; height: 55%;",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=10",
+          "path": "root.0.1.1.0.1"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=10",
+          "path": "root.0.1.1.1.1"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=45",
+          "path": "root.0.1.1.2.1"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=55",
+          "path": "root.0.1.1.3.1"
+        },
+        {
+          "actual": "#text:\u9501\u5b9a\u5bbd\u9ad8\u6bd4",
+          "expected": "input|type=checkbox",
+          "path": "root.0.1.1.4.0"
+        },
+        {
+          "actual": "input|type=checkbox",
+          "expected": "#text:\u9501\u5b9a\u5bbd\u9ad8\u6bd4",
+          "path": "root.0.1.1.4.1"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [
+          {
+            "actual": [
+              "root.0.1.1.0.0",
+              "input",
+              "",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.1.0.0",
+              "input",
+              "10",
+              false,
+              null
+            ],
+            "kind": "live_property_changed"
+          },
+          {
+            "actual": [
+              "root.0.1.1.1.0",
+              "input",
+              "",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.1.1.0",
+              "input",
+              "10",
+              false,
+              null
+            ],
+            "kind": "live_property_changed"
+          },
+          {
+            "actual": [
+              "root.0.1.1.2.0",
+              "input",
+              "",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.1.2.0",
+              "input",
+              "45",
+              false,
+              null
+            ],
+            "kind": "live_property_changed"
+          },
+          {
+            "actual": [
+              "root.0.1.1.3.0",
+              "input",
+              "",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.1.3.0",
+              "input",
+              "55",
+              false,
+              null
+            ],
+            "kind": "live_property_changed"
+          }
+        ],
+        "equal": false,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 6,
+        "target_count": 6,
+        "values_equal_in_order": false
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "div|class=crop-box|style=",
+          "expected": "div|class=crop-box|style=left: 10%; top: 10%; width: 45%; height: 55%;",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=10",
+          "path": "root.0.1.1.0.1"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=10",
+          "path": "root.0.1.1.1.1"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=45",
+          "path": "root.0.1.1.2.1"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=55",
+          "path": "root.0.1.1.3.1"
+        },
+        {
+          "actual": "#text:\u9501\u5b9a\u5bbd\u9ad8\u6bd4",
+          "expected": "input|type=checkbox",
+          "path": "root.0.1.1.4.0"
+        },
+        {
+          "actual": "input|type=checkbox",
+          "expected": "#text:\u9501\u5b9a\u5bbd\u9ad8\u6bd4",
+          "path": "root.0.1.1.4.1"
+        }
+      ],
+      "representation_differences": []
+    },
+    {
+      "code": "rendered_control_state_mismatch",
+      "differences": [
+        {
+          "actual": [
+            "root.0.1.1.0.0",
+            "input",
+            "",
+            false,
+            null
+          ],
+          "expected": [
+            "root.0.1.1.0.0",
+            "input",
+            "10",
+            false,
+            null
+          ],
+          "kind": "live_property_changed"
+        },
+        {
+          "actual": [
+            "root.0.1.1.1.0",
+            "input",
+            "",
+            false,
+            null
+          ],
+          "expected": [
+            "root.0.1.1.1.0",
+            "input",
+            "10",
+            false,
+            null
+          ],
+          "kind": "live_property_changed"
+        },
+        {
+          "actual": [
+            "root.0.1.1.2.0",
+            "input",
+            "",
+            false,
+            null
+          ],
+          "expected": [
+            "root.0.1.1.2.0",
+            "input",
+            "45",
+            false,
+            null
+          ],
+          "kind": "live_property_changed"
+        },
+        {
+          "actual": [
+            "root.0.1.1.3.0",
+            "input",
+            "",
+            false,
+            null
+          ],
+          "expected": [
+            "root.0.1.1.3.0",
+            "input",
+            "55",
+            false,
+            null
+          ],
+          "kind": "live_property_changed"
+        }
+      ],
+      "message": "Initial live control values/types/counts differ even if screenshots or HTML attributes match."
+    }
+  ],
+  "different_pixel_ratio": 0.008972222222222222,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "source:dynamic_template_member",
+      "source:reflective_property",
+      "source:unknown_bound_attribute",
+      "target:active_template_attribute",
+      "target:dom_or_reflective_member",
+      "target:dynamic_template_member",
+      "target:reflective_property",
+      "target:unknown_member_call",
+      "target:unknown_target_loop"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "div|class=crop-box|style=",
+      "expected": "div|class=crop-box|style=left: 10%; top: 10%; width: 45%; height: 55%;",
+      "path": "root.0.1.0.0"
+    },
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=10",
+      "path": "root.0.1.1.0.1"
+    },
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=10",
+      "path": "root.0.1.1.1.1"
+    },
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=45",
+      "path": "root.0.1.1.2.1"
+    },
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=55",
+      "path": "root.0.1.1.3.1"
+    },
+    {
+      "actual": "#text:\u9501\u5b9a\u5bbd\u9ad8\u6bd4",
+      "expected": "input|type=checkbox",
+      "path": "root.0.1.1.4.0"
+    },
+    {
+      "actual": "input|type=checkbox",
+      "expected": "#text:\u9501\u5b9a\u5bbd\u9ad8\u6bd4",
+      "path": "root.0.1.1.4.1"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 7,
+    "similarity": 0.72,
+    "source_nodes": 25,
+    "target_nodes": 25
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/be81639a7c724c6fa8fd1073daed50b6/evaluations/0/heatmap.png",
+      "sha256": "b5b465ed1bfba73a2f2b66c71de9a7946f5d60f133cc8ffb9849beadc59bd874"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/be81639a7c724c6fa8fd1073daed50b6/evaluations/0/san.png",
+      "sha256": "35c0cec8de4855af4297b79f041affef470bae2a15e5733423c7f65afa7ee4d0"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/be81639a7c724c6fa8fd1073daed50b6/evaluations/0/vue.png",
+      "sha256": "dfde566fd2aa43c2acca142cd63676d393a0150a9e6ff2e35bee8cdf8a74cbe4"
+    }
+  },
+  "initial_control_state": {
+    "differences": [
+      {
+        "actual": [
+          "root.0.1.1.0.0",
+          "input",
+          "",
+          false,
+          null
+        ],
+        "expected": [
+          "root.0.1.1.0.0",
+          "input",
+          "10",
+          false,
+          null
+        ],
+        "kind": "live_property_changed"
+      },
+      {
+        "actual": [
+          "root.0.1.1.1.0",
+          "input",
+          "",
+          false,
+          null
+        ],
+        "expected": [
+          "root.0.1.1.1.0",
+          "input",
+          "10",
+          false,
+          null
+        ],
+        "kind": "live_property_changed"
+      },
+      {
+        "actual": [
+          "root.0.1.1.2.0",
+          "input",
+          "",
+          false,
+          null
+        ],
+        "expected": [
+          "root.0.1.1.2.0",
+          "input",
+          "45",
+          false,
+          null
+        ],
+        "kind": "live_property_changed"
+      },
+      {
+        "actual": [
+          "root.0.1.1.3.0",
+          "input",
+          "",
+          false,
+          null
+        ],
+        "expected": [
+          "root.0.1.1.3.0",
+          "input",
+          "55",
+          false,
+          null
+        ],
+        "kind": "live_property_changed"
+      }
+    ],
+    "equal": false,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 6,
+    "target_count": 6,
+    "values_equal_in_order": false
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "div|class=crop-box|style=",
+      "expected": "div|class=crop-box|style=left: 10%; top: 10%; width: 45%; height: 55%;",
+      "path": "root.0.1.0.0"
+    },
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=10",
+      "path": "root.0.1.1.0.1"
+    },
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=10",
+      "path": "root.0.1.1.1.1"
+    },
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=45",
+      "path": "root.0.1.1.2.1"
+    },
+    {
+      "actual": "input|type=number",
+      "expected": "input|type=number|value=55",
+      "path": "root.0.1.1.3.1"
+    },
+    {
+      "actual": "#text:\u9501\u5b9a\u5bbd\u9ad8\u6bd4",
+      "expected": "input|type=checkbox",
+      "path": "root.0.1.1.4.0"
+    },
+    {
+      "actual": "input|type=checkbox",
+      "expected": "#text:\u9501\u5b9a\u5bbd\u9ad8\u6bd4",
+      "path": "root.0.1.1.4.1"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 7,
+    "similarity": 0.72,
+    "source_nodes": 25,
+    "target_nodes": 25
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "251195769615666abd38bc699114bfc914dcbea48e2cae40019f924d63a70833",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 3,
+    "similarity": 0.8125,
+    "source_nodes": 16,
+    "target_nodes": 16
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "unproven"
+            },
+            {
+              "caller": "update",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "toggleLock",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "reset",
+              "status": "complete_caller_with_preserved_helper"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "crop",
+                "line": 33
+              },
+              {
+                "caller": "update",
+                "key": "crop",
+                "line": 39
+              },
+              {
+                "caller": "toggleLock",
+                "key": "locked",
+                "line": 42
+              },
+              {
+                "caller": "reset",
+                "key": "crop",
+                "line": 45
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "key": "crop",
+                "line": 1
+              },
+              {
+                "caller": "update",
+                "key": "crop",
+                "line": 1
+              },
+              {
+                "caller": "toggleLock",
+                "key": "locked",
+                "line": 1
+              },
+              {
+                "caller": "reset",
+                "key": "crop",
+                "line": 1
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:inited",
+            "source:unknown_this_owner",
+            "target:unknown_state_write_owner"
+          ],
+          "source_keys": [
+            "crop",
+            "locked"
+          ],
+          "status": "unproven"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "callable_unproven",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 5,
+        "uncertain": true
+      },
+      "status": "callable_semantics_unproven",
+      "target_references": {
+        "count": 4,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "update",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "toggleLock",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "reset",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 0.9653852632976665,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 12,
+    "target_nodes": 12
+  },
+  "styles": {
+    "compared_properties": 234,
+    "differences": [
+      {
+        "path": "root.0.1.0.0",
+        "property": "width",
+        "source": "231.297px",
+        "target": "6px"
+      },
+      {
+        "path": "root.0.1.0.0",
+        "property": "height",
+        "source": "159.016px",
+        "target": "6px"
+      },
+      {
+        "path": "root.0.1.1.0",
+        "property": "height",
+        "source": "44.5156px",
+        "target": "40.5156px"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "height",
+        "source": "44.5156px",
+        "target": "40.5156px"
+      },
+      {
+        "path": "root.0.1.1.2",
+        "property": "height",
+        "source": "44.5156px",
+        "target": "40.5156px"
+      },
+      {
+        "path": "root.0.1.1.3",
+        "property": "height",
+        "source": "44.5156px",
+        "target": "40.5156px"
+      },
+      {
+        "path": "root.0.1.1.4",
+        "property": "height",
+        "source": "32.5312px",
+        "target": "52.5312px"
+      },
+      {
+        "path": "root.0.1.1.4.0",
+        "property": "width",
+        "source": "48px",
+        "target": "206px"
+      },
+      {
+        "path": "root.0.1.1.5",
+        "property": "height",
+        "source": "43.5312px",
+        "target": "39.5312px"
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.9615384615384616,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 1551.2209,
+    "target": 832.9879999999994
+  },
+  "ui_restoration": 97.23086572898588
+}

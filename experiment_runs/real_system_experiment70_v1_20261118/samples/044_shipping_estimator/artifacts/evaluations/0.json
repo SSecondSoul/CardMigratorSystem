@@ -1,0 +1,1490 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "d7d4f4e8ece6f2922d5777192d7ffe52fd432381c876592b53a4b1e44b5e09af",
+        "parent_shape": "090de843ff17f905190c94f6ae8ad6321e5edc2afd4ebb91af63fded12ab8b96",
+        "path": "root.0.1.0.0"
+      },
+      {
+        "identity": "c894733c5bfbb0b9aec38af03a461efeacd7af4ea031c39ab2be0221f95c467c",
+        "parent_shape": "d62037c40164f871e21f73d3852d3c464087c1a84a08697b85f8bdc85c226f42",
+        "path": "root.0.1.0.0.0"
+      },
+      {
+        "identity": "aa56c7a0844151840fa9183f32232ec77d56c5b71b02037a8193eedd63988a09",
+        "parent_shape": "d62037c40164f871e21f73d3852d3c464087c1a84a08697b85f8bdc85c226f42",
+        "path": "root.0.1.0.0.1"
+      },
+      {
+        "identity": "891c29f7425f87a6fa2e41f27901c30536dff6439c75c88a0346c5f208f5ac80",
+        "parent_shape": "d62037c40164f871e21f73d3852d3c464087c1a84a08697b85f8bdc85c226f42",
+        "path": "root.0.1.0.0.2"
+      },
+      {
+        "identity": "cc864c1619ec17b2df87dfa078b97d0a77e679fdf3f3489c0a0467b4d72cb2a1",
+        "parent_shape": "60183831dba842635e2e2a8dfb3af1748ff49c04d6771b976ee08971745735e6",
+        "path": "root.0.1.1.0"
+      },
+      {
+        "identity": "a48f781cd5d14b16abe213b74682b7824824cc7dc3b6fe3cd89ec3b3e5d980e2",
+        "parent_shape": "e592fdfcf0b5404fbd5496af5c1b27ab5cf9d7d831a28ee5b55010dd7f3ce4cd",
+        "path": "root.0.1.2.0"
+      },
+      {
+        "identity": "6a55e4effe6c3e0c87a8baf689930970d39636c2018a6091a2197ab87a18af1e",
+        "parent_shape": "82ff0a40aa5c87768e842dd2be8da3a4a0853a974e6ee702cdb96f31938b15a3",
+        "path": "root.0.3.0"
+      },
+      {
+        "identity": "2ec6249e82ca9c35ff38a3a9e3e00c4173e3dc3cef62b2168afd1552a534157f",
+        "parent_shape": "82ff0a40aa5c87768e842dd2be8da3a4a0853a974e6ee702cdb96f31938b15a3",
+        "path": "root.0.3.1"
+      }
+    ],
+    "source_snapshot": "f2c902445246be52695f58e344bcffecc597295b632954ac98880263660b8bf7",
+    "target": [
+      {
+        "identity": "512c5d34492f54dedd6f0d3ffe94615aca5d935889dc08067d5b9c183616c39d",
+        "parent_shape": "5707822a20599df7d8cb02976456e5c67a7ca6ceff86d125408df3215b1613e1",
+        "path": "root.0.1.0.0"
+      },
+      {
+        "identity": "9da4976884147a9b7636d394a85f796100a005289509a125ec8c15110880471d",
+        "parent_shape": "1653ccdf35f752822d990187a605f99187207987eea86c3df5ff56dccbc5acd9",
+        "path": "root.0.1.1.0"
+      },
+      {
+        "identity": "a48f781cd5d14b16abe213b74682b7824824cc7dc3b6fe3cd89ec3b3e5d980e2",
+        "parent_shape": "e592fdfcf0b5404fbd5496af5c1b27ab5cf9d7d831a28ee5b55010dd7f3ce4cd",
+        "path": "root.0.1.2.0"
+      },
+      {
+        "identity": "6a55e4effe6c3e0c87a8baf689930970d39636c2018a6091a2197ab87a18af1e",
+        "parent_shape": "82ff0a40aa5c87768e842dd2be8da3a4a0853a974e6ee702cdb96f31938b15a3",
+        "path": "root.0.3.0"
+      },
+      {
+        "identity": "2ec6249e82ca9c35ff38a3a9e3e00c4173e3dc3cef62b2168afd1552a534157f",
+        "parent_shape": "82ff0a40aa5c87768e842dd2be8da3a4a0853a974e6ee702cdb96f31938b15a3",
+        "path": "root.0.3.1"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "invalid_dynamic_attribute_binding",
+      "location": "template",
+      "message": "San \u6a21\u677f\u4e2d\u68c0\u6d4b\u5230 1 \u5904 derived \u5c5e\u6027\u4f7f\u7528 {= ... =} \u53cc\u5411\u7ed1\u5b9a\uff1bdisabled\u3001checked\u3001selected \u5fc5\u987b\u4f7f\u7528 {{ ... }} \u5355\u5411\u63d2\u503c\u3002",
+      "severity": "error",
+      "suggestion": "\u4f8b\u5982\u5c06 disabled=\"{= page === 1 =}\" \u6539\u4e3a disabled=\"{{ page === 1 }}\"\u3002"
+    },
+    {
+      "code": "dom_child_order_mismatch",
+      "location": "template",
+      "message": "San \u6a21\u677f\u6539\u53d8\u4e86 Vue \u8282\u70b9\u7684\u76f4\u63a5\u5b50\u8282\u70b9\u987a\u5e8f\uff1a/form[1]/div[0]/label: Vue ['\u76ee\u7684\u5730\u533a', 'select'] / San ['select', '\u76ee\u7684\u5730\u533a']; /form[1]/div[1]/label: Vue ['\u91cd\u91cf\uff08kg\uff09', 'input'] / San ['input', '\u91cd\u91cf\uff08kg\uff09']\u3002",
+      "severity": "error",
+      "suggestion": "\u4fdd\u6301 Vue \u539f\u59cb DOM \u5b50\u8282\u70b9\u987a\u5e8f\uff0c\u5c24\u5176\u662f input/checkbox \u4e0e\u76f8\u90bb\u6587\u5b57\u3001\u767e\u5206\u53f7\u3001label \u6587\u672c\u7684\u5148\u540e\u5173\u7cfb\uff1b\u4e0d\u8981\u4f9d\u8d56 CSS \u6392\u5e8f\u66ff\u4ee3 DOM \u987a\u5e8f\u3002"
+    },
+    {
+      "code": "source_dynamic_assignment_unproven",
+      "details": {
+        "arbitrary_key_semantics_proven": false,
+        "caller_mappings": [
+          {
+            "caller": "updateRegion",
+            "status": "complete_caller_with_preserved_helper"
+          },
+          {
+            "caller": "updateWeight",
+            "status": "complete_caller_with_preserved_helper"
+          },
+          {
+            "caller": "toggleExpress",
+            "status": "complete_caller_with_preserved_helper"
+          },
+          {
+            "caller": "estimate",
+            "status": "unproven"
+          },
+          {
+            "caller": "reset",
+            "status": "complete_caller_with_preserved_helper"
+          }
+        ],
+        "calls": {
+          "source": [
+            {
+              "caller": "updateRegion",
+              "key": "regionCode",
+              "line": 44
+            },
+            {
+              "caller": "updateWeight",
+              "key": "weight",
+              "line": 47
+            },
+            {
+              "caller": "toggleExpress",
+              "key": "express",
+              "line": 50
+            },
+            {
+              "caller": "estimate",
+              "key": "error",
+              "line": 53
+            },
+            {
+              "caller": "estimate",
+              "key": "result",
+              "line": 53
+            },
+            {
+              "caller": "estimate",
+              "key": "error",
+              "line": 53
+            },
+            {
+              "caller": "estimate",
+              "key": "result",
+              "line": 53
+            },
+            {
+              "caller": "reset",
+              "key": "weight",
+              "line": 56
+            },
+            {
+              "caller": "reset",
+              "key": "express",
+              "line": 56
+            },
+            {
+              "caller": "reset",
+              "key": "result",
+              "line": 56
+            },
+            {
+              "caller": "reset",
+              "key": "error",
+              "line": 56
+            }
+          ],
+          "target": [
+            {
+              "caller": "updateRegion",
+              "key": "regionCode",
+              "line": 1
+            },
+            {
+              "caller": "updateWeight",
+              "key": "weight",
+              "line": 1
+            },
+            {
+              "caller": "toggleExpress",
+              "key": "express",
+              "line": 1
+            },
+            {
+              "caller": "estimate",
+              "key": "error",
+              "line": 1
+            },
+            {
+              "caller": "estimate",
+              "key": "result",
+              "line": 1
+            },
+            {
+              "caller": "estimate",
+              "key": "error",
+              "line": 1
+            },
+            {
+              "caller": "estimate",
+              "key": "result",
+              "line": 1
+            },
+            {
+              "caller": "reset",
+              "key": "weight",
+              "line": 1
+            },
+            {
+              "caller": "reset",
+              "key": "express",
+              "line": 1
+            },
+            {
+              "caller": "reset",
+              "key": "result",
+              "line": 1
+            },
+            {
+              "caller": "reset",
+              "key": "error",
+              "line": 1
+            }
+          ]
+        },
+        "contract": "source_internal_declared_state_assignment_v1",
+        "limitations": [
+          "not_arbitrary_external_public_key_equivalence",
+          "surrounding_call_timing_values_and_other_methods_checked_separately"
+        ],
+        "refusals": [
+          "caller_body_not_source_matched:estimate"
+        ],
+        "source_keys": [
+          "regionCode",
+          "weight",
+          "express",
+          "error",
+          "result"
+        ],
+        "status": "unproven"
+      },
+      "location": "script.methods.setValue",
+      "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:estimate. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "missing_prop_defaults",
+      "details": {
+        "affected_fields": [
+          "regions"
+        ],
+        "contract": "prop_defaults_v1"
+      },
+      "location": "script",
+      "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1aregions\u3002",
+      "severity": "error",
+      "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:unknown_member_call",
+          "target:dom_or_reflective_member",
+          "target:unknown_member_call"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "select|",
+          "expected": "#text:\u76ee\u7684\u5730\u533a",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "#text:\u76ee\u7684\u5730\u533a",
+          "expected": "select|value=near",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=near",
+          "path": "root.0.1.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=domestic",
+          "path": "root.0.1.0.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=remote",
+          "path": "root.0.1.0.1.2"
+        },
+        {
+          "actual": "input|min=0|type=number",
+          "expected": "#text:\u91cd\u91cf\uff08kg\uff09",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "actual": "#text:\u91cd\u91cf\uff08kg\uff09",
+          "expected": "input|min=0|type=number|value=1",
+          "path": "root.0.1.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "#text:\u9996\u91cd",
+          "path": "root.0.2.0"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [
+          {
+            "actual": [
+              "root.0.1.0.0",
+              "select",
+              "",
+              null,
+              null
+            ],
+            "expected": [
+              "root.0.1.0.0",
+              "select",
+              "near",
+              null,
+              null
+            ],
+            "kind": "live_property_changed"
+          },
+          {
+            "actual": [
+              "root.0.1.1.0",
+              "input",
+              "1",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.0.0.0",
+              "option",
+              "near",
+              null,
+              null
+            ],
+            "kind": "control_type_changed"
+          },
+          {
+            "actual": [
+              "root.0.1.2.0",
+              "input",
+              "on",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.0.0.1",
+              "option",
+              "domestic",
+              null,
+              null
+            ],
+            "kind": "control_type_changed"
+          },
+          {
+            "actual": [
+              "root.0.3.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "expected": [
+              "root.0.1.0.0.2",
+              "option",
+              "remote",
+              null,
+              null
+            ],
+            "kind": "control_type_changed"
+          },
+          {
+            "actual": [
+              "root.0.3.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "expected": [
+              "root.0.1.1.0",
+              "input",
+              "1",
+              false,
+              null
+            ],
+            "kind": "control_type_changed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.2.0",
+              "input",
+              "on",
+              false,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.3.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.3.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          }
+        ],
+        "equal": false,
+        "paths_equal": false,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 8,
+        "target_count": 5,
+        "values_equal_in_order": false
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "select|",
+          "expected": "#text:\u76ee\u7684\u5730\u533a",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "#text:\u76ee\u7684\u5730\u533a",
+          "expected": "select|value=near",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=near",
+          "path": "root.0.1.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=domestic",
+          "path": "root.0.1.0.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=remote",
+          "path": "root.0.1.0.1.2"
+        },
+        {
+          "actual": "input|min=0|type=number",
+          "expected": "#text:\u91cd\u91cf\uff08kg\uff09",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "actual": "#text:\u91cd\u91cf\uff08kg\uff09",
+          "expected": "input|min=0|type=number|value=1",
+          "path": "root.0.1.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "#text:\u9996\u91cd",
+          "path": "root.0.2.0"
+        }
+      ],
+      "representation_differences": []
+    },
+    {
+      "code": "rendered_control_state_mismatch",
+      "differences": [
+        {
+          "actual": [
+            "root.0.1.0.0",
+            "select",
+            "",
+            null,
+            null
+          ],
+          "expected": [
+            "root.0.1.0.0",
+            "select",
+            "near",
+            null,
+            null
+          ],
+          "kind": "live_property_changed"
+        },
+        {
+          "actual": [
+            "root.0.1.1.0",
+            "input",
+            "1",
+            false,
+            null
+          ],
+          "expected": [
+            "root.0.1.0.0.0",
+            "option",
+            "near",
+            null,
+            null
+          ],
+          "kind": "control_type_changed"
+        },
+        {
+          "actual": [
+            "root.0.1.2.0",
+            "input",
+            "on",
+            false,
+            null
+          ],
+          "expected": [
+            "root.0.1.0.0.1",
+            "option",
+            "domestic",
+            null,
+            null
+          ],
+          "kind": "control_type_changed"
+        },
+        {
+          "actual": [
+            "root.0.3.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "expected": [
+            "root.0.1.0.0.2",
+            "option",
+            "remote",
+            null,
+            null
+          ],
+          "kind": "control_type_changed"
+        },
+        {
+          "actual": [
+            "root.0.3.1",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "expected": [
+            "root.0.1.1.0",
+            "input",
+            "1",
+            false,
+            null
+          ],
+          "kind": "control_type_changed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.2.0",
+            "input",
+            "on",
+            false,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.3.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.3.1",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        }
+      ],
+      "message": "Initial live control values/types/counts differ even if screenshots or HTML attributes match."
+    }
+  ],
+  "different_pixel_ratio": 0.009875868055555556,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "source:unknown_member_call",
+      "target:dom_or_reflective_member",
+      "target:unknown_member_call"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "select|",
+      "expected": "#text:\u76ee\u7684\u5730\u533a",
+      "path": "root.0.1.0.0"
+    },
+    {
+      "actual": "#text:\u76ee\u7684\u5730\u533a",
+      "expected": "select|value=near",
+      "path": "root.0.1.0.1"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=near",
+      "path": "root.0.1.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=domestic",
+      "path": "root.0.1.0.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=remote",
+      "path": "root.0.1.0.1.2"
+    },
+    {
+      "actual": "input|min=0|type=number",
+      "expected": "#text:\u91cd\u91cf\uff08kg\uff09",
+      "path": "root.0.1.1.0"
+    },
+    {
+      "actual": "#text:\u91cd\u91cf\uff08kg\uff09",
+      "expected": "input|min=0|type=number|value=1",
+      "path": "root.0.1.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "#text:\u9996\u91cd",
+      "path": "root.0.2.0"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 11,
+    "similarity": 0.5925925925925926,
+    "source_nodes": 27,
+    "target_nodes": 20
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/8b04fe700207498eb4fa3368b85f1750/evaluations/0/heatmap.png",
+      "sha256": "ff63282a6e2db256cb4d98dce85f9ad5fcc5b1a29b37aa4d8377c1fbefb71140"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/8b04fe700207498eb4fa3368b85f1750/evaluations/0/san.png",
+      "sha256": "e9d44531ad380ba544a9caf2df5c3a07e8c904f42e220fd150a9c8a519a46b6b"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/8b04fe700207498eb4fa3368b85f1750/evaluations/0/vue.png",
+      "sha256": "2e5760c1c01592e2d5560abba9bb8eca22377f2a9229ff91a3d14347f9e67f31"
+    }
+  },
+  "initial_control_state": {
+    "differences": [
+      {
+        "actual": [
+          "root.0.1.0.0",
+          "select",
+          "",
+          null,
+          null
+        ],
+        "expected": [
+          "root.0.1.0.0",
+          "select",
+          "near",
+          null,
+          null
+        ],
+        "kind": "live_property_changed"
+      },
+      {
+        "actual": [
+          "root.0.1.1.0",
+          "input",
+          "1",
+          false,
+          null
+        ],
+        "expected": [
+          "root.0.1.0.0.0",
+          "option",
+          "near",
+          null,
+          null
+        ],
+        "kind": "control_type_changed"
+      },
+      {
+        "actual": [
+          "root.0.1.2.0",
+          "input",
+          "on",
+          false,
+          null
+        ],
+        "expected": [
+          "root.0.1.0.0.1",
+          "option",
+          "domestic",
+          null,
+          null
+        ],
+        "kind": "control_type_changed"
+      },
+      {
+        "actual": [
+          "root.0.3.0",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "expected": [
+          "root.0.1.0.0.2",
+          "option",
+          "remote",
+          null,
+          null
+        ],
+        "kind": "control_type_changed"
+      },
+      {
+        "actual": [
+          "root.0.3.1",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "expected": [
+          "root.0.1.1.0",
+          "input",
+          "1",
+          false,
+          null
+        ],
+        "kind": "control_type_changed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.2.0",
+          "input",
+          "on",
+          false,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.3.0",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.3.1",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      }
+    ],
+    "equal": false,
+    "paths_equal": false,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 8,
+    "target_count": 5,
+    "values_equal_in_order": false
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "select|",
+      "expected": "#text:\u76ee\u7684\u5730\u533a",
+      "path": "root.0.1.0.0"
+    },
+    {
+      "actual": "#text:\u76ee\u7684\u5730\u533a",
+      "expected": "select|value=near",
+      "path": "root.0.1.0.1"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=near",
+      "path": "root.0.1.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=domestic",
+      "path": "root.0.1.0.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=remote",
+      "path": "root.0.1.0.1.2"
+    },
+    {
+      "actual": "input|min=0|type=number",
+      "expected": "#text:\u91cd\u91cf\uff08kg\uff09",
+      "path": "root.0.1.1.0"
+    },
+    {
+      "actual": "#text:\u91cd\u91cf\uff08kg\uff09",
+      "expected": "input|min=0|type=number|value=1",
+      "path": "root.0.1.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "#text:\u9996\u91cd",
+      "path": "root.0.2.0"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 11,
+    "similarity": 0.5925925925925926,
+    "source_nodes": 27,
+    "target_nodes": 20
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "73a1114b2da7d84c24a40693e7776ae77717bbf0084e9b3b5882c1e1cec67d91",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 5,
+    "similarity": 0.8333333333333334,
+    "source_nodes": 30,
+    "target_nodes": 30
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "updateRegion",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "updateWeight",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "toggleExpress",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "estimate",
+              "status": "unproven"
+            },
+            {
+              "caller": "reset",
+              "status": "complete_caller_with_preserved_helper"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "updateRegion",
+                "key": "regionCode",
+                "line": 44
+              },
+              {
+                "caller": "updateWeight",
+                "key": "weight",
+                "line": 47
+              },
+              {
+                "caller": "toggleExpress",
+                "key": "express",
+                "line": 50
+              },
+              {
+                "caller": "estimate",
+                "key": "error",
+                "line": 53
+              },
+              {
+                "caller": "estimate",
+                "key": "result",
+                "line": 53
+              },
+              {
+                "caller": "estimate",
+                "key": "error",
+                "line": 53
+              },
+              {
+                "caller": "estimate",
+                "key": "result",
+                "line": 53
+              },
+              {
+                "caller": "reset",
+                "key": "weight",
+                "line": 56
+              },
+              {
+                "caller": "reset",
+                "key": "express",
+                "line": 56
+              },
+              {
+                "caller": "reset",
+                "key": "result",
+                "line": 56
+              },
+              {
+                "caller": "reset",
+                "key": "error",
+                "line": 56
+              }
+            ],
+            "target": [
+              {
+                "caller": "updateRegion",
+                "key": "regionCode",
+                "line": 1
+              },
+              {
+                "caller": "updateWeight",
+                "key": "weight",
+                "line": 1
+              },
+              {
+                "caller": "toggleExpress",
+                "key": "express",
+                "line": 1
+              },
+              {
+                "caller": "estimate",
+                "key": "error",
+                "line": 1
+              },
+              {
+                "caller": "estimate",
+                "key": "result",
+                "line": 1
+              },
+              {
+                "caller": "estimate",
+                "key": "error",
+                "line": 1
+              },
+              {
+                "caller": "estimate",
+                "key": "result",
+                "line": 1
+              },
+              {
+                "caller": "reset",
+                "key": "weight",
+                "line": 1
+              },
+              {
+                "caller": "reset",
+                "key": "express",
+                "line": 1
+              },
+              {
+                "caller": "reset",
+                "key": "result",
+                "line": 1
+              },
+              {
+                "caller": "reset",
+                "key": "error",
+                "line": 1
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:estimate"
+          ],
+          "source_keys": [
+            "regionCode",
+            "weight",
+            "express",
+            "error",
+            "result"
+          ],
+          "status": "unproven"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "callable_unproven",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 11,
+        "uncertain": true
+      },
+      "status": "callable_semantics_unproven",
+      "target_references": {
+        "count": 11,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "updateRegion",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "updateWeight",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "toggleExpress",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "estimate",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": true
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "reset",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 0.967051325341836,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 19,
+    "target_nodes": 19
+  },
+  "styles": {
+    "compared_properties": 221,
+    "differences": [
+      {
+        "path": "root",
+        "property": "height",
+        "source": "252px",
+        "target": "235px"
+      },
+      {
+        "path": "root.0",
+        "property": "height",
+        "source": "252px",
+        "target": "235px"
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "color",
+        "source": "rgb(0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "paddingLeft",
+        "source": "2px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "color",
+        "source": "rgb(0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "paddingLeft",
+        "source": "2px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "color",
+        "source": "rgb(0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "paddingLeft",
+        "source": "2px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.0.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.2",
+        "property": "height",
+        "source": "17px",
+        "target": "0px"
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.8099547511312217,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 892.5510000000004,
+    "target": 758.5268999999998
+  },
+  "ui_restoration": 94.25538524804956
+}

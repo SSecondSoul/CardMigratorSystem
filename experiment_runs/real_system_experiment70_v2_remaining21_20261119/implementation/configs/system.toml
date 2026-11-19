@@ -1,0 +1,36 @@
+schema_version = 1
+
+[model]
+backend = "qwen"
+model = "qwen-plus"
+endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+api_key_env = "LLM_API_KEY"
+network_enabled = true
+timeout_seconds = 240
+# Generation context v2: raise the ceiling, not a required output length.
+# qwen-plus documented maximum: 32768. Never accept finish_reason=length.
+max_output_tokens = 32768
+max_calls = 4
+# Soft stop after known returned usage. This is NOT a prepaid or hard billing cap.
+usage_stop_tokens = 131072
+
+[browser]
+executable = ""
+enabled = true
+width = 1280
+height = 900
+settle_ms = 500
+
+[tracing]
+enabled = false
+api_key_env = "LANGSMITH_API_KEY"
+project = "card-migrator"
+# Only hashes, stage names, decisions, timing and usage leave the machine.
+endpoint = "https://api.smith.langchain.com"
+
+[learning]
+few_shot_manifest = "configs/few-shot-builtin-v1.json"
+few_shot_count = 1
+base_model_path = ""
+adapter_path = ""
+embedding_model_path = ""

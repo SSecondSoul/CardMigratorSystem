@@ -1,0 +1,11 @@
+{
+  "code": "<template><section class=\"{{'status-switch' + (this.data.get('enabled') ? ' enabled' : '')}}\" aria-pressed=\"{{this.data.get('enabled')}}\"><div class=\"status-copy\"><strong>{{label}}</strong><span>{{this.data.get('enabled') ? '\u5df2\u542f\u7528' : '\u5df2\u505c\u7528'}}</span></div><button type=\"button\" on-click=\"toggle\">{{this.data.get('enabled') ? '\u5173\u95ed' : '\u5f00\u542f'}}</button></section></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"StatusSwitch\",dataTypes:{label:DataTypes.string,initialEnabled:DataTypes.bool},initData(){return {enabled:null}},inited(){this.data.set(\"enabled\",this.data.get(\"initialEnabled\")||false)},toggle(){const newValue=!this.data.get(\"enabled\");this.data.set(\"enabled\",newValue);this.fire(\"change\",newValue)}});</script><style>\n.status-switch { width: 300px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px; border: 1px solid #cbd5e1; border-left: 5px solid #64748b; border-radius: 6px; background: #ffffff; color: #172026; font-family: Arial, sans-serif; }\n.status-switch.enabled { border-left-color: #15803d; background: #f0fdf4; }\n.status-copy { display: grid; gap: 5px; }\n.status-copy span { color: #64748b; font-size: 13px; }\n.status-switch button { min-width: 62px; padding: 8px 12px; border: 1px solid #94a3b8; border-radius: 16px; background: #ffffff; cursor: pointer; }\n.status-switch.enabled button { border-color: #15803d; color: #166534; }\n</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/5ebafeac156b4b9f86a770d8a4779b24/revisions/0.san",
+    "sha256": "de748ccb59e970c725ee9635ee960678167eb44a4be20aec57a727220b693394"
+  },
+  "number": 0,
+  "origin": "generation",
+  "parent": null
+}

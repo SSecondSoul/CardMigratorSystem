@@ -1,0 +1,750 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "11a43a7609acf7a261db83a9ed67416ed4bdd269f64645184c24d40c7a867a3a",
+        "parent_shape": "b05db69c1d89e24ba631e4d6f65b92994f51b75357545fd1ebe56f3af54d2da4",
+        "path": "root.0.1.0.0"
+      },
+      {
+        "identity": "4aa784ccbbe473844544bf45c37288b1428c5cba1d4ea4f11be58784bedc711d",
+        "parent_shape": "ceab1bc3ea091db93cbb21379648aeae46b1cc3b77671f6a261ff298776ae5a9",
+        "path": "root.0.1.1.0"
+      },
+      {
+        "identity": "cd2866b16d1a36e6817db2467579ac5a76c30028e44f1027a376f8afb2feb565",
+        "parent_shape": "3dcae0ba58078d01c89e1959c7dee2f89df6b17cca2f89332392f1162febaa1e",
+        "path": "root.0.1.2"
+      },
+      {
+        "identity": "447a5baffae79f8a51beddf2a47b06430c02cb943a234bdc22e16986e21d7306",
+        "parent_shape": "201e2ddef3a080b85ebcde1a762b11a534908c2087bd84db8c3971fd8c33418b",
+        "path": "root.0.3"
+      }
+    ],
+    "source_snapshot": "a065c8293f9effb24d1ecb5bb1da01b7c8793a29f02df199429d8369506c89a4",
+    "target": [
+      {
+        "identity": "13e1a7a9f3447de361e60cbcdf1425bad96aa58576f015f321be54fbdeb6644d",
+        "parent_shape": "a67a33d02a71daf687a288bd0b3db16315d54ea81e2288360c7d6bea8ae741cd",
+        "path": "root.0.1.0.0"
+      },
+      {
+        "identity": "5f945274acf27f9be7b56bb731fb1d52e60949d03d5058aca1b322325e5d0a08",
+        "parent_shape": "3150bbd90e1ef1cb90b433dc5195cc73d29dc5e74791fdeff5029b12910987b0",
+        "path": "root.0.1.1.0"
+      },
+      {
+        "identity": "cd2866b16d1a36e6817db2467579ac5a76c30028e44f1027a376f8afb2feb565",
+        "parent_shape": "8a5f50f4948b1f143e6478cf0f43f3ec8d92983871e2f46383df88a359ae2ca1",
+        "path": "root.0.1.2"
+      },
+      {
+        "identity": "447a5baffae79f8a51beddf2a47b06430c02cb943a234bdc22e16986e21d7306",
+        "parent_shape": "a7539e8b2c414fd0cf646bc28fe11795ff0b1f462b3ddacb056a6ab37ed51357",
+        "path": "root.0.3"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "template_structure_mismatch",
+      "differences": [
+        {
+          "actual": "label||text:",
+          "expected": "label||text:\u524d\u7f00",
+          "path": "root.0.1.0"
+        },
+        {
+          "actual": "span||text:\u524d\u7f00",
+          "expected": null,
+          "path": "root.0.1.0.1"
+        },
+        {
+          "actual": "label||text:",
+          "expected": "label||text:\u8d77\u59cb\u5e8f\u53f7",
+          "path": "root.0.1.1"
+        },
+        {
+          "actual": "span||text:\u8d77\u59cb\u5e8f\u53f7",
+          "expected": null,
+          "path": "root.0.1.1.1"
+        }
+      ],
+      "message": "SSM/target template projection differs."
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:constructor_call",
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:unknown_or_dom_global",
+          "target:constructor_call",
+          "target:dom_or_reflective_member",
+          "target:unknown_or_dom_global"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "input|",
+          "expected": "#text:\u524d\u7f00",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "span|",
+          "expected": "input|value=asset",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "actual": "#text:\u524d\u7f00",
+          "expected": null,
+          "path": "root.0.1.0.1.0"
+        },
+        {
+          "actual": "input|min=1|type=number",
+          "expected": "#text:\u8d77\u59cb\u5e8f\u53f7",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "actual": "span|",
+          "expected": "input|min=1|type=number|value=1",
+          "path": "root.0.1.1.1"
+        },
+        {
+          "actual": "#text:\u8d77\u59cb\u5e8f\u53f7",
+          "expected": null,
+          "path": "root.0.1.1.1.0"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 4,
+        "target_count": 4,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "input|",
+          "expected": "#text:\u524d\u7f00",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "span|",
+          "expected": "input|value=asset",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "actual": "#text:\u524d\u7f00",
+          "expected": null,
+          "path": "root.0.1.0.1.0"
+        },
+        {
+          "actual": "input|min=1|type=number",
+          "expected": "#text:\u8d77\u59cb\u5e8f\u53f7",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "actual": "span|",
+          "expected": "input|min=1|type=number|value=1",
+          "path": "root.0.1.1.1"
+        },
+        {
+          "actual": "#text:\u8d77\u59cb\u5e8f\u53f7",
+          "expected": null,
+          "path": "root.0.1.1.1.0"
+        }
+      ],
+      "representation_differences": []
+    }
+  ],
+  "different_pixel_ratio": 0.004471354166666667,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:constructor_call",
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "source:unknown_or_dom_global",
+      "target:constructor_call",
+      "target:dom_or_reflective_member",
+      "target:unknown_or_dom_global"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "input|",
+      "expected": "#text:\u524d\u7f00",
+      "path": "root.0.1.0.0"
+    },
+    {
+      "actual": "span|",
+      "expected": "input|value=asset",
+      "path": "root.0.1.0.1"
+    },
+    {
+      "actual": "#text:\u524d\u7f00",
+      "expected": null,
+      "path": "root.0.1.0.1.0"
+    },
+    {
+      "actual": "input|min=1|type=number",
+      "expected": "#text:\u8d77\u59cb\u5e8f\u53f7",
+      "path": "root.0.1.1.0"
+    },
+    {
+      "actual": "span|",
+      "expected": "input|min=1|type=number|value=1",
+      "path": "root.0.1.1.1"
+    },
+    {
+      "actual": "#text:\u8d77\u59cb\u5e8f\u53f7",
+      "expected": null,
+      "path": "root.0.1.1.1.0"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 6,
+    "similarity": 0.85,
+    "source_nodes": 38,
+    "target_nodes": 40
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/189376458c334e9ca8785f2c6fc36e55/evaluations/1/heatmap.png",
+      "sha256": "bea0f86def3e9ff315c95c84f9ad5598fa34b4eed44188bf1055acb6120a2744"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/189376458c334e9ca8785f2c6fc36e55/evaluations/1/san.png",
+      "sha256": "baba2629b4db9a1055bf0948c3b415a67fa914ff0cb1bcd417ee1189bf4300d6"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/189376458c334e9ca8785f2c6fc36e55/evaluations/1/vue.png",
+      "sha256": "f1f20783efeac5f0a723b02ab7f3a441d1cdc399f7f50ce4635ce789cd67560d"
+    }
+  },
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 4,
+    "target_count": 4,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "input|",
+      "expected": "#text:\u524d\u7f00",
+      "path": "root.0.1.0.0"
+    },
+    {
+      "actual": "span|",
+      "expected": "input|value=asset",
+      "path": "root.0.1.0.1"
+    },
+    {
+      "actual": "#text:\u524d\u7f00",
+      "expected": null,
+      "path": "root.0.1.0.1.0"
+    },
+    {
+      "actual": "input|min=1|type=number",
+      "expected": "#text:\u8d77\u59cb\u5e8f\u53f7",
+      "path": "root.0.1.1.0"
+    },
+    {
+      "actual": "span|",
+      "expected": "input|min=1|type=number|value=1",
+      "path": "root.0.1.1.1"
+    },
+    {
+      "actual": "#text:\u8d77\u59cb\u5e8f\u53f7",
+      "expected": null,
+      "path": "root.0.1.1.1.0"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 6,
+    "similarity": 0.85,
+    "source_nodes": 38,
+    "target_nodes": 40
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "3a8485cea3cd802a84970deeb2e7dcccc10426f5a9e6b0933b698bc55d90a486",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 7,
+    "similarity": 0.78125,
+    "source_nodes": 30,
+    "target_nodes": 32
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "updatePrefix",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "updateStart",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "togglePreview",
+              "status": "complete_caller_with_preserved_helper"
+            },
+            {
+              "caller": "apply",
+              "status": "complete_caller_with_preserved_helper"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "currentFiles",
+                "line": 28
+              },
+              {
+                "caller": "updatePrefix",
+                "key": "prefix",
+                "line": 34
+              },
+              {
+                "caller": "updateStart",
+                "key": "startAt",
+                "line": 37
+              },
+              {
+                "caller": "togglePreview",
+                "key": "previewVisible",
+                "line": 40
+              },
+              {
+                "caller": "apply",
+                "key": "currentFiles",
+                "line": 43
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "key": "currentFiles",
+                "line": 3
+              },
+              {
+                "caller": "updatePrefix",
+                "key": "prefix",
+                "line": 3
+              },
+              {
+                "caller": "updateStart",
+                "key": "startAt",
+                "line": 3
+              },
+              {
+                "caller": "togglePreview",
+                "key": "previewVisible",
+                "line": 3
+              },
+              {
+                "caller": "apply",
+                "key": "currentFiles",
+                "line": 3
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [],
+          "source_keys": [
+            "currentFiles",
+            "prefix",
+            "startAt",
+            "previewVisible"
+          ],
+          "status": "proven_for_source_internal_calls"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "proven_for_source_internal_calls",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 5,
+        "uncertain": true
+      },
+      "status": "proven_for_source_internal_calls",
+      "target_references": {
+        "count": 5,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "updatePrefix",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "updateStart",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "togglePreview",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "apply",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": true
+      }
+    }
+  ],
+  "ssim": 0.9827353652636928,
+  "structure_differences": [
+    {
+      "actual": "label||text:",
+      "expected": "label||text:\u524d\u7f00",
+      "path": "root.0.1.0"
+    },
+    {
+      "actual": "span||text:\u524d\u7f00",
+      "expected": null,
+      "path": "root.0.1.0.1"
+    },
+    {
+      "actual": "label||text:",
+      "expected": "label||text:\u8d77\u59cb\u5e8f\u53f7",
+      "path": "root.0.1.1"
+    },
+    {
+      "actual": "span||text:\u8d77\u59cb\u5e8f\u53f7",
+      "expected": null,
+      "path": "root.0.1.1.1"
+    }
+  ],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_element_attributes_events_direct_text_v3",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 4,
+    "similarity": 0.8181818181818181,
+    "source_nodes": 20,
+    "target_nodes": 22
+  },
+  "styles": {
+    "compared_properties": 351,
+    "differences": [
+      {
+        "path": "root.0.1.0.1",
+        "property": "color",
+        "source": null,
+        "target": "rgb(36, 49, 61)"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "backgroundColor",
+        "source": null,
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "fontSize",
+        "source": null,
+        "target": "16px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "fontFamily",
+        "source": null,
+        "target": "Arial, sans-serif"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "fontWeight",
+        "source": null,
+        "target": "400"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "marginTop",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "marginLeft",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "paddingTop",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "paddingLeft",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "width",
+        "source": null,
+        "target": "470.672px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "height",
+        "source": null,
+        "target": "24px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "display",
+        "source": null,
+        "target": "block"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "position",
+        "source": null,
+        "target": "static"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "color",
+        "source": null,
+        "target": "rgb(36, 49, 61)"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "backgroundColor",
+        "source": null,
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "fontSize",
+        "source": null,
+        "target": "16px"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "fontFamily",
+        "source": null,
+        "target": "Arial, sans-serif"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "fontWeight",
+        "source": null,
+        "target": "400"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "marginTop",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "marginLeft",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "paddingTop",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "paddingLeft",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "width",
+        "source": null,
+        "target": "213px"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "height",
+        "source": null,
+        "target": "24px"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "display",
+        "source": null,
+        "target": "block"
+      },
+      {
+        "path": "root.0.1.1.1",
+        "property": "position",
+        "source": null,
+        "target": "static"
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.9259259259259259,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 1411.1877,
+    "target": 730.1200000000008
+  },
+  "ui_restoration": 97.52114615670317
+}

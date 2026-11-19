@@ -1,0 +1,18 @@
+{
+  "code": "<template><section class=\"inline-rename\"><h2>\u6587\u4ef6\u540d\u79f0</h2><div class=\"read-row\" s-if=\"!editing\"><strong>{{name}}</strong><button on-click=\"begin\">\u91cd\u547d\u540d</button></div><div class=\"edit-row\" s-else><input value=\"{= draft =}\" on-input=\"updateDraft\"><button class=\"primary\" on-click=\"save\">\u4fdd\u5b58</button><button on-click=\"cancel\">\u53d6\u6d88</button><small s-if=\"error\">{{error}}</small></div></section></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"InlineRename\",dataTypes:{initialName:DataTypes.string},initData(){return {\ninitialName: \"\u5b63\u5ea6\u62a5\u544a\",\nname:\"\u5b63\u5ea6\u62a5\u544a\",draft:\"\",editing:false,error:\"\"}},inited(){this.data.set(\"name\",this.data.get(\"initialName\"))},setValue(key,value){this.data.set(key,value)},emitEvent(name,payload){this.fire(name,payload)},begin(){this.data.set(\"draft\",this.data.get(\"name\"));this.data.set(\"error\",\"\");this.data.set(\"editing\",true)},updateDraft(event){this.data.set(\"draft\",event.target.value)},save(){const value=this.data.get(\"draft\").trim();if(!value){this.data.set(\"error\",\"\u540d\u79f0\u4e0d\u80fd\u4e3a\u7a7a\");return}this.data.set(\"name\",value);this.data.set(\"editing\",false)},cancel(){this.data.set(\"editing\",false);this.data.set(\"error\",\"\")}});</script><style>\n.inline-rename { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }\n.inline-rename * { box-sizing: border-box; }\n.inline-rename h2, .inline-rename h3, .inline-rename p { margin-top: 0; }\n.inline-rename h2 { margin-bottom: 14px; font-size: 21px; }\n.inline-rename button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }\n.inline-rename button.primary { border-color: #7c3aed; background: #7c3aed; color: #fff; }\n.inline-rename button:disabled { opacity: .45; cursor: not-allowed; }\n.inline-rename input, .inline-rename select, .inline-rename textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }\n.inline-rename .toolbar, .inline-rename .summary, .inline-rename .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }\n.inline-rename .muted { color: #71808e; font-size: 12px; }\n.inline-rename .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }\n.read-row,.edit-row{display:flex;align-items:center;gap:8px}.read-row strong{margin-right:auto}.edit-row input{flex:1}.edit-row small{width:100%;color:#b42318}\n</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/43844f54cc7c446ea7fc180ed5b97d82/revisions/1.san",
+    "sha256": "5f703af331a58bb92f8c02df81e69e31e406a771e5d8822b8694d092a7a58769"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "6577af5035b5641c8310095974d9dbc15e9be4ff2e0f0ed26ef16f6c0414c13f",
+  "repair_focus": "semantics_and_observations",
+  "rules": [
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ]
+  ]
+}

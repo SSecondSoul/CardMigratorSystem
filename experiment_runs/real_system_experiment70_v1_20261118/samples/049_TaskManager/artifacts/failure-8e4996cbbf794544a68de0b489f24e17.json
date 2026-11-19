@@ -1,0 +1,69 @@
+{
+  "error_code": "model_output_incomplete",
+  "trace": {
+    "data_scope": "hashes_stage_timing_decisions_usage_only",
+    "enabled": false,
+    "export_error": null,
+    "records": [
+      {
+        "elapsed_seconds": 6.230034589767456,
+        "error_type": null,
+        "id": "1b6a1d9c-98df-4307-8410-c211a1b7772e",
+        "name": "preflight",
+        "outputs": {
+          "error_type": null
+        },
+        "parent_run_id": "06ee6af0-8731-4fc1-b5dd-9eb548c671e6",
+        "request_sha256": "5129548b1f7db802b961ed47859c25d9cf32b5ddaab8fb8367f2c1c456486cb2",
+        "uploaded": false
+      },
+      {
+        "elapsed_seconds": 4.080479145050049,
+        "error_type": null,
+        "id": "a88b4e65-e733-418a-84dc-cc168052135e",
+        "name": "extract_ssm",
+        "outputs": {
+          "error_type": null
+        },
+        "parent_run_id": "06ee6af0-8731-4fc1-b5dd-9eb548c671e6",
+        "request_sha256": "5129548b1f7db802b961ed47859c25d9cf32b5ddaab8fb8367f2c1c456486cb2",
+        "uploaded": false
+      },
+      {
+        "elapsed_seconds": 192.77879452705383,
+        "error_type": null,
+        "id": "35be89ff-3328-4079-aaac-e480eab78e66",
+        "name": "model_call_0",
+        "outputs": {
+          "error_type": null,
+          "http_status": 200,
+          "usage": {
+            "completion_tokens": 8192,
+            "prompt_tokens": 89069,
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 97261
+          }
+        },
+        "parent_run_id": "06ee6af0-8731-4fc1-b5dd-9eb548c671e6",
+        "request_sha256": "e26f91e4b081ff8d7bb7bf98d0bc5ee0f5a0447ca315bc36635129ea0a6c0721",
+        "uploaded": false
+      },
+      {
+        "elapsed_seconds": 196.4903130531311,
+        "error_type": "ServiceError",
+        "id": "70c8d5b1-f73a-4c9c-9fc8-21b86bf6dfaf",
+        "name": "generate",
+        "outputs": {
+          "error_type": "ServiceError"
+        },
+        "parent_run_id": "06ee6af0-8731-4fc1-b5dd-9eb548c671e6",
+        "request_sha256": "5129548b1f7db802b961ed47859c25d9cf32b5ddaab8fb8367f2c1c456486cb2",
+        "uploaded": false
+      }
+    ],
+    "root_run_id": "06ee6af0-8731-4fc1-b5dd-9eb548c671e6",
+    "uploaded": false
+  }
+}

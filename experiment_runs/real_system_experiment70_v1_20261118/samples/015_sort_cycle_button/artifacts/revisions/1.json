@@ -1,0 +1,18 @@
+{
+  "code": "<template><section class=\"sort-cycle-button\"><span>{{fieldLabel}}</span><button class=\"{{direction === 'none' ? '' : direction === 'asc' ? 'asc' : 'desc'}}\" on-click=\"cycle\">{{buttonLabel}}</button></section></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"SortCycleButton\",dataTypes:{fieldLabel:DataTypes.string},initData(){return {\nfieldLabel: \"\u66f4\u65b0\u65f6\u95f4\",\ndirection:\"none\"}},computed:{buttonLabel(){const direction=this.data.get(\"direction\");return direction===\"none\"?\"\u4e0d\u6392\u5e8f\":direction===\"asc\"?\"\u5347\u5e8f \u2191\":\"\u964d\u5e8f \u2193\"}},setValue(key,value){this.data.set(key,value)},emitEvent(name,payload){this.fire(name,payload)},cycle(){const order=[\"none\",\"asc\",\"desc\"];const index=order.indexOf(this.data.get(\"direction\"));const next=order[(index+1)%order.length];this.setValue(\"direction\",next);this.emitEvent(\"change\",next)}});</script><style>.sort-cycle-button { max-width: 760px; margin: 18px auto; padding: 20px; border: 1px solid #cfd6dd; border-radius: 6px; background: #fff; color: #24313d; font-family: Arial, sans-serif; box-sizing: border-box; }\n.sort-cycle-button * { box-sizing: border-box; }\n.sort-cycle-button h2, .sort-cycle-button h3, .sort-cycle-button p { margin-top: 0; }\n.sort-cycle-button h2 { margin-bottom: 14px; font-size: 21px; }\n.sort-cycle-button button { padding: 7px 11px; border: 1px solid #aeb8c2; border-radius: 4px; background: #fff; color: #273746; cursor: pointer; }\n.sort-cycle-button button.primary { border-color: #475569; background: #475569; color: #fff; }\n.sort-cycle-button button:disabled { opacity: .45; cursor: not-allowed; }\n.sort-cycle-button input, .sort-cycle-button select, .sort-cycle-button textarea { padding: 8px; border: 1px solid #b9c3cc; border-radius: 4px; font: inherit; }\n.sort-cycle-button .toolbar, .sort-cycle-button .summary, .sort-cycle-button .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }\n.sort-cycle-button .muted { color: #71808e; font-size: 12px; }\n.sort-cycle-button .empty { padding: 24px; color: #7c8792; text-align: center; border: 1px dashed #c8d0d8; }\n.sort-cycle-button{display:flex;align-items:center;justify-content:space-between}.sort-cycle-button button.asc{border-color:#15803d;color:#15803d}.sort-cycle-button button.desc{border-color:#b91c1c;color:#b91c1c}</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/f38289acfd37455b850cb9cd4a6d98b6/revisions/1.san",
+    "sha256": "6f8fb2f01c961577e403cd6525cb3b665c3aa8a87c0b17c47b58a83b508c6d56"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "0df04e653c8a2a3cdb17a3d127fdfd40d29300ef06125b486207417020169198",
+  "repair_focus": "semantics_and_observations",
+  "rules": [
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ]
+  ]
+}

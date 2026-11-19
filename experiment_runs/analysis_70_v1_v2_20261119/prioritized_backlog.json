@@ -1,0 +1,195 @@
+[
+  {
+    "acceptance_tests": [
+      "逐属性定位空事件和循环别名错误，不再只指向模板开头",
+      "保留 dragover.prevent 与拖拽语义，不能靠删除事件通过",
+      "重复 class 只在源匹配并保留全部条件时合并；反例必须拒绝",
+      "共享关键生成／修复约束；冻结三轮候选重放；不只增加 Prompt"
+    ],
+    "detector_codes": [
+      "target_sfc_syntax_error",
+      "target_template_syntax_error",
+      "target_script_syntax_error"
+    ],
+    "evidence_reports": [
+      "real_system_experiment70_v2_generation_probe_20261118/samples/001_MonitoringDashboard/report.json",
+      "real_system_experiment70_v2_generation_probe_20261118/samples/002_TaskManager/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/013_localization_workspace/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/015_rule_builder/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/018_topology_editor/report.json"
+    ],
+    "name": "模板属性级定位与源约束语法修复",
+    "priority": "P0",
+    "status": "requires_source_bound_replay_not_a_blanket_waiver"
+  },
+  {
+    "acceptance_tests": [
+      "超过300个元素的真实源页及San页均有完整或明确不完整的证据",
+      "不能静默丢弃后续DOM／样式，也不能把超限改成通过",
+      "审查 data:image/svg+xml 自包含资源误拦；外网／脚本／不可信内容仍阻断"
+    ],
+    "detector_codes": [],
+    "evidence_reports": [],
+    "name": "评估容量与内嵌资源边界",
+    "priority": "P0",
+    "status": "confirmed_style_limit_and_source_data_uri_observation_not_fixed"
+  },
+  {
+    "acceptance_tests": [
+      "缺失节点、数字、默认数组、顺序变化仍失败",
+      "空class、value属性先审查CSS／DOM观察及控件行为；未经证明不归一化",
+      "优先恢复与源一致的目标表示，不能全局关闭DOM门"
+    ],
+    "detector_codes": [
+      "rendered_dom_mismatch",
+      "rendered_control_state_mismatch",
+      "template_structure_mismatch",
+      "dom_child_order_mismatch"
+    ],
+    "evidence_reports": [
+      "real_system_experiment70_v1_20261118/samples/001_NotificationCard/report.json",
+      "real_system_experiment70_v1_20261118/samples/003_budget_threshold/report.json",
+      "real_system_experiment70_v1_20261118/samples/006_delivery_phase_card/report.json",
+      "real_system_experiment70_v1_20261118/samples/007_file_drop_indicator/report.json",
+      "real_system_experiment70_v1_20261118/samples/008_inline_rename/report.json",
+      "real_system_experiment70_v1_20261118/samples/009_otp_code_input/report.json",
+      "real_system_experiment70_v1_20261118/samples/010_password_strength_meter/report.json",
+      "real_system_experiment70_v1_20261118/samples/013_search_clear_field/report.json",
+      "real_system_experiment70_v1_20261118/samples/016_star_rating_input/report.json",
+      "real_system_experiment70_v1_20261118/samples/017_status_switch/report.json",
+      "real_system_experiment70_v1_20261118/samples/020_temperature_dial/report.json",
+      "real_system_experiment70_v1_20261118/samples/021_text_length_gauge/report.json",
+      "real_system_experiment70_v1_20261118/samples/023_tip_split_calculator/report.json",
+      "real_system_experiment70_v1_20261118/samples/024_volume_control/report.json",
+      "real_system_experiment70_v1_20261118/samples/025_ExpenseTracker/report.json",
+      "real_system_experiment70_v1_20261118/samples/026_TodoList/report.json",
+      "real_system_experiment70_v1_20261118/samples/027_attendance_roster/report.json",
+      "real_system_experiment70_v1_20261118/samples/028_audio_segment_marker/report.json",
+      "real_system_experiment70_v1_20261118/samples/029_batch_renamer/report.json",
+      "real_system_experiment70_v1_20261118/samples/030_breadcrumb_navigator/report.json",
+      "real_system_experiment70_v1_20261118/samples/031_course_module_accordion/report.json",
+      "real_system_experiment70_v1_20261118/samples/032_data_pagination_table/report.json",
+      "real_system_experiment70_v1_20261118/samples/034_form_rule_playground/report.json",
+      "real_system_experiment70_v1_20261118/samples/035_habit_week_tracker/report.json",
+      "real_system_experiment70_v1_20261118/samples/036_image_crop_controls/report.json",
+      "real_system_experiment70_v1_20261118/samples/037_kanban_column_board/report.json",
+      "real_system_experiment70_v1_20261118/samples/038_meeting_poll_scheduler/report.json",
+      "real_system_experiment70_v1_20261118/samples/040_playback_queue/report.json",
+      "real_system_experiment70_v1_20261118/samples/041_poll_results/report.json",
+      "real_system_experiment70_v1_20261118/samples/042_quiz_navigator/report.json",
+      "real_system_experiment70_v1_20261118/samples/044_shipping_estimator/report.json",
+      "real_system_experiment70_v1_20261118/samples/045_survey_branch_form/report.json",
+      "real_system_experiment70_v1_20261118/samples/046_transfer_list/report.json",
+      "real_system_experiment70_v1_20261118/samples/047_workout_planner/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/001_access_matrix/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/002_analytics_dashboard/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/003_capacity_planning_board/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/004_crisis_communication_hub/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/005_document_approval_flow/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/006_energy_load_scheduler/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/007_experiment_rollout_console/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/008_fleet_dispatch_console/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/010_gradebook_matrix/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/011_incident_response_board/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/012_inventory_batch_manager/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/014_media_review_studio/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/016_schema_mapping_workbench/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/017_support_ticket_console/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/019_trip_itinerary_planner/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/020_warehouse_picking_wave/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/021_workflow_diagram_editor/report.json"
+    ],
+    "name": "DOM差异按真实缺失与表示差异拆分",
+    "priority": "P1",
+    "status": "requires_source_bound_replay_not_a_blanket_waiver"
+  },
+  {
+    "acceptance_tests": [
+      "初始数据、data prop、computed、生命周期与watch分别有正反例",
+      "父组件与所有内联子组件共同验证，运行时错误不得由视觉分数抵消"
+    ],
+    "detector_codes": [
+      "target_browser_error",
+      "missing_prop_defaults",
+      "missing_prop_dependent_initialization",
+      "vue_methods_wrapper",
+      "missing_lifecycle_mapping",
+      "watch_registration_not_in_lifecycle"
+    ],
+    "evidence_reports": [
+      "real_system_experiment70_v1_20261118/samples/037_kanban_column_board/report.json",
+      "real_system_experiment70_v1_20261118/samples/041_poll_results/report.json",
+      "real_system_experiment70_v1_20261118/samples/042_quiz_navigator/report.json",
+      "real_system_experiment70_v1_20261118/samples/047_workout_planner/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/001_access_matrix/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/002_analytics_dashboard/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/003_capacity_planning_board/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/006_energy_load_scheduler/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/007_experiment_rollout_console/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/012_inventory_batch_manager/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/019_trip_itinerary_planner/report.json"
+    ],
+    "name": "默认值、内联子组件和初始化链",
+    "priority": "P1",
+    "status": "requires_source_bound_replay_not_a_blanket_waiver"
+  },
+  {
+    "acceptance_tests": [
+      "28条动态赋值发现逐项核对拒绝原因，不按setValue名字放行",
+      "验证内联setter／emit包装的有限等价识别与错误事件／时序反例",
+      "保留用户已授权的内部普通data键范围，不扩展为任意公开键"
+    ],
+    "detector_codes": [
+      "source_dynamic_assignment_unproven",
+      "source_computed_collection_not_landed",
+      "source_filter_method_not_landed",
+      "source_record_update_not_landed"
+    ],
+    "evidence_reports": [
+      "real_system_experiment70_v1_20261118/samples/002_bookmark_toggle_card/report.json",
+      "real_system_experiment70_v1_20261118/samples/008_inline_rename/report.json",
+      "real_system_experiment70_v1_20261118/samples/022_theme_preview_toggle/report.json",
+      "real_system_experiment70_v1_20261118/samples/023_tip_split_calculator/report.json",
+      "real_system_experiment70_v1_20261118/samples/024_volume_control/report.json",
+      "real_system_experiment70_v1_20261118/samples/027_attendance_roster/report.json",
+      "real_system_experiment70_v1_20261118/samples/028_audio_segment_marker/report.json",
+      "real_system_experiment70_v1_20261118/samples/030_breadcrumb_navigator/report.json",
+      "real_system_experiment70_v1_20261118/samples/031_course_module_accordion/report.json",
+      "real_system_experiment70_v1_20261118/samples/032_data_pagination_table/report.json",
+      "real_system_experiment70_v1_20261118/samples/034_form_rule_playground/report.json",
+      "real_system_experiment70_v1_20261118/samples/036_image_crop_controls/report.json",
+      "real_system_experiment70_v1_20261118/samples/038_meeting_poll_scheduler/report.json",
+      "real_system_experiment70_v1_20261118/samples/040_playback_queue/report.json",
+      "real_system_experiment70_v1_20261118/samples/041_poll_results/report.json",
+      "real_system_experiment70_v1_20261118/samples/045_survey_branch_form/report.json",
+      "real_system_experiment70_v1_20261118/samples/046_transfer_list/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/003_capacity_planning_board/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/004_crisis_communication_hub/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/005_document_approval_flow/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/006_energy_load_scheduler/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/007_experiment_rollout_console/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/008_fleet_dispatch_console/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/010_gradebook_matrix/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/011_incident_response_board/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/012_inventory_batch_manager/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/017_support_ticket_console/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/019_trip_itinerary_planner/report.json",
+      "real_system_experiment70_v2_remaining21_20261119/samples/020_warehouse_picking_wave/report.json"
+    ],
+    "name": "内部调用契约的证明与迁移缺陷分流",
+    "priority": "P1",
+    "status": "requires_source_bound_replay_not_a_blanket_waiver"
+  },
+  {
+    "acceptance_tests": [
+      "无变化候选不算进步，下一轮必须反馈具体未解决属性与差异",
+      "Tokens停止是边界，不因未修好直接扩大费用额度",
+      "196次调用的实际收据核算；新版本完整70项另行冻结"
+    ],
+    "detector_codes": [],
+    "evidence_reports": [],
+    "name": "无效修复和预算反馈",
+    "priority": "P2",
+    "status": "9_exact_no_op_candidates_observed_budget_stops_preserved"
+  }
+]
