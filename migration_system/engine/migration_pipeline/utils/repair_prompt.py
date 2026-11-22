@@ -61,7 +61,7 @@ class RepairPromptBuilder:
         "source_dynamic_assignment_unproven",
         "source_method_trigger_added",
         "source_record_update_not_landed", "source_shared_record_projection_not_landed",
-        "source_parent_initialization_not_landed",
+        "source_parent_initialization_not_landed", "source_data_initialization_phase_not_landed",
         "source_computed_collection_not_landed",
         "source_filter_method_not_landed",
         "missing_lifecycle_mapping",

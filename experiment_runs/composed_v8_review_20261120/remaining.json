@@ -1,0 +1,1605 @@
+[
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_dom_mismatch"
+    ],
+    "complexity": "simple",
+    "component": "FileDropIndicator",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\file_drop_indicator",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "generation_syntax"
+    ],
+    "codes": [
+      "target_script_syntax_error"
+    ],
+    "complexity": "simple",
+    "component": "PasswordStrengthMeter",
+    "effective_dimensions": {
+      "compile_runtime": "fail",
+      "interaction": "not_run",
+      "source_baseline": "not_run",
+      "static": "fail",
+      "structure": "not_run",
+      "visual": "not_run"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\password_strength_meter",
+    "steps": [
+      {
+        "candidate_sha256": "2e90fb6438fd313a9638e7864bb1aef78c2f769693881b5296f49bbd23dc926d",
+        "changes": [
+          {
+            "end": 154,
+            "replacement": " defaultValue=\"{{password}}\"",
+            "rule": "source_nonnullable_native_value_attribute_reflection_v1",
+            "start": 154
+          }
+        ],
+        "codes": [
+          "target_script_syntax_error"
+        ],
+        "gate": {
+          "accepted": false,
+          "reason": "no_syntax_progress"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "36bafd03728d10728109f0206a844b81d86168fb61e468d0163fe16264e22eb6",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_dom_mismatch"
+    ],
+    "complexity": "simple",
+    "component": "SearchClearField",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\search_clear_field",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_dom_mismatch",
+      "template_structure_mismatch"
+    ],
+    "complexity": "simple",
+    "component": "StatusSwitch",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\status_switch",
+    "steps": [
+      {
+        "candidate_sha256": "7b729941385b82ff5343e4f793dc6490486398ac79a3e6e26c2e984ac0656db4",
+        "changes": [
+          [
+            "bounded_ast_semantics",
+            "restored_source_pure_prop_data_initialization_phase"
+          ]
+        ],
+        "codes": [
+          "rendered_dom_mismatch",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "2fd9a8c43b6deb37d438ada332abba5dbbf978516942e3494e8a4e44fa749865",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "generated_initialization_or_runtime",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "custom_event_not_fire",
+      "dom_child_order_mismatch",
+      "missing_prop_defaults",
+      "rendered_control_state_mismatch",
+      "rendered_dom_mismatch",
+      "source_method_interface_not_landed",
+      "template_structure_mismatch"
+    ],
+    "complexity": "simple",
+    "component": "TipSplitCalculator",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\tip_split_calculator",
+    "steps": [
+      {
+        "candidate_sha256": "8ff12805c709cf4f82aa2bf83ffaa12158d286499660e3e1e360d4bcf400ae43",
+        "changes": [
+          [
+            "source_parent_prop_contracts",
+            "restored_source_parent_prop_defaults"
+          ],
+          [
+            "bounded_ast_semantics",
+            "restored_source_event_forwarding_interfaces"
+          ]
+        ],
+        "codes": [
+          "dom_child_order_mismatch",
+          "rendered_control_position_mismatch",
+          "rendered_dom_mismatch",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": false,
+          "added_errors": [
+            "rendered_control_position_mismatch"
+          ],
+          "dimensions": [],
+          "reason": "candidate_regression"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract"
+    ],
+    "codes": [
+      "missing_lifecycle_mapping"
+    ],
+    "complexity": "simple",
+    "component": "VolumeControl",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "pass",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\volume_control",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "other_preserved_diagnostic",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "hidden_template_reactive_dependency",
+      "invalid_san_template_data_store_access",
+      "missing_event_handlers",
+      "rendered_dom_mismatch",
+      "source_class_binding_not_landed",
+      "source_render_dependency_not_landed",
+      "watch_registration_not_in_lifecycle"
+    ],
+    "complexity": "medium",
+    "component": "ExpenseTracker",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\ExpenseTracker",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_control_state_mismatch",
+      "rendered_dom_mismatch"
+    ],
+    "complexity": "medium",
+    "component": "TodoList",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\TodoList",
+    "steps": [
+      {
+        "candidate_sha256": "682d682f3700928fda7d4c447f35ced665356595d692dd7d8e742a47d4e3c83b",
+        "changes": [
+          {
+            "end": 809,
+            "replacement": "on-keyup=\"enter:addTodo\"",
+            "rule": "source_proven_event_modifier_and_operand_v1",
+            "start": 791
+          },
+          {
+            "end": 2687,
+            "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"newPriority\") == null ? \"\" : this.data.get(\"newPriority\");\n},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2687
+          },
+          {
+            "end": 3427,
+            "replacement": "this.__migrationSyncSelectValues();\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 3427
+          },
+          {
+            "end": 2687,
+            "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2687
+          },
+          {
+            "end": 844,
+            "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{newPriority}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 844
+          }
+        ],
+        "codes": [
+          "rendered_control_state_mismatch",
+          "rendered_dom_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "2309f524a05a4860740834ca73905983ce56376dbc54a746a1310cd3b3f48f20",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "dom_child_order_mismatch",
+      "rendered_control_position_mismatch",
+      "rendered_dom_mismatch",
+      "template_structure_mismatch"
+    ],
+    "complexity": "medium",
+    "component": "BatchRenamer",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\batch_renamer",
+    "steps": [
+      {
+        "candidate_sha256": "0701e13f4ac7143b9e4329688f030228fd5c898550dc4031b687b0736d9a74a3",
+        "changes": [
+          "restored_source_parent_prop_defaults"
+        ],
+        "codes": [
+          "dom_child_order_mismatch",
+          "rendered_control_position_mismatch",
+          "rendered_dom_mismatch",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "diagnostic_refinements": [
+            "source_default_runtime_recovery_revealed_position_defect"
+          ],
+          "migration_passed": false,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "source_defaults_runtime_recovery_first",
+        "number": 1,
+        "parent_sha256": "607c34aa0066ca1466df5bf3c79159186397fb4f7d380efb989d0a0ca558652d",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "template_structure_mismatch"
+    ],
+    "complexity": "medium",
+    "component": "DataPaginationTable",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\data_pagination_table",
+    "steps": [
+      {
+        "candidate_sha256": "e1d67e5f9a7849631847f07b7285025227427a5e99c2c167e2486a4a2d31543e",
+        "changes": [
+          {
+            "end": 988,
+            "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"pageSize\") == null ? \"\" : this.data.get(\"pageSize\");\n},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 988
+          },
+          {
+            "end": 988,
+            "replacement": "attached(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 988
+          },
+          {
+            "end": 988,
+            "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 988
+          },
+          {
+            "end": 125,
+            "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{pageSize}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 125
+          }
+        ],
+        "codes": [
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "d66a52f70da4f046bb4a4615e0b80428875a6da67573af0f0119aac3d82ab7c4",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_initialization_or_runtime",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "missing_prop_defaults",
+      "rendered_control_state_mismatch",
+      "rendered_dom_mismatch",
+      "template_structure_mismatch"
+    ],
+    "complexity": "medium",
+    "component": "FormRulePlayground",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\form_rule_playground",
+    "steps": [
+      {
+        "candidate_sha256": "3e0e4986598020e79a1a1ad01fc476501bbe3af07aa3700e6694678609c9e6be",
+        "changes": [
+          [
+            "source_parent_prop_contracts",
+            "restored_source_parent_prop_defaults"
+          ]
+        ],
+        "codes": [
+          "rendered_control_position_mismatch",
+          "rendered_dom_mismatch",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": false,
+          "added_errors": [
+            "rendered_control_position_mismatch"
+          ],
+          "dimensions": [],
+          "reason": "candidate_regression"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "839e438cb4a7e285b96121b049485a99e4445a5eac082508827cfc837a394147",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "missing_event_handlers",
+      "rendered_dom_mismatch"
+    ],
+    "complexity": "medium",
+    "component": "HabitWeekTracker",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\habit_week_tracker",
+    "steps": [
+      {
+        "candidate_sha256": "893203e40ce00de41b282afd617f086294943b3f005fa9fd59d9abf74b4ade2c",
+        "changes": [
+          {
+            "end": 516,
+            "replacement": " className=\"{{isDone(habit.id, index, records) ? 'done' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 516
+          },
+          {
+            "end": 551,
+            "replacement": "on-click=\"stop:toggle(habit.id, index)\"",
+            "rule": "source_proven_event_modifier_and_operand_v1",
+            "start": 517
+          }
+        ],
+        "codes": [
+          "event_arguments_not_landed",
+          "missing_event_bindings",
+          "missing_event_handlers"
+        ],
+        "gate": {
+          "accepted": false,
+          "added_errors": [
+            "event_arguments_not_landed",
+            "missing_event_bindings"
+          ],
+          "dimensions": [],
+          "reason": "candidate_regression"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "d221a388a4dcbcc425433810d287ff117ca0f7a4d8140dd37f9db044f9aabfa9",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_dom_mismatch",
+      "source_dynamic_assignment_unproven",
+      "template_structure_mismatch"
+    ],
+    "complexity": "medium",
+    "component": "ImageCropControls",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\image_crop_controls",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_control_state_mismatch",
+      "rendered_dom_mismatch",
+      "template_structure_mismatch"
+    ],
+    "complexity": "medium",
+    "component": "KanbanColumnBoard",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\kanban_column_board",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract"
+    ],
+    "codes": [
+      "nested_state_mutation"
+    ],
+    "complexity": "medium",
+    "component": "PlaybackQueue",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "pass",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\playback_queue",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "dom_child_order_mismatch",
+      "rendered_control_position_mismatch",
+      "template_structure_mismatch"
+    ],
+    "complexity": "medium",
+    "component": "PollResults",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\poll_results",
+    "steps": [
+      {
+        "candidate_sha256": "c8fda2b4bc882285252c788df25ec0a76175596f6f87ee7d49f3af410eabdb9c",
+        "changes": [
+          "restored_source_parent_prop_defaults"
+        ],
+        "codes": [
+          "dom_child_order_mismatch",
+          "rendered_control_position_mismatch",
+          "rendered_dom_mismatch",
+          "source_dynamic_assignment_unproven",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "diagnostic_refinements": [
+            "source_default_runtime_recovery_revealed_position_defect"
+          ],
+          "migration_passed": false,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "source_defaults_runtime_recovery_first",
+        "number": 1,
+        "parent_sha256": "f60c3cb79e14538cef1cb69a79a4cbad11b2e23701148a065c5ed0ac71c8bfd0",
+        "passed": false
+      },
+      {
+        "candidate_sha256": "c418e9996d1c0f51899c4f0c6b63733d6d8fbb4348e16d4b8b6b638b65840311",
+        "changes": [
+          {
+            "end": 275,
+            "replacement": " className=\"{{item.id === selectedId ? 'chosen' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 275
+          },
+          [
+            "bounded_ast_semantics",
+            "restored_source_internal_setter_caller_bodies"
+          ]
+        ],
+        "codes": [
+          "dom_child_order_mismatch",
+          "rendered_control_position_mismatch",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 2,
+        "parent_sha256": "c8fda2b4bc882285252c788df25ec0a76175596f6f87ee7d49f3af410eabdb9c",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract"
+    ],
+    "codes": [
+      "source_dynamic_assignment_unproven"
+    ],
+    "complexity": "medium",
+    "component": "ShippingEstimator",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "pass",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\shipping_estimator",
+    "steps": [
+      {
+        "candidate_sha256": "9d780b870f254dc6d9aae8f13d607942b3c07751208006e2e5a359fbebcb41a7",
+        "changes": [
+          {
+            "end": 962,
+            "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"regionCode\") == null ? \"\" : this.data.get(\"regionCode\");\n},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 962
+          },
+          {
+            "end": 962,
+            "replacement": "attached(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 962
+          },
+          {
+            "end": 962,
+            "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 962
+          },
+          {
+            "end": 147,
+            "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{regionCode}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 147
+          }
+        ],
+        "codes": [
+          "source_dynamic_assignment_unproven"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "1cdb5c8e0feaa26015cd63ae525337e3dcce21cacbc5a1c0e8b7f8d1af52ce9d",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generation_syntax"
+    ],
+    "codes": [
+      "target_script_syntax_error"
+    ],
+    "complexity": "complex",
+    "component": "MonitoringDashboard",
+    "effective_dimensions": {
+      "compile_runtime": "fail",
+      "interaction": "not_run",
+      "source_baseline": "not_run",
+      "static": "fail",
+      "structure": "not_run",
+      "visual": "not_run"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\MonitoringDashboard",
+    "steps": [
+      {
+        "candidate_sha256": "7d6bcf713048a3b299b21f5539d11ceb31efe23f6e677ef9167ed60de714020e",
+        "changes": [
+          {
+            "end": 1873,
+            "replacement": "s-if=\"activeAlerts.length\"",
+            "rule": "source_matched_template_data_path_v1",
+            "start": 1841
+          },
+          {
+            "end": 2851,
+            "replacement": "s-if=\"showSettings\"",
+            "rule": "source_matched_template_data_path_v1",
+            "start": 2826
+          },
+          {
+            "end": 3228,
+            "replacement": "s-if=\"notification.show\"",
+            "rule": "source_matched_template_data_path_v1",
+            "start": 3198
+          }
+        ],
+        "codes": [
+          "target_script_syntax_error"
+        ],
+        "gate": {
+          "accepted": false,
+          "reason": "no_syntax_progress"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "71ebfd895384700546a79e900831bdad5042ec90f2100c9d29d5a4f20ad61116",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "incomplete_model_output"
+    ],
+    "codes": [
+      "model_response_unknown_no_automatic_retry"
+    ],
+    "complexity": "complex",
+    "component": "TaskManager",
+    "effective_dimensions": {},
+    "evidence": "composed_v8_final_replay_20261120\\TaskManager",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "generated_initialization_or_runtime",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "dom_child_order_mismatch",
+      "rendered_control_state_mismatch",
+      "rendered_dom_mismatch",
+      "source_data_initialization_phase_not_landed",
+      "target_browser_error",
+      "template_structure_mismatch",
+      "vue_this_state"
+    ],
+    "complexity": "complex",
+    "component": "AccessMatrix",
+    "effective_dimensions": {
+      "compile_runtime": "fail",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\access_matrix",
+    "steps": [
+      {
+        "candidate_sha256": "31809c66d7ed5a72c54e7c5156b41b75eaa9f5fc1e88d65ee90085be4fc07007",
+        "changes": [
+          {
+            "end": 925,
+            "replacement": " className=\"{{selectedRoleId === role.id ? 'active' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 925
+          },
+          [
+            "bounded_ast_semantics",
+            "restored_source_pure_prop_data_initialization_phase"
+          ]
+        ],
+        "codes": [
+          "dom_child_order_mismatch",
+          "rendered_control_position_mismatch",
+          "rendered_dom_mismatch",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": false,
+          "added_errors": [
+            "rendered_control_position_mismatch"
+          ],
+          "dimensions": [],
+          "reason": "candidate_regression"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "43b98e12cbf46cc85a8074c195e225098968a6a3344a9a3d2bf6b4b67051d4b6",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "generated_initialization_or_runtime",
+      "generation_syntax",
+      "other_preserved_diagnostic",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "duplicate_class_attribute",
+      "invalid_san_computed_instance_method_call",
+      "missing_event_handlers",
+      "missing_init_data",
+      "missing_lifecycle_mapping",
+      "missing_prop_defaults",
+      "nested_state_mutation",
+      "rendered_dom_mismatch",
+      "target_browser_error",
+      "unsupported_san_inline_template_math_global",
+      "watch_registration_not_in_lifecycle"
+    ],
+    "complexity": "complex",
+    "component": "AnalyticsDashboard",
+    "effective_dimensions": {
+      "compile_runtime": "fail",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\analytics_dashboard",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "event_arguments_not_landed",
+      "missing_event_bindings",
+      "rendered_dom_mismatch",
+      "template_structure_mismatch"
+    ],
+    "complexity": "complex",
+    "component": "CapacityPlanningBoard",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\capacity_planning_board",
+    "steps": [
+      {
+        "candidate_sha256": "67546a231a696ff0a875542198c12115666fd3dd16fc13bea5a49a983e698c61",
+        "changes": [
+          {
+            "end": 2125,
+            "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"cycle\") == null ? \"\" : this.data.get(\"cycle\");\n  const node1 = this.ref(\"__migrationNativeSelect1\");\n  if (node1) node1.value = this.data.get(\"skillFilter\") == null ? \"\" : this.data.get(\"skillFilter\");\n},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2125
+          },
+          {
+            "end": 2125,
+            "replacement": "attached(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2125
+          },
+          {
+            "end": 2125,
+            "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2125
+          },
+          {
+            "end": 214,
+            "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{cycle}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 214
+          },
+          {
+            "end": 488,
+            "replacement": " s-ref=\"__migrationNativeSelect1\" VALUE=\"{{skillFilter}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 488
+          }
+        ],
+        "codes": [
+          "event_arguments_not_landed",
+          "missing_event_bindings",
+          "rendered_dom_mismatch",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "e0976e61154400aacdbb8b08f3699989a62c88bbf29000b1ab346e91d5e7aa1c",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "hidden_template_reactive_dependency",
+      "rendered_dom_mismatch",
+      "source_render_dependency_not_landed"
+    ],
+    "complexity": "complex",
+    "component": "ExperimentRolloutConsole",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\experiment_rollout_console",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_control_position_mismatch",
+      "rendered_dom_mismatch",
+      "source_dynamic_assignment_unproven"
+    ],
+    "complexity": "complex",
+    "component": "GradebookMatrix",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\gradebook_matrix",
+    "steps": [
+      {
+        "candidate_sha256": "ba0e6f1e1c97a493eb419dd3bc981b793d85588fd484ee3401a0bbd7abff6ebc",
+        "changes": [
+          "restored_source_parent_prop_defaults"
+        ],
+        "codes": [
+          "rendered_control_position_mismatch",
+          "rendered_dom_mismatch",
+          "source_dynamic_assignment_unproven"
+        ],
+        "gate": {
+          "accepted": true,
+          "diagnostic_refinements": [
+            "source_default_runtime_recovery_revealed_position_defect"
+          ],
+          "migration_passed": false,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "source_defaults_runtime_recovery_first",
+        "number": 1,
+        "parent_sha256": "aa6eb0c89124b3ef0d0359c1518ef80eaddc28dfc5f79d8f9989c63e5353aaff",
+        "passed": false
+      },
+      {
+        "candidate_sha256": "01e1f4cdb3e3b66db255ed889f1c79956ced6398c0082817918be8e6444039a7",
+        "changes": [
+          {
+            "end": 1983,
+            "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"sortMode\") == null ? \"\" : this.data.get(\"sortMode\");\n},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 1983
+          },
+          {
+            "end": 1983,
+            "replacement": "attached(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 1983
+          },
+          {
+            "end": 1983,
+            "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 1983
+          },
+          {
+            "end": 531,
+            "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{sortMode}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 531
+          }
+        ],
+        "codes": [
+          "rendered_control_position_mismatch",
+          "rendered_dom_mismatch",
+          "source_dynamic_assignment_unproven"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 2,
+        "parent_sha256": "ba0e6f1e1c97a493eb419dd3bc981b793d85588fd484ee3401a0bbd7abff6ebc",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_dom_mismatch",
+      "source_dynamic_assignment_unproven"
+    ],
+    "complexity": "complex",
+    "component": "IncidentResponseBoard",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\incident_response_board",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "missing_watch_migration",
+      "rendered_dom_mismatch",
+      "source_dynamic_assignment_unproven"
+    ],
+    "complexity": "complex",
+    "component": "InventoryBatchManager",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\inventory_batch_manager",
+    "steps": [
+      {
+        "candidate_sha256": "de2b5e58f34a423f4f1ddf2380c63a5a0cffb0a2ea3f04c592170390528faf6d",
+        "changes": [
+          {
+            "end": 2173,
+            "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"reason\") == null ? \"\" : this.data.get(\"reason\");\n},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2173
+          },
+          {
+            "end": 4214,
+            "replacement": "this.__migrationSyncSelectValues();\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 4214
+          },
+          {
+            "end": 2173,
+            "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2173
+          },
+          {
+            "end": 1764,
+            "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{reason}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 1764
+          }
+        ],
+        "codes": [
+          "missing_watch_migration",
+          "rendered_dom_mismatch",
+          "source_dynamic_assignment_unproven"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "a42be0d8357696c5f9b20ce906da058c3c384be57cb97357787d993c19fdc0b7",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "dom_child_order_mismatch"
+    ],
+    "complexity": "complex",
+    "component": "LocalizationWorkspace",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "pass",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\localization_workspace",
+    "steps": [
+      {
+        "candidate_sha256": "319ca7846a08bff39e6679a7f7a569a4756a4655fbecf6cca3614c3e2cf7a7a0",
+        "changes": [
+          {
+            "end": 2127,
+            "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"language\") == null ? \"\" : this.data.get(\"language\");\n  const node1 = this.ref(\"__migrationNativeSelect1\");\n  if (node1) node1.value = this.data.get(\"filter\") == null ? \"\" : this.data.get(\"filter\");\n},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2127
+          },
+          {
+            "end": 2127,
+            "replacement": "attached(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2127
+          },
+          {
+            "end": 2127,
+            "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 2127
+          },
+          {
+            "end": 225,
+            "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{language}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 225
+          },
+          {
+            "end": 857,
+            "replacement": " s-ref=\"__migrationNativeSelect1\" VALUE=\"{{filter}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 857
+          }
+        ],
+        "codes": [
+          "dom_child_order_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "6667579f11f74aa5179853b5b21278c51d6d65b87de3f9572ca6f11f3dd8bf91",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "generated_initialization_or_runtime",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "nested_state_mutation",
+      "rendered_control_state_mismatch",
+      "rendered_dom_mismatch",
+      "source_class_binding_not_landed",
+      "source_data_initialization_phase_not_landed",
+      "source_dom_event_not_landed",
+      "target_browser_error",
+      "template_structure_mismatch"
+    ],
+    "complexity": "complex",
+    "component": "MediaReviewStudio",
+    "effective_dimensions": {
+      "compile_runtime": "fail",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\media_review_studio",
+    "steps": [
+      {
+        "candidate_sha256": "4902c47a237e4b7607687b26672cd6e6ab4c22c424573186e66331c4eced68ce",
+        "changes": [
+          "restored_source_parent_prop_defaults"
+        ],
+        "codes": [
+          "nested_state_mutation",
+          "rendered_control_state_mismatch",
+          "rendered_dom_mismatch",
+          "source_class_binding_not_landed",
+          "source_data_initialization_phase_not_landed",
+          "source_dom_event_not_landed",
+          "target_browser_error",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "source_defaults_runtime_recovery_first",
+        "number": 1,
+        "parent_sha256": "4dfdd13f06b0ae23605edaef8e69ca10290fa736145cad676858b57e39a39a26",
+        "passed": false
+      },
+      {
+        "candidate_sha256": "228f903fd2cdb03d5daf9a26cddadab0dc9915af4eebc20f59e63671a0182f71",
+        "changes": [
+          {
+            "end": 1244,
+            "replacement": " VALUE=\"{{currentTime}}\"",
+            "rule": "source_native_nullable_value_attribute_reflection_v2",
+            "start": 1244
+          },
+          {
+            "end": 1526,
+            "replacement": " className=\"{{selectedAsset.decision === 'changes' ? 'chosen' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 1526
+          },
+          {
+            "end": 1661,
+            "replacement": " className=\"{{selectedAsset.decision === 'approved' ? 'chosen' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 1661
+          },
+          {
+            "end": 1902,
+            "replacement": " className=\"{{filter === 'all' ? 'active' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 1902
+          },
+          {
+            "end": 2009,
+            "replacement": " className=\"{{filter === 'open' ? 'active' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 2009
+          },
+          {
+            "end": 2106,
+            "replacement": "on-submit=\"prevent:addNote\"",
+            "rule": "source_proven_event_modifier_and_operand_v1",
+            "start": 2087
+          },
+          [
+            "bounded_ast_semantics",
+            "restored_source_pure_prop_data_initialization_phase"
+          ]
+        ],
+        "codes": [
+          "missing_event_bindings",
+          "nested_state_mutation",
+          "rendered_dom_mismatch",
+          "source_class_binding_not_landed",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": false,
+          "added_errors": [
+            "missing_event_bindings"
+          ],
+          "dimensions": [],
+          "reason": "candidate_regression"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 2,
+        "parent_sha256": "4902c47a237e4b7607687b26672cd6e6ab4c22c424573186e66331c4eced68ce",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_dom_mismatch",
+      "template_structure_mismatch"
+    ],
+    "complexity": "complex",
+    "component": "RuleBuilder",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\rule_builder",
+    "steps": [
+      {
+        "candidate_sha256": "4766ef1ed0869c29fba5f8d3f78c46d33184e5b0d0f48d6d1fb73f82a2a49488",
+        "changes": [
+          {
+            "end": 620,
+            "replacement": " className=\"{{invalidRuleCount ? 'warning' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 620
+          },
+          [
+            "bounded_ast_semantics",
+            "restored_source_pure_prop_data_initialization_phase"
+          ]
+        ],
+        "codes": [
+          "rendered_dom_mismatch",
+          "template_structure_mismatch"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "717235820c09f0de8acef59698ddb635824a99f8fc099c95ae650fe8ecb676e9",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_initialization_or_runtime",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_control_state_mismatch",
+      "rendered_dom_mismatch",
+      "target_browser_error"
+    ],
+    "complexity": "complex",
+    "component": "SchemaMappingWorkbench",
+    "effective_dimensions": {
+      "compile_runtime": "fail",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\schema_mapping_workbench",
+    "steps": [
+      {
+        "candidate_sha256": "9b679dd14d8d2d485edb2c0d679456b0df764e7745614658f2b9a8c64d7a49cc",
+        "changes": [
+          {
+            "end": 495,
+            "replacement": " className=\"{{field.key === sourceKey ? 'selected' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 495
+          },
+          {
+            "end": 1441,
+            "replacement": " className=\"{{issues.length ? 'validation bad' : 'validation good'}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 1441
+          },
+          {
+            "end": 1717,
+            "replacement": " className=\"{{field.key === targetKey ? 'selected' : ''}}\"",
+            "rule": "source_string_class_native_attribute_reflection_v1",
+            "start": 1717
+          }
+        ],
+        "codes": [
+          "rendered_control_state_mismatch",
+          "rendered_dom_mismatch",
+          "target_browser_error"
+        ],
+        "gate": {
+          "accepted": false,
+          "reason": "no_strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "325488761effdcb9444c6b52513e13ea019def309a470dcdabe6c81279d8562a",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract"
+    ],
+    "codes": [
+      "source_dynamic_assignment_unproven"
+    ],
+    "complexity": "complex",
+    "component": "SupportTicketConsole",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "pass",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\support_ticket_console",
+    "steps": [
+      {
+        "candidate_sha256": "62965a99dcc4eeda9176d995b4605687c613751c0738937869156e8159b6d462",
+        "changes": [
+          {
+            "end": 3083,
+            "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"statusFilter\") == null ? \"\" : this.data.get(\"statusFilter\");\n},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 3083
+          },
+          {
+            "end": 4505,
+            "replacement": "this.__migrationSyncSelectValues();\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 4505
+          },
+          {
+            "end": 3083,
+            "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 3083
+          },
+          {
+            "end": 268,
+            "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{statusFilter}}\"",
+            "rule": "source_native_select_post_option_value_v1",
+            "start": 268
+          }
+        ],
+        "codes": [
+          "source_dynamic_assignment_unproven"
+        ],
+        "gate": {
+          "accepted": true,
+          "reason": "strict_improvement"
+        },
+        "normalization_stop": "fixed_point",
+        "number": 1,
+        "parent_sha256": "3eba5ddd5cc8f6056305eea2bfc0c32abac0bc7a153522f9259e24a90c8d5b81",
+        "passed": false
+      }
+    ]
+  },
+  {
+    "cause_groups": [
+      "generation_syntax"
+    ],
+    "codes": [
+      "target_script_syntax_error"
+    ],
+    "complexity": "complex",
+    "component": "TopologyEditor",
+    "effective_dimensions": {
+      "compile_runtime": "fail",
+      "interaction": "not_run",
+      "source_baseline": "not_run",
+      "static": "fail",
+      "structure": "not_run",
+      "visual": "not_run"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\topology_editor",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "nested_state_mutation",
+      "rendered_dom_mismatch",
+      "source_computed_collection_not_landed",
+      "source_filter_method_not_landed",
+      "source_record_update_not_landed",
+      "source_shared_record_projection_not_landed"
+    ],
+    "complexity": "complex",
+    "component": "TripItineraryPlanner",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\trip_itinerary_planner",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "generated_business_semantics_or_unproven_contract",
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_dom_mismatch",
+      "source_computed_option_not_landed"
+    ],
+    "complexity": "complex",
+    "component": "WarehousePickingWave",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\warehouse_picking_wave",
+    "steps": []
+  },
+  {
+    "cause_groups": [
+      "template_native_control_or_real_DOM"
+    ],
+    "codes": [
+      "rendered_dom_mismatch"
+    ],
+    "complexity": "complex",
+    "component": "WorkflowDiagramEditor",
+    "effective_dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "evidence": "composed_v8_final_replay_20261120\\workflow_diagram_editor",
+    "steps": []
+  }
+]

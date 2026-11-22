@@ -1,9 +1,11 @@
 // Conservative, opt-in-by-analysis comparison policy, never a DOM mutation.
 // Unknown syntax/dependencies retain exact attribute-presence comparison.
+import {nativeSelectPlan} from './native-select.mjs'
 export function emptyClassPolicy(source,target,require){
   const {parse}=require('@vue/compiler-sfc'),parser=require('@babel/parser')
   const traverse=require('@babel/traverse').default,dom=require('@vue/compiler-dom'),postcss=require('postcss')
   const reasons=new Set(),block=reason=>reasons.add(reason)
+  const selectPlan=nativeSelectPlan(source,target,require)
   const globals=new Set(['undefined','NaN','Infinity','module','exports','String','Number','Boolean','Array','Object','Math','JSON'])
   const forbidden=new Set(['constructor','prototype','__proto__','window','document','globalThis','self','top','parent','frames',
     'eval','Function','Reflect','Proxy','className','classList','attributes','outerHTML','innerHTML','getAttribute','hasAttribute',
@@ -50,6 +52,7 @@ export function emptyClassPolicy(source,target,require){
         if(p.node.computed||forbidden.has(String(name))||['render','template','mixins','extends','directives'].includes(name))block(kind+':runtime_extension_method')
       }})
       traverse(ast,{
+        ObjectMethod(p){if(kind==='target'&&selectPlan?.hasHelper&&!selectPlan.edits.length&&p.node.start===selectPlan.methodStart)p.skip()},
         ReferencedIdentifier(p){
           const name=p.node.name
           if(forbidden.has(name)||(!p.scope.hasBinding(name,true)&&!globals.has(name)&&name!=='require'))block(kind+':unknown_or_dom_global')

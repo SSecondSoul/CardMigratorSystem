@@ -1,0 +1,14 @@
+import fs from 'node:fs/promises';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+const require=createRequire(import.meta.url);
+const sharp=require(require.resolve('sharp',{paths:['C:/Users/soul/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules']}));
+const groups=[['任务创建','上传或粘贴源码','填写任务和评估配置'],['迁移运行','查看当前进度','自动修复与再次检查'],['结果查看','界面对比与检查差异','查看代码和修复记录'],['文件与历史记录','下载代码和报告','查找并重新打开任务'],['账号管理','用户管理本人任务','管理员管理账号和额度'],['运行状态查看','查看服务和执行程序','查看模型与连接信息']];
+const rect=(x,y,w,h,fill,stroke='#CBD8E2')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="${fill}" stroke="${stroke}"/>`;
+const text=(t,x,y,size=21,weight=400)=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Microsoft YaHei,微软雅黑,sans-serif" font-size="${size}" font-weight="${weight}" fill="#20384F">${t}</text>`;
+let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="450" viewBox="0 0 1000 450"><rect width="1000" height="450" fill="white"/><g fill="none" stroke="#68889D" stroke-width="2"><path d="M500 73V110M175 110H825M175 110V132M500 110V132M825 110V132M500 92H35V264H825M175 264V285M500 264V285M825 264V285"/></g>`;
+svg+=rect(355,17,290,56,'#E8F1F7')+text('卡片组件迁移系统',500,53,25,700);
+groups.forEach(([name,a,b],i)=>{const x=47+(i%3)*325,y=i<3?132:285;svg+=rect(x,y,256,110,'#F5F8FA')+text(name,x+128,y+31,22,700)+text(a,x+128,y+65,18)+text(b,x+128,y+92,18)});
+svg+=text('一次任务的使用过程：创建任务 → 查看进度 → 检查结果 → 下载文件',500,436,18)+`</svg>`;
+await fs.writeFile(new URL('./14_系统功能划分.svg',import.meta.url),svg);
+await sharp(Buffer.from(svg),{density:200}).png().toFile(fileURLToPath(new URL('./14_系统功能划分.png',import.meta.url)));

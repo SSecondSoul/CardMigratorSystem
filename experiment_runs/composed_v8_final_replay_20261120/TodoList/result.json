@@ -1,0 +1,90 @@
+{
+  "baseline_codes": [
+    "rendered_control_state_mismatch",
+    "rendered_dom_mismatch"
+  ],
+  "baseline_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "complexity": "medium",
+  "component": "TodoList",
+  "effective_codes": [
+    "rendered_control_state_mismatch",
+    "rendered_dom_mismatch"
+  ],
+  "effective_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "effective_passed": false,
+  "effective_sha256": "682d682f3700928fda7d4c447f35ced665356595d692dd7d8e742a47d4e3c83b",
+  "fresh_baseline_passed": false,
+  "historical_real_model_passed": false,
+  "model_calls": 0,
+  "parent_origin": "historical_accepted_parent_v7_rejected_or_unchanged",
+  "parent_sha256": "2309f524a05a4860740834ca73905983ce56376dbc54a746a1310cd3b3f48f20",
+  "sample_id": "TodoList",
+  "scope": "offline_sequential_development_replay_NOT_fresh_generation",
+  "source_report": "real_system_experiment70_v3_general_repairs_20261119/samples/026_TodoList/report.json",
+  "status": "replayed",
+  "steps": [
+    {
+      "candidate_sha256": "682d682f3700928fda7d4c447f35ced665356595d692dd7d8e742a47d4e3c83b",
+      "changes": [
+        {
+          "end": 809,
+          "replacement": "on-keyup=\"enter:addTodo\"",
+          "rule": "source_proven_event_modifier_and_operand_v1",
+          "start": 791
+        },
+        {
+          "end": 2687,
+          "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"newPriority\") == null ? \"\" : this.data.get(\"newPriority\");\n},\n",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 2687
+        },
+        {
+          "end": 3427,
+          "replacement": "this.__migrationSyncSelectValues();\n",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 3427
+        },
+        {
+          "end": 2687,
+          "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 2687
+        },
+        {
+          "end": 844,
+          "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{newPriority}}\"",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 844
+        }
+      ],
+      "codes": [
+        "rendered_control_state_mismatch",
+        "rendered_dom_mismatch"
+      ],
+      "gate": {
+        "accepted": true,
+        "reason": "strict_improvement"
+      },
+      "normalization_stop": "fixed_point",
+      "number": 1,
+      "parent_sha256": "2309f524a05a4860740834ca73905983ce56376dbc54a746a1310cd3b3f48f20",
+      "passed": false
+    }
+  ],
+  "stop": "rule_fixed_point_requires_other_proven_rule_or_model",
+  "v7_effective_passed": false
+}

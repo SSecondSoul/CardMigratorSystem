@@ -1,0 +1,96 @@
+{
+  "baseline_codes": [
+    "event_arguments_not_landed",
+    "missing_event_bindings",
+    "rendered_dom_mismatch",
+    "template_structure_mismatch"
+  ],
+  "baseline_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "complexity": "complex",
+  "component": "CapacityPlanningBoard",
+  "effective_codes": [
+    "event_arguments_not_landed",
+    "missing_event_bindings",
+    "rendered_dom_mismatch",
+    "template_structure_mismatch"
+  ],
+  "effective_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "effective_passed": false,
+  "effective_sha256": "67546a231a696ff0a875542198c12115666fd3dd16fc13bea5a49a983e698c61",
+  "fresh_baseline_passed": false,
+  "historical_real_model_passed": false,
+  "model_calls": 0,
+  "parent_origin": "v7_gate_accepted_candidate",
+  "parent_sha256": "e0976e61154400aacdbb8b08f3699989a62c88bbf29000b1ab346e91d5e7aa1c",
+  "sample_id": "capacity_planning_board",
+  "scope": "offline_sequential_development_replay_NOT_fresh_generation",
+  "source_report": "real_system_experiment70_v3_general_repairs_20261119/samples/052_capacity_planning_board/report.json",
+  "status": "replayed",
+  "steps": [
+    {
+      "candidate_sha256": "67546a231a696ff0a875542198c12115666fd3dd16fc13bea5a49a983e698c61",
+      "changes": [
+        {
+          "end": 2125,
+          "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"cycle\") == null ? \"\" : this.data.get(\"cycle\");\n  const node1 = this.ref(\"__migrationNativeSelect1\");\n  if (node1) node1.value = this.data.get(\"skillFilter\") == null ? \"\" : this.data.get(\"skillFilter\");\n},\n",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 2125
+        },
+        {
+          "end": 2125,
+          "replacement": "attached(){this.__migrationSyncSelectValues();},\n",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 2125
+        },
+        {
+          "end": 2125,
+          "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 2125
+        },
+        {
+          "end": 214,
+          "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{cycle}}\"",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 214
+        },
+        {
+          "end": 488,
+          "replacement": " s-ref=\"__migrationNativeSelect1\" VALUE=\"{{skillFilter}}\"",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 488
+        }
+      ],
+      "codes": [
+        "event_arguments_not_landed",
+        "missing_event_bindings",
+        "rendered_dom_mismatch",
+        "template_structure_mismatch"
+      ],
+      "gate": {
+        "accepted": true,
+        "reason": "strict_improvement"
+      },
+      "normalization_stop": "fixed_point",
+      "number": 1,
+      "parent_sha256": "e0976e61154400aacdbb8b08f3699989a62c88bbf29000b1ab346e91d5e7aa1c",
+      "passed": false
+    }
+  ],
+  "stop": "rule_fixed_point_requires_other_proven_rule_or_model",
+  "v7_effective_passed": false
+}

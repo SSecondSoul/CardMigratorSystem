@@ -27,20 +27,27 @@ class ReuseEquivalenceTests(unittest.TestCase):
         cls.ssm=SSMExtractor(PROJECT/'engine').extract(SOURCE.encode(),'CounterCard.vue',sha256(SOURCE.encode()).hexdigest())['ssm']
 
     def test_internal_bundle_source_bodies_are_unchanged_and_no_experiment_runner_is_imported(self):
-        self.assertEqual(verify_engine(PROJECT/'engine')['files'],98)
+        self.assertEqual(verify_engine(PROJECT/'engine')['files'],99)
         manifest=json.loads((PROJECT/'engine/MANIFEST.json').read_bytes())
         same=0
         for name,item in manifest['files'].items():
             if item['transformation']=='none':
                 self.assertEqual((PROJECT/'engine'/name).read_bytes(),(ORIGINAL/item['source_path']).read_bytes(),name)
                 same+=1
-        self.assertEqual(same,89)
-        # Seven explicitly versioned advances; all other reused bytes remain exact.
-        modified={name:item for name,item in manifest['files'].items() if item['transformation'].startswith('2026-11-18_')}
+        self.assertEqual(same,88)
+        authored=manifest['files']['migration_pipeline/utils/native_select_semantics.cjs']
+        self.assertIsNone(authored['source_path']);self.assertIsNone(authored['source_sha256'])
+        self.assertIn('new_shared_source_bound',authored['transformation'])
+        # Eight explicit evolutions; the original record-copy proof now also
+        # proves closed array-container reorders. Historical source SHA stays.
+        modified={name:item for name,item in manifest['files'].items()
+                  if item['source_path'] is not None
+                  and item['transformation'].startswith(('2026-11-18_','2026-11-20_'))}
         self.assertEqual(set(modified),{'migration_pipeline/stages/validate.py',
             'migration_pipeline/utils/method_interface_semantics.cjs','migration_pipeline/utils/repair_prompt.py',
             'migration_pipeline/utils/bounded_semantics.cjs','migration_pipeline/stages/repair.py',
-            'migration_pipeline/utils/repair_scheduler.py','migration_pipeline/utils/residual_semantics.cjs'})
+            'migration_pipeline/utils/repair_scheduler.py','migration_pipeline/utils/residual_semantics.cjs',
+            'migration_pipeline/utils/detached_record_semantics.cjs'})
         for name,item in modified.items():
             self.assertEqual(sha256((ORIGINAL/item['source_path']).read_bytes()).hexdigest(),item['source_sha256'])
         self.assertFalse((PROJECT/'engine/migration_pipeline/orchestrator.py').exists())
@@ -98,7 +105,22 @@ class ReuseEquivalenceTests(unittest.TestCase):
         # v3 narrows a previously overbroad rejection cache: only the exact
         # rejected rule candidate is suppressed, not every rule on that parent.
         # Pin this ONE AST delta; all other orchestration/gates stay compared.
+        # v6 composes the SAME existing rules before/after a model proposal.
+        # Project only these audited stage-boundary changes to compare the
+        # original call budget, cache and acceptance orchestration underneath.
         projected=deepcopy(after)
+        saved_current=ast.parse((ORIGINAL/'experiment_runs/general_repairs_v5_review_20261119/implementation/src/card_migration_system/stages/repair.py').read_text(encoding='utf-8'))
+        prior_stage=next(n for n in saved_current.body if isinstance(n,ast.FunctionDef) and n.name=='propose_repair')
+        # Verify the new protocol explicitly rather than pretending byte reuse.
+        calls=[n for n in ast.walk(after) if isinstance(n,ast.Call) and isinstance(n.func,ast.Name) and n.func.id=='normalize_proposal']
+        self.assertEqual(len(calls),2)
+        self.assertEqual(ast.unparse(calls[0].args[5]),'ssm')
+        self.assertEqual(ast.unparse(calls[1].args[4]),'raw_code')
+        self.assertIn("model-outputs/{number}.san",ast.unparse(after))
+        self.assertIn("normalizations/{number}.json",ast.unparse(after))
+        # The frozen v3 body is the declared predecessor; compare its unchanged
+        # orchestration to the pre-refactor reference after the v3 cache delta.
+        after=prior_stage;projected=deepcopy(after);new_branch=branch(after)
         loop=next(n for n in projected.body if isinstance(n,ast.For))
         guard=loop.body[0].body[-1]
         self.assertIsInstance(guard,ast.If)

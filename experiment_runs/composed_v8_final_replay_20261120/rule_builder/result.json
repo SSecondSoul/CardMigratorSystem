@@ -1,0 +1,73 @@
+{
+  "baseline_codes": [
+    "rendered_control_state_mismatch",
+    "rendered_dom_mismatch",
+    "source_data_initialization_phase_not_landed",
+    "target_browser_error",
+    "template_structure_mismatch"
+  ],
+  "baseline_dimensions": {
+    "compile_runtime": "fail",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "complexity": "complex",
+  "component": "RuleBuilder",
+  "effective_codes": [
+    "rendered_dom_mismatch",
+    "template_structure_mismatch"
+  ],
+  "effective_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "effective_passed": false,
+  "effective_sha256": "4766ef1ed0869c29fba5f8d3f78c46d33184e5b0d0f48d6d1fb73f82a2a49488",
+  "fresh_baseline_passed": false,
+  "historical_real_model_passed": false,
+  "model_calls": 0,
+  "parent_origin": "historical_accepted_parent_v7_rejected_or_unchanged",
+  "parent_sha256": "717235820c09f0de8acef59698ddb635824a99f8fc099c95ae650fe8ecb676e9",
+  "sample_id": "rule_builder",
+  "scope": "offline_sequential_development_replay_NOT_fresh_generation",
+  "source_report": "real_system_experiment70_v3_general_repairs_20261119/samples/064_rule_builder/report.json",
+  "status": "replayed",
+  "steps": [
+    {
+      "candidate_sha256": "4766ef1ed0869c29fba5f8d3f78c46d33184e5b0d0f48d6d1fb73f82a2a49488",
+      "changes": [
+        {
+          "end": 620,
+          "replacement": " className=\"{{invalidRuleCount ? 'warning' : ''}}\"",
+          "rule": "source_string_class_native_attribute_reflection_v1",
+          "start": 620
+        },
+        [
+          "bounded_ast_semantics",
+          "restored_source_pure_prop_data_initialization_phase"
+        ]
+      ],
+      "codes": [
+        "rendered_dom_mismatch",
+        "template_structure_mismatch"
+      ],
+      "gate": {
+        "accepted": true,
+        "reason": "strict_improvement"
+      },
+      "normalization_stop": "fixed_point",
+      "number": 1,
+      "parent_sha256": "717235820c09f0de8acef59698ddb635824a99f8fc099c95ae650fe8ecb676e9",
+      "passed": false
+    }
+  ],
+  "stop": "rule_fixed_point_requires_other_proven_rule_or_model",
+  "v7_effective_passed": false
+}

@@ -116,14 +116,14 @@ TEMPLATE_CODES={'invalid_s_for_key_binding','event_arguments_not_landed','missin
     'representative_interaction_mismatch','hidden_template_reactive_dependency',
     'source_render_dependency_not_landed','dom_structure_similarity_low',
     'dom_critical_attribute_mismatch','source_class_binding_not_landed'}
-SCRIPT_CODES={'source_dynamic_assignment_unproven','event_arguments_not_landed',
+SCRIPT_CODES={'source_semantic_analysis_unavailable','source_data_initialization_phase_not_landed','source_dynamic_assignment_unproven','event_arguments_not_landed',
     'missing_event_bindings','missing_event_handlers','rendered_control_state_mismatch',
     'hidden_template_reactive_dependency','source_render_dependency_not_landed',
     'missing_prop_defaults','missing_datatypes_for_props','datatypes_type_mismatch',
     'missing_data_types','nested_state_mutation','lifecycle_behavior_not_landed',
     'missing_lifecycle_mapping','invalid_san_computed_instance_method_call','invalid_san_computed_namespace_access',
     'invalid_san_init_data_store_access','missing_inline_prop_dependent_initialization'}
-REACTIVE_CODES={'hidden_template_reactive_dependency','source_render_dependency_not_landed',
+REACTIVE_CODES={'source_data_initialization_phase_not_landed','hidden_template_reactive_dependency','source_render_dependency_not_landed',
     'invalid_san_computed_instance_method_call','nested_state_mutation'}
 
 

@@ -1,5 +1,6 @@
 """Fresh Puppeteer contexts; no public website or user browser session is controlled."""
 import json
+from hashlib import sha256
 from pathlib import Path
 import subprocess
 from .ssm import _environment
@@ -7,6 +8,51 @@ from ..application.service import ServiceError
 from ..runtime import browser_executable
 
 SOURCE_PARSE_CODES={'source_sfc_syntax_error','source_template_syntax_error','source_script_syntax_error'}
+
+
+def _default_recovery_binding(settings,request,result,*,initialization=False):
+    """Prove the WHOLE proposal is exactly one named source-bound repair.
+
+    Parsing only, no source execution/model/network. A missing witness refuses
+    refinement. This is not a template hash with expressions erased: the
+    normalized hash covers every byte of template, script and CSS. It cannot
+    authorize a changed wrapper, binding, branch, method or style.
+    """
+    try:
+        if initialization and ('props' not in request['source'] or 'inited' not in request['code']):return None
+        helper=settings.repository_root/('migration_pipeline/utils/bounded_semantics.cjs' if initialization
+                                          else 'migration_pipeline/utils/parent_prop_semantics.cjs')
+        payload={'vue':request['source'],'code':request['code'],'repair':True}
+        if initialization:payload['action']='source_data_initialization_only'
+        proc=subprocess.run(['node',str(helper)],input=json.dumps(payload).encode(),
+            capture_output=True,timeout=10,env=_environment(),cwd=settings.repository_root)
+        if proc.returncode or len(proc.stdout)>12*1024*1024:return None
+        value=json.loads(proc.stdout);normalized=value.get('code');changes=value.get('changes')
+        allowed=({'restored_source_pure_prop_data_initialization_phase'} if initialization
+                 else {'restored_source_parent_prop_schema','restored_source_parent_prop_defaults'})
+        if value.get('error') or not isinstance(normalized,str) or not isinstance(changes,list) or set(changes)-allowed:return None
+        digest=lambda text:sha256(text.encode()).hexdigest()
+        files={str(p.relative_to(settings.project_root)):sha256(p.read_bytes()).hexdigest()
+               for p in sorted((settings.project_root/'browser').glob('*.mjs'))}
+        # The source capture, input scope, browser and both pinned runtimes must
+        # agree across evaluations. No historical witness is synthesized.
+        files['pure_data_initialization_rule' if initialization else 'prop_default_rule']=sha256(helper.read_bytes()).hexdigest()
+        if initialization:
+            files['engine_manifest']=sha256((settings.repository_root/'MANIFEST.json').read_bytes()).hexdigest()
+            for p in sorted((settings.repository_root/'migration_pipeline/utils').glob('*.cjs')):
+                files['engine_helper:'+p.name]=sha256(p.read_bytes()).hexdigest()
+        for label,p in [('vue',settings.project_root/'frontend/node_modules/vue/dist/vue.global.js'),
+                        ('san',settings.repository_root/'node_modules/san/dist/san.dev.js')]:
+            files[label]=sha256(p.read_bytes()).hexdigest()
+        sides=[result['vue'],result['san']]
+        complete=not request['actions'] and all(not s['warnings'] and not s['blocked_requests']
+            and not s['evidence_overflow'] and s.get('evidence_limits',{}).get('complete') is True for s in sides)
+        return {'contract':('source_pure_data_initialization_runtime_recovery_v1' if initialization
+                            else 'source_prop_defaults_runtime_recovery_v1'),'complete':complete,
+                'code_sha256':digest(request['code']),'normalized_sha256':digest(normalized),'changes':changes,
+                'input_sha256':digest(json.dumps({k:request[k] for k in ('source','props','actions','browser')},sort_keys=True)),
+                'runtime_sha256':digest(json.dumps(files,sort_keys=True)+result.get('browser_version',''))}
+    except (OSError,ValueError,KeyError,TypeError,subprocess.TimeoutExpired):return None
 
 
 class SourceDiagnosticError(ServiceError):
@@ -73,6 +119,9 @@ class BrowserEvaluator:
                 if code in SOURCE_PARSE_CODES:raise SourceParseError(code,source,result.get('diagnostics',[]))
                 if code=='source_dynamic_key_contract_unsupported':raise SourceContractError(code,source,result.get('diagnostics',[]))
                 raise ServiceError(code if code in known else 'browser_evaluation_blocked')
+            if action=='evaluate' and result.get('status')=='completed':
+                result['default_recovery_binding']=_default_recovery_binding(self.settings,request,result)
+                result['initialization_recovery_binding']=_default_recovery_binding(self.settings,request,result,initialization=True)
             return result
         except ServiceError:raise
         except (OSError,ValueError,subprocess.TimeoutExpired):raise ServiceError('browser_unavailable') from None

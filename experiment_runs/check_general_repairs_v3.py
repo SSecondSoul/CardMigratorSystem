@@ -25,8 +25,13 @@ if __name__=='__main__':
     if args.label:MODULES=(*MODULES,'test_internal_assignment_v3_followup','test_factory_access_ast_v3')
     if args.label and args.label!='final':MODULES=(*MODULES,'test_template_branches_v3','test_inline_option_shape_v4')
     if args.label and args.label not in ('final','inline_v4'):MODULES=(*MODULES,'test_computed_options_v5')
+    if args.label.startswith(('composed_v6','composed_v7','composed_v8','composed_v9')):MODULES=(*MODULES,'test_computed_dependency_group_v6','test_normalization_v6','test_native_value_v6')
+    if args.label.startswith(('composed_v7','composed_v8','composed_v9')):MODULES=(*MODULES,'test_post_model_normalization_v6','test_remaining_repairs_v7')
+    if args.label.startswith(('composed_v8','composed_v9')):MODULES=(*MODULES,'test_internal_parameter_flow_v8','test_initialization_phase_v8','test_recovery_sequence_v8','test_native_select_v8')
+    if args.label.startswith('composed_v9'):MODULES=(*MODULES,'test_parent_hook_metadata_v9','test_initialization_recovery_v9','test_native_binding_whitespace_v9','test_template_fidelity_v9','test_class_string_serialization_v9')
     from replay_general_repairs_v3 import binding
     implementation=binding()
+    test_hashes={name:hashed(ROOT/'migration_system/tests'/(name+'.py')) for name in MODULES}
     entries=[];logs=[]
     for name in MODULES:
         try:
@@ -44,8 +49,10 @@ if __name__=='__main__':
     report={'scope':'local_unit_parser_browser_and_injected_client_regressions_not_real_model_success',
             'tests_run':sum(e['tests_run'] or 0 for e in entries),'module_results':entries,
             'successful':all(e['exit_code']==0 for e in entries),'real_model_calls':0,
-            'modules':{name:hashed(ROOT/'migration_system/tests'/(name+'.py')) for name in MODULES}}
+            'modules':test_hashes}
     if binding()!=implementation:raise ValueError('Implementation changed during tests; do not claim one-version results')
+    if test_hashes!={name:hashed(ROOT/'migration_system/tests'/(name+'.py')) for name in MODULES}:
+        raise ValueError('Tests changed during verification; do not combine versions')
     report['implementation_sha256']=implementation
     dest=ROOT/'migration_system/docs/verification/2026-11-19_general_repairs_v1'
     suffix='-'+args.label if args.label else ''

@@ -2022,7 +2022,7 @@ class RepairStage:
                           "source_mounted_order_not_landed", "source_startup_phase_not_landed",
                           "source_method_interface_not_landed", "source_method_trigger_added", "source_dynamic_assignment_unproven",
                           "source_record_update_not_landed", "source_shared_record_projection_not_landed",
-                          "source_parent_initialization_not_landed", "source_computed_collection_not_landed", "source_computed_option_not_landed", "source_filter_method_not_landed",
+                          "source_parent_initialization_not_landed", "source_data_initialization_phase_not_landed", "source_computed_collection_not_landed", "source_computed_option_not_landed", "source_filter_method_not_landed",
                           "invalid_san_computed_namespace_access"}:
             vue = (Path(vue_file_path).read_text(encoding="utf-8")
                    if vue_file_path and Path(vue_file_path).is_file() else "")

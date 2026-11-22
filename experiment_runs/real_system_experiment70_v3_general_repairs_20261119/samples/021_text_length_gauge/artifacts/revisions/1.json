@@ -1,0 +1,18 @@
+{
+  "code": "<template><label class=\"text-length-gauge\"><span class=\"gauge-title\">{{label}}</span><textarea maxlength=\"{{maxLength}}\" value=\"{{text}}\" on-input=\"updateText\"></textarea><span class=\"gauge-meta\">\u8fd8\u53ef\u8f93\u5165 {{remaining}} \u5b57</span><span class=\"gauge-track\"><span class=\"gauge-fill\" style=\"{{'width: ' + progress + '%'}}\"></span></span></label></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"TextLengthGauge\",dataTypes:{label:DataTypes.string,initialText:DataTypes.string,maxLength:DataTypes.number},initData(){return {\nlabel: '\u6458\u8981',\ninitialText: '',\nmaxLength: 80,\ntext:null}},computed:{remaining(){return Math.max(0,this.data.get(\"maxLength\")-this.data.get(\"text\").length)},progress(){return Math.round((this.data.get(\"text\").length/this.data.get(\"maxLength\"))*100)}},inited(){const initialText=this.data.get(\"initialText\")||\"\";const maxLength=this.data.get(\"maxLength\")||80;this.data.set(\"text\",initialText.slice(0,maxLength))},updateText(event){this.data.set(\"text\",event.target.value)}});</script><style>.text-length-gauge { width: 320px; display: grid; gap: 9px; padding: 18px; border: 1px solid #d7dce2; border-radius: 5px; background: #ffffff; color: #1f2937; font-family: Arial, sans-serif; }\n.gauge-title { font-weight: 700; }\n.text-length-gauge textarea { min-height: 72px; resize: vertical; padding: 10px; border: 1px solid #9ca3af; border-radius: 4px; font: inherit; }\n.gauge-meta { text-align: right; color: #64748b; font-size: 12px; }\n.gauge-track { height: 6px; overflow: hidden; background: #e5e7eb; }\n.gauge-fill { display: block; height: 100%; background: #0369a1; transition: width 0.2s ease; }\n</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/cf6c7c9753e848b79a64cc90d7d6dc8b/revisions/1.san",
+    "sha256": "4145a6dbbfef3c0cf38ec691068083ed97b006aad88297828426c4ff644fe63f"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "d64f32586cbbeef8d0537e57540314ebf8b7155726b9ea2eb13e01037461d5eb",
+  "repair_focus": "semantics_and_observations",
+  "rules": [
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ]
+  ]
+}

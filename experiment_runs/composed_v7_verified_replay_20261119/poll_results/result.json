@@ -1,0 +1,2412 @@
+{
+  "after": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "720e4a404a16cb11eb040868eb74e8ef3270c0e27735b206c4392d1400a77b3b",
+          "parent_shape": "0bc95612a431c248249c567108f7bcf6326d0014ae32c83298d7b580bab3d188",
+          "path": "root.0.0.1"
+        },
+        {
+          "identity": "ec51ca60fed709099b8cd8051c2b5b791943602c4184762e20c47ee73a50453a",
+          "parent_shape": "9abc751542569fa29a53f5079e80af6958ffacc81a736ae2c50ad4afe973309e",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "identity": "68ce00183d111b252fa0cd62b0f2a0fe57eb9a75d2a1a4987579a6933adf5266",
+          "parent_shape": "9abc751542569fa29a53f5079e80af6958ffacc81a736ae2c50ad4afe973309e",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "identity": "ad56f60e27b192227f6f8920d19c6476d3bb6b6dc77ee19d07199f1d09254b18",
+          "parent_shape": "9abc751542569fa29a53f5079e80af6958ffacc81a736ae2c50ad4afe973309e",
+          "path": "root.0.1.2.0"
+        },
+        {
+          "identity": "0924a1f6ee98f31875d854de71e6ff9c0efd15278b24ebe5fc4f86fbf2d57a24",
+          "parent_shape": "5a68f5e7507ff533fa2d3c4ad7abc14d7ba05b66af6c4e0cc14dd291d6b17af5",
+          "path": "root.0.2.0"
+        }
+      ],
+      "source_snapshot": "cd34881d5214e223cb1a0c31054eb25935a81f0144766055361f32bd172eaefb",
+      "target": [
+        {
+          "identity": "720e4a404a16cb11eb040868eb74e8ef3270c0e27735b206c4392d1400a77b3b",
+          "parent_shape": "0bc95612a431c248249c567108f7bcf6326d0014ae32c83298d7b580bab3d188",
+          "path": "root.0.0.1"
+        },
+        {
+          "identity": "ec51ca60fed709099b8cd8051c2b5b791943602c4184762e20c47ee73a50453a",
+          "parent_shape": "9abc751542569fa29a53f5079e80af6958ffacc81a736ae2c50ad4afe973309e",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "identity": "68ce00183d111b252fa0cd62b0f2a0fe57eb9a75d2a1a4987579a6933adf5266",
+          "parent_shape": "9abc751542569fa29a53f5079e80af6958ffacc81a736ae2c50ad4afe973309e",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "identity": "ad56f60e27b192227f6f8920d19c6476d3bb6b6dc77ee19d07199f1d09254b18",
+          "parent_shape": "9abc751542569fa29a53f5079e80af6958ffacc81a736ae2c50ad4afe973309e",
+          "path": "root.0.1.2.0"
+        },
+        {
+          "identity": "0924a1f6ee98f31875d854de71e6ff9c0efd15278b24ebe5fc4f86fbf2d57a24",
+          "parent_shape": "acf5eb0c1bc19596b626bb586ee67793f34529416b6da70d43debe7a78c242d1",
+          "path": "root.0.2.1"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "dom_child_order_mismatch",
+        "location": "template",
+        "message": "San 模板改变了 Vue 节点的直接子节点顺序：/section[2]/footer[0]/: Vue button / San span。",
+        "severity": "error",
+        "suggestion": "保持 Vue 原始 DOM 子节点顺序，尤其是 input/checkbox 与相邻文字、百分号、label 文本的先后关系；不要依赖 CSS 排序替代 DOM 顺序。"
+      },
+      {
+        "code": "template_structure_mismatch",
+        "differences": [
+          {
+            "actual": "footer||text:",
+            "expected": "footer||text:@binding 票",
+            "path": "root.0.2"
+          },
+          {
+            "actual": "span||text:@binding 票",
+            "expected": "button|event:click|text:重置",
+            "path": "root.0.2.0"
+          },
+          {
+            "actual": "button|event:click|text:重置",
+            "expected": null,
+            "path": "root.0.2.1"
+          }
+        ],
+        "message": "SSM/target template projection differs."
+      },
+      {
+        "code": "rendered_control_position_mismatch",
+        "differences": [
+          {
+            "actual": [
+              "root.0.2.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "expected": [
+              "root.0.2.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_path_changed"
+          }
+        ],
+        "message": "Control paths differ; captured live values match in order. Inspect actual wrapper/structure changes."
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dynamic_member",
+        "source:unknown_bound_attribute",
+        "target:active_template_attribute"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "span|",
+        "expected": "#text:20 票",
+        "path": "root.0.2.0"
+      },
+      {
+        "actual": "#text:20 票",
+        "expected": null,
+        "path": "root.0.2.0.0"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9545454545454546,
+      "source_nodes": 21,
+      "target_nodes": 22
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [
+        {
+          "actual": [
+            "root.0.2.1",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "expected": [
+            "root.0.2.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_path_changed"
+        }
+      ],
+      "equal": false,
+      "paths_equal": false,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 5,
+      "target_count": 5,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "span|",
+        "expected": "#text:20 票",
+        "path": "root.0.2.0"
+      },
+      {
+        "actual": "#text:20 票",
+        "expected": null,
+        "path": "root.0.2.0.0"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9545454545454546,
+      "source_nodes": 21,
+      "target_nodes": 22
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "c418e9996d1c0f51899c4f0c6b63733d6d8fbb4348e16d4b8b6b638b65840311",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.9,
+      "source_nodes": 19,
+      "target_nodes": 20
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "vote",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "toggleResults",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "reset",
+                "status": "complete_caller_with_inlined_write"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "options",
+                  "line": 40
+                },
+                {
+                  "caller": "vote",
+                  "key": "options",
+                  "line": 46
+                },
+                {
+                  "caller": "vote",
+                  "key": "selectedId",
+                  "line": 46
+                },
+                {
+                  "caller": "toggleResults",
+                  "key": "showResults",
+                  "line": 49
+                },
+                {
+                  "caller": "reset",
+                  "key": "options",
+                  "line": 52
+                },
+                {
+                  "caller": "reset",
+                  "key": "selectedId",
+                  "line": 52
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "options",
+                  "line": 16
+                },
+                {
+                  "caller": "vote",
+                  "key": "options",
+                  "line": 21
+                },
+                {
+                  "caller": "vote",
+                  "key": "selectedId",
+                  "line": 22
+                },
+                {
+                  "caller": "toggleResults",
+                  "form": "inlined_data_set",
+                  "key": "showResults",
+                  "line": 24
+                },
+                {
+                  "caller": "reset",
+                  "form": "inlined_data_set",
+                  "key": "options",
+                  "line": 24
+                },
+                {
+                  "caller": "reset",
+                  "form": "inlined_data_set",
+                  "key": "selectedId",
+                  "line": 24
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "options",
+              "selectedId",
+              "showResults"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 6,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "vote",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": true
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "toggleResults",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "reset",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [
+      {
+        "actual": "footer||text:",
+        "expected": "footer||text:@binding 票",
+        "path": "root.0.2"
+      },
+      {
+        "actual": "span||text:@binding 票",
+        "expected": "button|event:click|text:重置",
+        "path": "root.0.2.0"
+      },
+      {
+        "actual": "button|event:click|text:重置",
+        "expected": null,
+        "path": "root.0.2.1"
+      }
+    ],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.8571428571428572,
+      "source_nodes": 13,
+      "target_nodes": 14
+    },
+    "styles": {
+      "compared_properties": 195,
+      "differences": [
+        {
+          "path": "root.0.2.0",
+          "property": "color",
+          "source": "rgb(39, 55, 70)",
+          "target": "rgb(36, 49, 61)"
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "fontSize",
+          "source": "13.3333px",
+          "target": "16px"
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "fontFamily",
+          "source": "Arial",
+          "target": "Arial, sans-serif"
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "paddingTop",
+          "source": "7px",
+          "target": "0px"
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "paddingLeft",
+          "source": "11px",
+          "target": "0px"
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "width",
+          "source": "50.6719px",
+          "target": "38.25px"
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "height",
+          "source": "35px",
+          "target": "24px"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "color",
+          "source": null,
+          "target": "rgb(39, 55, 70)"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "backgroundColor",
+          "source": null,
+          "target": "rgb(255, 255, 255)"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "fontSize",
+          "source": null,
+          "target": "13.3333px"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "fontFamily",
+          "source": null,
+          "target": "Arial"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "fontWeight",
+          "source": null,
+          "target": "400"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "marginTop",
+          "source": null,
+          "target": "0px"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "marginLeft",
+          "source": null,
+          "target": "0px"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "paddingTop",
+          "source": null,
+          "target": "7px"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "paddingLeft",
+          "source": null,
+          "target": "11px"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "width",
+          "source": null,
+          "target": "50.6719px"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "height",
+          "source": null,
+          "target": "35px"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "display",
+          "source": null,
+          "target": "block"
+        },
+        {
+          "path": "root.0.2.1",
+          "property": "position",
+          "source": null,
+          "target": "static"
+        }
+      ],
+      "matching": "child_index_path",
+      "similarity": 0.8923076923076924,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 958.0156999999999,
+      "target": 879.4571000000005
+    },
+    "ui_restoration": 97.84615384615385
+  },
+  "before": {
+    "control_gate_evidence": {
+      "complete": false,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "720e4a404a16cb11eb040868eb74e8ef3270c0e27735b206c4392d1400a77b3b",
+          "parent_shape": "0bc95612a431c248249c567108f7bcf6326d0014ae32c83298d7b580bab3d188",
+          "path": "root.0.0.1"
+        },
+        {
+          "identity": "ec51ca60fed709099b8cd8051c2b5b791943602c4184762e20c47ee73a50453a",
+          "parent_shape": "9abc751542569fa29a53f5079e80af6958ffacc81a736ae2c50ad4afe973309e",
+          "path": "root.0.1.0.0"
+        },
+        {
+          "identity": "68ce00183d111b252fa0cd62b0f2a0fe57eb9a75d2a1a4987579a6933adf5266",
+          "parent_shape": "9abc751542569fa29a53f5079e80af6958ffacc81a736ae2c50ad4afe973309e",
+          "path": "root.0.1.1.0"
+        },
+        {
+          "identity": "ad56f60e27b192227f6f8920d19c6476d3bb6b6dc77ee19d07199f1d09254b18",
+          "parent_shape": "9abc751542569fa29a53f5079e80af6958ffacc81a736ae2c50ad4afe973309e",
+          "path": "root.0.1.2.0"
+        },
+        {
+          "identity": "0924a1f6ee98f31875d854de71e6ff9c0efd15278b24ebe5fc4f86fbf2d57a24",
+          "parent_shape": "5a68f5e7507ff533fa2d3c4ad7abc14d7ba05b66af6c4e0cc14dd291d6b17af5",
+          "path": "root.0.2.0"
+        }
+      ],
+      "source_snapshot": "cd34881d5214e223cb1a0c31054eb25935a81f0144766055361f32bd172eaefb",
+      "target": []
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "dom_child_order_mismatch",
+        "location": "template",
+        "message": "San 模板改变了 Vue 节点的直接子节点顺序：/section[2]/footer[0]/: Vue button / San span。",
+        "severity": "error",
+        "suggestion": "保持 Vue 原始 DOM 子节点顺序，尤其是 input/checkbox 与相邻文字、百分号、label 文本的先后关系；不要依赖 CSS 排序替代 DOM 顺序。"
+      },
+      {
+        "code": "source_dynamic_assignment_unproven",
+        "details": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "vote",
+              "status": "unproven"
+            },
+            {
+              "caller": "toggleResults",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "reset",
+              "status": "complete_caller_with_inlined_write"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "options",
+                "line": 40
+              },
+              {
+                "caller": "vote",
+                "key": "options",
+                "line": 46
+              },
+              {
+                "caller": "vote",
+                "key": "selectedId",
+                "line": 46
+              },
+              {
+                "caller": "toggleResults",
+                "key": "showResults",
+                "line": 49
+              },
+              {
+                "caller": "reset",
+                "key": "options",
+                "line": 52
+              },
+              {
+                "caller": "reset",
+                "key": "selectedId",
+                "line": 52
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "options",
+                "line": 1
+              },
+              {
+                "caller": "vote",
+                "form": "inlined_data_set",
+                "key": "options",
+                "line": 1
+              },
+              {
+                "caller": "vote",
+                "form": "inlined_data_set",
+                "key": "selectedId",
+                "line": 1
+              },
+              {
+                "caller": "toggleResults",
+                "form": "inlined_data_set",
+                "key": "showResults",
+                "line": 1
+              },
+              {
+                "caller": "reset",
+                "form": "inlined_data_set",
+                "key": "options",
+                "line": 1
+              },
+              {
+                "caller": "reset",
+                "form": "inlined_data_set",
+                "key": "selectedId",
+                "line": 1
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:vote"
+          ],
+          "source_keys": [
+            "options",
+            "selectedId",
+            "showResults"
+          ],
+          "status": "unproven"
+        },
+        "location": "script.methods.setValue",
+        "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:vote. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+        "severity": "error",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "missing_prop_defaults",
+        "details": {
+          "affected_fields": [
+            "initialOptions",
+            "question"
+          ],
+          "contract": "prop_defaults_v1"
+        },
+        "location": "script",
+        "message": "以下带默认值的 Vue props 未在 San initData 中落地：question, initialOptions。",
+        "severity": "error",
+        "suggestion": "将 SSM props.default 的等价值作为同名字段加入 initData 返回对象。"
+      },
+      {
+        "code": "target_browser_error",
+        "message": "san_render_failed:Cannot read properties of undefined (reading 'map')"
+      },
+      {
+        "code": "template_structure_mismatch",
+        "differences": [
+          {
+            "actual": "footer||text:",
+            "expected": "footer||text:@binding 票",
+            "path": "root.0.2"
+          },
+          {
+            "actual": "span||text:@binding 票",
+            "expected": "button|event:click|text:重置",
+            "path": "root.0.2.0"
+          },
+          {
+            "actual": "button|event:click|text:重置",
+            "expected": null,
+            "path": "root.0.2.1"
+          }
+        ],
+        "message": "SSM/target template projection differs."
+      },
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dynamic_member",
+            "source:unknown_bound_attribute",
+            "target:active_template_attribute"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": null,
+            "expected": "section|class=poll-results",
+            "path": "root.0"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [
+            {
+              "actual": null,
+              "expected": [
+                "root.0.0.1",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_added_or_removed"
+            },
+            {
+              "actual": null,
+              "expected": [
+                "root.0.1.0.0",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_added_or_removed"
+            },
+            {
+              "actual": null,
+              "expected": [
+                "root.0.1.1.0",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_added_or_removed"
+            },
+            {
+              "actual": null,
+              "expected": [
+                "root.0.1.2.0",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_added_or_removed"
+            },
+            {
+              "actual": null,
+              "expected": [
+                "root.0.2.0",
+                "button",
+                "",
+                null,
+                null
+              ],
+              "kind": "control_added_or_removed"
+            }
+          ],
+          "equal": false,
+          "paths_equal": false,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 5,
+          "target_count": 0,
+          "values_equal_in_order": false
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": null,
+            "expected": "section|class=poll-results",
+            "path": "root.0"
+          }
+        ],
+        "representation_differences": []
+      },
+      {
+        "code": "rendered_control_state_mismatch",
+        "differences": [
+          {
+            "actual": null,
+            "expected": [
+              "root.0.0.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.0.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.1.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.2.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.2.0",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          }
+        ],
+        "message": "Initial live control values/types/counts differ even if screenshots or HTML attributes match."
+      }
+    ],
+    "different_pixel_ratio": 0.008058159722222222,
+    "dimensions": {
+      "compile_runtime": "fail",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "fail"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dynamic_member",
+        "source:unknown_bound_attribute",
+        "target:active_template_attribute"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": null,
+        "expected": "section|class=poll-results",
+        "path": "root.0"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 20,
+      "similarity": 0.04761904761904767,
+      "source_nodes": 21,
+      "target_nodes": 1
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [
+        {
+          "actual": null,
+          "expected": [
+            "root.0.0.1",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.0.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.1.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.2.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.2.0",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        }
+      ],
+      "equal": false,
+      "paths_equal": false,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 5,
+      "target_count": 0,
+      "values_equal_in_order": false
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": null,
+        "expected": "section|class=poll-results",
+        "path": "root.0"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 20,
+      "similarity": 0.04761904761904767,
+      "source_nodes": 21,
+      "target_nodes": 1
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "f60c3cb79e14538cef1cb69a79a4cbad11b2e23701148a065c5ed0ac71c8bfd0",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.9,
+      "source_nodes": 19,
+      "target_nodes": 20
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "vote",
+                "status": "unproven"
+              },
+              {
+                "caller": "toggleResults",
+                "status": "complete_caller_with_inlined_write"
+              },
+              {
+                "caller": "reset",
+                "status": "complete_caller_with_inlined_write"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "options",
+                  "line": 40
+                },
+                {
+                  "caller": "vote",
+                  "key": "options",
+                  "line": 46
+                },
+                {
+                  "caller": "vote",
+                  "key": "selectedId",
+                  "line": 46
+                },
+                {
+                  "caller": "toggleResults",
+                  "key": "showResults",
+                  "line": 49
+                },
+                {
+                  "caller": "reset",
+                  "key": "options",
+                  "line": 52
+                },
+                {
+                  "caller": "reset",
+                  "key": "selectedId",
+                  "line": 52
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "options",
+                  "line": 1
+                },
+                {
+                  "caller": "vote",
+                  "form": "inlined_data_set",
+                  "key": "options",
+                  "line": 1
+                },
+                {
+                  "caller": "vote",
+                  "form": "inlined_data_set",
+                  "key": "selectedId",
+                  "line": 1
+                },
+                {
+                  "caller": "toggleResults",
+                  "form": "inlined_data_set",
+                  "key": "showResults",
+                  "line": 1
+                },
+                {
+                  "caller": "reset",
+                  "form": "inlined_data_set",
+                  "key": "options",
+                  "line": 1
+                },
+                {
+                  "caller": "reset",
+                  "form": "inlined_data_set",
+                  "key": "selectedId",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [
+              "caller_body_not_source_matched:vote"
+            ],
+            "source_keys": [
+              "options",
+              "selectedId",
+              "showResults"
+            ],
+            "status": "unproven"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "callable_unproven",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 6,
+          "uncertain": true
+        },
+        "status": "callable_semantics_unproven",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "vote",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": true
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "toggleResults",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "reset",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 0.9673880037937307,
+    "structure_differences": [
+      {
+        "actual": "footer||text:",
+        "expected": "footer||text:@binding 票",
+        "path": "root.0.2"
+      },
+      {
+        "actual": "span||text:@binding 票",
+        "expected": "button|event:click|text:重置",
+        "path": "root.0.2.0"
+      },
+      {
+        "actual": "button|event:click|text:重置",
+        "expected": null,
+        "path": "root.0.2.1"
+      }
+    ],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.8571428571428572,
+      "source_nodes": 13,
+      "target_nodes": 14
+    },
+    "styles": {
+      "compared_properties": 182,
+      "differences": [
+        {
+          "path": "root",
+          "property": "height",
+          "source": "283px",
+          "target": "0px"
+        },
+        {
+          "path": "root.0",
+          "property": "color",
+          "source": "rgb(36, 49, 61)",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "fontSize",
+          "source": "16px",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "fontFamily",
+          "source": "Arial, sans-serif",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "marginTop",
+          "source": "18px",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "marginLeft",
+          "source": "252px",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "paddingTop",
+          "source": "20px",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "paddingLeft",
+          "source": "20px",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "width",
+          "source": "760px",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "height",
+          "source": "283px",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "display",
+          "source": "block",
+          "target": null
+        },
+        {
+          "path": "root.0",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "color",
+          "source": "rgb(36, 49, 61)",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "backgroundColor",
+          "source": "rgba(0, 0, 0, 0)",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "fontSize",
+          "source": "16px",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "fontFamily",
+          "source": "Arial, sans-serif",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "paddingTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "paddingLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "width",
+          "source": "718px",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "height",
+          "source": "44px",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "display",
+          "source": "flex",
+          "target": null
+        },
+        {
+          "path": "root.0.0",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "color",
+          "source": "rgb(36, 49, 61)",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "backgroundColor",
+          "source": "rgba(0, 0, 0, 0)",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "fontSize",
+          "source": "21px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "fontFamily",
+          "source": "Arial, sans-serif",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "fontWeight",
+          "source": "700",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "paddingTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "paddingLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "width",
+          "source": "147px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "height",
+          "source": "30px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "display",
+          "source": "block",
+          "target": null
+        },
+        {
+          "path": "root.0.0.0",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "color",
+          "source": "rgb(39, 55, 70)",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "fontSize",
+          "source": "13.3333px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "fontFamily",
+          "source": "Arial",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "paddingTop",
+          "source": "7px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "paddingLeft",
+          "source": "11px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "width",
+          "source": "77.3281px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "height",
+          "source": "35px",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "display",
+          "source": "block",
+          "target": null
+        },
+        {
+          "path": "root.0.0.1",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "color",
+          "source": "rgb(36, 49, 61)",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "backgroundColor",
+          "source": "rgba(0, 0, 0, 0)",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "fontSize",
+          "source": "16px",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "fontFamily",
+          "source": "Arial, sans-serif",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "paddingTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "paddingLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "width",
+          "source": "718px",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "height",
+          "source": "162px",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "display",
+          "source": "block",
+          "target": null
+        },
+        {
+          "path": "root.0.1",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "color",
+          "source": "rgb(36, 49, 61)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "backgroundColor",
+          "source": "rgba(0, 0, 0, 0)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "fontSize",
+          "source": "16px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "fontFamily",
+          "source": "Arial, sans-serif",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "paddingTop",
+          "source": "9px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "paddingLeft",
+          "source": "9px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "width",
+          "source": "718px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "height",
+          "source": "54px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "display",
+          "source": "block",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "color",
+          "source": "rgb(39, 55, 70)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "fontSize",
+          "source": "13.3333px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "fontFamily",
+          "source": "Arial",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "paddingTop",
+          "source": "7px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "paddingLeft",
+          "source": "11px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "width",
+          "source": "77.3281px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "height",
+          "source": "35px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "display",
+          "source": "inline-block",
+          "target": null
+        },
+        {
+          "path": "root.0.1.0.0",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "color",
+          "source": "rgb(36, 49, 61)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "backgroundColor",
+          "source": "rgba(0, 0, 0, 0)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontSize",
+          "source": "16px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontFamily",
+          "source": "Arial, sans-serif",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "paddingTop",
+          "source": "9px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "paddingLeft",
+          "source": "9px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "width",
+          "source": "718px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "height",
+          "source": "54px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "display",
+          "source": "block",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "color",
+          "source": "rgb(39, 55, 70)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "fontSize",
+          "source": "13.3333px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "fontFamily",
+          "source": "Arial",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "paddingTop",
+          "source": "7px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "paddingLeft",
+          "source": "11px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "width",
+          "source": "77.3281px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "height",
+          "source": "35px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "display",
+          "source": "inline-block",
+          "target": null
+        },
+        {
+          "path": "root.0.1.1.0",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "color",
+          "source": "rgb(36, 49, 61)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "backgroundColor",
+          "source": "rgba(0, 0, 0, 0)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "fontSize",
+          "source": "16px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "fontFamily",
+          "source": "Arial, sans-serif",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "paddingTop",
+          "source": "9px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "paddingLeft",
+          "source": "9px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "width",
+          "source": "718px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "height",
+          "source": "54px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "display",
+          "source": "block",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "color",
+          "source": "rgb(39, 55, 70)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "fontSize",
+          "source": "13.3333px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "fontFamily",
+          "source": "Arial",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "paddingTop",
+          "source": "7px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "paddingLeft",
+          "source": "11px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "width",
+          "source": "77.3281px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "height",
+          "source": "35px",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "display",
+          "source": "inline-block",
+          "target": null
+        },
+        {
+          "path": "root.0.1.2.0",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "color",
+          "source": "rgb(36, 49, 61)",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "backgroundColor",
+          "source": "rgba(0, 0, 0, 0)",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "fontSize",
+          "source": "16px",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "fontFamily",
+          "source": "Arial, sans-serif",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "paddingTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "paddingLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "width",
+          "source": "718px",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "height",
+          "source": "35px",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "display",
+          "source": "flex",
+          "target": null
+        },
+        {
+          "path": "root.0.2",
+          "property": "position",
+          "source": "static",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "color",
+          "source": "rgb(39, 55, 70)",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "fontSize",
+          "source": "13.3333px",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "fontFamily",
+          "source": "Arial",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "fontWeight",
+          "source": "400",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "marginTop",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "marginLeft",
+          "source": "0px",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "paddingTop",
+          "source": "7px",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "paddingLeft",
+          "source": "11px",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "width",
+          "source": "50.6719px",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "height",
+          "source": "35px",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "display",
+          "source": "block",
+          "target": null
+        },
+        {
+          "path": "root.0.2.0",
+          "property": "position",
+          "source": "static",
+          "target": null
+        }
+      ],
+      "matching": "child_index_path",
+      "similarity": 0.06593406593406594,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 1158.0551,
+      "target": 949.6668
+    },
+    "ui_restoration": 79.44633671670118
+  },
+  "candidate_sha256": "c418e9996d1c0f51899c4f0c6b63733d6d8fbb4348e16d4b8b6b638b65840311",
+  "changed": true,
+  "changes": [
+    {
+      "end": 275,
+      "replacement": " className=\"{{item.id === selectedId ? 'chosen' : ''}}\"",
+      "rule": "source_string_class_native_attribute_reflection_v1",
+      "start": 275
+    },
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ],
+    [
+      "bounded_ast_semantics",
+      "restored_source_internal_setter_caller_bodies"
+    ]
+  ],
+  "complexity": "medium",
+  "component": "PollResults",
+  "effective_passed": false,
+  "gate": {
+    "accepted": false,
+    "added_errors": [
+      "rendered_control_position_mismatch"
+    ],
+    "dimensions": [],
+    "reason": "candidate_regression"
+  },
+  "historical_passed": false,
+  "model_calls": 0,
+  "parent_sha256": "f60c3cb79e14538cef1cb69a79a4cbad11b2e23701148a065c5ed0ac71c8bfd0",
+  "render_evidence": "v6_identical_code_capture_reused_NOT_a_new_browser_capture",
+  "reused_result": {
+    "relative_path": "composed_v6_final_replay_20261119\\poll_results\\result.json",
+    "sha256": "4c99159150dade9e0297a0bb8a2b3db31ac0717388c6b800293b5905f1fc1141"
+  },
+  "scope": "offline_frozen_artifact_proposal_not_fresh_generation",
+  "source_report": "real_system_experiment70_v3_general_repairs_20261119/samples/041_poll_results/report.json",
+  "status": "replayed"
+}

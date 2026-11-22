@@ -1,0 +1,239 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "c1f6b521450e362974b707d6c934772dac6f27ec52728eb7b6f29483327fe5be",
+        "parent_shape": "cbf5a1115e7a3aa869d582f17d5567f32c160c9e8dc32a989ac08307b5d8a8f4",
+        "path": "root.0.1"
+      }
+    ],
+    "source_snapshot": "16fa974ab6254222e8acee68c5e745c06dc10162743ec04e94165c4a98aa011e",
+    "target": [
+      {
+        "identity": "c1f6b521450e362974b707d6c934772dac6f27ec52728eb7b6f29483327fe5be",
+        "parent_shape": "cd10e61fbd6af1fcaa37e98296e1c77cbddac945d395e5911ee06659580c044f",
+        "path": "root.0.1"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "default_recovery_binding": {
+    "changes": [],
+    "code_sha256": "7b729941385b82ff5343e4f793dc6490486398ac79a3e6e26c2e984ac0656db4",
+    "complete": true,
+    "contract": "source_prop_defaults_runtime_recovery_v1",
+    "input_sha256": "d1669229aa7cdd7d0b836559a753dee51e25ea42e2e28e58173723c1c5e933e0",
+    "normalized_sha256": "7b729941385b82ff5343e4f793dc6490486398ac79a3e6e26c2e984ac0656db4",
+    "runtime_sha256": "93f1c4c42d3dc7aea0602c0678613c9a849dc63a578c074a7ebbdb3af12191ec"
+  },
+  "diagnostics": [
+    {
+      "code": "template_structure_mismatch",
+      "differences": [
+        {
+          "actual": "section|aria-label=状态开关|binding:class|class=status-switch|text:",
+          "expected": "section|binding:class|class=status-switch|text:",
+          "path": "root.0"
+        }
+      ],
+      "message": "SSM/target template projection differs."
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:unknown_bound_attribute"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "section|aria-label=状态开关|class=status-switch",
+          "expected": "section|class=status-switch",
+          "path": "root.0"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 1,
+        "target_count": 1,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "section|aria-label=状态开关|class=status-switch",
+          "expected": "section|class=status-switch",
+          "path": "root.0"
+        }
+      ],
+      "representation_differences": []
+    }
+  ],
+  "different_pixel_ratio": 0,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:unknown_bound_attribute"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "section|aria-label=状态开关|class=status-switch",
+      "expected": "section|class=status-switch",
+      "path": "root.0"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.8888888888888888,
+    "source_nodes": 9,
+    "target_nodes": 9
+  },
+  "embedding_similarity": null,
+  "functional_equivalence": "not_proven",
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 1,
+    "target_count": 1,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "section|aria-label=状态开关|class=status-switch",
+      "expected": "section|class=status-switch",
+      "path": "root.0"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.8888888888888888,
+    "source_nodes": 9,
+    "target_nodes": 9
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "7b729941385b82ff5343e4f793dc6490486398ac79a3e6e26c2e984ac0656db4",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.8888888888888888,
+    "source_nodes": 9,
+    "target_nodes": 9
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "legacy_wrapper": false,
+      "name": "toggle",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": false
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 1,
+  "structure_differences": [
+    {
+      "actual": "section|aria-label=状态开关|binding:class|class=status-switch|text:",
+      "expected": "section|binding:class|class=status-switch|text:",
+      "path": "root.0"
+    }
+  ],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.8333333333333334,
+    "source_nodes": 6,
+    "target_nodes": 6
+  },
+  "styles": {
+    "compared_properties": 78,
+    "differences": [],
+    "matching": "child_index_path",
+    "similarity": 1.0,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostic_limit": 128,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 1106.8354,
+    "target": 890.7020999999995
+  },
+  "ui_restoration": 100
+}

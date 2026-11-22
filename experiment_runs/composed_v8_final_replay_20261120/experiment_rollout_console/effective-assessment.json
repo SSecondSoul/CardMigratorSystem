@@ -1,0 +1,859 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "73bcad05b61f15270239fb2fc6b7a9c5d8b6398eaf8140e97b49a8f186a630c7",
+        "parent_shape": "36a6dac10ee9541c45fc3995c1539218add68b313ce4947afa61fb71cd32126c",
+        "path": "root.0.0.1.0"
+      },
+      {
+        "identity": "f4f51bc0d859140debc2f2e572be147c417036127a5d94f858adfd75f2910641",
+        "parent_shape": "36a6dac10ee9541c45fc3995c1539218add68b313ce4947afa61fb71cd32126c",
+        "path": "root.0.0.1.1"
+      },
+      {
+        "identity": "6ed75a77d7979533016df536eae0cfaf3a69ae698049a5389252cd0f0db74e13",
+        "parent_shape": "3fb386fd8756ddf83485dd8bd5d9fd0c494a334ac4921aadc1e1c7237bb2ec9f",
+        "path": "root.0.1.0.0.1.1"
+      },
+      {
+        "identity": "6ed75a77d7979533016df536eae0cfaf3a69ae698049a5389252cd0f0db74e13",
+        "parent_shape": "3fb386fd8756ddf83485dd8bd5d9fd0c494a334ac4921aadc1e1c7237bb2ec9f",
+        "path": "root.0.1.0.0.2.1"
+      },
+      {
+        "identity": "e89359aaff4838f88db91c8ed3aca1813cf2b2284a658a12ae58c66eabfecaa1",
+        "parent_shape": "cbd50ae31fc23d6dc59c009de83cc298b404bbddf66cc67341de1046cc48c256",
+        "path": "root.0.1.0.1.1.0.4.0"
+      },
+      {
+        "identity": "e89359aaff4838f88db91c8ed3aca1813cf2b2284a658a12ae58c66eabfecaa1",
+        "parent_shape": "cbd50ae31fc23d6dc59c009de83cc298b404bbddf66cc67341de1046cc48c256",
+        "path": "root.0.1.0.1.1.1.4.0"
+      }
+    ],
+    "source_snapshot": "8ac376863199707bfc182d90c5f2b2f8ddca166f758c7dde4d76f387bb21449a",
+    "target": [
+      {
+        "identity": "73bcad05b61f15270239fb2fc6b7a9c5d8b6398eaf8140e97b49a8f186a630c7",
+        "parent_shape": "36a6dac10ee9541c45fc3995c1539218add68b313ce4947afa61fb71cd32126c",
+        "path": "root.0.0.1.0"
+      },
+      {
+        "identity": "f4f51bc0d859140debc2f2e572be147c417036127a5d94f858adfd75f2910641",
+        "parent_shape": "36a6dac10ee9541c45fc3995c1539218add68b313ce4947afa61fb71cd32126c",
+        "path": "root.0.0.1.1"
+      },
+      {
+        "identity": "6f61c2c20dc47b1b93c59f7d6208288e866a305aeb071dc7542697fdd33fc808",
+        "parent_shape": "1980f31b36be49b56fbc53e894910db6489e43d5aa6253f4f31dca40962c1aef",
+        "path": "root.0.1.0.0.1.1"
+      },
+      {
+        "identity": "6f61c2c20dc47b1b93c59f7d6208288e866a305aeb071dc7542697fdd33fc808",
+        "parent_shape": "1980f31b36be49b56fbc53e894910db6489e43d5aa6253f4f31dca40962c1aef",
+        "path": "root.0.1.0.0.2.1"
+      },
+      {
+        "identity": "e89359aaff4838f88db91c8ed3aca1813cf2b2284a658a12ae58c66eabfecaa1",
+        "parent_shape": "cbd50ae31fc23d6dc59c009de83cc298b404bbddf66cc67341de1046cc48c256",
+        "path": "root.0.1.0.1.1.0.4.0"
+      },
+      {
+        "identity": "e89359aaff4838f88db91c8ed3aca1813cf2b2284a658a12ae58c66eabfecaa1",
+        "parent_shape": "cbd50ae31fc23d6dc59c009de83cc298b404bbddf66cc67341de1046cc48c256",
+        "path": "root.0.1.0.1.1.1.4.0"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "default_recovery_binding": {
+    "changes": [],
+    "code_sha256": "c8018c3e9b116d21459b7f0d622b4ab8dc7cd5fa1ab0f644e63e63a7380f43ab",
+    "complete": true,
+    "contract": "source_prop_defaults_runtime_recovery_v1",
+    "input_sha256": "17d5b122707eec4a02937b37080447d864ccfffeeda6448711ce1d794fc9076e",
+    "normalized_sha256": "c8018c3e9b116d21459b7f0d622b4ab8dc7cd5fa1ab0f644e63e63a7380f43ab",
+    "runtime_sha256": "93f1c4c42d3dc7aea0602c0678613c9a849dc63a578c074a7ebbdb3af12191ec"
+  },
+  "diagnostics": [
+    {
+      "code": "hidden_template_reactive_dependency",
+      "location": "template/script",
+      "message": "模板 text 渲染表达式调用 statusText(...)，但该方法内部隐藏读取响应式字段：status。这些字段变化时，San 可能不会重新计算该绑定。",
+      "severity": "error",
+      "suggestion": "在模板表达式中直接引用 status，或将这些字段作为参数显式传给 statusText(...)。"
+    },
+    {
+      "code": "source_render_dependency_not_landed",
+      "location": "template/section[0]/header[0]/div[0]/p[0]#text:1@statusText",
+      "message": "Source readonly render dependency graph or target declared fields are unproven.",
+      "severity": "error",
+      "suggestion": "Preserve public source methods; prove the complete readonly call graph and pass all transitive fields to a private template-only render copy."
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:unknown_call",
+          "source:unknown_member_call",
+          "source:unknown_or_dom_global",
+          "target:dom_or_reflective_member",
+          "target:dynamic_member",
+          "target:unknown_call",
+          "target:unknown_member_call",
+          "target:unknown_or_dom_global"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "span|",
+          "expected": "#text:流量分配",
+          "path": "root.0.1.0.0.0.0"
+        },
+        {
+          "actual": "#text:流量分配",
+          "expected": null,
+          "path": "root.0.1.0.0.0.0.0"
+        },
+        {
+          "actual": "input|type=range",
+          "expected": "input|type=range|value=50",
+          "path": "root.0.1.0.0.1.1"
+        },
+        {
+          "actual": "input|type=range",
+          "expected": "input|type=range|value=50",
+          "path": "root.0.1.0.0.2.1"
+        },
+        {
+          "actual": "tr|",
+          "expected": "tr|class=",
+          "path": "root.0.1.0.1.1.0"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 6,
+        "target_count": 6,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "span|",
+          "expected": "#text:流量分配",
+          "path": "root.0.1.0.0.0.0"
+        },
+        {
+          "actual": "#text:流量分配",
+          "expected": null,
+          "path": "root.0.1.0.0.0.0.0"
+        },
+        {
+          "actual": "input|type=range",
+          "expected": "input|type=range|value=50",
+          "path": "root.0.1.0.0.1.1"
+        },
+        {
+          "actual": "input|type=range",
+          "expected": "input|type=range|value=50",
+          "path": "root.0.1.0.0.2.1"
+        },
+        {
+          "actual": "tr|",
+          "expected": "tr|class=",
+          "path": "root.0.1.0.1.1.0"
+        }
+      ],
+      "representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.1.0.1.1.0",
+          "source": "",
+          "target": null
+        }
+      ]
+    }
+  ],
+  "different_pixel_ratio": 0,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "source:unknown_call",
+      "source:unknown_member_call",
+      "source:unknown_or_dom_global",
+      "target:dom_or_reflective_member",
+      "target:dynamic_member",
+      "target:unknown_call",
+      "target:unknown_member_call",
+      "target:unknown_or_dom_global"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "span|",
+      "expected": "#text:流量分配",
+      "path": "root.0.1.0.0.0.0"
+    },
+    {
+      "actual": "#text:流量分配",
+      "expected": null,
+      "path": "root.0.1.0.0.0.0.0"
+    },
+    {
+      "actual": "input|type=range",
+      "expected": "input|type=range|value=50",
+      "path": "root.0.1.0.0.1.1"
+    },
+    {
+      "actual": "input|type=range",
+      "expected": "input|type=range|value=50",
+      "path": "root.0.1.0.0.2.1"
+    },
+    {
+      "actual": "tr|",
+      "expected": "tr|class=",
+      "path": "root.0.1.0.1.1.0"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.1.0.1.1.0",
+      "source": "",
+      "target": null
+    }
+  ],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 4,
+    "similarity": 0.948051948051948,
+    "source_nodes": 76,
+    "target_nodes": 77
+  },
+  "embedding_similarity": null,
+  "functional_equivalence": "not_proven",
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 6,
+    "target_count": 6,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "span|",
+      "expected": "#text:流量分配",
+      "path": "root.0.1.0.0.0.0"
+    },
+    {
+      "actual": "#text:流量分配",
+      "expected": null,
+      "path": "root.0.1.0.0.0.0.0"
+    },
+    {
+      "actual": "input|type=range",
+      "expected": "input|type=range|value=50",
+      "path": "root.0.1.0.0.1.1"
+    },
+    {
+      "actual": "input|type=range",
+      "expected": "input|type=range|value=50",
+      "path": "root.0.1.0.0.2.1"
+    },
+    {
+      "actual": "tr|",
+      "expected": "tr|class=",
+      "path": "root.0.1.0.1.1.0"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 4,
+    "similarity": 0.948051948051948,
+    "source_nodes": 76,
+    "target_nodes": 77
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "c8018c3e9b116d21459b7f0d622b4ab8dc7cd5fa1ab0f644e63e63a7380f43ab",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 4,
+    "similarity": 0.9402985074626866,
+    "source_nodes": 66,
+    "target_nodes": 67
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "updateAllocation",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "start",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "pause",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "simulateTick",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "declareWinner",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "snapshot",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "rollback",
+              "status": "complete_caller_with_inlined_write"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "variants",
+                "line": 49
+              },
+              {
+                "caller": "inited",
+                "key": "metrics",
+                "line": 49
+              },
+              {
+                "caller": "updateAllocation",
+                "key": "variants",
+                "line": 61
+              },
+              {
+                "caller": "start",
+                "key": "status",
+                "line": 64
+              },
+              {
+                "caller": "pause",
+                "key": "status",
+                "line": 67
+              },
+              {
+                "caller": "simulateTick",
+                "key": "metrics",
+                "line": 70
+              },
+              {
+                "caller": "simulateTick",
+                "key": "tick",
+                "line": 70
+              },
+              {
+                "caller": "declareWinner",
+                "key": "winnerId",
+                "line": 73
+              },
+              {
+                "caller": "declareWinner",
+                "key": "status",
+                "line": 73
+              },
+              {
+                "caller": "snapshot",
+                "key": "history",
+                "line": 76
+              },
+              {
+                "caller": "rollback",
+                "key": "variants",
+                "line": 79
+              },
+              {
+                "caller": "rollback",
+                "key": "status",
+                "line": 79
+              },
+              {
+                "caller": "rollback",
+                "key": "winnerId",
+                "line": 79
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "variants",
+                "line": 15
+              },
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "metrics",
+                "line": 15
+              },
+              {
+                "caller": "updateAllocation",
+                "form": "inlined_data_set",
+                "key": "variants",
+                "line": 15
+              },
+              {
+                "caller": "start",
+                "form": "inlined_data_set",
+                "key": "status",
+                "line": 15
+              },
+              {
+                "caller": "pause",
+                "form": "inlined_data_set",
+                "key": "status",
+                "line": 15
+              },
+              {
+                "caller": "simulateTick",
+                "form": "inlined_data_set",
+                "key": "metrics",
+                "line": 15
+              },
+              {
+                "caller": "simulateTick",
+                "form": "inlined_data_set",
+                "key": "tick",
+                "line": 15
+              },
+              {
+                "caller": "declareWinner",
+                "form": "inlined_data_set",
+                "key": "winnerId",
+                "line": 15
+              },
+              {
+                "caller": "declareWinner",
+                "form": "inlined_data_set",
+                "key": "status",
+                "line": 15
+              },
+              {
+                "caller": "snapshot",
+                "form": "inlined_data_set",
+                "key": "history",
+                "line": 15
+              },
+              {
+                "caller": "rollback",
+                "form": "inlined_data_set",
+                "key": "variants",
+                "line": 15
+              },
+              {
+                "caller": "rollback",
+                "form": "inlined_data_set",
+                "key": "status",
+                "line": 15
+              },
+              {
+                "caller": "rollback",
+                "form": "inlined_data_set",
+                "key": "winnerId",
+                "line": 15
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "parameter_flows": [],
+          "refusals": [],
+          "source_keys": [
+            "variants",
+            "metrics",
+            "status",
+            "tick",
+            "winnerId",
+            "history"
+          ],
+          "status": "proven_for_source_internal_calls"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "proven_for_source_internal_calls",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 13,
+        "uncertain": true
+      },
+      "status": "proven_for_source_internal_calls",
+      "target_references": {
+        "count": 0,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 4,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 4,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "updateAllocation",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "start",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "pause",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "simulateTick",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "declareWinner",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "snapshot",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 3,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 3,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "rollback",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "rowClass",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 0,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "statusText",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 1,
+  "structure_differences": [
+    {
+      "actual": "h3||text:",
+      "expected": "h3||text:流量分配",
+      "path": "root.0.1.0.0.0"
+    },
+    {
+      "actual": "span||text:流量分配",
+      "expected": "span|binding:class|text:@binding%",
+      "path": "root.0.1.0.0.0.0"
+    },
+    {
+      "actual": "span|binding:class|text:@binding%",
+      "expected": null,
+      "path": "root.0.1.0.0.0.1"
+    }
+  ],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 2,
+    "similarity": 0.9545454545454546,
+    "source_nodes": 43,
+    "target_nodes": 44
+  },
+  "styles": {
+    "compared_properties": 650,
+    "differences": [
+      {
+        "path": "root.0.1.0.0.0.0",
+        "property": "color",
+        "source": "rgb(21, 128, 61)",
+        "target": "rgb(36, 49, 61)"
+      },
+      {
+        "path": "root.0.1.0.0.0.0",
+        "property": "width",
+        "source": "47.8594px",
+        "target": "74.8438px"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "color",
+        "source": null,
+        "target": "rgb(21, 128, 61)"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "backgroundColor",
+        "source": null,
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "fontSize",
+        "source": null,
+        "target": "18.72px"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "fontFamily",
+        "source": null,
+        "target": "Arial, sans-serif"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "fontWeight",
+        "source": null,
+        "target": "700"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "marginTop",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "marginLeft",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "paddingTop",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "paddingLeft",
+        "source": null,
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "width",
+        "source": null,
+        "target": "47.8594px"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "height",
+        "source": null,
+        "target": "27px"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "display",
+        "source": null,
+        "target": "block"
+      },
+      {
+        "path": "root.0.1.0.0.0.1",
+        "property": "position",
+        "source": null,
+        "target": "static"
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.9769230769230769,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostic_limit": 128,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 1076.5289000000002,
+    "target": 1234.1398
+  },
+  "ui_restoration": 99.53846153846155
+}

@@ -162,6 +162,10 @@ function sourceOptions(source, require) {
     n.type === 'ExpressionStatement' && n.expression.type === 'AssignmentExpression' && n.expression.operator === '=' &&
     n.expression.left.type === 'MemberExpression' && !n.expression.left.computed &&
     n.expression.left.object.name === 'module' && n.expression.left.property.name === 'exports' ? [n.expression.right] : [])
+  let shadowedModule=false
+  require('@babel/traverse').default(ast,{Program(p){shadowedModule=p.scope.hasOwnBinding('module');p.stop()}})
+  if(shadowedModule&&ast.program.body.some(n=>n.type==='ExpressionStatement'&&n.expression.type==='AssignmentExpression'
+      &&n.expression.left?.object?.name==='module'))return null
   return values.length === 1 && values[0].type === 'ObjectExpression' ? values[0] : null
 }
 
@@ -214,8 +218,9 @@ function sourceExactMethodClosingEdits(source, code, require) {
 }
 
 // A tiny expression emitter, NOT a general Vue-to-San translator. Only a single
-// call/return expression using literals, parameters, declared state reads and
-// member/call chains qualifies. No writes, closures, computed access or control flow.
+// call/return or direct declared-state '=' statement is eligible. Arithmetic,
+// literals, parameters and read/call chains are compared in full afterwards.
+// No compound/nested writes, closures, computed keys or control flow.
 function leafReference(method, fields) {
   if (method.type !== 'ObjectMethod' || method.kind !== 'method' || method.computed || method.async || method.generator ||
       method.key.type !== 'Identifier' || method.params.some(p => p.type !== 'Identifier') || method.body.body.length !== 1) return null
@@ -233,24 +238,31 @@ function leafReference(method, fields) {
       }
       return expression(n.object) + '.' + n.property.name
     }
+    if(n.type==='BinaryExpression'&&['+','-','*','/','%','**'].includes(n.operator))
+      return '('+expression(n.left)+n.operator+expression(n.right)+')'
     if (n.type === 'CallExpression' && !n.optional) return expression(n.callee) + '(' + n.arguments.map(expression).join(',') + ')'
     throw Error('unsupported')
   }
   try {
-    const body = stmt.type === 'ExpressionStatement' ? expression(stmt.expression) :
+    const assignment=stmt.type==='ExpressionStatement'&&stmt.expression
+    const direct=assignment?.type==='AssignmentExpression'&&assignment.operator==='='
+      &&assignment.left.type==='MemberExpression'&&!assignment.left.computed&&assignment.left.object.type==='ThisExpression'
+      &&fields.has(assignment.left.property.name)
+    const body = direct?'this.data.set('+JSON.stringify(assignment.left.property.name)+','+expression(assignment.right)+')':
+      stmt.type === 'ExpressionStatement' ? expression(stmt.expression) :
       stmt.type === 'ReturnStatement' ? 'return ' + expression(stmt.argument) : null
     return body === null ? null : method.key.name + '(' + method.params.map(p => p.name).join(',') + '){' + body + '}'
   } catch {return null}
 }
 
-// Lex only the tiny leaf method span above. Any regex/template/operator or
+// Lex only the tiny leaf method span above. Any regex/template/unknown operator or
 // unknown token refuses repair. String values use Babel decoding, never eval.
 function leafTokens(text, babel) {
   const tokens = []; let at = 0
   while (at < text.length) {
     const rest = text.slice(at), space = /^\s+/.exec(rest)
     if (space) {at += space[0].length; continue}
-    const match = /^(?:"(?:[^"\\\r\n]|\\.)*"|'(?:[^'\\\r\n]|\\.)*'|[A-Za-z_$][\w$]*|\d+(?:\.\d+)?|[(){},.;])/.exec(rest)
+    const match = /^(?:"(?:[^"\\\r\n]|\\.)*"|'(?:[^'\\\r\n]|\\.)*'|[A-Za-z_$][\w$]*|\d+(?:\.\d+)?|\*\*|[(){},.;+*/%\-])/.exec(rest)
     if (!match) return null
     const raw = match[0]
     let value = raw
@@ -263,8 +275,8 @@ function leafTokens(text, babel) {
 function sourceLeafClosingEdits(source, code, require) {
   const babel = require('@babel/parser'), descriptor = require('@vue/compiler-sfc').parse(code).descriptor
   if (!descriptor.script) return []
-  let options
-  try {options = sourceOptions(source, require)} catch {return []}
+  let options,sourceAst
+  try {options = sourceOptions(source, require);sourceAst=babel.parse(require('@vue/compiler-sfc').parse(source).descriptor.script.content,{sourceType:'unambiguous'})} catch {return []}
   if (!options) return []
   const named = name => options.properties.filter(p => !p.computed && p.key?.name === name)
   const data = named('data'), methods = named('methods'), fields = new Set()
@@ -279,6 +291,14 @@ function sourceLeafClosingEdits(source, code, require) {
   for (const method of methods[0].value.properties) {
     const reference = leafReference(method, fields)
     if (!reference || methods[0].value.properties.filter(p => p.key?.name === method.key.name).length !== 1) continue
+    const natives=new Set();let closed=true
+    require('@babel/traverse').default(sourceAst,{ReferencedIdentifier(p){
+      if(p.node.start<method.start||p.node.end>method.end)return
+      const binding=p.scope.getBinding(p.node.name)
+      if(binding&&binding.path.node.start>=method.start&&binding.path.node.end<=method.end)return
+      if(binding)closed=false;else natives.add(p.node.name)
+    }})
+    if(!closed)continue
     const name = method.key.name.replace(/[$]/g,'\\$')
     const starts = [...script.matchAll(new RegExp('\\b'+name+'\\s*\\([^()]*\\)\\s*\\{','g'))]
     if (starts.length !== 1) continue
@@ -299,11 +319,104 @@ function sourceLeafClosingEdits(source, code, require) {
       if (![')', '}'].includes(expected.value)) {insertions = null; break}
       insertions.push({start:descriptor.script.loc.start.offset + start + (actual[i]?.start ?? end-start),
         end:descriptor.script.loc.start.offset + start + (actual[i]?.start ?? end-start),replacement:expected.value,
-        method:method.key.name,reference,rule:'source_proven_leaf_closing_tokens_v1'})
+        method:method.key.name,reference,native_globals:[...natives],rule:'source_proven_leaf_closing_tokens_v1'})
     }
     if (actual[i]?.value === ';') i++
     if (!insertions || i !== actual.length || !insertions.length || insertions.length > 3) continue
     edits.push(...insertions)
+  }
+  return edits
+}
+
+// A second syntax witness covers a complete multi-statement source method.
+// It is a REFERENCE for AST equality, never a generated replacement body: the
+// only edits emitted are at most three missing closing delimiters. Full-script
+// parent ownership and unshadowed native globals are checked before commit.
+function sourceCompleteMethodClosingEdits(source,code,require) {
+  const babel=require('@babel/parser'),t=require('@babel/types'),traverse=require('@babel/traverse').default
+  const sfc=require('@vue/compiler-sfc'),a=sfc.parse(source),b=sfc.parse(code)
+  let options,sourceAst
+  try{options=sourceOptions(source,require);sourceAst=babel.parse(a.descriptor.script.content,{sourceType:'unambiguous'})}catch{return []}
+  if(!options||!b.descriptor.script)return []
+  const key=p=>!p.computed&&(p.key?.name??p.key?.value)
+  const one=(o,k)=>o?.properties?.filter(p=>key(p)===k).length===1?o.properties.find(p=>key(p)===k):null
+  const data=one(options,'data'),methods=one(options,'methods')?.value,fields=new Set(),reads=new Set()
+  if(!t.isObjectMethod(data)||data.body.body.length!==1||!t.isReturnStatement(data.body.body[0])
+      ||!t.isObjectExpression(data.body.body[0].argument)||!t.isObjectExpression(methods))return []
+  for(const p of data.body.body[0].argument.properties){
+    if(!t.isObjectProperty(p)||p.computed||typeof key(p)!=='string')return []
+    fields.add(key(p));reads.add(key(p))
+  }
+  for(const option of ['props','computed'])for(const p of one(options,option)?.value?.properties??[])if(typeof key(p)==='string')reads.add(key(p))
+  const names=new Set(methods.properties.map(key)),globals=new Set(['Math','Number','String','Boolean','JSON','Object','Array','Date','undefined','NaN','Infinity'])
+  const script=b.descriptor.script.content,edits=[]
+  for(const method of methods.properties){
+    const name=key(method)
+    if(!t.isObjectMethod(method)||method.kind!=='method'||method.computed||method.async||method.generator
+        ||typeof name!=='string'||method.params.some(p=>!t.isIdentifier(p))
+        ||methods.properties.filter(p=>key(p)===name).length!==1)continue
+    const natives=new Set();let closed=true
+    traverse(sourceAst,{ReferencedIdentifier(p){
+      if(p.node.start<method.start||p.node.end>method.end)return
+      const binding=p.scope.getBinding(p.node.name)
+      if(binding&&binding.path.node.start>=method.start&&binding.path.node.end<=method.end)return
+      if(binding||!globals.has(p.node.name))closed=false;else natives.add(p.node.name)
+    }})
+    if(!closed)continue
+    function lower(n,lexical=true,parent=null){
+      if(!n||typeof n!=='object')return n
+      if(Array.isArray(n))return n.map(x=>lower(x,lexical,parent))
+      if(t.isFunction(n)&&!t.isArrowFunctionExpression(n))lexical=false
+      if(lexical&&t.isAssignmentExpression(n)&&t.isMemberExpression(n.left)&&t.isThisExpression(n.left.object)){
+        if(n.operator!=='='||n.left.computed||!fields.has(n.left.property.name)||!t.isExpressionStatement(parent))throw Error('unproven_assignment_value')
+        return t.callExpression(babel.parseExpression('this.data.set'),[t.stringLiteral(n.left.property.name),lower(n.right,lexical,n)])
+      }
+      if(lexical&&t.isUpdateExpression(n)&&t.isMemberExpression(n.argument)&&t.isThisExpression(n.argument.object))throw Error('unproven_update_value')
+      if(lexical&&t.isCallExpression(n)&&t.isMemberExpression(n.callee)&&!n.callee.computed
+          &&t.isThisExpression(n.callee.object)&&n.callee.property.name==='$emit')
+        return t.callExpression(babel.parseExpression('this.fire'),n.arguments.map(x=>lower(x,lexical,n)))
+      if(lexical&&t.isMemberExpression(n)&&t.isThisExpression(n.object)){
+        if(n.computed)throw Error('dynamic_instance_key')
+        if(t.isCallExpression(parent)&&parent.callee===n){
+          if(!names.has(n.property.name))throw Error('unknown_instance_call')
+          return t.cloneNode(n,true)
+        }
+        if(!reads.has(n.property.name))throw Error('unknown_instance_read')
+        return t.callExpression(babel.parseExpression('this.data.get'),[t.stringLiteral(n.property.name)])
+      }
+      if(lexical&&t.isThisExpression(n))throw Error('instance_escape')
+      const out={...n};for(const [k,v] of Object.entries(n))if(v&&typeof v==='object'&&!['loc','extra','comments'].includes(k))out[k]=lower(v,lexical,n)
+      return out
+    }
+    let reference,expected
+    try{const copy=t.cloneNode(method,true);copy.body=lower(method.body);reference=require('@babel/generator').default(copy,{compact:true,comments:false}).code
+      expected=babel.parseExpression('({'+reference+'})').properties[0]}catch{continue}
+    const starts=[...script.matchAll(new RegExp('\\b'+name.replace(/[$]/g,'\\$')+'\\s*\\([^()]*\\)\\s*\\{','g'))]
+    if(starts.length!==1)continue
+    const start=starts[0].index,tail=script.slice(start)
+    const boundary=/,\s*[A-Za-z_$][\w$]*\s*\([^()]*\)\s*\{/.exec(tail.slice(starts[0][0].length))
+    if(!boundary)continue
+    const end=start+starts[0][0].length+boundary.index,original=script.slice(start,end)
+    try{babel.parseExpression('({'+original+'})');continue}catch{}
+    const queue=[{text:original,mapping:Array.from({length:original.length+1},(_,i)=>i),insertions:[]}],seen=new Set(),matches=new Map()
+    while(queue.length){
+      const item=queue.shift();if(seen.has(item.text))continue;seen.add(item.text)
+      try{
+        const object=babel.parseExpression('({'+item.text+'})')
+        if(object.properties.length===1&&canonicalAst(object.properties[0])===canonicalAst(expected))matches.set(item.text,item.insertions)
+      }catch(e){
+        const at=e.pos-2
+        if(item.insertions.length>=3||at<0||at>item.text.length)continue
+        for(const token of [')',']','}'])queue.push({text:item.text.slice(0,at)+token+item.text.slice(at),
+          mapping:[...item.mapping.slice(0,at),item.mapping[at],...item.mapping.slice(at)],
+          insertions:[...item.insertions,{at:item.mapping[at],token}]})
+      }
+    }
+    if(matches.size!==1)continue
+    const insertions=[...matches.values()][0];if(!insertions.length)continue
+    for(const insertion of insertions)edits.push({start:b.descriptor.script.loc.start.offset+start+insertion.at,
+      end:b.descriptor.script.loc.start.offset+start+insertion.at,replacement:insertion.token,
+      method:name,reference,native_globals:[...natives],rule:'source_complete_method_closing_tokens_v1'})
   }
   return edits
 }
@@ -315,9 +428,111 @@ function applyEdits(code, edits) {
   return code
 }
 
+// A single excess object close may move a computed/methods option or an inline
+// component method outside its option object. Recover only a source-paired
+// component boundary, never by deleting a token inside a business function.
+// Each candidate must parse as a COMPLETE program and exactly one candidate
+// byte string must satisfy the component graph/adjacent option-role proof.
+function sourceOptionBoundaryClose(source,code,require) {
+  const babel=require('@babel/parser'),traverse=require('@babel/traverse').default,t=require('@babel/types')
+  const sfc=require('@vue/compiler-sfc'),a=sfc.parse(source),b=sfc.parse(code)
+  if(a.errors.length||!a.descriptor.script||a.descriptor.scriptSetup||!b.descriptor.script)return {code,edits:[]}
+  const script=b.descriptor.script.content
+  let sourceAst,errorAt
+  try{sourceAst=babel.parse(a.descriptor.script.content,{sourceType:'unambiguous'})}catch{return {code,edits:[]}}
+  try{babel.parse(script,{sourceType:'unambiguous'});return {code,edits:[]}}catch(e){errorAt=e.pos}
+  if(!Number.isInteger(errorAt))return {code,edits:[]}
+  const key=p=>!p.computed&&(p.key?.name??p.key?.value)
+  const plain=o=>t.isObjectExpression(o)&&o.properties.every(p=>typeof key(p)==='string')
+    &&new Set(o.properties.map(key)).size===o.properties.length
+  const one=(o,k)=>plain(o)?o.properties.find(p=>key(p)===k):null
+  const fn=p=>t.isObjectMethod(p)&&p.kind==='method'||t.isObjectProperty(p)&&t.isFunctionExpression(p.value)
+  const tag=name=>name.replace(/([A-Z])([A-Z][a-z])/g,'$1-$2').replace(/([a-z0-9])([A-Z])/g,'$1-$2').toLowerCase()
+  function graph(ast,target){
+    let program;traverse(ast,{Program(p){program=p;p.stop()}})
+    const roots=[]
+    for(const statement of ast.program.body){
+      if(!target&&t.isExportDefaultDeclaration(statement))roots.push(statement.declaration)
+      const n=t.isExpressionStatement(statement)&&statement.expression
+      if(t.isAssignmentExpression(n,{operator:'='})&&t.isMemberExpression(n.left)&&!n.left.computed
+          &&t.isIdentifier(n.left.object,{name:'module'})&&t.isIdentifier(n.left.property,{name:'exports'})
+          &&!program.scope.getBinding('module'))roots.push(n.right)
+    }
+    const resolve=(node,seen=new Set())=>{
+      if(t.isIdentifier(node)){
+        if(seen.has(node.name))return null
+        const bind=program.scope.getBinding(node.name),d=bind?.path.node
+        return bind?.constant&&bind.path.isVariableDeclarator()&&bind.path.parent.kind==='const'
+          ?resolve(d.init,new Set([...seen,node.name])):null
+      }
+      if(target){
+        if(!t.isCallExpression(node)||node.arguments.length!==1||!t.isMemberExpression(node.callee)||node.callee.computed
+            ||!t.isIdentifier(node.callee.object,{name:'san'})||!t.isIdentifier(node.callee.property,{name:'defineComponent'}))return null
+        const bind=program.scope.getBinding('san'),init=bind?.path.node.init
+        if(!bind?.constant||!bind.path.isVariableDeclarator()||bind.path.parent.kind!=='const'
+            ||!t.isCallExpression(init)||!t.isIdentifier(init.callee,{name:'require'})||program.scope.getBinding('require')
+            ||init.arguments.length!==1||!t.isStringLiteral(init.arguments[0],{value:'san'}))return null
+        node=node.arguments[0]
+      }
+      return plain(node)&&!one(node,'mixins')&&!one(node,'extends')?node:null
+    }
+    return {root:roots.length===1?resolve(roots[0]):null,resolve}
+  }
+  const sg=graph(sourceAst,false);if(!sg.root)return {code,edits:[]}
+  function pairedOptions(ast){
+    const tg=graph(ast,true),pairs=[],seen=new Set()
+    if(!tg.root)return pairs
+    const pair=(s,d)=>{
+      if(seen.has(d))return;seen.add(d);pairs.push([s,d])
+      const sourceComponents=one(s,'components')?.value,targetComponents=one(d,'components')?.value
+      if(!plain(sourceComponents)||!plain(targetComponents))return
+      for(const x of sourceComponents.properties){
+        const matches=targetComponents.properties.filter(y=>tag(key(y))===tag(key(x)))
+        if(matches.length!==1)continue
+        const childSource=sg.resolve(x.value),childTarget=tg.resolve(matches[0].value)
+        if(childSource&&childTarget)pair(childSource,childTarget)
+      }
+    };pair(sg.root,tg.root);return pairs
+  }
+  const sameKeys=(x,y)=>plain(x)&&plain(y)&&x.properties.every(fn)&&y.properties.every(fn)
+    &&JSON.stringify(x.properties.map(key).sort())===JSON.stringify(y.properties.map(key).sort())
+  const matches=new Map(),positions=[]
+  for(let at=Math.max(0,errorAt-512);at<=errorAt&&at<script.length;at++)if(script[at]==='}')positions.push(at)
+  if(positions.length>64)return {code,edits:[]}
+  for(const at of positions){
+    const proposed=script.slice(0,at)+script.slice(at+1);let ast
+    try{ast=babel.parse(proposed,{sourceType:'unambiguous'})}catch{continue}
+    let insideFunction=false
+    walk(ast,n=>{if(t.isFunction(n)&&n.start<at&&at<n.end)insideFunction=true})
+    if(insideFunction)continue
+    let proved=false
+    for(const [src,dst] of pairedOptions(ast)){
+      for(let i=0;i<dst.properties.length-1;i++){
+        const prev=dst.properties[i],next=dst.properties[i+1],name=key(prev),following=key(next)
+        if(prev.end!==at||!/^\s*,\s*$/.test(proposed.slice(prev.end,next.start)))continue
+        const sourceKey=name==='initData'?'data':name
+        const sourcePrevious=one(src,sourceKey)
+        const sourceFollowing=one(src,following)||one(one(src,'methods')?.value,following)
+        if(!sourceFollowing)continue
+        if(name==='initData'&&fn(prev)&&sourcePrevious&&fn(sourcePrevious))proved=true
+        if(['computed','methods'].includes(name)&&t.isObjectProperty(prev)&&sourcePrevious
+            &&sameKeys(sourcePrevious.value,prev.value))proved=true
+      }
+    }
+    if(proved&&!matches.has(proposed))matches.set(proposed,at)
+  }
+  if(matches.size!==1)return {code,edits:[]}
+  const [proposed,at]=[...matches][0],start=b.descriptor.script.loc.start.offset+at
+  return {code:code.slice(0,b.descriptor.script.loc.start.offset)+proposed+code.slice(b.descriptor.script.loc.end.offset),
+    edits:[{start,end:start+1,replacement:'',rule:'source_component_option_boundary_extra_brace_v1'}]}
+}
+
 function scriptEdits(source, code, require) {
+  const boundary=sourceOptionBoundaryClose(source,code,require)
+  if(boundary.edits.length)return boundary
   const leaves = sourceLeafClosingEdits(source,code,require)
   leaves.push(...sourceExactMethodClosingEdits(source,code,require).filter(e => !leaves.some(l => l.method === e.method)))
+  leaves.push(...sourceCompleteMethodClosingEdits(source,code,require).filter(e=>!leaves.some(l=>l.method===e.method)))
   const partial = applyEdits(code,leaves), commas = commaEdits(partial,require)
   const candidate = applyEdits(partial,commas)
   if (!leaves.length) return {code:candidate,edits:commas}
@@ -325,13 +540,21 @@ function scriptEdits(source, code, require) {
   let ast
   try {ast = babel.parse(descriptor.script.content,{sourceType:'unambiguous'})} catch {return {code,edits:[]}}
   const parents = []
-  walk(ast,n => {
+  require('@babel/traverse').default(ast,{AssignmentExpression(p){
+    const n=p.node
     if (n.type === 'AssignmentExpression' && n.operator === '=' && n.left.type === 'MemberExpression' &&
         !n.left.computed && n.left.object.name === 'module' && n.left.property.name === 'exports' &&
         n.right.type === 'CallExpression' && n.right.callee.type === 'MemberExpression' && !n.right.callee.computed &&
         n.right.callee.object.name === 'san' && n.right.callee.property.name === 'defineComponent' &&
-        n.right.arguments.length === 1 && n.right.arguments[0].type === 'ObjectExpression') parents.push(n.right.arguments[0])
-  })
+        n.right.arguments.length === 1 && n.right.arguments[0].type === 'ObjectExpression'
+        &&p.parentPath.isExpressionStatement()&&p.parentPath.parentPath.isProgram()
+        &&!p.scope.getBinding('module')&&!p.scope.getBinding('require')){
+      const binding=p.scope.getBinding('san'),decl=binding?.path?.node
+      if(binding?.kind==='const'&&decl?.type==='VariableDeclarator'&&decl.init?.type==='CallExpression'
+          &&decl.init.callee?.name==='require'&&decl.init.arguments.length===1&&decl.init.arguments[0].value==='san'
+          &&binding.constant)parents.push(n.right.arguments[0])
+    }
+  }})
   if (parents.length !== 1) return {code,edits:[]}
   // Exclude matches inside comments/strings or child components. Every repaired
   // span must be the unique ordinary method on the exported parent.
@@ -340,6 +563,11 @@ function scriptEdits(source, code, require) {
     if (methods.length !== 1) return {code,edits:[]}
     const reference = babel.parseExpression('({' + leaves.find(e => e.method === name).reference + '})').properties[0]
     if (canonicalAst(methods[0]) !== canonicalAst(reference)) return {code,edits:[]}
+    const globals=leaves.find(e=>e.method===name).native_globals??[]
+    if(globals.length){
+      let scoped;require('@babel/traverse').default(ast,{ObjectMethod(p){if(p.node===methods[0]){scoped=p;p.stop()}}})
+      if(!scoped||globals.some(n=>scoped.scope.getBinding(n)))return {code,edits:[]}
+    }
     const start = descriptor.script.loc.start.offset + methods[0].start, end = descriptor.script.loc.start.offset + methods[0].end
     let mapped = leaves.find(e => e.method === name).start
     for (const edit of leaves) if (edit.start <= mapped) mapped += edit.replacement.length
@@ -351,15 +579,26 @@ function scriptEdits(source, code, require) {
 
 export function normalizeTarget(source, code, require) {
   const before = inspectTarget(code, require), edits = []
-  if (before.status === 'pass') return {code, changes: [], before, after: before}
+  // San accepts some prefixes (for example this.data.get in render bindings)
+  // that are semantically wrong. Source-matched attribute repairs must also
+  // run on parseable templates, rather than only after a fatal parse error.
   // Each edit is relative to the current bytes; apply right to left.
   const attributes=attributeEdits(source,code,require)
   code=applyEdits(code,attributes); edits.push(...attributes)
-  const loops = loopEdits(source, code, require)
-  for (const edit of [...loops].sort((a,b) => b.start-a.start)) code = code.slice(0, edit.start) + edit.replacement + code.slice(edit.end)
-  edits.push(...loops)
-  const script = scriptEdits(source,code,require)
-  code = script.code; edits.push(...script.edits)
+  if(before.status!=='pass'){
+    const loops = loopEdits(source, code, require)
+    for (const edit of [...loops].sort((a,b) => b.start-a.start)) code = code.slice(0, edit.start) + edit.replacement + code.slice(edit.end)
+    edits.push(...loops)
+    const script = scriptEdits(source,code,require)
+    code = script.code; edits.push(...script.edits)
+  }
+  // Repairing an outer loop/script can expose previously unparsed ordinary
+  // attributes. Complete those source-matched edits in this same proposal.
+  for(let pass=0;pass<2;pass++){
+    const following=attributeEdits(source,code,require)
+    if(!following.length)break
+    code=applyEdits(code,following);edits.push(...following)
+  }
   const after = inspectTarget(code, require)
   return {code, changes: edits.map(({rule,start,end,replacement}) => ({rule,start,end,replacement})), before, after}
 }

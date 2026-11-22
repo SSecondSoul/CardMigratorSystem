@@ -1,0 +1,39 @@
+# 第16节接口框架表述调整
+
+按用户要求直接写FastAPI。保留已确定的MySQL业务库与本地SQLite流程检查点说明。仅修订第16节的接口名称及图10，同步无障碍描述。该文档修改不代表代码迁移已经实施。章节预览使用原稿样式和正文宽度，不作为完整WPS分页证据。
+
+{
+  "target": "C:\\Users\\soul\\Desktop\\swu\\中期答辩\\中期检查表-杨润生.docx",
+  "source_sha256": "0af04ba2bcefd2557e09cd02016faff52346aa510dc4e456436ea258e53d9e49",
+  "candidate": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\docs\\report-build\\section16-fastapi\\candidate.docx",
+  "candidate_sha256": "7f9ddb89323982a9f6bf935c0a28448a85caba34bd18f246b23fd51aaface36c",
+  "backup": "C:\\Users\\soul\\Desktop\\swu\\毕业设计\\docs\\report-build\\section16-fastapi\\中期检查表-杨润生_FastAPI表述调整前_0af04ba2.docx",
+  "media": "word/media/image10.png",
+  "changed_parts": [
+    "word/document.xml",
+    "word/media/image10.png"
+  ],
+  "edits": [
+    {
+      "path": "/w:document/w:body/w:tbl/w:tr[10]/w:tc[2]/w:p[128]/w:r/w:drawing/wp:inline/wp:docPr",
+      "kind": "attribute",
+      "key": "descr",
+      "old": "网页经Flask接口登记和查询业务数据库中的任务；独立Worker读取任务并通过LangGraph组织模型、Node.js与浏览器、SQLite检查点及文件存储。",
+      "new": "网页经FastAPI接口登记和查询业务数据库中的任务；独立Worker读取任务并通过LangGraph组织模型、Node.js与浏览器、SQLite检查点及文件存储。"
+    },
+    {
+      "path": "/w:document/w:body/w:tbl/w:tr[10]/w:tc[2]/w:p[128]/w:r/w:drawing/wp:inline/a:graphic/a:graphicData/pic:pic/pic:nvPicPr/pic:cNvPr",
+      "kind": "attribute",
+      "key": "descr",
+      "old": "网页经Flask接口登记和查询业务数据库中的任务；独立Worker读取任务并通过LangGraph组织模型、Node.js与浏览器、SQLite检查点及文件存储。",
+      "new": "网页经FastAPI接口登记和查询业务数据库中的任务；独立Worker读取任务并通过LangGraph组织模型、Node.js与浏览器、SQLite检查点及文件存储。"
+    },
+    {
+      "path": "/w:document/w:body/w:tbl/w:tr[10]/w:tc[2]/w:tbl[15]/w:tr[2]/w:tc[2]/w:p/w:r/w:t",
+      "kind": "text",
+      "old": "Python、Flask",
+      "new": "Python、FastAPI"
+    }
+  ],
+  "scope": "按用户指定技术方向，将第16节接口技术及图10标签统一为FastAPI；不加入计划措辞"
+}

@@ -1,0 +1,2310 @@
+{
+  "actual_cloud_model_calls": 3,
+  "assessment": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "638f4f9ad75267ed1a624ef9a2a442bf25b34e2c82fcb2c413347a01d03b1890",
+          "parent_shape": "c544754eb7800cd293eda7259d56d80110b0619506ec764799bdfda690278c15",
+          "path": "root.0.1"
+        },
+        {
+          "identity": "1d586e22666f8b2a769adc08b15ddb2fa589e47ff4690b1951823acd7573f68e",
+          "parent_shape": "c544754eb7800cd293eda7259d56d80110b0619506ec764799bdfda690278c15",
+          "path": "root.0.2"
+        }
+      ],
+      "source_snapshot": "4a83ce980927e7be15abd32c367cb1d679a42d3e052f1cd24d010dc3d3d3ed20",
+      "target": [
+        {
+          "identity": "9debe6616d5d07a8af0eb8e0f34d0e34f3c0bc57e8c454f6f763468f4bfa2d60",
+          "parent_shape": "0387aa0b307dfcaaebdd63d91114341d42471cee044167b6e9abd4da02ceee74",
+          "path": "root.0.1"
+        },
+        {
+          "identity": "1d586e22666f8b2a769adc08b15ddb2fa589e47ff4690b1951823acd7573f68e",
+          "parent_shape": "0387aa0b307dfcaaebdd63d91114341d42471cee044167b6e9abd4da02ceee74",
+          "path": "root.0.2"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "missing_lifecycle_mapping",
+        "location": "script",
+        "message": "以下生命周期映射未在 San 中找到：created -> inited。",
+        "severity": "error",
+        "suggestion": "将 Vue 生命周期迁移到对应 San 生命周期，或确认逻辑已合并到其他生命周期中。"
+      },
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "target:dom_or_reflective_member"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "input|class=volume-slider|max=100|min=0|type=range",
+            "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+            "path": "root.0.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 2,
+          "target_count": 2,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "input|class=volume-slider|max=100|min=0|type=range",
+            "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+            "path": "root.0.1"
+          }
+        ],
+        "representation_differences": []
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "target:dom_or_reflective_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "input|class=volume-slider|max=100|min=0|type=range",
+        "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+        "path": "root.0.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9,
+      "source_nodes": 10,
+      "target_nodes": 10
+    },
+    "embedding_similarity": {
+      "similarity": null,
+      "status": "not_configured"
+    },
+    "functional_equivalence": "not_proven",
+    "images": {
+      "heatmap": {
+        "kind": "screenshot",
+        "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/heatmap.png",
+        "sha256": "c5517e4a70c0da114fb230d59b0d417251c51ecaf6b1bd47e92963d767da1c9f"
+      },
+      "san": {
+        "kind": "screenshot",
+        "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/san.png",
+        "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+      },
+      "vue": {
+        "kind": "screenshot",
+        "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/vue.png",
+        "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+      }
+    },
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 2,
+      "target_count": 2,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "input|class=volume-slider|max=100|min=0|type=range",
+        "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+        "path": "root.0.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9,
+      "source_nodes": 10,
+      "target_nodes": 10
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "1118bc0854da3e603538ac900f0b2395c185ac14b3add31730520f8ab07b8ed8",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 10,
+      "target_nodes": 10
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "updateVolume",
+                "status": "complete_caller_with_inlined_write_and_verified_emit_passthrough"
+              },
+              {
+                "caller": "toggleMute",
+                "status": "complete_caller_with_inlined_write_and_verified_emit_passthrough"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "volume",
+                  "line": 19
+                },
+                {
+                  "caller": "inited",
+                  "key": "lastVolume",
+                  "line": 19
+                },
+                {
+                  "caller": "updateVolume",
+                  "key": "volume",
+                  "line": 25
+                },
+                {
+                  "caller": "updateVolume",
+                  "key": "lastVolume",
+                  "line": 25
+                },
+                {
+                  "caller": "toggleMute",
+                  "key": "volume",
+                  "line": 28
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "key": "volume",
+                  "line": 4
+                },
+                {
+                  "caller": "inited",
+                  "key": "lastVolume",
+                  "line": 5
+                },
+                {
+                  "caller": "updateVolume",
+                  "form": "inlined_data_set",
+                  "key": "volume",
+                  "line": 6
+                },
+                {
+                  "caller": "updateVolume",
+                  "form": "inlined_data_set",
+                  "key": "lastVolume",
+                  "line": 6
+                },
+                {
+                  "caller": "toggleMute",
+                  "form": "inlined_data_set",
+                  "key": "volume",
+                  "line": 6
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "volume",
+              "lastVolume"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 5,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateVolume",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "toggleMute",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 7,
+      "target_nodes": 7
+    },
+    "styles": {
+      "compared_properties": 91,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 934.9798,
+      "target": 795.7327999999998
+    },
+    "ui_restoration": 100
+  },
+  "binding": {
+    "legacy": "34f47947cf62b38183e3ba9ab6a55c6016089612797d9fb35554f18f641e2f1e",
+    "protocol": "modular-migration-v1",
+    "ssm": "7eb6a96d7b6ccfa8e6cb6de59ea002b7cf3a4fb80a3b5ceb27c178b1a8e8c756",
+    "system": "abcb47907554a8e4f2bd8c9708c226d7525bc8163f35ef150c61f19c898a0916"
+  },
+  "calls": [
+    {
+      "ordinal": 0,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "1fbdc006c69703a6b47b59e70fd1a554ed8c14c7ee810dc78bd7a300b8ee5df0",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/0/response.json",
+          "sha256": "19e443d259160b6b8f9e25ed656bbd1032dab883b21e0b0512ec5c9818a58cb4"
+        },
+        "usage": {
+          "completion_tokens": 749,
+          "prompt_tokens": 10638,
+          "prompt_tokens_details": {
+            "cached_tokens": 4480
+          },
+          "total_tokens": 11387
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 2,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "da2a883184972e289fdf911e01b4777f7b4f12c6820f79e2a6bcd31ffc146457",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/2/response.json",
+          "sha256": "ab962e3d86ce0ea003f192581f2cb29162b175718a2282cce14efb3fec51807d"
+        },
+        "usage": {
+          "completion_tokens": 795,
+          "prompt_tokens": 9685,
+          "prompt_tokens_details": {
+            "cached_tokens": 256
+          },
+          "total_tokens": 10480
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 3,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "2e826a67ef5649dd880bfcc82b38c16da9d0ec9a0403d88cfb3ed85ad7c09e96",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/3/response.json",
+          "sha256": "d9c5842ac76420b566d96f935d38bcfbfa2b5d83251812d6a88497319393deae"
+        },
+        "usage": {
+          "completion_tokens": 795,
+          "prompt_tokens": 9935,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 10730
+        },
+        "valid": true
+      },
+      "status": "returned"
+    }
+  ],
+  "coverage": "configured_props_and_representative_actions_only",
+  "created_at": 1795073400.1443796,
+  "files": [
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/0/receipt.json",
+      "sha256": "7a939a7d50195f004b6936eacdd1e434765be2aacb415b0414f4381df88dad1c"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/0/request.json",
+      "sha256": "5d186a3833beab3370e5f35b2d48ad1eb92b61092a10f3e87ed96ae6dc06c82a"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/0/response.json",
+      "sha256": "19e443d259160b6b8f9e25ed656bbd1032dab883b21e0b0512ec5c9818a58cb4"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/2/receipt.json",
+      "sha256": "b7b2c6f5a474dd97d02df344a4800935466d16552ae5a5e24c49291abff2cb81"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/2/repair-context.json",
+      "sha256": "ffe67f7b9a6dfe4566fc36d027b6059226622b4f60d9fd92090c180ee069ca39"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/2/request.json",
+      "sha256": "5d7bb35c330c71b3e0842b445542ee436bd0e46cf13ae0b5f45dbd63c3d0f0b2"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/2/response.json",
+      "sha256": "ab962e3d86ce0ea003f192581f2cb29162b175718a2282cce14efb3fec51807d"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/3/receipt.json",
+      "sha256": "609fc5b8bfe3b3426c01421a3395bc318d65c7d1bb62a1e22de26210989ee24f"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/3/repair-context.json",
+      "sha256": "d8389eec6b3055e157e0d763a9ad90b0ef7f34f30a498d99b9104a8b35439963"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/3/request.json",
+      "sha256": "5af0a09b20492f54c563dc47c74ebd67efe2025296d8f7881fde4ec202a8d6b0"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/calls/3/response.json",
+      "sha256": "d9c5842ac76420b566d96f935d38bcfbfa2b5d83251812d6a88497319393deae"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/decisions/1.json",
+      "sha256": "1371c4a2843ccde330ef0eced8d31d677de51c5e4397762e796ab6b97c1ab049"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/decisions/2.json",
+      "sha256": "e525c1655e2670dd6269c125ae8d6c7dc3bddf902b55d4f4bf12bf5c972cea82"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/decisions/3.json",
+      "sha256": "8f425fd0b7f9caceedc6e2b5d55d665449bd9b0ccf4f40e648936d31bbee6fe7"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/0.json",
+      "sha256": "8d6caa81cacc96d3af3928992eedce8026f0856a2c9a7da18d101c1ba21a595d"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/0/heatmap.png",
+      "sha256": "c5517e4a70c0da114fb230d59b0d417251c51ecaf6b1bd47e92963d767da1c9f"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/0/raw.json",
+      "sha256": "10a1a825e18003d63335ce229277993c5ebbbd99b12c1c7fafeb75a3029c2894"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/0/san.png",
+      "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/0/vue.png",
+      "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1.json",
+      "sha256": "1f1c6db031f773eff6405b3c31ab36510044b37c61fc1fefe8150042004f2993"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/heatmap.png",
+      "sha256": "c5517e4a70c0da114fb230d59b0d417251c51ecaf6b1bd47e92963d767da1c9f"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/raw.json",
+      "sha256": "5f028d8a27785c134ba66ef65018ea1b509199d7a14afecddd9471d8b7d2917f"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/san.png",
+      "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/vue.png",
+      "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/2.json",
+      "sha256": "7d80762f65ef93921f1734d42fec401549763856b8da133227581c113af5cc72"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/2/heatmap.png",
+      "sha256": "c5517e4a70c0da114fb230d59b0d417251c51ecaf6b1bd47e92963d767da1c9f"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/2/raw.json",
+      "sha256": "c8953ad1a6bed0f87a29f972fa787d739f0b28c1022c7ecfe55ded92cf26f468"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/2/san.png",
+      "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/2/vue.png",
+      "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/3.json",
+      "sha256": "6968f9ca76980546f476699f5aac1add226909d48778244f0b13cc829a1f369b"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/3/heatmap.png",
+      "sha256": "c5517e4a70c0da114fb230d59b0d417251c51ecaf6b1bd47e92963d767da1c9f"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/3/raw.json",
+      "sha256": "aa94d1344fbed0ecbfa46dafe35db0cc7ae15a386e8f8a380afe7e6ddace3521"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/3/san.png",
+      "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/3/vue.png",
+      "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+    },
+    {
+      "kind": "prompt_selection",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/prompt-selection.json",
+      "sha256": "7a366ea649bdcd6b9970055b2d381f7e8db4bce0b0eb48074f6911cf5dfa67b6"
+    },
+    {
+      "kind": "report",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/report.json",
+      "sha256": "33f0a71917073448a23da76e629d32b0488f312ad1af22262b4f940331b915cb"
+    },
+    {
+      "kind": "request",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/request.json",
+      "sha256": "efd479b5af5f898d645f3ceb9d2706c2ba52a594da18aef0177150aebdf332bf"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/revisions/0.json",
+      "sha256": "7cff59f8be8efee478fef05b7146da8c115436cf0746c037a5ac582030c3730f"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/revisions/0.san",
+      "sha256": "c072faeb5d14b2e8ebe02824d8708fa0db6bdfc67eb4c823b93547b4edc6031d"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/revisions/1.json",
+      "sha256": "575f99128351a3696f3564f59a34475a9f5966d80b52c92a72175debbb416208"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/revisions/1.san",
+      "sha256": "1118bc0854da3e603538ac900f0b2395c185ac14b3add31730520f8ab07b8ed8"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/revisions/2.json",
+      "sha256": "82ffb6beb8401551fac97e5215a0d484a122c61f8d8550ae80c766a33de909be"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/revisions/2.san",
+      "sha256": "bdf2335f34d46b7a382beffc02f7b256a40df265d80423e1d47e4a6b104fd644"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/revisions/3.json",
+      "sha256": "58dde88535b17a776aa2e786df2e826d326306c3b4c9129e2c09dbc224c9423f"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/revisions/3.san",
+      "sha256": "bdf2335f34d46b7a382beffc02f7b256a40df265d80423e1d47e4a6b104fd644"
+    },
+    {
+      "kind": "ssm",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/ssm.json",
+      "sha256": "d548e268117dc651a8cdc2d5ff2ef3f7c95b2c6daea930705ad08924e924e67d"
+    },
+    {
+      "kind": "trace",
+      "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/trace.json",
+      "sha256": "851bcb1d2b1f97300385e96e0093dc7f1650c3f5806f0019bcd772b55c42dd54"
+    }
+  ],
+  "final_artifact": {
+    "kind": "san",
+    "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/revisions/1.san",
+    "sha256": "1118bc0854da3e603538ac900f0b2395c185ac14b3add31730520f8ab07b8ed8"
+  },
+  "generation_origin": "rule_repair",
+  "manual_feedback": [],
+  "migration_id": "22dfed3d9894470fbd267f10cf7c83f4",
+  "model_calls_returned": 3,
+  "model_calls_started": 3,
+  "name": "real_system_experiment70_v3_general_repairs_20261119 / VolumeControl",
+  "production_ready": false,
+  "request": {
+    "actions": [],
+    "authorization": {
+      "billing_cap": "not_guaranteed",
+      "max_calls": 4,
+      "max_output_tokens_per_call": 32768,
+      "network_enabled": true,
+      "scope": "one_generation_and_bounded_repairs",
+      "usage_stop_tokens": 131072
+    },
+    "evidence_class": "development_or_disclosed_exploratory_not_independent_test",
+    "excluded_example_groups": [
+      "AccessMatrix",
+      "AnalyticsDashboard",
+      "AttendanceRoster",
+      "AudioSegmentMarker",
+      "BatchRenamer",
+      "BookmarkToggleCard",
+      "BreadcrumbNavigator",
+      "BudgetThreshold",
+      "CapacityPlanningBoard",
+      "ChoiceChips",
+      "ColorContrastBadge",
+      "CourseModuleAccordion",
+      "CrisisCommunicationHub",
+      "DataPaginationTable",
+      "DeliveryPhaseCard",
+      "DeliveryRouteTimeline",
+      "DocumentApprovalFlow",
+      "EnergyLoadScheduler",
+      "ExpenseTracker",
+      "ExperimentRolloutConsole",
+      "FileDropIndicator",
+      "FleetDispatchConsole",
+      "ForecastSimulator",
+      "FormRulePlayground",
+      "GradebookMatrix",
+      "HabitWeekTracker",
+      "ImageCropControls",
+      "IncidentResponseBoard",
+      "InlineRename",
+      "InventoryBatchManager",
+      "KanbanColumnBoard",
+      "LocalizationWorkspace",
+      "MediaReviewStudio",
+      "MeetingPollScheduler",
+      "MilestoneTimeline",
+      "MonitoringDashboard",
+      "NotificationCard",
+      "OtpCodeInput",
+      "PasswordStrengthMeter",
+      "PlaybackQueue",
+      "PollResults",
+      "PriceStepper",
+      "QuizNavigator",
+      "ReadingProgressCard",
+      "RuleBuilder",
+      "SchemaMappingWorkbench",
+      "SearchClearField",
+      "SeatBookingMap",
+      "SessionTimeoutNotice",
+      "ShippingEstimator",
+      "SortCycleButton",
+      "StarRatingInput",
+      "StatusSwitch",
+      "StockReservationBadge",
+      "SupportTicketConsole",
+      "SurveyBranchForm",
+      "TaskManager",
+      "TemperatureDial",
+      "TextLengthGauge",
+      "ThemePreviewToggle",
+      "TipSplitCalculator",
+      "TodoList",
+      "TopologyEditor",
+      "TransferList",
+      "TripItineraryPlanner",
+      "VolumeControl",
+      "WarehousePickingWave",
+      "WorkflowDiagramEditor",
+      "WorkoutPlanner",
+      "access_matrix",
+      "analytics_dashboard",
+      "attendance_roster",
+      "audio_segment_marker",
+      "batch_renamer",
+      "bookmark_toggle_card",
+      "breadcrumb_navigator",
+      "budget_threshold",
+      "capacity_planning_board",
+      "choice_chips",
+      "color_contrast_badge",
+      "course_module_accordion",
+      "crisis_communication_hub",
+      "data_pagination_table",
+      "delivery_phase_card",
+      "delivery_route_timeline",
+      "document_approval_flow",
+      "energy_load_scheduler",
+      "experiment_rollout_console",
+      "file_drop_indicator",
+      "fleet_dispatch_console",
+      "forecast_simulator",
+      "form_rule_playground",
+      "gradebook_matrix",
+      "habit_week_tracker",
+      "image_crop_controls",
+      "incident_response_board",
+      "inline_rename",
+      "inventory_batch_manager",
+      "kanban_column_board",
+      "localization_workspace",
+      "media_review_studio",
+      "meeting_poll_scheduler",
+      "milestone_timeline",
+      "otp_code_input",
+      "password_strength_meter",
+      "playback_queue",
+      "poll_results",
+      "price_stepper",
+      "quiz_navigator",
+      "reading_progress_card",
+      "rule_builder",
+      "schema_mapping_workbench",
+      "search_clear_field",
+      "seat_booking_map",
+      "session_timeout_notice",
+      "shipping_estimator",
+      "sort_cycle_button",
+      "star_rating_input",
+      "status_switch",
+      "step",
+      "step_card",
+      "stock_reservation_badge",
+      "support_ticket_console",
+      "survey_branch_form",
+      "temperature_dial",
+      "text_length_gauge",
+      "theme_preview_toggle",
+      "tip_split_calculator",
+      "topology_editor",
+      "transfer_list",
+      "trip_itinerary_planner",
+      "volume_control",
+      "warehouse_picking_wave",
+      "workflow_diagram_editor",
+      "workout_planner"
+    ],
+    "few_shot_examples": [
+      {
+        "group": "CounterCard",
+        "id": "builtin-counter",
+        "provenance": "synthetic_development_demonstration_not_dataset_test_answer",
+        "san": "<template><button class=\"card\" on-click=\"increment\">{{count}}</button></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"CounterCard\",dataTypes:{},initData(){return {count:0}},increment(){this.data.set(\"count\",this.data.get(\"count\")+1)}});</script><style>.card{color:rgb(20,40,60)}</style>",
+        "san_sha256": "ad21d808c4670d7650247cd5406fad51917928239ead6df87a1feca219238303",
+        "source_sha256": "6f83b604da4b7e8cc490e857d834ab4e70f082edb7d5f286414a4a4c2317d507",
+        "split": "train",
+        "ssm": {
+          "binding_graph": {
+            "data_fields_usage": [
+              {
+                "field_name": "count",
+                "initialized_from_external": null,
+                "initialized_from_props": false,
+                "read_in_computed": [],
+                "read_in_methods": [
+                  "increment"
+                ],
+                "read_in_template_nodes": [
+                  "template.root_button_0"
+                ],
+                "watched_by": [],
+                "written_in_methods": [
+                  "increment"
+                ]
+              }
+            ],
+            "edges": [
+              {
+                "edge_type": "binds_to",
+                "expression": "{{count}}",
+                "from": "template.root_button_0",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              },
+              {
+                "edge_type": "reads",
+                "expression": "count",
+                "from": "method.increment",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              }
+            ],
+            "nodes": [
+              {
+                "kind": "data",
+                "name": "count",
+                "node_id": "data.count",
+                "source_location": "script.data"
+              },
+              {
+                "kind": "method",
+                "name": "increment",
+                "node_id": "method.increment",
+                "source_location": "script.methods"
+              },
+              {
+                "kind": "template_node",
+                "name": "root_button_0",
+                "node_id": "template.root_button_0",
+                "source_location": "template.button"
+              }
+            ]
+          },
+          "event_model": {
+            "custom_events": [],
+            "dom_events": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_method_ref": "increment",
+                "handler_name": "increment",
+                "handler_signature_inferred": "increment()",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "is_native": true,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "reads": [
+                  "count"
+                ],
+                "san_event_syntax": "on-click=\"increment\"",
+                "side_effects": [],
+                "writes": [
+                  "count"
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "component_name": "CounterCard",
+            "sfc_blocks": {
+              "has_script": true,
+              "has_style": true,
+              "has_template": true,
+              "style_lang": "css",
+              "style_scoped": false
+            },
+            "source_file": "CounterCard.vue",
+            "source_framework": "Vue",
+            "target_framework": "San"
+          },
+          "migration_hints": {
+            "data_access_conversion_plan": {
+              "count": {
+                "init_plan": "initData 中声明 count，默认值 0",
+                "read_plan": "this.data.get('count')",
+                "write_plan": "this.data.set('count', value)"
+              }
+            },
+            "detected_patterns": [
+              {
+                "affected_nodes": [],
+                "detected_by": "AST 特征自动检测",
+                "pattern_id": "event_click",
+                "pattern_name": "event_click",
+                "risk_level": "low",
+                "san_strategy": "存在 @click 或 v-on，需转为 on-click"
+              },
+              {
+                "affected_nodes": [],
+                "detected_by": "AST 特征自动检测",
+                "pattern_id": "data_access",
+                "pattern_name": "data_access",
+                "risk_level": "high",
+                "san_strategy": "methods 中存在 this.xxx 访问，需统一改为 this.data.get/set"
+              }
+            ]
+          },
+          "san_generation_contract": {
+            "description": "约束大模型基于本 schema 生成 San 组件时必须满足的条件。",
+            "must_preserve": [
+              "metadata.component_name 和根节点语义",
+              "template.dom_tree 的层级结构、节点顺序与语义角色",
+              "template.component_refs 中每个子组件的注册名和父子通信事件",
+              "binding_graph 中 data/props/computed 到模板节点的可见绑定",
+              "event_model 中每个 DOM 事件和自定义事件的触发时机与 payload",
+              "style_model 中动态类名、动态样式、scoped CSS 和关键视觉状态",
+              "script.options.lifecycle_hooks 中的副作用初始化与清理逻辑",
+              "script.options.data 中所有字段的默认值和外部初始化来源"
+            ],
+            "quality_checks": [
+              "template.component_refs 中每个子组件都在 script.components 或 san_registration 中有定义",
+              "binding_graph.edges 中每条 template 依赖都能在 script.options 中找到来源",
+              "event_model.dom_events 中每个 handler_name 都存在于 script.options.methods",
+              "event_model.custom_events 中每个 emit_points 都对应 method 中的 $emit 调用",
+              "style_model.dynamic_class_bindings 的 dependencies 都存在于 binding_graph.nodes",
+              "script.options.watch 中的 deep watcher 在 migration_hints 中被标记并给出替代策略"
+            ],
+            "san_syntax_requirements": [
+              "输出完整的 .san 单文件组件，包含 <template>、<script>、<style> 三个代码块；若无样式也保留空 style 或显式说明无样式",
+              "脚本块显式引入 san：const san = require('san')，并使用 module.exports = san.defineComponent(...) 导出组件",
+              "props 使用 san.DataTypes 声明，与 script.options.props 一一对应；优先输出 DataTypes.number / string / bool / array / object",
+              "组件定义使用 san.defineComponent",
+              "组件名来自 metadata.component_name，并显式输出 name 字段",
+              "data 使用 initData 返回默认值，与 script.options.data 一一对应；不要在 initData 中直接依赖复杂运行时读取",
+              "当 data 字段来源于 props 或外部初始化时，优先在 inited/attached 中用 this.data.set 完成同步",
+              "模板中使用 s-if、s-for、on-event、value={= =}、checked={= =} 等 San 语法",
+              "状态访问统一使用 this.data.get() / this.data.set()",
+              "优先将 methods 直接定义在组件对象顶层，避免保留 Vue 风格的 methods: {} 包裹",
+              "子组件标签使用短横线命名",
+              "子组件在 components 中显式注册",
+              "样式块需尽量完整输出，优先复用 styles/style_model 中已有 class 与 css_rules 信息",
+              "定时器、timeout、外部监听等副作用在 attached/disposed 中管理"
+            ]
+          },
+          "schema_name": "San Source Model (Generic)",
+          "schema_version": "3.0",
+          "script": {
+            "export_info": {
+              "export_type": "default_export",
+              "has_export": true
+            },
+            "imports": [],
+            "options": {
+              "components": [],
+              "computed": [],
+              "data": [
+                {
+                  "default_value": 0,
+                  "default_value_expression": "0",
+                  "default_value_static": true,
+                  "default_value_summary": "0",
+                  "name": "count",
+                  "value_type_inferred": "number"
+                }
+              ],
+              "emits": [],
+              "extends": [],
+              "filters": [],
+              "inject_keys": [],
+              "lifecycle_hooks": [],
+              "methods": [
+                {
+                  "body": "{this.count++}",
+                  "body_full": "{this.count++}",
+                  "calls_inferred": [],
+                  "emits_inferred": [],
+                  "is_async": false,
+                  "name": "increment",
+                  "params": [],
+                  "reads_inferred": [
+                    "count"
+                  ],
+                  "side_effects_inferred": [],
+                  "writes_inferred": [
+                    "count"
+                  ]
+                }
+              ],
+              "mixins": [],
+              "name": "CounterCard",
+              "props": [],
+              "provide_keys": [],
+              "watch": []
+            },
+            "top_level_declarations": []
+          },
+          "style_model": {
+            "css_rules_summary": [
+              {
+                "affected_classes": [
+                  "card"
+                ],
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "migration_keep": true,
+                "pseudo_state": null,
+                "selector": ".card"
+              }
+            ],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "scoped": false,
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [
+                  "root_button_0"
+                ],
+                "semantic_role": "card"
+              }
+            ]
+          },
+          "styles": {
+            "css_rules": [
+              {
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "has_keyframes": false,
+                "has_media": false,
+                "has_pseudo": false,
+                "related_classes": [
+                  "card"
+                ],
+                "selectors": [
+                  ".card"
+                ]
+              }
+            ],
+            "css_variables": [],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [],
+                "semantic_role": "card"
+              }
+            ],
+            "style_blocks": [
+              {
+                "attrs": {},
+                "content": ".card{color:rgb(20,40,60)}",
+                "lang": "css",
+                "module": false,
+                "scoped": false
+              }
+            ]
+          },
+          "sub_components": [],
+          "template": {
+            "component_refs": [],
+            "directives_registry": [
+              {
+                "count": 1,
+                "directive_name": "v-on",
+                "example_nodes": [
+                  "root_button_0"
+                ]
+              }
+            ],
+            "dom_tree": {
+              "children": [],
+              "depth": 0,
+              "directives": [
+                {
+                  "argument": "click",
+                  "dependencies": [
+                    "increment"
+                  ],
+                  "directive_name": "v-on",
+                  "expression": "increment",
+                  "migration_note": "v-on 需要迁移到 San",
+                  "modifiers": [],
+                  "san_equivalent": "on-event"
+                }
+              ],
+              "dynamic_attrs": [],
+              "event_bindings": [
+                {
+                  "arguments": [],
+                  "element_tag": "button",
+                  "event_name": "click",
+                  "handler_expression": "increment",
+                  "handler_name": "increment",
+                  "handler_type": "identifier",
+                  "is_component_event": false,
+                  "modifiers": [],
+                  "node_id": "root_button_0",
+                  "san_event_syntax": "on-click=\"increment\""
+                }
+              ],
+              "is_root": true,
+              "is_void": false,
+              "node_id": "root_button_0",
+              "node_type": "element",
+              "parent_id": null,
+              "path": "/button[0]",
+              "san_tag": "button",
+              "semantic_role": "card",
+              "source_tag": "button",
+              "static_attrs": {
+                "class": "card"
+              },
+              "text_bindings": [
+                {
+                  "dependencies": [
+                    "count"
+                  ],
+                  "expression": "count",
+                  "is_interpolation": true,
+                  "raw_text": "{{count}}",
+                  "san_text": "{{count}}"
+                }
+              ]
+            },
+            "event_bindings": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_name": "increment",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "san_event_syntax": "on-click=\"increment\""
+              }
+            ],
+            "slot_distribution": []
+          }
+        },
+        "ssm_sha256": "9fd2dde9bc8a8b5f0593597db090776792a38eddff676acedae6ab512e6e0cda"
+      }
+    ],
+    "filename": "VolumeControl.vue",
+    "input_id": "e1535429d393479f8202de5baef357b3",
+    "max_repair_rounds": 3,
+    "name": "real_system_experiment70_v3_general_repairs_20261119 / VolumeControl",
+    "props": {},
+    "runtime": {
+      "browser": {
+        "enabled": true,
+        "executable": "",
+        "height": 900,
+        "settle_ms": 500,
+        "width": 1280
+      },
+      "learning": {
+        "adapter_path": "",
+        "base_model_path": "",
+        "embedding_model_path": "",
+        "few_shot_count": 1,
+        "few_shot_manifest": "configs/few-shot-builtin-v1.json"
+      },
+      "model": {
+        "api_key_env": "LLM_API_KEY",
+        "backend": "qwen",
+        "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "max_calls": 4,
+        "max_output_tokens": 32768,
+        "model": "qwen-plus",
+        "network_enabled": true,
+        "timeout_seconds": 240,
+        "usage_stop_tokens": 131072
+      },
+      "schema_version": 1,
+      "tracing": {
+        "api_key_env": "LANGSMITH_API_KEY",
+        "enabled": false,
+        "endpoint": "https://api.smith.langchain.com",
+        "project": "card-migrator"
+      }
+    },
+    "source_group": "VolumeControl",
+    "source_sha256": "e3fdfa524545f33182d837b7913bf760afe3476138ef6be147fb222822e7e6e1",
+    "strategy": "ssm",
+    "support_scope": {
+      "deployment": "trusted_local_single_user",
+      "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+      "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+      "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+      "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+      "experimental_public_instance_runtime_enabled": false,
+      "exports": [
+        "export default",
+        "module.exports"
+      ],
+      "full_public_instance_compatibility": false,
+      "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+      "historical_results_reclassified": false,
+      "id": "san-supported-migration-v4",
+      "label": "有明确支持范围的 Vue → SSM → San 迁移闭环",
+      "missing_interactions": "not_run_not_pass",
+      "not_required_for_basic_migration": [
+        "langsmith_upload",
+        "lora_training",
+        "clip_embeddings"
+      ],
+      "pipeline": [
+        "preflight",
+        "extract_ssm",
+        "generate",
+        "evaluate",
+        "bounded_repair",
+        "candidate_retest_and_gate",
+        "report_and_download"
+      ],
+      "preflight_is_full_support_proof": false,
+      "runtime_admission": "not_enabled_in_production",
+      "source_ast_rule_generation_enabled": false,
+      "source_profile": "single_file_javascript_options_api_without_external_imports",
+      "styles": [
+        "css",
+        "scoped_css"
+      ],
+      "target": "San",
+      "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+    },
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "trusted_source": true
+  },
+  "request_sha256": "60e0493165c88acc53bc99b169edb77d907e9a131cd3af3a1bb10c110e03ffe8",
+  "schema_version": 1,
+  "scope": "real_migration_local_single_user",
+  "stage": "report",
+  "state": {
+    "candidate_evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "638f4f9ad75267ed1a624ef9a2a442bf25b34e2c82fcb2c413347a01d03b1890",
+            "parent_shape": "c544754eb7800cd293eda7259d56d80110b0619506ec764799bdfda690278c15",
+            "path": "root.0.1"
+          },
+          {
+            "identity": "1d586e22666f8b2a769adc08b15ddb2fa589e47ff4690b1951823acd7573f68e",
+            "parent_shape": "c544754eb7800cd293eda7259d56d80110b0619506ec764799bdfda690278c15",
+            "path": "root.0.2"
+          }
+        ],
+        "source_snapshot": "4a83ce980927e7be15abd32c367cb1d679a42d3e052f1cd24d010dc3d3d3ed20",
+        "target": [
+          {
+            "identity": "9debe6616d5d07a8af0eb8e0f34d0e34f3c0bc57e8c454f6f763468f4bfa2d60",
+            "parent_shape": "0387aa0b307dfcaaebdd63d91114341d42471cee044167b6e9abd4da02ceee74",
+            "path": "root.0.1"
+          },
+          {
+            "identity": "1d586e22666f8b2a769adc08b15ddb2fa589e47ff4690b1951823acd7573f68e",
+            "parent_shape": "0387aa0b307dfcaaebdd63d91114341d42471cee044167b6e9abd4da02ceee74",
+            "path": "root.0.2"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "details": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "unproven"
+              },
+              {
+                "caller": "updateVolume",
+                "status": "unproven"
+              },
+              {
+                "caller": "toggleMute",
+                "status": "unproven"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "volume",
+                  "line": 19
+                },
+                {
+                  "caller": "inited",
+                  "key": "lastVolume",
+                  "line": 19
+                },
+                {
+                  "caller": "updateVolume",
+                  "key": "volume",
+                  "line": 25
+                },
+                {
+                  "caller": "updateVolume",
+                  "key": "lastVolume",
+                  "line": 25
+                },
+                {
+                  "caller": "toggleMute",
+                  "key": "volume",
+                  "line": 28
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "volume",
+                  "line": 1
+                },
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "lastVolume",
+                  "line": 1
+                },
+                {
+                  "caller": "updateVolume",
+                  "form": "inlined_data_set",
+                  "key": "volume",
+                  "line": 1
+                },
+                {
+                  "caller": "updateVolume",
+                  "form": "inlined_data_set",
+                  "key": "lastVolume",
+                  "line": 1
+                },
+                {
+                  "caller": "toggleMute",
+                  "form": "inlined_data_set",
+                  "key": "volume",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [
+              "caller_body_not_source_matched:inited",
+              "caller_body_not_source_matched:toggleMute",
+              "caller_body_not_source_matched:updateVolume"
+            ],
+            "source_keys": [
+              "volume",
+              "lastVolume"
+            ],
+            "status": "unproven"
+          },
+          "location": "script.methods.setValue",
+          "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited, caller_body_not_source_matched:toggleMute, caller_body_not_source_matched:updateVolume. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+          "severity": "error",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        },
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "target:dom_or_reflective_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "input|class=volume-slider|max=100|min=0|type=range",
+              "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+              "path": "root.0.1"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [],
+            "equal": true,
+            "paths_equal": true,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 2,
+            "target_count": 2,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "input|class=volume-slider|max=100|min=0|type=range",
+              "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+              "path": "root.0.1"
+            }
+          ],
+          "representation_differences": []
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "target:dom_or_reflective_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "input|class=volume-slider|max=100|min=0|type=range",
+          "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+          "path": "root.0.1"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9,
+        "source_nodes": 10,
+        "target_nodes": 10
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/3/heatmap.png",
+          "sha256": "c5517e4a70c0da114fb230d59b0d417251c51ecaf6b1bd47e92963d767da1c9f"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/3/san.png",
+          "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/3/vue.png",
+          "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+        }
+      },
+      "initial_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 2,
+        "target_count": 2,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "input|class=volume-slider|max=100|min=0|type=range",
+          "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+          "path": "root.0.1"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9,
+        "source_nodes": 10,
+        "target_nodes": 10
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "bdf2335f34d46b7a382beffc02f7b256a40df265d80423e1d47e4a6b104fd644",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 10,
+        "target_nodes": 10
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "unproven"
+                },
+                {
+                  "caller": "updateVolume",
+                  "status": "unproven"
+                },
+                {
+                  "caller": "toggleMute",
+                  "status": "unproven"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "volume",
+                    "line": 19
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "lastVolume",
+                    "line": 19
+                  },
+                  {
+                    "caller": "updateVolume",
+                    "key": "volume",
+                    "line": 25
+                  },
+                  {
+                    "caller": "updateVolume",
+                    "key": "lastVolume",
+                    "line": 25
+                  },
+                  {
+                    "caller": "toggleMute",
+                    "key": "volume",
+                    "line": 28
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "volume",
+                    "line": 1
+                  },
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "lastVolume",
+                    "line": 1
+                  },
+                  {
+                    "caller": "updateVolume",
+                    "form": "inlined_data_set",
+                    "key": "volume",
+                    "line": 1
+                  },
+                  {
+                    "caller": "updateVolume",
+                    "form": "inlined_data_set",
+                    "key": "lastVolume",
+                    "line": 1
+                  },
+                  {
+                    "caller": "toggleMute",
+                    "form": "inlined_data_set",
+                    "key": "volume",
+                    "line": 1
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [
+                "caller_body_not_source_matched:inited",
+                "caller_body_not_source_matched:toggleMute",
+                "caller_body_not_source_matched:updateVolume"
+              ],
+              "source_keys": [
+                "volume",
+                "lastVolume"
+              ],
+              "status": "unproven"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "callable_unproven",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 5,
+            "uncertain": true
+          },
+          "status": "callable_semantics_unproven",
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "updateVolume",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "toggleMute",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 7,
+        "target_nodes": 7
+      },
+      "styles": {
+        "compared_properties": 91,
+        "differences": [],
+        "matching": "child_index_path",
+        "similarity": 1.0,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostic_limit": 128,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 1052.1452,
+        "target": 1303.3354
+      },
+      "ui_restoration": 100
+    },
+    "decisions": [
+      {
+        "accepted": true,
+        "candidate": "1118bc0854da3e603538ac900f0b2395c185ac14b3add31730520f8ab07b8ed8",
+        "previous": "c072faeb5d14b2e8ebe02824d8708fa0db6bdfc67eb4c823b93547b4edc6031d",
+        "reason": "strict_improvement",
+        "round": 1
+      },
+      {
+        "accepted": false,
+        "added_errors": [
+          "source_dynamic_assignment_unproven"
+        ],
+        "candidate": "bdf2335f34d46b7a382beffc02f7b256a40df265d80423e1d47e4a6b104fd644",
+        "dimensions": [],
+        "previous": "1118bc0854da3e603538ac900f0b2395c185ac14b3add31730520f8ab07b8ed8",
+        "reason": "candidate_regression",
+        "round": 2
+      },
+      {
+        "accepted": false,
+        "added_errors": [
+          "source_dynamic_assignment_unproven"
+        ],
+        "candidate": "bdf2335f34d46b7a382beffc02f7b256a40df265d80423e1d47e4a6b104fd644",
+        "dimensions": [],
+        "previous": "1118bc0854da3e603538ac900f0b2395c185ac14b3add31730520f8ab07b8ed8",
+        "reason": "candidate_regression",
+        "round": 3
+      }
+    ],
+    "evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "638f4f9ad75267ed1a624ef9a2a442bf25b34e2c82fcb2c413347a01d03b1890",
+            "parent_shape": "c544754eb7800cd293eda7259d56d80110b0619506ec764799bdfda690278c15",
+            "path": "root.0.1"
+          },
+          {
+            "identity": "1d586e22666f8b2a769adc08b15ddb2fa589e47ff4690b1951823acd7573f68e",
+            "parent_shape": "c544754eb7800cd293eda7259d56d80110b0619506ec764799bdfda690278c15",
+            "path": "root.0.2"
+          }
+        ],
+        "source_snapshot": "4a83ce980927e7be15abd32c367cb1d679a42d3e052f1cd24d010dc3d3d3ed20",
+        "target": [
+          {
+            "identity": "9debe6616d5d07a8af0eb8e0f34d0e34f3c0bc57e8c454f6f763468f4bfa2d60",
+            "parent_shape": "0387aa0b307dfcaaebdd63d91114341d42471cee044167b6e9abd4da02ceee74",
+            "path": "root.0.1"
+          },
+          {
+            "identity": "1d586e22666f8b2a769adc08b15ddb2fa589e47ff4690b1951823acd7573f68e",
+            "parent_shape": "0387aa0b307dfcaaebdd63d91114341d42471cee044167b6e9abd4da02ceee74",
+            "path": "root.0.2"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "missing_lifecycle_mapping",
+          "location": "script",
+          "message": "以下生命周期映射未在 San 中找到：created -> inited。",
+          "severity": "error",
+          "suggestion": "将 Vue 生命周期迁移到对应 San 生命周期，或确认逻辑已合并到其他生命周期中。"
+        },
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "target:dom_or_reflective_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "input|class=volume-slider|max=100|min=0|type=range",
+              "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+              "path": "root.0.1"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [],
+            "equal": true,
+            "paths_equal": true,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 2,
+            "target_count": 2,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "input|class=volume-slider|max=100|min=0|type=range",
+              "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+              "path": "root.0.1"
+            }
+          ],
+          "representation_differences": []
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "target:dom_or_reflective_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "input|class=volume-slider|max=100|min=0|type=range",
+          "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+          "path": "root.0.1"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9,
+        "source_nodes": 10,
+        "target_nodes": 10
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/heatmap.png",
+          "sha256": "c5517e4a70c0da114fb230d59b0d417251c51ecaf6b1bd47e92963d767da1c9f"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/san.png",
+          "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/22dfed3d9894470fbd267f10cf7c83f4/evaluations/1/vue.png",
+          "sha256": "00306cb242f59bc3e071ae1c1b69724c70f22ddcfd4a57dd55511684023a6c4e"
+        }
+      },
+      "initial_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 2,
+        "target_count": 2,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "input|class=volume-slider|max=100|min=0|type=range",
+          "expected": "input|class=volume-slider|max=100|min=0|type=range|value=45",
+          "path": "root.0.1"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9,
+        "source_nodes": 10,
+        "target_nodes": 10
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "1118bc0854da3e603538ac900f0b2395c185ac14b3add31730520f8ab07b8ed8",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 10,
+        "target_nodes": 10
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "updateVolume",
+                  "status": "complete_caller_with_inlined_write_and_verified_emit_passthrough"
+                },
+                {
+                  "caller": "toggleMute",
+                  "status": "complete_caller_with_inlined_write_and_verified_emit_passthrough"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "volume",
+                    "line": 19
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "lastVolume",
+                    "line": 19
+                  },
+                  {
+                    "caller": "updateVolume",
+                    "key": "volume",
+                    "line": 25
+                  },
+                  {
+                    "caller": "updateVolume",
+                    "key": "lastVolume",
+                    "line": 25
+                  },
+                  {
+                    "caller": "toggleMute",
+                    "key": "volume",
+                    "line": 28
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "key": "volume",
+                    "line": 4
+                  },
+                  {
+                    "caller": "inited",
+                    "key": "lastVolume",
+                    "line": 5
+                  },
+                  {
+                    "caller": "updateVolume",
+                    "form": "inlined_data_set",
+                    "key": "volume",
+                    "line": 6
+                  },
+                  {
+                    "caller": "updateVolume",
+                    "form": "inlined_data_set",
+                    "key": "lastVolume",
+                    "line": 6
+                  },
+                  {
+                    "caller": "toggleMute",
+                    "form": "inlined_data_set",
+                    "key": "volume",
+                    "line": 6
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [],
+              "source_keys": [
+                "volume",
+                "lastVolume"
+              ],
+              "status": "proven_for_source_internal_calls"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "proven_for_source_internal_calls",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 5,
+            "uncertain": true
+          },
+          "status": "proven_for_source_internal_calls",
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "updateVolume",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "toggleMute",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 7,
+        "target_nodes": 7
+      },
+      "styles": {
+        "compared_properties": 91,
+        "differences": [],
+        "matching": "child_index_path",
+        "similarity": 1.0,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostic_limit": 128,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 934.9798,
+        "target": 795.7327999999998
+      },
+      "ui_restoration": 100
+    },
+    "migration_id": "22dfed3d9894470fbd267f10cf7c83f4",
+    "request_sha256": "60e0493165c88acc53bc99b169edb77d907e9a131cd3af3a1bb10c110e03ffe8",
+    "round": 3,
+    "stop_reason": "repair_budget_exhausted"
+  },
+  "status": "failed",
+  "stop_reason": "repair_budget_exhausted",
+  "support_scope": {
+    "deployment": "trusted_local_single_user",
+    "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+    "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+    "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+    "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+    "experimental_public_instance_runtime_enabled": false,
+    "exports": [
+      "export default",
+      "module.exports"
+    ],
+    "full_public_instance_compatibility": false,
+    "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+    "historical_results_reclassified": false,
+    "id": "san-supported-migration-v4",
+    "label": "有明确支持范围的 Vue → SSM → San 迁移闭环",
+    "missing_interactions": "not_run_not_pass",
+    "not_required_for_basic_migration": [
+      "langsmith_upload",
+      "lora_training",
+      "clip_embeddings"
+    ],
+    "pipeline": [
+      "preflight",
+      "extract_ssm",
+      "generate",
+      "evaluate",
+      "bounded_repair",
+      "candidate_retest_and_gate",
+      "report_and_download"
+    ],
+    "preflight_is_full_support_proof": false,
+    "runtime_admission": "not_enabled_in_production",
+    "source_ast_rule_generation_enabled": false,
+    "source_profile": "single_file_javascript_options_api_without_external_imports",
+    "styles": [
+      "css",
+      "scoped_css"
+    ],
+    "target": "San",
+    "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+  },
+  "unknown_calls": 0,
+  "usage": {
+    "complete": true,
+    "known_total_tokens": 32597
+  }
+}

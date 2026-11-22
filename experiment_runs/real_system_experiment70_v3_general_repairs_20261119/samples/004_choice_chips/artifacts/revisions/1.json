@@ -1,0 +1,18 @@
+{
+  "code": "<template><fieldset class=\"choice-chips\"><legend>\u901a\u77e5\u9891\u7387</legend><button type=\"button\" s-for=\"option in options trackby option.value\" class=\"{{selected === option.value ? 'selected' : ''}}\" on-click=\"select(option.value)\">{{option.label}}</button><p>\u5f53\u524d\u9009\u62e9\uff1a{{selectedLabel}}</p></fieldset></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"ChoiceChips\",dataTypes:{options:DataTypes.array,initialValue:DataTypes.string},initData(){return {\noptions: [{\n  value: 'instant',\n  label: '\u5373\u65f6'\n}, {\n  value: 'daily',\n  label: '\u6bcf\u65e5'\n}, {\n  value: 'off',\n  label: '\u5173\u95ed'\n}],\ninitialValue: 'daily',\nselected:null,selectedLabel:null}},inited(){this.data.set(\"selected\",this.data.get(\"initialValue\"));const options=this.data.get(\"options\")||[{value:\"instant\",label:\"\u5373\u65f6\"},{value:\"daily\",label:\"\u6bcf\u65e5\"},{value:\"off\",label:\"\u5173\u95ed\"}];this.data.set(\"options\",options);const initialValue=this.data.get(\"initialValue\");const option=options.find(item=>item.value===initialValue);this.data.set(\"selectedLabel\",option?option.label:\"\u672a\u9009\u62e9\")},select(value){const options=this.data.get(\"options\");const option=options.find(item=>item.value===value);this.data.set(\"selected\",value);this.data.set(\"selectedLabel\",option?option.label:\"\u672a\u9009\u62e9\")}});</script><style>.choice-chips{width:320px;display:flex;flex-wrap:wrap;gap:8px;padding:16px;border:1px solid #cbd5e1;border-radius:6px;font-family:Arial,sans-serif}.choice-chips legend{padding:0 6px;font-weight:700}.choice-chips button{padding:7px 12px;border:1px solid #94a3b8;border-radius:18px;background:#ffffff;color:#334155;cursor:pointer}.choice-chips button.selected{border-color:#0f766e;background:#ccfbf1;color:#115e59}.choice-chips p{flex-basis:100%;margin:8px 0 0;color:#64748b;font-size:13px}</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/b78e26f2866f476983c477f5586c2b7c/revisions/1.san",
+    "sha256": "dd05708cf46e8bcb8be923be900cea006d370238486d72e6d4637dd186f0e8f1"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "d9f6c4ebb0d038d480d2b3fef7a52c349fb0e05f859e0eff8514c1b91431c149",
+  "repair_focus": "semantics_and_observations",
+  "rules": [
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ]
+  ]
+}

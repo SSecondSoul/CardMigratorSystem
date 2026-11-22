@@ -27,6 +27,16 @@ def main():
                 code, changes = RepairStage._deterministic_repair_plan(value['code'], value['errors'],
                     value['visual_errors'], value['ssm'], str(vue), enable_residual_v2=True)
                 result = {'code': code, 'changes': changes}
+            elif value['action'] == 'prop_defaults':
+                from migration_pipeline.utils.parent_prop_semantics import parent_prop_semantics
+                result = parent_prop_semantics(value['code'], value['source'], repair=True)
+            elif value['action'] == 'data_initialization':
+                import subprocess
+                helper=root/'migration_pipeline/utils/bounded_semantics.cjs'
+                proc=subprocess.run(['node',str(helper)],input=json.dumps({'vue':value['source'],
+                    'code':value['code'],'repair':True,'action':'source_data_initialization_only'}).encode(),
+                    capture_output=True,timeout=15,check=True)
+                result=json.loads(proc.stdout)
             elif value['action'] == 'repair_prompt':
                 result = {'prompt': build_repair_prompt(RepairPromptInput(ssm=value['ssm'],
                     current_code=value['code'], vue_source=value['source'], validation_errors=value['errors'],

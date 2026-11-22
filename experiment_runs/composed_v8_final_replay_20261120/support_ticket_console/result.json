@@ -1,0 +1,81 @@
+{
+  "baseline_codes": [
+    "source_dynamic_assignment_unproven"
+  ],
+  "baseline_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "pass",
+    "visual": "pass"
+  },
+  "complexity": "complex",
+  "component": "SupportTicketConsole",
+  "effective_codes": [
+    "source_dynamic_assignment_unproven"
+  ],
+  "effective_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "pass",
+    "visual": "pass"
+  },
+  "effective_passed": false,
+  "effective_sha256": "62965a99dcc4eeda9176d995b4605687c613751c0738937869156e8159b6d462",
+  "fresh_baseline_passed": false,
+  "historical_real_model_passed": false,
+  "model_calls": 0,
+  "parent_origin": "v7_gate_accepted_candidate",
+  "parent_sha256": "3eba5ddd5cc8f6056305eea2bfc0c32abac0bc7a153522f9259e24a90c8d5b81",
+  "sample_id": "support_ticket_console",
+  "scope": "offline_sequential_development_replay_NOT_fresh_generation",
+  "source_report": "real_system_experiment70_v3_general_repairs_20261119/samples/066_support_ticket_console/report.json",
+  "status": "replayed",
+  "steps": [
+    {
+      "candidate_sha256": "62965a99dcc4eeda9176d995b4605687c613751c0738937869156e8159b6d462",
+      "changes": [
+        {
+          "end": 3083,
+          "replacement": "__migrationSyncSelectValues() {\n  const node0 = this.ref(\"__migrationNativeSelect0\");\n  if (node0) node0.value = this.data.get(\"statusFilter\") == null ? \"\" : this.data.get(\"statusFilter\");\n},\n",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 3083
+        },
+        {
+          "end": 4505,
+          "replacement": "this.__migrationSyncSelectValues();\n",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 4505
+        },
+        {
+          "end": 3083,
+          "replacement": "updated(){this.__migrationSyncSelectValues();},\n",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 3083
+        },
+        {
+          "end": 268,
+          "replacement": " s-ref=\"__migrationNativeSelect0\" VALUE=\"{{statusFilter}}\"",
+          "rule": "source_native_select_post_option_value_v1",
+          "start": 268
+        }
+      ],
+      "codes": [
+        "source_dynamic_assignment_unproven"
+      ],
+      "gate": {
+        "accepted": true,
+        "reason": "strict_improvement"
+      },
+      "normalization_stop": "fixed_point",
+      "number": 1,
+      "parent_sha256": "3eba5ddd5cc8f6056305eea2bfc0c32abac0bc7a153522f9259e24a90c8d5b81",
+      "passed": false
+    }
+  ],
+  "stop": "rule_fixed_point_requires_other_proven_rule_or_model",
+  "v7_effective_passed": false
+}

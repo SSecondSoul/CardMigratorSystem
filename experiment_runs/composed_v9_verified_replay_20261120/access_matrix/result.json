@@ -1,0 +1,131 @@
+{
+  "baseline_codes": [
+    "dom_child_order_mismatch",
+    "rendered_control_state_mismatch",
+    "rendered_dom_mismatch",
+    "source_data_initialization_phase_not_landed",
+    "target_browser_error",
+    "template_structure_mismatch",
+    "vue_this_state"
+  ],
+  "baseline_dimensions": {
+    "compile_runtime": "fail",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "complexity": "complex",
+  "component": "AccessMatrix",
+  "effective_codes": [
+    "rendered_control_position_mismatch",
+    "rendered_dom_mismatch"
+  ],
+  "effective_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "effective_passed": false,
+  "effective_sha256": "e40d1f738e8361d0e3ca30670cc7ad2595c2d3c46c8cfc497935bb20fa01ba31",
+  "fresh_baseline_passed": false,
+  "historical_real_model_passed": false,
+  "model_calls": 0,
+  "parent_origin": "v8_gate_effective_code_never_rejected_candidate",
+  "parent_sha256": "43b98e12cbf46cc85a8074c195e225098968a6a3344a9a3d2bf6b4b67051d4b6",
+  "sample_id": "access_matrix",
+  "scope": "offline_sequential_development_replay_NOT_fresh_generation",
+  "source_report": "real_system_experiment70_v3_general_repairs_20261119/samples/050_access_matrix/report.json",
+  "status": "replayed",
+  "steps": [
+    {
+      "candidate_sha256": "c459906efb4d5abd5b8a21f9ca80eb112014e1f2f435e4aedccbe75b5e53d4a9",
+      "changes": [
+        "restored_source_pure_prop_data_initialization_phase"
+      ],
+      "codes": [
+        "dom_child_order_mismatch",
+        "rendered_control_position_mismatch",
+        "rendered_dom_mismatch",
+        "template_structure_mismatch"
+      ],
+      "gate": {
+        "accepted": true,
+        "diagnostic_refinements": [
+          "source_pure_initialization_runtime_recovery_revealed_position_defect"
+        ],
+        "migration_passed": false,
+        "reason": "strict_improvement"
+      },
+      "normalization_stop": "source_data_initialization_runtime_recovery_first",
+      "number": 1,
+      "parent_sha256": "43b98e12cbf46cc85a8074c195e225098968a6a3344a9a3d2bf6b4b67051d4b6",
+      "passed": false
+    },
+    {
+      "candidate_sha256": "e40d1f738e8361d0e3ca30670cc7ad2595c2d3c46c8cfc497935bb20fa01ba31",
+      "changes": [
+        {
+          "end": 186,
+          "replacement": " type=\"button\"",
+          "rule": "source_native_static_attribute_fidelity_v1",
+          "start": 186
+        },
+        {
+          "end": 925,
+          "replacement": " className=\"{{selectedRoleId === role.id ? 'active' : ''}}\"",
+          "rule": "source_string_class_native_attribute_reflection_v1",
+          "start": 925
+        },
+        {
+          "end": 700,
+          "replacement": "",
+          "rule": "source_text_only_span_unwrap_v1",
+          "start": 694
+        },
+        {
+          "end": 711,
+          "replacement": "",
+          "rule": "source_text_only_span_unwrap_v1",
+          "start": 704
+        },
+        {
+          "end": 2421,
+          "replacement": "",
+          "rule": "source_text_only_span_unwrap_v1",
+          "start": 2415
+        },
+        {
+          "end": 2451,
+          "replacement": "",
+          "rule": "source_text_only_span_unwrap_v1",
+          "start": 2444
+        },
+        {
+          "end": 756,
+          "replacement": " VALUE=\"{{query}}\"",
+          "rule": "source_native_nullable_value_attribute_reflection_v2",
+          "start": 756
+        }
+      ],
+      "codes": [
+        "rendered_control_position_mismatch",
+        "rendered_dom_mismatch"
+      ],
+      "gate": {
+        "accepted": true,
+        "reason": "strict_improvement"
+      },
+      "normalization_stop": "fixed_point",
+      "number": 2,
+      "parent_sha256": "c459906efb4d5abd5b8a21f9ca80eb112014e1f2f435e4aedccbe75b5e53d4a9",
+      "passed": false
+    }
+  ],
+  "stop": "rule_fixed_point_requires_other_proven_rule_or_model",
+  "v8_effective_passed": false
+}

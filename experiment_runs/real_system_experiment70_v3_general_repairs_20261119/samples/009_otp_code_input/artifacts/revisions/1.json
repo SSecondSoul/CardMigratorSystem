@@ -1,0 +1,18 @@
+{
+  "code": "<template><section class=\"otp-code-input\"><h2>\u8f93\u5165\u9a8c\u8bc1\u7801</h2><input inputmode=\"numeric\" placeholder=\"\u4ec5\u8f93\u5165\u6570\u5b57\" maxlength=\"{{length}}\" value=\"{{code}}\" on-input=\"updateCode\"/><p>{{complete ? '\u9a8c\u8bc1\u7801\u957f\u5ea6\u6b63\u786e' : '\u8fd8\u9700 ' + remaining + ' \u4f4d'}}</p><div class=\"actions\"><button>\u6e05\u7a7a</button><button class=\"primary\" disabled=\"{{!complete}}\" on-click=\"verify\">\u9a8c\u8bc1</button></div><strong s-if=\"submitted\">\u5df2\u63d0\u4ea4\u9a8c\u8bc1</strong></section></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"OtpCodeInput\",dataTypes:{length:DataTypes.number},initData(){return {\nlength: 6,\ncode:\"\",submitted:false}},computed:{remaining(){return Math.max(0,this.data.get(\"length\")-this.data.get(\"code\").length)},complete(){return this.data.get(\"code\").length===this.data.get(\"length\")}},setValue(key,value){this.data.set(key,value)},emitEvent(name,payload){this.fire(name,payload)},updateCode(event){this.data.set(\"code\",event.target.value.replace(/\\D/g,\"\").slice(0,this.data.get(\"length\")));this.data.set(\"submitted\",false)},clear(){this.data.set(\"code\",\"\");this.data.set(\"submitted\",false)},verify(){if(!this.data.get(\"complete\"))return;this.data.set(\"submitted\",true);this.emitEvent(\"complete\",this.data.get(\"code\"))}});</script><style>.otp-code-input{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}.otp-code-input *{box-sizing:border-box}.otp-code-input h2,.otp-code-input h3,.otp-code-input p{margin-top:0}.otp-code-input button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}.otp-code-input button.primary{border-color:#dc2626;background:#dc2626;color:#fff}.otp-code-input button:disabled{opacity:.45;cursor:not-allowed}.otp-code-input input,.otp-code-input select,.otp-code-input textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}.otp-code-input .muted{color:#71808e;font-size:12px}.otp-code-input .toolbar,.otp-code-input .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.otp-code-input input{width:100%;font-size:24px;letter-spacing:8px}.otp-code-input>strong{display:block;margin-top:10px;color:#15803d}</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/57e8fd326aa44e02a55dfb72ab373d7a/revisions/1.san",
+    "sha256": "5471845eb5d3fc76fd43df74d7e6b480aebd9913e1097ac4fa2cc270ae75f470"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "57a09cfd56a226df5c232b7dc0800fb00a7ae4563ca5ef0c833d73e62b5c4097",
+  "repair_focus": "semantics_and_observations",
+  "rules": [
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ]
+  ]
+}

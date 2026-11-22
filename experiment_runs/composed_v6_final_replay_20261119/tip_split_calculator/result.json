@@ -1,0 +1,1363 @@
+{
+  "after": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "925f46e94751eebc1b173f2be8f8cd52363bb6d727292f45166989098a9e0f9d",
+          "parent_shape": "470d2c914634340eea5fd23cce5e2091ca2f5844cedde1eb0208c32902075888",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+          "parent_shape": "f03ab15e744d470e34b5cfdecf5b93c6c6d4f8e860cf87faeddcd36737ed7469",
+          "path": "root.0.2"
+        },
+        {
+          "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.2"
+        }
+      ],
+      "source_snapshot": "88a3be85aefeefd810b85a0764f525f9c903e79bd9deacd830320729997554a1",
+      "target": [
+        {
+          "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+          "parent_shape": "80e93eecf0819ae73a742c148df44a7d413f3cec169b8563b053ce29b532f0fb",
+          "path": "root.0.1.1"
+        },
+        {
+          "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+          "parent_shape": "93e4942eeca792dd09e272522d2da51bb3bb95a5868bc4bc9c6caac1b03804f9",
+          "path": "root.0.2"
+        },
+        {
+          "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.2"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "dom_child_order_mismatch",
+        "location": "template",
+        "message": "San 模板改变了 Vue 节点的直接子节点顺序：/section[1]/label[0]/: Vue input / San span。",
+        "severity": "error",
+        "suggestion": "保持 Vue 原始 DOM 子节点顺序，尤其是 input/checkbox 与相邻文字、百分号、label 文本的先后关系；不要依赖 CSS 排序替代 DOM 顺序。"
+      },
+      {
+        "code": "template_structure_mismatch",
+        "differences": [
+          {
+            "actual": "label||text:",
+            "expected": "label||text:账单",
+            "path": "root.0.1"
+          },
+          {
+            "actual": "span||text:账单",
+            "expected": "input|binding:value|event:input|type=number|text:",
+            "path": "root.0.1.0"
+          },
+          {
+            "actual": "input|binding:value|event:input|type=number|text:",
+            "expected": null,
+            "path": "root.0.1.1"
+          }
+        ],
+        "message": "SSM/target template projection differs."
+      },
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "target:dom_or_reflective_member"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "span|",
+            "expected": "#text:账单",
+            "path": "root.0.1.0"
+          },
+          {
+            "actual": "#text:账单",
+            "expected": null,
+            "path": "root.0.1.0.0"
+          },
+          {
+            "actual": "input|type=number",
+            "expected": "input|type=number|value=268",
+            "path": "root.0.1.1"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [
+            {
+              "actual": [
+                "root.0.1.1",
+                "input",
+                "268",
+                false,
+                null
+              ],
+              "expected": [
+                "root.0.1.0",
+                "input",
+                "268",
+                false,
+                null
+              ],
+              "kind": "control_path_changed"
+            }
+          ],
+          "equal": false,
+          "paths_equal": false,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 4,
+          "target_count": 4,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "span|",
+            "expected": "#text:账单",
+            "path": "root.0.1.0"
+          },
+          {
+            "actual": "#text:账单",
+            "expected": null,
+            "path": "root.0.1.0.0"
+          },
+          {
+            "actual": "input|type=number",
+            "expected": "input|type=number|value=268",
+            "path": "root.0.1.1"
+          }
+        ],
+        "representation_differences": []
+      },
+      {
+        "code": "rendered_control_position_mismatch",
+        "differences": [
+          {
+            "actual": [
+              "root.0.1.1",
+              "input",
+              "268",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.0",
+              "input",
+              "268",
+              false,
+              null
+            ],
+            "kind": "control_path_changed"
+          }
+        ],
+        "message": "Control paths differ; captured live values match in order. Inspect actual wrapper/structure changes."
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "target:dom_or_reflective_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "span|",
+        "expected": "#text:账单",
+        "path": "root.0.1.0"
+      },
+      {
+        "actual": "#text:账单",
+        "expected": null,
+        "path": "root.0.1.0.0"
+      },
+      {
+        "actual": "input|type=number",
+        "expected": "input|type=number|value=268",
+        "path": "root.0.1.1"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.8947368421052632,
+      "source_nodes": 18,
+      "target_nodes": 19
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [
+        {
+          "actual": [
+            "root.0.1.1",
+            "input",
+            "268",
+            false,
+            null
+          ],
+          "expected": [
+            "root.0.1.0",
+            "input",
+            "268",
+            false,
+            null
+          ],
+          "kind": "control_path_changed"
+        }
+      ],
+      "equal": false,
+      "paths_equal": false,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 4,
+      "target_count": 4,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "span|",
+        "expected": "#text:账单",
+        "path": "root.0.1.0"
+      },
+      {
+        "actual": "#text:账单",
+        "expected": null,
+        "path": "root.0.1.0.0"
+      },
+      {
+        "actual": "input|type=number",
+        "expected": "input|type=number|value=268",
+        "path": "root.0.1.1"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.8947368421052632,
+      "source_nodes": 18,
+      "target_nodes": 19
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "8ff12805c709cf4f82aa2bf83ffaa12158d286499660e3e1e360d4bcf400ae43",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9473684210526316,
+      "source_nodes": 18,
+      "target_nodes": 19
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "updateBill",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "cycleTip",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "changePeople",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 23
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 29
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 32
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 35
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 3
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 3
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 3
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 3
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "bill",
+              "tipRate",
+              "people"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 4,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 4,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 0,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateBill",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "cycleTip",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "changePeople",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [
+      {
+        "actual": "label||text:",
+        "expected": "label||text:账单",
+        "path": "root.0.1"
+      },
+      {
+        "actual": "span||text:账单",
+        "expected": "input|binding:value|event:input|type=number|text:",
+        "path": "root.0.1.0"
+      },
+      {
+        "actual": "input|binding:value|event:input|type=number|text:",
+        "expected": null,
+        "path": "root.0.1.1"
+      }
+    ],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.8333333333333334,
+      "source_nodes": 11,
+      "target_nodes": 12
+    },
+    "styles": {
+      "compared_properties": 156,
+      "differences": [
+        {
+          "path": "root.0.1.0",
+          "property": "color",
+          "source": "rgb(0, 0, 0)",
+          "target": "rgb(36, 49, 61)"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "paddingTop",
+          "source": "8px",
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "paddingLeft",
+          "source": "8px",
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "height",
+          "source": "36px",
+          "target": "24px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "color",
+          "source": null,
+          "target": "rgb(0, 0, 0)"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "backgroundColor",
+          "source": null,
+          "target": "rgb(255, 255, 255)"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontSize",
+          "source": null,
+          "target": "16px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontFamily",
+          "source": null,
+          "target": "Arial, sans-serif"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontWeight",
+          "source": null,
+          "target": "400"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "marginTop",
+          "source": null,
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "marginLeft",
+          "source": null,
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "paddingTop",
+          "source": null,
+          "target": "8px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "paddingLeft",
+          "source": null,
+          "target": "8px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "width",
+          "source": null,
+          "target": "213px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "height",
+          "source": null,
+          "target": "36px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "display",
+          "source": null,
+          "target": "block"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "position",
+          "source": null,
+          "target": "static"
+        }
+      ],
+      "matching": "child_index_path",
+      "similarity": 0.8846153846153846,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 949.2836000000002,
+      "target": 817.2233000000001
+    },
+    "ui_restoration": 97.69230769230771
+  },
+  "before": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "925f46e94751eebc1b173f2be8f8cd52363bb6d727292f45166989098a9e0f9d",
+          "parent_shape": "470d2c914634340eea5fd23cce5e2091ca2f5844cedde1eb0208c32902075888",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+          "parent_shape": "f03ab15e744d470e34b5cfdecf5b93c6c6d4f8e860cf87faeddcd36737ed7469",
+          "path": "root.0.2"
+        },
+        {
+          "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.2"
+        }
+      ],
+      "source_snapshot": "88a3be85aefeefd810b85a0764f525f9c903e79bd9deacd830320729997554a1",
+      "target": [
+        {
+          "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+          "parent_shape": "80e93eecf0819ae73a742c148df44a7d413f3cec169b8563b053ce29b532f0fb",
+          "path": "root.0.1.1"
+        },
+        {
+          "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+          "parent_shape": "93e4942eeca792dd09e272522d2da51bb3bb95a5868bc4bc9c6caac1b03804f9",
+          "path": "root.0.2"
+        },
+        {
+          "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.2"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "dom_child_order_mismatch",
+        "location": "template",
+        "message": "San 模板改变了 Vue 节点的直接子节点顺序：/section[1]/label[0]/: Vue input / San span。",
+        "severity": "error",
+        "suggestion": "保持 Vue 原始 DOM 子节点顺序，尤其是 input/checkbox 与相邻文字、百分号、label 文本的先后关系；不要依赖 CSS 排序替代 DOM 顺序。"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "location": "script.methods.emitEvent",
+        "message": "Source method emitEvent has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "missing_prop_defaults",
+        "details": {
+          "affected_fields": [
+            "initialBill"
+          ],
+          "contract": "prop_defaults_v1"
+        },
+        "location": "script",
+        "message": "以下带默认值的 Vue props 未在 San initData 中落地：initialBill。",
+        "severity": "error",
+        "suggestion": "将 SSM props.default 的等价值作为同名字段加入 initData 返回对象。"
+      },
+      {
+        "code": "custom_event_not_fire",
+        "location": "script",
+        "message": "源组件使用了 Vue $emit，但 San 未正确使用 this.fire，或错误使用了 this.dispatch。",
+        "severity": "error",
+        "suggestion": "将自定义事件迁移为 this.fire(eventName, payload)，不要使用 this.dispatch。"
+      },
+      {
+        "code": "template_structure_mismatch",
+        "differences": [
+          {
+            "actual": "label||text:",
+            "expected": "label||text:账单",
+            "path": "root.0.1"
+          },
+          {
+            "actual": "span||text:账单",
+            "expected": "input|binding:value|event:input|type=number|text:",
+            "path": "root.0.1.0"
+          },
+          {
+            "actual": "input|binding:value|event:input|type=number|text:",
+            "expected": null,
+            "path": "root.0.1.1"
+          }
+        ],
+        "message": "SSM/target template projection differs."
+      },
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "target:dom_or_reflective_member"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "span|",
+            "expected": "#text:账单",
+            "path": "root.0.1.0"
+          },
+          {
+            "actual": "#text:账单",
+            "expected": null,
+            "path": "root.0.1.0.0"
+          },
+          {
+            "actual": "input|type=number",
+            "expected": "input|type=number|value=268",
+            "path": "root.0.1.1"
+          },
+          {
+            "actual": "#text:总计 ¥NaN · 每人 ¥NaN",
+            "expected": "#text:总计 ¥294.80 · 每人 ¥147.40",
+            "path": "root.0.4.0"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [
+            {
+              "actual": [
+                "root.0.1.1",
+                "input",
+                "",
+                false,
+                null
+              ],
+              "expected": [
+                "root.0.1.0",
+                "input",
+                "268",
+                false,
+                null
+              ],
+              "kind": "live_property_changed"
+            }
+          ],
+          "equal": false,
+          "paths_equal": false,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 4,
+          "target_count": 4,
+          "values_equal_in_order": false
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "span|",
+            "expected": "#text:账单",
+            "path": "root.0.1.0"
+          },
+          {
+            "actual": "#text:账单",
+            "expected": null,
+            "path": "root.0.1.0.0"
+          },
+          {
+            "actual": "input|type=number",
+            "expected": "input|type=number|value=268",
+            "path": "root.0.1.1"
+          },
+          {
+            "actual": "#text:总计 ¥NaN · 每人 ¥NaN",
+            "expected": "#text:总计 ¥294.80 · 每人 ¥147.40",
+            "path": "root.0.4.0"
+          }
+        ],
+        "representation_differences": []
+      },
+      {
+        "code": "rendered_control_state_mismatch",
+        "differences": [
+          {
+            "actual": [
+              "root.0.1.1",
+              "input",
+              "",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.0",
+              "input",
+              "268",
+              false,
+              null
+            ],
+            "kind": "live_property_changed"
+          }
+        ],
+        "message": "Initial live control values/types/counts differ even if screenshots or HTML attributes match."
+      }
+    ],
+    "different_pixel_ratio": 0.0013567708333333333,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "target:dom_or_reflective_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "span|",
+        "expected": "#text:账单",
+        "path": "root.0.1.0"
+      },
+      {
+        "actual": "#text:账单",
+        "expected": null,
+        "path": "root.0.1.0.0"
+      },
+      {
+        "actual": "input|type=number",
+        "expected": "input|type=number|value=268",
+        "path": "root.0.1.1"
+      },
+      {
+        "actual": "#text:总计 ¥NaN · 每人 ¥NaN",
+        "expected": "#text:总计 ¥294.80 · 每人 ¥147.40",
+        "path": "root.0.4.0"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.8421052631578947,
+      "source_nodes": 18,
+      "target_nodes": 19
+    },
+    "embedding_similarity": null,
+    "functional_equivalence": "not_proven",
+    "initial_control_state": {
+      "differences": [
+        {
+          "actual": [
+            "root.0.1.1",
+            "input",
+            "",
+            false,
+            null
+          ],
+          "expected": [
+            "root.0.1.0",
+            "input",
+            "268",
+            false,
+            null
+          ],
+          "kind": "live_property_changed"
+        }
+      ],
+      "equal": false,
+      "paths_equal": false,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 4,
+      "target_count": 4,
+      "values_equal_in_order": false
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "span|",
+        "expected": "#text:账单",
+        "path": "root.0.1.0"
+      },
+      {
+        "actual": "#text:账单",
+        "expected": null,
+        "path": "root.0.1.0.0"
+      },
+      {
+        "actual": "input|type=number",
+        "expected": "input|type=number|value=268",
+        "path": "root.0.1.1"
+      },
+      {
+        "actual": "#text:总计 ¥NaN · 每人 ¥NaN",
+        "expected": "#text:总计 ¥294.80 · 每人 ¥147.40",
+        "path": "root.0.4.0"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.8421052631578947,
+      "source_nodes": 18,
+      "target_nodes": 19
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9473684210526316,
+      "source_nodes": 18,
+      "target_nodes": 19
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "updateBill",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "cycleTip",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "changePeople",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 23
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 29
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 32
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 35
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 1
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "bill",
+              "tipRate",
+              "people"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 4,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 4,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "proof": "closed_two_argument_source_emit_forwarding_graph_no_target_triggers",
+        "restore_eligible": true,
+        "source_references": {
+          "count": 0,
+          "uncertain": true
+        },
+        "status": "missing",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateBill",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "cycleTip",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "changePeople",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 0.9964534708970706,
+    "structure_differences": [
+      {
+        "actual": "label||text:",
+        "expected": "label||text:账单",
+        "path": "root.0.1"
+      },
+      {
+        "actual": "span||text:账单",
+        "expected": "input|binding:value|event:input|type=number|text:",
+        "path": "root.0.1.0"
+      },
+      {
+        "actual": "input|binding:value|event:input|type=number|text:",
+        "expected": null,
+        "path": "root.0.1.1"
+      }
+    ],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.8333333333333334,
+      "source_nodes": 11,
+      "target_nodes": 12
+    },
+    "styles": {
+      "compared_properties": 156,
+      "differences": [
+        {
+          "path": "root.0.1.0",
+          "property": "color",
+          "source": "rgb(0, 0, 0)",
+          "target": "rgb(36, 49, 61)"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "paddingTop",
+          "source": "8px",
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "paddingLeft",
+          "source": "8px",
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "height",
+          "source": "36px",
+          "target": "24px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "color",
+          "source": null,
+          "target": "rgb(0, 0, 0)"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "backgroundColor",
+          "source": null,
+          "target": "rgb(255, 255, 255)"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontSize",
+          "source": null,
+          "target": "16px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontFamily",
+          "source": null,
+          "target": "Arial, sans-serif"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontWeight",
+          "source": null,
+          "target": "400"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "marginTop",
+          "source": null,
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "marginLeft",
+          "source": null,
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "paddingTop",
+          "source": null,
+          "target": "8px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "paddingLeft",
+          "source": null,
+          "target": "8px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "width",
+          "source": null,
+          "target": "213px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "height",
+          "source": null,
+          "target": "36px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "display",
+          "source": null,
+          "target": "block"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "position",
+          "source": null,
+          "target": "static"
+        }
+      ],
+      "matching": "child_index_path",
+      "similarity": 0.8846153846153846,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 941.6477,
+      "target": 870.0185000000001
+    },
+    "ui_restoration": 97.47427811216123
+  },
+  "candidate_sha256": "8ff12805c709cf4f82aa2bf83ffaa12158d286499660e3e1e360d4bcf400ae43",
+  "changed": true,
+  "changes": [
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ],
+    [
+      "bounded_ast_semantics",
+      "restored_source_event_forwarding_interfaces"
+    ]
+  ],
+  "complexity": "simple",
+  "component": "TipSplitCalculator",
+  "effective_passed": false,
+  "gate": {
+    "accepted": false,
+    "added_errors": [
+      "rendered_control_position_mismatch"
+    ],
+    "dimensions": [],
+    "reason": "candidate_regression"
+  },
+  "historical_passed": false,
+  "model_calls": 0,
+  "parent_sha256": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55",
+  "scope": "offline_frozen_artifact_proposal_not_fresh_generation",
+  "source_report": "real_system_experiment70_v3_general_repairs_20261119/samples/023_tip_split_calculator/report.json",
+  "status": "replayed"
+}

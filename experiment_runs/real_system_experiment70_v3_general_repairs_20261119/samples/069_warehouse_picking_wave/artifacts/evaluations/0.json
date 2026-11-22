@@ -1,0 +1,2757 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "9c651b170c9cbbb501565cd3329f3061f6ae593b3449474663ea85546d9b0d6e",
+        "parent_shape": "91e34650cc3055cb4d31d2b01c8c07852a890c52c3409f9273e551eed99a159c",
+        "path": "root.0.0.1.0"
+      },
+      {
+        "identity": "3b121258b8ddfb142a189f65d7e1104b05a62b7a79c17055f68fa826c24fdad4",
+        "parent_shape": "90f3fe6812fcdc098a7400ca9b1a90742ccdb91ff1369066c65c71ce59c4a680",
+        "path": "root.0.0.1.0.0"
+      },
+      {
+        "identity": "ea614ef5d77bb257f929f15f073401f500725dfb08aebf09b828570b451a6fc4",
+        "parent_shape": "90f3fe6812fcdc098a7400ca9b1a90742ccdb91ff1369066c65c71ce59c4a680",
+        "path": "root.0.0.1.0.1"
+      },
+      {
+        "identity": "1a43b2b3ac073a0a4a954aa6990eed3f4ec80cb84e2c99174cd3803a87878f2e",
+        "parent_shape": "90f3fe6812fcdc098a7400ca9b1a90742ccdb91ff1369066c65c71ce59c4a680",
+        "path": "root.0.0.1.0.2"
+      },
+      {
+        "identity": "47162ce93889f130713f2f2c6ebfdb0064a0bae1a914f23892f97c3f4bb4eca9",
+        "parent_shape": "91e34650cc3055cb4d31d2b01c8c07852a890c52c3409f9273e551eed99a159c",
+        "path": "root.0.0.1.1"
+      },
+      {
+        "identity": "00501ebce6314566b37394efe7523dd3e401c1d19e990bf2be05b5f53b373837",
+        "parent_shape": "d8f5e5d73e8d9b400667b0fd9944347702dfeca5ac575e02a9f49a4240735c27",
+        "path": "root.0.1.0.1"
+      },
+      {
+        "identity": "96ba50447e88d0d21e7c448a24e114e9ba58fc04e433a371f447f9680c10d0a4",
+        "parent_shape": "d8f5e5d73e8d9b400667b0fd9944347702dfeca5ac575e02a9f49a4240735c27",
+        "path": "root.0.1.0.2"
+      },
+      {
+        "identity": "9e0c1325dfb9143b8b2ba990895f0f3a7d6c7c893c40d359f5486c4528087721",
+        "parent_shape": "d8f5e5d73e8d9b400667b0fd9944347702dfeca5ac575e02a9f49a4240735c27",
+        "path": "root.0.1.0.3"
+      },
+      {
+        "identity": "85e44d750d6ec21fc32dea829e2746a510f418949ce83274388070a0a1ad54e0",
+        "parent_shape": "815877d88c158a0202d812b619df0b37673d3a539b9f89f2d643bb1cf1999bee",
+        "path": "root.0.1.1.2"
+      }
+    ],
+    "source_snapshot": "19924024611d0b17e3521caf66fb29ab2267ff7cef4b6c8729f438837e3bcacb",
+    "target": [
+      {
+        "identity": "512c5d34492f54dedd6f0d3ffe94615aca5d935889dc08067d5b9c183616c39d",
+        "parent_shape": "fdbfbd99f5b6bd861d9cdc2d00b9098cb11f9feb3975f17519f48a1b1faa43ed",
+        "path": "root.0.0.1.0"
+      },
+      {
+        "identity": "435a0781b0bab64bc1c5eaa757bc3e31f87e3df0a03bc8872494c5d5effd65fa",
+        "parent_shape": "fdbfbd99f5b6bd861d9cdc2d00b9098cb11f9feb3975f17519f48a1b1faa43ed",
+        "path": "root.0.0.1.1"
+      },
+      {
+        "identity": "6c5451dad177f5573af16355e7ad35c0b93d05351ec8833027e2fedc494124bd",
+        "parent_shape": "244c1834397e5f1d31ede701ddc247b6fa4157556286859c8a31bc7f94818c79",
+        "path": "root.0.1.1.2"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "invalid_s_for_key_binding",
+      "location": "template",
+      "message": "San \u6a21\u677f\u4e2d\u68c0\u6d4b\u5230 5 \u4e2a s-for \u8282\u70b9\u4f7f\u7528\u72ec\u7acb key \u6216 trackby \u5c5e\u6027\uff1bSan \u8981\u6c42\u5c06 trackby \u5199\u5165 s-for \u8868\u8fbe\u5f0f\uff0c\u5426\u5219\u53ef\u80fd\u5bfc\u81f4\u5faa\u73af\u4f5c\u7528\u57df\u3001\u8282\u70b9\u72b6\u6001\u6216 class \u4e0d\u5237\u65b0\u3002",
+      "severity": "error",
+      "suggestion": "\u5c06 s-for=\"task in tasks\" key=\"{{ task.id }}\" \u6216 s-for=\"task in tasks\" trackby=\"task.id\" \u6539\u4e3a s-for=\"task in tasks trackby task.id\"\uff0c\u5e76\u5220\u9664\u72ec\u7acb\u5c5e\u6027\u3002"
+    },
+    {
+      "code": "source_computed_option_not_landed",
+      "details": {
+        "contract": "source_computed_option_shape_v1",
+        "name": "openOrders",
+        "source_matched_relocation_eligible": true
+      },
+      "location": "script.computed.openOrders",
+      "message": "Source computed value openOrders is missing from San computed options; an ordinary method does not supply a reactive template value.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "source_computed_option_not_landed",
+      "details": {
+        "contract": "source_computed_option_shape_v1",
+        "name": "selectedLineCount",
+        "source_matched_relocation_eligible": false
+      },
+      "location": "script.computed.selectedLineCount",
+      "message": "Source computed value selectedLineCount is missing from San computed options; an ordinary method does not supply a reactive template value.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "source_computed_option_not_landed",
+      "details": {
+        "contract": "source_computed_option_shape_v1",
+        "name": "activeWave",
+        "source_matched_relocation_eligible": false
+      },
+      "location": "script.computed.activeWave",
+      "message": "Source computed value activeWave is missing from San computed options; an ordinary method does not supply a reactive template value.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "source_computed_option_not_landed",
+      "details": {
+        "contract": "source_computed_option_shape_v1",
+        "name": "activeTasks",
+        "source_matched_relocation_eligible": false
+      },
+      "location": "script.computed.activeTasks",
+      "message": "Source computed value activeTasks is missing from San computed options; an ordinary method does not supply a reactive template value.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "source_computed_option_not_landed",
+      "details": {
+        "contract": "source_computed_option_shape_v1",
+        "name": "waveProgress",
+        "source_matched_relocation_eligible": false
+      },
+      "location": "script.computed.waveProgress",
+      "message": "Source computed value waveProgress is missing from San computed options; an ordinary method does not supply a reactive template value.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "source_computed_option_not_landed",
+      "details": {
+        "contract": "source_computed_option_shape_v1",
+        "name": "unresolvedExceptions",
+        "source_matched_relocation_eligible": false
+      },
+      "location": "script.computed.unresolvedExceptions",
+      "message": "Source computed value unresolvedExceptions is missing from San computed options; an ordinary method does not supply a reactive template value.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "source_dynamic_assignment_unproven",
+      "details": {
+        "arbitrary_key_semantics_proven": false,
+        "caller_mappings": [
+          {
+            "caller": "inited",
+            "status": "unproven"
+          },
+          {
+            "caller": "toggleOrder",
+            "status": "complete_caller_with_inlined_write"
+          },
+          {
+            "caller": "setPicker",
+            "status": "complete_caller_with_inlined_write"
+          },
+          {
+            "caller": "createWave",
+            "status": "unproven"
+          },
+          {
+            "caller": "selectWave",
+            "status": "complete_caller_with_inlined_write"
+          },
+          {
+            "caller": "togglePicked",
+            "status": "unproven"
+          },
+          {
+            "caller": "reportException",
+            "status": "unproven"
+          },
+          {
+            "caller": "resolveException",
+            "status": "unproven"
+          },
+          {
+            "caller": "completeWave",
+            "status": "unproven"
+          }
+        ],
+        "calls": {
+          "source": [
+            {
+              "caller": "inited",
+              "key": "orders",
+              "line": 93
+            },
+            {
+              "caller": "toggleOrder",
+              "key": "selectedOrderIds",
+              "line": 99
+            },
+            {
+              "caller": "setPicker",
+              "key": "picker",
+              "line": 102
+            },
+            {
+              "caller": "createWave",
+              "key": "waves",
+              "line": 105
+            },
+            {
+              "caller": "createWave",
+              "key": "orders",
+              "line": 105
+            },
+            {
+              "caller": "createWave",
+              "key": "activeWaveId",
+              "line": 105
+            },
+            {
+              "caller": "createWave",
+              "key": "nextWaveId",
+              "line": 105
+            },
+            {
+              "caller": "createWave",
+              "key": "selectedOrderIds",
+              "line": 105
+            },
+            {
+              "caller": "selectWave",
+              "key": "activeWaveId",
+              "line": 108
+            },
+            {
+              "caller": "togglePicked",
+              "key": "orders",
+              "line": 111
+            },
+            {
+              "caller": "reportException",
+              "key": "exceptions",
+              "line": 114
+            },
+            {
+              "caller": "resolveException",
+              "key": "exceptions",
+              "line": 117
+            },
+            {
+              "caller": "completeWave",
+              "key": "waves",
+              "line": 120
+            },
+            {
+              "caller": "completeWave",
+              "key": "orders",
+              "line": 120
+            }
+          ],
+          "target": [
+            {
+              "caller": "inited",
+              "form": "inlined_data_set",
+              "key": "orders",
+              "line": 1
+            },
+            {
+              "caller": "toggleOrder",
+              "form": "inlined_data_set",
+              "key": "selectedOrderIds",
+              "line": 1
+            },
+            {
+              "caller": "setPicker",
+              "form": "inlined_data_set",
+              "key": "picker",
+              "line": 1
+            },
+            {
+              "caller": "createWave",
+              "form": "inlined_data_set",
+              "key": "waves",
+              "line": 1
+            },
+            {
+              "caller": "createWave",
+              "form": "inlined_data_set",
+              "key": "orders",
+              "line": 1
+            },
+            {
+              "caller": "createWave",
+              "form": "inlined_data_set",
+              "key": "activeWaveId",
+              "line": 1
+            },
+            {
+              "caller": "createWave",
+              "form": "inlined_data_set",
+              "key": "nextWaveId",
+              "line": 1
+            },
+            {
+              "caller": "createWave",
+              "form": "inlined_data_set",
+              "key": "selectedOrderIds",
+              "line": 1
+            },
+            {
+              "caller": "selectWave",
+              "form": "inlined_data_set",
+              "key": "activeWaveId",
+              "line": 1
+            },
+            {
+              "caller": "togglePicked",
+              "form": "inlined_data_set",
+              "key": "orders",
+              "line": 1
+            },
+            {
+              "caller": "reportException",
+              "form": "inlined_data_set",
+              "key": "exceptions",
+              "line": 1
+            },
+            {
+              "caller": "resolveException",
+              "form": "inlined_data_set",
+              "key": "exceptions",
+              "line": 1
+            },
+            {
+              "caller": "completeWave",
+              "form": "inlined_data_set",
+              "key": "waves",
+              "line": 1
+            },
+            {
+              "caller": "completeWave",
+              "form": "inlined_data_set",
+              "key": "orders",
+              "line": 1
+            }
+          ]
+        },
+        "contract": "source_internal_declared_state_assignment_v1",
+        "limitations": [
+          "not_arbitrary_external_public_key_equivalence",
+          "surrounding_call_timing_values_and_other_methods_checked_separately"
+        ],
+        "refusals": [
+          "caller_body_not_source_matched:completeWave",
+          "caller_body_not_source_matched:createWave",
+          "caller_body_not_source_matched:inited",
+          "caller_body_not_source_matched:reportException",
+          "caller_body_not_source_matched:resolveException",
+          "caller_body_not_source_matched:togglePicked"
+        ],
+        "source_keys": [
+          "orders",
+          "selectedOrderIds",
+          "picker",
+          "waves",
+          "activeWaveId",
+          "nextWaveId",
+          "exceptions"
+        ],
+        "status": "unproven"
+      },
+      "location": "script.methods.setValue",
+      "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:completeWave, caller_body_not_source_matched:createWave, caller_body_not_source_matched:inited, caller_body_not_source_matched:reportException, caller_body_not_source_matched:resolveException, caller_body_not_source_matched:togglePicked. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+      "severity": "error",
+      "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+    },
+    {
+      "code": "source_dom_loop_not_landed",
+      "location": "template/section[0]/header[0]/div[1]/select[0]/option[0]@s-for",
+      "message": "Source-scoped loop aliases/key require San inline trackby syntax.",
+      "severity": "error",
+      "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+    },
+    {
+      "code": "source_dom_loop_not_landed",
+      "location": "template/section[0]/div[1]/aside[0]/button[1]@s-for",
+      "message": "Source-scoped loop aliases/key require San inline trackby syntax.",
+      "severity": "error",
+      "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+    },
+    {
+      "code": "source_dom_loop_not_landed",
+      "location": "template/section[0]/div[1]/aside[0]/button[3]@s-for",
+      "message": "Source-scoped loop aliases/key require San inline trackby syntax.",
+      "severity": "error",
+      "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+    },
+    {
+      "code": "source_dom_loop_not_landed",
+      "location": "template/section[0]/div[1]/main[1]/article[1]@s-for",
+      "message": "Source-scoped loop aliases/key require San inline trackby syntax.",
+      "severity": "error",
+      "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+    },
+    {
+      "code": "source_dom_loop_not_landed",
+      "location": "template/section[0]/div[1]/aside[2]/article[1]@s-for",
+      "message": "Source-scoped loop aliases/key require San inline trackby syntax.",
+      "severity": "error",
+      "suggestion": "Preserve the source element/loop/conditional scope, native event arguments and modifiers; use guarded self handlers and inline trackby."
+    },
+    {
+      "code": "missing_prop_defaults",
+      "details": {
+        "affected_fields": [
+          "initialOrders",
+          "maxLinesPerWave",
+          "pickers",
+          "warehouseName",
+          "zones"
+        ],
+        "contract": "prop_defaults_v1"
+      },
+      "location": "script",
+      "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1awarehouseName, initialOrders, pickers, maxLinesPerWave, zones\u3002",
+      "severity": "error",
+      "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+    },
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:unknown_member_call",
+          "source:unknown_or_dom_global",
+          "target:dom_or_reflective_member",
+          "target:unknown_member_call",
+          "target:unknown_or_dom_global"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "#text:\u5f00\u653e\u8ba2\u5355 \u00b7 \u5f02\u5e38",
+          "expected": "#text:\u5f00\u653e\u8ba2\u5355 3 \u00b7 \u5f02\u5e38 0",
+          "path": "root.0.0.0.0.0"
+        },
+        {
+          "actual": "#text:\u62e3\u9009\u6ce2\u6b21",
+          "expected": "#text:A3 \u667a\u80fd\u4ed3 \u62e3\u9009\u6ce2\u6b21",
+          "path": "root.0.0.0.1.0"
+        },
+        {
+          "actual": "select|",
+          "expected": "select|value=\u5218\u4f73",
+          "path": "root.0.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=\u5218\u4f73",
+          "path": "root.0.0.1.0.0"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=\u5f6d\u8d8a",
+          "path": "root.0.0.1.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=\u5b8b\u5b81",
+          "path": "root.0.0.1.0.2"
+        },
+        {
+          "actual": "#text:\u7ec4\u5efa\u6ce2\u6b21\uff08/\u884c\uff09",
+          "expected": "#text:\u7ec4\u5efa\u6ce2\u6b21\uff080/5\u884c\uff09",
+          "path": "root.0.0.1.1.0"
+        },
+        {
+          "actual": "h3|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "actual": "#text:\u6ce2\u6b21",
+          "expected": "strong|",
+          "path": "root.0.1.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "#text:W201",
+          "path": "root.0.1.0.1.0.0"
+        },
+        {
+          "actual": null,
+          "expected": "span|",
+          "path": "root.0.1.0.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.1.0.2"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.1.0.3"
+        },
+        {
+          "actual": null,
+          "expected": "h3|",
+          "path": "root.0.1.0.4"
+        },
+        {
+          "actual": "#text:\u62e3\u9009\u8def\u5f84 \u00b7 %",
+          "expected": "#text:\u62e3\u9009\u8def\u5f84 \u00b7 0%",
+          "path": "root.0.1.1.0.0"
+        },
+        {
+          "actual": "button|class=primary complete",
+          "expected": "button|class=primary complete|disabled=",
+          "path": "root.0.1.1.2"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [
+          {
+            "actual": [
+              "root.0.0.1.0",
+              "select",
+              "",
+              null,
+              null
+            ],
+            "expected": [
+              "root.0.0.1.0",
+              "select",
+              "\u5218\u4f73",
+              null,
+              null
+            ],
+            "kind": "live_property_changed"
+          },
+          {
+            "actual": [
+              "root.0.0.1.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "expected": [
+              "root.0.0.1.0.0",
+              "option",
+              "\u5218\u4f73",
+              null,
+              null
+            ],
+            "kind": "control_type_changed"
+          },
+          {
+            "actual": [
+              "root.0.1.1.2",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "expected": [
+              "root.0.0.1.0.1",
+              "option",
+              "\u5f6d\u8d8a",
+              null,
+              null
+            ],
+            "kind": "control_type_changed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.0.1.0.2",
+              "option",
+              "\u5b8b\u5b81",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.0.1.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.0.1",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.0.2",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.0.3",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          },
+          {
+            "actual": null,
+            "expected": [
+              "root.0.1.1.2",
+              "button",
+              "",
+              null,
+              null
+            ],
+            "kind": "control_added_or_removed"
+          }
+        ],
+        "equal": false,
+        "paths_equal": false,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 9,
+        "target_count": 3,
+        "values_equal_in_order": false
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "#text:\u5f00\u653e\u8ba2\u5355 \u00b7 \u5f02\u5e38",
+          "expected": "#text:\u5f00\u653e\u8ba2\u5355 3 \u00b7 \u5f02\u5e38 0",
+          "path": "root.0.0.0.0.0"
+        },
+        {
+          "actual": "#text:\u62e3\u9009\u6ce2\u6b21",
+          "expected": "#text:A3 \u667a\u80fd\u4ed3 \u62e3\u9009\u6ce2\u6b21",
+          "path": "root.0.0.0.1.0"
+        },
+        {
+          "actual": "select|",
+          "expected": "select|value=\u5218\u4f73",
+          "path": "root.0.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=\u5218\u4f73",
+          "path": "root.0.0.1.0.0"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=\u5f6d\u8d8a",
+          "path": "root.0.0.1.0.1"
+        },
+        {
+          "actual": null,
+          "expected": "option|value=\u5b8b\u5b81",
+          "path": "root.0.0.1.0.2"
+        },
+        {
+          "actual": "#text:\u7ec4\u5efa\u6ce2\u6b21\uff08/\u884c\uff09",
+          "expected": "#text:\u7ec4\u5efa\u6ce2\u6b21\uff080/5\u884c\uff09",
+          "path": "root.0.0.1.1.0"
+        },
+        {
+          "actual": "h3|",
+          "expected": "button|class=",
+          "path": "root.0.1.0.1"
+        },
+        {
+          "actual": "#text:\u6ce2\u6b21",
+          "expected": "strong|",
+          "path": "root.0.1.0.1.0"
+        },
+        {
+          "actual": null,
+          "expected": "#text:W201",
+          "path": "root.0.1.0.1.0.0"
+        },
+        {
+          "actual": null,
+          "expected": "span|",
+          "path": "root.0.1.0.1.1"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.1.0.2"
+        },
+        {
+          "actual": null,
+          "expected": "button|class=",
+          "path": "root.0.1.0.3"
+        },
+        {
+          "actual": null,
+          "expected": "h3|",
+          "path": "root.0.1.0.4"
+        },
+        {
+          "actual": "#text:\u62e3\u9009\u8def\u5f84 \u00b7 %",
+          "expected": "#text:\u62e3\u9009\u8def\u5f84 \u00b7 0%",
+          "path": "root.0.1.1.0.0"
+        },
+        {
+          "actual": "button|class=primary complete",
+          "expected": "button|class=primary complete|disabled=",
+          "path": "root.0.1.1.2"
+        }
+      ],
+      "representation_differences": []
+    },
+    {
+      "code": "rendered_control_state_mismatch",
+      "differences": [
+        {
+          "actual": [
+            "root.0.0.1.0",
+            "select",
+            "",
+            null,
+            null
+          ],
+          "expected": [
+            "root.0.0.1.0",
+            "select",
+            "\u5218\u4f73",
+            null,
+            null
+          ],
+          "kind": "live_property_changed"
+        },
+        {
+          "actual": [
+            "root.0.0.1.1",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "expected": [
+            "root.0.0.1.0.0",
+            "option",
+            "\u5218\u4f73",
+            null,
+            null
+          ],
+          "kind": "control_type_changed"
+        },
+        {
+          "actual": [
+            "root.0.1.1.2",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "expected": [
+            "root.0.0.1.0.1",
+            "option",
+            "\u5f6d\u8d8a",
+            null,
+            null
+          ],
+          "kind": "control_type_changed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.0.1.0.2",
+            "option",
+            "\u5b8b\u5b81",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.0.1.1",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.0.1",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.0.2",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.0.3",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        },
+        {
+          "actual": null,
+          "expected": [
+            "root.0.1.1.2",
+            "button",
+            "",
+            null,
+            null
+          ],
+          "kind": "control_added_or_removed"
+        }
+      ],
+      "message": "Initial live control values/types/counts differ even if screenshots or HTML attributes match."
+    }
+  ],
+  "different_pixel_ratio": 0.018021701388888887,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "source:unknown_member_call",
+      "source:unknown_or_dom_global",
+      "target:dom_or_reflective_member",
+      "target:unknown_member_call",
+      "target:unknown_or_dom_global"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "#text:\u5f00\u653e\u8ba2\u5355 \u00b7 \u5f02\u5e38",
+      "expected": "#text:\u5f00\u653e\u8ba2\u5355 3 \u00b7 \u5f02\u5e38 0",
+      "path": "root.0.0.0.0.0"
+    },
+    {
+      "actual": "#text:\u62e3\u9009\u6ce2\u6b21",
+      "expected": "#text:A3 \u667a\u80fd\u4ed3 \u62e3\u9009\u6ce2\u6b21",
+      "path": "root.0.0.0.1.0"
+    },
+    {
+      "actual": "select|",
+      "expected": "select|value=\u5218\u4f73",
+      "path": "root.0.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=\u5218\u4f73",
+      "path": "root.0.0.1.0.0"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=\u5f6d\u8d8a",
+      "path": "root.0.0.1.0.1"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=\u5b8b\u5b81",
+      "path": "root.0.0.1.0.2"
+    },
+    {
+      "actual": "#text:\u7ec4\u5efa\u6ce2\u6b21\uff08/\u884c\uff09",
+      "expected": "#text:\u7ec4\u5efa\u6ce2\u6b21\uff080/5\u884c\uff09",
+      "path": "root.0.0.1.1.0"
+    },
+    {
+      "actual": "h3|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.1"
+    },
+    {
+      "actual": "#text:\u6ce2\u6b21",
+      "expected": "strong|",
+      "path": "root.0.1.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "#text:W201",
+      "path": "root.0.1.0.1.0.0"
+    },
+    {
+      "actual": null,
+      "expected": "span|",
+      "path": "root.0.1.0.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "button|class=",
+      "path": "root.0.1.0.2"
+    },
+    {
+      "actual": null,
+      "expected": "button|class=",
+      "path": "root.0.1.0.3"
+    },
+    {
+      "actual": null,
+      "expected": "h3|",
+      "path": "root.0.1.0.4"
+    },
+    {
+      "actual": "#text:\u62e3\u9009\u8def\u5f84 \u00b7 %",
+      "expected": "#text:\u62e3\u9009\u8def\u5f84 \u00b7 0%",
+      "path": "root.0.1.1.0.0"
+    },
+    {
+      "actual": "button|class=primary complete",
+      "expected": "button|class=primary complete|disabled=",
+      "path": "root.0.1.1.2"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 27,
+    "similarity": 0.44897959183673475,
+    "source_nodes": 49,
+    "target_nodes": 28
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/cf66bccab04f4992a617c6dd886ab240/evaluations/0/heatmap.png",
+      "sha256": "b5c5f41e3d2492a9f4bd324ce73640181686bd5fedab6be0e306cf89ceddf192"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/cf66bccab04f4992a617c6dd886ab240/evaluations/0/san.png",
+      "sha256": "1067d5e0ef1fde05930ebc6380a506789c14a3b5a6b9e6f54e6223c89c59314a"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/cf66bccab04f4992a617c6dd886ab240/evaluations/0/vue.png",
+      "sha256": "1fdf44e59a798f8080fbc7196e0394e769f5d4c4fff661ddc787cb17aac82831"
+    }
+  },
+  "initial_control_state": {
+    "differences": [
+      {
+        "actual": [
+          "root.0.0.1.0",
+          "select",
+          "",
+          null,
+          null
+        ],
+        "expected": [
+          "root.0.0.1.0",
+          "select",
+          "\u5218\u4f73",
+          null,
+          null
+        ],
+        "kind": "live_property_changed"
+      },
+      {
+        "actual": [
+          "root.0.0.1.1",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "expected": [
+          "root.0.0.1.0.0",
+          "option",
+          "\u5218\u4f73",
+          null,
+          null
+        ],
+        "kind": "control_type_changed"
+      },
+      {
+        "actual": [
+          "root.0.1.1.2",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "expected": [
+          "root.0.0.1.0.1",
+          "option",
+          "\u5f6d\u8d8a",
+          null,
+          null
+        ],
+        "kind": "control_type_changed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.0.1.0.2",
+          "option",
+          "\u5b8b\u5b81",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.0.1.1",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.0.1",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.0.2",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.0.3",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      },
+      {
+        "actual": null,
+        "expected": [
+          "root.0.1.1.2",
+          "button",
+          "",
+          null,
+          null
+        ],
+        "kind": "control_added_or_removed"
+      }
+    ],
+    "equal": false,
+    "paths_equal": false,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 9,
+    "target_count": 3,
+    "values_equal_in_order": false
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "#text:\u5f00\u653e\u8ba2\u5355 \u00b7 \u5f02\u5e38",
+      "expected": "#text:\u5f00\u653e\u8ba2\u5355 3 \u00b7 \u5f02\u5e38 0",
+      "path": "root.0.0.0.0.0"
+    },
+    {
+      "actual": "#text:\u62e3\u9009\u6ce2\u6b21",
+      "expected": "#text:A3 \u667a\u80fd\u4ed3 \u62e3\u9009\u6ce2\u6b21",
+      "path": "root.0.0.0.1.0"
+    },
+    {
+      "actual": "select|",
+      "expected": "select|value=\u5218\u4f73",
+      "path": "root.0.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=\u5218\u4f73",
+      "path": "root.0.0.1.0.0"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=\u5f6d\u8d8a",
+      "path": "root.0.0.1.0.1"
+    },
+    {
+      "actual": null,
+      "expected": "option|value=\u5b8b\u5b81",
+      "path": "root.0.0.1.0.2"
+    },
+    {
+      "actual": "#text:\u7ec4\u5efa\u6ce2\u6b21\uff08/\u884c\uff09",
+      "expected": "#text:\u7ec4\u5efa\u6ce2\u6b21\uff080/5\u884c\uff09",
+      "path": "root.0.0.1.1.0"
+    },
+    {
+      "actual": "h3|",
+      "expected": "button|class=",
+      "path": "root.0.1.0.1"
+    },
+    {
+      "actual": "#text:\u6ce2\u6b21",
+      "expected": "strong|",
+      "path": "root.0.1.0.1.0"
+    },
+    {
+      "actual": null,
+      "expected": "#text:W201",
+      "path": "root.0.1.0.1.0.0"
+    },
+    {
+      "actual": null,
+      "expected": "span|",
+      "path": "root.0.1.0.1.1"
+    },
+    {
+      "actual": null,
+      "expected": "button|class=",
+      "path": "root.0.1.0.2"
+    },
+    {
+      "actual": null,
+      "expected": "button|class=",
+      "path": "root.0.1.0.3"
+    },
+    {
+      "actual": null,
+      "expected": "h3|",
+      "path": "root.0.1.0.4"
+    },
+    {
+      "actual": "#text:\u62e3\u9009\u8def\u5f84 \u00b7 %",
+      "expected": "#text:\u62e3\u9009\u8def\u5f84 \u00b7 0%",
+      "path": "root.0.1.1.0.0"
+    },
+    {
+      "actual": "button|class=primary complete",
+      "expected": "button|class=primary complete|disabled=",
+      "path": "root.0.1.1.2"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 27,
+    "similarity": 0.44897959183673475,
+    "source_nodes": 49,
+    "target_nodes": 28
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "087d0d53a1ade420815c4101e72d76680d527a3d9ec39559030bfb2ac12e69e4",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.9811320754716981,
+    "source_nodes": 53,
+    "target_nodes": 53
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "dynamic_assignment": {
+        "arbitrary_key_semantics_proven": false,
+        "automatic_restore": false,
+        "key_parameter": "key",
+        "scoped_proof": {
+          "arbitrary_key_semantics_proven": false,
+          "caller_mappings": [
+            {
+              "caller": "inited",
+              "status": "unproven"
+            },
+            {
+              "caller": "toggleOrder",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "setPicker",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "createWave",
+              "status": "unproven"
+            },
+            {
+              "caller": "selectWave",
+              "status": "complete_caller_with_inlined_write"
+            },
+            {
+              "caller": "togglePicked",
+              "status": "unproven"
+            },
+            {
+              "caller": "reportException",
+              "status": "unproven"
+            },
+            {
+              "caller": "resolveException",
+              "status": "unproven"
+            },
+            {
+              "caller": "completeWave",
+              "status": "unproven"
+            }
+          ],
+          "calls": {
+            "source": [
+              {
+                "caller": "inited",
+                "key": "orders",
+                "line": 93
+              },
+              {
+                "caller": "toggleOrder",
+                "key": "selectedOrderIds",
+                "line": 99
+              },
+              {
+                "caller": "setPicker",
+                "key": "picker",
+                "line": 102
+              },
+              {
+                "caller": "createWave",
+                "key": "waves",
+                "line": 105
+              },
+              {
+                "caller": "createWave",
+                "key": "orders",
+                "line": 105
+              },
+              {
+                "caller": "createWave",
+                "key": "activeWaveId",
+                "line": 105
+              },
+              {
+                "caller": "createWave",
+                "key": "nextWaveId",
+                "line": 105
+              },
+              {
+                "caller": "createWave",
+                "key": "selectedOrderIds",
+                "line": 105
+              },
+              {
+                "caller": "selectWave",
+                "key": "activeWaveId",
+                "line": 108
+              },
+              {
+                "caller": "togglePicked",
+                "key": "orders",
+                "line": 111
+              },
+              {
+                "caller": "reportException",
+                "key": "exceptions",
+                "line": 114
+              },
+              {
+                "caller": "resolveException",
+                "key": "exceptions",
+                "line": 117
+              },
+              {
+                "caller": "completeWave",
+                "key": "waves",
+                "line": 120
+              },
+              {
+                "caller": "completeWave",
+                "key": "orders",
+                "line": 120
+              }
+            ],
+            "target": [
+              {
+                "caller": "inited",
+                "form": "inlined_data_set",
+                "key": "orders",
+                "line": 1
+              },
+              {
+                "caller": "toggleOrder",
+                "form": "inlined_data_set",
+                "key": "selectedOrderIds",
+                "line": 1
+              },
+              {
+                "caller": "setPicker",
+                "form": "inlined_data_set",
+                "key": "picker",
+                "line": 1
+              },
+              {
+                "caller": "createWave",
+                "form": "inlined_data_set",
+                "key": "waves",
+                "line": 1
+              },
+              {
+                "caller": "createWave",
+                "form": "inlined_data_set",
+                "key": "orders",
+                "line": 1
+              },
+              {
+                "caller": "createWave",
+                "form": "inlined_data_set",
+                "key": "activeWaveId",
+                "line": 1
+              },
+              {
+                "caller": "createWave",
+                "form": "inlined_data_set",
+                "key": "nextWaveId",
+                "line": 1
+              },
+              {
+                "caller": "createWave",
+                "form": "inlined_data_set",
+                "key": "selectedOrderIds",
+                "line": 1
+              },
+              {
+                "caller": "selectWave",
+                "form": "inlined_data_set",
+                "key": "activeWaveId",
+                "line": 1
+              },
+              {
+                "caller": "togglePicked",
+                "form": "inlined_data_set",
+                "key": "orders",
+                "line": 1
+              },
+              {
+                "caller": "reportException",
+                "form": "inlined_data_set",
+                "key": "exceptions",
+                "line": 1
+              },
+              {
+                "caller": "resolveException",
+                "form": "inlined_data_set",
+                "key": "exceptions",
+                "line": 1
+              },
+              {
+                "caller": "completeWave",
+                "form": "inlined_data_set",
+                "key": "waves",
+                "line": 1
+              },
+              {
+                "caller": "completeWave",
+                "form": "inlined_data_set",
+                "key": "orders",
+                "line": 1
+              }
+            ]
+          },
+          "contract": "source_internal_declared_state_assignment_v1",
+          "limitations": [
+            "not_arbitrary_external_public_key_equivalence",
+            "surrounding_call_timing_values_and_other_methods_checked_separately"
+          ],
+          "refusals": [
+            "caller_body_not_source_matched:completeWave",
+            "caller_body_not_source_matched:createWave",
+            "caller_body_not_source_matched:inited",
+            "caller_body_not_source_matched:reportException",
+            "caller_body_not_source_matched:resolveException",
+            "caller_body_not_source_matched:togglePicked"
+          ],
+          "source_keys": [
+            "orders",
+            "selectedOrderIds",
+            "picker",
+            "waves",
+            "activeWaveId",
+            "nextWaveId",
+            "exceptions"
+          ],
+          "status": "unproven"
+        },
+        "source_shape": "exact_this_computed_key_assignment",
+        "target_status": "callable_unproven",
+        "value_parameter": "value"
+      },
+      "legacy_wrapper": false,
+      "name": "setValue",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 14,
+        "uncertain": true
+      },
+      "status": "callable_semantics_unproven",
+      "target_references": {
+        "count": 0,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "emitEvent",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 4,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 4,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "toggleOrder",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "setPicker",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "createWave",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "selectWave",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "togglePicked",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "reportException",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "resolveException",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "completeWave",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "isOrderSelected",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": true
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 0.9677348453090292,
+  "structure_differences": [
+    {
+      "actual": "select|event:change|text:",
+      "expected": "select|binding:value|event:change|text:",
+      "path": "root.0.0.1.0"
+    }
+  ],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.9696969696969697,
+    "source_nodes": 33,
+    "target_nodes": 33
+  },
+  "styles": {
+    "compared_properties": 403,
+    "differences": [
+      {
+        "path": "root",
+        "property": "height",
+        "source": "350.344px",
+        "target": "248.625px"
+      },
+      {
+        "path": "root.0",
+        "property": "height",
+        "source": "350.344px",
+        "target": "248.625px"
+      },
+      {
+        "path": "root.0.0.0",
+        "property": "width",
+        "source": "212.016px",
+        "target": "96px"
+      },
+      {
+        "path": "root.0.0.0.1",
+        "property": "width",
+        "source": "212.016px",
+        "target": "96px"
+      },
+      {
+        "path": "root.0.0.1",
+        "property": "width",
+        "source": "205.844px",
+        "target": "159.016px"
+      },
+      {
+        "path": "root.0.0.1.0",
+        "property": "width",
+        "source": "70px",
+        "target": "38px"
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "color",
+        "source": "rgb(0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "paddingLeft",
+        "source": "2px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "color",
+        "source": "rgb(0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "paddingLeft",
+        "source": "2px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "color",
+        "source": "rgb(0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "fontSize",
+        "source": "16px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "paddingLeft",
+        "source": "2px",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "width",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "height",
+        "source": "auto",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.0.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.0.1.1",
+        "property": "width",
+        "source": "135.844px",
+        "target": "121.016px"
+      },
+      {
+        "path": "root.0.1",
+        "property": "height",
+        "source": "234.438px",
+        "target": "132.719px"
+      },
+      {
+        "path": "root.0.1.0",
+        "property": "height",
+        "source": "234.438px",
+        "target": "132.719px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": "rgb(36, 49, 61)"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": "rgba(0, 0, 0, 0)"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": "18.72px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": "Arial, sans-serif"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": "700"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "marginTop",
+        "source": "6px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": "0px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "height",
+        "source": "35px",
+        "target": "27px"
+      },
+      {
+        "path": "root.0.1.0.1",
+        "property": "display",
+        "source": "flex",
+        "target": "block"
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "fontWeight",
+        "source": "700",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "width",
+        "source": "34.8281px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "height",
+        "source": "19px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "width",
+        "source": "24.4531px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "height",
+        "source": "19px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.1.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "marginTop",
+        "source": "6px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "width",
+        "source": "180px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "display",
+        "source": "flex",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "fontWeight",
+        "source": "700",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "width",
+        "source": "34.8281px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "height",
+        "source": "19px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "width",
+        "source": "24.4531px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "height",
+        "source": "19px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.2.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "backgroundColor",
+        "source": "rgb(255, 255, 255)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "marginTop",
+        "source": "6px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "paddingTop",
+        "source": "7px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "paddingLeft",
+        "source": "11px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "width",
+        "source": "180px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "height",
+        "source": "35px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "display",
+        "source": "flex",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "fontWeight",
+        "source": "700",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "width",
+        "source": "34.8281px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "height",
+        "source": "19px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.0",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "color",
+        "source": "rgb(39, 55, 70)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "fontSize",
+        "source": "13.3333px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "fontFamily",
+        "source": "Arial",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "fontWeight",
+        "source": "400",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "width",
+        "source": "24.4531px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "height",
+        "source": "19px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.3.1",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "color",
+        "source": "rgb(36, 49, 61)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "backgroundColor",
+        "source": "rgba(0, 0, 0, 0)",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "fontSize",
+        "source": "18.72px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "fontFamily",
+        "source": "Arial, sans-serif",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "fontWeight",
+        "source": "700",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "marginTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "marginLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "paddingTop",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "paddingLeft",
+        "source": "0px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "width",
+        "source": "180px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "height",
+        "source": "27px",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "display",
+        "source": "block",
+        "target": null
+      },
+      {
+        "path": "root.0.1.0.4",
+        "property": "position",
+        "source": "static",
+        "target": null
+      },
+      {
+        "path": "root.0.1.1",
+        "property": "height",
+        "source": "234.438px",
+        "target": "132.719px"
+      },
+      {
+        "path": "root.0.1.2",
+        "property": "height",
+        "source": "234.438px",
+        "target": "132.719px"
+      }
+    ],
+    "matching": "child_index_path",
+    "similarity": 0.5607940446650124,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostic_limit": 128,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 946.9005999999999,
+    "target": 871.4323000000004
+  },
+  "ui_restoration": 89.06197211708503
+}

@@ -1,0 +1,2593 @@
+{
+  "cloud_database_access": false,
+  "input_bindings": [
+    {
+      "assessment": "experiment_runs\\composed_v8_final_replay_20261120\\gradebook_matrix\\effective-assessment.json",
+      "component": "GradebookMatrix",
+      "refusals": [
+        "caller_body_not_source_matched:inited",
+        "caller_body_not_source_matched:publish",
+        "caller_body_not_source_matched:resetWeights",
+        "caller_body_not_source_matched:updateGrade",
+        "caller_body_not_source_matched:updateWeight",
+        "caller_key_multiplicity_mismatch",
+        "source:unknown_this_owner"
+      ],
+      "source": "experiment_runs\\real_system_experiment70_v3_general_repairs_20261119\\inputs\\059_gradebook_matrix\\GradebookMatrix.vue",
+      "source_sha256": "e3c275e0d9107a5b31afad9f332cdb4c43d3e113eae839a879c662d1a9cbdd29",
+      "target_sha256": "01e1f4cdb3e3b66db255ed889f1c79956ced6398c0082817918be8e6444039a7"
+    },
+    {
+      "assessment": "experiment_runs\\composed_v8_final_replay_20261120\\image_crop_controls\\effective-assessment.json",
+      "component": "ImageCropControls",
+      "refusals": [
+        "caller_body_not_source_matched:inited",
+        "caller_body_not_source_matched:update",
+        "caller_key_multiplicity_mismatch",
+        "source:unknown_this_owner"
+      ],
+      "source": "experiment_runs\\real_system_experiment70_v3_general_repairs_20261119\\inputs\\036_image_crop_controls\\ImageCropControls.vue",
+      "source_sha256": "52828a56cbf6ab8a40ef2802eb8523783fa5e854c31e4c0fd020b075fa1bb59c",
+      "target_sha256": "582d5159756fa1eef6be26618cdab88a8c281461c656f3f2273b633077e0b1e1"
+    },
+    {
+      "assessment": "experiment_runs\\composed_v8_final_replay_20261120\\incident_response_board\\effective-assessment.json",
+      "component": "IncidentResponseBoard",
+      "refusals": [
+        "caller_body_not_source_matched:attached"
+      ],
+      "source": "experiment_runs\\real_system_experiment70_v3_general_repairs_20261119\\inputs\\060_incident_response_board\\IncidentResponseBoard.vue",
+      "source_sha256": "8cf3e9ab7596d0606d74b6dd7eaa5438fd872a585d5a17ab5797967001b6622a",
+      "target_sha256": "828ef075a494f889d9ab2aa16eb3c8d9e07cd2031e1d8ef940c1a6d1d04f018e"
+    },
+    {
+      "assessment": "experiment_runs\\composed_v8_final_replay_20261120\\inventory_batch_manager\\effective-assessment.json",
+      "component": "InventoryBatchManager",
+      "refusals": [
+        "caller_body_not_source_matched:updateWarehouse",
+        "caller_key_multiplicity_mismatch",
+        "source:unknown_this_owner"
+      ],
+      "source": "experiment_runs\\real_system_experiment70_v3_general_repairs_20261119\\inputs\\061_inventory_batch_manager\\InventoryBatchManager.vue",
+      "source_sha256": "45ec026c227952184702b29fbd9548aa2d5a0b1e9849a46d9eec730ba963a3f2",
+      "target_sha256": "de2b5e58f34a423f4f1ddf2380c63a5a0cffb0a2ea3f04c592170390528faf6d"
+    },
+    {
+      "assessment": "experiment_runs\\composed_v8_final_replay_20261120\\shipping_estimator\\effective-assessment.json",
+      "component": "ShippingEstimator",
+      "refusals": [
+        "caller_body_not_source_matched:estimate",
+        "caller_key_multiplicity_mismatch"
+      ],
+      "source": "experiment_runs\\real_system_experiment70_v3_general_repairs_20261119\\inputs\\044_shipping_estimator\\ShippingEstimator.vue",
+      "source_sha256": "9f3eac708cc6d97540e580a2a5eedd4cfda687888bfd8af34d743bcc7a1f7134",
+      "target_sha256": "9d780b870f254dc6d9aae8f13d607942b3c07751208006e2e5a359fbebcb41a7"
+    },
+    {
+      "assessment": "experiment_runs\\composed_v8_final_replay_20261120\\support_ticket_console\\effective-assessment.json",
+      "component": "SupportTicketConsole",
+      "refusals": [
+        "caller_body_not_source_matched:attached"
+      ],
+      "source": "experiment_runs\\real_system_experiment70_v3_general_repairs_20261119\\inputs\\066_support_ticket_console\\SupportTicketConsole.vue",
+      "source_sha256": "fa451df38d63698c963934e6e294633bfc9164f4f46bdf30ff56d8ba0a20333d",
+      "target_sha256": "62965a99dcc4eeda9176d995b4605687c613751c0738937869156e8159b6d462"
+    }
+  ],
+  "interpretation": "Watch option methods and private timer writes need their own owner/transfer proof. Complete caller/body/key multiplicity findings stay errors until a source-bound repair and regression gate prove them.",
+  "real_model_calls": 0,
+  "records": 6,
+  "rows": [
+    {
+      "component": "GradebookMatrix",
+      "source": {
+        "calls": [
+          {
+            "code": "this.setValue('published',false)",
+            "container": "watch",
+            "key": "published",
+            "kind": "helper_call",
+            "line": 81,
+            "method": "changeCount",
+            "owner_line": 80,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('students',this.initialStudents.map(item=>({id:item.id,name:item.name,grades:Object.assign({},item.grades)})))",
+            "container": "root_or_unknown",
+            "key": "students",
+            "kind": "helper_call",
+            "line": 85,
+            "method": "created",
+            "owner_line": 84,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('weights',weights)",
+            "container": "root_or_unknown",
+            "key": "weights",
+            "kind": "helper_call",
+            "line": 85,
+            "method": "created",
+            "owner_line": 84,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('sortMode',event.target.value)",
+            "container": "methods",
+            "key": "sortMode",
+            "kind": "helper_call",
+            "line": 91,
+            "method": "updateSort",
+            "owner_line": 90,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('failingOnly',event.target.checked)",
+            "container": "methods",
+            "key": "failingOnly",
+            "kind": "helper_call",
+            "line": 94,
+            "method": "toggleFailing",
+            "owner_line": 93,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedId',id)",
+            "container": "methods",
+            "key": "selectedId",
+            "kind": "helper_call",
+            "line": 97,
+            "method": "selectStudent",
+            "owner_line": 96,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedId',null)",
+            "container": "methods",
+            "key": "selectedId",
+            "kind": "helper_call",
+            "line": 100,
+            "method": "closeDetail",
+            "owner_line": 99,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('students',this.students.map(student=>student.id===studentId?Object.assign({},student,{grades:Object.assign({},student.grades,{[assignmentId]:value})}):student))",
+            "container": "methods",
+            "key": "students",
+            "kind": "helper_call",
+            "line": 103,
+            "method": "updateGrade",
+            "owner_line": 102,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('changeCount',this.changeCount+1)",
+            "container": "methods",
+            "key": "changeCount",
+            "kind": "helper_call",
+            "line": 103,
+            "method": "updateGrade",
+            "owner_line": 102,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('lastEdited',studentId+':'+assignmentId)",
+            "container": "methods",
+            "key": "lastEdited",
+            "kind": "helper_call",
+            "line": 103,
+            "method": "updateGrade",
+            "owner_line": 102,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('weights',Object.assign({},this.weights,{[id]:Number(event.target.value)||0}))",
+            "container": "methods",
+            "key": "weights",
+            "kind": "helper_call",
+            "line": 106,
+            "method": "updateWeight",
+            "owner_line": 105,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('changeCount',this.changeCount+1)",
+            "container": "methods",
+            "key": "changeCount",
+            "kind": "helper_call",
+            "line": 106,
+            "method": "updateWeight",
+            "owner_line": 105,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('weights',next)",
+            "container": "methods",
+            "key": "weights",
+            "kind": "helper_call",
+            "line": 109,
+            "method": "resetWeights",
+            "owner_line": 108,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('changeCount',this.changeCount+1)",
+            "container": "methods",
+            "key": "changeCount",
+            "kind": "helper_call",
+            "line": 109,
+            "method": "resetWeights",
+            "owner_line": 108,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('published',true)",
+            "container": "methods",
+            "key": "published",
+            "kind": "helper_call",
+            "line": 112,
+            "method": "publish",
+            "owner_line": 111,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "changeCount() {\n  this.setValue('published', false);\n}",
+            "container": "watch",
+            "method": "changeCount",
+            "owner_line": 80,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "created() {\n  this.setValue('students', this.initialStudents.map(item => ({\n    id: item.id,\n    name: item.name,\n    grades: Object.assign({}, item.grades)\n  })));\n  const weights = {};\n  this.assignments.forEach(item => {\n    weights[item.id] = item.weight;\n  });\n  this.setValue('weights', weights);\n}",
+            "container": "root_or_unknown",
+            "method": "created",
+            "owner_line": 84,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateSort(event) {\n  this.setValue('sortMode', event.target.value);\n}",
+            "container": "methods",
+            "method": "updateSort",
+            "owner_line": 90,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleFailing(event) {\n  this.setValue('failingOnly', event.target.checked);\n}",
+            "container": "methods",
+            "method": "toggleFailing",
+            "owner_line": 93,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "selectStudent(id) {\n  this.setValue('selectedId', id);\n}",
+            "container": "methods",
+            "method": "selectStudent",
+            "owner_line": 96,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "closeDetail() {\n  this.setValue('selectedId', null);\n}",
+            "container": "methods",
+            "method": "closeDetail",
+            "owner_line": 99,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateGrade(studentId, assignmentId, event) {\n  const value = Math.max(0, Math.min(100, Number(event.target.value) || 0));\n  this.setValue('students', this.students.map(student => student.id === studentId ? Object.assign({}, student, {\n    grades: Object.assign({}, student.grades, {\n      [assignmentId]: value\n    })\n  }) : student));\n  this.setValue('changeCount', this.changeCount + 1);\n  this.setValue('lastEdited', studentId + ':' + assignmentId);\n  this.emitEvent('grade-change', {\n    studentId,\n    assignmentId,\n    value\n  });\n}",
+            "container": "methods",
+            "method": "updateGrade",
+            "owner_line": 102,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateWeight(id, event) {\n  this.setValue('weights', Object.assign({}, this.weights, {\n    [id]: Number(event.target.value) || 0\n  }));\n  this.setValue('changeCount', this.changeCount + 1);\n}",
+            "container": "methods",
+            "method": "updateWeight",
+            "owner_line": 105,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "resetWeights() {\n  const next = {};\n  this.assignments.forEach(item => {\n    next[item.id] = item.weight;\n  });\n  this.setValue('weights', next);\n  this.setValue('changeCount', this.changeCount + 1);\n}",
+            "container": "methods",
+            "method": "resetWeights",
+            "owner_line": 108,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "publish() {\n  this.setValue('published', true);\n  this.emitEvent('publish', this.rows.map(row => ({\n    id: row.id,\n    total: row.total\n  })));\n}",
+            "container": "methods",
+            "method": "publish",
+            "owner_line": 111,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "source"
+      },
+      "target": {
+        "calls": [
+          {
+            "code": "this.data.set(\"students\",students)",
+            "container": "root_or_unknown",
+            "key": "students",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "inited",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"weights\",weights)",
+            "container": "root_or_unknown",
+            "key": "weights",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "inited",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"published\",false)",
+            "container": "root_or_unknown",
+            "key": "published",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "inited",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(key,value)",
+            "container": "root_or_unknown",
+            "key": null,
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "setValue",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"sortMode\",event.target.value)",
+            "container": "root_or_unknown",
+            "key": "sortMode",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateSort",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"failingOnly\",event.target.checked)",
+            "container": "root_or_unknown",
+            "key": "failingOnly",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "toggleFailing",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"selectedId\",id)",
+            "container": "root_or_unknown",
+            "key": "selectedId",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "selectStudent",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"selectedId\",null)",
+            "container": "root_or_unknown",
+            "key": "selectedId",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "closeDetail",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"students\",nextStudents)",
+            "container": "root_or_unknown",
+            "key": "students",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateGrade",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"changeCount\",changeCount+1)",
+            "container": "root_or_unknown",
+            "key": "changeCount",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateGrade",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"lastEdited\",studentId+\":\"+assignmentId)",
+            "container": "root_or_unknown",
+            "key": "lastEdited",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateGrade",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"weights\",nextWeights)",
+            "container": "root_or_unknown",
+            "key": "weights",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateWeight",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"changeCount\",changeCount+1)",
+            "container": "root_or_unknown",
+            "key": "changeCount",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateWeight",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"weights\",next)",
+            "container": "root_or_unknown",
+            "key": "weights",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "resetWeights",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"changeCount\",changeCount+1)",
+            "container": "root_or_unknown",
+            "key": "changeCount",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "resetWeights",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"published\",true)",
+            "container": "root_or_unknown",
+            "key": "published",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "publish",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "inited() {\n  const initialStudents = this.data.get(\"initialStudents\");\n  const students = initialStudents.map(item => ({\n    id: item.id,\n    name: item.name,\n    grades: Object.assign({}, item.grades)\n  }));\n  this.data.set(\"students\", students);\n  const weights = {};\n  const assignments = this.data.get(\"assignments\");\n  assignments.forEach(item => {\n    weights[item.id] = item.weight;\n  });\n  this.data.set(\"weights\", weights);\n  this.watch(\"changeCount\", () => {\n    this.data.set(\"published\", false);\n  });\n}",
+            "container": "root_or_unknown",
+            "method": "inited",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "setValue(key, value) {\n  this.data.set(key, value);\n}",
+            "container": "root_or_unknown",
+            "method": "setValue",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateSort(event) {\n  this.data.set(\"sortMode\", event.target.value);\n}",
+            "container": "root_or_unknown",
+            "method": "updateSort",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleFailing(event) {\n  this.data.set(\"failingOnly\", event.target.checked);\n}",
+            "container": "root_or_unknown",
+            "method": "toggleFailing",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "selectStudent(id) {\n  this.data.set(\"selectedId\", id);\n}",
+            "container": "root_or_unknown",
+            "method": "selectStudent",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "closeDetail() {\n  this.data.set(\"selectedId\", null);\n}",
+            "container": "root_or_unknown",
+            "method": "closeDetail",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateGrade(studentId, assignmentId, event) {\n  const value = Math.max(0, Math.min(100, Number(event.target.value) || 0));\n  const students = this.data.get(\"students\");\n  const nextStudents = students.map(student => student.id === studentId ? Object.assign({}, student, {\n    grades: Object.assign({}, student.grades, {\n      [assignmentId]: value\n    })\n  }) : student);\n  this.data.set(\"students\", nextStudents);\n  const changeCount = this.data.get(\"changeCount\");\n  this.data.set(\"changeCount\", changeCount + 1);\n  this.data.set(\"lastEdited\", studentId + \":\" + assignmentId);\n  this.emitEvent(\"grade-change\", {\n    studentId,\n    assignmentId,\n    value\n  });\n}",
+            "container": "root_or_unknown",
+            "method": "updateGrade",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateWeight(id, event) {\n  const weights = this.data.get(\"weights\");\n  const nextWeights = Object.assign({}, weights, {\n    [id]: Number(event.target.value) || 0\n  });\n  this.data.set(\"weights\", nextWeights);\n  const changeCount = this.data.get(\"changeCount\");\n  this.data.set(\"changeCount\", changeCount + 1);\n}",
+            "container": "root_or_unknown",
+            "method": "updateWeight",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "resetWeights() {\n  const assignments = this.data.get(\"assignments\");\n  const next = {};\n  assignments.forEach(item => {\n    next[item.id] = item.weight;\n  });\n  this.data.set(\"weights\", next);\n  const changeCount = this.data.get(\"changeCount\");\n  this.data.set(\"changeCount\", changeCount + 1);\n}",
+            "container": "root_or_unknown",
+            "method": "resetWeights",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "publish() {\n  this.data.set(\"published\", true);\n  const rows = this.data.get(\"rows\");\n  this.emitEvent(\"publish\", rows.map(row => ({\n    id: row.id,\n    total: row.total\n  })));\n}",
+            "container": "root_or_unknown",
+            "method": "publish",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "target"
+      }
+    },
+    {
+      "component": "ImageCropControls",
+      "source": {
+        "calls": [
+          {
+            "code": "this.setValue('crop',Object.assign({},this.crop,{height:Math.round(this.crop.width*this.canvas.width/this.canvas.height)}))",
+            "container": "watch",
+            "key": "crop",
+            "kind": "helper_call",
+            "line": 29,
+            "method": "locked",
+            "owner_line": 28,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('crop',Object.assign({},this.initialCrop))",
+            "container": "root_or_unknown",
+            "key": "crop",
+            "kind": "helper_call",
+            "line": 33,
+            "method": "created",
+            "owner_line": 32,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('crop',crop)",
+            "container": "methods",
+            "key": "crop",
+            "kind": "helper_call",
+            "line": 39,
+            "method": "update",
+            "owner_line": 38,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('locked',event.target.checked)",
+            "container": "methods",
+            "key": "locked",
+            "kind": "helper_call",
+            "line": 42,
+            "method": "toggleLock",
+            "owner_line": 41,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('crop',Object.assign({},this.initialCrop))",
+            "container": "methods",
+            "key": "crop",
+            "kind": "helper_call",
+            "line": 45,
+            "method": "reset",
+            "owner_line": 44,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "locked() {\n  if (this.locked) this.setValue('crop', Object.assign({}, this.crop, {\n    height: Math.round(this.crop.width * this.canvas.width / this.canvas.height)\n  }));\n}",
+            "container": "watch",
+            "method": "locked",
+            "owner_line": 28,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "created() {\n  this.setValue('crop', Object.assign({}, this.initialCrop));\n}",
+            "container": "root_or_unknown",
+            "method": "created",
+            "owner_line": 32,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "update(field, event) {\n  let value = Math.max(0, Math.min(100, Number(event.target.value) || 0));\n  const crop = Object.assign({}, this.crop, {\n    [field]: value\n  });\n  if (this.locked && field === 'width') crop.height = Math.min(100, Math.round(value * this.canvas.width / this.canvas.height));\n  this.setValue('crop', crop);\n  this.emitEvent('change', crop);\n}",
+            "container": "methods",
+            "method": "update",
+            "owner_line": 38,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleLock(event) {\n  this.setValue('locked', event.target.checked);\n}",
+            "container": "methods",
+            "method": "toggleLock",
+            "owner_line": 41,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "reset() {\n  this.setValue('crop', Object.assign({}, this.initialCrop));\n}",
+            "container": "methods",
+            "method": "reset",
+            "owner_line": 44,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "source"
+      },
+      "target": {
+        "calls": [
+          {
+            "code": "this.data.set('crop',Object.assign({},this.data.get('initialCrop')))",
+            "container": "root_or_unknown",
+            "key": "crop",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "inited",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('crop',Object.assign({},crop,{height:Math.min(100,newHeight)}))",
+            "container": "root_or_unknown",
+            "key": "crop",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "inited",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(key,value)",
+            "container": "root_or_unknown",
+            "key": null,
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "setValue",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('crop',crop)",
+            "container": "root_or_unknown",
+            "key": "crop",
+            "kind": "helper_call",
+            "line": 1,
+            "method": "update",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('locked',event.target.checked)",
+            "container": "root_or_unknown",
+            "key": "locked",
+            "kind": "helper_call",
+            "line": 1,
+            "method": "toggleLock",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('crop',Object.assign({},this.data.get('initialCrop')))",
+            "container": "root_or_unknown",
+            "key": "crop",
+            "kind": "helper_call",
+            "line": 1,
+            "method": "reset",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "inited() {\n  this.data.set('crop', Object.assign({}, this.data.get('initialCrop')));\n  this.watch('locked', () => {\n    if (this.data.get('locked')) {\n      const crop = this.data.get('crop');\n      const canvas = this.data.get('canvas');\n      const newHeight = Math.round(crop.width * canvas.width / canvas.height);\n      this.data.set('crop', Object.assign({}, crop, {\n        height: Math.min(100, newHeight)\n      }));\n    }\n  });\n}",
+            "container": "root_or_unknown",
+            "method": "inited",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "setValue(key, value) {\n  this.data.set(key, value);\n}",
+            "container": "root_or_unknown",
+            "method": "setValue",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "update(field, event) {\n  let value = Math.max(0, Math.min(100, Number(event.target.value) || 0));\n  const crop = Object.assign({}, this.data.get('crop'), {\n    [field]: value\n  });\n  if (this.data.get('locked') && field === 'width') {\n    const canvas = this.data.get('canvas');\n    crop.height = Math.min(100, Math.round(value * canvas.width / canvas.height));\n  }\n  this.setValue('crop', crop);\n  this.emitEvent('change', crop);\n}",
+            "container": "root_or_unknown",
+            "method": "update",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleLock(event) {\n  this.setValue('locked', event.target.checked);\n}",
+            "container": "root_or_unknown",
+            "method": "toggleLock",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "reset() {\n  this.setValue('crop', Object.assign({}, this.data.get('initialCrop')));\n}",
+            "container": "root_or_unknown",
+            "method": "reset",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "target"
+      }
+    },
+    {
+      "component": "IncidentResponseBoard",
+      "source": {
+        "calls": [
+          {
+            "code": "this.setValue('severity',this.initialSeverity)",
+            "container": "root_or_unknown",
+            "key": "severity",
+            "kind": "helper_call",
+            "line": 64,
+            "method": "created",
+            "owner_line": 63,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('elapsed',this.elapsed+1)",
+            "container": "root_or_unknown",
+            "key": "elapsed",
+            "kind": "helper_call",
+            "line": 67,
+            "method": "mounted",
+            "owner_line": 66,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('owner',this.owner?'':'当前值班员')",
+            "container": "methods",
+            "key": "owner",
+            "kind": "helper_call",
+            "line": 76,
+            "method": "claim",
+            "owner_line": 75,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('status',next)",
+            "container": "methods",
+            "key": "status",
+            "kind": "helper_call",
+            "line": 79,
+            "method": "advance",
+            "owner_line": 78,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('checklist',this.checklist.map(item=>item.id===id?Object.assign({},item,{done:!item.done}):item))",
+            "container": "methods",
+            "key": "checklist",
+            "kind": "helper_call",
+            "line": 82,
+            "method": "toggleCheck",
+            "owner_line": 81,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('note',event.target.value)",
+            "container": "methods",
+            "key": "note",
+            "kind": "helper_call",
+            "line": 85,
+            "method": "updateNote",
+            "owner_line": 84,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('note','')",
+            "container": "methods",
+            "key": "note",
+            "kind": "helper_call",
+            "line": 88,
+            "method": "addNote",
+            "owner_line": 87,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('severity',next)",
+            "container": "methods",
+            "key": "severity",
+            "kind": "helper_call",
+            "line": 91,
+            "method": "escalate",
+            "owner_line": 90,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('status','resolved')",
+            "container": "methods",
+            "key": "status",
+            "kind": "helper_call",
+            "line": 94,
+            "method": "resolve",
+            "owner_line": 93,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('timeline',[{id:Date.now(),time:now,text}].concat(this.timeline))",
+            "container": "methods",
+            "key": "timeline",
+            "kind": "helper_call",
+            "line": 97,
+            "method": "addTimeline",
+            "owner_line": 96,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "created() {\n  this.setValue('severity', this.initialSeverity);\n}",
+            "container": "root_or_unknown",
+            "method": "created",
+            "owner_line": 63,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "mounted() {\n  this._timer = setInterval(() => this.setValue('elapsed', this.elapsed + 1), 60000);\n}",
+            "container": "root_or_unknown",
+            "method": "mounted",
+            "owner_line": 66,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "claim() {\n  this.setValue('owner', this.owner ? '' : '当前值班员');\n  this.addTimeline(this.owner ? '事件已认领' : '已取消认领');\n}",
+            "container": "methods",
+            "method": "claim",
+            "owner_line": 75,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "advance() {\n  const index = this.stageIndex;\n  if (index >= this.stages.length - 1) return;\n  const next = this.stages[index + 1];\n  this.setValue('status', next);\n  this.addTimeline('推进至' + this.statusText(next));\n  this.emitEvent('status-change', next);\n}",
+            "container": "methods",
+            "method": "advance",
+            "owner_line": 78,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleCheck(id) {\n  this.setValue('checklist', this.checklist.map(item => item.id === id ? Object.assign({}, item, {\n    done: !item.done\n  }) : item));\n}",
+            "container": "methods",
+            "method": "toggleCheck",
+            "owner_line": 81,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateNote(event) {\n  this.setValue('note', event.target.value);\n}",
+            "container": "methods",
+            "method": "updateNote",
+            "owner_line": 84,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "addNote(event) {\n  event.preventDefault();\n  const text = this.note.trim();\n  if (!text) return;\n  this.addTimeline(text);\n  this.setValue('note', '');\n}",
+            "container": "methods",
+            "method": "addNote",
+            "owner_line": 87,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "escalate() {\n  const next = this.severity === 'P2' ? 'P1' : 'P0';\n  this.setValue('severity', next);\n  this.addTimeline('严重度升级为 ' + next);\n  this.emitEvent('escalate', next);\n}",
+            "container": "methods",
+            "method": "escalate",
+            "owner_line": 90,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "resolve() {\n  if (!this.canResolve) return;\n  this.setValue('status', 'resolved');\n  this.addTimeline('事件已关闭');\n  this.emitEvent('resolve', {\n    id: this.incidentId,\n    elapsed: this.elapsed\n  });\n}",
+            "container": "methods",
+            "method": "resolve",
+            "owner_line": 93,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "addTimeline(text) {\n  const now = new Date().toLocaleTimeString('zh-CN', {\n    hour: '2-digit',\n    minute: '2-digit'\n  });\n  this.setValue('timeline', [{\n    id: Date.now(),\n    time: now,\n    text\n  }].concat(this.timeline));\n}",
+            "container": "methods",
+            "method": "addTimeline",
+            "owner_line": 96,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "source"
+      },
+      "target": {
+        "calls": [
+          {
+            "code": "this.data.set('severity',this.data.get('initialSeverity'))",
+            "container": "root_or_unknown",
+            "key": "severity",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "inited",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('elapsed',this.data.get('elapsed')+1)",
+            "container": "root_or_unknown",
+            "key": "elapsed",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "attached",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(key,value)",
+            "container": "root_or_unknown",
+            "key": null,
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "setValue",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('owner',this.data.get('owner')?'':'当前值班员')",
+            "container": "root_or_unknown",
+            "key": "owner",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "claim",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('status',next)",
+            "container": "root_or_unknown",
+            "key": "status",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "advance",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('checklist',this.data.get('checklist').map(item=>item.id===id?Object.assign({},item,{done:!item.done}):item))",
+            "container": "root_or_unknown",
+            "key": "checklist",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "toggleCheck",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('note',event.target.value)",
+            "container": "root_or_unknown",
+            "key": "note",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "updateNote",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('note','')",
+            "container": "root_or_unknown",
+            "key": "note",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "addNote",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('severity',next)",
+            "container": "root_or_unknown",
+            "key": "severity",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "escalate",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('status','resolved')",
+            "container": "root_or_unknown",
+            "key": "status",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "resolve",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('timeline',[{id:Date.now(),time:now,text}].concat(this.data.get('timeline')))",
+            "container": "root_or_unknown",
+            "key": "timeline",
+            "kind": "direct_data_set",
+            "line": 1,
+            "method": "addTimeline",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "inited() {\n  this.data.set('severity', this.data.get('initialSeverity'));\n}",
+            "container": "root_or_unknown",
+            "method": "inited",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "attached() {\n  this._timer = setInterval(() => {\n    this.data.set('elapsed', this.data.get('elapsed') + 1);\n  }, 60000);\n}",
+            "container": "root_or_unknown",
+            "method": "attached",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "setValue(key, value) {\n  this.data.set(key, value);\n}",
+            "container": "root_or_unknown",
+            "method": "setValue",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "claim() {\n  this.data.set('owner', this.data.get('owner') ? '' : '当前值班员');\n  this.addTimeline(this.data.get('owner') ? '事件已认领' : '已取消认领');\n}",
+            "container": "root_or_unknown",
+            "method": "claim",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "advance() {\n  const index = this.data.get('stageIndex');\n  if (index >= this.data.get('stages').length - 1) return;\n  const next = this.data.get('stages')[index + 1];\n  this.data.set('status', next);\n  this.addTimeline('推进至' + this.statusText(next));\n  this.emitEvent('status-change', next);\n}",
+            "container": "root_or_unknown",
+            "method": "advance",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleCheck(id) {\n  this.data.set('checklist', this.data.get('checklist').map(item => item.id === id ? Object.assign({}, item, {\n    done: !item.done\n  }) : item));\n}",
+            "container": "root_or_unknown",
+            "method": "toggleCheck",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateNote(event) {\n  this.data.set('note', event.target.value);\n}",
+            "container": "root_or_unknown",
+            "method": "updateNote",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "addNote(event) {\n  event.preventDefault();\n  const text = this.data.get('note').trim();\n  if (!text) return;\n  this.addTimeline(text);\n  this.data.set('note', '');\n}",
+            "container": "root_or_unknown",
+            "method": "addNote",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "escalate() {\n  const next = this.data.get('severity') === 'P2' ? 'P1' : 'P0';\n  this.data.set('severity', next);\n  this.addTimeline('严重度升级为 ' + next);\n  this.emitEvent('escalate', next);\n}",
+            "container": "root_or_unknown",
+            "method": "escalate",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "resolve() {\n  if (!this.data.get('canResolve')) return;\n  this.data.set('status', 'resolved');\n  this.addTimeline('事件已关闭');\n  this.emitEvent('resolve', {\n    id: this.data.get('incidentId'),\n    elapsed: this.data.get('elapsed')\n  });\n}",
+            "container": "root_or_unknown",
+            "method": "resolve",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "addTimeline(text) {\n  const now = new Date().toLocaleTimeString('zh-CN', {\n    hour: '2-digit',\n    minute: '2-digit'\n  });\n  this.data.set('timeline', [{\n    id: Date.now(),\n    time: now,\n    text\n  }].concat(this.data.get('timeline')));\n}",
+            "container": "root_or_unknown",
+            "method": "addTimeline",
+            "owner_line": 1,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "target"
+      }
+    },
+    {
+      "component": "InventoryBatchManager",
+      "source": {
+        "calls": [
+          {
+            "code": "this.setValue('selectedIds',[])",
+            "container": "watch",
+            "key": "selectedIds",
+            "kind": "helper_call",
+            "line": 78,
+            "method": "warehouse",
+            "owner_line": 77,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('batches',this.initialBatches.map(item=>Object.assign({},item)))",
+            "container": "root_or_unknown",
+            "key": "batches",
+            "kind": "helper_call",
+            "line": 82,
+            "method": "created",
+            "owner_line": 81,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('lastSynced',new Date().toLocaleTimeString('zh-CN',{hour12:false}))",
+            "container": "methods",
+            "key": "lastSynced",
+            "kind": "helper_call",
+            "line": 94,
+            "method": "refreshClock",
+            "owner_line": 93,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('warehouse',event.target.value)",
+            "container": "methods",
+            "key": "warehouse",
+            "kind": "helper_call",
+            "line": 97,
+            "method": "updateWarehouse",
+            "owner_line": 96,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('riskOnly',event.target.checked)",
+            "container": "methods",
+            "key": "riskOnly",
+            "kind": "helper_call",
+            "line": 100,
+            "method": "toggleRisk",
+            "owner_line": 99,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedIds',list.indexOf(id)>=0?list.filter(item=>item!==id):list.concat(id))",
+            "container": "methods",
+            "key": "selectedIds",
+            "kind": "helper_call",
+            "line": 106,
+            "method": "toggleBatch",
+            "owner_line": 105,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedIds',this.visibleBatches.map(item=>item.id))",
+            "container": "methods",
+            "key": "selectedIds",
+            "kind": "helper_call",
+            "line": 109,
+            "method": "selectVisible",
+            "owner_line": 108,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('adjustment',Number(event.target.value)||0)",
+            "container": "methods",
+            "key": "adjustment",
+            "kind": "helper_call",
+            "line": 112,
+            "method": "updateAdjustment",
+            "owner_line": 111,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('reason',event.target.value)",
+            "container": "methods",
+            "key": "reason",
+            "kind": "helper_call",
+            "line": 115,
+            "method": "updateReason",
+            "owner_line": 114,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('batches',next)",
+            "container": "methods",
+            "key": "batches",
+            "kind": "helper_call",
+            "line": 118,
+            "method": "applyAdjustment",
+            "owner_line": 117,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('history',[{id:Date.now(),reason:this.reason,count:ids.length,delta:this.adjustment,before}].concat(this.history).slice(0,5))",
+            "container": "methods",
+            "key": "history",
+            "kind": "helper_call",
+            "line": 118,
+            "method": "applyAdjustment",
+            "owner_line": 117,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedIds',[])",
+            "container": "methods",
+            "key": "selectedIds",
+            "kind": "helper_call",
+            "line": 118,
+            "method": "applyAdjustment",
+            "owner_line": 117,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('adjustment',0)",
+            "container": "methods",
+            "key": "adjustment",
+            "kind": "helper_call",
+            "line": 118,
+            "method": "applyAdjustment",
+            "owner_line": 117,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('batches',history[0].before.map(item=>Object.assign({},item)))",
+            "container": "methods",
+            "key": "batches",
+            "kind": "helper_call",
+            "line": 121,
+            "method": "undo",
+            "owner_line": 120,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('history',history.slice(1))",
+            "container": "methods",
+            "key": "history",
+            "kind": "helper_call",
+            "line": 121,
+            "method": "undo",
+            "owner_line": 120,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "warehouse() {\n  this.setValue('selectedIds', []);\n}",
+            "container": "watch",
+            "method": "warehouse",
+            "owner_line": 77,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "created() {\n  this.setValue('batches', this.initialBatches.map(item => Object.assign({}, item)));\n}",
+            "container": "root_or_unknown",
+            "method": "created",
+            "owner_line": 81,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "refreshClock() {\n  this.setValue('lastSynced', new Date().toLocaleTimeString('zh-CN', {\n    hour12: false\n  }));\n}",
+            "container": "methods",
+            "method": "refreshClock",
+            "owner_line": 93,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateWarehouse(event) {\n  this.setValue('warehouse', event.target.value);\n}",
+            "container": "methods",
+            "method": "updateWarehouse",
+            "owner_line": 96,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleRisk(event) {\n  this.setValue('riskOnly', event.target.checked);\n}",
+            "container": "methods",
+            "method": "toggleRisk",
+            "owner_line": 99,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleBatch(id) {\n  const list = this.selectedIds;\n  this.setValue('selectedIds', list.indexOf(id) >= 0 ? list.filter(item => item !== id) : list.concat(id));\n}",
+            "container": "methods",
+            "method": "toggleBatch",
+            "owner_line": 105,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "selectVisible() {\n  this.setValue('selectedIds', this.visibleBatches.map(item => item.id));\n}",
+            "container": "methods",
+            "method": "selectVisible",
+            "owner_line": 108,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateAdjustment(event) {\n  this.setValue('adjustment', Number(event.target.value) || 0);\n}",
+            "container": "methods",
+            "method": "updateAdjustment",
+            "owner_line": 111,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateReason(event) {\n  this.setValue('reason', event.target.value);\n}",
+            "container": "methods",
+            "method": "updateReason",
+            "owner_line": 114,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "applyAdjustment() {\n  if (!this.canApply) return;\n  const ids = this.selectedIds;\n  const before = this.batches.map(item => Object.assign({}, item));\n  const next = this.batches.map(item => ids.indexOf(item.id) >= 0 ? Object.assign({}, item, {\n    quantity: Math.max(0, Math.min(item.capacity, item.quantity + this.adjustment))\n  }) : item);\n  this.setValue('batches', next);\n  this.setValue('history', [{\n    id: Date.now(),\n    reason: this.reason,\n    count: ids.length,\n    delta: this.adjustment,\n    before\n  }].concat(this.history).slice(0, 5));\n  this.setValue('selectedIds', []);\n  this.setValue('adjustment', 0);\n  this.emitEvent('inventory-change', next);\n}",
+            "container": "methods",
+            "method": "applyAdjustment",
+            "owner_line": 117,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "undo() {\n  const history = this.history;\n  if (!history.length) return;\n  this.setValue('batches', history[0].before.map(item => Object.assign({}, item)));\n  this.setValue('history', history.slice(1));\n  this.emitEvent('inventory-change', this.batches);\n}",
+            "container": "methods",
+            "method": "undo",
+            "owner_line": 120,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "source"
+      },
+      "target": {
+        "calls": [
+          {
+            "code": "this.data.set(\"batches\",this.data.get(\"initialBatches\").map(item=>Object.assign({},item)))",
+            "container": "root_or_unknown",
+            "key": "batches",
+            "kind": "direct_data_set",
+            "line": 46,
+            "method": "inited",
+            "owner_line": 46,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(key,value)",
+            "container": "root_or_unknown",
+            "key": null,
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "setValue",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"lastSynced\",new Date().toLocaleTimeString(\"zh-CN\",{hour12:false}))",
+            "container": "root_or_unknown",
+            "key": "lastSynced",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "refreshClock",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"warehouse\",event.target.value)",
+            "container": "root_or_unknown",
+            "key": "warehouse",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateWarehouse",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"selectedIds\",[])",
+            "container": "root_or_unknown",
+            "key": "selectedIds",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateWarehouse",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"riskOnly\",event.target.checked)",
+            "container": "root_or_unknown",
+            "key": "riskOnly",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "toggleRisk",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"selectedIds\",list.indexOf(id)>=0?list.filter(item=>item!==id):list.concat(id))",
+            "container": "root_or_unknown",
+            "key": "selectedIds",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "toggleBatch",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"selectedIds\",this.data.get(\"visibleBatches\").map(item=>item.id))",
+            "container": "root_or_unknown",
+            "key": "selectedIds",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "selectVisible",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"adjustment\",Number(event.target.value)||0)",
+            "container": "root_or_unknown",
+            "key": "adjustment",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateAdjustment",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"reason\",event.target.value)",
+            "container": "root_or_unknown",
+            "key": "reason",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "updateReason",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"batches\",next)",
+            "container": "root_or_unknown",
+            "key": "batches",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "applyAdjustment",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"history\",[{\"id\":Date.now(),\"reason\":this.data.get(\"reason\"),\"count\":ids.length,\"delta\":this.data.get(\"adjustment\"),\"before\":before}].concat(this.data.get(\"history\")).slice(0,5))",
+            "container": "root_or_unknown",
+            "key": "history",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "applyAdjustment",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"selectedIds\",[])",
+            "container": "root_or_unknown",
+            "key": "selectedIds",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "applyAdjustment",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"adjustment\",0)",
+            "container": "root_or_unknown",
+            "key": "adjustment",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "applyAdjustment",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"batches\",history[0].before.map(item=>Object.assign({},item)))",
+            "container": "root_or_unknown",
+            "key": "batches",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "undo",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(\"history\",history.slice(1))",
+            "container": "root_or_unknown",
+            "key": "history",
+            "kind": "direct_data_set",
+            "line": 47,
+            "method": "undo",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "inited() {\n  this.data.set(\"batches\", this.data.get(\"initialBatches\").map(item => Object.assign({}, item)));\n}",
+            "container": "root_or_unknown",
+            "method": "inited",
+            "owner_line": 46,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "setValue(key, value) {\n  this.data.set(key, value);\n}",
+            "container": "root_or_unknown",
+            "method": "setValue",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "refreshClock() {\n  this.data.set(\"lastSynced\", new Date().toLocaleTimeString(\"zh-CN\", {\n    hour12: false\n  }));\n}",
+            "container": "root_or_unknown",
+            "method": "refreshClock",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateWarehouse(event) {\n  this.data.set(\"warehouse\", event.target.value);\n  this.data.set(\"selectedIds\", []);\n}",
+            "container": "root_or_unknown",
+            "method": "updateWarehouse",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleRisk(event) {\n  this.data.set(\"riskOnly\", event.target.checked);\n}",
+            "container": "root_or_unknown",
+            "method": "toggleRisk",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleBatch(id) {\n  const list = this.data.get(\"selectedIds\");\n  this.data.set(\"selectedIds\", list.indexOf(id) >= 0 ? list.filter(item => item !== id) : list.concat(id));\n}",
+            "container": "root_or_unknown",
+            "method": "toggleBatch",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "selectVisible() {\n  this.data.set(\"selectedIds\", this.data.get(\"visibleBatches\").map(item => item.id));\n}",
+            "container": "root_or_unknown",
+            "method": "selectVisible",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateAdjustment(event) {\n  this.data.set(\"adjustment\", Number(event.target.value) || 0);\n}",
+            "container": "root_or_unknown",
+            "method": "updateAdjustment",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateReason(event) {\n  this.data.set(\"reason\", event.target.value);\n}",
+            "container": "root_or_unknown",
+            "method": "updateReason",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "applyAdjustment() {\n  if (!this.data.get(\"canApply\")) return;\n  const ids = this.data.get(\"selectedIds\");\n  const before = this.data.get(\"batches\").map(item => Object.assign({}, item));\n  const next = this.data.get(\"batches\").map(item => ids.indexOf(item.id) >= 0 ? Object.assign({}, item, {\n    quantity: Math.max(0, Math.min(item.capacity, item.quantity + this.data.get(\"adjustment\")))\n  }) : item);\n  this.data.set(\"batches\", next);\n  this.data.set(\"history\", [{\n    \"id\": Date.now(),\n    \"reason\": this.data.get(\"reason\"),\n    \"count\": ids.length,\n    \"delta\": this.data.get(\"adjustment\"),\n    \"before\": before\n  }].concat(this.data.get(\"history\")).slice(0, 5));\n  this.data.set(\"selectedIds\", []);\n  this.data.set(\"adjustment\", 0);\n  this.emitEvent(\"inventory-change\", next);\n}",
+            "container": "root_or_unknown",
+            "method": "applyAdjustment",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "undo() {\n  const history = this.data.get(\"history\");\n  if (!history.length) return;\n  this.data.set(\"batches\", history[0].before.map(item => Object.assign({}, item)));\n  this.data.set(\"history\", history.slice(1));\n  this.emitEvent(\"inventory-change\", this.data.get(\"batches\"));\n}",
+            "container": "root_or_unknown",
+            "method": "undo",
+            "owner_line": 47,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "target"
+      }
+    },
+    {
+      "component": "ShippingEstimator",
+      "source": {
+        "calls": [
+          {
+            "code": "this.setValue('regionCode',event.target.value)",
+            "container": "methods",
+            "key": "regionCode",
+            "kind": "helper_call",
+            "line": 44,
+            "method": "updateRegion",
+            "owner_line": 43,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('weight',Number(event.target.value)||0)",
+            "container": "methods",
+            "key": "weight",
+            "kind": "helper_call",
+            "line": 47,
+            "method": "updateWeight",
+            "owner_line": 46,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('express',event.target.checked)",
+            "container": "methods",
+            "key": "express",
+            "kind": "helper_call",
+            "line": 50,
+            "method": "toggleExpress",
+            "owner_line": 49,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('error','重量必须大于 0')",
+            "container": "methods",
+            "key": "error",
+            "kind": "helper_call",
+            "line": 53,
+            "method": "estimate",
+            "owner_line": 52,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('result',null)",
+            "container": "methods",
+            "key": "result",
+            "kind": "helper_call",
+            "line": 53,
+            "method": "estimate",
+            "owner_line": 52,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('error','')",
+            "container": "methods",
+            "key": "error",
+            "kind": "helper_call",
+            "line": 53,
+            "method": "estimate",
+            "owner_line": 52,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('result',result)",
+            "container": "methods",
+            "key": "result",
+            "kind": "helper_call",
+            "line": 53,
+            "method": "estimate",
+            "owner_line": 52,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('weight',1)",
+            "container": "methods",
+            "key": "weight",
+            "kind": "helper_call",
+            "line": 56,
+            "method": "reset",
+            "owner_line": 55,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('express',false)",
+            "container": "methods",
+            "key": "express",
+            "kind": "helper_call",
+            "line": 56,
+            "method": "reset",
+            "owner_line": 55,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('result',null)",
+            "container": "methods",
+            "key": "result",
+            "kind": "helper_call",
+            "line": 56,
+            "method": "reset",
+            "owner_line": 55,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('error','')",
+            "container": "methods",
+            "key": "error",
+            "kind": "helper_call",
+            "line": 56,
+            "method": "reset",
+            "owner_line": 55,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "updateRegion(event) {\n  this.setValue('regionCode', event.target.value);\n}",
+            "container": "methods",
+            "method": "updateRegion",
+            "owner_line": 43,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateWeight(event) {\n  this.setValue('weight', Number(event.target.value) || 0);\n}",
+            "container": "methods",
+            "method": "updateWeight",
+            "owner_line": 46,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleExpress(event) {\n  this.setValue('express', event.target.checked);\n}",
+            "container": "methods",
+            "method": "toggleExpress",
+            "owner_line": 49,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "estimate(event) {\n  event.preventDefault();\n  if (this.weight <= 0) {\n    this.setValue('error', '重量必须大于 0');\n    this.setValue('result', null);\n    return;\n  }\n  const region = this.selectedRegion;\n  const fee = (region.base + Math.max(0, Math.ceil(this.weight - 1)) * 5) * (this.express ? 1.5 : 1);\n  const result = {\n    fee: fee.toFixed(2),\n    days: this.express ? 1 : region.code === 'remote' ? 5 : 3\n  };\n  this.setValue('error', '');\n  this.setValue('result', result);\n  this.emitEvent('estimate', result);\n}",
+            "container": "methods",
+            "method": "estimate",
+            "owner_line": 52,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "reset() {\n  this.setValue('weight', 1);\n  this.setValue('express', false);\n  this.setValue('result', null);\n  this.setValue('error', '');\n}",
+            "container": "methods",
+            "method": "reset",
+            "owner_line": 55,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "source"
+      },
+      "target": {
+        "calls": [
+          {
+            "code": "this.data.set('regionCode',regions[0].code)",
+            "container": "root_or_unknown",
+            "key": "regionCode",
+            "kind": "direct_data_set",
+            "line": 7,
+            "method": "inited",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('error','重量必须大于 0')",
+            "container": "root_or_unknown",
+            "key": "error",
+            "kind": "direct_data_set",
+            "line": 7,
+            "method": "inited",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('result',null)",
+            "container": "root_or_unknown",
+            "key": "result",
+            "kind": "direct_data_set",
+            "line": 7,
+            "method": "inited",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('error','')",
+            "container": "root_or_unknown",
+            "key": "error",
+            "kind": "direct_data_set",
+            "line": 7,
+            "method": "inited",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('regionCode',regions[0].code)",
+            "container": "root_or_unknown",
+            "key": "regionCode",
+            "kind": "direct_data_set",
+            "line": 7,
+            "method": "inited",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(key,value)",
+            "container": "root_or_unknown",
+            "key": null,
+            "kind": "direct_data_set",
+            "line": 7,
+            "method": "setValue",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('regionCode',event.target.value)",
+            "container": "root_or_unknown",
+            "key": "regionCode",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "updateRegion",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('weight',Number(event.target.value)||0)",
+            "container": "root_or_unknown",
+            "key": "weight",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "updateWeight",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('express',event.target.checked)",
+            "container": "root_or_unknown",
+            "key": "express",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "toggleExpress",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('error','重量必须大于 0')",
+            "container": "root_or_unknown",
+            "key": "error",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "estimate",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('result',null)",
+            "container": "root_or_unknown",
+            "key": "result",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "estimate",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('error','')",
+            "container": "root_or_unknown",
+            "key": "error",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "estimate",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('result',result)",
+            "container": "root_or_unknown",
+            "key": "result",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "estimate",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('weight',1)",
+            "container": "root_or_unknown",
+            "key": "weight",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "reset",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('express',false)",
+            "container": "root_or_unknown",
+            "key": "express",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "reset",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('result',null)",
+            "container": "root_or_unknown",
+            "key": "result",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "reset",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('error','')",
+            "container": "root_or_unknown",
+            "key": "error",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "reset",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "inited() {\n  this.watch('regions', regions => {\n    if (regions && regions.length > 0) {\n      const current = this.data.get('regionCode');\n      const found = regions.find(item => item.code === current);\n      if (!found) {\n        this.data.set('regionCode', regions[0].code);\n      }\n    }\n  });\n  this.watch('weight', weight => {\n    if (weight <= 0) {\n      this.data.set('error', '重量必须大于 0');\n      this.data.set('result', null);\n    } else {\n      this.data.set('error', '');\n    }\n  });\n  this.watch('regionCode', regionCode => {\n    const regions = this.data.get('regions');\n    if (regions && regions.length > 0) {\n      const found = regions.find(item => item.code === regionCode);\n      if (!found) {\n        this.data.set('regionCode', regions[0].code);\n      }\n    }\n  });\n}",
+            "container": "root_or_unknown",
+            "method": "inited",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "setValue(key, value) {\n  this.data.set(key, value);\n}",
+            "container": "root_or_unknown",
+            "method": "setValue",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateRegion(event) {\n  this.setValue('regionCode', event.target.value);\n}",
+            "container": "root_or_unknown",
+            "method": "updateRegion",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateWeight(event) {\n  this.setValue('weight', Number(event.target.value) || 0);\n}",
+            "container": "root_or_unknown",
+            "method": "updateWeight",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleExpress(event) {\n  this.setValue('express', event.target.checked);\n}",
+            "container": "root_or_unknown",
+            "method": "toggleExpress",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "estimate(event) {\n  event.preventDefault();\n  const weight = this.data.get('weight');\n  if (weight <= 0) {\n    this.setValue('error', '重量必须大于 0');\n    this.setValue('result', null);\n    return;\n  }\n  const selectedRegion = this.data.get('selectedRegion');\n  const express = this.data.get('express');\n  const fee = (selectedRegion.base + Math.max(0, Math.ceil(weight - 1)) * 5) * (express ? 1.5 : 1);\n  const result = {\n    fee: fee.toFixed(2),\n    days: express ? 1 : selectedRegion.code === 'remote' ? 5 : 3\n  };\n  this.setValue('error', '');\n  this.setValue('result', result);\n  this.emitEvent('estimate', result);\n}",
+            "container": "root_or_unknown",
+            "method": "estimate",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "reset() {\n  this.setValue('weight', 1);\n  this.setValue('express', false);\n  this.setValue('result', null);\n  this.setValue('error', '');\n}",
+            "container": "root_or_unknown",
+            "method": "reset",
+            "owner_line": 7,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "target"
+      }
+    },
+    {
+      "component": "SupportTicketConsole",
+      "source": {
+        "calls": [
+          {
+            "code": "this.setValue('tickets',this.initialTickets.map(ticket=>Object.assign({},ticket,{tags:ticket.tags.slice(),messages:ticket.messages.map(message=>Object.assign({},message))})))",
+            "container": "root_or_unknown",
+            "key": "tickets",
+            "kind": "helper_call",
+            "line": 113,
+            "method": "created",
+            "owner_line": 112,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedId',this.initialTickets[0]?this.initialTickets[0].id:null)",
+            "container": "root_or_unknown",
+            "key": "selectedId",
+            "kind": "helper_call",
+            "line": 113,
+            "method": "created",
+            "owner_line": 112,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('nowTick',this.nowTick+1)",
+            "container": "root_or_unknown",
+            "key": "nowTick",
+            "kind": "helper_call",
+            "line": 116,
+            "method": "mounted",
+            "owner_line": 115,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('query',event.target.value)",
+            "container": "methods",
+            "key": "query",
+            "kind": "helper_call",
+            "line": 125,
+            "method": "updateQuery",
+            "owner_line": 124,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('statusFilter',event.target.value)",
+            "container": "methods",
+            "key": "statusFilter",
+            "kind": "helper_call",
+            "line": 128,
+            "method": "updateStatusFilter",
+            "owner_line": 127,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedTag',this.selectedTag===tag?'':tag)",
+            "container": "methods",
+            "key": "selectedTag",
+            "kind": "helper_call",
+            "line": 131,
+            "method": "filterTag",
+            "owner_line": 130,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedId',id)",
+            "container": "methods",
+            "key": "selectedId",
+            "kind": "helper_call",
+            "line": 134,
+            "method": "selectTicket",
+            "owner_line": 133,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('replyDraft','')",
+            "container": "methods",
+            "key": "replyDraft",
+            "kind": "helper_call",
+            "line": 134,
+            "method": "selectTicket",
+            "owner_line": 133,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('mergeTargetId',null)",
+            "container": "methods",
+            "key": "mergeTargetId",
+            "kind": "helper_call",
+            "line": 134,
+            "method": "selectTicket",
+            "owner_line": 133,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('replyDraft',event.target.value)",
+            "container": "methods",
+            "key": "replyDraft",
+            "kind": "helper_call",
+            "line": 137,
+            "method": "updateReply",
+            "owner_line": 136,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('internalNote',event.target.checked)",
+            "container": "methods",
+            "key": "internalNote",
+            "kind": "helper_call",
+            "line": 140,
+            "method": "toggleInternal",
+            "owner_line": 139,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('replyDraft',text)",
+            "container": "methods",
+            "key": "replyDraft",
+            "kind": "helper_call",
+            "line": 143,
+            "method": "useCanned",
+            "owner_line": 142,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('tickets',this.tickets.map(ticket=>ticket.id===id?Object.assign({},ticket,{messages:ticket.messages.concat(message),status:this.internalNote?ticket.status:'pending'}):ticket))",
+            "container": "methods",
+            "key": "tickets",
+            "kind": "helper_call",
+            "line": 146,
+            "method": "sendReply",
+            "owner_line": 145,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('replyDraft','')",
+            "container": "methods",
+            "key": "replyDraft",
+            "kind": "helper_call",
+            "line": 146,
+            "method": "sendReply",
+            "owner_line": 145,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('tickets',this.tickets.map(ticket=>ticket.id===id?Object.assign({},ticket,{status}):ticket))",
+            "container": "methods",
+            "key": "tickets",
+            "kind": "helper_call",
+            "line": 149,
+            "method": "changeStatus",
+            "owner_line": 148,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('tickets',this.tickets.map(ticket=>ticket.id===id?Object.assign({},ticket,{assignee}):ticket))",
+            "container": "methods",
+            "key": "tickets",
+            "kind": "helper_call",
+            "line": 152,
+            "method": "assignAgent",
+            "owner_line": 151,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('mergeTargetId',Number(event.target.value)||null)",
+            "container": "methods",
+            "key": "mergeTargetId",
+            "kind": "helper_call",
+            "line": 155,
+            "method": "setMergeTarget",
+            "owner_line": 154,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('tickets',this.tickets.map(ticket=>ticket.id===targetId?Object.assign({},ticket,{messages:ticket.messages.concat(source.messages)}):ticket).filter(ticket=>ticket.id!==sourceId))",
+            "container": "methods",
+            "key": "tickets",
+            "kind": "helper_call",
+            "line": 158,
+            "method": "mergeTicket",
+            "owner_line": 157,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedId',targetId)",
+            "container": "methods",
+            "key": "selectedId",
+            "kind": "helper_call",
+            "line": 158,
+            "method": "mergeTicket",
+            "owner_line": 157,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "created() {\n  this.setValue('tickets', this.initialTickets.map(ticket => Object.assign({}, ticket, {\n    tags: ticket.tags.slice(),\n    messages: ticket.messages.map(message => Object.assign({}, message))\n  })));\n  this.setValue('selectedId', this.initialTickets[0] ? this.initialTickets[0].id : null);\n}",
+            "container": "root_or_unknown",
+            "method": "created",
+            "owner_line": 112,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "mounted() {\n  this._timer = setInterval(() => this.setValue('nowTick', this.nowTick + 1), 60000);\n}",
+            "container": "root_or_unknown",
+            "method": "mounted",
+            "owner_line": 115,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateQuery(event) {\n  this.setValue('query', event.target.value);\n}",
+            "container": "methods",
+            "method": "updateQuery",
+            "owner_line": 124,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateStatusFilter(event) {\n  this.setValue('statusFilter', event.target.value);\n}",
+            "container": "methods",
+            "method": "updateStatusFilter",
+            "owner_line": 127,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "filterTag(tag) {\n  this.setValue('selectedTag', this.selectedTag === tag ? '' : tag);\n}",
+            "container": "methods",
+            "method": "filterTag",
+            "owner_line": 130,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "selectTicket(id) {\n  this.setValue('selectedId', id);\n  this.setValue('replyDraft', '');\n  this.setValue('mergeTargetId', null);\n}",
+            "container": "methods",
+            "method": "selectTicket",
+            "owner_line": 133,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateReply(event) {\n  this.setValue('replyDraft', event.target.value);\n}",
+            "container": "methods",
+            "method": "updateReply",
+            "owner_line": 136,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleInternal(event) {\n  this.setValue('internalNote', event.target.checked);\n}",
+            "container": "methods",
+            "method": "toggleInternal",
+            "owner_line": 139,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "useCanned(text) {\n  this.setValue('replyDraft', text);\n}",
+            "container": "methods",
+            "method": "useCanned",
+            "owner_line": 142,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "sendReply(event) {\n  event.preventDefault();\n  const text = this.replyDraft.trim();\n  const id = this.selectedId;\n  if (!text || id === null) return;\n  const message = {\n    id: Date.now(),\n    author: this.internalNote ? '内部备注' : '客服',\n    text,\n    internal: this.internalNote\n  };\n  this.setValue('tickets', this.tickets.map(ticket => ticket.id === id ? Object.assign({}, ticket, {\n    messages: ticket.messages.concat(message),\n    status: this.internalNote ? ticket.status : 'pending'\n  }) : ticket));\n  this.setValue('replyDraft', '');\n  this.emitEvent('reply', {\n    ticketId: id,\n    message\n  });\n}",
+            "container": "methods",
+            "method": "sendReply",
+            "owner_line": 145,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "changeStatus(status) {\n  const id = this.selectedId;\n  this.setValue('tickets', this.tickets.map(ticket => ticket.id === id ? Object.assign({}, ticket, {\n    status\n  }) : ticket));\n  this.emitEvent('status', {\n    ticketId: id,\n    status\n  });\n}",
+            "container": "methods",
+            "method": "changeStatus",
+            "owner_line": 148,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "assignAgent(event) {\n  const assignee = event.target.value;\n  const id = this.selectedId;\n  this.setValue('tickets', this.tickets.map(ticket => ticket.id === id ? Object.assign({}, ticket, {\n    assignee\n  }) : ticket));\n  this.emitEvent('assign', {\n    ticketId: id,\n    assignee\n  });\n}",
+            "container": "methods",
+            "method": "assignAgent",
+            "owner_line": 151,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "setMergeTarget(event) {\n  this.setValue('mergeTargetId', Number(event.target.value) || null);\n}",
+            "container": "methods",
+            "method": "setMergeTarget",
+            "owner_line": 154,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "mergeTicket() {\n  const sourceId = this.selectedId;\n  const targetId = this.mergeTargetId;\n  if (!targetId) return;\n  const source = this.tickets.find(ticket => ticket.id === sourceId);\n  this.setValue('tickets', this.tickets.map(ticket => ticket.id === targetId ? Object.assign({}, ticket, {\n    messages: ticket.messages.concat(source.messages)\n  }) : ticket).filter(ticket => ticket.id !== sourceId));\n  this.setValue('selectedId', targetId);\n  this.emitEvent('merge', {\n    sourceId,\n    targetId\n  });\n}",
+            "container": "methods",
+            "method": "mergeTicket",
+            "owner_line": 157,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "source"
+      },
+      "target": {
+        "calls": [
+          {
+            "code": "this.setValue('tickets',this.data.get(\"initialTickets\").map(ticket=>Object.assign({},ticket,{tags:ticket.tags.slice(),messages:ticket.messages.map(message=>Object.assign({},message))})))",
+            "container": "root_or_unknown",
+            "key": "tickets",
+            "kind": "helper_call",
+            "line": 7,
+            "method": "inited",
+            "owner_line": 6,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.setValue('selectedId',this.data.get(\"initialTickets\")[0]?this.data.get(\"initialTickets\")[0].id:null)",
+            "container": "root_or_unknown",
+            "key": "selectedId",
+            "kind": "helper_call",
+            "line": 11,
+            "method": "inited",
+            "owner_line": 6,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('nowTick',this.data.get('nowTick')+1)",
+            "container": "root_or_unknown",
+            "key": "nowTick",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "attached",
+            "owner_line": 12,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set(key,value)",
+            "container": "root_or_unknown",
+            "key": null,
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "setValue",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('query',event.target.value)",
+            "container": "root_or_unknown",
+            "key": "query",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "updateQuery",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('statusFilter',event.target.value)",
+            "container": "root_or_unknown",
+            "key": "statusFilter",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "updateStatusFilter",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('selectedTag',this.data.get('selectedTag')===tag?'':tag)",
+            "container": "root_or_unknown",
+            "key": "selectedTag",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "filterTag",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('selectedId',id)",
+            "container": "root_or_unknown",
+            "key": "selectedId",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "selectTicket",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('replyDraft','')",
+            "container": "root_or_unknown",
+            "key": "replyDraft",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "selectTicket",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('mergeTargetId',null)",
+            "container": "root_or_unknown",
+            "key": "mergeTargetId",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "selectTicket",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('replyDraft',event.target.value)",
+            "container": "root_or_unknown",
+            "key": "replyDraft",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "updateReply",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('internalNote',event.target.checked)",
+            "container": "root_or_unknown",
+            "key": "internalNote",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "toggleInternal",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('replyDraft',text)",
+            "container": "root_or_unknown",
+            "key": "replyDraft",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "useCanned",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('tickets',this.data.get('tickets').map(ticket=>ticket.id===id?Object.assign({},ticket,{messages:ticket.messages.concat(message),status:this.data.get('internalNote')?ticket.status:'pending'}):ticket))",
+            "container": "root_or_unknown",
+            "key": "tickets",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "sendReply",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('replyDraft','')",
+            "container": "root_or_unknown",
+            "key": "replyDraft",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "sendReply",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('tickets',this.data.get('tickets').map(ticket=>ticket.id===id?Object.assign({},ticket,{status}):ticket))",
+            "container": "root_or_unknown",
+            "key": "tickets",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "changeStatus",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('tickets',this.data.get('tickets').map(ticket=>ticket.id===id?Object.assign({},ticket,{assignee}):ticket))",
+            "container": "root_or_unknown",
+            "key": "tickets",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "assignAgent",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('mergeTargetId',Number(event.target.value)||null)",
+            "container": "root_or_unknown",
+            "key": "mergeTargetId",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "setMergeTarget",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('tickets',this.data.get('tickets').map(ticket=>ticket.id===targetId?Object.assign({},ticket,{messages:ticket.messages.concat(source.messages)}):ticket).filter(ticket=>ticket.id!==sourceId))",
+            "container": "root_or_unknown",
+            "key": "tickets",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "mergeTicket",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "code": "this.data.set('selectedId',targetId)",
+            "container": "root_or_unknown",
+            "key": "selectedId",
+            "kind": "direct_data_set",
+            "line": 13,
+            "method": "mergeTicket",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "owners": [
+          {
+            "body": "inited() {\n  this.setValue('tickets', this.data.get(\"initialTickets\").map(ticket => Object.assign({}, ticket, {\n    tags: ticket.tags.slice(),\n    messages: ticket.messages.map(message => Object.assign({}, message))\n  })));\n  this.setValue('selectedId', this.data.get(\"initialTickets\")[0] ? this.data.get(\"initialTickets\")[0].id : null);\n}",
+            "container": "root_or_unknown",
+            "method": "inited",
+            "owner_line": 6,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "attached() {\n  this.__migrationSyncSelectValues();\n  this._timer = setInterval(() => {\n    this.data.set('nowTick', this.data.get('nowTick') + 1);\n  }, 60000);\n}",
+            "container": "root_or_unknown",
+            "method": "attached",
+            "owner_line": 12,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "setValue(key, value) {\n  this.data.set(key, value);\n}",
+            "container": "root_or_unknown",
+            "method": "setValue",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateQuery(event) {\n  this.data.set('query', event.target.value);\n}",
+            "container": "root_or_unknown",
+            "method": "updateQuery",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateStatusFilter(event) {\n  this.data.set('statusFilter', event.target.value);\n}",
+            "container": "root_or_unknown",
+            "method": "updateStatusFilter",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "filterTag(tag) {\n  this.data.set('selectedTag', this.data.get('selectedTag') === tag ? '' : tag);\n}",
+            "container": "root_or_unknown",
+            "method": "filterTag",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "selectTicket(id) {\n  this.data.set('selectedId', id);\n  this.data.set('replyDraft', '');\n  this.data.set('mergeTargetId', null);\n}",
+            "container": "root_or_unknown",
+            "method": "selectTicket",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "updateReply(event) {\n  this.data.set('replyDraft', event.target.value);\n}",
+            "container": "root_or_unknown",
+            "method": "updateReply",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "toggleInternal(event) {\n  this.data.set('internalNote', event.target.checked);\n}",
+            "container": "root_or_unknown",
+            "method": "toggleInternal",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "useCanned(text) {\n  this.data.set('replyDraft', text);\n}",
+            "container": "root_or_unknown",
+            "method": "useCanned",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "sendReply(event) {\n  event.preventDefault();\n  const text = this.data.get('replyDraft').trim();\n  const id = this.data.get('selectedId');\n  if (!text || id === null) return;\n  const message = {\n    id: Date.now(),\n    author: this.data.get('internalNote') ? '内部备注' : '客服',\n    text,\n    internal: this.data.get('internalNote')\n  };\n  this.data.set('tickets', this.data.get('tickets').map(ticket => ticket.id === id ? Object.assign({}, ticket, {\n    messages: ticket.messages.concat(message),\n    status: this.data.get('internalNote') ? ticket.status : 'pending'\n  }) : ticket));\n  this.data.set('replyDraft', '');\n  this.fire('reply', {\n    ticketId: id,\n    message\n  });\n}",
+            "container": "root_or_unknown",
+            "method": "sendReply",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "changeStatus(status) {\n  const id = this.data.get('selectedId');\n  this.data.set('tickets', this.data.get('tickets').map(ticket => ticket.id === id ? Object.assign({}, ticket, {\n    status\n  }) : ticket));\n  this.fire('status', {\n    ticketId: id,\n    status\n  });\n}",
+            "container": "root_or_unknown",
+            "method": "changeStatus",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "assignAgent(event) {\n  const assignee = event.target.value;\n  const id = this.data.get('selectedId');\n  this.data.set('tickets', this.data.get('tickets').map(ticket => ticket.id === id ? Object.assign({}, ticket, {\n    assignee\n  }) : ticket));\n  this.fire('assign', {\n    ticketId: id,\n    assignee\n  });\n}",
+            "container": "root_or_unknown",
+            "method": "assignAgent",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "setMergeTarget(event) {\n  this.data.set('mergeTargetId', Number(event.target.value) || null);\n}",
+            "container": "root_or_unknown",
+            "method": "setMergeTarget",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          },
+          {
+            "body": "mergeTicket() {\n  const sourceId = this.data.get('selectedId');\n  const targetId = this.data.get('mergeTargetId');\n  if (!targetId) return;\n  const source = this.data.get('tickets').find(ticket => ticket.id === sourceId);\n  this.data.set('tickets', this.data.get('tickets').map(ticket => ticket.id === targetId ? Object.assign({}, ticket, {\n    messages: ticket.messages.concat(source.messages)\n  }) : ticket).filter(ticket => ticket.id !== sourceId));\n  this.data.set('selectedId', targetId);\n  this.fire('merge', {\n    sourceId,\n    targetId\n  });\n}",
+            "container": "root_or_unknown",
+            "method": "mergeTicket",
+            "owner_line": 13,
+            "syntax": "ObjectMethod"
+          }
+        ],
+        "side": "target"
+      }
+    }
+  ],
+  "scope": "parser_only_investigation_not_a_fix_or_equivalence_proof"
+}

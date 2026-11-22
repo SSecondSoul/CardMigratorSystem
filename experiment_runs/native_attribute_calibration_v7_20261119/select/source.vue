@@ -1,0 +1,1 @@
+<template><div><select :value="value"><option value="a">A</option><option value="b">B</option></select><button @click="change">next</button><button @click="clear">clear</button></div></template><script>export default {data(){return {value:null}},methods:{change(){this.value="b"},clear(){this.value=null}}}</script>

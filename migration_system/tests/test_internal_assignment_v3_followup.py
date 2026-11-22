@@ -48,5 +48,20 @@ class InternalAssignmentFollowupTests(unittest.TestCase):
                 self.assertNotIn('restored_source_internal_setter_caller_bodies',result['changes'])
                 self.assertEqual(proof(source,result['code'])[1]['status'],'unproven')
 
+    def test_complete_callers_using_standard_record_copy_and_timestamp_are_restored(self):
+        for value in ("Object.assign({}, {id:Date.now()})", "Array.from([1,2])"):
+            source=SOURCE.replace("'value',2", "'value',"+value)
+            code=TARGET.replace("'value',2", "'value',99")
+            result=inspect(source,code,True)
+            self.assertIn('restored_source_internal_setter_caller_bodies', result['changes'])
+            self.assertEqual(proof(source,result['code'])[1]['status'],'proven_for_source_internal_calls')
+
+    def test_shadowed_standard_globals_still_refuse_source_body_restoration(self):
+        source=SOURCE.replace("'value',2", "'value',Object.assign({}, {id:Date.now()})")
+        changed=TARGET.replace("'value',2", "'value',99")
+        for code in (changed.replace("const san=", "const Object=external;const san="),
+                     changed.replace("const san=", "const Date=external;const san=")):
+            self.assertNotIn('restored_source_internal_setter_caller_bodies',inspect(source,code,True)['changes'])
+
 
 if __name__=='__main__':unittest.main()

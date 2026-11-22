@@ -1,0 +1,102 @@
+{
+  "blocked": null,
+  "component": "MediaReviewStudio",
+  "effective_codes": [
+    "nested_state_mutation",
+    "rendered_dom_mismatch",
+    "source_class_binding_not_landed",
+    "source_dom_event_not_landed",
+    "template_structure_mismatch"
+  ],
+  "effective_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "effective_passed": false,
+  "effective_sha256": "ba8b8c9d44f47d76b42acb006131b70aacf6c88c4518936dfa2eb0048bef24a0",
+  "fresh_baseline_codes": [
+    "nested_state_mutation",
+    "rendered_dom_mismatch",
+    "source_class_binding_not_landed",
+    "source_dom_event_not_landed",
+    "template_structure_mismatch"
+  ],
+  "fresh_baseline_passed": false,
+  "model_calls": 0,
+  "parent_sha256": "ba8b8c9d44f47d76b42acb006131b70aacf6c88c4518936dfa2eb0048bef24a0",
+  "recorded_prior_codes": [
+    "nested_state_mutation",
+    "rendered_dom_mismatch",
+    "source_class_binding_not_landed",
+    "source_dom_event_not_landed",
+    "template_structure_mismatch"
+  ],
+  "recorded_prior_passed": false,
+  "reference": "composed_v9_scope_reassessment_20261120",
+  "sample_id": "media_review_studio",
+  "steps": [
+    {
+      "blocked": null,
+      "changes": [
+        {
+          "end": 1244,
+          "replacement": " VALUE=\"{{currentTime}}\"",
+          "rule": "source_native_nullable_value_attribute_reflection_v2",
+          "start": 1244
+        },
+        {
+          "end": 1526,
+          "replacement": " className=\"{{selectedAsset.decision === 'changes' ? 'chosen' : ''}}\"",
+          "rule": "source_string_class_native_attribute_reflection_v1",
+          "start": 1526
+        },
+        {
+          "end": 1661,
+          "replacement": " className=\"{{selectedAsset.decision === 'approved' ? 'chosen' : ''}}\"",
+          "rule": "source_string_class_native_attribute_reflection_v1",
+          "start": 1661
+        },
+        {
+          "end": 1902,
+          "replacement": " className=\"{{filter === 'all' ? 'active' : ''}}\"",
+          "rule": "source_string_class_native_attribute_reflection_v1",
+          "start": 1902
+        },
+        {
+          "end": 2009,
+          "replacement": " className=\"{{filter === 'open' ? 'active' : ''}}\"",
+          "rule": "source_string_class_native_attribute_reflection_v1",
+          "start": 2009
+        },
+        {
+          "end": 2106,
+          "replacement": "on-submit=\"prevent:addNote\"",
+          "rule": "source_proven_event_modifier_and_operand_v1",
+          "start": 2087
+        }
+      ],
+      "codes": [
+        "missing_event_bindings",
+        "nested_state_mutation",
+        "rendered_dom_mismatch",
+        "source_class_binding_not_landed",
+        "template_structure_mismatch"
+      ],
+      "gate": {
+        "accepted": false,
+        "added_errors": [
+          "missing_event_bindings"
+        ],
+        "dimensions": [],
+        "reason": "candidate_regression"
+      },
+      "number": 1,
+      "passed": false
+    }
+  ],
+  "stop": "repeated_rejected_candidate"
+}

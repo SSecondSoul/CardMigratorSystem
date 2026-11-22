@@ -1,0 +1,433 @@
+{
+  "control_gate_evidence": {
+    "complete": true,
+    "contract": "control_diagnostic_refinement_v1",
+    "source": [
+      {
+        "identity": "43b03026020b72414d16afbf06c3b21d70e754cdcd1f992f35b07c3b38b52b74",
+        "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+        "path": "root.0.2.2.0"
+      },
+      {
+        "identity": "0686e81cbdc7166d6ec6daeab2ece0f15abd4a5410ed2ca95161a295bbbb4c76",
+        "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+        "path": "root.0.2.2.1"
+      },
+      {
+        "identity": "e90c7679f35c39e2d3da9ef00a92485b2a57f4efd2e03d471060a06d8b7592ac",
+        "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+        "path": "root.0.2.2.2"
+      },
+      {
+        "identity": "a129a144b0d1199ea8e8acdc817abd336fbadf929df38bbb2721b9ed45a4d3d2",
+        "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+        "path": "root.0.2.3.0"
+      },
+      {
+        "identity": "a08fd4ff40a446547ab59c65cd9e553272fcaf8c64f1b838b7cfc1126e874330",
+        "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+        "path": "root.0.2.3.1"
+      }
+    ],
+    "source_snapshot": "bee9adf5bb60bb2467cf94a0e8c4b88c0d4d51720fc7e27242346dba2f66ec7b",
+    "target": [
+      {
+        "identity": "bdcb71bc17012105563094e4cf74d1a83b78f83ff67389b1efa6df2a8a22276d",
+        "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+        "path": "root.0.2.2.0"
+      },
+      {
+        "identity": "0c741ee9f788bb8f86807a972804cee49358633ed00dca23a108ef6653217541",
+        "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+        "path": "root.0.2.2.1"
+      },
+      {
+        "identity": "bccc9c634a8c5c5383f10d9aeaa7d3773f34c8a3f26a547a5574865983582851",
+        "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+        "path": "root.0.2.2.2"
+      },
+      {
+        "identity": "a129a144b0d1199ea8e8acdc817abd336fbadf929df38bbb2721b9ed45a4d3d2",
+        "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+        "path": "root.0.2.3.0"
+      },
+      {
+        "identity": "a08fd4ff40a446547ab59c65cd9e553272fcaf8c64f1b838b7cfc1126e874330",
+        "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+        "path": "root.0.2.3.1"
+      }
+    ]
+  },
+  "coverage": "configured_props_and_representative_actions_only",
+  "diagnostics": [
+    {
+      "code": "rendered_dom_mismatch",
+      "comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:dynamic_template_member",
+          "source:unknown_bound_attribute",
+          "source:unknown_member_call",
+          "target:active_template_attribute",
+          "target:dynamic_member",
+          "target:dynamic_template_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "differences": [
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.0"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.1"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.2"
+        }
+      ],
+      "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+      "live_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 5,
+        "target_count": 5,
+        "values_equal_in_order": true
+      },
+      "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+      "raw_differences": [
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.0"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.1"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.2"
+        }
+      ],
+      "representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.0",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.1",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.2",
+          "source": "",
+          "target": null
+        }
+      ]
+    }
+  ],
+  "different_pixel_ratio": 0,
+  "dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "pass",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "dom_comparison_policy": {
+    "approved": false,
+    "limitations": [
+      "raw_DOM_and_attribute_presence_retained",
+      "unknown_dependencies_keep_strict_comparison",
+      "not_arbitrary_external_DOM_observer_equivalence"
+    ],
+    "operations": [
+      "empty_class_presence",
+      "html_class_token_whitespace_order_duplicates"
+    ],
+    "reasons": [
+      "source:dom_or_reflective_member",
+      "source:dynamic_member",
+      "source:dynamic_template_member",
+      "source:unknown_bound_attribute",
+      "source:unknown_member_call",
+      "target:active_template_attribute",
+      "target:dynamic_member",
+      "target:dynamic_template_member"
+    ],
+    "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+    "version": "class_serialization_v2"
+  },
+  "dom_differences": [
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=|type=button",
+      "path": "root.0.2.2.0"
+    },
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=|type=button",
+      "path": "root.0.2.2.1"
+    },
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=|type=button",
+      "path": "root.0.2.2.2"
+    }
+  ],
+  "dom_normalization_changes": [],
+  "dom_representation_differences": [
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.2.2.0",
+      "source": "",
+      "target": null
+    },
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.2.2.1",
+      "source": "",
+      "target": null
+    },
+    {
+      "attribute": "class",
+      "kind": "empty_class_presence",
+      "normalized": false,
+      "path": "root.0.2.2.2",
+      "source": "",
+      "target": null
+    }
+  ],
+  "dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 3,
+    "similarity": 0.896551724137931,
+    "source_nodes": 29,
+    "target_nodes": 29
+  },
+  "embedding_similarity": {
+    "similarity": null,
+    "status": "not_configured"
+  },
+  "functional_equivalence": "not_proven",
+  "images": {
+    "heatmap": {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/heatmap.png",
+      "sha256": "68c4b7d5b61a308f6a02ac56bf5d26ec0fdf85c26667b38983166cec795ddef2"
+    },
+    "san": {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/san.png",
+      "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+    },
+    "vue": {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/vue.png",
+      "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+    }
+  },
+  "initial_control_state": {
+    "differences": [],
+    "equal": true,
+    "paths_equal": true,
+    "scope": "captured_live_control_properties_not_attribute_equivalence",
+    "source_count": 5,
+    "target_count": 5,
+    "values_equal_in_order": true
+  },
+  "interaction": [],
+  "passed": false,
+  "projection_limitations": [
+    "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+    "key_identity_not_proven_by_ted",
+    "script_binding_event_style_dimensions_checked_by_legacy_validator"
+  ],
+  "raw_dom_differences": [
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=|type=button",
+      "path": "root.0.2.2.0"
+    },
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=|type=button",
+      "path": "root.0.2.2.1"
+    },
+    {
+      "actual": "button|type=button",
+      "expected": "button|class=|type=button",
+      "path": "root.0.2.2.2"
+    }
+  ],
+  "raw_dom_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 3,
+    "similarity": 0.896551724137931,
+    "source_nodes": 29,
+    "target_nodes": 29
+  },
+  "required": [
+    "static",
+    "compile_runtime",
+    "structure",
+    "visual",
+    "source_baseline"
+  ],
+  "revision_sha256": "e09bcc62d48671ef8f3a8b1bc405d6ad54197520364dfc399067a91ee30bed99",
+  "source_ast_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 1,
+    "similarity": 0.9705882352941176,
+    "source_nodes": 34,
+    "target_nodes": 34
+  },
+  "source_blocked": false,
+  "source_diagnostics": [],
+  "source_method_contracts": [
+    {
+      "legacy_wrapper": false,
+      "name": "choose",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": false
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "previous",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": false
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "next",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": false
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "finish",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": false
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    },
+    {
+      "legacy_wrapper": false,
+      "name": "restart",
+      "restore_eligible": false,
+      "source_references": {
+        "count": 1,
+        "uncertain": false
+      },
+      "status": "callable_present",
+      "target_references": {
+        "count": 1,
+        "uncertain": false
+      }
+    }
+  ],
+  "ssim": 1,
+  "structure_differences": [],
+  "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+  "structure_ted": {
+    "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+    "distance": 0,
+    "similarity": 1.0,
+    "source_nodes": 22,
+    "target_nodes": 22
+  },
+  "styles": {
+    "compared_properties": 247,
+    "differences": [],
+    "matching": "child_index_path",
+    "similarity": 1.0,
+    "truncated": false
+  },
+  "syntax": {
+    "diagnostic_count": 0,
+    "diagnostic_limit": 128,
+    "diagnostics": [],
+    "overflow": false,
+    "policy": "target_syntax_first_v1",
+    "status": "pass"
+  },
+  "target_warnings": [],
+  "thresholds": {
+    "pixel_difference": 0.05,
+    "structure": 0.95,
+    "ui": 0.95
+  },
+  "timing_ms": {
+    "source": 841.3159999999998,
+    "target": 780.2926000000002
+  },
+  "ui_restoration": 100
+}

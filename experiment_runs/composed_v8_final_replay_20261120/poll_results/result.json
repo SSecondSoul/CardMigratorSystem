@@ -1,0 +1,102 @@
+{
+  "baseline_codes": [
+    "dom_child_order_mismatch",
+    "missing_prop_defaults",
+    "rendered_control_state_mismatch",
+    "rendered_dom_mismatch",
+    "source_dynamic_assignment_unproven",
+    "target_browser_error",
+    "template_structure_mismatch"
+  ],
+  "baseline_dimensions": {
+    "compile_runtime": "fail",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "fail"
+  },
+  "complexity": "medium",
+  "component": "PollResults",
+  "effective_codes": [
+    "dom_child_order_mismatch",
+    "rendered_control_position_mismatch",
+    "template_structure_mismatch"
+  ],
+  "effective_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "effective_passed": false,
+  "effective_sha256": "c418e9996d1c0f51899c4f0c6b63733d6d8fbb4348e16d4b8b6b638b65840311",
+  "fresh_baseline_passed": false,
+  "historical_real_model_passed": false,
+  "model_calls": 0,
+  "parent_origin": "historical_accepted_parent_v7_rejected_or_unchanged",
+  "parent_sha256": "f60c3cb79e14538cef1cb69a79a4cbad11b2e23701148a065c5ed0ac71c8bfd0",
+  "sample_id": "poll_results",
+  "scope": "offline_sequential_development_replay_NOT_fresh_generation",
+  "source_report": "real_system_experiment70_v3_general_repairs_20261119/samples/041_poll_results/report.json",
+  "status": "replayed",
+  "steps": [
+    {
+      "candidate_sha256": "c8fda2b4bc882285252c788df25ec0a76175596f6f87ee7d49f3af410eabdb9c",
+      "changes": [
+        "restored_source_parent_prop_defaults"
+      ],
+      "codes": [
+        "dom_child_order_mismatch",
+        "rendered_control_position_mismatch",
+        "rendered_dom_mismatch",
+        "source_dynamic_assignment_unproven",
+        "template_structure_mismatch"
+      ],
+      "gate": {
+        "accepted": true,
+        "diagnostic_refinements": [
+          "source_default_runtime_recovery_revealed_position_defect"
+        ],
+        "migration_passed": false,
+        "reason": "strict_improvement"
+      },
+      "normalization_stop": "source_defaults_runtime_recovery_first",
+      "number": 1,
+      "parent_sha256": "f60c3cb79e14538cef1cb69a79a4cbad11b2e23701148a065c5ed0ac71c8bfd0",
+      "passed": false
+    },
+    {
+      "candidate_sha256": "c418e9996d1c0f51899c4f0c6b63733d6d8fbb4348e16d4b8b6b638b65840311",
+      "changes": [
+        {
+          "end": 275,
+          "replacement": " className=\"{{item.id === selectedId ? 'chosen' : ''}}\"",
+          "rule": "source_string_class_native_attribute_reflection_v1",
+          "start": 275
+        },
+        [
+          "bounded_ast_semantics",
+          "restored_source_internal_setter_caller_bodies"
+        ]
+      ],
+      "codes": [
+        "dom_child_order_mismatch",
+        "rendered_control_position_mismatch",
+        "template_structure_mismatch"
+      ],
+      "gate": {
+        "accepted": true,
+        "reason": "strict_improvement"
+      },
+      "normalization_stop": "fixed_point",
+      "number": 2,
+      "parent_sha256": "c8fda2b4bc882285252c788df25ec0a76175596f6f87ee7d49f3af410eabdb9c",
+      "passed": false
+    }
+  ],
+  "stop": "rule_fixed_point_requires_other_proven_rule_or_model",
+  "v7_effective_passed": false
+}

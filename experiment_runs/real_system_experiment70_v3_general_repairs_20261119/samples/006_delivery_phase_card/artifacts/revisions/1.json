@@ -1,0 +1,18 @@
+{
+  "code": "<template><article class=\"delivery-phase-card\"><header><span>\u8ba2\u5355 {{orderNumber}}</span><strong>{{currentPhase.label}}</strong></header><div class=\"phase-track\"><span s-for=\"phase, index in phases trackby phase.key\" class=\"{{index <= phaseIndex ? 'reached' : ''}}\"></span></div><p>{{currentPhase.message}}</p><button type=\"button\" on-click=\"advance\">\u63a8\u8fdb\u5230\u4e0b\u4e00\u9636\u6bb5</button></article></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"DeliveryPhaseCard\",dataTypes:{orderNumber:DataTypes.string,initialPhase:DataTypes.string},initData(){return {\norderNumber: 'A-1024',\ninitialPhase: 'packed',\nphaseIndex:0,phases:[{key:\"packed\",label:\"\u5df2\u6253\u5305\",message:\"\u5305\u88f9\u7b49\u5f85\u63fd\u6536\"},{key:\"transit\",label:\"\u8fd0\u8f93\u4e2d\",message:\"\u5305\u88f9\u6b63\u5728\u524d\u5f80\u76ee\u7684\u5730\"},{key:\"delivered\",label:\"\u5df2\u9001\u8fbe\",message:\"\u5305\u88f9\u5df2\u5b8c\u6210\u7b7e\u6536\"}]}},inited(){const index=this.data.get(\"phases\").findIndex((phase)=>phase.key===this.data.get(\"initialPhase\"));this.data.set(\"phaseIndex\",index<0?0:index)},advance(){this.data.set(\"phaseIndex\",(this.data.get(\"phaseIndex\")+1)%this.data.get(\"phases\").length)},computed:{currentPhase(){return this.data.get(\"phases\")[this.data.get(\"phaseIndex\")]}}});</script><style>.delivery-phase-card{width:310px;padding:18px;border:1px solid #d4d4d8;border-radius:6px;background:#fafafa;color:#27272a;font-family:Arial,sans-serif}.delivery-phase-card header{display:flex;justify-content:space-between;gap:16px}.delivery-phase-card header span{color:#71717a;font-size:13px}.phase-track{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:18px 0}.phase-track span{height:7px;background:#d4d4d8}.phase-track span.reached{background:#c2410c}.delivery-phase-card p{min-height:20px;color:#52525b}.delivery-phase-card button{width:100%;padding:9px;border:0;border-radius:4px;background:#292524;color:#ffffff;cursor:pointer}</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/165a9fa299e94444b1ccd77be283c519/revisions/1.san",
+    "sha256": "b24e3ba4f58c8d015122a101cbd44ef385c390ab039612c8d82afe809fa9cbd3"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "8ca40f4171759da51b394b3de0dac28f0cbb1a44e3993bb7b0c8d9196527f5fb",
+  "repair_focus": "semantics_and_observations",
+  "rules": [
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ]
+  ]
+}

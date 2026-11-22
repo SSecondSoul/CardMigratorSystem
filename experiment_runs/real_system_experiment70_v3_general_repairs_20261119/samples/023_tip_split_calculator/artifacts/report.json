@@ -1,0 +1,3213 @@
+{
+  "actual_cloud_model_calls": 3,
+  "assessment": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "925f46e94751eebc1b173f2be8f8cd52363bb6d727292f45166989098a9e0f9d",
+          "parent_shape": "470d2c914634340eea5fd23cce5e2091ca2f5844cedde1eb0208c32902075888",
+          "path": "root.0.1.0"
+        },
+        {
+          "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+          "parent_shape": "f03ab15e744d470e34b5cfdecf5b93c6c6d4f8e860cf87faeddcd36737ed7469",
+          "path": "root.0.2"
+        },
+        {
+          "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.2"
+        }
+      ],
+      "source_snapshot": "88a3be85aefeefd810b85a0764f525f9c903e79bd9deacd830320729997554a1",
+      "target": [
+        {
+          "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+          "parent_shape": "80e93eecf0819ae73a742c148df44a7d413f3cec169b8563b053ce29b532f0fb",
+          "path": "root.0.1.1"
+        },
+        {
+          "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+          "parent_shape": "93e4942eeca792dd09e272522d2da51bb3bb95a5868bc4bc9c6caac1b03804f9",
+          "path": "root.0.2"
+        },
+        {
+          "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.0"
+        },
+        {
+          "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+          "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+          "path": "root.0.3.2"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "dom_child_order_mismatch",
+        "location": "template",
+        "message": "San \u6a21\u677f\u6539\u53d8\u4e86 Vue \u8282\u70b9\u7684\u76f4\u63a5\u5b50\u8282\u70b9\u987a\u5e8f\uff1a/section[1]/label[0]/: Vue input / San span\u3002",
+        "severity": "error",
+        "suggestion": "\u4fdd\u6301 Vue \u539f\u59cb DOM \u5b50\u8282\u70b9\u987a\u5e8f\uff0c\u5c24\u5176\u662f input/checkbox \u4e0e\u76f8\u90bb\u6587\u5b57\u3001\u767e\u5206\u53f7\u3001label \u6587\u672c\u7684\u5148\u540e\u5173\u7cfb\uff1b\u4e0d\u8981\u4f9d\u8d56 CSS \u6392\u5e8f\u66ff\u4ee3 DOM \u987a\u5e8f\u3002"
+      },
+      {
+        "code": "source_method_interface_not_landed",
+        "location": "script.methods.emitEvent",
+        "message": "Source method emitEvent has no proven callable method on the exported San parent.",
+        "severity": "error",
+        "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+      },
+      {
+        "code": "missing_prop_defaults",
+        "details": {
+          "affected_fields": [
+            "initialBill"
+          ],
+          "contract": "prop_defaults_v1"
+        },
+        "location": "script",
+        "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1ainitialBill\u3002",
+        "severity": "error",
+        "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+      },
+      {
+        "code": "custom_event_not_fire",
+        "location": "script",
+        "message": "\u6e90\u7ec4\u4ef6\u4f7f\u7528\u4e86 Vue $emit\uff0c\u4f46 San \u672a\u6b63\u786e\u4f7f\u7528 this.fire\uff0c\u6216\u9519\u8bef\u4f7f\u7528\u4e86 this.dispatch\u3002",
+        "severity": "error",
+        "suggestion": "\u5c06\u81ea\u5b9a\u4e49\u4e8b\u4ef6\u8fc1\u79fb\u4e3a this.fire(eventName, payload)\uff0c\u4e0d\u8981\u4f7f\u7528 this.dispatch\u3002"
+      },
+      {
+        "code": "template_structure_mismatch",
+        "differences": [
+          {
+            "actual": "label||text:",
+            "expected": "label||text:\u8d26\u5355",
+            "path": "root.0.1"
+          },
+          {
+            "actual": "span||text:\u8d26\u5355",
+            "expected": "input|binding:value|event:input|type=number|text:",
+            "path": "root.0.1.0"
+          },
+          {
+            "actual": "input|binding:value|event:input|type=number|text:",
+            "expected": null,
+            "path": "root.0.1.1"
+          }
+        ],
+        "message": "SSM/target template projection differs."
+      },
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "target:dom_or_reflective_member"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "span|",
+            "expected": "#text:\u8d26\u5355",
+            "path": "root.0.1.0"
+          },
+          {
+            "actual": "#text:\u8d26\u5355",
+            "expected": null,
+            "path": "root.0.1.0.0"
+          },
+          {
+            "actual": "input|type=number",
+            "expected": "input|type=number|value=268",
+            "path": "root.0.1.1"
+          },
+          {
+            "actual": "#text:\u603b\u8ba1 \u00a5NaN \u00b7 \u6bcf\u4eba \u00a5NaN",
+            "expected": "#text:\u603b\u8ba1 \u00a5294.80 \u00b7 \u6bcf\u4eba \u00a5147.40",
+            "path": "root.0.4.0"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [
+            {
+              "actual": [
+                "root.0.1.1",
+                "input",
+                "",
+                false,
+                null
+              ],
+              "expected": [
+                "root.0.1.0",
+                "input",
+                "268",
+                false,
+                null
+              ],
+              "kind": "live_property_changed"
+            }
+          ],
+          "equal": false,
+          "paths_equal": false,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 4,
+          "target_count": 4,
+          "values_equal_in_order": false
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "span|",
+            "expected": "#text:\u8d26\u5355",
+            "path": "root.0.1.0"
+          },
+          {
+            "actual": "#text:\u8d26\u5355",
+            "expected": null,
+            "path": "root.0.1.0.0"
+          },
+          {
+            "actual": "input|type=number",
+            "expected": "input|type=number|value=268",
+            "path": "root.0.1.1"
+          },
+          {
+            "actual": "#text:\u603b\u8ba1 \u00a5NaN \u00b7 \u6bcf\u4eba \u00a5NaN",
+            "expected": "#text:\u603b\u8ba1 \u00a5294.80 \u00b7 \u6bcf\u4eba \u00a5147.40",
+            "path": "root.0.4.0"
+          }
+        ],
+        "representation_differences": []
+      },
+      {
+        "code": "rendered_control_state_mismatch",
+        "differences": [
+          {
+            "actual": [
+              "root.0.1.1",
+              "input",
+              "",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.0",
+              "input",
+              "268",
+              false,
+              null
+            ],
+            "kind": "live_property_changed"
+          }
+        ],
+        "message": "Initial live control values/types/counts differ even if screenshots or HTML attributes match."
+      }
+    ],
+    "different_pixel_ratio": 0.001356770833333333,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "fail",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "target:dom_or_reflective_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "span|",
+        "expected": "#text:\u8d26\u5355",
+        "path": "root.0.1.0"
+      },
+      {
+        "actual": "#text:\u8d26\u5355",
+        "expected": null,
+        "path": "root.0.1.0.0"
+      },
+      {
+        "actual": "input|type=number",
+        "expected": "input|type=number|value=268",
+        "path": "root.0.1.1"
+      },
+      {
+        "actual": "#text:\u603b\u8ba1 \u00a5NaN \u00b7 \u6bcf\u4eba \u00a5NaN",
+        "expected": "#text:\u603b\u8ba1 \u00a5294.80 \u00b7 \u6bcf\u4eba \u00a5147.40",
+        "path": "root.0.4.0"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.8421052631578947,
+      "source_nodes": 18,
+      "target_nodes": 19
+    },
+    "embedding_similarity": {
+      "similarity": null,
+      "status": "not_configured"
+    },
+    "functional_equivalence": "not_proven",
+    "images": {
+      "heatmap": {
+        "kind": "screenshot",
+        "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/heatmap.png",
+        "sha256": "9f4526eca1487a0c118a9b1b92e4238483f78488d9523891f39419d69936a84d"
+      },
+      "san": {
+        "kind": "screenshot",
+        "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/san.png",
+        "sha256": "542c79b196954a4e8c2e006fbc85de0be3e530bf9301f63d9e8fd5fdae6474e6"
+      },
+      "vue": {
+        "kind": "screenshot",
+        "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/vue.png",
+        "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+      }
+    },
+    "initial_control_state": {
+      "differences": [
+        {
+          "actual": [
+            "root.0.1.1",
+            "input",
+            "",
+            false,
+            null
+          ],
+          "expected": [
+            "root.0.1.0",
+            "input",
+            "268",
+            false,
+            null
+          ],
+          "kind": "live_property_changed"
+        }
+      ],
+      "equal": false,
+      "paths_equal": false,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 4,
+      "target_count": 4,
+      "values_equal_in_order": false
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "span|",
+        "expected": "#text:\u8d26\u5355",
+        "path": "root.0.1.0"
+      },
+      {
+        "actual": "#text:\u8d26\u5355",
+        "expected": null,
+        "path": "root.0.1.0.0"
+      },
+      {
+        "actual": "input|type=number",
+        "expected": "input|type=number|value=268",
+        "path": "root.0.1.1"
+      },
+      {
+        "actual": "#text:\u603b\u8ba1 \u00a5NaN \u00b7 \u6bcf\u4eba \u00a5NaN",
+        "expected": "#text:\u603b\u8ba1 \u00a5294.80 \u00b7 \u6bcf\u4eba \u00a5147.40",
+        "path": "root.0.4.0"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.8421052631578947,
+      "source_nodes": 18,
+      "target_nodes": 19
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9473684210526316,
+      "source_nodes": 18,
+      "target_nodes": 19
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "dynamic_assignment": {
+          "arbitrary_key_semantics_proven": false,
+          "automatic_restore": false,
+          "key_parameter": "key",
+          "scoped_proof": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "updateBill",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "cycleTip",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "changePeople",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 23
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 29
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 32
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 35
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 1
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [],
+            "source_keys": [
+              "bill",
+              "tipRate",
+              "people"
+            ],
+            "status": "proven_for_source_internal_calls"
+          },
+          "source_shape": "exact_this_computed_key_assignment",
+          "target_status": "proven_for_source_internal_calls",
+          "value_parameter": "value"
+        },
+        "legacy_wrapper": false,
+        "name": "setValue",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 4,
+          "uncertain": true
+        },
+        "status": "proven_for_source_internal_calls",
+        "target_references": {
+          "count": 4,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "emitEvent",
+        "proof": "closed_two_argument_source_emit_forwarding_graph_no_target_triggers",
+        "restore_eligible": true,
+        "source_references": {
+          "count": 0,
+          "uncertain": true
+        },
+        "status": "missing",
+        "target_references": {
+          "count": 0,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "updateBill",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "cycleTip",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "changePeople",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 2,
+          "uncertain": true
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 2,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 0.9964534708970706,
+    "structure_differences": [
+      {
+        "actual": "label||text:",
+        "expected": "label||text:\u8d26\u5355",
+        "path": "root.0.1"
+      },
+      {
+        "actual": "span||text:\u8d26\u5355",
+        "expected": "input|binding:value|event:input|type=number|text:",
+        "path": "root.0.1.0"
+      },
+      {
+        "actual": "input|binding:value|event:input|type=number|text:",
+        "expected": null,
+        "path": "root.0.1.1"
+      }
+    ],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 2,
+      "similarity": 0.8333333333333334,
+      "source_nodes": 11,
+      "target_nodes": 12
+    },
+    "styles": {
+      "compared_properties": 156,
+      "differences": [
+        {
+          "path": "root.0.1.0",
+          "property": "color",
+          "source": "rgb(0, 0, 0)",
+          "target": "rgb(36, 49, 61)"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "backgroundColor",
+          "source": "rgb(255, 255, 255)",
+          "target": "rgba(0, 0, 0, 0)"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "paddingTop",
+          "source": "8px",
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "paddingLeft",
+          "source": "8px",
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.0",
+          "property": "height",
+          "source": "36px",
+          "target": "24px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "color",
+          "source": null,
+          "target": "rgb(0, 0, 0)"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "backgroundColor",
+          "source": null,
+          "target": "rgb(255, 255, 255)"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontSize",
+          "source": null,
+          "target": "16px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontFamily",
+          "source": null,
+          "target": "Arial, sans-serif"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "fontWeight",
+          "source": null,
+          "target": "400"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "marginTop",
+          "source": null,
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "marginLeft",
+          "source": null,
+          "target": "0px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "paddingTop",
+          "source": null,
+          "target": "8px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "paddingLeft",
+          "source": null,
+          "target": "8px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "width",
+          "source": null,
+          "target": "213px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "height",
+          "source": null,
+          "target": "36px"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "display",
+          "source": null,
+          "target": "block"
+        },
+        {
+          "path": "root.0.1.1",
+          "property": "position",
+          "source": null,
+          "target": "static"
+        }
+      ],
+      "matching": "child_index_path",
+      "similarity": 0.8846153846153846,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 896.1752000000001,
+      "target": 789.7297999999996
+    },
+    "ui_restoration": 97.47427811216124
+  },
+  "binding": {
+    "legacy": "34f47947cf62b38183e3ba9ab6a55c6016089612797d9fb35554f18f641e2f1e",
+    "protocol": "modular-migration-v1",
+    "ssm": "7eb6a96d7b6ccfa8e6cb6de59ea002b7cf3a4fb80a3b5ceb27c178b1a8e8c756",
+    "system": "abcb47907554a8e4f2bd8c9708c226d7525bc8163f35ef150c61f19c898a0916"
+  },
+  "calls": [
+    {
+      "ordinal": 0,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "01aa063318711660167513042912a10e7a933160b951bd8c130bb26425e9f50e",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/0/response.json",
+          "sha256": "f177d802e6211561542e0276413c656039e4cb6607d825de6ca1991de6ade88b"
+        },
+        "usage": {
+          "completion_tokens": 732,
+          "prompt_tokens": 12236,
+          "prompt_tokens_details": {
+            "cached_tokens": 4480
+          },
+          "total_tokens": 12968
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 2,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "f3006dfda18beb6a990514e594693897150f53884d98d95d37f2fc8f90727f67",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/2/response.json",
+          "sha256": "29adb861490b174f8cd907ce35e609161946cb23d70ec69e68b6427c9040c965"
+        },
+        "usage": {
+          "completion_tokens": 821,
+          "prompt_tokens": 16386,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 17207
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 3,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "97c313d94eed216840827f8d8ceb24964af12d2ab35c758e64f32662d425c2ca",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/3/response.json",
+          "sha256": "4d724971f0d4bbe39090951cb6a11c67089fd017e4d10de643172894368e1481"
+        },
+        "usage": {
+          "completion_tokens": 820,
+          "prompt_tokens": 16737,
+          "prompt_tokens_details": {
+            "cached_tokens": 256
+          },
+          "total_tokens": 17557
+        },
+        "valid": true
+      },
+      "status": "returned"
+    }
+  ],
+  "coverage": "configured_props_and_representative_actions_only",
+  "created_at": 1795073189.919609,
+  "files": [
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/0/receipt.json",
+      "sha256": "5bb88145a612c1b37b3ba21760b87b5831b27678777153a43342e5d409f3cd9a"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/0/request.json",
+      "sha256": "abdc5fdf3bf0df780f0d948963f4366256fe141b72dcab107a1be5136141e00d"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/0/response.json",
+      "sha256": "f177d802e6211561542e0276413c656039e4cb6607d825de6ca1991de6ade88b"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/2/receipt.json",
+      "sha256": "a2ed6a332b503103024d7870efd7c49493ce6f016b02780dad57bb14112b9e66"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/2/repair-context.json",
+      "sha256": "9a87db230c6b9789b21d197535a8aa0867124b6605d7fe93ae7693249454f0ad"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/2/request.json",
+      "sha256": "680a3226373c09e8307cbb8253d29674985d863ec58329be2a6b8cc50d7a41a4"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/2/response.json",
+      "sha256": "29adb861490b174f8cd907ce35e609161946cb23d70ec69e68b6427c9040c965"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/3/receipt.json",
+      "sha256": "d3bfbc25d2abb92cda7646577051069cdd09bf3dc8796bb4e9a2e305b1124324"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/3/repair-context.json",
+      "sha256": "8fa246b08e211e896daccbaf24639f1edda815794ce4ed01dcb0bda86df8d349"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/3/request.json",
+      "sha256": "23fdaa2d9ada4c928860f9a9d42483925b3df9c096295a743cc200000f65cc37"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/calls/3/response.json",
+      "sha256": "4d724971f0d4bbe39090951cb6a11c67089fd017e4d10de643172894368e1481"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/decisions/1.json",
+      "sha256": "d19919a7059382311d68113f92ecf7475982df258fb9d13b25542b0455b2f49a"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/decisions/2.json",
+      "sha256": "9d0b62b6eb367c718aafb5e60a8908a91802b84563cd62a3dab88f4e78167e9a"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/decisions/3.json",
+      "sha256": "65e31c1b357adc6416076ea22c7729e96b7630d7c1c6af0b777c278970436c03"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0.json",
+      "sha256": "8c71307455253925b11ffb1962b39a6cd3961066e3bc0ae04557b8b0c6687252"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/heatmap.png",
+      "sha256": "9f4526eca1487a0c118a9b1b92e4238483f78488d9523891f39419d69936a84d"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/raw.json",
+      "sha256": "20803c2bd9ec1e004c1180a96e916b2e8b5ae8bfbb47e33ff25cdeddc4a9a67c"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/san.png",
+      "sha256": "542c79b196954a4e8c2e006fbc85de0be3e530bf9301f63d9e8fd5fdae6474e6"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/vue.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/1.json",
+      "sha256": "93c5d17d1a3e8bd7e623914b74d784dc62f383729d6c3194ce3abd226d4babb1"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/1/heatmap.png",
+      "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/1/raw.json",
+      "sha256": "1867ff5ad42a48bb8720f4aa06af1aa857a5eeb8df49d36c01553261b478b4c2"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/1/san.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/1/vue.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/2.json",
+      "sha256": "e68f96dc3f2bc5c791c684e3b9a4da42cee15bccf2c061d8c0e45d08c7600d26"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/2/heatmap.png",
+      "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/2/raw.json",
+      "sha256": "503679a0d3d0a9c472af2da876190b5f560eed2543041acc50a5961eec10b5ce"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/2/san.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/2/vue.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/3.json",
+      "sha256": "8f184114065c02adab2d63871f39f402a5da4592226d4a728df0adb06c63776c"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/3/heatmap.png",
+      "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/3/raw.json",
+      "sha256": "6b06e1a5063333223b8d90d824201bc1fe9219f41338868d2e0530996cb6cde5"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/3/san.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/3/vue.png",
+      "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+    },
+    {
+      "kind": "prompt_selection",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/prompt-selection.json",
+      "sha256": "11eb6c95a3f03429b22909b80326d23c91803fcbb54380957d8641e91c7ab515"
+    },
+    {
+      "kind": "request",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/request.json",
+      "sha256": "b69b6a1c4177a90b8241b18ef43c1e67e9f0b2808d0a910aaa1bd6fa5b108dbe"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/revisions/0.json",
+      "sha256": "d7f4b41e18407f0a58bf14c09f43c3ede649281fa6aa0e5c77a532d1e94f8f9b"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/revisions/0.san",
+      "sha256": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/revisions/1.json",
+      "sha256": "747111d2ee905fa0d2fa96f41881eb65ae98cf94a1f841227737b97e692acb91"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/revisions/1.san",
+      "sha256": "8ff12805c709cf4f82aa2bf83ffaa12158d286499660e3e1e360d4bcf400ae43"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/revisions/2.json",
+      "sha256": "bc16a1e4a277d1540ecb5e6efe80e713ffa2a04f5d7f38017f7199de53afd66b"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/revisions/2.san",
+      "sha256": "c1c9349a612afc3909ad14ca1d080ef040a65683f8007b8489fb9e0b04f79e26"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/revisions/3.json",
+      "sha256": "3b8d5b97ecb32ae14cbc5a68be6e6f4a32e10ef70a782771114ab0d52b924941"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/revisions/3.san",
+      "sha256": "c847ed9e943a4de1fd97b94a3e81d81dd8f8b996a9152c49daeedf947659aaf4"
+    },
+    {
+      "kind": "ssm",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/ssm.json",
+      "sha256": "734fa96c6f983844c0eaaf3c226ba9df928a24a59f73c0febc609cfa421d97e0"
+    },
+    {
+      "kind": "trace",
+      "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/trace.json",
+      "sha256": "9cedb38befb3b4aa0f18a117e4f13aa60d10aab874a2b1de08bfcd693b03b77d"
+    }
+  ],
+  "final_artifact": {
+    "kind": "san",
+    "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/revisions/0.san",
+    "sha256": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55"
+  },
+  "generation_origin": "generation",
+  "manual_feedback": [],
+  "migration_id": "2960a21269274de0bf64f5e66a0f7786",
+  "model_calls_returned": 3,
+  "model_calls_started": 3,
+  "name": "real_system_experiment70_v3_general_repairs_20261119 / TipSplitCalculator",
+  "production_ready": false,
+  "request": {
+    "actions": [],
+    "authorization": {
+      "billing_cap": "not_guaranteed",
+      "max_calls": 4,
+      "max_output_tokens_per_call": 32768,
+      "network_enabled": true,
+      "scope": "one_generation_and_bounded_repairs",
+      "usage_stop_tokens": 131072
+    },
+    "evidence_class": "development_or_disclosed_exploratory_not_independent_test",
+    "excluded_example_groups": [
+      "AccessMatrix",
+      "AnalyticsDashboard",
+      "AttendanceRoster",
+      "AudioSegmentMarker",
+      "BatchRenamer",
+      "BookmarkToggleCard",
+      "BreadcrumbNavigator",
+      "BudgetThreshold",
+      "CapacityPlanningBoard",
+      "ChoiceChips",
+      "ColorContrastBadge",
+      "CourseModuleAccordion",
+      "CrisisCommunicationHub",
+      "DataPaginationTable",
+      "DeliveryPhaseCard",
+      "DeliveryRouteTimeline",
+      "DocumentApprovalFlow",
+      "EnergyLoadScheduler",
+      "ExpenseTracker",
+      "ExperimentRolloutConsole",
+      "FileDropIndicator",
+      "FleetDispatchConsole",
+      "ForecastSimulator",
+      "FormRulePlayground",
+      "GradebookMatrix",
+      "HabitWeekTracker",
+      "ImageCropControls",
+      "IncidentResponseBoard",
+      "InlineRename",
+      "InventoryBatchManager",
+      "KanbanColumnBoard",
+      "LocalizationWorkspace",
+      "MediaReviewStudio",
+      "MeetingPollScheduler",
+      "MilestoneTimeline",
+      "MonitoringDashboard",
+      "NotificationCard",
+      "OtpCodeInput",
+      "PasswordStrengthMeter",
+      "PlaybackQueue",
+      "PollResults",
+      "PriceStepper",
+      "QuizNavigator",
+      "ReadingProgressCard",
+      "RuleBuilder",
+      "SchemaMappingWorkbench",
+      "SearchClearField",
+      "SeatBookingMap",
+      "SessionTimeoutNotice",
+      "ShippingEstimator",
+      "SortCycleButton",
+      "StarRatingInput",
+      "StatusSwitch",
+      "StockReservationBadge",
+      "SupportTicketConsole",
+      "SurveyBranchForm",
+      "TaskManager",
+      "TemperatureDial",
+      "TextLengthGauge",
+      "ThemePreviewToggle",
+      "TipSplitCalculator",
+      "TodoList",
+      "TopologyEditor",
+      "TransferList",
+      "TripItineraryPlanner",
+      "VolumeControl",
+      "WarehousePickingWave",
+      "WorkflowDiagramEditor",
+      "WorkoutPlanner",
+      "access_matrix",
+      "analytics_dashboard",
+      "attendance_roster",
+      "audio_segment_marker",
+      "batch_renamer",
+      "bookmark_toggle_card",
+      "breadcrumb_navigator",
+      "budget_threshold",
+      "capacity_planning_board",
+      "choice_chips",
+      "color_contrast_badge",
+      "course_module_accordion",
+      "crisis_communication_hub",
+      "data_pagination_table",
+      "delivery_phase_card",
+      "delivery_route_timeline",
+      "document_approval_flow",
+      "energy_load_scheduler",
+      "experiment_rollout_console",
+      "file_drop_indicator",
+      "fleet_dispatch_console",
+      "forecast_simulator",
+      "form_rule_playground",
+      "gradebook_matrix",
+      "habit_week_tracker",
+      "image_crop_controls",
+      "incident_response_board",
+      "inline_rename",
+      "inventory_batch_manager",
+      "kanban_column_board",
+      "localization_workspace",
+      "media_review_studio",
+      "meeting_poll_scheduler",
+      "milestone_timeline",
+      "otp_code_input",
+      "password_strength_meter",
+      "playback_queue",
+      "poll_results",
+      "price_stepper",
+      "quiz_navigator",
+      "reading_progress_card",
+      "rule_builder",
+      "schema_mapping_workbench",
+      "search_clear_field",
+      "seat_booking_map",
+      "session_timeout_notice",
+      "shipping_estimator",
+      "sort_cycle_button",
+      "star_rating_input",
+      "status_switch",
+      "step",
+      "step_card",
+      "stock_reservation_badge",
+      "support_ticket_console",
+      "survey_branch_form",
+      "temperature_dial",
+      "text_length_gauge",
+      "theme_preview_toggle",
+      "tip_split_calculator",
+      "topology_editor",
+      "transfer_list",
+      "trip_itinerary_planner",
+      "volume_control",
+      "warehouse_picking_wave",
+      "workflow_diagram_editor",
+      "workout_planner"
+    ],
+    "few_shot_examples": [
+      {
+        "group": "CounterCard",
+        "id": "builtin-counter",
+        "provenance": "synthetic_development_demonstration_not_dataset_test_answer",
+        "san": "<template><button class=\"card\" on-click=\"increment\">{{count}}</button></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"CounterCard\",dataTypes:{},initData(){return {count:0}},increment(){this.data.set(\"count\",this.data.get(\"count\")+1)}});</script><style>.card{color:rgb(20,40,60)}</style>",
+        "san_sha256": "ad21d808c4670d7650247cd5406fad51917928239ead6df87a1feca219238303",
+        "source_sha256": "6f83b604da4b7e8cc490e857d834ab4e70f082edb7d5f286414a4a4c2317d507",
+        "split": "train",
+        "ssm": {
+          "binding_graph": {
+            "data_fields_usage": [
+              {
+                "field_name": "count",
+                "initialized_from_external": null,
+                "initialized_from_props": false,
+                "read_in_computed": [],
+                "read_in_methods": [
+                  "increment"
+                ],
+                "read_in_template_nodes": [
+                  "template.root_button_0"
+                ],
+                "watched_by": [],
+                "written_in_methods": [
+                  "increment"
+                ]
+              }
+            ],
+            "edges": [
+              {
+                "edge_type": "binds_to",
+                "expression": "{{count}}",
+                "from": "template.root_button_0",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              },
+              {
+                "edge_type": "reads",
+                "expression": "count",
+                "from": "method.increment",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              }
+            ],
+            "nodes": [
+              {
+                "kind": "data",
+                "name": "count",
+                "node_id": "data.count",
+                "source_location": "script.data"
+              },
+              {
+                "kind": "method",
+                "name": "increment",
+                "node_id": "method.increment",
+                "source_location": "script.methods"
+              },
+              {
+                "kind": "template_node",
+                "name": "root_button_0",
+                "node_id": "template.root_button_0",
+                "source_location": "template.button"
+              }
+            ]
+          },
+          "event_model": {
+            "custom_events": [],
+            "dom_events": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_method_ref": "increment",
+                "handler_name": "increment",
+                "handler_signature_inferred": "increment()",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "is_native": true,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "reads": [
+                  "count"
+                ],
+                "san_event_syntax": "on-click=\"increment\"",
+                "side_effects": [],
+                "writes": [
+                  "count"
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "component_name": "CounterCard",
+            "sfc_blocks": {
+              "has_script": true,
+              "has_style": true,
+              "has_template": true,
+              "style_lang": "css",
+              "style_scoped": false
+            },
+            "source_file": "CounterCard.vue",
+            "source_framework": "Vue",
+            "target_framework": "San"
+          },
+          "migration_hints": {
+            "data_access_conversion_plan": {
+              "count": {
+                "init_plan": "initData \u4e2d\u58f0\u660e count\uff0c\u9ed8\u8ba4\u503c 0",
+                "read_plan": "this.data.get('count')",
+                "write_plan": "this.data.set('count', value)"
+              }
+            },
+            "detected_patterns": [
+              {
+                "affected_nodes": [],
+                "detected_by": "AST \u7279\u5f81\u81ea\u52a8\u68c0\u6d4b",
+                "pattern_id": "event_click",
+                "pattern_name": "event_click",
+                "risk_level": "low",
+                "san_strategy": "\u5b58\u5728 @click \u6216 v-on\uff0c\u9700\u8f6c\u4e3a on-click"
+              },
+              {
+                "affected_nodes": [],
+                "detected_by": "AST \u7279\u5f81\u81ea\u52a8\u68c0\u6d4b",
+                "pattern_id": "data_access",
+                "pattern_name": "data_access",
+                "risk_level": "high",
+                "san_strategy": "methods \u4e2d\u5b58\u5728 this.xxx \u8bbf\u95ee\uff0c\u9700\u7edf\u4e00\u6539\u4e3a this.data.get/set"
+              }
+            ]
+          },
+          "san_generation_contract": {
+            "description": "\u7ea6\u675f\u5927\u6a21\u578b\u57fa\u4e8e\u672c schema \u751f\u6210 San \u7ec4\u4ef6\u65f6\u5fc5\u987b\u6ee1\u8db3\u7684\u6761\u4ef6\u3002",
+            "must_preserve": [
+              "metadata.component_name \u548c\u6839\u8282\u70b9\u8bed\u4e49",
+              "template.dom_tree \u7684\u5c42\u7ea7\u7ed3\u6784\u3001\u8282\u70b9\u987a\u5e8f\u4e0e\u8bed\u4e49\u89d2\u8272",
+              "template.component_refs \u4e2d\u6bcf\u4e2a\u5b50\u7ec4\u4ef6\u7684\u6ce8\u518c\u540d\u548c\u7236\u5b50\u901a\u4fe1\u4e8b\u4ef6",
+              "binding_graph \u4e2d data/props/computed \u5230\u6a21\u677f\u8282\u70b9\u7684\u53ef\u89c1\u7ed1\u5b9a",
+              "event_model \u4e2d\u6bcf\u4e2a DOM \u4e8b\u4ef6\u548c\u81ea\u5b9a\u4e49\u4e8b\u4ef6\u7684\u89e6\u53d1\u65f6\u673a\u4e0e payload",
+              "style_model \u4e2d\u52a8\u6001\u7c7b\u540d\u3001\u52a8\u6001\u6837\u5f0f\u3001scoped CSS \u548c\u5173\u952e\u89c6\u89c9\u72b6\u6001",
+              "script.options.lifecycle_hooks \u4e2d\u7684\u526f\u4f5c\u7528\u521d\u59cb\u5316\u4e0e\u6e05\u7406\u903b\u8f91",
+              "script.options.data \u4e2d\u6240\u6709\u5b57\u6bb5\u7684\u9ed8\u8ba4\u503c\u548c\u5916\u90e8\u521d\u59cb\u5316\u6765\u6e90"
+            ],
+            "quality_checks": [
+              "template.component_refs \u4e2d\u6bcf\u4e2a\u5b50\u7ec4\u4ef6\u90fd\u5728 script.components \u6216 san_registration \u4e2d\u6709\u5b9a\u4e49",
+              "binding_graph.edges \u4e2d\u6bcf\u6761 template \u4f9d\u8d56\u90fd\u80fd\u5728 script.options \u4e2d\u627e\u5230\u6765\u6e90",
+              "event_model.dom_events \u4e2d\u6bcf\u4e2a handler_name \u90fd\u5b58\u5728\u4e8e script.options.methods",
+              "event_model.custom_events \u4e2d\u6bcf\u4e2a emit_points \u90fd\u5bf9\u5e94 method \u4e2d\u7684 $emit \u8c03\u7528",
+              "style_model.dynamic_class_bindings \u7684 dependencies \u90fd\u5b58\u5728\u4e8e binding_graph.nodes",
+              "script.options.watch \u4e2d\u7684 deep watcher \u5728 migration_hints \u4e2d\u88ab\u6807\u8bb0\u5e76\u7ed9\u51fa\u66ff\u4ee3\u7b56\u7565"
+            ],
+            "san_syntax_requirements": [
+              "\u8f93\u51fa\u5b8c\u6574\u7684 .san \u5355\u6587\u4ef6\u7ec4\u4ef6\uff0c\u5305\u542b <template>\u3001<script>\u3001<style> \u4e09\u4e2a\u4ee3\u7801\u5757\uff1b\u82e5\u65e0\u6837\u5f0f\u4e5f\u4fdd\u7559\u7a7a style \u6216\u663e\u5f0f\u8bf4\u660e\u65e0\u6837\u5f0f",
+              "\u811a\u672c\u5757\u663e\u5f0f\u5f15\u5165 san\uff1aconst san = require('san')\uff0c\u5e76\u4f7f\u7528 module.exports = san.defineComponent(...) \u5bfc\u51fa\u7ec4\u4ef6",
+              "props \u4f7f\u7528 san.DataTypes \u58f0\u660e\uff0c\u4e0e script.options.props \u4e00\u4e00\u5bf9\u5e94\uff1b\u4f18\u5148\u8f93\u51fa DataTypes.number / string / bool / array / object",
+              "\u7ec4\u4ef6\u5b9a\u4e49\u4f7f\u7528 san.defineComponent",
+              "\u7ec4\u4ef6\u540d\u6765\u81ea metadata.component_name\uff0c\u5e76\u663e\u5f0f\u8f93\u51fa name \u5b57\u6bb5",
+              "data \u4f7f\u7528 initData \u8fd4\u56de\u9ed8\u8ba4\u503c\uff0c\u4e0e script.options.data \u4e00\u4e00\u5bf9\u5e94\uff1b\u4e0d\u8981\u5728 initData \u4e2d\u76f4\u63a5\u4f9d\u8d56\u590d\u6742\u8fd0\u884c\u65f6\u8bfb\u53d6",
+              "\u5f53 data \u5b57\u6bb5\u6765\u6e90\u4e8e props \u6216\u5916\u90e8\u521d\u59cb\u5316\u65f6\uff0c\u4f18\u5148\u5728 inited/attached \u4e2d\u7528 this.data.set \u5b8c\u6210\u540c\u6b65",
+              "\u6a21\u677f\u4e2d\u4f7f\u7528 s-if\u3001s-for\u3001on-event\u3001value={= =}\u3001checked={= =} \u7b49 San \u8bed\u6cd5",
+              "\u72b6\u6001\u8bbf\u95ee\u7edf\u4e00\u4f7f\u7528 this.data.get() / this.data.set()",
+              "\u4f18\u5148\u5c06 methods \u76f4\u63a5\u5b9a\u4e49\u5728\u7ec4\u4ef6\u5bf9\u8c61\u9876\u5c42\uff0c\u907f\u514d\u4fdd\u7559 Vue \u98ce\u683c\u7684 methods: {} \u5305\u88f9",
+              "\u5b50\u7ec4\u4ef6\u6807\u7b7e\u4f7f\u7528\u77ed\u6a2a\u7ebf\u547d\u540d",
+              "\u5b50\u7ec4\u4ef6\u5728 components \u4e2d\u663e\u5f0f\u6ce8\u518c",
+              "\u6837\u5f0f\u5757\u9700\u5c3d\u91cf\u5b8c\u6574\u8f93\u51fa\uff0c\u4f18\u5148\u590d\u7528 styles/style_model \u4e2d\u5df2\u6709 class \u4e0e css_rules \u4fe1\u606f",
+              "\u5b9a\u65f6\u5668\u3001timeout\u3001\u5916\u90e8\u76d1\u542c\u7b49\u526f\u4f5c\u7528\u5728 attached/disposed \u4e2d\u7ba1\u7406"
+            ]
+          },
+          "schema_name": "San Source Model (Generic)",
+          "schema_version": "3.0",
+          "script": {
+            "export_info": {
+              "export_type": "default_export",
+              "has_export": true
+            },
+            "imports": [],
+            "options": {
+              "components": [],
+              "computed": [],
+              "data": [
+                {
+                  "default_value": 0,
+                  "default_value_expression": "0",
+                  "default_value_static": true,
+                  "default_value_summary": "0",
+                  "name": "count",
+                  "value_type_inferred": "number"
+                }
+              ],
+              "emits": [],
+              "extends": [],
+              "filters": [],
+              "inject_keys": [],
+              "lifecycle_hooks": [],
+              "methods": [
+                {
+                  "body": "{this.count++}",
+                  "body_full": "{this.count++}",
+                  "calls_inferred": [],
+                  "emits_inferred": [],
+                  "is_async": false,
+                  "name": "increment",
+                  "params": [],
+                  "reads_inferred": [
+                    "count"
+                  ],
+                  "side_effects_inferred": [],
+                  "writes_inferred": [
+                    "count"
+                  ]
+                }
+              ],
+              "mixins": [],
+              "name": "CounterCard",
+              "props": [],
+              "provide_keys": [],
+              "watch": []
+            },
+            "top_level_declarations": []
+          },
+          "style_model": {
+            "css_rules_summary": [
+              {
+                "affected_classes": [
+                  "card"
+                ],
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "migration_keep": true,
+                "pseudo_state": null,
+                "selector": ".card"
+              }
+            ],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "scoped": false,
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [
+                  "root_button_0"
+                ],
+                "semantic_role": "card"
+              }
+            ]
+          },
+          "styles": {
+            "css_rules": [
+              {
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "has_keyframes": false,
+                "has_media": false,
+                "has_pseudo": false,
+                "related_classes": [
+                  "card"
+                ],
+                "selectors": [
+                  ".card"
+                ]
+              }
+            ],
+            "css_variables": [],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [],
+                "semantic_role": "card"
+              }
+            ],
+            "style_blocks": [
+              {
+                "attrs": {},
+                "content": ".card{color:rgb(20,40,60)}",
+                "lang": "css",
+                "module": false,
+                "scoped": false
+              }
+            ]
+          },
+          "sub_components": [],
+          "template": {
+            "component_refs": [],
+            "directives_registry": [
+              {
+                "count": 1,
+                "directive_name": "v-on",
+                "example_nodes": [
+                  "root_button_0"
+                ]
+              }
+            ],
+            "dom_tree": {
+              "children": [],
+              "depth": 0,
+              "directives": [
+                {
+                  "argument": "click",
+                  "dependencies": [
+                    "increment"
+                  ],
+                  "directive_name": "v-on",
+                  "expression": "increment",
+                  "migration_note": "v-on \u9700\u8981\u8fc1\u79fb\u5230 San",
+                  "modifiers": [],
+                  "san_equivalent": "on-event"
+                }
+              ],
+              "dynamic_attrs": [],
+              "event_bindings": [
+                {
+                  "arguments": [],
+                  "element_tag": "button",
+                  "event_name": "click",
+                  "handler_expression": "increment",
+                  "handler_name": "increment",
+                  "handler_type": "identifier",
+                  "is_component_event": false,
+                  "modifiers": [],
+                  "node_id": "root_button_0",
+                  "san_event_syntax": "on-click=\"increment\""
+                }
+              ],
+              "is_root": true,
+              "is_void": false,
+              "node_id": "root_button_0",
+              "node_type": "element",
+              "parent_id": null,
+              "path": "/button[0]",
+              "san_tag": "button",
+              "semantic_role": "card",
+              "source_tag": "button",
+              "static_attrs": {
+                "class": "card"
+              },
+              "text_bindings": [
+                {
+                  "dependencies": [
+                    "count"
+                  ],
+                  "expression": "count",
+                  "is_interpolation": true,
+                  "raw_text": "{{count}}",
+                  "san_text": "{{count}}"
+                }
+              ]
+            },
+            "event_bindings": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_name": "increment",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "san_event_syntax": "on-click=\"increment\""
+              }
+            ],
+            "slot_distribution": []
+          }
+        },
+        "ssm_sha256": "9fd2dde9bc8a8b5f0593597db090776792a38eddff676acedae6ab512e6e0cda"
+      }
+    ],
+    "filename": "TipSplitCalculator.vue",
+    "input_id": "04982f9d9a91449697753331b9f46937",
+    "max_repair_rounds": 3,
+    "name": "real_system_experiment70_v3_general_repairs_20261119 / TipSplitCalculator",
+    "props": {},
+    "runtime": {
+      "browser": {
+        "enabled": true,
+        "executable": "",
+        "height": 900,
+        "settle_ms": 500,
+        "width": 1280
+      },
+      "learning": {
+        "adapter_path": "",
+        "base_model_path": "",
+        "embedding_model_path": "",
+        "few_shot_count": 1,
+        "few_shot_manifest": "configs/few-shot-builtin-v1.json"
+      },
+      "model": {
+        "api_key_env": "LLM_API_KEY",
+        "backend": "qwen",
+        "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "max_calls": 4,
+        "max_output_tokens": 32768,
+        "model": "qwen-plus",
+        "network_enabled": true,
+        "timeout_seconds": 240,
+        "usage_stop_tokens": 131072
+      },
+      "schema_version": 1,
+      "tracing": {
+        "api_key_env": "LANGSMITH_API_KEY",
+        "enabled": false,
+        "endpoint": "https://api.smith.langchain.com",
+        "project": "card-migrator"
+      }
+    },
+    "source_group": "TipSplitCalculator",
+    "source_sha256": "49555185c27bc956ea4f0930a4ce1bd6366e072dc924ce9aefb822568c0ca085",
+    "strategy": "ssm",
+    "support_scope": {
+      "deployment": "trusted_local_single_user",
+      "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+      "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+      "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+      "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+      "experimental_public_instance_runtime_enabled": false,
+      "exports": [
+        "export default",
+        "module.exports"
+      ],
+      "full_public_instance_compatibility": false,
+      "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+      "historical_results_reclassified": false,
+      "id": "san-supported-migration-v4",
+      "label": "\u6709\u660e\u786e\u652f\u6301\u8303\u56f4\u7684 Vue \u2192 SSM \u2192 San \u8fc1\u79fb\u95ed\u73af",
+      "missing_interactions": "not_run_not_pass",
+      "not_required_for_basic_migration": [
+        "langsmith_upload",
+        "lora_training",
+        "clip_embeddings"
+      ],
+      "pipeline": [
+        "preflight",
+        "extract_ssm",
+        "generate",
+        "evaluate",
+        "bounded_repair",
+        "candidate_retest_and_gate",
+        "report_and_download"
+      ],
+      "preflight_is_full_support_proof": false,
+      "runtime_admission": "not_enabled_in_production",
+      "source_ast_rule_generation_enabled": false,
+      "source_profile": "single_file_javascript_options_api_without_external_imports",
+      "styles": [
+        "css",
+        "scoped_css"
+      ],
+      "target": "San",
+      "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+    },
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "trusted_source": true
+  },
+  "request_sha256": "6022c0b4369e8590828ea44625e5488ffa72e96e2305def825416356d2acfc20",
+  "schema_version": 1,
+  "scope": "real_migration_local_single_user",
+  "stage": "report",
+  "state": {
+    "candidate_evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "925f46e94751eebc1b173f2be8f8cd52363bb6d727292f45166989098a9e0f9d",
+            "parent_shape": "470d2c914634340eea5fd23cce5e2091ca2f5844cedde1eb0208c32902075888",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+            "parent_shape": "f03ab15e744d470e34b5cfdecf5b93c6c6d4f8e860cf87faeddcd36737ed7469",
+            "path": "root.0.2"
+          },
+          {
+            "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.0"
+          },
+          {
+            "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.2"
+          }
+        ],
+        "source_snapshot": "88a3be85aefeefd810b85a0764f525f9c903e79bd9deacd830320729997554a1",
+        "target": [
+          {
+            "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+            "parent_shape": "80e93eecf0819ae73a742c148df44a7d413f3cec169b8563b053ce29b532f0fb",
+            "path": "root.0.1.1"
+          },
+          {
+            "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+            "parent_shape": "93e4942eeca792dd09e272522d2da51bb3bb95a5868bc4bc9c6caac1b03804f9",
+            "path": "root.0.2"
+          },
+          {
+            "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.0"
+          },
+          {
+            "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.2"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "dom_child_order_mismatch",
+          "location": "template",
+          "message": "San \u6a21\u677f\u6539\u53d8\u4e86 Vue \u8282\u70b9\u7684\u76f4\u63a5\u5b50\u8282\u70b9\u987a\u5e8f\uff1a/section[1]/label[0]/: Vue input / San span\u3002",
+          "severity": "error",
+          "suggestion": "\u4fdd\u6301 Vue \u539f\u59cb DOM \u5b50\u8282\u70b9\u987a\u5e8f\uff0c\u5c24\u5176\u662f input/checkbox \u4e0e\u76f8\u90bb\u6587\u5b57\u3001\u767e\u5206\u53f7\u3001label \u6587\u672c\u7684\u5148\u540e\u5173\u7cfb\uff1b\u4e0d\u8981\u4f9d\u8d56 CSS \u6392\u5e8f\u66ff\u4ee3 DOM \u987a\u5e8f\u3002"
+        },
+        {
+          "code": "source_dynamic_assignment_unproven",
+          "details": {
+            "arbitrary_key_semantics_proven": false,
+            "caller_mappings": [
+              {
+                "caller": "inited",
+                "status": "unproven"
+              },
+              {
+                "caller": "updateBill",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "cycleTip",
+                "status": "complete_caller_with_preserved_helper"
+              },
+              {
+                "caller": "changePeople",
+                "status": "complete_caller_with_preserved_helper"
+              }
+            ],
+            "calls": {
+              "source": [
+                {
+                  "caller": "inited",
+                  "key": "bill",
+                  "line": 23
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 29
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 32
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 35
+                }
+              ],
+              "target": [
+                {
+                  "caller": "inited",
+                  "form": "inlined_data_set",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "updateBill",
+                  "key": "bill",
+                  "line": 1
+                },
+                {
+                  "caller": "cycleTip",
+                  "key": "tipRate",
+                  "line": 1
+                },
+                {
+                  "caller": "changePeople",
+                  "key": "people",
+                  "line": 1
+                }
+              ]
+            },
+            "contract": "source_internal_declared_state_assignment_v1",
+            "limitations": [
+              "not_arbitrary_external_public_key_equivalence",
+              "surrounding_call_timing_values_and_other_methods_checked_separately"
+            ],
+            "refusals": [
+              "caller_body_not_source_matched:inited"
+            ],
+            "source_keys": [
+              "bill",
+              "tipRate",
+              "people"
+            ],
+            "status": "unproven"
+          },
+          "location": "script.methods.setValue",
+          "message": "Dynamic setter is unproven even under the source-internal declared-state contract: caller_body_not_source_matched:inited. Do not waive unknown calls or claim arbitrary public-key equivalence.",
+          "severity": "error",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        },
+        {
+          "code": "template_structure_mismatch",
+          "differences": [
+            {
+              "actual": "label||text:",
+              "expected": "label||text:\u8d26\u5355",
+              "path": "root.0.1"
+            },
+            {
+              "actual": "span||text:\u8d26\u5355",
+              "expected": "input|binding:value|event:input|type=number|text:",
+              "path": "root.0.1.0"
+            },
+            {
+              "actual": "input|binding:value|event:input|type=number|text:",
+              "expected": null,
+              "path": "root.0.1.1"
+            }
+          ],
+          "message": "SSM/target template projection differs."
+        },
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "target:dom_or_reflective_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "span|",
+              "expected": "#text:\u8d26\u5355",
+              "path": "root.0.1.0"
+            },
+            {
+              "actual": "#text:\u8d26\u5355",
+              "expected": null,
+              "path": "root.0.1.0.0"
+            },
+            {
+              "actual": "input|type=number",
+              "expected": "input|type=number|value=268",
+              "path": "root.0.1.1"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [
+              {
+                "actual": [
+                  "root.0.1.1",
+                  "input",
+                  "268",
+                  false,
+                  null
+                ],
+                "expected": [
+                  "root.0.1.0",
+                  "input",
+                  "268",
+                  false,
+                  null
+                ],
+                "kind": "control_path_changed"
+              }
+            ],
+            "equal": false,
+            "paths_equal": false,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 4,
+            "target_count": 4,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "span|",
+              "expected": "#text:\u8d26\u5355",
+              "path": "root.0.1.0"
+            },
+            {
+              "actual": "#text:\u8d26\u5355",
+              "expected": null,
+              "path": "root.0.1.0.0"
+            },
+            {
+              "actual": "input|type=number",
+              "expected": "input|type=number|value=268",
+              "path": "root.0.1.1"
+            }
+          ],
+          "representation_differences": []
+        },
+        {
+          "code": "rendered_control_position_mismatch",
+          "differences": [
+            {
+              "actual": [
+                "root.0.1.1",
+                "input",
+                "268",
+                false,
+                null
+              ],
+              "expected": [
+                "root.0.1.0",
+                "input",
+                "268",
+                false,
+                null
+              ],
+              "kind": "control_path_changed"
+            }
+          ],
+          "message": "Control paths differ; captured live values match in order. Inspect actual wrapper/structure changes."
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "target:dom_or_reflective_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "span|",
+          "expected": "#text:\u8d26\u5355",
+          "path": "root.0.1.0"
+        },
+        {
+          "actual": "#text:\u8d26\u5355",
+          "expected": null,
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.8947368421052632,
+        "source_nodes": 18,
+        "target_nodes": 19
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/3/heatmap.png",
+          "sha256": "e0e24a4014743e9611eddb3a41ea1d563534f32a214c472ceba0df987a643ec7"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/3/san.png",
+          "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/3/vue.png",
+          "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+        }
+      },
+      "initial_control_state": {
+        "differences": [
+          {
+            "actual": [
+              "root.0.1.1",
+              "input",
+              "268",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.0",
+              "input",
+              "268",
+              false,
+              null
+            ],
+            "kind": "control_path_changed"
+          }
+        ],
+        "equal": false,
+        "paths_equal": false,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 4,
+        "target_count": 4,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "span|",
+          "expected": "#text:\u8d26\u5355",
+          "path": "root.0.1.0"
+        },
+        {
+          "actual": "#text:\u8d26\u5355",
+          "expected": null,
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.8947368421052632,
+        "source_nodes": 18,
+        "target_nodes": 19
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "c847ed9e943a4de1fd97b94a3e81d81dd8f8b996a9152c49daeedf947659aaf4",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9473684210526316,
+        "source_nodes": 18,
+        "target_nodes": 19
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "unproven"
+                },
+                {
+                  "caller": "updateBill",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "cycleTip",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "changePeople",
+                  "status": "complete_caller_with_preserved_helper"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "bill",
+                    "line": 23
+                  },
+                  {
+                    "caller": "updateBill",
+                    "key": "bill",
+                    "line": 29
+                  },
+                  {
+                    "caller": "cycleTip",
+                    "key": "tipRate",
+                    "line": 32
+                  },
+                  {
+                    "caller": "changePeople",
+                    "key": "people",
+                    "line": 35
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "form": "inlined_data_set",
+                    "key": "bill",
+                    "line": 1
+                  },
+                  {
+                    "caller": "updateBill",
+                    "key": "bill",
+                    "line": 1
+                  },
+                  {
+                    "caller": "cycleTip",
+                    "key": "tipRate",
+                    "line": 1
+                  },
+                  {
+                    "caller": "changePeople",
+                    "key": "people",
+                    "line": 1
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [
+                "caller_body_not_source_matched:inited"
+              ],
+              "source_keys": [
+                "bill",
+                "tipRate",
+                "people"
+              ],
+              "status": "unproven"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "callable_unproven",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 4,
+            "uncertain": true
+          },
+          "status": "callable_semantics_unproven",
+          "target_references": {
+            "count": 3,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 0,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "updateBill",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "cycleTip",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "changePeople",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [
+        {
+          "actual": "label||text:",
+          "expected": "label||text:\u8d26\u5355",
+          "path": "root.0.1"
+        },
+        {
+          "actual": "span||text:\u8d26\u5355",
+          "expected": "input|binding:value|event:input|type=number|text:",
+          "path": "root.0.1.0"
+        },
+        {
+          "actual": "input|binding:value|event:input|type=number|text:",
+          "expected": null,
+          "path": "root.0.1.1"
+        }
+      ],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.8333333333333334,
+        "source_nodes": 11,
+        "target_nodes": 12
+      },
+      "styles": {
+        "compared_properties": 156,
+        "differences": [
+          {
+            "path": "root.0.1.0",
+            "property": "color",
+            "source": "rgb(0, 0, 0)",
+            "target": "rgb(36, 49, 61)"
+          },
+          {
+            "path": "root.0.1.0",
+            "property": "backgroundColor",
+            "source": "rgb(255, 255, 255)",
+            "target": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "path": "root.0.1.0",
+            "property": "paddingTop",
+            "source": "8px",
+            "target": "0px"
+          },
+          {
+            "path": "root.0.1.0",
+            "property": "paddingLeft",
+            "source": "8px",
+            "target": "0px"
+          },
+          {
+            "path": "root.0.1.0",
+            "property": "height",
+            "source": "36px",
+            "target": "24px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "color",
+            "source": null,
+            "target": "rgb(0, 0, 0)"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "backgroundColor",
+            "source": null,
+            "target": "rgb(255, 255, 255)"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "fontSize",
+            "source": null,
+            "target": "16px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "fontFamily",
+            "source": null,
+            "target": "Arial, sans-serif"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "fontWeight",
+            "source": null,
+            "target": "400"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "marginTop",
+            "source": null,
+            "target": "0px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "marginLeft",
+            "source": null,
+            "target": "0px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "paddingTop",
+            "source": null,
+            "target": "8px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "paddingLeft",
+            "source": null,
+            "target": "8px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "width",
+            "source": null,
+            "target": "213px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "height",
+            "source": null,
+            "target": "36px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "display",
+            "source": null,
+            "target": "block"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "position",
+            "source": null,
+            "target": "static"
+          }
+        ],
+        "matching": "child_index_path",
+        "similarity": 0.8846153846153846,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostic_limit": 128,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 885.2692000000002,
+        "target": 829.3613
+      },
+      "ui_restoration": 97.69230769230772
+    },
+    "decisions": [
+      {
+        "accepted": false,
+        "added_errors": [
+          "rendered_control_position_mismatch"
+        ],
+        "candidate": "8ff12805c709cf4f82aa2bf83ffaa12158d286499660e3e1e360d4bcf400ae43",
+        "dimensions": [],
+        "previous": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55",
+        "reason": "candidate_regression",
+        "round": 1
+      },
+      {
+        "accepted": false,
+        "added_errors": [
+          "rendered_control_position_mismatch",
+          "source_dynamic_assignment_unproven"
+        ],
+        "candidate": "c1c9349a612afc3909ad14ca1d080ef040a65683f8007b8489fb9e0b04f79e26",
+        "dimensions": [],
+        "previous": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55",
+        "reason": "candidate_regression",
+        "round": 2
+      },
+      {
+        "accepted": false,
+        "added_errors": [
+          "rendered_control_position_mismatch",
+          "source_dynamic_assignment_unproven"
+        ],
+        "candidate": "c847ed9e943a4de1fd97b94a3e81d81dd8f8b996a9152c49daeedf947659aaf4",
+        "dimensions": [],
+        "previous": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55",
+        "reason": "candidate_regression",
+        "round": 3
+      }
+    ],
+    "evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "925f46e94751eebc1b173f2be8f8cd52363bb6d727292f45166989098a9e0f9d",
+            "parent_shape": "470d2c914634340eea5fd23cce5e2091ca2f5844cedde1eb0208c32902075888",
+            "path": "root.0.1.0"
+          },
+          {
+            "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+            "parent_shape": "f03ab15e744d470e34b5cfdecf5b93c6c6d4f8e860cf87faeddcd36737ed7469",
+            "path": "root.0.2"
+          },
+          {
+            "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.0"
+          },
+          {
+            "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.2"
+          }
+        ],
+        "source_snapshot": "88a3be85aefeefd810b85a0764f525f9c903e79bd9deacd830320729997554a1",
+        "target": [
+          {
+            "identity": "3e4615ed1215fcb17ccd0498776d6c12da99f4a4616b38dcab75b2b331373ffe",
+            "parent_shape": "80e93eecf0819ae73a742c148df44a7d413f3cec169b8563b053ce29b532f0fb",
+            "path": "root.0.1.1"
+          },
+          {
+            "identity": "d3b942403bf9ae1f049dfac3c8e4f49c19bbe5fd73a94d13960c87c7234069cb",
+            "parent_shape": "93e4942eeca792dd09e272522d2da51bb3bb95a5868bc4bc9c6caac1b03804f9",
+            "path": "root.0.2"
+          },
+          {
+            "identity": "3d15720f28e618b921372973e51f67087aa935126dbab8ff553ec49396fb244f",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.0"
+          },
+          {
+            "identity": "127ade9449ae9e4a654c15864f51455ae6a2d80eba09f8681fd1f988bb640ccd",
+            "parent_shape": "d99f6b43f5299fae231459ce5bb01b73067ff629af80d429e9fb66b0bff42a20",
+            "path": "root.0.3.2"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "dom_child_order_mismatch",
+          "location": "template",
+          "message": "San \u6a21\u677f\u6539\u53d8\u4e86 Vue \u8282\u70b9\u7684\u76f4\u63a5\u5b50\u8282\u70b9\u987a\u5e8f\uff1a/section[1]/label[0]/: Vue input / San span\u3002",
+          "severity": "error",
+          "suggestion": "\u4fdd\u6301 Vue \u539f\u59cb DOM \u5b50\u8282\u70b9\u987a\u5e8f\uff0c\u5c24\u5176\u662f input/checkbox \u4e0e\u76f8\u90bb\u6587\u5b57\u3001\u767e\u5206\u53f7\u3001label \u6587\u672c\u7684\u5148\u540e\u5173\u7cfb\uff1b\u4e0d\u8981\u4f9d\u8d56 CSS \u6392\u5e8f\u66ff\u4ee3 DOM \u987a\u5e8f\u3002"
+        },
+        {
+          "code": "source_method_interface_not_landed",
+          "location": "script.methods.emitEvent",
+          "message": "Source method emitEvent has no proven callable method on the exported San parent.",
+          "severity": "error",
+          "suggestion": "Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."
+        },
+        {
+          "code": "missing_prop_defaults",
+          "details": {
+            "affected_fields": [
+              "initialBill"
+            ],
+            "contract": "prop_defaults_v1"
+          },
+          "location": "script",
+          "message": "\u4ee5\u4e0b\u5e26\u9ed8\u8ba4\u503c\u7684 Vue props \u672a\u5728 San initData \u4e2d\u843d\u5730\uff1ainitialBill\u3002",
+          "severity": "error",
+          "suggestion": "\u5c06 SSM props.default \u7684\u7b49\u4ef7\u503c\u4f5c\u4e3a\u540c\u540d\u5b57\u6bb5\u52a0\u5165 initData \u8fd4\u56de\u5bf9\u8c61\u3002"
+        },
+        {
+          "code": "custom_event_not_fire",
+          "location": "script",
+          "message": "\u6e90\u7ec4\u4ef6\u4f7f\u7528\u4e86 Vue $emit\uff0c\u4f46 San \u672a\u6b63\u786e\u4f7f\u7528 this.fire\uff0c\u6216\u9519\u8bef\u4f7f\u7528\u4e86 this.dispatch\u3002",
+          "severity": "error",
+          "suggestion": "\u5c06\u81ea\u5b9a\u4e49\u4e8b\u4ef6\u8fc1\u79fb\u4e3a this.fire(eventName, payload)\uff0c\u4e0d\u8981\u4f7f\u7528 this.dispatch\u3002"
+        },
+        {
+          "code": "template_structure_mismatch",
+          "differences": [
+            {
+              "actual": "label||text:",
+              "expected": "label||text:\u8d26\u5355",
+              "path": "root.0.1"
+            },
+            {
+              "actual": "span||text:\u8d26\u5355",
+              "expected": "input|binding:value|event:input|type=number|text:",
+              "path": "root.0.1.0"
+            },
+            {
+              "actual": "input|binding:value|event:input|type=number|text:",
+              "expected": null,
+              "path": "root.0.1.1"
+            }
+          ],
+          "message": "SSM/target template projection differs."
+        },
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "target:dom_or_reflective_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "span|",
+              "expected": "#text:\u8d26\u5355",
+              "path": "root.0.1.0"
+            },
+            {
+              "actual": "#text:\u8d26\u5355",
+              "expected": null,
+              "path": "root.0.1.0.0"
+            },
+            {
+              "actual": "input|type=number",
+              "expected": "input|type=number|value=268",
+              "path": "root.0.1.1"
+            },
+            {
+              "actual": "#text:\u603b\u8ba1 \u00a5NaN \u00b7 \u6bcf\u4eba \u00a5NaN",
+              "expected": "#text:\u603b\u8ba1 \u00a5294.80 \u00b7 \u6bcf\u4eba \u00a5147.40",
+              "path": "root.0.4.0"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [
+              {
+                "actual": [
+                  "root.0.1.1",
+                  "input",
+                  "",
+                  false,
+                  null
+                ],
+                "expected": [
+                  "root.0.1.0",
+                  "input",
+                  "268",
+                  false,
+                  null
+                ],
+                "kind": "live_property_changed"
+              }
+            ],
+            "equal": false,
+            "paths_equal": false,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 4,
+            "target_count": 4,
+            "values_equal_in_order": false
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "span|",
+              "expected": "#text:\u8d26\u5355",
+              "path": "root.0.1.0"
+            },
+            {
+              "actual": "#text:\u8d26\u5355",
+              "expected": null,
+              "path": "root.0.1.0.0"
+            },
+            {
+              "actual": "input|type=number",
+              "expected": "input|type=number|value=268",
+              "path": "root.0.1.1"
+            },
+            {
+              "actual": "#text:\u603b\u8ba1 \u00a5NaN \u00b7 \u6bcf\u4eba \u00a5NaN",
+              "expected": "#text:\u603b\u8ba1 \u00a5294.80 \u00b7 \u6bcf\u4eba \u00a5147.40",
+              "path": "root.0.4.0"
+            }
+          ],
+          "representation_differences": []
+        },
+        {
+          "code": "rendered_control_state_mismatch",
+          "differences": [
+            {
+              "actual": [
+                "root.0.1.1",
+                "input",
+                "",
+                false,
+                null
+              ],
+              "expected": [
+                "root.0.1.0",
+                "input",
+                "268",
+                false,
+                null
+              ],
+              "kind": "live_property_changed"
+            }
+          ],
+          "message": "Initial live control values/types/counts differ even if screenshots or HTML attributes match."
+        }
+      ],
+      "different_pixel_ratio": 0.001356770833333333,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "fail",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "target:dom_or_reflective_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "span|",
+          "expected": "#text:\u8d26\u5355",
+          "path": "root.0.1.0"
+        },
+        {
+          "actual": "#text:\u8d26\u5355",
+          "expected": null,
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        },
+        {
+          "actual": "#text:\u603b\u8ba1 \u00a5NaN \u00b7 \u6bcf\u4eba \u00a5NaN",
+          "expected": "#text:\u603b\u8ba1 \u00a5294.80 \u00b7 \u6bcf\u4eba \u00a5147.40",
+          "path": "root.0.4.0"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 3,
+        "similarity": 0.8421052631578947,
+        "source_nodes": 18,
+        "target_nodes": 19
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/heatmap.png",
+          "sha256": "9f4526eca1487a0c118a9b1b92e4238483f78488d9523891f39419d69936a84d"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/san.png",
+          "sha256": "542c79b196954a4e8c2e006fbc85de0be3e530bf9301f63d9e8fd5fdae6474e6"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/2960a21269274de0bf64f5e66a0f7786/evaluations/0/vue.png",
+          "sha256": "c3c4623a66536165c76969dc7e646d4dc6767db70d28d72123e83da28a4ce9b2"
+        }
+      },
+      "initial_control_state": {
+        "differences": [
+          {
+            "actual": [
+              "root.0.1.1",
+              "input",
+              "",
+              false,
+              null
+            ],
+            "expected": [
+              "root.0.1.0",
+              "input",
+              "268",
+              false,
+              null
+            ],
+            "kind": "live_property_changed"
+          }
+        ],
+        "equal": false,
+        "paths_equal": false,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 4,
+        "target_count": 4,
+        "values_equal_in_order": false
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "span|",
+          "expected": "#text:\u8d26\u5355",
+          "path": "root.0.1.0"
+        },
+        {
+          "actual": "#text:\u8d26\u5355",
+          "expected": null,
+          "path": "root.0.1.0.0"
+        },
+        {
+          "actual": "input|type=number",
+          "expected": "input|type=number|value=268",
+          "path": "root.0.1.1"
+        },
+        {
+          "actual": "#text:\u603b\u8ba1 \u00a5NaN \u00b7 \u6bcf\u4eba \u00a5NaN",
+          "expected": "#text:\u603b\u8ba1 \u00a5294.80 \u00b7 \u6bcf\u4eba \u00a5147.40",
+          "path": "root.0.4.0"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 3,
+        "similarity": 0.8421052631578947,
+        "source_nodes": 18,
+        "target_nodes": 19
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "516dd55cd06a3882bafb6fe8c060dc30bebc22ff747844859a7729ce41f8de55",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9473684210526316,
+        "source_nodes": 18,
+        "target_nodes": 19
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "dynamic_assignment": {
+            "arbitrary_key_semantics_proven": false,
+            "automatic_restore": false,
+            "key_parameter": "key",
+            "scoped_proof": {
+              "arbitrary_key_semantics_proven": false,
+              "caller_mappings": [
+                {
+                  "caller": "inited",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "updateBill",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "cycleTip",
+                  "status": "complete_caller_with_preserved_helper"
+                },
+                {
+                  "caller": "changePeople",
+                  "status": "complete_caller_with_preserved_helper"
+                }
+              ],
+              "calls": {
+                "source": [
+                  {
+                    "caller": "inited",
+                    "key": "bill",
+                    "line": 23
+                  },
+                  {
+                    "caller": "updateBill",
+                    "key": "bill",
+                    "line": 29
+                  },
+                  {
+                    "caller": "cycleTip",
+                    "key": "tipRate",
+                    "line": 32
+                  },
+                  {
+                    "caller": "changePeople",
+                    "key": "people",
+                    "line": 35
+                  }
+                ],
+                "target": [
+                  {
+                    "caller": "inited",
+                    "key": "bill",
+                    "line": 1
+                  },
+                  {
+                    "caller": "updateBill",
+                    "key": "bill",
+                    "line": 1
+                  },
+                  {
+                    "caller": "cycleTip",
+                    "key": "tipRate",
+                    "line": 1
+                  },
+                  {
+                    "caller": "changePeople",
+                    "key": "people",
+                    "line": 1
+                  }
+                ]
+              },
+              "contract": "source_internal_declared_state_assignment_v1",
+              "limitations": [
+                "not_arbitrary_external_public_key_equivalence",
+                "surrounding_call_timing_values_and_other_methods_checked_separately"
+              ],
+              "refusals": [],
+              "source_keys": [
+                "bill",
+                "tipRate",
+                "people"
+              ],
+              "status": "proven_for_source_internal_calls"
+            },
+            "source_shape": "exact_this_computed_key_assignment",
+            "target_status": "proven_for_source_internal_calls",
+            "value_parameter": "value"
+          },
+          "legacy_wrapper": false,
+          "name": "setValue",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 4,
+            "uncertain": true
+          },
+          "status": "proven_for_source_internal_calls",
+          "target_references": {
+            "count": 4,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "emitEvent",
+          "proof": "closed_two_argument_source_emit_forwarding_graph_no_target_triggers",
+          "restore_eligible": true,
+          "source_references": {
+            "count": 0,
+            "uncertain": true
+          },
+          "status": "missing",
+          "target_references": {
+            "count": 0,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "updateBill",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "cycleTip",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "changePeople",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 2,
+            "uncertain": true
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 2,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 0.9964534708970706,
+      "structure_differences": [
+        {
+          "actual": "label||text:",
+          "expected": "label||text:\u8d26\u5355",
+          "path": "root.0.1"
+        },
+        {
+          "actual": "span||text:\u8d26\u5355",
+          "expected": "input|binding:value|event:input|type=number|text:",
+          "path": "root.0.1.0"
+        },
+        {
+          "actual": "input|binding:value|event:input|type=number|text:",
+          "expected": null,
+          "path": "root.0.1.1"
+        }
+      ],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 2,
+        "similarity": 0.8333333333333334,
+        "source_nodes": 11,
+        "target_nodes": 12
+      },
+      "styles": {
+        "compared_properties": 156,
+        "differences": [
+          {
+            "path": "root.0.1.0",
+            "property": "color",
+            "source": "rgb(0, 0, 0)",
+            "target": "rgb(36, 49, 61)"
+          },
+          {
+            "path": "root.0.1.0",
+            "property": "backgroundColor",
+            "source": "rgb(255, 255, 255)",
+            "target": "rgba(0, 0, 0, 0)"
+          },
+          {
+            "path": "root.0.1.0",
+            "property": "paddingTop",
+            "source": "8px",
+            "target": "0px"
+          },
+          {
+            "path": "root.0.1.0",
+            "property": "paddingLeft",
+            "source": "8px",
+            "target": "0px"
+          },
+          {
+            "path": "root.0.1.0",
+            "property": "height",
+            "source": "36px",
+            "target": "24px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "color",
+            "source": null,
+            "target": "rgb(0, 0, 0)"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "backgroundColor",
+            "source": null,
+            "target": "rgb(255, 255, 255)"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "fontSize",
+            "source": null,
+            "target": "16px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "fontFamily",
+            "source": null,
+            "target": "Arial, sans-serif"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "fontWeight",
+            "source": null,
+            "target": "400"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "marginTop",
+            "source": null,
+            "target": "0px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "marginLeft",
+            "source": null,
+            "target": "0px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "paddingTop",
+            "source": null,
+            "target": "8px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "paddingLeft",
+            "source": null,
+            "target": "8px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "width",
+            "source": null,
+            "target": "213px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "height",
+            "source": null,
+            "target": "36px"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "display",
+            "source": null,
+            "target": "block"
+          },
+          {
+            "path": "root.0.1.1",
+            "property": "position",
+            "source": null,
+            "target": "static"
+          }
+        ],
+        "matching": "child_index_path",
+        "similarity": 0.8846153846153846,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostic_limit": 128,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 896.1752000000001,
+        "target": 789.7297999999996
+      },
+      "ui_restoration": 97.47427811216124
+    },
+    "migration_id": "2960a21269274de0bf64f5e66a0f7786",
+    "request_sha256": "6022c0b4369e8590828ea44625e5488ffa72e96e2305def825416356d2acfc20",
+    "round": 3,
+    "stop_reason": "repair_budget_exhausted"
+  },
+  "status": "failed",
+  "stop_reason": "repair_budget_exhausted",
+  "support_scope": {
+    "deployment": "trusted_local_single_user",
+    "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+    "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+    "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+    "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+    "experimental_public_instance_runtime_enabled": false,
+    "exports": [
+      "export default",
+      "module.exports"
+    ],
+    "full_public_instance_compatibility": false,
+    "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+    "historical_results_reclassified": false,
+    "id": "san-supported-migration-v4",
+    "label": "\u6709\u660e\u786e\u652f\u6301\u8303\u56f4\u7684 Vue \u2192 SSM \u2192 San \u8fc1\u79fb\u95ed\u73af",
+    "missing_interactions": "not_run_not_pass",
+    "not_required_for_basic_migration": [
+      "langsmith_upload",
+      "lora_training",
+      "clip_embeddings"
+    ],
+    "pipeline": [
+      "preflight",
+      "extract_ssm",
+      "generate",
+      "evaluate",
+      "bounded_repair",
+      "candidate_retest_and_gate",
+      "report_and_download"
+    ],
+    "preflight_is_full_support_proof": false,
+    "runtime_admission": "not_enabled_in_production",
+    "source_ast_rule_generation_enabled": false,
+    "source_profile": "single_file_javascript_options_api_without_external_imports",
+    "styles": [
+      "css",
+      "scoped_css"
+    ],
+    "target": "San",
+    "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+  },
+  "unknown_calls": 0,
+  "usage": {
+    "complete": true,
+    "known_total_tokens": 47732
+  }
+}

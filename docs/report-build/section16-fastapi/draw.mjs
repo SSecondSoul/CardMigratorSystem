@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+const require=createRequire(import.meta.url);
+const sharp=require(require.resolve('sharp',{paths:['C:/Users/soul/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules']}));
+const original=await fs.readFile(new URL('../section16-db-clarification/section16-backend-mysql.svg',import.meta.url),'utf8');
+const svg=original.replaceAll('Flask','FastAPI');
+if(svg===original)throw new Error('Expected Flask label missing');
+await fs.writeFile(new URL('./section16-backend-fastapi.svg',import.meta.url),svg);
+await sharp(Buffer.from(svg),{density:220}).png().toFile(fileURLToPath(new URL('./section16-backend-fastapi.png',import.meta.url)));

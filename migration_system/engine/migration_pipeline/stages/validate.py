@@ -287,6 +287,10 @@ class ValidateStage:
         if stage_input.vue_file_path and Path(stage_input.vue_file_path).is_file():
             vue = Path(stage_input.vue_file_path).read_text(encoding="utf-8")
             source_check = inspect_semantics(code, vue, ssm=ssm)
+            if source_check.get('error'):
+                issues.append(ValidationIssue(code='source_semantic_analysis_unavailable',
+                    location='script',message='Source semantic analyzer failed; lifecycle/method/initialization equivalence is unproven.',
+                    suggestion='Restore the parser/analyzer or supported target syntax. Do not treat a fallback with no findings as success.'))
             for finding in source_check.get('findings', []):
                 issues.append(ValidationIssue(**finding,
                     suggestion="Preserve proven source lifecycle, watcher and method interface contracts; do not invent triggers or duplicate startup calls."))
@@ -370,7 +374,8 @@ class ValidateStage:
         self._validate_event_arguments_landing(blocks.get("template", ""), ssm, issues, checks)
         self._validate_custom_event_migration(blocks.get("script", ""), ssm, issues, checks)
         self._validate_datatypes_accuracy(blocks.get("script", ""), ssm, issues, checks)
-        self._validate_lifecycle_mapping(blocks.get("script", ""), ssm, issues, checks)
+        self._validate_lifecycle_mapping(blocks.get("script", ""), ssm, issues, checks,
+                                         parent_metadata=source_check.get('parent_methods'))
         self._validate_event_binding_completeness(blocks.get("template", ""), ssm, issues, checks)
         self._validate_computed_watch_migration(blocks.get("script", ""), ssm, issues, checks)
         self._validate_migration_hints_landing(blocks, ssm, issues, checks)
@@ -1598,7 +1603,7 @@ class ValidateStage:
         for method_name, method_body in self._iter_method_bodies(script):
             # Only omit aliases whose complete local use/commit chain is proven.
             # A map/filter/slice prefix alone is not a record-detachment proof.
-            detached = proven_record_copies(method_body, script) if re.search(r"\.\s*map\s*\(", method_body) else set()
+            detached = proven_record_copies(method_body, script) if re.search(r"\.\s*(?:map|slice)\s*\(|\[\s*\.\.\.", method_body) else set()
             aliases: dict[str, set[str]] = {
                 match.group(1): {match.group(3)}
                 for match in self.STATE_ALIAS_PATTERN.finditer(method_body)
@@ -2262,10 +2267,18 @@ class ValidateStage:
         ssm: dict[str, Any],
         issues: list[ValidationIssue],
         checks: list[ValidationCheck],
+        *,
+        parent_metadata: dict[str, Any] | None = None,
     ) -> None:
         hooks = self._expected_lifecycle_items(ssm)
         if not hooks:
             return
+
+        if parent_metadata is None:
+            parent_metadata = inspect_semantics('<template><div></div></template><script>'
+                                                + script + '</script>').get('parent_methods')
+        root_methods = (parent_metadata.get('methods', {}) if parent_metadata
+                        and parent_metadata.get('status') == 'complete' else {})
 
         expected_mapping = {
             "beforeCreate": "compiled",
@@ -2289,14 +2302,14 @@ class ValidateStage:
         for hook in hooks:
             source_hook = hook["source_hook"]
             target_hook = hook.get("target_hook") or expected_mapping.get(source_hook)
-            if target_hook and not re.search(rf"\b{target_hook}\s*\(", script):
+            if target_hook and target_hook not in root_methods:
                 missing.append(f"{source_hook} -> {target_hook}")
                 continue
             if not target_hook:
                 continue
 
             source_body = hook.get("body", "")
-            target_body = self._extract_function_body(script, target_hook)
+            target_body = root_methods[target_hook]['body']
             target_body_for_matching = target_body
             for alias in re.findall(
                 r"\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*this\s*;",
@@ -2342,6 +2355,7 @@ class ValidateStage:
                     script,
                     known_methods,
                     method_bodies,
+                    root_methods=root_methods,
                 ):
                     requirements.append(f"调用方法 {method_name}()")
 
@@ -2394,6 +2408,8 @@ class ValidateStage:
         script: str,
         known_methods: set[str],
         method_bodies: dict[str, str],
+        *,
+        root_methods: dict[str, Any] | None = None,
     ) -> bool:
         call_pattern = rf"\bthis\.{re.escape(method_name)}\s*\("
         if method_name != "initData" and re.search(call_pattern, target_body):
@@ -2434,7 +2450,8 @@ class ValidateStage:
                 "init" in normalized_name and "data" in normalized_name
             ):
                 continue
-            helper_body = self._extract_function_body(script, helper_name)
+            helper_body = (root_methods.get(helper_name, {}).get('body', '') if root_methods is not None
+                           else self._extract_function_body(script, helper_name))
             if helper_body and contains_all_nested_calls(helper_body):
                 return True
         return False

@@ -1,0 +1,18 @@
+{
+  "code": "<template><section class=\"theme-preview-toggle {{theme}}\"><div class=\"preview\"><h2>{{themeLabel}}</h2><p>\u6b63\u6587\u4e0e\u63a7\u4ef6\u5c06\u5171\u540c\u5207\u6362\u4e3b\u9898\u3002</p></div><div class=\"actions\"><button class=\"primary\" on-click=\"toggle\">\u5207\u6362\u4e3b\u9898</button><button on-click=\"reset\">\u6062\u590d\u9ed8\u8ba4</button></div></section></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"ThemePreviewToggle\",dataTypes:{initialTheme:DataTypes.string},initData(){return {\ninitialTheme: \"light\",\ntheme:\"light\"}},inited(){this.data.set(\"theme\",this.data.get(\"initialTheme\"))},computed:{themeLabel(){return this.data.get(\"theme\")===\"dark\"?\"\u6df1\u8272\u4e3b\u9898\":\"\u6d45\u8272\u4e3b\u9898\"}},setValue(key,value){this.data.set(key,value)},emitEvent(name,payload){this.fire(name,payload)},toggle(){const next=this.data.get(\"theme\")===\"dark\"?\"light\":\"dark\";this.setValue(\"theme\",next);this.emitEvent(\"change\",next)},reset(){this.setValue(\"theme\",this.data.get(\"initialTheme\"))}});</script><style>.theme-preview-toggle{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}.theme-preview-toggle *{box-sizing:border-box}.theme-preview-toggle h2,.theme-preview-toggle h3,.theme-preview-toggle p{margin-top:0}.theme-preview-toggle button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}.theme-preview-toggle button.primary{border-color:#334155;background:#334155;color:#fff}.theme-preview-toggle button:disabled{opacity:.45;cursor:not-allowed}.theme-preview-toggle input,.theme-preview-toggle select,.theme-preview-toggle textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}.theme-preview-toggle .muted{color:#71808e;font-size:12px}.theme-preview-toggle .toolbar,.theme-preview-toggle .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.theme-preview-toggle.dark{background:#111827;color:#f8fafc}.preview{padding:16px;border:1px dashed currentColor}.theme-preview-toggle .actions{margin-top:12px}</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/1da4fa76c78d44d2a36f8846804695c9/revisions/1.san",
+    "sha256": "4dc4272dff99f1198bd1e9a6a86cd165572398b71a3cac7b9aa41967dad42a7d"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "f6da62a0fb465ba95bf9e078a77856d2f19c0c060665cd923cd0a9444559b30f",
+  "repair_focus": "semantics_and_observations",
+  "rules": [
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ]
+  ]
+}

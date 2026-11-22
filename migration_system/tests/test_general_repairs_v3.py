@@ -79,6 +79,14 @@ class AttributeRepairTests(unittest.TestCase):
         validation=legacy_stage(self.settings.repository_root,'validate',source=src,code=wrong['code'],ssm={})
         self.assertIn('invalid_san_template_data_store_access',[e['code'] for e in validation['validation_errors']])
 
+    def test_parseable_but_semantically_wrong_data_store_binding_is_normalized(self):
+        src='<template><p>{{count}}</p></template><script>export default {data(){return {count:2}}}</script>'
+        code='<template><p>{{this.data.get("count")}}</p></template><script>const san=require("san");module.exports=san.defineComponent({initData(){return {count:2}}})</script>'
+        self.assertEqual(target_syntax(self.settings,src,code)['status'],'pass')
+        result=self.normalize(src,code)
+        self.assertIn('{{count}}',result['code'])
+        self.assertNotIn('this.data.get',result['code'])
+
     def test_inline_vue_directives_are_located_instead_of_hidden_by_parent_success(self):
         code='<template><div/></template><script>const san=require("san");const Child=san.defineComponent({name:"Child",template:`<div @click="doIt"/>`});module.exports=san.defineComponent({})</script>'
         r=target_syntax(self.settings,SOURCE,code)

@@ -1,0 +1,81 @@
+test_business_function_body_and_string_comment_decoys_are_not_delimiters (test_option_boundary_syntax_v10.OptionBoundarySyntaxTests.test_business_function_body_and_string_comment_decoys_are_not_delimiters) ... ok
+test_parent_computed_extra_object_close_restores_exact_unchanged_code (test_option_boundary_syntax_v10.OptionBoundarySyntaxTests.test_parent_computed_extra_object_close_restores_exact_unchanged_code) ... FAIL
+test_registered_inline_child_boundary_uses_source_component_graph (test_option_boundary_syntax_v10.OptionBoundarySyntaxTests.test_registered_inline_child_boundary_uses_source_component_graph) ... FAIL
+test_unknown_registration_or_source_container_shape_is_not_guessed (test_option_boundary_syntax_v10.OptionBoundarySyntaxTests.test_unknown_registration_or_source_container_shape_is_not_guessed) ... ok
+test_SVG_loop_has_same_key_contract (test_for_key_grammar_v10.ForKeyGrammarTests.test_SVG_loop_has_same_key_contract) ... FAIL
+test_source_key_moves_inside_binding_and_does_not_become_a_DOM_attribute (test_for_key_grammar_v10.ForKeyGrammarTests.test_source_key_moves_inside_binding_and_does_not_become_a_DOM_attribute) ... FAIL
+test_wrong_key_collection_alias_and_real_source_attributes_are_not_erased (test_for_key_grammar_v10.ForKeyGrammarTests.test_wrong_key_collection_alias_and_real_source_attributes_are_not_erased) ... ok
+test_assignment_return_value_is_not_replaced_by_void_San_set (test_scalar_leaf_syntax_v10.ScalarLeafSyntaxTests.test_assignment_return_value_is_not_replaced_by_void_San_set) ... ok
+test_changed_operator_value_key_and_unknown_capture_do_not_get_source_proof (test_scalar_leaf_syntax_v10.ScalarLeafSyntaxTests.test_changed_operator_value_key_and_unknown_capture_do_not_get_source_proof) ... ok
+test_complete_scalar_expression_is_restored_by_only_its_missing_close (test_scalar_leaf_syntax_v10.ScalarLeafSyntaxTests.test_complete_scalar_expression_is_restored_by_only_its_missing_close) ... FAIL
+test_native_names_and_component_namespace_must_not_be_shadowed (test_scalar_leaf_syntax_v10.ScalarLeafSyntaxTests.test_native_names_and_component_namespace_must_not_be_shadowed) ... ok
+test_all_independent_source_method_closes_restore_exact_complete_program (test_multi_method_closing_v10.MultiMethodClosingTests.test_all_independent_source_method_closes_restore_exact_complete_program) ... FAIL
+test_changed_business_value_and_shadowed_native_capture_are_not_patched (test_multi_method_closing_v10.MultiMethodClosingTests.test_changed_business_value_and_shadowed_native_capture_are_not_patched) ... ok
+
+======================================================================
+FAIL: test_parent_computed_extra_object_close_restores_exact_unchanged_code (test_option_boundary_syntax_v10.OptionBoundarySyntaxTests.test_parent_computed_extra_object_close_restores_exact_unchanged_code)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\migration_system\tests\test_option_boundary_syntax_v10.py", line 25, in test_parent_computed_extra_object_close_restores_exact_unchanged_code
+    self.assertEqual(result['after']['status'],'pass',result)
+AssertionError: 'fail' != 'pass'
+- fail
++ pass
+ : {'code': "<template><b>{{label}}</b></template><script>const san=require('san');module.exports=san.defineComponent({initData(){return {n:0}},computed:{label(){return this.data.get('n')?'on':'off'}}},bump(){this.data.set('n',this.data.get('n')+1)}})</script>", 'changes': [], 'before': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_script_syntax_error', 'message': 'Unexpected token, expected "," (1:150)', 'location': {'offset': 195, 'line': 1, 'column': 196}, 'location_precision': 'exact', 'excerpt': "Component({initData(){return {n:0}},computed:{label(){return this.data.get('n')?'on':'off'}}},bump(){this.data.set('n',this.data.get('n')+1)}})</script>"}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}, 'after': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_script_syntax_error', 'message': 'Unexpected token, expected "," (1:150)', 'location': {'offset': 195, 'line': 1, 'column': 196}, 'location_precision': 'exact', 'excerpt': "Component({initData(){return {n:0}},computed:{label(){return this.data.get('n')?'on':'off'}}},bump(){this.data.set('n',this.data.get('n')+1)}})</script>"}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}}
+
+======================================================================
+FAIL: test_registered_inline_child_boundary_uses_source_component_graph (test_option_boundary_syntax_v10.OptionBoundarySyntaxTests.test_registered_inline_child_boundary_uses_source_component_graph)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\migration_system\tests\test_option_boundary_syntax_v10.py", line 36, in test_registered_inline_child_boundary_uses_source_component_graph
+    self.assertEqual(result['after']['status'],'pass',result)
+AssertionError: 'fail' != 'pass'
+- fail
++ pass
+ : {'code': "<template><main><tiny-card/></main></template><script>const san=require('san');const child=san.defineComponent({template:'<b>{{n}}</b>',initData(){return {n:1}}},methods:{bump(){this.data.set('n',this.data.get('n')+1)}}});module.exports=san.defineComponent({components:{'tiny-card':child}})</script>", 'changes': [], 'before': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_script_syntax_error', 'message': 'Unexpected token, expected "," (1:115)', 'location': {'offset': 169, 'line': 1, 'column': 170}, 'location_precision': 'exact', 'excerpt': "re('san');const child=san.defineComponent({template:'<b>{{n}}</b>',initData(){return {n:1}}},methods:{bump(){this.data.set('n',this.data.get('n')+1)}}});module.exports=san.defineComponent({components:{'tiny-card':child}})</script>"}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}, 'after': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_script_syntax_error', 'message': 'Unexpected token, expected "," (1:115)', 'location': {'offset': 169, 'line': 1, 'column': 170}, 'location_precision': 'exact', 'excerpt': "re('san');const child=san.defineComponent({template:'<b>{{n}}</b>',initData(){return {n:1}}},methods:{bump(){this.data.set('n',this.data.get('n')+1)}}});module.exports=san.defineComponent({components:{'tiny-card':child}})</script>"}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}}
+
+======================================================================
+FAIL: test_SVG_loop_has_same_key_contract (test_for_key_grammar_v10.ForKeyGrammarTests.test_SVG_loop_has_same_key_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\migration_system\tests\test_for_key_grammar_v10.py", line 32, in test_SVG_loop_has_same_key_contract
+    self.assertEqual(result['after']['status'],'pass',result)
+AssertionError: 'fail' != 'pass'
+- fail
++ pass
+ : {'code': '<template><svg><g s-for="row, i in rows" trackby row.id>{{row.id}}</g></svg></template><script>const san=require(\'san\');module.exports=san.defineComponent({initData(){return {rows:[{id:1}]}}})</script>', 'changes': [], 'before': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_template_syntax_error', 'message': '[SAN ERROR] ROOT>svg is closed with g', 'location': {'offset': 10, 'line': 1, 'column': 11}, 'location_precision': 'template_block_start', 'excerpt': '<template><svg><g s-for="row, i in rows" trackby row.id>{{row.id}}</g></svg></template><script>const san=require(\'san\');module.exports=san.defineCompo'}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}, 'after': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_template_syntax_error', 'message': '[SAN ERROR] ROOT>svg is closed with g', 'location': {'offset': 10, 'line': 1, 'column': 11}, 'location_precision': 'template_block_start', 'excerpt': '<template><svg><g s-for="row, i in rows" trackby row.id>{{row.id}}</g></svg></template><script>const san=require(\'san\');module.exports=san.defineCompo'}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}}
+
+======================================================================
+FAIL: test_source_key_moves_inside_binding_and_does_not_become_a_DOM_attribute (test_for_key_grammar_v10.ForKeyGrammarTests.test_source_key_moves_inside_binding_and_does_not_become_a_DOM_attribute)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\migration_system\tests\test_for_key_grammar_v10.py", line 22, in test_source_key_moves_inside_binding_and_does_not_become_a_DOM_attribute
+    self.assertIn('source_matched_external_trackby_into_for_v1',str(result['changes']))
+AssertionError: 'source_matched_external_trackby_into_for_v1' not found in '[]'
+
+======================================================================
+FAIL: test_complete_scalar_expression_is_restored_by_only_its_missing_close (test_scalar_leaf_syntax_v10.ScalarLeafSyntaxTests.test_complete_scalar_expression_is_restored_by_only_its_missing_close)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\migration_system\tests\test_scalar_leaf_syntax_v10.py", line 20, in test_complete_scalar_expression_is_restored_by_only_its_missing_close
+    self.assertEqual(result['after']['status'],'pass',result)
+AssertionError: 'fail' != 'pass'
+- fail
++ pass
+ : {'code': '<template><b>{{scale}}</b></template><script>const san=require(\'san\');module.exports=san.defineComponent({initData(){return {scale:1}},adjust(delta){this.data.set("scale",Math.max(0.7,Math.min(1.3,Number((this.data.get("scale")+delta).toFixed(1))))},next(){return 1}})</script>', 'changes': [], 'before': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_script_syntax_error', 'message': 'Unexpected token, expected "," (1:203)', 'location': {'offset': 248, 'line': 1, 'column': 249}, 'location_precision': 'exact', 'excerpt': '{this.data.set("scale",Math.max(0.7,Math.min(1.3,Number((this.data.get("scale")+delta).toFixed(1))))},next(){return 1}})</script>'}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}, 'after': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_script_syntax_error', 'message': 'Unexpected token, expected "," (1:203)', 'location': {'offset': 248, 'line': 1, 'column': 249}, 'location_precision': 'exact', 'excerpt': '{this.data.set("scale",Math.max(0.7,Math.min(1.3,Number((this.data.get("scale")+delta).toFixed(1))))},next(){return 1}})</script>'}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}}
+
+======================================================================
+FAIL: test_all_independent_source_method_closes_restore_exact_complete_program (test_multi_method_closing_v10.MultiMethodClosingTests.test_all_independent_source_method_closes_restore_exact_complete_program)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\soul\Desktop\swu\毕业设计\migration_system\tests\test_multi_method_closing_v10.py", line 22, in test_all_independent_source_method_closes_restore_exact_complete_program
+    self.assertEqual(result['after']['status'],'pass',result)
+AssertionError: 'fail' != 'pass'
+- fail
++ pass
+ : {'code': '<template><b>{{n}}</b></template><script>const san=require(\'san\');module.exports=san.defineComponent({initData(){return {n:1,items:[{v:1}],active:true}},\n adjust(delta){this.data.set("n",Math.max(0.7,Number((this.data.get("n")+delta).toFixed(1)))},\n refresh(){if(!this.data.get("active"))return;const n=this.data.get("n");this.data.set("items",this.data.get("items").map(item=>Object.assign({},item,{v:n}));this.done(n)},done(n){return n}})</script>', 'changes': [], 'before': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_script_syntax_error', 'message': 'Unexpected token, expected "," (2:92)', 'location': {'offset': 246, 'line': 2, 'column': 93}, 'location_precision': 'exact', 'excerpt': 'true}},\n adjust(delta){this.data.set("n",Math.max(0.7,Number((this.data.get("n")+delta).toFixed(1)))},\n refresh(){if(!this.data.get("active"))return;const n=this.data.get("n");this.data.set("items",this.data.get("items").map(item=>Object.as'}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}, 'after': {'policy': 'target_syntax_first_v1', 'status': 'fail', 'diagnostics': [{'code': 'target_script_syntax_error', 'message': 'Unexpected token, expected "," (2:92)', 'location': {'offset': 246, 'line': 2, 'column': 93}, 'location_precision': 'exact', 'excerpt': 'true}},\n adjust(delta){this.data.set("n",Math.max(0.7,Number((this.data.get("n")+delta).toFixed(1)))},\n refresh(){if(!this.data.get("active"))return;const n=this.data.get("n");this.data.set("items",this.data.get("items").map(item=>Object.as'}], 'diagnostic_count': 1, 'diagnostic_limit': 128, 'overflow': False}}
+
+----------------------------------------------------------------------
+Ran 13 tests in 53.923s
+
+FAILED (failures=6)

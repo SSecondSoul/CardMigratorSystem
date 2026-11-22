@@ -62,6 +62,44 @@ def proven_control_diagnostic_refinement(previous,candidate):
     return bool(shifted)
 
 
+def proven_default_runtime_recovery(previous,candidate):
+    """Only a source-proven missing prop default may reveal a position defect.
+
+    Both are fresh trusted browser witnesses. The candidate must be byte-for-
+    byte the existing rule's entire proposal, not merely have the same template
+    projection. Keep the structure diagnostic/failure; permit repair progress,
+    never equivalence. Unknown/old evidence and any additional edits refuse it.
+    """
+    return _proven_source_runtime_recovery(previous,candidate,'default_recovery_binding',
+        'source_prop_defaults_runtime_recovery_v1','restored_source_parent_prop_defaults')
+
+
+def proven_initialization_runtime_recovery(previous,candidate):
+    """Same narrow gate, but bound to the ENTIRE pure source-init proposal."""
+    return _proven_source_runtime_recovery(previous,candidate,'initialization_recovery_binding',
+        'source_pure_data_initialization_runtime_recovery_v1','restored_source_pure_prop_data_initialization_phase')
+
+
+def _proven_source_runtime_recovery(previous,candidate,field,contract,change):
+    x,y=previous.get(field) or {},candidate.get(field) or {}
+    a,b=previous.get('control_gate_evidence',{}),candidate.get('control_gate_evidence',{})
+    controls=candidate.get('initial_control_state',{})
+    return bool(x.get('contract')==y.get('contract')==contract
+        and x.get('complete') is True and y.get('complete') is True
+        and x.get('input_sha256') and x['input_sha256']==y.get('input_sha256')
+        and x.get('runtime_sha256') and x['runtime_sha256']==y.get('runtime_sha256')
+        and change in x.get('changes',[])
+        and y.get('changes')==[] and x.get('normalized_sha256')==y.get('code_sha256')==y.get('normalized_sha256')
+        and x.get('code_sha256')!=y.get('code_sha256')
+        and previous['dimensions'].get('compile_runtime')=='fail' and candidate['dimensions'].get('compile_runtime')=='pass'
+        and previous['dimensions'].get('source_baseline')==candidate['dimensions'].get('source_baseline')=='pass'
+        and a.get('source_snapshot') and a['source_snapshot']==b.get('source_snapshot') and b.get('complete') is True
+        and controls.get('equal') is False and controls.get('values_equal_in_order') is True
+        and controls.get('source_count')==controls.get('target_count')
+        and previous['structure_ted']['similarity']<=candidate['structure_ted']['similarity']
+        and previous['dom_ted']['similarity']<candidate['dom_ted']['similarity'])
+
+
 def compare_control_state(expected,actual):
     """Compare live properties separately; never waive HTML attribute presence."""
     tags={'input','select','textarea','option','button'}

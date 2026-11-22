@@ -1,6 +1,6 @@
 """Multi-dimensional target checks. Missing coverage never becomes equivalence."""
 from .structure import tree_distance,tree_differences,compare_styles,ssm_template_tree,target_template_tree
-from .dom_comparison import compare_dom,compare_control_state,control_gate_evidence,proven_control_diagnostic_refinement
+from .dom_comparison import compare_dom,compare_control_state,control_gate_evidence,proven_control_diagnostic_refinement,proven_default_runtime_recovery,proven_initialization_runtime_recovery
 
 
 def assess(static,browser,actions,thresholds,ssm=None):
@@ -66,6 +66,8 @@ def assess(static,browser,actions,thresholds,ssm=None):
         'initial_control_state':controls,
         'control_gate_evidence':control_gate_evidence(source['snapshots'][0],target['snapshots'][0],
             source_bad or target_bad),
+        'default_recovery_binding':browser.get('default_recovery_binding'),
+        'initialization_recovery_binding':browser.get('initialization_recovery_binding'),
         'structure_differences':tree_differences(expected_tree,actual_tree),
         'structure_projection':'ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4',
         'projection_limitations':['mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted','key_identity_not_proven_by_ted','script_binding_event_style_dimensions_checked_by_legacy_validator'],
@@ -95,11 +97,15 @@ def candidate_decision(previous,candidate):
             improved=new_syntax['diagnostic_count']<old_syntax['diagnostic_count']
             return {'accepted':improved,'reason':'syntax_diagnostics_reduced' if improved else 'no_syntax_progress'}
     refinements=[]
+    default_recovered=proven_default_runtime_recovery(previous,candidate)
+    initialization_recovered=proven_initialization_runtime_recovery(previous,candidate)
     if ('rendered_control_position_mismatch' in added and 'rendered_control_state_mismatch' in old_errors
             and 'rendered_control_state_mismatch' not in new_errors
-            and proven_control_diagnostic_refinement(previous,candidate)):
+            and (proven_control_diagnostic_refinement(previous,candidate) or default_recovered or initialization_recovered)):
         added.remove('rendered_control_position_mismatch')
-        refinements.append('rendered_control_state_mismatch_to_existing_position_defect')
+        refinements.append('source_pure_initialization_runtime_recovery_revealed_position_defect' if initialization_recovered
+            else 'source_default_runtime_recovery_revealed_position_defect' if default_recovered
+            else 'rendered_control_state_mismatch_to_existing_position_defect')
     if candidate['source_blocked'] or regressions or added:
         return {'accepted':False,'reason':'candidate_regression','dimensions':regressions,'added_errors':sorted(added)}
     def score(value):return (sum(v=='pass' for v in value['dimensions'].values()),-len(value.get('diagnostics',[])),

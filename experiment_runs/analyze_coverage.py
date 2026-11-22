@@ -94,8 +94,13 @@ def analyze_record(batch_name, sample, report, artifacts):
         choices = response.get('choices') or [{}]
         calls.append({'ordinal': int(folder.name), 'error': receipt.get('error'),
                       'finish_reason': choices[0].get('finish_reason'), 'usage': receipt.get('usage')})
-    if len(calls) != report['model_calls_started']:
+    # An unknown transport outcome is NOT a zero-token successful response.
+    # Only a durably declared unknown call can explain a missing receipt.
+    missing_receipts = report['model_calls_started'] - len(calls)
+    if missing_receipts != report.get('unknown_calls', 0) or missing_receipts < 0:
         raise ValueError('call_receipts_not_complete:' + sample['id'])
+    if missing_receipts and report['usage']['complete']:
+        raise ValueError('unknown_call_cannot_have_complete_usage:' + sample['id'])
     if sum((call['usage'] or {}).get('total_tokens', 0) for call in calls) != report['usage']['known_total_tokens']:
         raise ValueError('usage_total_differs:' + sample['id'])
     decisions = report.get('state', {}).get('decisions', [])
@@ -120,19 +125,20 @@ def analyze_record(batch_name, sample, report, artifacts):
         'assessment_revision_sha256': assessment.get('revision_sha256'),
         'latest_revision_sha256': latest['file']['sha256'] if latest else None,
         'calls': calls,
+        'missing_receipts_unknown_outcome': missing_receipts,
         'report': f'{batch_name}/samples/{sample["slug"]}/report.json',
         'coverage_claim': 'configured_initial_checks_only_no_interaction_or_manual_acceptance',
     }
 
 
-def collect(root=RUNS):
+def collect(root=RUNS, batches=None):
     rows, details, snapshots, batch_stats, protocols = [], {}, {}, [], {}
     def verify(path, expected=None):
         actual = hashed(path)
         if expected is not None and actual != expected:
             raise ValueError('evidence_hash_mismatch:' + str(path))
         snapshots[path.relative_to(root).as_posix()] = actual
-    for name in BATCHES:
+    for name in BATCHES if batches is None else batches:
         batch = root / name
         protocol, checkpoint, samples, summary = [read(batch / path) for path in (
             'protocol.json', 'checkpoint.json', 'samples.json', 'summary.json')]

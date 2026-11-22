@@ -1,0 +1,26 @@
+{
+  "code": "<template><section class=\"kanban-column-board\"><header><h2>\u5185\u5bb9\u5236\u4f5c\u770b\u677f</h2><div class=\"actions\"><button on-click=\"move(-1)\" disabled=\"{{!selectedTask}}\">\u2190 \u5de6\u79fb</button><button on-click=\"move(1)\" disabled=\"{{!selectedTask}}\">\u53f3\u79fb \u2192</button></div></header><div class=\"board\" s-for=\"column in this.data.get('boardColumns') trackby column.id\"><article><h3>{{column.label}} \u00b7 {{column.count}}</h3><button on-click=\"select(task.id)\" class=\"{{ task.id === this.data.get('selectedId') ? 'selected' : '' }}\" s-for=\"task in column.tasks trackby task.id\">{{task.title}}</button></article></div><form on-submit=\"add\"><input placeholder=\"\u65b0\u589e\u5f85\u5904\u7406\u4efb\u52a1\" value=\"{{draft}}\" on-input=\"updateDraft\"/><button class=\"primary\" type=\"submit\">\u6dfb\u52a0</button></form></section></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"KanbanColumnBoard\",dataTypes:{initialTasks:DataTypes.array,columns:DataTypes.array},initData(){return {\ninitialTasks: [{\n  \"id\": 1,\n  \"title\": \"\u9700\u6c42\u62c6\u89e3\",\n  \"status\": \"todo\"\n}, {\n  \"id\": 2,\n  \"title\": \"\u7ec4\u4ef6\u5b9e\u73b0\",\n  \"status\": \"doing\"\n}, {\n  \"id\": 3,\n  \"title\": \"\u4eba\u5de5\u590d\u6838\",\n  \"status\": \"done\"\n}],\ncolumns: [{\n  \"id\": \"todo\",\n  \"label\": \"\u5f85\u5904\u7406\"\n}, {\n  \"id\": \"doing\",\n  \"label\": \"\u8fdb\u884c\u4e2d\"\n}, {\n  \"id\": \"done\",\n  \"label\": \"\u5df2\u5b8c\u6210\"\n}],\ntasks:[],selectedId:null,draft:\"\",nextId:10}},computed:{boardColumns(){const columns=this.data.get(\"columns\");const tasks=this.data.get(\"tasks\");return columns.map(column=>{const columnTasks=tasks.filter(item=>item.status===column.id);return Object.assign({},column,{tasks:columnTasks,count:columnTasks.length})})},selectedTask(){const tasks=this.data.get(\"tasks\");const selectedId=this.data.get(\"selectedId\");return tasks.find(item=>item.id===selectedId)||null}},inited(){const initialTasks=this.data.get(\"initialTasks\")||[];this.data.set(\"tasks\",initialTasks.map(item=>Object.assign({},item)))},setValue(key,value){this.data.set(key,value)},emitEvent(name,payload){this.fire(name,payload)},select(id){this.data.set(\"selectedId\",id)},move(delta){const selectedTask=this.data.get(\"selectedTask\");if(!selectedTask)return;const columns=this.data.get(\"columns\");const index=columns.findIndex(item=>item.id===selectedTask.status);const target=columns[index+delta];if(!target)return;const tasks=this.data.get(\"tasks\");this.data.set(\"tasks\",tasks.map(item=>item.id===selectedTask.id?Object.assign({},item,{status:target.id}):item));this.fire(\"move\",{id:selectedTask.id,status:target.id})},updateDraft(event){this.data.set(\"draft\",event.target.value)},add(event){\n  event.preventDefault();\n  const title = this.data.get(\"draft\").trim();\n  if (!title) return;\n  const task = {\n    id: this.data.get(\"nextId\"),\n    title,\n    status: 'todo'\n  };\n  this.setValue('tasks', this.data.get(\"tasks\").concat(task));\n  this.setValue('nextId', this.data.get(\"nextId\") + 1);\n  this.setValue('draft', '');\n  this.emitEvent('add', task);\n}});</script><style>.kanban-column-board{max-width:760px;margin:18px auto;padding:20px;border:1px solid #cfd6dd;border-radius:8px;background:#fff;color:#24313d;font-family:Arial,sans-serif;box-sizing:border-box}.kanban-column-board *{box-sizing:border-box}.kanban-column-board h2,.kanban-column-board h3,.kanban-column-board p{margin-top:0}.kanban-column-board button{padding:7px 11px;border:1px solid #aeb8c2;border-radius:5px;background:#fff;color:#273746;cursor:pointer}.kanban-column-board button.primary{border-color:#7c3aed;background:#7c3aed;color:#fff}.kanban-column-board button:disabled{opacity:.45;cursor:not-allowed}.kanban-column-board input,.kanban-column-board select,.kanban-column-board textarea{padding:8px;border:1px solid #b9c3cc;border-radius:5px;font:inherit}.kanban-column-board .muted{color:#71808e;font-size:12px}.kanban-column-board .toolbar,.kanban-column-board .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}header{display:flex;justify-content:space-between}.board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.board article{min-height:190px;padding:10px;background:#f8fafc}.board article>button{display:block;width:100%;margin:6px 0;text-align:left}.board button.selected{background:#ede9fe;border-color:#7c3aed}form{display:flex;gap:8px;margin-top:12px}form input{flex:1}</style>",
+  "file": {
+    "kind": "san",
+    "relative_path": "migrations/6415ef868b174fe3a78a30ebfb9a89e7/revisions/1.san",
+    "sha256": "8b56ebb77eade17401dc57104caac6d4b5b5587642db1b9e1587a4a4103c0a46"
+  },
+  "number": 1,
+  "origin": "rule_repair",
+  "parent": "cb3b702d333e5df735f4ff0bca51a66500c058acf04273c912ee4f0ad748dfa4",
+  "repair_focus": "semantics_and_observations",
+  "rules": [
+    [
+      "source_template_bindings",
+      "restored_source_render_field_bindings"
+    ],
+    [
+      "source_parent_prop_contracts",
+      "restored_source_parent_prop_defaults"
+    ],
+    [
+      "bounded_ast_semantics",
+      "restored_source_internal_setter_caller_bodies"
+    ]
+  ]
+}

@@ -26,7 +26,7 @@ const plain = o => o?.type === 'ObjectExpression' && o.properties.every(p => key
 const reserved = new Set(['initData','inited','compiled','created','attached','updated','detached','disposed',
   'watch','fire','ref','slot','attach','detach','dispose','data','el','constructor','prototype','__proto__',
   'template','components','computed','dataTypes','filters','messages','tagName']);
-const globals = new Set(['window','Notification','Math','JSON','String','Number','Boolean','undefined','NaN','Infinity']);
+const globals = new Set(['window','Notification','Math','JSON','String','Number','Boolean','Date','Object','Array','undefined','NaN','Infinity']);
 const dangerous = new Set(['constructor','prototype','__proto__']);
 const pureCalls = new Set(['Math.abs','Math.round','Math.floor','Math.ceil','Math.min','Math.max',
   'Math.pow','Math.sqrt','JSON.stringify','JSON.parse','String','Number','Boolean']);
@@ -126,12 +126,72 @@ function declaredStateAssignment(ctx,src,methods,name,target) {
     &&data?.type==='MemberExpression'&&!data.computed&&data.object.type==='ThisExpression'&&data.property.name==='data'
     &&call.arguments.every((p,i)=>p.type==='Identifier'&&p.name===fn.params[i].name);
   if(!exact)fail('target_not_exact_single_data_set_statement');
-  const constantKey=path=>{
-    if(path?.node?.type==='StringLiteral')return path.node.value;
+  const forwardingTemplates={source:[],target:[]},parameterProofs=[];
+  const syntaxIdentity=n=>JSON.stringify(n,(k,v)=>['start','end','loc','extra','leadingComments','trailingComments','innerComments'].includes(k)?undefined:v);
+  const callerName=(owner,side,root)=>{
+    if(!owner?.isObjectMethod()||(owner.parent!==root&&owner.parent!==methods))return null;
+    let label=key(owner.node);
+    if(side==='source'&&owner.parent===root)label=({created:'inited',mounted:'attached',beforeUnmount:'detached',unmounted:'disposed'})[label]||label;
+    if(side==='source')sourceOwners.set(label,owner.node);
+    return label;
+  };
+  // Interprocedural SOURCE-INTERNAL proof. A parameter is finite only when
+  // every internal/script/template use of that helper has statically known
+  // arguments. Escapes, reassignment, recursive flows and implicit events fail.
+  // Complete upstream script bodies AND full template calls are compared;
+  // this is not a key-name whitelist or an arbitrary external-call contract.
+  const constantKeys=(path,side,ast,root,template,active=new Set())=>{
+    if(path?.node?.type==='StringLiteral')return [path.node.value];
     if(path?.node?.type!=='Identifier')return null;
     const binding=path.scope.getBinding(path.node.name),n=binding?.path.node;
-    return binding?.constant&&n?.type==='VariableDeclarator'&&binding.path.parent.kind==='const'
-      &&n.init?.type==='StringLiteral'?n.init.value:null;
+    if(binding?.constant&&n?.type==='VariableDeclarator'&&binding.path.parent.kind==='const'&&n.init?.type==='StringLiteral')return [n.init.value];
+    if(binding?.kind!=='param'||!binding.constant)return null;
+    const helper=binding.path.getFunctionParent(),methodName=key(helper?.node),container=side==='source'?methods:root;
+    const index=helper?.node.params.indexOf(n),token=side+':'+methodName+':'+index;
+    if(!helper?.isObjectMethod()||helper.parent!==container||!methodName||reserved.has(methodName)||active.has(token)
+        ||container.properties.filter(p=>key(p)===methodName).length!==1||index<0||helper.node.async||helper.node.generator
+        ||helper.node.params.some(p=>p.type!=='Identifier'))return null;
+    const next=new Set([...active,token]),values=[];let invalid=false,uses=0;
+    traverse(ast,{MemberExpression(p){
+      const member=p.node;
+      if(member.start<root.start||member.end>root.end||member.computed||member.object.type!=='ThisExpression'||member.property.name!==methodName)return;
+      const call=p.parentPath;
+      if(!call.isCallExpression()||call.node.callee!==member||call.node.optional
+          ||call.node.arguments.length!==helper.node.params.length||call.node.arguments.some(t.isSpreadElement)) {invalid=true;return;}
+      let owner=call.getFunctionParent();while(owner?.isArrowFunctionExpression())owner=owner.getFunctionParent();
+      if(!callerName(owner,side,root)){invalid=true;return;}
+      const keys=constantKeys(call.get('arguments')[index],side,ast,root,template,next);
+      if(!keys){invalid=true;return;}values.push(...keys);uses++;
+    }});
+    try{
+      const render=parse(template),visit=(node,route)=>{
+        if(node.type===1)for(const prop of node.props){
+          const loop=side==='source'?prop.type===7&&prop.name==='for':prop.type===6&&prop.name==='s-for';
+          if(loop&&new RegExp('(^|[^\\w$])'+escape(methodName)+'(?![\\w$])').test((prop.exp||prop.value)?.content||''))invalid=true;
+          if(prop.name==='slot-scope'||prop.name==='slot'||prop.type===7&&prop.name==='slot')invalid=true;
+          let text=side==='source'?prop.type===7&&prop.exp?.content:
+            prop.type===6&&prop.value&&(prop.name.startsWith('on-')||/^\s*[{][{=]/.test(prop.value.content))&&prop.value.content;
+          if(!text||!new RegExp('(^|[^\\w$])'+escape(methodName)+'(?![\\w$])').test(text))continue;
+          if(side==='target')text=text.replace(/^(?:(?:stop|prevent|capture|self):)+/,'').replace(/^\s*{{([\s\S]*)}}\s*$/,'$1').replace(/^\s*{=([\s\S]*)=}\s*$/,'$1');
+          const expression=parser.parseExpression(text),event=side==='source'?prop.arg?.content:prop.name.replace(/^on-/,'');
+          const tree=t.file(t.program([t.expressionStatement(expression)]));
+          traverse(tree,{ReferencedIdentifier(p){if(p.node.name!==methodName)return;
+            const c=p.parent;
+            if(c.type!=='CallExpression'||c.callee!==p.node||c.optional||c.arguments.length!==helper.node.params.length
+                ||c.arguments.some(t.isSpreadElement)||c.arguments[index]?.type!=='StringLiteral'){invalid=true;return;}
+            values.push(c.arguments[index].value);uses++;
+            forwardingTemplates[side].push(route+':'+event+':'+token.split(':').slice(1).join(':')+':'+syntaxIdentity(c));
+          },MemberExpression(p){if(p.node.object.type==='ThisExpression'&&(!p.node.computed?p.node.property.name:p.node.property.value)===methodName)invalid=true;}});
+        }
+        // Methods referenced as values in interpolation are escapes as well.
+        if(node.type===5&&new RegExp('(^|[^\\w$])'+escape(methodName)+'(?![\\w$])').test(node.content.content))invalid=true;
+        let elementIndex=0;
+        (node.children||[]).forEach(child=>visit(child,route+'/'+(child.tag||child.type)+'['+(child.type===1?elementIndex++:'text')+']'));
+      };visit(render,'');
+    }catch(_){invalid=true;}
+    const keys=[...new Set(values)].sort();
+    parameterProofs.push({side,helper:methodName,parameter:index,keys,internal_uses:uses,status:!invalid&&uses?'proven':'unproven'});
+    return !invalid&&uses?keys:null;
   };
   for(const [side,ast,root,definition,template] of [
     ['source',src.ast,src.object,resolvedFunction(one(methods,name),ctx.source_function_bindings),src.template],
@@ -164,10 +224,10 @@ function declaredStateAssignment(ctx,src,methods,name,target) {
         if(side==='source'&&(owner.parent===root||owner.parentPath.parent===root))
           ownerName=({created:'inited',mounted:'attached',beforeUnmount:'detached',unmounted:'disposed'})[ownerName]||ownerName;
         if(side==='source')sourceOwners.set(ownerName,owner.node);
-        const args=invocation.get('arguments'),field=constantKey(args[0]);
+        const args=invocation.get('arguments'),fields=constantKeys(args[0],side,ast,root,template);
         if(args.length!==2||args.some(p=>p.isSpreadElement()))fail(side+':invalid_call_arguments');
-        if(!allowed.has(field))fail(side+':key_not_ordinary_declared_state');
-        calls[side].push({caller:ownerName,key:field,line:invocation.node.loc?.start.line});
+        if(!fields||fields.some(field=>!allowed.has(field)))fail(side+':key_not_ordinary_declared_state');
+        for(const field of fields||[null])calls[side].push({caller:ownerName,key:field,line:invocation.node.loc?.start.line});
       },
       CallExpression(path){
         const n=path.node,c=n.callee;
@@ -175,13 +235,13 @@ function declaredStateAssignment(ctx,src,methods,name,target) {
         if(c.type!=='MemberExpression'||c.computed||c.property.name!=='set'
           ||c.object.type!=='MemberExpression'||c.object.computed||c.object.property.name!=='data'
           ||c.object.object.type!=='ThisExpression')return;
-        const field=constantKey(path.get('arguments.0'));
-        if(field===null)fail('target:unresolved_state_write');
-        if(!allowed.has(field))return;
+        const fields=constantKeys(path.get('arguments.0'),side,ast,root,template);
+        if(fields===null){fail('target:unresolved_state_write');return;}
+        if(fields.some(field=>!allowed.has(field)))return;
         let owner=path.getFunctionParent();while(owner?.isArrowFunctionExpression())owner=owner.getFunctionParent();
         const caller=owner?.node.type==='ObjectMethod'?key(owner.node):key(owner?.parent);
         if(!caller){fail('target:unknown_state_write_owner');return;}
-        calls.target.push({caller,key:field,line:n.loc?.start.line,form:'inlined_data_set'});
+        for(const field of fields)calls.target.push({caller,key:field,line:n.loc?.start.line,form:'inlined_data_set'});
       },
       AssignmentExpression(path){
         if(path.node.start<root.start||path.node.end>root.end)return;
@@ -193,6 +253,7 @@ function declaredStateAssignment(ctx,src,methods,name,target) {
     });
   }
   const identities=side=>calls[side].map(c=>c.caller+':'+c.key).sort();
+  if(JSON.stringify(forwardingTemplates.source.sort())!==JSON.stringify(forwardingTemplates.target.sort()))fail('template_forwarding_arguments_not_source_matched');
   if(!calls.source.length)fail('no_proven_internal_calls');
   if(JSON.stringify(identities('source'))!==JSON.stringify(identities('target')))fail('caller_key_multiplicity_mismatch');
   const state=fieldNames(src.object,true),callerMappings=[];
@@ -289,7 +350,7 @@ function declaredStateAssignment(ctx,src,methods,name,target) {
   return {contract:'source_internal_declared_state_assignment_v1',
     status:reasons.size?'unproven':'proven_for_source_internal_calls',
     arbitrary_key_semantics_proven:false,source_keys:[...new Set(calls.source.map(c=>c.key))],
-    calls,caller_mappings:callerMappings,refusals:[...reasons].sort(),
+    calls,caller_mappings:callerMappings,parameter_flows:parameterProofs,refusals:[...reasons].sort(),
     limitations:['not_arbitrary_external_public_key_equivalence','surrounding_call_timing_values_and_other_methods_checked_separately']};
 }
 function restore(source, ctx, src, methods) {

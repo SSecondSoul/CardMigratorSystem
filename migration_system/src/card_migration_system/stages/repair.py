@@ -7,6 +7,7 @@ import json
 from ..application.service import ServiceError
 from ..prompts.repair_context import model_evidence,project_prompt
 from ..prompts.san_contract import CONSTRAINTS, POLICY, SHA256, repair_targets
+from .normalization import normalize_proposal
 
 
 def propose_repair(self,key,current,evaluation,number,*,BrowserEvaluator,syntax_repair_messages):
@@ -14,14 +15,12 @@ def propose_repair(self,key,current,evaluation,number,*,BrowserEvaluator,syntax_
     if cached:return cached
     self.guard(key);source=self.source(key);ssm=self.extract(key)['ssm'];errors=evaluation['diagnostics']
     syntax_blocked=evaluation.get('syntax',{}).get('status')=='fail'
-    visual=[] if evaluation['dimensions']['visual'] in ('pass','not_run') else [{'code':'visual_mismatch','details':{
-        k:evaluation[k] for k in ('ui_restoration','different_pixel_ratio','styles','interaction')}}]
     browser=self.browser or BrowserEvaluator(self.settings,self.job(key).request['runtime'])
-    if syntax_blocked:
-        normalized=browser.syntax(source,current['code'],normalize=True)
-        rule={'code':normalized['code'],'changes':normalized['changes']}
-    else:
-        rule=self.checks(self.settings.repository_root,'rules',source=source,code=current['code'],ssm=ssm,errors=errors,visual_errors=visual)
+    allow_recovery=not any(not d['accepted'] and d['previous']==current['file']['sha256']
+                           for d in self.job(key).state.get('decisions',[]))
+    rule=normalize_proposal(self.settings,self.checks,browser,source,current['code'],ssm,evaluation,
+                            prefer_runtime_recovery=allow_recovery)
+    model_output=None
     rejected_rule=False
     for decision in self.job(key).state.get('decisions',[]):
         if not decision['accepted'] and decision['previous']==current['file']['sha256']:
@@ -46,8 +45,17 @@ def propose_repair(self,key,current,evaluation,number,*,BrowserEvaluator,syntax_
         for prior_number in range(1,number):
             prior=self.cached(key,f'calls/{prior_number}/request.json')
             if prior and prior.get('messages')==messages:raise ServiceError('repeated_repair_request_blocked')
-        code=self.invoke(key,number,messages)['code'];origin='model_repair'
+        raw_code=self.invoke(key,number,messages)['code'];origin='model_repair'
+        model_output=self.put(key,f'model-outputs/{number}.san','raw_model_san',raw_code.encode())
+        # Newly introduced, source-proven option/default/syntax defects are
+        # corrected in the SAME proposal, not left to consume the next repair
+        # round. Never reuse the parent's stale static findings as proof.
+        rule=normalize_proposal(self.settings,self.checks,browser,source,raw_code,ssm,evaluation,prefer_runtime_recovery=False)
+        code=rule['code']
+    self.put_json(key,f'normalizations/{number}.json','normalization',
+        {k:v for k,v in rule.items() if k!='code'})
     ref=self.put(key,f'revisions/{number}.san','san',code.encode())
     revision={'number':number,'parent':current['file']['sha256'],'origin':origin,'file':ref,'code':code,'rules':rule['changes'],
               'repair_focus':'syntax' if syntax_blocked else 'semantics_and_observations'}
+    if model_output:revision['raw_model_output']=model_output
     self.put_json(key,f'revisions/{number}.json','revision',revision);return revision

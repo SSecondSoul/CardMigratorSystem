@@ -1,0 +1,2329 @@
+{
+  "actual_cloud_model_calls": 3,
+  "assessment": {
+    "control_gate_evidence": {
+      "complete": true,
+      "contract": "control_diagnostic_refinement_v1",
+      "source": [
+        {
+          "identity": "43b03026020b72414d16afbf06c3b21d70e754cdcd1f992f35b07c3b38b52b74",
+          "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+          "path": "root.0.2.2.0"
+        },
+        {
+          "identity": "0686e81cbdc7166d6ec6daeab2ece0f15abd4a5410ed2ca95161a295bbbb4c76",
+          "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+          "path": "root.0.2.2.1"
+        },
+        {
+          "identity": "e90c7679f35c39e2d3da9ef00a92485b2a57f4efd2e03d471060a06d8b7592ac",
+          "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+          "path": "root.0.2.2.2"
+        },
+        {
+          "identity": "a129a144b0d1199ea8e8acdc817abd336fbadf929df38bbb2721b9ed45a4d3d2",
+          "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+          "path": "root.0.2.3.0"
+        },
+        {
+          "identity": "a08fd4ff40a446547ab59c65cd9e553272fcaf8c64f1b838b7cfc1126e874330",
+          "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+          "path": "root.0.2.3.1"
+        }
+      ],
+      "source_snapshot": "bee9adf5bb60bb2467cf94a0e8c4b88c0d4d51720fc7e27242346dba2f66ec7b",
+      "target": [
+        {
+          "identity": "bdcb71bc17012105563094e4cf74d1a83b78f83ff67389b1efa6df2a8a22276d",
+          "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+          "path": "root.0.2.2.0"
+        },
+        {
+          "identity": "0c741ee9f788bb8f86807a972804cee49358633ed00dca23a108ef6653217541",
+          "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+          "path": "root.0.2.2.1"
+        },
+        {
+          "identity": "bccc9c634a8c5c5383f10d9aeaa7d3773f34c8a3f26a547a5574865983582851",
+          "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+          "path": "root.0.2.2.2"
+        },
+        {
+          "identity": "a129a144b0d1199ea8e8acdc817abd336fbadf929df38bbb2721b9ed45a4d3d2",
+          "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+          "path": "root.0.2.3.0"
+        },
+        {
+          "identity": "a08fd4ff40a446547ab59c65cd9e553272fcaf8c64f1b838b7cfc1126e874330",
+          "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+          "path": "root.0.2.3.1"
+        }
+      ]
+    },
+    "coverage": "configured_props_and_representative_actions_only",
+    "diagnostics": [
+      {
+        "code": "rendered_dom_mismatch",
+        "comparison_policy": {
+          "approved": false,
+          "limitations": [
+            "raw_DOM_and_attribute_presence_retained",
+            "unknown_dependencies_keep_strict_comparison",
+            "not_arbitrary_external_DOM_observer_equivalence"
+          ],
+          "operations": [
+            "empty_class_presence",
+            "html_class_token_whitespace_order_duplicates"
+          ],
+          "reasons": [
+            "source:dom_or_reflective_member",
+            "source:dynamic_member",
+            "source:dynamic_template_member",
+            "source:unknown_bound_attribute",
+            "source:unknown_member_call",
+            "target:active_template_attribute",
+            "target:dynamic_member",
+            "target:dynamic_template_member"
+          ],
+          "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+          "version": "class_serialization_v2"
+        },
+        "differences": [
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.2.2.0"
+          },
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.2.2.1"
+          },
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.2.2.2"
+          }
+        ],
+        "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+        "live_control_state": {
+          "differences": [],
+          "equal": true,
+          "paths_equal": true,
+          "scope": "captured_live_control_properties_not_attribute_equivalence",
+          "source_count": 5,
+          "target_count": 5,
+          "values_equal_in_order": true
+        },
+        "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+        "raw_differences": [
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.2.2.0"
+          },
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.2.2.1"
+          },
+          {
+            "actual": "button|type=button",
+            "expected": "button|class=|type=button",
+            "path": "root.0.2.2.2"
+          }
+        ],
+        "representation_differences": [
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.2.2.0",
+            "source": "",
+            "target": null
+          },
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.2.2.1",
+            "source": "",
+            "target": null
+          },
+          {
+            "attribute": "class",
+            "kind": "empty_class_presence",
+            "normalized": false,
+            "path": "root.0.2.2.2",
+            "source": "",
+            "target": null
+          }
+        ]
+      }
+    ],
+    "different_pixel_ratio": 0,
+    "dimensions": {
+      "compile_runtime": "pass",
+      "interaction": "not_run",
+      "source_baseline": "pass",
+      "static": "pass",
+      "structure": "fail",
+      "visual": "pass"
+    },
+    "dom_comparison_policy": {
+      "approved": false,
+      "limitations": [
+        "raw_DOM_and_attribute_presence_retained",
+        "unknown_dependencies_keep_strict_comparison",
+        "not_arbitrary_external_DOM_observer_equivalence"
+      ],
+      "operations": [
+        "empty_class_presence",
+        "html_class_token_whitespace_order_duplicates"
+      ],
+      "reasons": [
+        "source:dom_or_reflective_member",
+        "source:dynamic_member",
+        "source:dynamic_template_member",
+        "source:unknown_bound_attribute",
+        "source:unknown_member_call",
+        "target:active_template_attribute",
+        "target:dynamic_member",
+        "target:dynamic_template_member"
+      ],
+      "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+      "version": "class_serialization_v2"
+    },
+    "dom_differences": [
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.2.2.0"
+      },
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.2.2.1"
+      },
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.2.2.2"
+      }
+    ],
+    "dom_normalization_changes": [],
+    "dom_representation_differences": [
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.2.2.0",
+        "source": "",
+        "target": null
+      },
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.2.2.1",
+        "source": "",
+        "target": null
+      },
+      {
+        "attribute": "class",
+        "kind": "empty_class_presence",
+        "normalized": false,
+        "path": "root.0.2.2.2",
+        "source": "",
+        "target": null
+      }
+    ],
+    "dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.896551724137931,
+      "source_nodes": 29,
+      "target_nodes": 29
+    },
+    "embedding_similarity": {
+      "similarity": null,
+      "status": "not_configured"
+    },
+    "functional_equivalence": "not_proven",
+    "images": {
+      "heatmap": {
+        "kind": "screenshot",
+        "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/heatmap.png",
+        "sha256": "68c4b7d5b61a308f6a02ac56bf5d26ec0fdf85c26667b38983166cec795ddef2"
+      },
+      "san": {
+        "kind": "screenshot",
+        "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/san.png",
+        "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+      },
+      "vue": {
+        "kind": "screenshot",
+        "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/vue.png",
+        "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+      }
+    },
+    "initial_control_state": {
+      "differences": [],
+      "equal": true,
+      "paths_equal": true,
+      "scope": "captured_live_control_properties_not_attribute_equivalence",
+      "source_count": 5,
+      "target_count": 5,
+      "values_equal_in_order": true
+    },
+    "interaction": [],
+    "passed": false,
+    "projection_limitations": [
+      "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+      "key_identity_not_proven_by_ted",
+      "script_binding_event_style_dimensions_checked_by_legacy_validator"
+    ],
+    "raw_dom_differences": [
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.2.2.0"
+      },
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.2.2.1"
+      },
+      {
+        "actual": "button|type=button",
+        "expected": "button|class=|type=button",
+        "path": "root.0.2.2.2"
+      }
+    ],
+    "raw_dom_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 3,
+      "similarity": 0.896551724137931,
+      "source_nodes": 29,
+      "target_nodes": 29
+    },
+    "required": [
+      "static",
+      "compile_runtime",
+      "structure",
+      "visual",
+      "source_baseline"
+    ],
+    "revision_sha256": "e09bcc62d48671ef8f3a8b1bc405d6ad54197520364dfc399067a91ee30bed99",
+    "source_ast_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 1,
+      "similarity": 0.9705882352941176,
+      "source_nodes": 34,
+      "target_nodes": 34
+    },
+    "source_blocked": false,
+    "source_diagnostics": [],
+    "source_method_contracts": [
+      {
+        "legacy_wrapper": false,
+        "name": "choose",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "previous",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "next",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "finish",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      },
+      {
+        "legacy_wrapper": false,
+        "name": "restart",
+        "restore_eligible": false,
+        "source_references": {
+          "count": 1,
+          "uncertain": false
+        },
+        "status": "callable_present",
+        "target_references": {
+          "count": 1,
+          "uncertain": false
+        }
+      }
+    ],
+    "ssim": 1,
+    "structure_differences": [],
+    "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+    "structure_ted": {
+      "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+      "distance": 0,
+      "similarity": 1.0,
+      "source_nodes": 22,
+      "target_nodes": 22
+    },
+    "styles": {
+      "compared_properties": 247,
+      "differences": [],
+      "matching": "child_index_path",
+      "similarity": 1.0,
+      "truncated": false
+    },
+    "syntax": {
+      "diagnostic_count": 0,
+      "diagnostic_limit": 128,
+      "diagnostics": [],
+      "overflow": false,
+      "policy": "target_syntax_first_v1",
+      "status": "pass"
+    },
+    "target_warnings": [],
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "timing_ms": {
+      "source": 841.3159999999998,
+      "target": 780.2926000000002
+    },
+    "ui_restoration": 100
+  },
+  "binding": {
+    "legacy": "34f47947cf62b38183e3ba9ab6a55c6016089612797d9fb35554f18f641e2f1e",
+    "protocol": "modular-migration-v1",
+    "ssm": "7eb6a96d7b6ccfa8e6cb6de59ea002b7cf3a4fb80a3b5ceb27c178b1a8e8c756",
+    "system": "abcb47907554a8e4f2bd8c9708c226d7525bc8163f35ef150c61f19c898a0916"
+  },
+  "calls": [
+    {
+      "ordinal": 0,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "0f2737a39686140f568a47cd4317772982531daad8a24417b04e8c66aa114e38",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/0/response.json",
+          "sha256": "d9b1e90f06e5de167769775f74a4fbc42ca9752ce6783b559fb410ff84f2d275"
+        },
+        "usage": {
+          "completion_tokens": 993,
+          "prompt_tokens": 16014,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 17007
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 2,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "00a0287bcd6e8709f7dd8996ad25aabf94afedaca4680b33fecaf5a4c6358367",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/2/response.json",
+          "sha256": "f2e40b382c392df393b4509767074fd1fe0d95d27da584abeda4fe0d23f2e9ba"
+        },
+        "usage": {
+          "completion_tokens": 1181,
+          "prompt_tokens": 12628,
+          "prompt_tokens_details": {
+            "cached_tokens": 256
+          },
+          "total_tokens": 13809
+        },
+        "valid": true
+      },
+      "status": "returned"
+    },
+    {
+      "ordinal": 3,
+      "receipt": {
+        "error": null,
+        "http_status": 200,
+        "provenance": "qwen",
+        "request_sha256": "c4637d586680d0c12e6215d00081541e4d8f1cd8e4eb6bf6592a683a8f282f00",
+        "response": {
+          "kind": "model_response",
+          "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/3/response.json",
+          "sha256": "d66138a6b7dbb1f0510707080ca6f71c760cd754f125ef4a0425d5b1cf7d05da"
+        },
+        "usage": {
+          "completion_tokens": 1144,
+          "prompt_tokens": 12796,
+          "prompt_tokens_details": {
+            "cached_tokens": 256
+          },
+          "total_tokens": 13940
+        },
+        "valid": true
+      },
+      "status": "returned"
+    }
+  ],
+  "coverage": "configured_props_and_representative_actions_only",
+  "created_at": 1795077825.607716,
+  "files": [
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/0/receipt.json",
+      "sha256": "8d689e74c20b4983f57dead8d6ad72da78bff5aebafcdb6bf14a61e61b20091f"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/0/request.json",
+      "sha256": "72db3f420f5a640ae548f70106a8427c31b4e6b78d538df96e56d0b58ce0d17a"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/0/response.json",
+      "sha256": "d9b1e90f06e5de167769775f74a4fbc42ca9752ce6783b559fb410ff84f2d275"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/2/receipt.json",
+      "sha256": "2033b4d222242d5723a518b0e8a3992eceac3c4cdd4d5c0a2bb65862c1f42187"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/2/repair-context.json",
+      "sha256": "236af9d59e81deb3eeef2aa281eadf80af1ca90c892317479541638820395836"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/2/request.json",
+      "sha256": "ae3fcf7cf6e84ae3d70f16786ef668067e9b91ec2831a46380c835873bff9ff5"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/2/response.json",
+      "sha256": "f2e40b382c392df393b4509767074fd1fe0d95d27da584abeda4fe0d23f2e9ba"
+    },
+    {
+      "kind": "model_receipt",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/3/receipt.json",
+      "sha256": "168d4967bddd3d7e19085e7a5faee0a3390748ce06675081c4e3355bb8ec1f13"
+    },
+    {
+      "kind": "repair_context",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/3/repair-context.json",
+      "sha256": "5cd7a56e7ff2e4e89069b9ceebad0ee5ab066b6fe75cb423528cbf196a2b823c"
+    },
+    {
+      "kind": "model_request",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/3/request.json",
+      "sha256": "81b4e5b8b67a341bb5cdf073899238d9468b640d6c57aa5ac056e369fb847490"
+    },
+    {
+      "kind": "model_response",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/calls/3/response.json",
+      "sha256": "d66138a6b7dbb1f0510707080ca6f71c760cd754f125ef4a0425d5b1cf7d05da"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/decisions/1.json",
+      "sha256": "11dfa704c214de1d9bbd54b48f9767abd8a1f6aca54253fb76eea6f44ad539ec"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/decisions/2.json",
+      "sha256": "b5207c20d21b5fb8ff803acf62d79c2e8df6d4747bd51dde41f11d2d45c44910"
+    },
+    {
+      "kind": "decision",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/decisions/3.json",
+      "sha256": "af82ca02baf9beb49448fe0ce5ffa9255dbc4b118c860f20801709f634e5b8d5"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/0.json",
+      "sha256": "23b7a40c7da34f5425a70692768a159ed57a456d97f15ea917c68cbc61c3be65"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/0/heatmap.png",
+      "sha256": "9f1c91afca8dd7f3dfc6c36ea9ee3e3e13e7108aa03cf41ff2c69430fbd60883"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/0/raw.json",
+      "sha256": "d9128da00b70f0d8b2b74c3375d085c6f5ccca11ed9399c0e6736e790d0dc724"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/0/san.png",
+      "sha256": "57f45d88e654eeca054ff1cc37c39a437cb6e4b6ea2a6f59cf08a6228670107a"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/0/vue.png",
+      "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1.json",
+      "sha256": "6642dcba0993bf59bca3f52bbde02c461a27faa0b12ddd661f10e940117c9df1"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/heatmap.png",
+      "sha256": "68c4b7d5b61a308f6a02ac56bf5d26ec0fdf85c26667b38983166cec795ddef2"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/raw.json",
+      "sha256": "46d980c0b15172c652cd52eb485a58984aef75d1d348edc12abaf07aa6111ada"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/san.png",
+      "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/vue.png",
+      "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/2.json",
+      "sha256": "f95f8299579459de38cae4fab55340deb07b48fef9d6edf2915e2050de8cb0af"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/2/heatmap.png",
+      "sha256": "68c4b7d5b61a308f6a02ac56bf5d26ec0fdf85c26667b38983166cec795ddef2"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/2/raw.json",
+      "sha256": "57157341cd253707147abd3b3c9cf642811b02ace9a432e884de1f74afd04289"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/2/san.png",
+      "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/2/vue.png",
+      "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+    },
+    {
+      "kind": "evaluation",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/3.json",
+      "sha256": "bc3c201103718e05ef4842ffe97883125c390257f8b1405df9d5968a31cc351b"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/3/heatmap.png",
+      "sha256": "68c4b7d5b61a308f6a02ac56bf5d26ec0fdf85c26667b38983166cec795ddef2"
+    },
+    {
+      "kind": "browser_evidence",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/3/raw.json",
+      "sha256": "4c54115908324b36f3a4359e0fe01be0a8d6b4ca310b4f31ba2fe6cf8132bd29"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/3/san.png",
+      "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+    },
+    {
+      "kind": "screenshot",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/3/vue.png",
+      "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+    },
+    {
+      "kind": "prompt_selection",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/prompt-selection.json",
+      "sha256": "34a605b99e2622ed5d7ff6de15f0605e539d011800fcd9a0dfce2d9b830e3922"
+    },
+    {
+      "kind": "report",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/report.json",
+      "sha256": "e859745c282d8d9ee25c622641309d0d4fc141a6f18f8f72f783b3925e4b93c6"
+    },
+    {
+      "kind": "request",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/request.json",
+      "sha256": "920148f5e8a4930ea421f4beb910ec20a0caf206db017fb285357a11af5a64ac"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/revisions/0.json",
+      "sha256": "cb553026e6be7f3c97ed169bc248665dbe9fd8f417112d897021dadc0c5c2ec3"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/revisions/0.san",
+      "sha256": "e825c90a512eacde6f4ea1288af476f38a89042d7dcc1f8d69a40e748dc8466a"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/revisions/1.json",
+      "sha256": "2389fbeb90660a3c07f07543dcb1063bd1df42c4da37546a1355fa8baa5faf93"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/revisions/1.san",
+      "sha256": "e09bcc62d48671ef8f3a8b1bc405d6ad54197520364dfc399067a91ee30bed99"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/revisions/2.json",
+      "sha256": "9625ed75e7d9712177dd616dce2708fba4eef981b5f8b275ed4dd5aaeca074f8"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/revisions/2.san",
+      "sha256": "6beaa12f168412bcae39b9ed98ff77cb6937a8085df278231220f0b9d74fae39"
+    },
+    {
+      "kind": "revision",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/revisions/3.json",
+      "sha256": "44d0a7b9b32ded917ef22b23d61787e09a5e73918c2c202dfd6596d1d52f4bdc"
+    },
+    {
+      "kind": "san",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/revisions/3.san",
+      "sha256": "7624a87632ae7a3583738d7afce0739c0820a1d8f5fb6dd9c9cd8faea8927fbb"
+    },
+    {
+      "kind": "ssm",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/ssm.json",
+      "sha256": "2bf0f981e3bd395feb9c433fd01f6ae453c44fced0a57de62507ad9d3d8f7907"
+    },
+    {
+      "kind": "trace",
+      "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/trace.json",
+      "sha256": "145f522387d9f8873a8e3c439bd811cdfee851816a642f2b918599b6459833d9"
+    }
+  ],
+  "final_artifact": {
+    "kind": "san",
+    "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/revisions/1.san",
+    "sha256": "e09bcc62d48671ef8f3a8b1bc405d6ad54197520364dfc399067a91ee30bed99"
+  },
+  "generation_origin": "rule_repair",
+  "manual_feedback": [],
+  "migration_id": "7d0c479ffb37488bbab059f04f10ab43",
+  "model_calls_returned": 3,
+  "model_calls_started": 3,
+  "name": "real_system_experiment70_v3_general_repairs_20261119 / QuizNavigator",
+  "production_ready": false,
+  "request": {
+    "actions": [],
+    "authorization": {
+      "billing_cap": "not_guaranteed",
+      "max_calls": 4,
+      "max_output_tokens_per_call": 32768,
+      "network_enabled": true,
+      "scope": "one_generation_and_bounded_repairs",
+      "usage_stop_tokens": 131072
+    },
+    "evidence_class": "development_or_disclosed_exploratory_not_independent_test",
+    "excluded_example_groups": [
+      "AccessMatrix",
+      "AnalyticsDashboard",
+      "AttendanceRoster",
+      "AudioSegmentMarker",
+      "BatchRenamer",
+      "BookmarkToggleCard",
+      "BreadcrumbNavigator",
+      "BudgetThreshold",
+      "CapacityPlanningBoard",
+      "ChoiceChips",
+      "ColorContrastBadge",
+      "CourseModuleAccordion",
+      "CrisisCommunicationHub",
+      "DataPaginationTable",
+      "DeliveryPhaseCard",
+      "DeliveryRouteTimeline",
+      "DocumentApprovalFlow",
+      "EnergyLoadScheduler",
+      "ExpenseTracker",
+      "ExperimentRolloutConsole",
+      "FileDropIndicator",
+      "FleetDispatchConsole",
+      "ForecastSimulator",
+      "FormRulePlayground",
+      "GradebookMatrix",
+      "HabitWeekTracker",
+      "ImageCropControls",
+      "IncidentResponseBoard",
+      "InlineRename",
+      "InventoryBatchManager",
+      "KanbanColumnBoard",
+      "LocalizationWorkspace",
+      "MediaReviewStudio",
+      "MeetingPollScheduler",
+      "MilestoneTimeline",
+      "MonitoringDashboard",
+      "NotificationCard",
+      "OtpCodeInput",
+      "PasswordStrengthMeter",
+      "PlaybackQueue",
+      "PollResults",
+      "PriceStepper",
+      "QuizNavigator",
+      "ReadingProgressCard",
+      "RuleBuilder",
+      "SchemaMappingWorkbench",
+      "SearchClearField",
+      "SeatBookingMap",
+      "SessionTimeoutNotice",
+      "ShippingEstimator",
+      "SortCycleButton",
+      "StarRatingInput",
+      "StatusSwitch",
+      "StockReservationBadge",
+      "SupportTicketConsole",
+      "SurveyBranchForm",
+      "TaskManager",
+      "TemperatureDial",
+      "TextLengthGauge",
+      "ThemePreviewToggle",
+      "TipSplitCalculator",
+      "TodoList",
+      "TopologyEditor",
+      "TransferList",
+      "TripItineraryPlanner",
+      "VolumeControl",
+      "WarehousePickingWave",
+      "WorkflowDiagramEditor",
+      "WorkoutPlanner",
+      "access_matrix",
+      "analytics_dashboard",
+      "attendance_roster",
+      "audio_segment_marker",
+      "batch_renamer",
+      "bookmark_toggle_card",
+      "breadcrumb_navigator",
+      "budget_threshold",
+      "capacity_planning_board",
+      "choice_chips",
+      "color_contrast_badge",
+      "course_module_accordion",
+      "crisis_communication_hub",
+      "data_pagination_table",
+      "delivery_phase_card",
+      "delivery_route_timeline",
+      "document_approval_flow",
+      "energy_load_scheduler",
+      "experiment_rollout_console",
+      "file_drop_indicator",
+      "fleet_dispatch_console",
+      "forecast_simulator",
+      "form_rule_playground",
+      "gradebook_matrix",
+      "habit_week_tracker",
+      "image_crop_controls",
+      "incident_response_board",
+      "inline_rename",
+      "inventory_batch_manager",
+      "kanban_column_board",
+      "localization_workspace",
+      "media_review_studio",
+      "meeting_poll_scheduler",
+      "milestone_timeline",
+      "otp_code_input",
+      "password_strength_meter",
+      "playback_queue",
+      "poll_results",
+      "price_stepper",
+      "quiz_navigator",
+      "reading_progress_card",
+      "rule_builder",
+      "schema_mapping_workbench",
+      "search_clear_field",
+      "seat_booking_map",
+      "session_timeout_notice",
+      "shipping_estimator",
+      "sort_cycle_button",
+      "star_rating_input",
+      "status_switch",
+      "step",
+      "step_card",
+      "stock_reservation_badge",
+      "support_ticket_console",
+      "survey_branch_form",
+      "temperature_dial",
+      "text_length_gauge",
+      "theme_preview_toggle",
+      "tip_split_calculator",
+      "topology_editor",
+      "transfer_list",
+      "trip_itinerary_planner",
+      "volume_control",
+      "warehouse_picking_wave",
+      "workflow_diagram_editor",
+      "workout_planner"
+    ],
+    "few_shot_examples": [
+      {
+        "group": "CounterCard",
+        "id": "builtin-counter",
+        "provenance": "synthetic_development_demonstration_not_dataset_test_answer",
+        "san": "<template><button class=\"card\" on-click=\"increment\">{{count}}</button></template><script>const san=require(\"san\");const DataTypes=san.DataTypes;module.exports=san.defineComponent({name:\"CounterCard\",dataTypes:{},initData(){return {count:0}},increment(){this.data.set(\"count\",this.data.get(\"count\")+1)}});</script><style>.card{color:rgb(20,40,60)}</style>",
+        "san_sha256": "ad21d808c4670d7650247cd5406fad51917928239ead6df87a1feca219238303",
+        "source_sha256": "6f83b604da4b7e8cc490e857d834ab4e70f082edb7d5f286414a4a4c2317d507",
+        "split": "train",
+        "ssm": {
+          "binding_graph": {
+            "data_fields_usage": [
+              {
+                "field_name": "count",
+                "initialized_from_external": null,
+                "initialized_from_props": false,
+                "read_in_computed": [],
+                "read_in_methods": [
+                  "increment"
+                ],
+                "read_in_template_nodes": [
+                  "template.root_button_0"
+                ],
+                "watched_by": [],
+                "written_in_methods": [
+                  "increment"
+                ]
+              }
+            ],
+            "edges": [
+              {
+                "edge_type": "binds_to",
+                "expression": "{{count}}",
+                "from": "template.root_button_0",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              },
+              {
+                "edge_type": "reads",
+                "expression": "count",
+                "from": "method.increment",
+                "san_access": "this.data.get('count')",
+                "to": "data.count"
+              }
+            ],
+            "nodes": [
+              {
+                "kind": "data",
+                "name": "count",
+                "node_id": "data.count",
+                "source_location": "script.data"
+              },
+              {
+                "kind": "method",
+                "name": "increment",
+                "node_id": "method.increment",
+                "source_location": "script.methods"
+              },
+              {
+                "kind": "template_node",
+                "name": "root_button_0",
+                "node_id": "template.root_button_0",
+                "source_location": "template.button"
+              }
+            ]
+          },
+          "event_model": {
+            "custom_events": [],
+            "dom_events": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_method_ref": "increment",
+                "handler_name": "increment",
+                "handler_signature_inferred": "increment()",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "is_native": true,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "reads": [
+                  "count"
+                ],
+                "san_event_syntax": "on-click=\"increment\"",
+                "side_effects": [],
+                "writes": [
+                  "count"
+                ]
+              }
+            ]
+          },
+          "metadata": {
+            "component_name": "CounterCard",
+            "sfc_blocks": {
+              "has_script": true,
+              "has_style": true,
+              "has_template": true,
+              "style_lang": "css",
+              "style_scoped": false
+            },
+            "source_file": "CounterCard.vue",
+            "source_framework": "Vue",
+            "target_framework": "San"
+          },
+          "migration_hints": {
+            "data_access_conversion_plan": {
+              "count": {
+                "init_plan": "initData 中声明 count，默认值 0",
+                "read_plan": "this.data.get('count')",
+                "write_plan": "this.data.set('count', value)"
+              }
+            },
+            "detected_patterns": [
+              {
+                "affected_nodes": [],
+                "detected_by": "AST 特征自动检测",
+                "pattern_id": "event_click",
+                "pattern_name": "event_click",
+                "risk_level": "low",
+                "san_strategy": "存在 @click 或 v-on，需转为 on-click"
+              },
+              {
+                "affected_nodes": [],
+                "detected_by": "AST 特征自动检测",
+                "pattern_id": "data_access",
+                "pattern_name": "data_access",
+                "risk_level": "high",
+                "san_strategy": "methods 中存在 this.xxx 访问，需统一改为 this.data.get/set"
+              }
+            ]
+          },
+          "san_generation_contract": {
+            "description": "约束大模型基于本 schema 生成 San 组件时必须满足的条件。",
+            "must_preserve": [
+              "metadata.component_name 和根节点语义",
+              "template.dom_tree 的层级结构、节点顺序与语义角色",
+              "template.component_refs 中每个子组件的注册名和父子通信事件",
+              "binding_graph 中 data/props/computed 到模板节点的可见绑定",
+              "event_model 中每个 DOM 事件和自定义事件的触发时机与 payload",
+              "style_model 中动态类名、动态样式、scoped CSS 和关键视觉状态",
+              "script.options.lifecycle_hooks 中的副作用初始化与清理逻辑",
+              "script.options.data 中所有字段的默认值和外部初始化来源"
+            ],
+            "quality_checks": [
+              "template.component_refs 中每个子组件都在 script.components 或 san_registration 中有定义",
+              "binding_graph.edges 中每条 template 依赖都能在 script.options 中找到来源",
+              "event_model.dom_events 中每个 handler_name 都存在于 script.options.methods",
+              "event_model.custom_events 中每个 emit_points 都对应 method 中的 $emit 调用",
+              "style_model.dynamic_class_bindings 的 dependencies 都存在于 binding_graph.nodes",
+              "script.options.watch 中的 deep watcher 在 migration_hints 中被标记并给出替代策略"
+            ],
+            "san_syntax_requirements": [
+              "输出完整的 .san 单文件组件，包含 <template>、<script>、<style> 三个代码块；若无样式也保留空 style 或显式说明无样式",
+              "脚本块显式引入 san：const san = require('san')，并使用 module.exports = san.defineComponent(...) 导出组件",
+              "props 使用 san.DataTypes 声明，与 script.options.props 一一对应；优先输出 DataTypes.number / string / bool / array / object",
+              "组件定义使用 san.defineComponent",
+              "组件名来自 metadata.component_name，并显式输出 name 字段",
+              "data 使用 initData 返回默认值，与 script.options.data 一一对应；不要在 initData 中直接依赖复杂运行时读取",
+              "当 data 字段来源于 props 或外部初始化时，优先在 inited/attached 中用 this.data.set 完成同步",
+              "模板中使用 s-if、s-for、on-event、value={= =}、checked={= =} 等 San 语法",
+              "状态访问统一使用 this.data.get() / this.data.set()",
+              "优先将 methods 直接定义在组件对象顶层，避免保留 Vue 风格的 methods: {} 包裹",
+              "子组件标签使用短横线命名",
+              "子组件在 components 中显式注册",
+              "样式块需尽量完整输出，优先复用 styles/style_model 中已有 class 与 css_rules 信息",
+              "定时器、timeout、外部监听等副作用在 attached/disposed 中管理"
+            ]
+          },
+          "schema_name": "San Source Model (Generic)",
+          "schema_version": "3.0",
+          "script": {
+            "export_info": {
+              "export_type": "default_export",
+              "has_export": true
+            },
+            "imports": [],
+            "options": {
+              "components": [],
+              "computed": [],
+              "data": [
+                {
+                  "default_value": 0,
+                  "default_value_expression": "0",
+                  "default_value_static": true,
+                  "default_value_summary": "0",
+                  "name": "count",
+                  "value_type_inferred": "number"
+                }
+              ],
+              "emits": [],
+              "extends": [],
+              "filters": [],
+              "inject_keys": [],
+              "lifecycle_hooks": [],
+              "methods": [
+                {
+                  "body": "{this.count++}",
+                  "body_full": "{this.count++}",
+                  "calls_inferred": [],
+                  "emits_inferred": [],
+                  "is_async": false,
+                  "name": "increment",
+                  "params": [],
+                  "reads_inferred": [
+                    "count"
+                  ],
+                  "side_effects_inferred": [],
+                  "writes_inferred": [
+                    "count"
+                  ]
+                }
+              ],
+              "mixins": [],
+              "name": "CounterCard",
+              "props": [],
+              "provide_keys": [],
+              "watch": []
+            },
+            "top_level_declarations": []
+          },
+          "style_model": {
+            "css_rules_summary": [
+              {
+                "affected_classes": [
+                  "card"
+                ],
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "migration_keep": true,
+                "pseudo_state": null,
+                "selector": ".card"
+              }
+            ],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "scoped": false,
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [
+                  "root_button_0"
+                ],
+                "semantic_role": "card"
+              }
+            ]
+          },
+          "styles": {
+            "css_rules": [
+              {
+                "declarations": {
+                  "color": "rgb(20,40,60)"
+                },
+                "has_keyframes": false,
+                "has_media": false,
+                "has_pseudo": false,
+                "related_classes": [
+                  "card"
+                ],
+                "selectors": [
+                  ".card"
+                ]
+              }
+            ],
+            "css_variables": [],
+            "dynamic_class_bindings": [],
+            "dynamic_style_bindings": [],
+            "layout_features_inferred": [],
+            "static_classes": [
+              {
+                "class_name": "card",
+                "node_ids": [],
+                "semantic_role": "card"
+              }
+            ],
+            "style_blocks": [
+              {
+                "attrs": {},
+                "content": ".card{color:rgb(20,40,60)}",
+                "lang": "css",
+                "module": false,
+                "scoped": false
+              }
+            ]
+          },
+          "sub_components": [],
+          "template": {
+            "component_refs": [],
+            "directives_registry": [
+              {
+                "count": 1,
+                "directive_name": "v-on",
+                "example_nodes": [
+                  "root_button_0"
+                ]
+              }
+            ],
+            "dom_tree": {
+              "children": [],
+              "depth": 0,
+              "directives": [
+                {
+                  "argument": "click",
+                  "dependencies": [
+                    "increment"
+                  ],
+                  "directive_name": "v-on",
+                  "expression": "increment",
+                  "migration_note": "v-on 需要迁移到 San",
+                  "modifiers": [],
+                  "san_equivalent": "on-event"
+                }
+              ],
+              "dynamic_attrs": [],
+              "event_bindings": [
+                {
+                  "arguments": [],
+                  "element_tag": "button",
+                  "event_name": "click",
+                  "handler_expression": "increment",
+                  "handler_name": "increment",
+                  "handler_type": "identifier",
+                  "is_component_event": false,
+                  "modifiers": [],
+                  "node_id": "root_button_0",
+                  "san_event_syntax": "on-click=\"increment\""
+                }
+              ],
+              "is_root": true,
+              "is_void": false,
+              "node_id": "root_button_0",
+              "node_type": "element",
+              "parent_id": null,
+              "path": "/button[0]",
+              "san_tag": "button",
+              "semantic_role": "card",
+              "source_tag": "button",
+              "static_attrs": {
+                "class": "card"
+              },
+              "text_bindings": [
+                {
+                  "dependencies": [
+                    "count"
+                  ],
+                  "expression": "count",
+                  "is_interpolation": true,
+                  "raw_text": "{{count}}",
+                  "san_text": "{{count}}"
+                }
+              ]
+            },
+            "event_bindings": [
+              {
+                "arguments": [],
+                "element_tag": "button",
+                "event_name": "click",
+                "handler_expression": "increment",
+                "handler_name": "increment",
+                "handler_type": "identifier",
+                "is_component_event": false,
+                "modifiers": [],
+                "node_id": "root_button_0",
+                "san_event_syntax": "on-click=\"increment\""
+              }
+            ],
+            "slot_distribution": []
+          }
+        },
+        "ssm_sha256": "9fd2dde9bc8a8b5f0593597db090776792a38eddff676acedae6ab512e6e0cda"
+      }
+    ],
+    "filename": "QuizNavigator.vue",
+    "input_id": "a1251cdc4bb74026acc58efc02f521ba",
+    "max_repair_rounds": 3,
+    "name": "real_system_experiment70_v3_general_repairs_20261119 / QuizNavigator",
+    "props": {},
+    "runtime": {
+      "browser": {
+        "enabled": true,
+        "executable": "",
+        "height": 900,
+        "settle_ms": 500,
+        "width": 1280
+      },
+      "learning": {
+        "adapter_path": "",
+        "base_model_path": "",
+        "embedding_model_path": "",
+        "few_shot_count": 1,
+        "few_shot_manifest": "configs/few-shot-builtin-v1.json"
+      },
+      "model": {
+        "api_key_env": "LLM_API_KEY",
+        "backend": "qwen",
+        "endpoint": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "max_calls": 4,
+        "max_output_tokens": 32768,
+        "model": "qwen-plus",
+        "network_enabled": true,
+        "timeout_seconds": 240,
+        "usage_stop_tokens": 131072
+      },
+      "schema_version": 1,
+      "tracing": {
+        "api_key_env": "LANGSMITH_API_KEY",
+        "enabled": false,
+        "endpoint": "https://api.smith.langchain.com",
+        "project": "card-migrator"
+      }
+    },
+    "source_group": "QuizNavigator",
+    "source_sha256": "222548055b3e248c8a16d1f77c4f12b7df84a2b70e257b84e380463545d88505",
+    "strategy": "ssm",
+    "support_scope": {
+      "deployment": "trusted_local_single_user",
+      "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+      "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+      "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+      "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+      "experimental_public_instance_runtime_enabled": false,
+      "exports": [
+        "export default",
+        "module.exports"
+      ],
+      "full_public_instance_compatibility": false,
+      "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+      "historical_results_reclassified": false,
+      "id": "san-supported-migration-v4",
+      "label": "有明确支持范围的 Vue → SSM → San 迁移闭环",
+      "missing_interactions": "not_run_not_pass",
+      "not_required_for_basic_migration": [
+        "langsmith_upload",
+        "lora_training",
+        "clip_embeddings"
+      ],
+      "pipeline": [
+        "preflight",
+        "extract_ssm",
+        "generate",
+        "evaluate",
+        "bounded_repair",
+        "candidate_retest_and_gate",
+        "report_and_download"
+      ],
+      "preflight_is_full_support_proof": false,
+      "runtime_admission": "not_enabled_in_production",
+      "source_ast_rule_generation_enabled": false,
+      "source_profile": "single_file_javascript_options_api_without_external_imports",
+      "styles": [
+        "css",
+        "scoped_css"
+      ],
+      "target": "San",
+      "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+    },
+    "thresholds": {
+      "pixel_difference": 0.05,
+      "structure": 0.95,
+      "ui": 0.95
+    },
+    "trusted_source": true
+  },
+  "request_sha256": "1ff522601562b338cc20db16c2b3b8e9c9224e0bef666bfd00357086d60d6d7d",
+  "schema_version": 1,
+  "scope": "real_migration_local_single_user",
+  "stage": "report",
+  "state": {
+    "candidate_evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "43b03026020b72414d16afbf06c3b21d70e754cdcd1f992f35b07c3b38b52b74",
+            "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+            "path": "root.0.2.2.0"
+          },
+          {
+            "identity": "0686e81cbdc7166d6ec6daeab2ece0f15abd4a5410ed2ca95161a295bbbb4c76",
+            "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+            "path": "root.0.2.2.1"
+          },
+          {
+            "identity": "e90c7679f35c39e2d3da9ef00a92485b2a57f4efd2e03d471060a06d8b7592ac",
+            "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+            "path": "root.0.2.2.2"
+          },
+          {
+            "identity": "a129a144b0d1199ea8e8acdc817abd336fbadf929df38bbb2721b9ed45a4d3d2",
+            "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+            "path": "root.0.2.3.0"
+          },
+          {
+            "identity": "a08fd4ff40a446547ab59c65cd9e553272fcaf8c64f1b838b7cfc1126e874330",
+            "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+            "path": "root.0.2.3.1"
+          }
+        ],
+        "source_snapshot": "bee9adf5bb60bb2467cf94a0e8c4b88c0d4d51720fc7e27242346dba2f66ec7b",
+        "target": [
+          {
+            "identity": "bdcb71bc17012105563094e4cf74d1a83b78f83ff67389b1efa6df2a8a22276d",
+            "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+            "path": "root.0.2.2.0"
+          },
+          {
+            "identity": "0c741ee9f788bb8f86807a972804cee49358633ed00dca23a108ef6653217541",
+            "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+            "path": "root.0.2.2.1"
+          },
+          {
+            "identity": "bccc9c634a8c5c5383f10d9aeaa7d3773f34c8a3f26a547a5574865983582851",
+            "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+            "path": "root.0.2.2.2"
+          },
+          {
+            "identity": "a129a144b0d1199ea8e8acdc817abd336fbadf929df38bbb2721b9ed45a4d3d2",
+            "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+            "path": "root.0.2.3.0"
+          },
+          {
+            "identity": "a08fd4ff40a446547ab59c65cd9e553272fcaf8c64f1b838b7cfc1126e874330",
+            "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+            "path": "root.0.2.3.1"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "source:dynamic_template_member",
+              "source:unknown_bound_attribute",
+              "source:unknown_member_call",
+              "target:active_template_attribute",
+              "target:dynamic_member",
+              "target:dynamic_template_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.0"
+            },
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.1"
+            },
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.2"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [],
+            "equal": true,
+            "paths_equal": true,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 5,
+            "target_count": 5,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.0"
+            },
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.1"
+            },
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.2"
+            }
+          ],
+          "representation_differences": [
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.2.0",
+              "source": "",
+              "target": null
+            },
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.2.1",
+              "source": "",
+              "target": null
+            },
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.2.2",
+              "source": "",
+              "target": null
+            }
+          ]
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "pass",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:dynamic_template_member",
+          "source:unknown_bound_attribute",
+          "source:unknown_member_call",
+          "target:active_template_attribute",
+          "target:dynamic_member",
+          "target:dynamic_template_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.0"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.1"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.2"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.0",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.1",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.2",
+          "source": "",
+          "target": null
+        }
+      ],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 3,
+        "similarity": 0.896551724137931,
+        "source_nodes": 29,
+        "target_nodes": 29
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/3/heatmap.png",
+          "sha256": "68c4b7d5b61a308f6a02ac56bf5d26ec0fdf85c26667b38983166cec795ddef2"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/3/san.png",
+          "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/3/vue.png",
+          "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+        }
+      },
+      "initial_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 5,
+        "target_count": 5,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.0"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.1"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.2"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 3,
+        "similarity": 0.896551724137931,
+        "source_nodes": 29,
+        "target_nodes": 29
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "7624a87632ae7a3583738d7afce0739c0820a1d8f5fb6dd9c9cd8faea8927fbb",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9705882352941176,
+        "source_nodes": 34,
+        "target_nodes": 34
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "legacy_wrapper": false,
+          "name": "choose",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "previous",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "next",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "finish",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "restart",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 22,
+        "target_nodes": 22
+      },
+      "styles": {
+        "compared_properties": 247,
+        "differences": [],
+        "matching": "child_index_path",
+        "similarity": 1.0,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostic_limit": 128,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 1088.1643999999997,
+        "target": 1000.5421000000006
+      },
+      "ui_restoration": 100
+    },
+    "decisions": [
+      {
+        "accepted": true,
+        "candidate": "e09bcc62d48671ef8f3a8b1bc405d6ad54197520364dfc399067a91ee30bed99",
+        "previous": "e825c90a512eacde6f4ea1288af476f38a89042d7dcc1f8d69a40e748dc8466a",
+        "reason": "strict_improvement",
+        "round": 1
+      },
+      {
+        "accepted": false,
+        "candidate": "6beaa12f168412bcae39b9ed98ff77cb6937a8085df278231220f0b9d74fae39",
+        "previous": "e09bcc62d48671ef8f3a8b1bc405d6ad54197520364dfc399067a91ee30bed99",
+        "reason": "no_strict_improvement",
+        "round": 2
+      },
+      {
+        "accepted": false,
+        "candidate": "7624a87632ae7a3583738d7afce0739c0820a1d8f5fb6dd9c9cd8faea8927fbb",
+        "previous": "e09bcc62d48671ef8f3a8b1bc405d6ad54197520364dfc399067a91ee30bed99",
+        "reason": "no_strict_improvement",
+        "round": 3
+      }
+    ],
+    "evaluation": {
+      "control_gate_evidence": {
+        "complete": true,
+        "contract": "control_diagnostic_refinement_v1",
+        "source": [
+          {
+            "identity": "43b03026020b72414d16afbf06c3b21d70e754cdcd1f992f35b07c3b38b52b74",
+            "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+            "path": "root.0.2.2.0"
+          },
+          {
+            "identity": "0686e81cbdc7166d6ec6daeab2ece0f15abd4a5410ed2ca95161a295bbbb4c76",
+            "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+            "path": "root.0.2.2.1"
+          },
+          {
+            "identity": "e90c7679f35c39e2d3da9ef00a92485b2a57f4efd2e03d471060a06d8b7592ac",
+            "parent_shape": "179c3bc14ed8ca18ef14065e1a03ac8a9e9d31be09fe21a267e748cc2f47596b",
+            "path": "root.0.2.2.2"
+          },
+          {
+            "identity": "a129a144b0d1199ea8e8acdc817abd336fbadf929df38bbb2721b9ed45a4d3d2",
+            "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+            "path": "root.0.2.3.0"
+          },
+          {
+            "identity": "a08fd4ff40a446547ab59c65cd9e553272fcaf8c64f1b838b7cfc1126e874330",
+            "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+            "path": "root.0.2.3.1"
+          }
+        ],
+        "source_snapshot": "bee9adf5bb60bb2467cf94a0e8c4b88c0d4d51720fc7e27242346dba2f66ec7b",
+        "target": [
+          {
+            "identity": "bdcb71bc17012105563094e4cf74d1a83b78f83ff67389b1efa6df2a8a22276d",
+            "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+            "path": "root.0.2.2.0"
+          },
+          {
+            "identity": "0c741ee9f788bb8f86807a972804cee49358633ed00dca23a108ef6653217541",
+            "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+            "path": "root.0.2.2.1"
+          },
+          {
+            "identity": "bccc9c634a8c5c5383f10d9aeaa7d3773f34c8a3f26a547a5574865983582851",
+            "parent_shape": "f6fdc0c3984245fdbf691d25f1742322b275555d66150b5b1d3226879553550c",
+            "path": "root.0.2.2.2"
+          },
+          {
+            "identity": "a129a144b0d1199ea8e8acdc817abd336fbadf929df38bbb2721b9ed45a4d3d2",
+            "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+            "path": "root.0.2.3.0"
+          },
+          {
+            "identity": "a08fd4ff40a446547ab59c65cd9e553272fcaf8c64f1b838b7cfc1126e874330",
+            "parent_shape": "8698329d3c0dca9ae3e50b5805ca5db2a0f59a7110838d952fbde06b3770a840",
+            "path": "root.0.2.3.1"
+          }
+        ]
+      },
+      "coverage": "configured_props_and_representative_actions_only",
+      "diagnostics": [
+        {
+          "code": "rendered_dom_mismatch",
+          "comparison_policy": {
+            "approved": false,
+            "limitations": [
+              "raw_DOM_and_attribute_presence_retained",
+              "unknown_dependencies_keep_strict_comparison",
+              "not_arbitrary_external_DOM_observer_equivalence"
+            ],
+            "operations": [
+              "empty_class_presence",
+              "html_class_token_whitespace_order_duplicates"
+            ],
+            "reasons": [
+              "source:dom_or_reflective_member",
+              "source:dynamic_member",
+              "source:dynamic_template_member",
+              "source:unknown_bound_attribute",
+              "source:unknown_member_call",
+              "target:active_template_attribute",
+              "target:dynamic_member",
+              "target:dynamic_template_member"
+            ],
+            "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+            "version": "class_serialization_v2"
+          },
+          "differences": [
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.0"
+            },
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.1"
+            },
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.2"
+            }
+          ],
+          "interpretation": "Equal live values do not prove HTML attribute presence equivalent; keep strict comparison unless an explicit policy is approved.",
+          "live_control_state": {
+            "differences": [],
+            "equal": true,
+            "paths_equal": true,
+            "scope": "captured_live_control_properties_not_attribute_equivalence",
+            "source_count": 5,
+            "target_count": 5,
+            "values_equal_in_order": true
+          },
+          "message": "Rendered DOM differs; preserve source structure and observable attributes.",
+          "raw_differences": [
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.0"
+            },
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.1"
+            },
+            {
+              "actual": "button|type=button",
+              "expected": "button|class=|type=button",
+              "path": "root.0.2.2.2"
+            }
+          ],
+          "representation_differences": [
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.2.0",
+              "source": "",
+              "target": null
+            },
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.2.1",
+              "source": "",
+              "target": null
+            },
+            {
+              "attribute": "class",
+              "kind": "empty_class_presence",
+              "normalized": false,
+              "path": "root.0.2.2.2",
+              "source": "",
+              "target": null
+            }
+          ]
+        }
+      ],
+      "different_pixel_ratio": 0,
+      "dimensions": {
+        "compile_runtime": "pass",
+        "interaction": "not_run",
+        "source_baseline": "pass",
+        "static": "pass",
+        "structure": "fail",
+        "visual": "pass"
+      },
+      "dom_comparison_policy": {
+        "approved": false,
+        "limitations": [
+          "raw_DOM_and_attribute_presence_retained",
+          "unknown_dependencies_keep_strict_comparison",
+          "not_arbitrary_external_DOM_observer_equivalence"
+        ],
+        "operations": [
+          "empty_class_presence",
+          "html_class_token_whitespace_order_duplicates"
+        ],
+        "reasons": [
+          "source:dom_or_reflective_member",
+          "source:dynamic_member",
+          "source:dynamic_template_member",
+          "source:unknown_bound_attribute",
+          "source:unknown_member_call",
+          "target:active_template_attribute",
+          "target:dynamic_member",
+          "target:dynamic_template_member"
+        ],
+        "scope": "comparison_only_self_contained_data_components_without_detected_DOM_or_CSS_attribute_observation",
+        "version": "class_serialization_v2"
+      },
+      "dom_differences": [
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.0"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.1"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.2"
+        }
+      ],
+      "dom_normalization_changes": [],
+      "dom_representation_differences": [
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.0",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.1",
+          "source": "",
+          "target": null
+        },
+        {
+          "attribute": "class",
+          "kind": "empty_class_presence",
+          "normalized": false,
+          "path": "root.0.2.2.2",
+          "source": "",
+          "target": null
+        }
+      ],
+      "dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 3,
+        "similarity": 0.896551724137931,
+        "source_nodes": 29,
+        "target_nodes": 29
+      },
+      "embedding_similarity": {
+        "similarity": null,
+        "status": "not_configured"
+      },
+      "functional_equivalence": "not_proven",
+      "images": {
+        "heatmap": {
+          "kind": "screenshot",
+          "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/heatmap.png",
+          "sha256": "68c4b7d5b61a308f6a02ac56bf5d26ec0fdf85c26667b38983166cec795ddef2"
+        },
+        "san": {
+          "kind": "screenshot",
+          "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/san.png",
+          "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+        },
+        "vue": {
+          "kind": "screenshot",
+          "relative_path": "migrations/7d0c479ffb37488bbab059f04f10ab43/evaluations/1/vue.png",
+          "sha256": "7b97cbdd0398aa265656b81e9e30de5d9372a143d3a5baa1dfff5900e43afa65"
+        }
+      },
+      "initial_control_state": {
+        "differences": [],
+        "equal": true,
+        "paths_equal": true,
+        "scope": "captured_live_control_properties_not_attribute_equivalence",
+        "source_count": 5,
+        "target_count": 5,
+        "values_equal_in_order": true
+      },
+      "interaction": [],
+      "passed": false,
+      "projection_limitations": [
+        "mixed_text_child_order_checked_by_legacy_static_and_rendered_dom_not_ssm_ted",
+        "key_identity_not_proven_by_ted",
+        "script_binding_event_style_dimensions_checked_by_legacy_validator"
+      ],
+      "raw_dom_differences": [
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.0"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.1"
+        },
+        {
+          "actual": "button|type=button",
+          "expected": "button|class=|type=button",
+          "path": "root.0.2.2.2"
+        }
+      ],
+      "raw_dom_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 3,
+        "similarity": 0.896551724137931,
+        "source_nodes": 29,
+        "target_nodes": 29
+      },
+      "required": [
+        "static",
+        "compile_runtime",
+        "structure",
+        "visual",
+        "source_baseline"
+      ],
+      "revision_sha256": "e09bcc62d48671ef8f3a8b1bc405d6ad54197520364dfc399067a91ee30bed99",
+      "source_ast_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 1,
+        "similarity": 0.9705882352941176,
+        "source_nodes": 34,
+        "target_nodes": 34
+      },
+      "source_blocked": false,
+      "source_diagnostics": [],
+      "source_method_contracts": [
+        {
+          "legacy_wrapper": false,
+          "name": "choose",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "previous",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "next",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "finish",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        },
+        {
+          "legacy_wrapper": false,
+          "name": "restart",
+          "restore_eligible": false,
+          "source_references": {
+            "count": 1,
+            "uncertain": false
+          },
+          "status": "callable_present",
+          "target_references": {
+            "count": 1,
+            "uncertain": false
+          }
+        }
+      ],
+      "ssim": 1,
+      "structure_differences": [],
+      "structure_projection": "ssm_v3_symmetric_class_tokens_ordered_conditional_siblings_v4",
+      "structure_ted": {
+        "algorithm": "ordered_zhang_shasha_unit_cost_v1",
+        "distance": 0,
+        "similarity": 1.0,
+        "source_nodes": 22,
+        "target_nodes": 22
+      },
+      "styles": {
+        "compared_properties": 247,
+        "differences": [],
+        "matching": "child_index_path",
+        "similarity": 1.0,
+        "truncated": false
+      },
+      "syntax": {
+        "diagnostic_count": 0,
+        "diagnostic_limit": 128,
+        "diagnostics": [],
+        "overflow": false,
+        "policy": "target_syntax_first_v1",
+        "status": "pass"
+      },
+      "target_warnings": [],
+      "thresholds": {
+        "pixel_difference": 0.05,
+        "structure": 0.95,
+        "ui": 0.95
+      },
+      "timing_ms": {
+        "source": 841.3159999999998,
+        "target": 780.2926000000002
+      },
+      "ui_restoration": 100
+    },
+    "migration_id": "7d0c479ffb37488bbab059f04f10ab43",
+    "request_sha256": "1ff522601562b338cc20db16c2b3b8e9c9224e0bef666bfd00357086d60d6d7d",
+    "round": 3,
+    "stop_reason": "repair_budget_exhausted"
+  },
+  "status": "failed",
+  "stop_reason": "repair_budget_exhausted",
+  "support_scope": {
+    "deployment": "trusted_local_single_user",
+    "dynamic_assignment_contract": "source_internal_declared_state_assignment_v1",
+    "dynamic_assignment_limitations": "not_arbitrary_external_public_key_equivalence",
+    "dynamic_instance_setter": "admitted_to_existing_model_pipeline_without_source_rewrite",
+    "evaluation_scope": "configured_props_and_actions_not_universal_equivalence",
+    "experimental_public_instance_runtime_enabled": false,
+    "exports": [
+      "export default",
+      "module.exports"
+    ],
+    "full_public_instance_compatibility": false,
+    "generation_policy": "model_generation_with_existing_validation_and_bounded_repair",
+    "historical_results_reclassified": false,
+    "id": "san-supported-migration-v4",
+    "label": "有明确支持范围的 Vue → SSM → San 迁移闭环",
+    "missing_interactions": "not_run_not_pass",
+    "not_required_for_basic_migration": [
+      "langsmith_upload",
+      "lora_training",
+      "clip_embeddings"
+    ],
+    "pipeline": [
+      "preflight",
+      "extract_ssm",
+      "generate",
+      "evaluate",
+      "bounded_repair",
+      "candidate_retest_and_gate",
+      "report_and_download"
+    ],
+    "preflight_is_full_support_proof": false,
+    "runtime_admission": "not_enabled_in_production",
+    "source_ast_rule_generation_enabled": false,
+    "source_profile": "single_file_javascript_options_api_without_external_imports",
+    "styles": [
+      "css",
+      "scoped_css"
+    ],
+    "target": "San",
+    "unsupported_policy": "report_and_stop_not_pass_not_rewrite_source"
+  },
+  "unknown_calls": 0,
+  "usage": {
+    "complete": true,
+    "known_total_tokens": 44756
+  }
+}

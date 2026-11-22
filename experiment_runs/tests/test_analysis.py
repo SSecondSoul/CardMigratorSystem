@@ -84,6 +84,17 @@ class AnalysisTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'call_receipts_not_complete'):
                 analysis.analyze_record('batch', sample(), value, Path(temporary))
 
+    def test_declared_unknown_receipt_remains_incomplete(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            value = report();value['model_calls_started'] = value['unknown_calls'] = 1
+            value['usage']['complete'] = False
+            row = analysis.analyze_record('batch', sample(), value, Path(temporary))
+            self.assertEqual(row['missing_receipts_unknown_outcome'], 1)
+            self.assertFalse(row['usage_complete'])
+            value['usage']['complete'] = True
+            with self.assertRaisesRegex(ValueError, 'unknown_call_cannot'):
+                analysis.analyze_record('batch', sample(), value, Path(temporary))
+
     def test_output_is_immutable_and_evidence_paths_cannot_escape(self):
         with tempfile.TemporaryDirectory() as temporary:
             folder = Path(temporary);path = folder / 'report.json'

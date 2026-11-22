@@ -1,0 +1,78 @@
+{
+  "baseline_codes": [
+    "missing_event_handlers",
+    "rendered_dom_mismatch"
+  ],
+  "baseline_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "complexity": "medium",
+  "component": "HabitWeekTracker",
+  "effective_codes": [
+    "missing_event_handlers",
+    "rendered_dom_mismatch"
+  ],
+  "effective_dimensions": {
+    "compile_runtime": "pass",
+    "interaction": "not_run",
+    "source_baseline": "pass",
+    "static": "fail",
+    "structure": "fail",
+    "visual": "pass"
+  },
+  "effective_passed": false,
+  "effective_sha256": "d221a388a4dcbcc425433810d287ff117ca0f7a4d8140dd37f9db044f9aabfa9",
+  "fresh_baseline_passed": false,
+  "historical_real_model_passed": false,
+  "model_calls": 0,
+  "parent_origin": "historical_accepted_parent_v7_rejected_or_unchanged",
+  "parent_sha256": "d221a388a4dcbcc425433810d287ff117ca0f7a4d8140dd37f9db044f9aabfa9",
+  "sample_id": "habit_week_tracker",
+  "scope": "offline_sequential_development_replay_NOT_fresh_generation",
+  "source_report": "real_system_experiment70_v3_general_repairs_20261119/samples/035_habit_week_tracker/report.json",
+  "status": "replayed",
+  "steps": [
+    {
+      "candidate_sha256": "893203e40ce00de41b282afd617f086294943b3f005fa9fd59d9abf74b4ade2c",
+      "changes": [
+        {
+          "end": 516,
+          "replacement": " className=\"{{isDone(habit.id, index, records) ? 'done' : ''}}\"",
+          "rule": "source_string_class_native_attribute_reflection_v1",
+          "start": 516
+        },
+        {
+          "end": 551,
+          "replacement": "on-click=\"stop:toggle(habit.id, index)\"",
+          "rule": "source_proven_event_modifier_and_operand_v1",
+          "start": 517
+        }
+      ],
+      "codes": [
+        "event_arguments_not_landed",
+        "missing_event_bindings",
+        "missing_event_handlers"
+      ],
+      "gate": {
+        "accepted": false,
+        "added_errors": [
+          "event_arguments_not_landed",
+          "missing_event_bindings"
+        ],
+        "dimensions": [],
+        "reason": "candidate_regression"
+      },
+      "normalization_stop": "fixed_point",
+      "number": 1,
+      "parent_sha256": "d221a388a4dcbcc425433810d287ff117ca0f7a4d8140dd37f9db044f9aabfa9",
+      "passed": false
+    }
+  ],
+  "stop": "repeated_rejected_candidate_not_retried",
+  "v7_effective_passed": false
+}

@@ -8,6 +8,7 @@ import { inspectTarget } from './target-syntax.mjs'
 import { inspectSourceContracts } from './source-contracts.mjs'
 import { sourceClassTokens,targetClassTokens } from './class-projection.mjs'
 import {inlineImage,resourcePolicy} from './resource-policy.mjs'
+import {nativeSelectPlan} from './native-select.mjs'
 const input=JSON.parse(fs.readFileSync(0,'utf8')), require=createRequire(path.join(input.repository,'package.json'))
 const {parse,compileStyle}=require('@vue/compiler-sfc'), babel=require('@babel/parser'), san=require('san')
 const vueRuntime=fs.readFileSync(path.join(input.project,'frontend/node_modules/vue/dist/vue.global.js'),'utf8')
@@ -97,6 +98,7 @@ function canonicalTemplate(template,source,templateOffset=0){
   }
   const tokens=value=>String(value).split(/[\t\n\f\r ]+/).filter(Boolean)
   const classBindings={}
+  const selectPlan=!source&&nativeSelectPlan(input.source,input.code,require)
   const classValue=value=>[...new Set(tokens(value))].sort().join(' ')
   function mergedClasses(attrs){
     const values=attrs.filter(x=>x.startsWith('class=')).flatMap(x=>tokens(x.slice(6)))
@@ -132,13 +134,30 @@ function canonicalTemplate(template,source,templateOffset=0){
     }
     if(node.textExpr)return textNode(sanText(node.textExpr))
     const attrs=(node.props??[]).flatMap(p=>{
+      // Two San property bindings implement one Vue :value: live value plus
+      // defaultValue reflecting the HTML attribute. Collapse only that exact
+      // input expression alias in template representation; the real DOM,
+      // default/reset state and all live controls remain strict observations.
+      if(node.tagName==='input'&&p.name==='defaultValue'&&node.props.filter(v=>v.name==='value').length===1
+          &&JSON.stringify(p.expr)===JSON.stringify(node.props.find(v=>v.name==='value').expr))return []
+      if(['input','textarea','select'].includes(node.tagName)&&p.name==='VALUE'&&node.props.filter(v=>v.name==='value').length===1
+          &&JSON.stringify(p.expr)===JSON.stringify(node.props.find(v=>v.name==='value').expr))return []
+      if(p.name==='className'&&node.props.filter(v=>v.name==='class').length===1){
+        const other=node.props.find(v=>v.name==='class').expr
+        const alias=other?.type===5&&other.filters?.length===1&&other.filters[0].name?.paths?.length===1
+          &&other.filters[0].name.paths[0].value==='_class'&&!other.filters[0].args?.length?other.expr:other
+        if(JSON.stringify(p.expr)===JSON.stringify(alias))return []
+      }
       if(p.expr?.type===1)return [p.name+'='+(p.name==='class'?classValue(p.expr.value):String(p.expr.value))]
       const result=['binding:'+p.name]
       if(p.name==='class'){const fixed=targetClassTokens(p.expr).join(' ');if(fixed)result.push('class='+fixed)}
       return result
     })
     for(const event of node.events??[])attrs.push('event:'+event.name)
-    for(const [name] of Object.entries(node.directives??{}))attrs.push('directive:'+(name==='elif'?'else-if':name))
+    for(const [name,directive] of Object.entries(node.directives??{})){
+      if(name==='ref'&&selectPlan?.hasHelper&&!selectPlan.edits.length&&selectPlan.refs.includes(directive.value?.value))continue
+      attrs.push('directive:'+(name==='elif'?'else-if':name))
+    }
     return {label:node.tagName?node.tagName+'|'+mergedClasses(attrs).join('|'):'#root',children:mergeText(sanChildren(node.children))}
   }
   const tree=visit(ast)
